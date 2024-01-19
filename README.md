@@ -1,4 +1,4 @@
-# cs3430_team2_cupid_code
+# cupid_code
 
 
 
