@@ -218,103 +218,103 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 ### **As a Dater, I want to…**
 
 
-    1.  Easily register on the Cupid app so that I can start using the AI-assisted dating features.
+1.  Easily register on the Cupid app so that I can start using the AI-assisted dating features.
 
 
-    2. Create a detailed profile with my interests and preferences so that the AI can provide me with more personalized dating advice.
+2. Create a detailed profile with my interests and preferences so that the AI can provide me with more personalized dating advice.
 
 
-    3. Ask the AI for dating advice so that I can make informed decisions and improve my dating experience.
+3. Ask the AI for dating advice so that I can make informed decisions and improve my dating experience.
 
 
-    4. Receive timely notifications before and after my dates so that I can stay organized and receive valuable suggestions.
+4. Receive timely notifications before and after my dates so that I can stay organized and receive valuable suggestions.
 
 
-    5. Have the option to activate the AI to listen in on my dates for emergency advice so that I can navigate challenging situations more effectively.
+5. Have the option to activate the AI to listen in on my dates for emergency advice so that I can navigate challenging situations more effectively.
 
 
-    6. Set a budget for the AI to “buy and deliver” items during my date to prevent it from crashing and burning.
+6. Set a budget for the AI to “buy and deliver” items during my date to prevent it from crashing and burning.
 
 
-    7. Have the ability to provide feedback and ratings for the App services so that I can contribute to the improvement of the overall service quality.
+7. Have the ability to provide feedback and ratings for the App services so that I can contribute to the improvement of the overall service quality.
 
 
-    8. Have privacy and security features in place to ensure the protection of my personal information.
+8. Have privacy and security features in place to ensure the protection of my personal information.
 
 
-    9. Be able to customize my preferences for AI advice and services so that I can tailor the experience to my specific needs and preferences.
+9. Be able to customize my preferences for AI advice and services so that I can tailor the experience to my specific needs and preferences.
 
 
-    10. Have access to a Dater support system to get assistance with any issues or concerns I may have while using the Cupid app.
+10. Have access to a Dater support system to get assistance with any issues or concerns I may have while using the Cupid app.
 
 
-    11. Prioritize my privacy and allow me to control the level of AI involvement in my dates so that I can feel comfortable using the service.
+11. Prioritize my privacy and allow me to control the level of AI involvement in my dates so that I can feel comfortable using the service.
 
 
 ### **As a Cupid, I want to…**
 
 
-    1. Receive notifications for available jobs in my area so that I can offer my assistance and earn money.
+1. Receive notifications for available jobs in my area so that I can offer my assistance and earn money.
 
 
-    2.  Accept and complete jobs on the Cupid Code app in a straightforward and simple process that enables me to efficiently provide quality service.
+2.  Accept and complete jobs on the Cupid Code app in a straightforward and simple process that enables me to efficiently provide quality service.
 
 
-    3. Receive feedback and ratings from Daters after completing a job so that I can improve my service and build a positive reputation.
+3. Receive feedback and ratings from Daters after completing a job so that I can improve my service and build a positive reputation.
 
 
-    4. Have access to a support system to address any issues or concerns that may arise while fulfilling jobs for Daters.
+4. Have access to a support system to address any issues or concerns that may arise while fulfilling jobs for Daters.
 
 
-    5. Prioritize Daters’ privacy and protect sensitive information to ensure a secure and trustworthy service.
+5. Prioritize Daters’ privacy and protect sensitive information to ensure a secure and trustworthy service.
 
 
-    6. Access my job history and earnings on the Cupid Code app so that I can track my performance and income.
+6. Access my job history and earnings on the Cupid Code app so that I can track my performance and income.
 
 
-    7. Be informed about any updates or changes in the Cupid Code app's policies or features so that I can stay informed and compliant.
+7. Be informed about any updates or changes in the Cupid Code app's policies or features so that I can stay informed and compliant.
 
 
-    8. Have the ability to set my availability and preferences for the types of jobs I am willing to take on so that I can manage my workload effectively.
+8. Have the ability to set my availability and preferences for the types of jobs I am willing to take on so that I can manage my workload effectively.
 
 
-    9. Be recognized and rewarded for providing exceptional service through incentives or recognition programs on the Cupid Code app.
+9. Be recognized and rewarded for providing exceptional service through incentives or recognition programs on the Cupid Code app.
 
 
 ### **As a manager, I want to…**
 
 
-    1. Have quick access to a panel to review complaints and feedback related to Cupids to address issues promptly and improve service quality.
+1. Have quick access to a panel to review complaints and feedback related to Cupids to address issues promptly and improve service quality.
 
 
-    2. Receive notifications for high-priority or urgent complaints to prioritize and resolve critical issues efficiently.
+2. Receive notifications for high-priority or urgent complaints to prioritize and resolve critical issues efficiently.
 
 
-    3. View Daters feedback and ratings for both AI advice and Cupids' services to identify areas for improvement.
+3. View Daters feedback and ratings for both AI advice and Cupids' services to identify areas for improvement.
 
 
-    4. Have the ability to take appropriate actions based on user feedback, such as providing additional training to Cupids or implementing system improvements.
+4. Have the ability to take appropriate actions based on user feedback, such as providing additional training to Cupids or implementing system improvements.
 
 
-    5. Ensure the Cupid Code app has a secure and confidential system for handling user complaints and feedback to ensure privacy and compliance.
+5. Ensure the Cupid Code app has a secure and confidential system for handling user complaints and feedback to ensure privacy and compliance.
 
 
-    6. Track and analyze trends in user feedback to identify patterns and make informed decisions for overall service enhancements.
+6. Track and analyze trends in user feedback to identify patterns and make informed decisions for overall service enhancements.
 
 
-    7. Receive regular reports on Cupids' performance, including job completion rates, Dater satisfaction scores, and any notable achievements.
+7. Receive regular reports on Cupids' performance, including job completion rates, Dater satisfaction scores, and any notable achievements.
 
 
-    8. Have access to tools that allow effective communication with Cupids and Daters to facilitate conflict resolution or gather additional information.
+8. Have access to tools that allow effective communication with Cupids and Daters to facilitate conflict resolution or gather additional information.
 
 
-    9. Be notified about any changes or updates in the Cupid Code app's policies or features that may impact the management of Dater feedback and service quality.
+9. Be notified about any changes or updates in the Cupid Code app's policies or features that may impact the management of Dater feedback and service quality.
 
 
-    10. Support a seamless workflow for handling complaints, ensuring that the resolution process is efficient and user-friendly.
+10. Support a seamless workflow for handling complaints, ensuring that the resolution process is efficient and user-friendly.
 
 
-    11. Have the flexibility to customize the feedback and complaint management system to align with the evolving needs of the Cupid Code app.
+11. Have the flexibility to customize the feedback and complaint management system to align with the evolving needs of the Cupid Code app.
 
 
 
