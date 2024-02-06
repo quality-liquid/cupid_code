@@ -265,23 +265,27 @@ To access Cupid Code, Daters, Cupids, and Managers can utilize any device with a
 **How the Components Interact (UML Diagram)**
 
 ![alt_text](images/image1.png "image_tooltip")
+
 **General Login**
 
 The user will log in to the system. The login will authenticate the user and redirect them to the correct homepage. If the authentication fails, the user will stay at the login screen.
 
 ![alt_text](images/image2.png "image_tooltip")
+
 **Dater Login**
 
 The user will be redirected to a homepage that will allow them to navigate to an AI chat, AI listen-in, a calendar, their profile & settings, Cupid Cash Store and budgeting. It will also display the latest notifications from the AI on the homepage.
 
 
 ![alt_text](images/image3.png "image_tooltip")
+
 **Cupid Login**
 
 The user will be redirected to a homepage allowing them to navigate to their profile & settings or “clock in” and navigate to the Gig Finder to look for jobs. The Gig finder will display gigs in the Cupid’s area and allow the Cupid to choose a gig and display more information. The Cupid will be able to select to cancel or complete the order.
 
 
 ![alt_text](images/image4.png "image_tooltip")
+
 **Manager Login**
 
 The user will be redirected to a homepage that will notify them of any notifications that need immediate attention and allow them to navigate to a report function and navigate to a feedback page. The report function will allow the user to look at statistics from a previous period of time and allow them to customize it and print it off/export as a PDF.
