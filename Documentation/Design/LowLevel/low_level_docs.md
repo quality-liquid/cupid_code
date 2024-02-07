@@ -10,30 +10,29 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 
 02/08/24
 
+-----------
 ### Sub-team Members
-Frontend team
 
-	Eric
+#### Frontend team
 
-    Brighton
+* Eric 
+* Brighton 
+* Brandon
 
-	Brandon
+#### Middleend team 
 
-Middleend team
-    
-    Emma
+* Emma
 
-Backend team
+#### Backend team
 
-	Nate Stott
+* Nate Stott 
+* Nate McKenzie 
+* Daniel
 
-	Nate McKenzie
-
-	Daniel
-
+-----------
 ### Sub-team Responsibilities
 
-Frontend team
+#### Frontend team
 
 * Security 
     * Validate all input and output
@@ -50,13 +49,13 @@ Frontend team
     * Phone
     * Desktop
 
-Middleend team
+#### Middleend team
 
 * work with both teams to ensure that the frontend and backend work together
 * do work as requested by either team
   * a team could be falling behind and need help
 
-Backend team
+#### Backend team
 
 * Security
     * Django Admin
@@ -72,64 +71,61 @@ Backend team
 * Django settings
 * Unit tests
 
+-----------
 ### Relationships
 
-User
+#### User
 
-	General user class w/ email, username, password, etc.
-
-	Possibly use the default User in Django?
-
-
-    Dater
+* General user class w/ email, username, password, etc.
+* Possibly use the default User in Django?
 
 
-    	Inherit from User and have sensitive data related to dater here only
+#### Dater
+
+* Inherit from User and have sensitive data related to dater here only
 
 
-    Cupid
+#### Cupid
+
+* Inherit from User and have sensitive data related to cupid here only
 
 
-    	Inherit from User and have sensitive data related to cupid here only
+#### Manager
 
+* Possibly implement the Django admin class?
+* Or inherit from a gen user class?
+* Composition lets you take objects of other classes and use them here so maybe that will work better than inheritance here
 
-    Manager/Admin 
+#### AI Chat
 
+* Many-to-one relationship w/ Dater? Store chat ids and stuff
 
-    	Possibly implement the Django admin class?
+#### Gigs
 
+* Store and display gigs sent to server by the AI?
+* Many-to-many relationship since many gigs can be shown to many cupids
 
-    	Or inherit from a gen user class?
+OR
 
+#### Gig
 
-    	Composition lets you take objects of other classes and use them here so maybe that will work better than inheritance here
-
-AI Chat
-
-	Many-to-one relationship w/ Dater? Store chat ids and stuff
-
-Gigs
-
-	Store and display gigs sent to server by the AI?
-
-	Many-to-many relationship since many gigs can be shown to many cupids
-
-OR 
-
-Gig
-
-	Store data for a single gig, and use frontend components to load and list a bunch 
-
-    Then have a one to one with a cupid if accepted?
-
+* Store data for a single gig, and use frontend components to load and list a bunch 
+* Then have a one to one with a cupid if accepted?
+-----------
 ### Branching Strategy
 
-    Master - what we are showing
+* Master 
+  * what we are showing
+* Hot Fixes 
+  * quick fixes on master
+* Releases 
+  * the next version to be merged with Master
+* Development 
+  * what we are working on
+* Features 
+  * new features for the development branch
+-----------
+### Testing Strategy
 
-	Hot Fixes - quick fixes on master
-
-	Releases - the next version to be merged with Master
-
-	Development - what we are working on
-
-	Features - new features for the development branch
+* Write tests for all code
+* Write tests while you go
