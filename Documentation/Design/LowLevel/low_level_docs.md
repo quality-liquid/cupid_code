@@ -111,6 +111,7 @@ OR
 
 * Store data for a single gig, and use frontend components to load and list a bunch 
 * Then have a one to one with a cupid if accepted?
+
 -----------
 ### Branching Strategy
 
@@ -119,13 +120,22 @@ OR
 * Hot Fixes 
   * quick fixes on master
 * Releases 
-  * the next version to be merged with Master
+  * the next version to be merged with master
 * Development 
   * what we are working on
 * Features 
   * new features for the development branch
+
 -----------
 ### Testing Strategy
 
 * Write tests for all code
 * Write tests while you go
+
+-----------
+### Internal API Design
+
+
+
+
+
