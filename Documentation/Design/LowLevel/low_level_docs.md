@@ -115,6 +115,15 @@ OR
 * Store data for a single gig, and use frontend components to load and list a bunch 
 * Then have a one to one with a cupid if accepted?
 
+#### Budget
+* One to One relationship with a Dater
+* Encrypted since it'll be sensitive data
+* Leave monetary stuff separate from dater acc for abstraciton & security
+
+#### Finances
+* Similar to budget but for cupids
+* Same relationship and reason but won't hold the same type of info since it'll be payment to the cupid
+
 -----------
 ### Branching Strategy
 
