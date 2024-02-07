@@ -218,7 +218,7 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 ### **As a Dater, I want to…**
 
 
-1.  Easily register on the Cupid app so that I can start using the AI-assisted dating features.
+1. Easily register on the Cupid app so that I can start using the AI-assisted dating features.
 
 
 2. Create a detailed profile with my interests and preferences so that the AI can provide me with more personalized dating advice.
@@ -257,7 +257,7 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 1. Receive notifications for available jobs in my area so that I can offer my assistance and earn money.
 
 
-2.  Accept and complete jobs on the Cupid Code app in a straightforward and simple process that enables me to efficiently provide quality service.
+2. Accept and complete jobs on the Cupid Code app in a straightforward and simple process that enables me to efficiently provide quality service.
 
 
 3. Receive feedback and ratings from Daters after completing a job so that I can improve my service and build a positive reputation.
@@ -279,6 +279,9 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 
 
 9. Be recognized and rewarded for providing exceptional service through incentives or recognition programs on the Cupid Code app.
+
+
+10. Be able to rate and give feedback on daters I delivered to so that the app is not being used maliciously by fake daters.
 
 
 ### **As a manager, I want to…**
