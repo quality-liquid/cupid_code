@@ -1,6 +1,5 @@
-| team2 time     |                         |           |   
+| Sprint 1       |                         |           |   
 |----------------|-------------------------|-----------|
-| Sprint 1       |                         |           | 
 | Name           | Job                     | Time(hrs) |  
 | Nate Stott     | functional requiremnts  | 3.5       |   
 | Emma Wright    | User Stories/Reqs       | 3.5       |  
@@ -9,8 +8,9 @@
 | Nate McKenzie  | Problem Statement       | 3.5       |   
 | Eric DeBloois  | UML                     | 4         |   
 | Brandon Herrin | Editing                 | 1.5       |   
-|                |                         |           |   
+
 | Sprint 2       |                         |           |   
+|----------------|-------------------------|-----------|
 | High Level     |                         |           |   
 | Name           | Job                     | Time(hrs) |   
 | Nate Stott     | platform / editing      | 5         |   
@@ -29,6 +29,14 @@
 | Nate McKenzie  | Backend -               | 0.5       |   
 | Eric DeBloois  |                         |           |   
 | Brandon Herrin |                         |           |   
-|                |                         |           |   
-| Sprint 3       |                         |           |   
-|                |                         |           | 
+
+| Sprint 3       |     |           |   
+|----------------|-----|-----------|
+| Name           | Job | Time(hrs) | 
+| Nate Stott     |     |           |   
+| Emma Wright    |     |           |   
+| Daniel Barfuss |     |           |   
+| Brighton Ellis |     |           |   
+| Nate McKenzie  |     |           |   
+| Eric DeBloois  |     |           |   
+| Brandon Herrin |     |           |   
