@@ -83,22 +83,25 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 #### Dater
 
 * Inherit from User and have sensitive data related to dater here only
+  * This would include preferences & personal info
 
 
 #### Cupid
 
 * Inherit from User and have sensitive data related to cupid here only
+  * Includes personal info for finding gigs
 
 
 #### Manager
 
 * Possibly implement the Django admin class?
 * Or inherit from a gen user class?
-* Composition lets you take objects of other classes and use them here so maybe that will work better than inheritance here
+  * Composition lets you take objects of other classes and use them here so maybe that will work better than inheritance here
 
 #### AI Chat
 
-* Many-to-one relationship w/ Dater? Store chat ids and stuff
+* Many-to-one relationship w/ Dater? 
+* Store chat ids and stuff
 
 #### Gigs
 
@@ -111,6 +114,16 @@ OR
 
 * Store data for a single gig, and use frontend components to load and list a bunch 
 * Then have a one to one with a cupid if accepted?
+
+#### Budget
+* One to One relationship with a Dater
+* Encrypted since it'll be sensitive data
+* Leave monetary stuff separate from dater acc for abstraciton & security
+
+#### Finances
+* Similar to budget but for cupids
+* Same relationship and reason but won't hold the same type of info since it'll be payment to the cupid
+
 
 -----------
 ### Branching Strategy
