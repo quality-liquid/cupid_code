@@ -4,7 +4,7 @@
 ```
 $ git pull
 $ git checkout -b YOURNAME
-$ git branch    // this shows the branches that are in the repo, as well as marking which branch you are on with an '*' asteriks.
+$ git branch                 |// this shows the branches that are in the repo, as well as marking which branch you are on with an '*' asteriks.
 
 ```
 
@@ -12,17 +12,17 @@ $ git branch    // this shows the branches that are in the repo, as well as mark
 ## what to do EVERY TIME you work on the project:
 Repeat this process each time that you access the project
 ```
-$ git checkout main   // if this isn't done already
+$ git checkout main         |// if this isn't done already
 $ git pull
 $ git checkout YOURNAME
 $ git merge main
-...     // proceed to write code. when you are done...
+...                         |// proceed to write code. when you are done...
 $ git add .
 $ git commit -m "DESCRIPTION OF WHAT YOU CHANGED"
 $ git push
-$ git status      // check that working tree is up to date
+$ git status                |// check that working tree is up to date
 $ git checkout main
-$ git merge YOURNAME    // this will add your changes to the main program branch
+$ git merge YOURNAME        |// this will add your changes to the main program branch
 $ git push origin main
 ```
 **DO NOT EVER PUSH NON-WORKING CODE TO THE MAIN BRANCH**
@@ -35,7 +35,7 @@ $ git push origin main
 ---
 ---
 
-## advanced git
+## Advanced git
 
 ### git branches
 this will most likely be how we are going to all access the project at the same time and make revisions dynamically without causing *too much* problems with merge conflicts. 
@@ -94,7 +94,7 @@ $ git checkout experiment
 $ code main.py
 ...
 $ git add main.py
-$ git commit -m "Eureka\!\!\!"
+$ git commit -m "Eureka!!!"
 $ git checkout master
 $ git merge experiment
   
