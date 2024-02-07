@@ -1,4 +1,4 @@
-# **Cupid Code **
+# **Cupid Code**
 
 ## **Low Level Design Document**
 
@@ -10,15 +10,18 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 
 02/08/24
 
+### Sub-team Members
 Frontend team
 
-	Eric - Pinakamakapangyarihan
+	Eric
 
-Brighton - design
+    Brighton
 
 	Brandon
 
-Middle person: Emma
+Middleend team
+    
+    Emma
 
 Backend team
 
@@ -28,7 +31,42 @@ Backend team
 
 	Daniel
 
-Possible Classes
+### Sub-team Responsibilities
+
+Frontend team responsibilities
+
+* Security 
+    * Validate all input and output
+* UI (Clean looking)
+    * Attractive to look at (keep people coming back)
+* UX (Easy to use)
+    * Intuitive design
+    * Easy to navigate
+    * What is happening is clear
+* Django Templates (if needed)
+* Interact with backend (requests)
+    * Deal with timeouts
+* Test on many browsers
+    * Phone
+    * Desktop
+
+Backend team responsibilities
+
+* Security
+    * Django Admin
+    * User Authentication
+    * Validate all input and output
+* Django models (database)
+* Map URLs to views
+* Django views (Communicate with frontend, responses)
+    * 200
+    * 404
+* Create system APIs to call external APIs (easy to switch out)
+* Django Migrations
+* Django settings
+* Unit tests
+
+### Relationships
 
 User
 
@@ -76,48 +114,11 @@ Gig
 
 	Store data for a single gig, and use frontend components to load and list a bunch 
 
-Then have a one to one with a cupid if accepted?
+    Then have a one to one with a cupid if accepted?
 
-Frontend team responsibilities
+### Branching Strategy
 
-
-
-* Security 
-    * Validate all input and output
-* UI (Clean looking)
-    * Attractive to look at (keep people coming back)
-* UX (Easy to use)
-    * Intuitive design
-    * Easy to navigate
-    * What is happening is clear
-* Django Templates (if needed)
-* Interact with backend (requests)
-    * Deal with timeouts
-* Test on many browsers
-    * Phone
-    * Desktop
-
-Backend team responsibilities
-
-
-
-* Security
-    * Django Admin
-    * User Authentication
-    * Validate all input and output
-* Django models (database)
-* Map URLs to views
-* Django views (Communicate with frontend, responses)
-    * 200
-    * 404
-* Create system APIs to call external APIs (easy to switch out)
-* Django Migrations
-* Django settings
-* Unit tests
-
-Git Branches
-
-	Master - what we are showing
+    Master - what we are showing
 
 	Hot Fixes - quick fixes on master
 
