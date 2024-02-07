@@ -26,20 +26,20 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 1. **User Authentication:**
     * Daters, Cupids, and Managers must be able to authenticate using an email, and password.
 2. **User Roles and Interfaces:**
-    * Daters should have access to features like scheduling dates, adding funds, setting budget limits, talking with the AI.
-    * Cupids should be able to view available requests, accept requests, and transfer earned money.
-    * Managers should have the authority to monitor user activities, access real-time data, and remove users for policy violations.
+    * Daters will have access to features like scheduling dates, adding funds, setting budget limits, talking with the AI.
+    * Cupids will be able to view available requests, accept requests, and transfer earned money.
+    * Managers will have the authority to monitor user activities, access real-time data, and remove users for policy violations.
 3. **AI Integration:**
-    * The AI should be able to listen during dates, provide real-time advice to Daters, and summon Cupids for assistance.
+    * The AI will be able to listen during dates, provide real-time advice to Daters, and summon Cupids for assistance.
 4. **Budget Management:**
-    * Daters should be able to set budget limits for each date, and the AI must operate within those limits.
+    * Daters will be able to set budget limits for each date, and the AI must operate within those limits.
 5. **Communication:**
-    * Daters and Cupids should be able to communicate quickly and effectively within the platform through instant messaging.
+    * Daters and Cupids will be able to communicate quickly and effectively within the platform through instant messaging.
 6. **Scheduling:**
-    * Daters should have the ability to schedule dates, and should be able to manage their dating calendar.
+    * Daters will have the ability to schedule dates, and will be able to manage their dating calendar.
 7. **Payment System:**
-    * Daters should be able to transfer funds to Cupid Code.
-    * Cupids should be able to view the amount of money earned.
+    * Daters will be able to transfer funds to Cupid Code.
+    * Cupids will be able to view the amount of money earned.
 
 
 ## Non-Functional Requirements:
@@ -47,19 +47,19 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 1. **Security:**
     * The platform must create and adhere to rigorous security standards that ensure the confidentiality and integrity of user data. Such as encrypting data at rest and in transit, and only allow users with a valid login to get into the system.
 2. **Scalability:**
-    * The system should be scalable to accommodate a growing user base.
+    * The system will be scalable to accommodate a growing user base.
 3. **Availability:**
-    * The platform should be reliable, with minimal downtime or disruptions with five 9’s of durability.
+    * The platform will be reliable, with minimal downtime or disruptions with five 9’s of durability.
 4. **Performance:**
-    * The platform should have low latency communication between Daters, Cupids, and the AI.
+    * The platform will have low latency communication between Daters, Cupids, and the AI.
 5. **Usability:**
-    * The user interfaces for Daters, Cupids, and Managers should be intuitive and user-friendly.
+    * The user interfaces for Daters, Cupids, and Managers will be intuitive and user-friendly.
 6. **Compatibility:**
-    * The application should be compatible with various devices and browsers. 
+    * The application will be compatible with various devices and browsers. 
 7. **Compliance:**
-    * The system should comply with any relevant regulations and legal requirements.
+    * The system will comply with any relevant regulations and legal requirements.
 8. **Documentation:**
-    * Comprehensive and clear documentation should be available for Daters, Cupids, and Managers.
+    * Comprehensive and clear documentation will be available for Daters, Cupids, and Managers.
 
 
 ## Business Requirements:
@@ -102,57 +102,57 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 
 
 
-    * All users should be able to create an account on the Cupid Code app.
-    * The registration process should be user-friendly and require basic information (email, password, full name, etc.).
-    * Daters should be able to create a detailed profile with information about their interests, preferences, and past dating experiences.
+    * All users can create an account on the Cupid Code app.
+    * The registration process will be user-friendly and require basic information (email, password, full name, etc.).
+    * Daters will be able to create a detailed profile with information about their interests, preferences, and past dating experiences.
 
 2. **Cupid Service:**
 
-    * The AI assistant should be able to hire a "Cupid" to purchase and deliver items during a date.
-    * Cupids should be available on-demand, and Daters can specify the items they need.
+    * The AI assistant will hire a "Cupid" to purchase and deliver items during a date.
+    * Cupids can be available on-demand, and Daters can specify the items they need.
 
 3. **AI Chat for Dating Advice:**
 
-    * The app should feature an AI-powered chat where Daters can seek dating advice.
-    * The AI chat should provide relevant and helpful advice based on Dater queries.
+    * The app will feature an AI-powered chat where Daters can seek dating advice.
+    * The AI chat can provide relevant and helpful advice based on Dater queries.
 
 4. **Notifications:**
 
-    * Daters should receive notifications before, during, and after scheduled dates.
+    * Daters will have the option to receive notifications before, during, and after scheduled dates.
     * Notifications may include reminders, suggestions, and post-date feedback.
 
 5. **Manager Panel:**
 
     * A panel for managers to access and review complaints and feedback related to Cupids.
-    * Managers should have the ability to take appropriate actions based on feedback.
+    * Managers will have the ability to take appropriate actions based on feedback.
 
 6. **Privacy and Security:**
 
-    * The app should prioritize user privacy, ensuring that personal information is secure.
+    * The app will prioritize user privacy, ensuring that personal information is secure.
 
 7. **Feedback and Ratings:**
 
-    * Daters should be able to provide feedback and ratings for both the AI advice and Cupids' services.
-    * The app should encourage users to share their experiences to improve the overall service quality.
+    * Daters will be able to provide feedback and ratings for both the AI advice and Cupids' services.
+    * The app will encourage users to share their experiences to improve the overall service quality.
 
 8. **User Support:**
 
-    * The app should have a user support system to assist users with any issues they encounter.
-    * Support channels should include chat, email, or an online help center.
+    * The app will have a user support system to assist users with any issues they encounter.
+    * Support channels will include chat, email, or an online help center.
 
 9. **User Preferences:**
 
-    * Daters should be able to customize their preferences for AI advice and Cupid services.
+    * Daters will be able to customize their preferences for AI advice and Cupid services.
     * Preferences may include the level of AI involvement, preferred Cupids, and specific advice topics.
 
 10. **Calendar:** 
 
-    * Daters should be able to set up when dates are in an in-app calendar.
+    * Daters can set up when dates are in an in-app calendar.
 
 11. **Emergency Advice during Dates:**
 
-    * The app should have a feature to enable the AI to listen in on dates when activated by the Dater.
-    * Emergency advice should be provided in real-time during dates to assist Daters in navigating challenging situations.
+    * The app will have a feature to enable the AI to listen in on dates when activated by the Dater.
+    * Emergency advice will be provided in real-time during dates to assist Daters in navigating challenging situations.
 
 
 ## Requirement Priority 
