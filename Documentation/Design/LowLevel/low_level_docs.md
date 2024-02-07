@@ -33,7 +33,7 @@ Backend team
 
 ### Sub-team Responsibilities
 
-Frontend team responsibilities
+Frontend team
 
 * Security 
     * Validate all input and output
@@ -50,7 +50,13 @@ Frontend team responsibilities
     * Phone
     * Desktop
 
-Backend team responsibilities
+Middleend team
+
+* work with both teams to ensure that the frontend and backend work together
+* do work as requested by either team
+  * a team could be falling behind and need help
+
+Backend team
 
 * Security
     * Django Admin
