@@ -23,7 +23,7 @@
 | Low Level      |                         |           |   
 | Name           | Job                     | Time(hrs) |   
 | Nate Stott     | Backend - API,          | 1         |   
-| Emma Wright    |                         |           |   
+| Emma Wright    | Middleman, Classes      |0.75       |   
 | Daniel Barfuss |                         |           |   
 | Brighton Ellis |                         |           |   
 | Nate McKenzie  | Backend -               | 0.5       |   
