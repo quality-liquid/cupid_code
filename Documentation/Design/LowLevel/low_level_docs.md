@@ -149,6 +149,64 @@ OR
 ### Internal API Design
 
 
-
-
-
+### Django Models
+* Dater
+    * User : OneToOne Field (As provided by Django)
+    * Phone Number : Text Field (validate user input)
+    * Cupid Cash Balance : Decimal Field
+    * Budget : Decimal Field
+    * Communication preferences : IntegerChoices
+    * Profile Picture : Image Field 
+    * Text available to AI
+        * Description of self : Text Field
+        * Dating strengths : Text Field
+        * Dating weaknesses : Text Field
+        * Interests : Text Field
+        * Past dating experiences : Text Field
+        * Type of nerd : Text Field
+        * Relationship goals : Text Field
+        * Degree of AI assistance : Integer Field
+* Cupid
+    * User : OneToOne Field (As provided by Django)
+    * isActive : Boolean Field (Is cupid accepting interventions)
+    * Location : //TODO (GeoDjango or use Text Field for whatever API we use)
+    * Cupid Cash Balance : Decimal Field
+    * Average Rating : Decimal Field
+    * Total interventions completed : Integer Field
+    * Total interventions failed : Integer Field
+    * Date Joined : Date Field
+    * Last Active : DateTime Field
+    * Payment //TODO (probably will become multiple fields)
+    * Status : Text Choices
+* Message
+    * Owner : Foreign Key (User)
+    * Text : Text Field
+    * fromAI : Boolean Field (Indicates which side of the convo this message belongs to)
+* Manager
+    * User : OneToOne Field (As provided by Django)
+    * //TODO surely there is more than just a user
+* Intervention Request
+    * Dater : Foreign Key
+    * Cupid : Foreign Key (nullable, may not be assigned to cupid yet)
+    * Quest : OneToOne Field
+    * Status : Text Choices
+    * DateTime of request : DateTime Field
+    * DateTime of claim : DateTime Field
+    * DateTime of completion : DateTime Field
+* Quest (separate for modularity)
+    * Intervention : *Established by OneToOne Field on Quest*
+    * Budget : Decimal Field
+    * Items Requested : //TODO simplest would be a string, but if we get more advanced that will change.
+* Date
+    * Dater : Foreign Key
+    * Date & Time : DateTime Field
+    * Location : //TODO see above
+    * Description : Text Field
+    * Status : Text Choices //TODO all these choices could be argued as int choices
+    * Budget : Decimal Field
+* Feedback
+    * User : Foreign Key (can be a cupid or dater as both have a OneToOne user)
+    * Intervention Request : Foreign Key
+    * Message : Text Field
+    * Star Rating : Integer Field (bound to 1-5)
+    * DateTime : DateTime Field 
