@@ -26,7 +26,7 @@
 | Emma Wright    | Middleman, Classes      |0.75       |   
 | Daniel Barfuss |                         |           |   
 | Brighton Ellis |                         |           |   
-| Nate McKenzie  | Backend -               | 0.5       |   
+| Nate McKenzie  | Backend - Database,     | 2         |   
 | Eric DeBloois  |                         |           |   
 | Brandon Herrin |                         |           |   
 
