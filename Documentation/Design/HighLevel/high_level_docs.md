@@ -420,7 +420,7 @@ By following these strategies, we can effectively manage the challenges of imple
    * Date and time of request
    * Date and time of claim by Cupid
    * Date and time of completion
-5. Quest
+5. Quest (separate for modularity)
    * Intervention request attached to
    * Message to Cupid
    * Allowed budget
@@ -446,7 +446,12 @@ By following these strategies, we can effectively manage the challenges of imple
    * Message
    * Star rating (hearts)
    * Day and time feedback received
-9. Reports
+9. Message
+    * This is where AI Chat logs will be held
+    * owner
+    * fromAI, indicates if this message is from AI or to AI
+    * message
+10. Reports
    * Manager dashboard:
        * Revenue
        * Registered dater count
