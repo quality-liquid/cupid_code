@@ -22,8 +22,8 @@
 | Brandon Herrin | Editing                 | 2.0       |   
 | Low Level      |                         |           |   
 | Name           | Job                     | Time(hrs) |   
-| Nate Stott     | Backend - API,          | 1         |   
-| Emma Wright    | Middleman, Classes      |0.75       |   
+| Nate Stott     | Backend - API,          | 2         |   
+| Emma Wright    | Middleman, Classes      | 0.75      |   
 | Daniel Barfuss |                         |           |   
 | Brighton Ellis |                         |           |   
 | Nate McKenzie  | Backend - Database,     | 2         |   

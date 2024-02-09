@@ -148,7 +148,229 @@ OR
 -----------
 ### Internal API Design
 
+* The purpose of using Internal APIs is to make the system modular and easy to change. If we decide to change the way we handle a certain part of the system, we can do so without changing the entire system. This will also allow us to test the system in parts, and make sure that each part is working as intended.
+  * For example, if we need to use another external API we dont have to change the way we use that API in our application, we can just change the internal API that calls the external API.
+  * Another example is if we need to change the way we handle user authentication, we can do so without changing the entire system.
 
+#### Internal APIs
+
+1. Create User - for all users
+   * Purpose: Create a new user
+   * Input (json):
+     * Usertype (string)
+       * Dater
+       * Cupid
+       * Manager
+     * Username (string)
+       * Check for uniqueness
+     * Email (string)
+       * Check for uniqueness
+     * Password (string)
+       * Minimum 8 characters with at least one uppercase letter, one lowercase letter, one number, and one special character
+     * Confirm Password (string)
+       * Must match Password
+     * Phone Number (string)
+       * 10 digits
+       * Check for uniqueness
+   * Output (json): 
+     * If the user is created, return a success message
+     * If the user already exists, return an error message
+     * If the user is not created, return an error message
+2. Login - for all users
+   * Purpose: Authenticate a user
+   * Input (json):
+     * Username (string)
+     * Password (string)
+   * Output (json):
+     * If the user is signed in, return a success message
+     * If the user is not signed in, return an error message
+3. Chat with AI - for Daters only
+   * Purpose: Allow a user to chat with the AI
+   * Input (json):
+     * User (string)
+     * Message (string)
+   * Output (json):
+     * If the message is sent, return a success message
+     * If the message is not sent, return an error message
+4. Request Cupid - for Daters/AI
+    * Purpose: Allow a user or AI to request a cupid
+    * Input (json):
+      * User location (string)
+      * User budget (decimal)
+      * User preferences (string)
+      * User communication preferences (string)
+      * User name (string)
+      * Task description (string)
+    * Output (json):
+      * If the request is sent, return a success message
+      * If the request is not sent, return an error message
+5. Accept Cupid Request - for Cupids
+    * Purpose: Allow a cupid to accept a request
+    * Input (json):
+      * Cupid name (string)
+      * Request id (string)
+    * Output (json):
+      * If the request is accepted, return a success message
+      * If the request is not accepted, return an error message
+6. Complete Cupid Request - for Cupids
+    * Purpose: Allow a cupid to complete a request
+    * Input (json):
+      * Cupid name (string)
+      * Request id (string)
+    * Output (json):
+      * If the request is completed, return a success message
+      * If the request is not completed, return an error message
+7. Rate Cupid - for Daters
+    * Purpose: Allow a dater to rate a cupid
+    * Input (json):
+      * Cupid name (string)
+      * Dater name (string)
+      * Rating (integer)
+    * Output (json):
+      * If the rating is submitted, return a success message
+      * If the rating is not submitted, return an error message
+8. Get Nearby Stores - for Daters/AI
+    * Purpose: Allow a dater to get nearby stores
+    * Input (json):
+      * User location (string)
+    * Output (json):
+      * If the stores are found, return a success message
+      * If the stores are not found, return an error message
+9. Get Nearby Restaurants - for Daters/AI
+    * Purpose: Allow a dater to get nearby restaurants
+    * Input (json):
+      * User location (string)
+    * Output (json):
+      * If the restaurants are found, return a success message
+      * If the restaurants are not found, return an error message
+10. Get Nearby Activities - for Daters/AI
+    * Purpose: Allow a dater to get nearby activities
+    * Input (json):
+      * User location (string)
+    * Output (json):
+      * If the activities are found, return a success message
+      * If the activities are not found, return an error message
+11. Get Nearby Events - for Daters/AI
+    * Purpose: Allow a dater to get nearby events
+    * Input (json):
+      * User location (string)
+    * Output (json):
+      * If the events are found, return a success message
+      * If the events are not found, return an error message
+12. Get Nearby Attractions - for Daters/AI
+    * Purpose: Allow a dater to get nearby attractions
+    * Input (json):
+      * User location (string)
+    * Output (json):
+      * If the attractions are found, return a success message
+      * If the attractions are not found, return an error message
+13. Transfer Cupid Cash - for Cupids
+    * Purpose: Allow a cupid to transfer cupid cash
+    * Input (json):
+      * Cupid name (string)
+      * Amount (decimal)
+    * Output (json):
+      * If the transfer is successful, return a success message
+      * If the transfer is not successful, return an error message
+14. Get Cupid Cash Balance - for Cupids
+    * Purpose: Allow a cupid to see their cupid cash balance
+    * Input (json):
+      * Cupid name (string)
+    * Output (json):
+      * If the balance is found, return the balance
+      * If the balance is not found, return an error message
+15. Speech to Text - for AI
+    * Purpose: Allow AI to convert speech to text
+    * Input (json):
+      * Speech (mp3 file
+    * Output (json):
+      * If the speech is converted, return the text
+      * If the speech is not converted, return an error message
+16. Edit User profile - for all users
+    * Purpose: Allow a user to edit their profile
+    * Input (json):
+      * User (string)
+      * ... 
+    * Output (json):
+      * If the profile is edited, return a success message
+      * If the profile is not edited, return an error message
+17. Get User Profile - for all users
+    * Purpose: Allow a user to see their profile
+    * Input (json):
+      * User (string)
+    * Output (json):
+      * If the profile is found, return the profile
+      * If the profile is not found, return an error message
+18. Get Dater Calendar - for Daters
+    * Purpose: Allow a dater to see their calendar
+    * Input (json):
+      * Dater name (string)
+    * Output (json):
+      * If the calendar is found, return the calendar
+      * If the calendar is not found, return an error message
+19. Get Manager Report - for Managers
+    * Purpose: Allow a manager to see a report
+    * Input (json):
+      * Manager name (string)
+    * Output (json):
+      * If the report is found, return the report
+      * If the report is not found, return an error message
+20. Get Cupid Requests - for Cupids
+    * Purpose: Allow a cupid to see available requests
+    * Input (json):
+      * Cupid name (string)
+    * Output (json):
+      * If the requests are found, return the requests
+      * If the requests are not found, return an error message
+21. Rate Dater - for Cupids
+    * Purpose: Allow a cupid to rate a dater
+    * Input (json):
+      * Cupid name (string)
+      * Dater name (string)
+      * Rating (integer)
+    * Output (json):
+      * If the rating is submitted, return a success message
+      * If the rating is not submitted, return an error message
+22. Get Cupid Rating - for Cupids
+    * Purpose: Allow a cupid to see their rating
+    * Input (json):
+      * Cupid name (string)
+    * Output (json):
+      * If the rating is found, return the rating
+      * If the rating is not found, return an error message
+23. Get Dater Rating - for Daters
+    * Purpose: Allow a dater to see their rating
+    * Input (json):
+      * Dater name (string)
+    * Output (json):
+      * If the rating is found, return the rating
+      * If the rating is not found, return an error message
+24. Get User Location - for all users
+    * Purpose: Allow a user to see their location
+    * Input (json):
+      * User (string)
+      * IP address (string)
+    * Output (json):
+      * If the location is found, return the location
+      * If the location is not found, return an error message
+25. Text Notification - for all users
+    * Purpose: Allow a user to receive a text notification
+    * Input (json):
+      * User (string)
+      * Message (string)
+    * Output (json):
+      * If the notification is sent, return a success message
+      * If the notification is not sent, return an error message
+26. Email Notification - for all users 
+    * Purpose: Allow a user to receive an email notification
+    * Input (json):
+      * User (string)
+      * Message (string)
+    * Output (json):
+      * If the notification is sent, return a success message
+      * If the notification is not sent, return an error message
+
+-----------
 ### Django Models
 * Dater
     * User : OneToOne Field (As provided by Django)
