@@ -1,6 +1,6 @@
 # **Cupid Code**
 
-## **Low Level Design Document**
+# **Low Level Design Document**
 
 Team 2
 
@@ -146,8 +146,21 @@ OR
 * Write tests while you go
 
 -----------
+## Frontend Design
+
+
+
+
+-----------
+## Backend Design
+
+
+
+
+-----------
 ### Internal API Design
 
+* Implement with the Django Rest Framework
 * The purpose of using Internal APIs is to make the system modular and easy to change. If we decide to change the way we handle a certain part of the system, we can do so without changing the entire system. This will also allow us to test the system in parts, and make sure that each part is working as intended.
   * For example, if we need to use another external API we dont have to change the way we use that API in our application, we can just change the internal API that calls the external API.
   * Another example is if we need to change the way we handle user authentication, we can do so without changing the entire system.
