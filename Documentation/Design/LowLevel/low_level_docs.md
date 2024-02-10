@@ -131,7 +131,7 @@ OR
 * Master 
   * what we are showing
 * Hot Fixes 
-  * quick fixes on master
+  * quick fixes for master
 * Releases 
   * the next version to be merged with master
 * Development 
@@ -140,10 +140,12 @@ OR
   * new features for the development branch
 
 -----------
-### Testing Strategy
+### Testing and Debugging Strategy
 
 * Write tests for all code
 * Write tests while you go
+* Django debug toolbar
+  * https://django-debug-toolbar.readthedocs.io/en/latest/
 
 -----------
 ## Frontend Design
@@ -154,18 +156,38 @@ OR
 -----------
 ## Backend Design
 
+The backend will be designed using the Django framework. 
+Additionally, we will use the Django Rest Framework to create internal APIs. 
+The purpose of using internal APIs is to make the system modular and easy to change. 
+If we decide to change the way we handle a certain part of the system, we can do so without changing the entire system. 
+This will also allow us to test the system in parts, and make sure that each part is working as intended.
 
+Django view functions will be used to handle the requests and responses from the frontend. 
+A view function will be able to complete the requested task by using the available internal APIs. 
+A view function will not interact with the database or external APIs directly.
+This allows us to change the way we handle the database or external APIs without changing the view functions.
 
+-----------
+### Django URL Design
+
+What urls will we need? What views will they map to?
+
+-----------
+### Django View Functions Design
+
+What views will we need? What will they do? What will they take in? What will they return? What internal APIs will they use?
 
 -----------
 ### Internal API Design
 
 * Implement with the Django Rest Framework
+  * https://www.django-rest-framework.org/tutorial/quickstart/
+  * Makes building APIs easier
 * The purpose of using Internal APIs is to make the system modular and easy to change. If we decide to change the way we handle a certain part of the system, we can do so without changing the entire system. This will also allow us to test the system in parts, and make sure that each part is working as intended.
   * For example, if we need to use another external API we dont have to change the way we use that API in our application, we can just change the internal API that calls the external API.
   * Another example is if we need to change the way we handle user authentication, we can do so without changing the entire system.
-
-#### Internal APIs
+* Django API Reference
+  * https://docs.djangoproject.com/en/5.0/ref/
 
 1. Create User - for all users
    * Purpose: Create a new user
@@ -445,3 +467,21 @@ OR
     * Message : Text Field
     * Star Rating : Integer Field (bound to 1-5)
     * DateTime : DateTime Field 
+
+
+-----------
+### Django Migrations
+
+
+-----------
+### Django Settings
+
+
+-----------
+### Django Admin
+
+
+-----------
+### Unit Tests
+
+
