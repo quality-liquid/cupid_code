@@ -72,60 +72,6 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 * Unit tests
 
 -----------
-### Relationships
-
-#### User
-
-* General user class w/ email, username, password, etc.
-* Possibly use the default User in Django?
-
-
-#### Dater
-
-* Inherit from User and have sensitive data related to dater here only
-  * This would include preferences & personal info
-
-
-#### Cupid
-
-* Inherit from User and have sensitive data related to cupid here only
-  * Includes personal info for finding gigs
-
-
-#### Manager
-
-* Possibly implement the Django admin class?
-* Or inherit from a gen user class?
-  * Composition lets you take objects of other classes and use them here so maybe that will work better than inheritance here
-
-#### AI Chat
-
-* Many-to-one relationship w/ Dater? 
-* Store chat ids and stuff
-
-#### Gigs
-
-* Store and display gigs sent to server by the AI?
-* Many-to-many relationship since many gigs can be shown to many cupids
-
-OR
-
-#### Gig
-
-* Store data for a single gig, and use frontend components to load and list a bunch 
-* Then have a one to one with a cupid if accepted?
-
-#### Budget
-* One to One relationship with a Dater
-* Encrypted since it'll be sensitive data
-* Leave monetary stuff separate from dater acc for abstraciton & security
-
-#### Finances
-* Similar to budget but for cupids
-* Same relationship and reason but won't hold the same type of info since it'll be payment to the cupid
-
-
------------
 ### Branching Strategy
 
 * Master 
@@ -138,14 +84,6 @@ OR
   * what we are working on
 * Features 
   * new features for the development branch
-
------------
-### Testing and Debugging Strategy
-
-* Write tests for all code
-* Write tests while you go
-* Django debug toolbar
-  * https://django-debug-toolbar.readthedocs.io/en/latest/
 
 -----------
 ## Frontend Design
@@ -472,16 +410,61 @@ What views will we need? What will they do? What will they take in? What will th
 -----------
 ### Django Migrations
 
+What migrations will we need? What will they do?
 
 -----------
 ### Django Settings
 
+How will we configure the settings?
 
 -----------
 ### Django Admin
 
+How will we use the Django admin?
 
 -----------
 ### Unit Tests
 
+What will we test? How will we test it?
 
+* Django debug toolbar
+  * https://django-debug-toolbar.readthedocs.io/en/latest/
+
+-----------
+### Relationships
+
+* User
+  * General user class w/ email, username, password, etc.
+  * Possibly use the default User in Django?
+
+
+* Dater
+  * Inherit from User and have sensitive data related to dater here only
+    * This would include preferences & personal info
+
+* Cupid
+  * Inherit from User and have sensitive data related to cupid here only
+    * Includes personal info for finding gigs
+
+
+* Manager
+  * Possibly implement the Django admin class?
+  * Or inherit from a gen user class?
+    * Composition lets you take objects of other classes and use them here so maybe that will work better than inheritance here
+
+* AI Chat
+  * Many-to-one relationship w/ Dater? 
+  * Store chat ids and stuff
+
+* Gigs
+  * Store and display gigs sent to server by the AI?
+  * Many-to-many relationship since many gigs can be shown to many cupids
+
+* Budget
+  * One to One relationship with a Dater
+  * Encrypted since it'll be sensitive data
+  * Leave monetary stuff separate from dater acc for abstraciton & security
+
+* Finances
+  * Similar to budget but for cupids
+  * Same relationship and reason but won't hold the same type of info since it'll be payment to the cupid
