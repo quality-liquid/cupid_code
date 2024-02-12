@@ -109,28 +109,36 @@ This allows us to change the way we handle the database or external APIs without
 ### Django URL Design (Nate M)
 
 What urls will we need? What views will they map to?
-|   URL      |   Method |   Notes   |
-|------------|----------|-----------|
-|   /        |  GET     |           |
-|   /login/  |  GET     |           |
-|   /login/  |  POST    |           |
-|   /signup/ |  GET     |           |
-|   /signup/ |  POST    |           |
-|   /home/   |  GET     | (SPA home)|
+|   URL      |   Method |   Notes       |
+|------------|----------|---------------|
+|   /        |  GET     | Welcome       |
+|   /login/  |  GET     | Login page    |
+|   /login/  |  POST    | Send form     |
+|   /signup/ |  GET     | Signup page   |
+|   /signup/ |  POST    | Send form     |
+|   /home/   |  GET     | SPA home      |
+|            |          |               |
 
 #### API URLs
-|   URL      |   Method |   Notes   |
-|------------|----------|-----------|
-|   /user/                      |   POST    |
-|   /user/<int:id>              |   GET     |
-|   /chat/                      |   POST    |
-|   /quest/create/              |   POST    |
-|   /quest/accept/<int:id>      |   POST    |
-|   /quest/complete/<int:id>    |   POST    |
+|   URL                         |   Method  |   Notes               |
+|-------------------------------|-----------|-----------------------|
+|   /user/                      |   POST    | Create user           |
+|   /user/<int:id>/             |   GET     | Get user data         |
+|   /chat/                      |   POST    | Send message          |
+|   /quest/create/              |   POST    | Create intervention   |
+|   /quest/accept/<int:id>/     |   POST    | Accept intervention   |
+|   /quest/complete/<int:id>/   |   POST    | Complete intervention |
+|   /cupid/rate/                |   POST    | Send a cupd rating    |
+|   /geo/stores/                |   GET     | List of nearby stores |
+|   /geo/activities/            |   GET     | Nearby activities     |
+|   /geo/events/                |   GET     | Nearby events         |
+|   /geo/attractions/           |   GET     | Nearby attractions    |
+|                               |           |                       |
+|                               |           |                       |
 
 
 -----------
-### Django View Functions Design (Nate M)
+### Django View Functions Design 
 
 What views will we need? What will they do? What will they take in? What will they return? What internal APIs will they use?
 
