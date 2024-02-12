@@ -119,22 +119,41 @@ What urls will we need? What views will they map to?
 |   /home/   |  GET     | SPA home      |
 |            |          |               |
 
+//TODO: Should POST requests have id integrated or in url
+//TODO: Should daters and cupids be more related (both have ratings)
 #### API URLs
-|   URL                         |   Method  |   Notes               |
-|-------------------------------|-----------|-----------------------|
-|   /user/                      |   POST    | Create user           |
-|   /user/<int:id>/             |   GET     | Get user data         |
-|   /chat/                      |   POST    | Send message          |
-|   /quest/create/              |   POST    | Create intervention   |
-|   /quest/accept/<int:id>/     |   POST    | Accept intervention   |
-|   /quest/complete/<int:id>/   |   POST    | Complete intervention |
-|   /cupid/rate/                |   POST    | Send a cupd rating    |
-|   /geo/stores/                |   GET     | List of nearby stores |
-|   /geo/activities/            |   GET     | Nearby activities     |
-|   /geo/events/                |   GET     | Nearby events         |
-|   /geo/attractions/           |   GET     | Nearby attractions    |
-|                               |           |                       |
-|                               |           |                       |
+|   URL                         |   Method  |   Notes                       |
+|-------------------------------|-----------|-------------------------------|
+|   /user/                      |   POST    | Create user                   |
+|   /user/<int:id>/             |   GET     | Get user data                 |
+|   /user/<int:id>/             |   POST    | Update user data              |
+|   /chat/                      |   POST    | Send message                  |
+|   /intervention/create/       |   POST    | Create intervention           |
+|   /intervention/accept/       |   POST    | Accept intervention           |
+|   /intervention/complete/     |   POST    | Complete intervention         |
+|   /intervention/<int:count>/  |   GET     | Return a list of count quests |
+|   /geo/stores/                |   GET     | List of nearby stores         |
+|   /geo/activities/            |   GET     | Nearby activities             |
+|   /geo/events/                |   GET     | Nearby events                 |
+|   /geo/attractions/           |   GET     | Nearby attractions            |
+|   /geo/user/<int:id>/         |   GET     | Get a user's location         |
+|   /cupid/rate/                |   POST    | Send a cupd rating            |
+|   /cupid/ratings/             |   GET     | Get list of cupid's ratings   |
+|   /cupid/avg_rating/          |   GET     | Get cupid's average rating    |
+|   /cupid/transfer/            |   POST    | Initiate transfer out         |
+|   /cupid/balance/             |   GET     | Get account balance           |
+|   /dater/calendar/            |   GET     | Get the dater's cal           |
+|   /dater/rate/                |   POST    | Send a dater rating           |
+|   /dater/ratings/             |   GET     | Get list of dater's ratings   |
+|   /dater/avg_rating/          |   GET     | Get dater's average rating    |
+|   /manager/dater_count/       |   GET     | Manager reports               |
+|   /manager/cupid_count/       |   GET     | Manager reports               |
+|   /manager/active_cupids/     |   GET     | Manager reports               |
+|   /manager/intervention_rate/ |   GET     | Manager reports               |
+|   /stt/                       |   POST    | Convert speech to text        |
+|   /sms/                       |   POST    | Send a text message           |
+|   /email/                     |   POST    | Send an email message         |
+|                               |           |                               |
 
 
 -----------
@@ -380,6 +399,7 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
     * Budget : Decimal Field
     * Communication preferences : IntegerChoices
     * Profile Picture : Image Field 
+    * Average Rating : Decimal Field
     * Text available to AI
         * Description of self : Text Field
         * Dating strengths : Text Field
