@@ -109,6 +109,33 @@ This allows us to change the way we handle the database or external APIs without
 
 What will the project structure look like? What will the files be named? What will the directories be named?
 
+* cupid_code/
+  * main/
+    * settings.py
+    * urls.py
+    * wsgi.py
+  * app/
+    * migrations/
+    * static/
+    * templates/
+    * admin.py
+    * apps.py
+    * models.py
+    * tests.py
+    * urls.py
+    * views.py
+  * api/
+    * migrations/
+    * admin.py
+    * apps.py
+    * models.py
+    * serializers.py
+    * tests.py
+    * urls.py
+    * views.py
+  * manage.py
+  * db.sqlite3
+
 ### Django URL Design (Nate M)
 
 What urls will we need? What views will they map to?
@@ -156,7 +183,9 @@ What views will we need? What will they do? What will they take in? What will th
        * Manager
      * Username (string)
        * Check for uniqueness
+       * Must start with a letter and contain only letters, numbers, and underscores
      * Email (string)
+       * Must be a valid email address
        * Check for uniqueness
      * Password (string)
        * Minimum 8 characters with at least one uppercase letter, one lowercase letter, one number, and one special character

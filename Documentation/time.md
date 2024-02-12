@@ -9,26 +9,26 @@
 | Eric DeBloois  | UML                     | 4         |   
 | Brandon Herrin | Editing                 | 1.5       |   
 
-| Sprint 2       |                         |           |   
-|----------------|-------------------------|-----------|
-| High Level     |                         |           |   
-| Name           | Job                     | Time(hrs) |   
-| Nate Stott     | platform / editing      | 5         |   
-| Emma Wright    | Internal Interfaces/UML | 4.5       |   
-| Daniel Barfuss | Security                | 2         |   
-| Brighton Ellis | Security                | 2         |   
-| Nate McKenzie  | Database & Reports      | 4.5       |   
-| Eric DeBloois  | Figma Prototype         | 2.5       |   
-| Brandon Herrin | Editing                 | 2.0       |   
-| Low Level      |                         |           |   
-| Name           | Job                     | Time(hrs) |   
-| Nate Stott     | Backend - API,          | 3         |   
-| Emma Wright    | Middleman, Classes      | 0.75      |   
-| Daniel Barfuss |                         |           |   
-| Brighton Ellis | Frontend - UI/UX        | 1.75      |   
-| Nate McKenzie  | Backend - Database, Migrations, URL| 2         |   
-| Eric DeBloois  |                         |           |   
-| Brandon Herrin |                         |           |   
+| Sprint 2       |                                     |           |   
+|----------------|-------------------------------------|-----------|
+| High Level     |                                     |           |   
+| Name           | Job                                 | Time(hrs) |   
+| Nate Stott     | platform / editing                  | 5         |   
+| Emma Wright    | Internal Interfaces/UML             | 4.5       |   
+| Daniel Barfuss | Security                            | 2         |   
+| Brighton Ellis | Security                            | 2         |   
+| Nate McKenzie  | Database & Reports                  | 4.5       |   
+| Eric DeBloois  | Figma Prototype                     | 2.5       |   
+| Brandon Herrin | Editing                             | 2.0       |   
+| Low Level      |                                     |           |   
+| Name           | Job                                 | Time(hrs) |   
+| Nate Stott     | Backend - API,                      | 3         |   
+| Emma Wright    | Middleman, Classes                  | 0.75      |   
+| Daniel Barfuss |                                     |           |   
+| Brighton Ellis | Frontend - UI/UX                    | 1.75      |   
+| Nate McKenzie  | Backend - Database, Migrations, URL | 2         |   
+| Eric DeBloois  |                                     |           |   
+| Brandon Herrin |                                     |           |   
 
 | Sprint 3       |     |           |   
 |----------------|-----|-----------|
