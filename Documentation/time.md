@@ -26,7 +26,7 @@
 | Emma Wright    | Middleman, Classes      | 0.75      |   
 | Daniel Barfuss |                         |           |   
 | Brighton Ellis | Frontend - UI/UX        | 1.75      |   
-| Nate McKenzie  | Backend - Database,     | 2         |   
+| Nate McKenzie  | Backend - Database, Migrations, URL| 2         |   
 | Eric DeBloois  |                         |           |   
 | Brandon Herrin |                         |           |   
 

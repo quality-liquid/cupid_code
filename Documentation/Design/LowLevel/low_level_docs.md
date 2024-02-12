@@ -106,12 +106,31 @@ A view function will not interact with the database or external APIs directly.
 This allows us to change the way we handle the database or external APIs without changing the view functions.
 
 -----------
-### Django URL Design
+### Django URL Design (Nate M)
 
 What urls will we need? What views will they map to?
+|   URL      |   Method |   Notes   |
+|------------|----------|-----------|
+|   /        |  GET     |           |
+|   /login/  |  GET     |           |
+|   /login/  |  POST    |           |
+|   /signup/ |  GET     |           |
+|   /signup/ |  POST    |           |
+|   /home/   |  GET     | (SPA home)|
+
+#### API URLs
+|   URL      |   Method |   Notes   |
+|------------|----------|-----------|
+|   /user/                      |   POST    |
+|   /user/<int:id>              |   GET     |
+|   /chat/                      |   POST    |
+|   /quest/create/              |   POST    |
+|   /quest/accept/<int:id>      |   POST    |
+|   /quest/complete/<int:id>    |   POST    |
+
 
 -----------
-### Django View Functions Design
+### Django View Functions Design (Nate M)
 
 What views will we need? What will they do? What will they take in? What will they return? What internal APIs will they use?
 
@@ -344,9 +363,10 @@ What views will we need? What will they do? What will they take in? What will th
       * If the notification is not sent, return an error message
 
 -----------
-### Django Models
+### Django Models (Nate M)
+Each model will correspond to a table. Bold denotes unique identifiers. Django may provide an ID, but in the case of OneToOne fields, we may more often use those relationships.
 * Dater
-    * User : OneToOne Field (As provided by Django)
+    * **User : OneToOne Field (As provided by Django)**
     * Phone Number : Text Field (validate user input)
     * Cupid Cash Balance : Decimal Field
     * Budget : Decimal Field
@@ -362,7 +382,7 @@ What views will we need? What will they do? What will they take in? What will th
         * Relationship goals : Text Field
         * Degree of AI assistance : Integer Field
 * Cupid
-    * User : OneToOne Field (As provided by Django)
+    * **User : OneToOne Field (As provided by Django)**
     * isActive : Boolean Field (Is cupid accepting interventions)
     * Location : //TODO (GeoDjango or use Text Field for whatever API we use)
     * Cupid Cash Balance : Decimal Field
@@ -374,6 +394,7 @@ What views will we need? What will they do? What will they take in? What will th
     * Payment //TODO (probably will become multiple fields)
     * Status : Text Choices
 * Message
+    * **id : Auto Field**
     * Owner : Foreign Key (User)
     * Text : Text Field
     * fromAI : Boolean Field (Indicates which side of the convo this message belongs to)
@@ -381,6 +402,7 @@ What views will we need? What will they do? What will they take in? What will th
     * User : OneToOne Field (As provided by Django)
     * //TODO surely there is more than just a user
 * Intervention Request
+    * **id : Auto Field**
     * Dater : Foreign Key
     * Cupid : Foreign Key (nullable, may not be assigned to cupid yet)
     * Quest : OneToOne Field
@@ -389,10 +411,11 @@ What views will we need? What will they do? What will they take in? What will th
     * DateTime of claim : DateTime Field
     * DateTime of completion : DateTime Field
 * Quest (separate for modularity)
-    * Intervention : *Established by OneToOne Field on Quest*
+    * **Intervention : *Established by OneToOne Field on Quest***
     * Budget : Decimal Field
     * Items Requested : //TODO simplest would be a string, but if we get more advanced that will change.
 * Date
+    * **id : Auto Field**
     * Dater : Foreign Key
     * Date & Time : DateTime Field
     * Location : //TODO see above
@@ -400,6 +423,7 @@ What views will we need? What will they do? What will they take in? What will th
     * Status : Text Choices //TODO all these choices could be argued as int choices
     * Budget : Decimal Field
 * Feedback
+    * **id : Auto Field**
     * User : Foreign Key (can be a cupid or dater as both have a OneToOne user)
     * Intervention Request : Foreign Key
     * Message : Text Field
@@ -408,7 +432,7 @@ What views will we need? What will they do? What will they take in? What will th
 
 
 -----------
-### Django Migrations
+### Django Migrations (Nate M)
 
 What migrations will we need? What will they do?
 
