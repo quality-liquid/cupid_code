@@ -105,7 +105,10 @@ A view function will be able to complete the requested task by using the availab
 A view function will not interact with the database or external APIs directly.
 This allows us to change the way we handle the database or external APIs without changing the view functions.
 
------------
+### Django Project Structure (Nate S)
+
+What will the project structure look like? What will the files be named? What will the directories be named?
+
 ### Django URL Design (Nate M)
 
 What urls will we need? What views will they map to?
@@ -119,23 +122,21 @@ What urls will we need? What views will they map to?
 |   /home/   |  GET     | (SPA home)|
 
 #### API URLs
-|   URL      |   Method |   Notes   |
-|------------|----------|-----------|
-|   /user/                      |   POST    |
-|   /user/<int:id>              |   GET     |
-|   /chat/                      |   POST    |
-|   /quest/create/              |   POST    |
-|   /quest/accept/<int:id>      |   POST    |
-|   /quest/complete/<int:id>    |   POST    |
+| URL                      | Method | Notes |
+|--------------------------|--------|-------|
+| /user/                   | POST   |
+| /user/<int:id>           | GET    |
+| /chat/                   | POST   |
+| /quest/create/           | POST   |
+| /quest/accept/<int:id>   | POST   |
+| /quest/complete/<int:id> | POST   |
 
 
------------
 ### Django View Functions Design (Nate M)
 
 What views will we need? What will they do? What will they take in? What will they return? What internal APIs will they use?
 
------------
-### Internal API Design
+### Internal API Design (Nate S)
 
 * Implement with the Django Rest Framework
   * https://www.django-rest-framework.org/tutorial/quickstart/
@@ -362,7 +363,6 @@ What views will we need? What will they do? What will they take in? What will th
       * If the notification is sent, return a success message
       * If the notification is not sent, return an error message
 
------------
 ### Django Models (Nate M)
 Each model will correspond to a table. Bold denotes unique identifiers. Django may provide an ID, but in the case of OneToOne fields, we may more often use those relationships.
 * Dater
@@ -430,65 +430,22 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
     * Star Rating : Integer Field (bound to 1-5)
     * DateTime : DateTime Field 
 
-
------------
+    
 ### Django Migrations (Nate M)
 
 What migrations will we need? What will they do?
 
------------
 ### Django Settings
 
 How will we configure the settings?
 
------------
 ### Django Admin
 
 How will we use the Django admin?
 
------------
 ### Unit Tests
 
 What will we test? How will we test it?
 
 * Django debug toolbar
   * https://django-debug-toolbar.readthedocs.io/en/latest/
-
------------
-### Relationships
-
-* User
-  * General user class w/ email, username, password, etc.
-  * Possibly use the default User in Django?
-
-
-* Dater
-  * Inherit from User and have sensitive data related to dater here only
-    * This would include preferences & personal info
-
-* Cupid
-  * Inherit from User and have sensitive data related to cupid here only
-    * Includes personal info for finding gigs
-
-
-* Manager
-  * Possibly implement the Django admin class?
-  * Or inherit from a gen user class?
-    * Composition lets you take objects of other classes and use them here so maybe that will work better than inheritance here
-
-* AI Chat
-  * Many-to-one relationship w/ Dater? 
-  * Store chat ids and stuff
-
-* Gigs
-  * Store and display gigs sent to server by the AI?
-  * Many-to-many relationship since many gigs can be shown to many cupids
-
-* Budget
-  * One to One relationship with a Dater
-  * Encrypted since it'll be sensitive data
-  * Leave monetary stuff separate from dater acc for abstraciton & security
-
-* Finances
-  * Similar to budget but for cupids
-  * Same relationship and reason but won't hold the same type of info since it'll be payment to the cupid
