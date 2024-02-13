@@ -72,7 +72,9 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 * Unit tests
 
 -----------
-### Branching Strategy
+### Team Conventions and Standards
+
+#### Branching Conventions
 
 * Master 
   * what we are showing
@@ -84,6 +86,29 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
   * what we are working on
 * Features 
   * new features for the development branch
+
+#### Naming Conventions
+
+How will we name our files, directories, variables, functions, classes, etc.?
+
+#### Coding Standards
+
+How will we format our code?
+How long can a line be? 
+How long can a function be?
+Will we use type hints?
+When nesting code how many levels deep can we go?
+
+#### Commenting Standards
+
+When will we use comments? 
+When will we use docstrings?
+How will we format our comments? 
+How will we format our docstrings?
+
+#### Testing Standards
+
+How will we test our code? What will we test? How will we document our tests?
 
 -----------
 ## Frontend Design
@@ -220,14 +245,19 @@ This allows us to change the way we handle the database or external APIs without
 What will the project structure look like? What will the files be named? What will the directories be named?
 
 * cupid_code/
-  * main/
+  * cupid_code/
     * settings.py
     * urls.py
     * wsgi.py
   * app/
     * migrations/
     * static/
+      * favicon.ico
     * templates/
+      * app/
+        * home.html
+        * login.html
+        * signup.html
     * admin.py
     * apps.py
     * models.py
@@ -572,15 +602,15 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
     
 ### Django Migrations (Nate M)
 
-What migrations will we need? What will they do?
+What migrations will we need? What will they be used for?
 
 ### Django Settings
 
-How will we configure the settings?
+How will we configure the settings.py file?
 
 ### Django Admin
 
-How will we use the Django admin?
+How will we use the Django admin site?
 
 ### Unit Tests
 
