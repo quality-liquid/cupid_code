@@ -113,29 +113,32 @@ How will we test our code? What will we test? How will we document our tests?
 -----------
 ## Frontend Design
 
-Security
+### Security
 
-UI
+### UI
 
-UX
+### UX
 
-Templates
+### Templates
 
-Testing
+### Testing
 
 -----------
 ## Connecting Vue and Django
+
 The main method we will be implementing will be using these tools: Vite, NPM, and Poetry. 
 The frontend will be setup using npm for vite and vue. The backend using poetry for django.
 
 #### Poetry
+
 * Python 3.11+
 * Django 5.0.2+
 * Requests 2.31.0+
 * Python-dotenv 1.0.1+
 
 #### Vite Config
-```js
+
+``` javascript
   plugins: [vue()],
   build: {
     manifest: true,
@@ -147,33 +150,40 @@ The frontend will be setup using npm for vite and vue. The backend using poetry 
   base: "/static"
 ```
 #### NPM
+
 * Vue 3.3.11+
-* Cookie 0.6.0+ 
+* Cookie 0.6.0+
+
 #### Serverside
 
 *Note: Before doing this, make sure you've started a vite project, django project and started at least one app in the django project*
 
 ##### Files to Add
+
 * middleware.py in core app
 * .env & .env.example in server directory
 * templates/core folder with an index.html file in core app
 
 ##### Environment
+
 * Add "ASSET_URL=http://localhost:5173" to both.
 * Change the url to whatever the client is hosted on.
 * Port 5173 is the default of vite so we'll be using that.
 
 ##### Middleware
+
 * Add the asset middleware here
 * We already have a written one
 
 ##### In Server Settings
+
 * Import load_dotenv from dotenv (python-dotenv)
 * Add a Debug check for asset middleware:
   * if DEBUG: MIDDLEWARE.append('core.middleware.asset_proxy_middleware')
   * Note: This is the middleware we added/wrote earlier
 
 ##### In Core views.py
+
 * Import django.conf settings, json, and os
 * Create the MANIFEST variable ({}) and setup loading the manifest.
 * Create the index view
@@ -186,6 +196,7 @@ The frontend will be setup using npm for vite and vue. The backend using poetry 
   * return a render of the request, index.html, and the context.
 
 ##### In Core index.html
+
   * Generate a default, basic html file
   * Using Django Template, add an if/else statement to the head tag.
     * If debug
@@ -200,8 +211,8 @@ The frontend will be setup using npm for vite and vue. The backend using poetry 
 For running the server by default, you won't need to add anything. However, if you want to make some actual requests then this is where Cookie comes in. 
 Add a utils folder in your src folder, and make a file called make_requests.js here. Here you'll write a function to send and receive json from the server.
 
-Psuedocode
-```
+Pseudocode
+``` python
 import cookie
 
 makeRequest(uri, method, body):
@@ -214,7 +225,7 @@ makeRequest(uri, method, body):
   json = the result's json
   return the json
 ```
-```
+``` python
 import requests, os, and an http response tool
 
 assetMiddleware(next):
@@ -278,25 +289,25 @@ What will the project structure look like? What will the files be named? What wi
 
 ### Django URL Design (Nate M)
 
-What urls will we need? What views will they map to?
-|   URL      |   Method |   Notes   |
-|------------|----------|-----------|
-|   /        |  GET     |           |
-|   /login/  |  GET     |           |
-|   /login/  |  POST    |           |
-|   /signup/ |  GET     |           |
-|   /signup/ |  POST    |           |
-|   /home/   |  GET     | (SPA home)|
+| URL      | Method | Notes      |
+|----------|--------|------------|
+| /        | GET    |            |
+| /login/  | GET    |            |
+| /login/  | POST   |            |
+| /signup/ | GET    |            |
+| /signup/ | POST   |            |
+| /home/   | GET    | (SPA home) |
 
 #### API URLs
+
 | URL                      | Method | Notes |
 |--------------------------|--------|-------|
-| /user/                   | POST   |
-| /user/<int:id>           | GET    |
-| /chat/                   | POST   |
-| /quest/create/           | POST   |
-| /quest/accept/<int:id>   | POST   |
-| /quest/complete/<int:id> | POST   |
+| /user/                   | POST   |       |
+| /user/<int:id>           | GET    |       |
+| /chat/                   | POST   |       |
+| /quest/create/           | POST   |       |
+| /quest/accept/<int:id>   | POST   |       |
+| /quest/complete/<int:id> | POST   |       |
 
 
 ### Django View Functions Design (Nate M)
