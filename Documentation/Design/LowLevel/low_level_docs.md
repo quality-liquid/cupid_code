@@ -88,8 +88,118 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 -----------
 ## Frontend Design
 
+Security
+
+UI
+
+UX
+
+Templates
+
+Testing
+
+-----------
+## Connecting Vue and Django
+The main method we will be implementing will be using these tools: Vite, NPM, and Poetry. 
+The frontend will be setup using npm for vite and vue. The backend using poetry for django.
+
+#### Poetry
+* Python 3.11+
+* Django 5.0.2+
+* Requests 2.31.0+
+* Python-dotenv 1.0.1+
+
+#### Vite Config
+```js
+  plugins: [vue()],
+  build: {
+    manifest: true,
+    rollupOptions: {
+      input: "./src/main.js"
+    },
+    outDir: "../<server>/core/static/core"
+  },
+  base: "/static"
+```
+#### NPM
+* Vue 3.3.11+
+* Cookie 0.6.0+ 
+#### Serverside
+
+*Note: Before doing this, make sure you've started a vite project, django project and started at least one app in the django project*
+
+##### Files to Add
+* middleware.py in core app
+* .env & .env.example in server directory
+* templates/core folder with an index.html file in core app
+
+##### Environment
+* Add "ASSET_URL=http://localhost:5173" to both.
+* Change the url to whatever the client is hosted on.
+* Port 5173 is the default of vite so we'll be using that.
+
+##### Middleware
+* Add the asset middleware here
+* We already have a written one
+
+##### In Server Settings
+* Import load_dotenv from dotenv (python-dotenv)
+* Add a Debug check for asset middleware:
+  * if DEBUG: MIDDLEWARE.append('core.middleware.asset_proxy_middleware')
+  * Note: This is the middleware we added/wrote earlier
+
+##### In Core views.py
+* Import django.conf settings, json, and os
+* Create the MANIFEST variable ({}) and setup loading the manifest.
+* Create the index view
+  * Create context:
+    * asset_url: Use os to get the ASSET_URL from .env
+    * debug: Use settings to get the debug
+    * manifest: MANIFEST variable
+    * js_file: Set to emptry string is in debug mode otherwise set to the manifest file
+    * css_file: Follow same protocol as js_file.
+  * return a render of the request, index.html, and the context.
+
+##### In Core index.html
+  * Generate a default, basic html file
+  * Using Django Template, add an if/else statement to the head tag.
+    * If debug
+      * Two scripts. One points to /@vite/client and one points to src/main.js
+        * These will point towards the asset_url from the view as well
+      * The else will hold a link and a script using the css and js file from the manifest
+  * Add an empty div with id "app" do the body tag. This will connect it to vue's "app" div in its generated index.html file.
 
 
+#### Clientside
+
+For running the server by default, you won't need to add anything. However, if you want to make some actual requests then this is where Cookie comes in. 
+Add a utils folder in your src folder, and make a file called make_requests.js here. Here you'll write a function to send and receive json from the server.
+
+Psuedocode
+```
+import cookie
+
+makeRequest(uri, method, body):
+  cookies = parse the cookies 
+  options = create a dictionary of what to send to server
+    method, headers, credentials
+  if the method is post then turn the body into valid JSON
+
+  result = fetch to serverside
+  json = the result's json
+  return the json
+```
+```
+import requests, os, and an http response tool
+
+assetMiddleware(next):
+middleware(req):
+  if there is a .in the path:
+    set response to the asset url with full path
+    return a response (consists of the response, content type, status, and reason)
+  return next in chain
+return middleware
+```
 
 -----------
 ## Backend Design
