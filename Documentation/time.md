@@ -29,8 +29,6 @@
 | Nate McKenzie  | Backend - DB, Migration, URLs       | 3.5       |   
 | Eric DeBloois  |                                     |           |   
 | Brandon Herrin |                                     |           |   
-| Eric DeBloois  |                                     |           |   
-| Brandon Herrin |                                     |           |   
 
 | Sprint 3       |     |           |   
 |----------------|-----|-----------|
