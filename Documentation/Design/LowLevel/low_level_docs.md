@@ -109,6 +109,7 @@ This allows us to change the way we handle the database or external APIs without
 ### Django URL Design (Nate M)
 
 What urls will we need? What views will they map to?
+
 |   URL      |   Method |   Notes       |
 |------------|----------|---------------|
 |   /        |  GET     | Welcome       |
@@ -122,6 +123,7 @@ What urls will we need? What views will they map to?
 //TODO: Should POST requests have id integrated or in url
 //TODO: Should daters and cupids be more related (both have ratings)
 #### API URLs
+
 |   URL                         |   Method  |   Notes                       |
 |-------------------------------|-----------|-------------------------------|
 |   /user/                      |   POST    | Create user                   |
@@ -463,6 +465,28 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
 ### Django Migrations (Nate M)
 
 What migrations will we need? What will they do?
+
+#### Dummy Daters
+* username:dater1, password:password, 200 cupid coin balance, budget of 50
+* username:dater2, password:password, 20 cupid coin balance, budget of 50
+#### Dummy Cupids
+* username:cupid1, password:password, 54 completed interventions, 12 failed
+* username:cupid2, password:password, 4 completed interventions, 16 failed
+#### Dummy Manager
+* username:manager, password:password
+#### Dummy messages
+* Create a few dummy conversation for each dater.
+#### Dummy Interventions
+* Unclaimed intervention with a unique quest
+* Unclaimed intervention with a unique quest
+* Claimed intervention
+#### Dummy Dates
+* A dummy location, date is june 17th so it will never come during this semester.
+#### Feedback
+* A couple positive reviews for each cupid
+* A couple negative reviews for each cupid
+* A couple positive reviews for each dater
+* A couple negative reviews for each dater
 
 -----------
 ### Django Settings
