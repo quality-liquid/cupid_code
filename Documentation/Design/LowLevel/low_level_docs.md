@@ -543,6 +543,94 @@ What views will we need? What will they do? What will they take in? What will th
       * If the notification is sent, return a success message
       * If the notification is not sent, return an error message
 
+#### How to build an internal API
+
+* Create a new app in the project
+``` 
+$ python manage.py startapp api
+```
+
+* In the project settings.py file, add the following to the INSTALLED_APPS list:
+  * 'rest_framework'
+  * 'api'
+``` python
+INSTALLED_APPS = [
+    ...
+    'rest_framework',
+    'api',
+    ...
+]
+```
+
+* In the api's models.py file, create the models that will be used by the API
+  * In the api's serializers.py file, create the serializers that will be used by the API (serializers are used to convert model instances to JSON)
+  * In the UserSerializer class, have fields for the attributes of the User model that will be returned in the JSON response 
+    * dont include confidential information like passwords
+    * this will be the outward facing representation of the user while the model will be the internal representation
+``` python
+from rest_framework import serializers
+from .models import User
+
+class UserSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    username = serializers.CharField(max_length=100)
+    email = serializers.EmailField()
+```
+
+* In the api's views.py file, create the views that will be used by the API
+``` python
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .models import User
+from .serializers import UserSerializer
+
+@api_view(['GET'])
+def user_list(request):
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
+    
+@api_view(['GET'])
+def user_detail(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
+    
+@api_view(['POST'])
+def user_create(request):
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+```
+
+* In the api's urls.py file, create the URLs that will be used by the API
+``` python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('user/', views.user_list),
+    path('user/<int:pk>/', views.user_detail),
+    path('user/create/', views.user_create),
+]
+```
+
+* In the project's urls.py file, include the api's urls
+``` python
+from django.urls import path, include
+
+urlpatterns = [
+    ...
+    path('api/', include('api.urls')),
+]
+```
+
 ### Django Models (Nate M)
 Each model will correspond to a table. Bold denotes unique identifiers. Django may provide an ID, but in the case of OneToOne fields, we may more often use those relationships.
 * Dater
