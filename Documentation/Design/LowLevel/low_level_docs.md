@@ -289,28 +289,56 @@ What will the project structure look like? What will the files be named? What wi
 
 ### Django URL Design (Nate M)
 
-| URL      | Method | Notes      |
-|----------|--------|------------|
-| /        | GET    |            |
-| /login/  | GET    |            |
-| /login/  | POST   |            |
-| /signup/ | GET    |            |
-| /signup/ | POST   |            |
-| /home/   | GET    | (SPA home) |
+|   URL      |   Method |   Notes       |
+|------------|----------|---------------|
+|   /        |  GET     | Welcome       |
+|   /login/  |  GET     | Login page    |
+|   /login/  |  POST    | Send form     |
+|   /signup/ |  GET     | Signup page   |
+|   /signup/ |  POST    | Send form     |
+|   /home/   |  GET     | SPA home      |
+|            |          |               |
 
+//TODO: Should POST requests have id integrated or in url
+//TODO: Should daters and cupids be more related (both have ratings)
 #### API URLs
 
-| URL                      | Method | Notes |
-|--------------------------|--------|-------|
-| /user/                   | POST   |       |
-| /user/<int:id>           | GET    |       |
-| /chat/                   | POST   |       |
-| /quest/create/           | POST   |       |
-| /quest/accept/<int:id>   | POST   |       |
-| /quest/complete/<int:id> | POST   |       |
+|  URL                          |   Method  |   Notes                       |
+|-------------------------------|-----------|-------------------------------|
+|   /user/                      |   POST    | Create user                   |
+|   /user/<int:id>/             |   GET     | Get user data                 |
+|   /user/<int:id>/             |   POST    | Update user data              |
+|   /chat/                      |   POST    | Send message                  |
+|   /intervention/create/       |   POST    | Create intervention           |
+|   /intervention/accept/       |   POST    | Accept intervention           |
+|   /intervention/complete/     |   POST    | Complete intervention         |
+|   /intervention/<int:count>/  |   GET     | Return a list of count quests |
+|   /geo/stores/                |   GET     | List of nearby stores         |
+|   /geo/activities/            |   GET     | Nearby activities             |
+|   /geo/events/                |   GET     | Nearby events                 |
+|   /geo/attractions/           |   GET     | Nearby attractions            |
+|   /geo/user/<int:id>/         |   GET     | Get a user's location         |
+|   /cupid/rate/                |   POST    | Send a cupd rating            |
+|   /cupid/ratings/             |   GET     | Get list of cupid's ratings   |
+|   /cupid/avg_rating/          |   GET     | Get cupid's average rating    |
+|   /cupid/transfer/            |   POST    | Initiate transfer out         |
+|   /cupid/balance/             |   GET     | Get account balance           |
+|   /dater/calendar/            |   GET     | Get the dater's cal           |
+|   /dater/rate/                |   POST    | Send a dater rating           |
+|   /dater/ratings/             |   GET     | Get list of dater's ratings   |
+|   /dater/avg_rating/          |   GET     | Get dater's average rating    |
+|   /manager/dater_count/       |   GET     | Manager reports               |
+|   /manager/cupid_count/       |   GET     | Manager reports               |
+|   /manager/active_cupids/     |   GET     | Manager reports               |
+|   /manager/intervention_rate/ |   GET     | Manager reports               |
+|   /stt/                       |   POST    | Convert speech to text        |
+|   /sms/                       |   POST    | Send a text message           |
+|   /email/                     |   POST    | Send an email message         |
+|                               |           |                               |
 
 
-### Django View Functions Design (Nate M)
+-----------
+### Django View Functions Design (Daniel)
 
 What views will we need? What will they do? What will they take in? What will they return? What internal APIs will they use?
 
@@ -640,6 +668,7 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
     * Budget : Decimal Field
     * Communication preferences : IntegerChoices
     * Profile Picture : Image Field 
+    * Average Rating : Decimal Field
     * Text available to AI
         * Description of self : Text Field
         * Dating strengths : Text Field
@@ -703,17 +732,74 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
 
 What migrations will we need? What will they be used for?
 
-### Django Settings
+#### Dummy Daters
+* username:dater1, password:password, 200 cupid coin balance, budget of 50
+* username:dater2, password:password, 20 cupid coin balance, budget of 50
+#### Dummy Cupids
+* username:cupid1, password:password, 54 completed interventions, 12 failed
+* username:cupid2, password:password, 4 completed interventions, 16 failed
+#### Dummy Manager
+* username:manager, password:password
+#### Dummy messages
+* Create a few dummy conversation for each dater.
+#### Dummy Interventions
+* Unclaimed intervention with a unique quest
+* Unclaimed intervention with a unique quest
+* Claimed intervention
+#### Dummy Dates
+* A dummy location, date is june 17th so it will never come during this semester.
+#### Feedback
+* A couple positive reviews for each cupid
+* A couple negative reviews for each cupid
+* A couple positive reviews for each dater
+* A couple negative reviews for each dater
 
-How will we configure the settings.py file?
+### Django Settings (Daniel)
 
-### Django Admin
+The settings.py file is used to apply settings to the entire Django project. Here are the current additions to the settings.py file that are included beyond the base settings:
 
-How will we use the Django admin site?
+**Admin Allowed in INSTALLED_APPS**
 
-### Unit Tests
+The INSTALLED_APPS lists Django applications that are enabled in this project. To include the ability to have admins, this app is included in the list:
 
-What will we test? How will we test it?
+`django.contrib.admin`
+
+
+### Django Admin (Daniel)
+
+The Django admin site adds the possibility to have admin accounts with levels of management and control. The main functions this account can provide are the following:
+* Easy creation, management, and deletion of user accounts
+* Easy creation, management, and deletion of data
+* Easy adjustment to permissions on user accounts
+* Ability to export data (if needed)
+* Logging and history of changes made to data
+
+There are some concerns with the admin site and admin accounts. These include:
+* Security concerns if an admin account is compromised (bad actor would have access to admin tools)
+* Heavy resource usage when modifying accounts or data
+
+To address these concerns, admins may be enforced to have strong passwords (12+ characters, including special characters, numbers, and a mix of lower and upper case characters). Then admin accounts may be used during times when the software experiences the least amount of activity to do intensive work (except for emergencies).
+
+
+### Unit Tests (Daniel)
+
+We will create unit tests to ensure that the software performs as expected. We will also ensure that security measures are in place to prevent improper usage of the software and protect user data, including Personal Identifiable Information (PII). 
+
+These unit tests will consist of the following:
+
+**Check that user input is sanitized**
+
+*Execution:* Attempt inserting a line of code or SQL query to see if it executes.
+
+*Purpose:* Make sure that data cannot be exfiltrated and code cannot be injected and ran to compromise data. 
+
+**Check that users cannot access pages or chat history that they are not owners of**
+
+*Execution:* Use the URL to attempt to navigate to pages that the user would not own.
+
+*Purpose:* Make sure that users cannot get access to information of other users, and check that users cannot do anything under the account of another user.
+
+
 
 * Django debug toolbar
   * https://django-debug-toolbar.readthedocs.io/en/latest/
