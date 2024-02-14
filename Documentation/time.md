@@ -3,7 +3,7 @@
 | Name           | Job                     | Time(hrs) |  
 | Nate Stott     | functional requiremnts  | 3.5       |   
 | Emma Wright    | User Stories/Reqs       | 3.5       |  
-| Daniel Barfuss |                         | 4         |  
+| Daniel Barfuss | Solution Statement, editing                                    | 4         |  
 | Brighton Ellis |                         | 2.5       |   
 | Nate McKenzie  | Problem Statement       | 3.5       |   
 | Eric DeBloois  | UML                     | 4         |   
@@ -24,7 +24,7 @@
 | Name           | Job                                 | Time(hrs) |   
 | Nate Stott     | Backend - API,                      | 3         |   
 | Emma Wright    | Middleman, Classes                  | 0.75      |   
-| Daniel Barfuss |                                     |           |   
+| Daniel Barfuss | Backend - Security, Unit Tests, Django Admin & Settings, View functions                                    | 4          |   
 | Brighton Ellis | Frontend - UI/UX                    | 1.75      |   
 | Nate McKenzie  | Backend - DB, Migration, URLs       | 3.5       |   
 | Eric DeBloois  |                                     |           |   
