@@ -287,27 +287,25 @@ What will the project structure look like? What will the files be named? What wi
   * manage.py
   * db.sqlite3
 
-### Django URL Design (Nate M)
+### Outward Facing Endpoints 
 
 |   URL      |   Method |   Notes       |
 |------------|----------|---------------|
-|   /        |  GET     | Welcome       |
+|   /welcome/|  GET     | Welcome       |
 |   /login/  |  GET     | Login page    |
 |   /login/  |  POST    | Send form     |
 |   /signup/ |  GET     | Signup page   |
 |   /signup/ |  POST    | Send form     |
-|   /home/   |  GET     | SPA home      |
+|   /        |  GET     | SPA home      |
 |            |          |               |
 
-//TODO: Should POST requests have id integrated or in url
-//TODO: Should daters and cupids be more related (both have ratings)
-#### API URLs
+### Internal Endpoints
 
 |  URL                          |   Method  |   Notes                       |
 |-------------------------------|-----------|-------------------------------|
 |   /user/                      |   POST    | Create user                   |
 |   /user/<int:id>/             |   GET     | Get user data                 |
-|   /user/<int:id>/             |   POST    | Update user data              |
+|   /user/                      |   POST    | Update user data              |
 |   /chat/                      |   POST    | Send message                  |
 |   /intervention/create/       |   POST    | Create intervention           |
 |   /intervention/accept/       |   POST    | Accept intervention           |
@@ -320,13 +318,13 @@ What will the project structure look like? What will the files be named? What wi
 |   /geo/user/<int:id>/         |   GET     | Get a user's location         |
 |   /cupid/rate/                |   POST    | Send a cupd rating            |
 |   /cupid/ratings/             |   GET     | Get list of cupid's ratings   |
-|   /cupid/avg_rating/          |   GET     | Get cupid's average rating    |
+|   /cupid/avg_rating/<int:id>/ |   GET     | Get cupid's average rating    |
 |   /cupid/transfer/            |   POST    | Initiate transfer out         |
 |   /cupid/balance/             |   GET     | Get account balance           |
-|   /dater/calendar/            |   GET     | Get the dater's cal           |
+|   /dater/calendar/<int:id>/   |   GET     | Get the dater's cal           |
 |   /dater/rate/                |   POST    | Send a dater rating           |
-|   /dater/ratings/             |   GET     | Get list of dater's ratings   |
-|   /dater/avg_rating/          |   GET     | Get dater's average rating    |
+|   /dater/ratings/<int:id>/    |   GET     | Get list of dater's ratings   |
+|   /dater/avg_rating/ <int:id>/|   GET     | Get dater's average rating    |
 |   /manager/dater_count/       |   GET     | Manager reports               |
 |   /manager/cupid_count/       |   GET     | Manager reports               |
 |   /manager/active_cupids/     |   GET     | Manager reports               |
@@ -664,7 +662,6 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
 * Dater
     * **User : OneToOne Field (As provided by Django)**
     * Phone Number : Text Field (validate user input)
-    * Cupid Cash Balance : Decimal Field
     * Budget : Decimal Field
     * Communication preferences : IntegerChoices
     * Profile Picture : Image Field 
@@ -678,18 +675,27 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
         * Type of nerd : Text Field
         * Relationship goals : Text Field
         * Degree of AI assistance : Integer Field
+    //TODO: Make a decision and do it.
+    * Common with Cupid (May implement another table to create this relationship)
+        * Cupid Cash Balance : Decimal Field
+        * Location : Text Field (Containing geo coordinates?) 
+        * Average Rating : Decimal Field
+        * Date Joined : Date Field
+        * Last Active : DateTime Field
+ 
 * Cupid
     * **User : OneToOne Field (As provided by Django)**
     * isActive : Boolean Field (Is cupid accepting interventions)
-    * Location : //TODO (GeoDjango or use Text Field for whatever API we use)
-    * Cupid Cash Balance : Decimal Field
-    * Average Rating : Decimal Field
     * Total interventions completed : Integer Field
     * Total interventions failed : Integer Field
-    * Date Joined : Date Field
-    * Last Active : DateTime Field
-    * Payment //TODO (probably will become multiple fields)
+    * Payment : Text Field with payment info (encrypted) 
     * Status : Text Choices
+    * Common with Dater (May implement another table to create this relationship)
+        * Cupid Cash Balance : Decimal Field
+        * Location : Text Field (Containing geo coordinates?) 
+        * Average Rating : Decimal Field
+        * Date Joined : Date Field
+        * Last Active : DateTime Field
 * Message
     * **id : Auto Field**
     * Owner : Foreign Key (User)
@@ -697,7 +703,6 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
     * fromAI : Boolean Field (Indicates which side of the convo this message belongs to)
 * Manager
     * User : OneToOne Field (As provided by Django)
-    * //TODO surely there is more than just a user
 * Intervention Request
     * **id : Auto Field**
     * Dater : Foreign Key
@@ -710,14 +715,14 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
 * Quest (separate for modularity)
     * **Intervention : *Established by OneToOne Field on Quest***
     * Budget : Decimal Field
-    * Items Requested : //TODO simplest would be a string, but if we get more advanced that will change.
+    * Items Requested : Text Field 
 * Date
     * **id : Auto Field**
     * Dater : Foreign Key
     * Date & Time : DateTime Field
-    * Location : //TODO see above
+    * Location : Text Field (Containing geo coordinates?) 
     * Description : Text Field
-    * Status : Text Choices //TODO all these choices could be argued as int choices
+    * Status : Text Choices
     * Budget : Decimal Field
 * Feedback
     * **id : Auto Field**
