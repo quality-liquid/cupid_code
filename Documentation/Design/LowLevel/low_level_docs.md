@@ -338,7 +338,7 @@ What will the project structure look like? What will the files be named? What wi
 
 
 -----------
-### Django View Functions Design 
+### Django View Functions Design (Daniel)
 
 What views will we need? What will they do? What will they take in? What will they return? What internal APIs will they use?
 
@@ -666,17 +666,52 @@ What migrations will we need? What will they be used for?
 * A couple positive reviews for each dater
 * A couple negative reviews for each dater
 
-### Django Settings
+### Django Settings (Daniel)
 
-How will we configure the settings.py file?
+The settings.py file is used to apply settings to the entire Django project. Here are the current additions to the settings.py file that are included beyond the base settings:
 
-### Django Admin
+**Admin Allowed in INSTALLED_APPS**
 
-How will we use the Django admin site?
+The INSTALLED_APPS lists Django applications that are enabled in this project. To include the ability to have admins, this app is included in the list:
 
-### Unit Tests
+`django.contrib.admin`
 
-What will we test? How will we test it?
+
+### Django Admin (Daniel)
+
+The Django admin site adds the possibility to have admin accounts with levels of management and control. The main functions this account can provide are the following:
+* Easy creation, management, and deletion of user accounts
+* Easy creation, management, and deletion of data
+* Easy adjustment to permissions on user accounts
+* Ability to export data (if needed)
+* Logging and history of changes made to data
+
+There are some concerns with the admin site and admin accounts. These include:
+* Security concerns if an admin account is compromised (bad actor would have access to admin tools)
+* Heavy resource usage when modifying accounts or data
+
+To address these concerns, admins may be enforced to have strong passwords (12+ characters, including special characters, numbers, and a mix of lower and upper case characters). Then admin accounts may be used during times when the software experiences the least amount of activity to do intensive work (except for emergencies).
+
+
+### Unit Tests (Daniel)
+
+We will create unit tests to ensure that the software performs as expected. We will also ensure that security measures are in place to prevent improper usage of the software and protect user data, including Personal Identifiable Information (PII). 
+
+These unit tests will consist of the following:
+
+**Check that user input is sanitized**
+
+*Execution:* Attempt inserting a line of code or SQL query to see if it executes.
+
+*Purpose:* Make sure that data cannot be exfiltrated and code cannot be injected and ran to compromise data. 
+
+**Check that users cannot access pages or chat history that they are not owners of**
+
+*Execution:* Use the URL to attempt to navigate to pages that the user would not own.
+
+*Purpose:* Make sure that users cannot get access to information of other users, and check that users cannot do anything under the account of another user.
+
+
 
 * Django debug toolbar
   * https://django-debug-toolbar.readthedocs.io/en/latest/
