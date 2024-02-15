@@ -91,20 +91,32 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 
 How will we name our files, directories, variables, functions, classes, etc.?
 
+lowerCamelCase for frontend/Vue
+underscore_naming for backend/Django
+
 #### Coding Standards
 
 How will we format our code?
-How long can a line be? 
+
+How long can a line be?
+  No horizontal scroll
+  Every line should only do 1 thing normally
 How long can a function be?
+  No limit but try to keep efficient
 Will we use type hints?
+  Yes, for python
 When nesting code how many levels deep can we go?
 
 #### Commenting Standards
 
-When will we use comments? 
+When will we use comments?
+  Can make notes or use for testing, but clean up before merging
 When will we use docstrings?
+  Should annotate the I/O of a function
 How will we format our comments? 
+
 How will we format our docstrings?
+
 
 #### Testing Standards
 
@@ -114,12 +126,33 @@ How will we test our code? What will we test? How will we document our tests?
 ## Frontend Design
 
 ### Security
+  While a majority of the security will occur on the back, the front will do a little bit to ensure good data is being passed through. This will primarily be validating input and output. 
+  If there is bad input, we will visually inform the user of it with sufficient detail. This gives them the opportunity to change it and comply with our standards.
+  For example, if someone sends a chat to the AI, we will verify that there is no code injection or other malicious works inserted that would jeopardize the app. If bad input is given, we will inform the user (either via toast or other means) that something went wrong.
+  This will also be done for requests from the backend to make sure the given json is correct and valid. This can be done as simple as a check between who the frontend considers the user and who the backend considers the user. This could be done with ids or other unique keys.
+
+  This is the general format most of the asynchronous functions will follow for validating data before displaying it. 
+  ```
+  async function get<Data>() {
+    await the results from getting the profile 
+      - this will make a call to the external apis
+      - also will use the make requests function referenced in connection
+    validate the results
+      - if good, set the data to the on screen refs and rerender
+      - if bad, put up error on screen for user (toast or otherwise)
+  }
+  ```
 
 ### UI
 
 ### UX
 
 ### Templates
+  A majority of the frontend design will occur in View, but we will want to implement Django Templates for 2 cases. 
+    Case 1: A django template is needed to connect the back to the front.
+    Case 2: To protect the system, we can make the signing up/logging in its own Django app that will authenticate logging in so that you must be a verified user to use the rest of the app. This method will utilize the Django settings.py variables as well since you can tell it what the login page will be.
+
+  This won't deal with many of the external links since it will be an isolated app that's sole purpose is to add & validate users and redirect them based off of the type of account they are.
 
 ### Testing
 
