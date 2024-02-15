@@ -26,7 +26,7 @@
 | Emma Wright    | Middleman, Classes                  | 0.75      |   
 | Daniel Barfuss | Backend - Security, Unit Tests, Django Admin & Settings, View functions                                    | 4          |   
 | Brighton Ellis | Frontend - UI/UX                    | 1.75      |   
-| Nate McKenzie  | Backend - DB, Migration, URLs       | 3.5       |   
+| Nate McKenzie  | Backend - DB, Migration, URLs       | 5         |   
 | Eric DeBloois  |                                     |           |   
 | Brandon Herrin |                                     |           |   
 

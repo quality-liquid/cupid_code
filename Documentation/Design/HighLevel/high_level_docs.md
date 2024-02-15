@@ -451,7 +451,17 @@ By following these strategies, we can effectively manage the challenges of imple
     * owner
     * fromAI, indicates if this message is from AI or to AI
     * message
-10. Reports
+10. Payment Card
+   * This data is sensitive because it includes money information
+   * User
+   * Card Number
+   * CVV
+   * Expiration Information
+11. Bank Account
+   * This data is sensitive because it includes money information
+   * Routing Number
+   * Account Number
+12. Reports
    * Manager dashboard:
        * Revenue
        * Registered dater count

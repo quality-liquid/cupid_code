@@ -656,7 +656,7 @@ urlpatterns = [
 ]
 ```
 
-### Django Models (Nate M)
+### Django Models
 Each model will correspond to a table. Bold denotes unique identifiers. Django may provide an ID, but in the case of OneToOne fields, we will more often use those relationships.
 * Dater
     * **User : OneToOne Field (As provided by Django)**
@@ -674,10 +674,9 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
         * Type of nerd : Text Field
         * Relationship goals : Text Field
         * Degree of AI assistance : Integer Field
-    //TODO: Make a decision and do it.
-    * Common with Cupid (May implement another table to create this relationship)
+    * Common with Cupid
         * Cupid Cash Balance : Decimal Field
-        * Location : Text Field (Containing geo coordinates?) 
+        * Location : Text Field (Containing geo coordinates) 
         * Average Rating : Decimal Field
         * Date Joined : Date Field
         * Last Active : DateTime Field
@@ -689,9 +688,9 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
     * Total interventions failed : Integer Field
     * Payment : Text Field with payment info (encrypted) 
     * Status : Text Choices
-    * Common with Dater (May implement another table to create this relationship)
+    * Common with Dater
         * Cupid Cash Balance : Decimal Field
-        * Location : Text Field (Containing geo coordinates?) 
+        * Location : Text Field (Containing geo coordinates) 
         * Average Rating : Decimal Field
         * Date Joined : Date Field
         * Last Active : DateTime Field
@@ -715,6 +714,7 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
     * **Intervention : *Established by OneToOne Field on Quest***
     * Budget : Decimal Field
     * Items Requested : Text Field 
+    * Pickup location : Text Field (address or geolocation to get object from)
 * Date
     * **id : Auto Field**
     * Dater : Foreign Key
@@ -730,9 +730,18 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
     * Message : Text Field
     * Star Rating : Integer Field (bound to 1-5)
     * DateTime : DateTime Field 
-
+* Payment Card
+    * **User : Foreign Key (can be a cupid or dater as both have a OneToOne user)**
+    * Card Number : Text Field
+    * CVV : Text Field
+    * Expiration : Text Field
+* Bank Account
+    * **User : Foreign Key (can be a cupid or dater as both have a OneToOne user)**
+    * Routing Number : Text Field
+    * Account Number : Text Field
     
-### Django Migrations (Nate M)
+    
+### Django Migrations
 
 What migrations will we need? What will they be used for?
 
