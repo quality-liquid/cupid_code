@@ -303,9 +303,8 @@ What will the project structure look like? What will the files be named? What wi
 
 |  URL                          |   Method  |   Notes                       |
 |-------------------------------|-----------|-------------------------------|
-|   /user/                      |   POST    | Create user                   |
+|   /user/                      |   POST    | Create user or update user    |
 |   /user/<int:id>/             |   GET     | Get user data                 |
-|   /user/                      |   POST    | Update user data              |
 |   /chat/                      |   POST    | Send message                  |
 |   /intervention/create/       |   POST    | Create intervention           |
 |   /intervention/accept/       |   POST    | Accept intervention           |
@@ -428,100 +427,7 @@ What views will we need? What will they do? What will they take in? What will th
     * Output (json):
       * If the rating is submitted, return a success message
       * If the rating is not submitted, return an error message
-8. Get Nearby Stores - for Daters/AI
-    * Purpose: Allow a dater to get nearby stores
-    * Input (json):
-      * User location (string)
-    * Output (json):
-      * If the stores are found, return a success message
-      * If the stores are not found, return an error message
-9. Get Nearby Restaurants - for Daters/AI
-    * Purpose: Allow a dater to get nearby restaurants
-    * Input (json):
-      * User location (string)
-    * Output (json):
-      * If the restaurants are found, return a success message
-      * If the restaurants are not found, return an error message
-10. Get Nearby Activities - for Daters/AI
-    * Purpose: Allow a dater to get nearby activities
-    * Input (json):
-      * User location (string)
-    * Output (json):
-      * If the activities are found, return a success message
-      * If the activities are not found, return an error message
-11. Get Nearby Events - for Daters/AI
-    * Purpose: Allow a dater to get nearby events
-    * Input (json):
-      * User location (string)
-    * Output (json):
-      * If the events are found, return a success message
-      * If the events are not found, return an error message
-12. Get Nearby Attractions - for Daters/AI
-    * Purpose: Allow a dater to get nearby attractions
-    * Input (json):
-      * User location (string)
-    * Output (json):
-      * If the attractions are found, return a success message
-      * If the attractions are not found, return an error message
-13. Transfer Cupid Cash - for Cupids
-    * Purpose: Allow a cupid to transfer cupid cash
-    * Input (json):
-      * Cupid name (string)
-      * Amount (decimal)
-    * Output (json):
-      * If the transfer is successful, return a success message
-      * If the transfer is not successful, return an error message
-14. Get Cupid Cash Balance - for Cupids
-    * Purpose: Allow a cupid to see their cupid cash balance
-    * Input (json):
-      * Cupid name (string)
-    * Output (json):
-      * If the balance is found, return the balance
-      * If the balance is not found, return an error message
-15. Speech to Text - for AI
-    * Purpose: Allow AI to convert speech to text
-    * Input (json):
-      * Speech (mp3 file
-    * Output (json):
-      * If the speech is converted, return the text
-      * If the speech is not converted, return an error message
-16. Edit User profile - for all users
-    * Purpose: Allow a user to edit their profile
-    * Input (json):
-      * User (string)
-      * ... 
-    * Output (json):
-      * If the profile is edited, return a success message
-      * If the profile is not edited, return an error message
-17. Get User Profile - for all users
-    * Purpose: Allow a user to see their profile
-    * Input (json):
-      * User (string)
-    * Output (json):
-      * If the profile is found, return the profile
-      * If the profile is not found, return an error message
-18. Get Dater Calendar - for Daters
-    * Purpose: Allow a dater to see their calendar
-    * Input (json):
-      * Dater name (string)
-    * Output (json):
-      * If the calendar is found, return the calendar
-      * If the calendar is not found, return an error message
-19. Get Manager Report - for Managers
-    * Purpose: Allow a manager to see a report
-    * Input (json):
-      * Manager name (string)
-    * Output (json):
-      * If the report is found, return the report
-      * If the report is not found, return an error message
-20. Get Cupid Requests - for Cupids
-    * Purpose: Allow a cupid to see available requests
-    * Input (json):
-      * Cupid name (string)
-    * Output (json):
-      * If the requests are found, return the requests
-      * If the requests are not found, return an error message
-21. Rate Dater - for Cupids
+8. Rate Dater - for Cupids
     * Purpose: Allow a cupid to rate a dater
     * Input (json):
       * Cupid name (string)
@@ -530,6 +436,99 @@ What views will we need? What will they do? What will they take in? What will th
     * Output (json):
       * If the rating is submitted, return a success message
       * If the rating is not submitted, return an error message
+9. Get Nearby Stores - for Daters/AI
+    * Purpose: Allow a dater to get nearby stores
+    * Input (json):
+      * User location (string)
+    * Output (json):
+      * If the stores are found, return a success message
+      * If the stores are not found, return an error message
+10. Get Nearby Restaurants - for Daters/AI
+    * Purpose: Allow a dater to get nearby restaurants
+    * Input (json):
+      * User location (string)
+    * Output (json):
+      * If the restaurants are found, return a success message
+      * If the restaurants are not found, return an error message
+11. Get Nearby Activities - for Daters/AI
+    * Purpose: Allow a dater to get nearby activities
+    * Input (json):
+      * User location (string)
+    * Output (json):
+      * If the activities are found, return a success message
+      * If the activities are not found, return an error message
+12. Get Nearby Events - for Daters/AI
+    * Purpose: Allow a dater to get nearby events
+    * Input (json):
+      * User location (string)
+    * Output (json):
+      * If the events are found, return a success message
+      * If the events are not found, return an error message
+13. Get Nearby Attractions - for Daters/AI
+    * Purpose: Allow a dater to get nearby attractions
+    * Input (json):
+      * User location (string)
+    * Output (json):
+      * If the attractions are found, return a success message
+      * If the attractions are not found, return an error message
+14. Transfer Cupid Cash - for Cupids
+    * Purpose: Allow a cupid to transfer cupid cash
+    * Input (json):
+      * Cupid name (string)
+      * Amount (decimal)
+    * Output (json):
+      * If the transfer is successful, return a success message
+      * If the transfer is not successful, return an error message
+15. Get Cupid Cash Balance - for Cupids
+    * Purpose: Allow a cupid to see their cupid cash balance
+    * Input (json):
+      * Cupid name (string)
+    * Output (json):
+      * If the balance is found, return the balance
+      * If the balance is not found, return an error message
+16. Speech to Text - for AI
+    * Purpose: Allow AI to convert speech to text
+    * Input (json):
+      * Speech (mp3 file
+    * Output (json):
+      * If the speech is converted, return the text
+      * If the speech is not converted, return an error message
+17. Edit User profile - for all users
+    * Purpose: Allow a user to edit their profile
+    * Input (json):
+      * User (string)
+      * ... 
+    * Output (json):
+      * If the profile is edited, return a success message
+      * If the profile is not edited, return an error message
+18. Get User Profile - for all users
+    * Purpose: Allow a user to see their profile
+    * Input (json):
+      * User (string)
+    * Output (json):
+      * If the profile is found, return the profile
+      * If the profile is not found, return an error message
+19. Get Dater Calendar - for Daters
+    * Purpose: Allow a dater to see their calendar
+    * Input (json):
+      * Dater name (string)
+    * Output (json):
+      * If the calendar is found, return the calendar
+      * If the calendar is not found, return an error message
+20. Get Manager Report - for Managers
+    * Purpose: Allow a manager to see a report
+    * Input (json):
+      * Manager name (string)
+    * Output (json):
+      * If the report is found, return the report
+      * If the report is not found, return an error message
+21. Get Cupid Requests - for Cupids
+    * Purpose: Allow a cupid to see available requests
+    * Input (json):
+      * Cupid name (string)
+    * Output (json):
+      * If the requests are found, return the requests
+      * If the requests are not found, return an error message
 22. Get Cupid Rating - for Cupids
     * Purpose: Allow a cupid to see their rating
     * Input (json):
@@ -658,7 +657,7 @@ urlpatterns = [
 ```
 
 ### Django Models (Nate M)
-Each model will correspond to a table. Bold denotes unique identifiers. Django may provide an ID, but in the case of OneToOne fields, we may more often use those relationships.
+Each model will correspond to a table. Bold denotes unique identifiers. Django may provide an ID, but in the case of OneToOne fields, we will more often use those relationships.
 * Dater
     * **User : OneToOne Field (As provided by Django)**
     * Phone Number : Text Field (validate user input)
