@@ -849,3 +849,70 @@ These unit tests will consist of the following:
 
 * Django debug toolbar
   * https://django-debug-toolbar.readthedocs.io/en/latest/
+
+
+### Pseudocode
+
+cupid_code/urls.py
+``` python
+
+
+
+```
+
+cupid_code/settings.py
+``` python
+
+
+
+```
+
+
+app/urls.py
+``` python
+
+
+
+```
+
+app/views.py
+``` python
+
+
+
+```
+
+
+
+
+api/urls.py
+``` python
+
+from django.urls import path
+from . import views
+
+
+
+
+```
+
+api/models.py
+``` python
+
+
+
+```
+
+api/serializers.py
+``` python
+
+
+
+```
+
+api/views.py
+``` python
+
+
+
+```
