@@ -877,7 +877,12 @@ app/urls.py
 
 app/views.py
 ``` python
+import requests
 
+def get_dater_profile(request, id):
+    url = 'http://localhost:8000/api/get_dater_profile/' + id + '/'
+    response = requests.get(url)
+    return response.json()
 
 
 ```
