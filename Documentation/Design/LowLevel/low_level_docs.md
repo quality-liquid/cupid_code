@@ -322,63 +322,74 @@ What will the project structure look like? What will the files be named? What wi
 
 ### Outward Facing Endpoints 
 
-| URL              | Method | Notes                                |
-|------------------|--------|--------------------------------------|
-| /welcome/        | GET    | Welcome                              |
-| /login/          | GET    | Login page                           |
-| /login/          | POST   | Send form                            |
-| /signup/         | GET    | Signup page                          |
-| /signup/         | POST   | Send form                            |
-| /dater/home/     | GET    | dater homepage                       |
-| /dater/chat/     | GET    | dater chat page                      |
-| /dater/listen/   | GET    | dater listen page                    |
-| /dater/rate/     | POST   | dater rates cupid                    |
-| /dater/cash/     | GET    | dater cash page                      |
-| /dater/calender/ | GET    | dater calender page                  |
-| /cupid/home/     | GET    | cupid homepage                       |
-| /cupid/gigs/     | GET    | cupid gigs                           |
-| /cupid/cash/     | GET    | cupid cash                           |
-| /cupid/rate/     | POST   | cupid rating daters                  |
-| /cupid/gig/      | POST   | accept gig / complete gig / drop gig |
-| /manager/home/   | GET    | manager homepage                     |
-| /manager/cupids/ | GET    | manager reports                      |
-| /manager/daters/ | GET    | manager reports                      |
-| /manager/supend/ | POST   | suspend cupid / dater                |
+| URL                | Method | Notes                                |
+|--------------------|--------|--------------------------------------|
+| /welcome/          | GET    | Welcome                              |
+| /login/            | GET    | Login page                           |
+| /login/            | POST   | Send form                            |
+| /signup/           | GET    | Signup page                          |
+| /signup/           | POST   | Send form                            |
+| /dater/home/       | GET    | dater homepage                       |
+| /dater/chat/       | GET    | dater chat page                      |
+| /dater/listen/     | GET    | dater listen page                    |
+| /dater/rate/       | POST   | dater rates cupid                    |
+| /dater/balance/       | GET    | dater cash page                      |
+| /dater/transfer/    | POST   | dater transfer cash                  |
+| /dater/calender/   | GET    | dater calender page                  |
+| /dater/profile/    | GET    | dater profile page                   |
+| /dater/profile/    | POST   | dater edit profile                   |
+| /cupid/home/       | GET    | cupid homepage                       |
+| /cupid/gigs/       | GET    | cupid gigs                           |
+| /cupid/balance/    | GET    | cupid balance                        |
+| /cupid/transfer/   | POST   | cupid transfer cash                  |
+| /cupid/rate/       | POST   | cupid rating daters                  |
+| /cupid/gig/        | POST   | accept gig / complete gig / drop gig |
+| /cupid/profile/    | GET    | cupid profile                        |
+| /cupid/profile/    | POST   | edit cupid profile                   |
+| /manager/home/     | GET    | manager homepage                     |
+| /manager/cupids/   | GET    | manager reports                      |
+| /manager/daters/   | GET    | manager reports                      |
+| /manager/supend/   | POST   | suspend cupid / dater                |
 | /manager/unsupend/ | POST | unsuspend cupid / dater              |
 
 ### Internal Endpoints
 
-|  URL                          |   Method  |   Notes                       |
-|-------------------------------|-----------|-------------------------------|
-|   /user/                      |   POST    | Create user or update user    |
-|   /user/<int:id>/             |   GET     | Get user data                 |
-|   /chat/                      |   POST    | Send message                  |
-|   /intervention/create/       |   POST    | Create intervention           |
-|   /intervention/accept/       |   POST    | Accept intervention           |
-|   /intervention/complete/     |   POST    | Complete intervention         |
-|   /intervention/<int:count>/  |   GET     | Return a list of count quests |
-|   /geo/stores/                |   GET     | List of nearby stores         |
-|   /geo/activities/            |   GET     | Nearby activities             |
-|   /geo/events/                |   GET     | Nearby events                 |
-|   /geo/attractions/           |   GET     | Nearby attractions            |
-|   /geo/user/<int:id>/         |   GET     | Get a user's location         |
-|   /cupid/rate/                |   POST    | Send a cupd rating            |
-|   /cupid/ratings/             |   GET     | Get list of cupid's ratings   |
-|   /cupid/avg_rating/<int:id>/ |   GET     | Get cupid's average rating    |
-|   /cupid/transfer/            |   POST    | Initiate transfer out         |
-|   /cupid/balance/             |   GET     | Get account balance           |
-|   /dater/calendar/<int:id>/   |   GET     | Get the dater's cal           |
-|   /dater/rate/                |   POST    | Send a dater rating           |
-|   /dater/ratings/<int:id>/    |   GET     | Get list of dater's ratings   |
-|   /dater/avg_rating/ <int:id>/|   GET     | Get dater's average rating    |
-|   /manager/dater_count/       |   GET     | Manager reports               |
-|   /manager/cupid_count/       |   GET     | Manager reports               |
-|   /manager/active_cupids/     |   GET     | Manager reports               |
-|   /manager/intervention_rate/ |   GET     | Manager reports               |
-|   /stt/                       |   POST    | Convert speech to text        |
-|   /sms/                       |   POST    | Send a text message           |
-|   /email/                     |   POST    | Send an email message         |
-|                               |           |                               |
+| URL                          |   Method  |   Notes                       |
+|------------------------------|-----------|-------------------------------|
+| /user/                       |   POST    | Create user or update user    |
+| /user/<int:id>/              |   GET     | Get user data                 |
+| /chat/                       |   POST    | Send message                  |
+| /intervention/create/        |   POST    | Create intervention           |
+| /intervention/accept/        |   POST    | Accept intervention           |
+| /intervention/complete/      |   POST    | Complete intervention         |
+| /intervention/<int:count>/   |   GET     | Return a list of count quests |
+| /geo/stores/                 |   GET     | List of nearby stores         |
+| /geo/activities/             |   GET     | Nearby activities             |
+| /geo/events/                 |   GET     | Nearby events                 |
+| /geo/attractions/            |   GET     | Nearby attractions            |
+| /geo/user/<int:id>/          |   GET     | Get a user's location         |
+| /cupid/rate/                 |   POST    | Send a cupd rating            |
+| /cupid/ratings/              |   GET     | Get list of cupid's ratings   |
+| /cupid/avg_rating/<int:id>/  |   GET     | Get cupid's average rating    |
+| /cupid/transfer/             |   POST    | Initiate transfer out         |
+| /cupid/balance/              |   GET     | Get account balance           |
+| /cupid/rating/               |   GET     | Get cupid's rating            |
+| /cupid/profile/              |   GET     | Get cupid's profile           |
+| /dater/calendar/<int:id>/    |   GET     | Get the dater's cal           |
+| /dater/rate/                 |   POST    | Send a dater rating           |
+| /dater/ratings/<int:id>/     |   GET     | Get list of dater's ratings   |
+| /dater/avg_rating/ <int:id>/ |   GET     | Get dater's average rating    |
+| /dater/transfer/             |   POST    | Initiate transfer in          |
+| /dater/balance/              |   GET     | Get account balance           |
+| /dater/profile/              |   GET     | Get dater's profile           |
+| /manager/dater_count/        |   GET     | Manager reports               |
+| /manager/cupid_count/        |   GET     | Manager reports               |
+| /manager/active_cupids/      |   GET     | Manager reports               |
+| /manager/intervention_rate/  |   GET     | Manager reports               |
+| /stt/                        |   POST    | Convert speech to text        |
+| /sms/                        |   POST    | Send a text message           |
+| /email/                      |   POST    | Send an email message         |
+|                              |           |                               |
 
 
 -----------
