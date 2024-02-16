@@ -132,7 +132,9 @@ How will we test our code? What will we test? How will we document our tests?
   This will also be done for requests from the backend to make sure the given json is correct and valid. This can be done as simple as a check between who the frontend considers the user and who the backend considers the user. This could be done with ids or other unique keys.
 
   This is the general format most of the asynchronous functions will follow for validating data before displaying it. 
-  ```
+  These functions will use the makeRequest function described in the connection of Vue and Django.
+
+  ```javascript
   async function get<Data>() {
     await the results from getting the profile 
       - this will make a call to the external apis
@@ -140,6 +142,10 @@ How will we test our code? What will we test? How will we document our tests?
     validate the results
       - if good, set the data to the on screen refs and rerender
       - if bad, put up error on screen for user (toast or otherwise)
+  }
+  async function post<Data>() {
+    await the request with the method "post" & a body with the information to send
+    navigate elsewhere OR rerender page
   }
   ```
 
@@ -153,6 +159,22 @@ How will we test our code? What will we test? How will we document our tests?
     Case 2: To protect the system, we can make the signing up/logging in its own Django app that will authenticate logging in so that you must be a verified user to use the rest of the app. This method will utilize the Django settings.py variables as well since you can tell it what the login page will be.
 
   This won't deal with many of the external links since it will be an isolated app that's sole purpose is to add & validate users and redirect them based off of the type of account they are.
+
+```html
+{% load static %}
+<head>
+  <style>
+    /* Write inline styles here */
+  </style>  
+</head>
+<body>
+  <div>
+    Welcome to Cupid Code landing page here
+  </div>
+  <button> Login </button>
+  <button> Sign up </button>
+</body>  
+```
 
 ### Testing
 
@@ -324,61 +346,72 @@ What will the project structure look like? What will the files be named? What wi
 
 | URL                | Method | Notes                                |
 |--------------------|--------|--------------------------------------|
-| /welcome/          |   GET  | Welcome                              |
-| /login/            |   GET  | Login page                           |
-| /login/            |   POST | Send form                            |
-| /signup/           |   GET  | Signup page                          |
-| /signup/           |   POST | Send form                            |
-| /dater/home/       |   GET  | dater homepage                       |
-| /dater/chat/       |   GET  | dater chat page                      |
-| /dater/listen/     |   GET  | dater listen page                    |
-| /dater/rate/       |   POST | dater rates cupid                    |
-| /dater/cash/       |   GET  | dater cash page                      |
-| /dater/calender/   |   GET  | dater calender page                  |
-| /cupid/home/       |   GET  | cupid homepage                       |
-| /cupid/gigs/       |   GET  | cupid gigs                           |
-| /cupid/cash/       |   GET  | cupid cash                           |
-| /cupid/rate/       |   POST | cupid rating daters                  |
-| /cupid/gig/        |   POST | accept gig / complete gig / drop gig |
-| /manager/home/     |   GET  | manager homepage                     |
-| /manager/cupids/   |   GET  | manager reports                      |
-| /manager/daters/   |   GET  | manager reports                      |
-| /manager/supend/   |   POST | suspend cupid / dater                |
-| /manager/unsupend/ |   POST | unsuspend cupid / dater              |
+| /welcome/          | GET    | Welcome                              |
+| /login/            | GET    | Login page                           |
+| /login/            | POST   | Send form                            |
+| /signup/           | GET    | Signup page                          |
+| /signup/           | POST   | Send form                            |
+| /dater/home/       | GET    | dater homepage                       |
+| /dater/chat/       | GET    | dater chat page                      |
+| /dater/listen/     | GET    | dater listen page                    |
+| /dater/rate/       | POST   | dater rates cupid                    |
+| /dater/balance/    | GET    | dater cash page                      |
+| /dater/transfer/   | POST   | dater transfer cash                  |
+| /dater/calender/   | GET    | dater calender page                  |
+| /dater/profile/    | GET    | dater profile page                   |
+| /dater/profile/    | POST   | dater edit profile                   |
+| /cupid/home/       | GET    | cupid homepage                       |
+| /cupid/gigs/       | GET    | cupid gigs                           |
+| /cupid/balance/    | GET    | cupid balance                        |
+| /cupid/transfer/   | POST   | cupid transfer cash                  |
+| /cupid/rate/       | POST   | cupid rating daters                  |
+| /cupid/gig/        | POST   | accept gig / complete gig / drop gig |
+| /cupid/profile/    | GET    | cupid profile                        |
+| /cupid/profile/    | POST   | edit cupid profile                   |
+| /manager/home/     | GET    | manager homepage                     |
+| /manager/cupids/   | GET    | manager reports                      |
+| /manager/daters/   | GET    | manager reports                      |
+| /manager/supend/   | POST   | suspend cupid / dater                |
+| /manager/unsupend/ | POST   | unsuspend cupid / dater              |
 
 ### Internal Endpoints
 
-|  URL                          |   Method  |   Notes                       |
-|-------------------------------|-----------|-------------------------------|
-|   /user/                      |   POST    | Create user or update user    |
-|   /user/<int:id>/             |   GET     | Get user data                 |
-|   /chat/                      |   POST    | Send message                  |
-|   /intervention/create/       |   POST    | Create intervention           |
-|   /intervention/accept/       |   POST    | Accept intervention           |
-|   /intervention/complete/     |   POST    | Complete intervention         |
-|   /intervention/<int:count>/  |   GET     | Return a list of count quests |
-|   /geo/stores/                |   GET     | List of nearby stores         |
-|   /geo/activities/            |   GET     | Nearby activities             |
-|   /geo/events/                |   GET     | Nearby events                 |
-|   /geo/attractions/           |   GET     | Nearby attractions            |
-|   /geo/user/<int:id>/         |   GET     | Get a user's location         |
-|   /cupid/rate/                |   POST    | Send a cupd rating            |
-|   /cupid/ratings/             |   GET     | Get list of cupid's ratings   |
-|   /cupid/avg_rating/<int:id>/ |   GET     | Get cupid's average rating    |
-|   /cupid/transfer/            |   POST    | Initiate transfer out         |
-|   /cupid/balance/             |   GET     | Get account balance           |
-|   /dater/calendar/<int:id>/   |   GET     | Get the dater's cal           |
-|   /dater/rate/                |   POST    | Send a dater rating           |
-|   /dater/ratings/<int:id>/    |   GET     | Get list of dater's ratings   |
-|   /dater/avg_rating/ <int:id>/|   GET     | Get dater's average rating    |
-|   /manager/dater_count/       |   GET     | Manager reports               |
-|   /manager/cupid_count/       |   GET     | Manager reports               |
-|   /manager/active_cupids/     |   GET     | Manager reports               |
-|   /manager/intervention_rate/ |   GET     | Manager reports               |
-|   /stt/                       |   POST    | Convert speech to text        |
-|   /sms/                       |   POST    | Send a text message           |
-|   /email/                     |   POST    | Send an email message         |
-|                               |           |                               |
+| URL                          |   Method  |   Notes                       |
+|------------------------------|-----------|-------------------------------|
+| /user/                       |   POST    | Create user or update user    |
+| /user/<int:id>/              |   GET     | Get user data                 |
+| /chat/                       |   POST    | Send message                  |
+| /intervention/create/        |   POST    | Create intervention           |
+| /intervention/accept/        |   POST    | Accept intervention           |
+| /intervention/complete/      |   POST    | Complete intervention         |
+| /intervention/<int:count>/   |   GET     | Return a list of count quests |
+| /geo/stores/                 |   GET     | List of nearby stores         |
+| /geo/activities/             |   GET     | Nearby activities             |
+| /geo/events/                 |   GET     | Nearby events                 |
+| /geo/attractions/            |   GET     | Nearby attractions            |
+| /geo/user/<int:id>/          |   GET     | Get a user's location         |
+| /cupid/rate/                 |   POST    | Send a cupd rating            |
+| /cupid/ratings/              |   GET     | Get list of cupid's ratings   |
+| /cupid/avg_rating/<int:id>/  |   GET     | Get cupid's average rating    |
+| /cupid/transfer/             |   POST    | Initiate transfer out         |
+| /cupid/balance/              |   GET     | Get account balance           |
+| /cupid/rating/               |   GET     | Get cupid's rating            |
+| /cupid/profile/              |   GET     | Get cupid's profile           |
+| /dater/calendar/<int:id>/    |   GET     | Get the dater's cal           |
+| /dater/rate/                 |   POST    | Send a dater rating           |
+| /dater/ratings/<int:id>/     |   GET     | Get list of dater's ratings   |
+| /dater/avg_rating/ <int:id>/ |   GET     | Get dater's average rating    |
+| /dater/transfer/             |   POST    | Initiate transfer in          |
+| /dater/balance/              |   GET     | Get account balance           |
+| /dater/profile/              |   GET     | Get dater's profile           |
+| /manager/dater_count/        |   GET     | Manager reports               |
+| /manager/cupid_count/        |   GET     | Manager reports               |
+| /manager/active_cupids/      |   GET     | Manager reports               |
+| /manager/intervention_rate/  |   GET     | Manager reports               |
+| /stt/                        |   POST    | Convert speech to text        |
+| /sms/                        |   POST    | Send a text message           |
+| /email/                      |   POST    | Send an email message         |
+|                              |           |                               |
 
 
 -----------
@@ -536,7 +569,7 @@ What views will we need? What will they do? What will they take in? What will th
 16. Speech to Text - for AI
     * Purpose: Allow AI to convert speech to text
     * Input (json):
-      * Speech (mp3 file
+      * Speech (mp3 file)
     * Output (json):
       * If the speech is converted, return the text
       * If the speech is not converted, return an error message
@@ -901,13 +934,46 @@ def get_dater_profile(request, id):
 
 ```
 
-app/tests.py
-``` python
 
+app/views.py
+``` python
+import requests
+
+def get_dater_profile(request, id):
+    url = 'http://localhost:8000/api/get_dater_profile/' + id + '/'
+    response = requests.get(url)
+    return response.json()
 
 
 ```
 
+app/tests.py
+``` python
+# Testing user input
+if user_input evaluates to True:
+  Might be SQL Injection or remote code execution. Return error that input is not valid
+else if user_input is expected input (correct login, for example):
+  Log in
+else:
+  Return error that login failed (user input invalid)
+```
+
+``` python
+# If a user fails to login
+if username does not match username in database:
+  return failed login response
+elif password does not match password in database:
+  return failed login response
+else
+  return successful login response
+
+```
+
+``` python
+# If a user does not give a good enough password for their account (we should enforce good password)
+if password does not contain an uppercase letter, a lowercase letter, a number, and a special character:
+  return rejected password response (give better password)
+```
 
 
 
@@ -946,7 +1012,17 @@ api/views.py
 
 api/tests.py
 ``` python
+# Handle if a nonexistant user is 
+@api_view(['GET'])
+def user_detail(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+```
 
-
-
+``` python
+# If the AI Chat API fails, handle no reponse gracefully
+if chat returned equals "" or an error:
+  return message that the AI Chat feature is having issues and to try again later
 ```
