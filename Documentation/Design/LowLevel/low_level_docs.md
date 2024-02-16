@@ -333,8 +333,8 @@ What will the project structure look like? What will the files be named? What wi
 | /dater/chat/       | GET    | dater chat page                      |
 | /dater/listen/     | GET    | dater listen page                    |
 | /dater/rate/       | POST   | dater rates cupid                    |
-| /dater/balance/       | GET    | dater cash page                      |
-| /dater/transfer/    | POST   | dater transfer cash                  |
+| /dater/balance/    | GET    | dater cash page                      |
+| /dater/transfer/   | POST   | dater transfer cash                  |
 | /dater/calender/   | GET    | dater calender page                  |
 | /dater/profile/    | GET    | dater profile page                   |
 | /dater/profile/    | POST   | dater edit profile                   |
@@ -350,7 +350,7 @@ What will the project structure look like? What will the files be named? What wi
 | /manager/cupids/   | GET    | manager reports                      |
 | /manager/daters/   | GET    | manager reports                      |
 | /manager/supend/   | POST   | suspend cupid / dater                |
-| /manager/unsupend/ | POST | unsuspend cupid / dater              |
+| /manager/unsupend/ | POST   | unsuspend cupid / dater              |
 
 ### Internal Endpoints
 
