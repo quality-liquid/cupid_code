@@ -322,29 +322,29 @@ What will the project structure look like? What will the files be named? What wi
 
 ### Outward Facing Endpoints 
 
-| URL              | Method | Notes                                |
-|------------------|--------|--------------------------------------|
-| /welcome/        | GET    | Welcome                              |
-| /login/          | GET    | Login page                           |
-| /login/          | POST   | Send form                            |
-| /signup/         | GET    | Signup page                          |
-| /signup/         | POST   | Send form                            |
-| /dater/home/     | GET    | dater homepage                       |
-| /dater/chat/     | GET    | dater chat page                      |
-| /dater/listen/   | GET    | dater listen page                    |
-| /dater/rate/     | POST   | dater rates cupid                    |
-| /dater/cash/     | GET    | dater cash page                      |
-| /dater/calender/ | GET    | dater calender page                  |
-| /cupid/home/     | GET    | cupid homepage                       |
-| /cupid/gigs/     | GET    | cupid gigs                           |
-| /cupid/cash/     | GET    | cupid cash                           |
-| /cupid/rate/     | POST   | cupid rating daters                  |
-| /cupid/gig/      | POST   | accept gig / complete gig / drop gig |
-| /manager/home/   | GET    | manager homepage                     |
-| /manager/cupids/ | GET    | manager reports                      |
-| /manager/daters/ | GET    | manager reports                      |
-| /manager/supend/ | POST   | suspend cupid / dater                |
-| /manager/unsupend/ | POST | unsuspend cupid / dater              |
+| URL                | Method | Notes                                |
+|--------------------|--------|--------------------------------------|
+| /welcome/          |   GET  | Welcome                              |
+| /login/            |   GET  | Login page                           |
+| /login/            |   POST | Send form                            |
+| /signup/           |   GET  | Signup page                          |
+| /signup/           |   POST | Send form                            |
+| /dater/home/       |   GET  | dater homepage                       |
+| /dater/chat/       |   GET  | dater chat page                      |
+| /dater/listen/     |   GET  | dater listen page                    |
+| /dater/rate/       |   POST | dater rates cupid                    |
+| /dater/cash/       |   GET  | dater cash page                      |
+| /dater/calender/   |   GET  | dater calender page                  |
+| /cupid/home/       |   GET  | cupid homepage                       |
+| /cupid/gigs/       |   GET  | cupid gigs                           |
+| /cupid/cash/       |   GET  | cupid cash                           |
+| /cupid/rate/       |   POST | cupid rating daters                  |
+| /cupid/gig/        |   POST | accept gig / complete gig / drop gig |
+| /manager/home/     |   GET  | manager homepage                     |
+| /manager/cupids/   |   GET  | manager reports                      |
+| /manager/daters/   |   GET  | manager reports                      |
+| /manager/supend/   |   POST | suspend cupid / dater                |
+| /manager/unsupend/ |   POST | unsuspend cupid / dater              |
 
 ### Internal Endpoints
 
