@@ -10,20 +10,78 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 
 02/08/24
 
+<!--toc:start-->
+- [**Cupid Code**](#cupid-code)
+- [**Low Level Design Document**](#low-level-design-document)
+    - [Sub-team Members](#sub-team-members)
+      - [Frontend Team Members](#frontend-team-members)
+      - [Middleend Team Members](#middleend-team-members)
+      - [Backend Team Members](#backend-team-members)
+    - [Sub-team Responsibilities](#sub-team-responsibilities)
+      - [Frontend team](#frontend-team)
+      - [Middleend team](#middleend-team)
+      - [Backend team](#backend-team)
+    - [Team Conventions and Standards](#team-conventions-and-standards)
+      - [Branching Conventions](#branching-conventions)
+      - [Naming Conventions](#naming-conventions)
+      - [Coding Standards](#coding-standards)
+      - [Commenting Standards](#commenting-standards)
+      - [Testing Standards](#testing-standards)
+  - [Frontend Design](#frontend-design)
+    - [Security](#security)
+    - [UI](#ui)
+    - [UX](#ux)
+    - [Templates](#templates)
+    - [Vue Router](#vue-router)
+    - [Testing](#testing)
+  - [Connecting Vue and Django](#connecting-vue-and-django)
+      - [Poetry](#poetry)
+      - [Vite Config](#vite-config)
+      - [NPM](#npm)
+      - [Serverside](#serverside)
+        - [Files to Add](#files-to-add)
+        - [Environment](#environment)
+        - [Middleware](#middleware)
+        - [In Server Settings](#in-server-settings)
+        - [In Core views.py](#in-core-viewspy)
+        - [In Core index.html](#in-core-indexhtml)
+      - [Clientside](#clientside)
+  - [Backend Design](#backend-design)
+    - [Django Project Structure (Nate S)](#django-project-structure-nate-s)
+    - [Outward Facing Endpoints](#outward-facing-endpoints)
+    - [Internal API Endpoints](#internal-api-endpoints)
+    - [Django View Functions Design (Daniel)](#django-view-functions-design-daniel)
+    - [Internal API Design (Nate S)](#internal-api-design-nate-s)
+      - [How to build an internal API](#how-to-build-an-internal-api)
+    - [Django Models](#django-models)
+    - [Django Migrations](#django-migrations)
+      - [Dummy Daters](#dummy-daters)
+      - [Dummy Cupids](#dummy-cupids)
+      - [Dummy Manager](#dummy-manager)
+      - [Dummy messages](#dummy-messages)
+      - [Dummy Interventions](#dummy-interventions)
+      - [Dummy Dates](#dummy-dates)
+      - [Feedback](#feedback)
+    - [Django Settings (Daniel)](#django-settings-daniel)
+    - [Django Admin (Daniel)](#django-admin-daniel)
+    - [Unit Tests (Daniel)](#unit-tests-daniel)
+    - [Pseudocode](#pseudocode)
+<!--toc:end-->
+
 -----------
 ### Sub-team Members
 
-#### Frontend team
+#### Frontend Team Members
 
 * Eric 
 * Brighton 
 * Brandon
 
-#### Middleend team 
+#### Middleend Team Members
 
 * Emma
 
-#### Backend team
+#### Backend Team Members
 
 * Nate Stott 
 * Nate McKenzie 
@@ -373,7 +431,6 @@ What will the project structure look like? What will the files be named? What wi
 | /app/              | GET    | Vue Router takes over from here      |
 
 Additional pages offered by [Vue Router](#vue-router)
-
 
 ### Internal API Endpoints
 
