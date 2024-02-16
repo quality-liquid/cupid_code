@@ -547,7 +547,7 @@ What views will we need? What will they do? What will they take in? What will th
 16. Speech to Text - for AI
     * Purpose: Allow AI to convert speech to text
     * Input (json):
-      * Speech (mp3 file
+      * Speech (mp3 file)
     * Output (json):
       * If the speech is converted, return the text
       * If the speech is not converted, return an error message
@@ -912,13 +912,46 @@ def get_dater_profile(request, id):
 
 ```
 
-app/tests.py
-``` python
 
+app/views.py
+``` python
+import requests
+
+def get_dater_profile(request, id):
+    url = 'http://localhost:8000/api/get_dater_profile/' + id + '/'
+    response = requests.get(url)
+    return response.json()
 
 
 ```
 
+app/tests.py
+``` python
+# Testing user input
+if user_input evaluates to True:
+  Might be SQL Injection or remote code execution. Return error that input is not valid
+else if user_input is expected input (correct login, for example):
+  Log in
+else:
+  Return error that login failed (user input invalid)
+```
+
+``` python
+# If a user fails to login
+if username does not match username in database:
+  return failed login response
+elif password does not match password in database:
+  return failed login response
+else
+  return successful login response
+
+```
+
+``` python
+# If a user does not give a good enough password for their account (we should enforce good password)
+if password does not contain an uppercase letter, a lowercase letter, a number, and a special character:
+  return rejected password response (give better password)
+```
 
 
 
@@ -957,7 +990,17 @@ api/views.py
 
 api/tests.py
 ``` python
+# Handle if a nonexistant user is 
+@api_view(['GET'])
+def user_detail(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+```
 
-
-
+``` python
+# If the AI Chat API fails, handle no reponse gracefully
+if chat returned equals "" or an error:
+  return message that the AI Chat feature is having issues and to try again later
 ```
