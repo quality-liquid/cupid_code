@@ -132,7 +132,9 @@ How will we test our code? What will we test? How will we document our tests?
   This will also be done for requests from the backend to make sure the given json is correct and valid. This can be done as simple as a check between who the frontend considers the user and who the backend considers the user. This could be done with ids or other unique keys.
 
   This is the general format most of the asynchronous functions will follow for validating data before displaying it. 
-  ```
+  These functions will use the makeRequest function described in the connection of Vue and Django.
+
+  ```javascript
   async function get<Data>() {
     await the results from getting the profile 
       - this will make a call to the external apis
@@ -140,6 +142,10 @@ How will we test our code? What will we test? How will we document our tests?
     validate the results
       - if good, set the data to the on screen refs and rerender
       - if bad, put up error on screen for user (toast or otherwise)
+  }
+  async function post<Data>() {
+    await the request with the method "post" & a body with the information to send
+    navigate elsewhere OR rerender page
   }
   ```
 
@@ -153,6 +159,22 @@ How will we test our code? What will we test? How will we document our tests?
     Case 2: To protect the system, we can make the signing up/logging in its own Django app that will authenticate logging in so that you must be a verified user to use the rest of the app. This method will utilize the Django settings.py variables as well since you can tell it what the login page will be.
 
   This won't deal with many of the external links since it will be an isolated app that's sole purpose is to add & validate users and redirect them based off of the type of account they are.
+
+```html
+{% load static %}
+<head>
+  <style>
+    /* Write inline styles here */
+  </style>  
+</head>
+<body>
+  <div>
+    Welcome to Cupid Code landing page here
+  </div>
+  <button> Login </button>
+  <button> Sign up </button>
+</body>  
+```
 
 ### Testing
 
@@ -547,7 +569,7 @@ What views will we need? What will they do? What will they take in? What will th
 16. Speech to Text - for AI
     * Purpose: Allow AI to convert speech to text
     * Input (json):
-      * Speech (mp3 file
+      * Speech (mp3 file)
     * Output (json):
       * If the speech is converted, return the text
       * If the speech is not converted, return an error message
@@ -912,13 +934,46 @@ def get_dater_profile(request, id):
 
 ```
 
-app/tests.py
-``` python
 
+app/views.py
+``` python
+import requests
+
+def get_dater_profile(request, id):
+    url = 'http://localhost:8000/api/get_dater_profile/' + id + '/'
+    response = requests.get(url)
+    return response.json()
 
 
 ```
 
+app/tests.py
+``` python
+# Testing user input
+if user_input evaluates to True:
+  Might be SQL Injection or remote code execution. Return error that input is not valid
+else if user_input is expected input (correct login, for example):
+  Log in
+else:
+  Return error that login failed (user input invalid)
+```
+
+``` python
+# If a user fails to login
+if username does not match username in database:
+  return failed login response
+elif password does not match password in database:
+  return failed login response
+else
+  return successful login response
+
+```
+
+``` python
+# If a user does not give a good enough password for their account (we should enforce good password)
+if password does not contain an uppercase letter, a lowercase letter, a number, and a special character:
+  return rejected password response (give better password)
+```
 
 
 
@@ -957,7 +1012,17 @@ api/views.py
 
 api/tests.py
 ``` python
+# Handle if a nonexistant user is 
+@api_view(['GET'])
+def user_detail(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+```
 
-
-
+``` python
+# If the AI Chat API fails, handle no reponse gracefully
+if chat returned equals "" or an error:
+  return message that the AI Chat feature is having issues and to try again later
 ```
