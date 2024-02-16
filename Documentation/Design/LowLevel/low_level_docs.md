@@ -370,10 +370,36 @@ What will the project structure look like? What will the files be named? What wi
 | /login/            | POST   | Send form                            |
 | /signup/           | GET    | Signup page                          |
 | /signup/           | POST   | Send form                            |
+<<<<<<< HEAD
 | /app/              | GET    | Vue Router takes over from here      |
+=======
+| /dater/home/       | GET    | dater homepage                       |
+| /dater/chat/       | GET    | dater chat page                      |
+| /dater/listen/     | GET    | dater listen page                    |
+| /dater/rate/       | POST   | dater rates cupid                    |
+| /dater/balance/    | GET    | dater cash page                      |
+| /dater/transfer/   | POST   | dater transfer cash                  |
+| /dater/calender/   | GET    | dater calender page                  |
+| /dater/profile/    | GET    | dater profile page                   |
+| /dater/profile/    | POST   | dater edit profile                   |
+| /cupid/home/       | GET    | cupid homepage                       |
+| /cupid/gigs/       | GET    | cupid gigs                           |
+| /cupid/balance/    | GET    | cupid balance                        |
+| /cupid/transfer/   | POST   | cupid transfer cash                  |
+| /cupid/rate/       | POST   | cupid rating daters                  |
+| /cupid/gig/        | POST   | accept gig / complete gig / drop gig |
+| /cupid/profile/    | GET    | cupid profile                        |
+| /cupid/profile/    | POST   | edit cupid profile                   |
+| /manager/home/     | GET    | manager homepage                     |
+| /manager/cupids/   | GET    | manager reports                      |
+| /manager/daters/   | GET    | manager reports                      |
+| /manager/supend/   | POST   | suspend cupid / dater                |
+| /manager/unsupend/ | POST   | unsuspend cupid / dater              |
+>>>>>>> 6300bd4 (Added pseudocode, and fixed formatting)
 
 Additional pages offered by [Vue Router](#vue-router)
 
+<<<<<<< HEAD
 
 ### Internal API Endpoints
 
@@ -417,12 +443,48 @@ Additional pages offered by [Vue Router](#vue-router)
 | api/stt/                       |   POST    | Convert speech to text        |
 | api/sms/                       |   POST    | Send a text message           |
 | api/email/                     |   POST    | Send an email message         |
+=======
+| URL                          |   Method  |   Notes                       |
+|------------------------------|-----------|-------------------------------|
+| /user/                       |   POST    | Create user or update user    |
+| /user/<int:id>/              |   GET     | Get user data                 |
+| /chat/                       |   POST    | Send message                  |
+| /intervention/create/        |   POST    | Create intervention           |
+| /intervention/accept/        |   POST    | Accept intervention           |
+| /intervention/complete/      |   POST    | Complete intervention         |
+| /intervention/<int:count>/   |   GET     | Return a list of count quests |
+| /geo/stores/                 |   GET     | List of nearby stores         |
+| /geo/activities/             |   GET     | Nearby activities             |
+| /geo/events/                 |   GET     | Nearby events                 |
+| /geo/attractions/            |   GET     | Nearby attractions            |
+| /geo/user/<int:id>/          |   GET     | Get a user's location         |
+| /cupid/rate/                 |   POST    | Send a cupid rating           |
+| /cupid/ratings/              |   GET     | Get list of cupid's ratings   |
+| /cupid/avg_rating/<int:id>/  |   GET     | Get cupid's average rating    |
+| /cupid/transfer/             |   POST    | Initiate transfer out         |
+| /cupid/balance/              |   GET     | Get account balance           |
+| /cupid/rating/               |   GET     | Get cupid's rating            |
+| /cupid/profile/              |   GET     | Get cupid's profile           |
+| /dater/calendar/<int:id>/    |   GET     | Get the dater's cal           |
+| /dater/rate/                 |   POST    | Send a dater rating           |
+| /dater/ratings/<int:id>/     |   GET     | Get list of dater's ratings   |
+| /dater/avg_rating/<int:id>/  |   GET     | Get dater's average rating    |
+| /dater/transfer/             |   POST    | Initiate transfer in          |
+| /dater/balance/              |   GET     | Get account balance           |
+| /dater/profile/              |   GET     | Get dater's profile           |
+| /manager/dater_count/        |   GET     | Manager reports               |
+| /manager/cupid_count/        |   GET     | Manager reports               |
+| /manager/active_cupids/      |   GET     | Manager reports               |
+| /manager/intervention_rate/  |   GET     | Manager reports               |
+| /stt/                        |   POST    | Convert speech to text        |
+| /sms/                        |   POST    | Send a text message           |
+| /email/                      |   POST    | Send an email message         |
+|                              |           |                               |
+>>>>>>> 6300bd4 (Added pseudocode, and fixed formatting)
 
 
 -----------
-### Django View Functions Design (Daniel)
 
-What views will we need? What will they do? What will they take in? What will they return? What internal APIs will they use?
 
 ### Internal API Design (Nate S)
 
@@ -849,7 +911,6 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
     
 ### Django Migrations
 
-What migrations will we need? What will they be used for?
 
 #### Dummy Daters
 * username:dater1, password:password, 200 cupid coin balance, budget of 50
@@ -904,19 +965,7 @@ To address these concerns, admins may be enforced to have strong passwords (12+ 
 
 We will create unit tests to ensure that the software performs as expected. We will also ensure that security measures are in place to prevent improper usage of the software and protect user data, including Personal Identifiable Information (PII). 
 
-These unit tests will consist of the following:
-
-**Check that user input is sanitized**
-
-*Execution:* Attempt inserting a line of code or SQL query to see if it executes.
-
-*Purpose:* Make sure that data cannot be exfiltrated and code cannot be injected and ran to compromise data. 
-
-**Check that users cannot access pages or chat history that they are not owners of**
-
-*Execution:* Use the URL to attempt to navigate to pages that the user would not own.
-
-*Purpose:* Make sure that users cannot get access to information of other users, and check that users cannot do anything under the account of another user.
+Check the following Pseudocode section for `tests.py`, which contains planned unit tests.
 
 
 
@@ -928,32 +977,179 @@ These unit tests will consist of the following:
 
 cupid_code/urls.py
 ``` python
-
+path("", include("{app}.urls")),
+path("admin/", admin.site.urls),
 
 
 ```
 
 cupid_code/settings.py
 ``` python
+# Very little will change from the settings.py initial configuration made on generation.
+# Here are some adjustment(s)
 
-
-
+INSTALLED_APPS = [
+  ...
+  'django.contrib.admin'
+  ...
+]
 ```
-
 
 app/urls.py
 ``` python
-
-
+path("welcome/", welcome),
+path("login/", login),
+path("signup/", sign_up),
+path("dater/home/", get_dater_home),
+path("dater/chat/", chat),
+path("dater/listen/", listen),
+path("dater/rate/", rate_cupid),
+path("dater/balance/", dater_balance),
+path("dater/transfer/", dater_transfer),
+path("dater/calendar/", calendar),
+path("dater/profile/", get_dater_profile),
+path("cupid/home/", cupid_home),
+path("cupid/gigs/", get_all_gigs),
+path("cupid/balance/", cupid_balance),
+path("cupid/transfer/", cupid_transfer),
+path("cupid/rate/", rate_dater),
+path("cupid/gig/", use_gig),
+path("cupid/profile/", cupid_profile),
+path("manager/home/", manager_home),
+path("manager/daters/", get_all_daters),
+path("manager/suspend/", suspend),
+path("manager/unsuspend/", unsuspend),
 
 ```
 
 app/views.py
 ``` python
 
+<<<<<<< HEAD
+=======
+def get_dater_profile(request, id):
+    url = 'http://localhost:8000/api/get_dater_profile/' + id + '/'
+    response = requests.get(url)
+    return response.json()
 
+# I think this is all the home page needs to get.
+def get_dater_home(request, id):
+  balance = get user balance from 'http://localhost:8000/dater/balance'
 
+  return balance.json()
+
+# If I understand right, request holds json of user's conversation with AI. Pass to API, return to user
+def get_chat(request, id):
+  response = send request to 'http://localhost:8000/api/get_chat/' + id
+
+  return response.json()
+
+def listen(request):
+  response = send request to stt API
+
+  If feedback for cupid is sent:
+    pass that to /dater/rate/
+  return response.json()
+
+# This is for the dater to rate the cupid
+def rate_cupid(request, id):
+  response = post request to dater/rate/ API with id
+
+  return response.json()
+
+def dater_balance(request, id):
+  response = send request to dater/balance/ API with id
+
+  return response.json()
+
+def dater_transfer(request, id):
+  response = send request to dater/transfer/ API with id
+
+  return response.json()
+
+def calendar(request, id):
+  response = send request to dater/calendar/ API with id
+
+  return response.json()
+
+def get_dater_profile(request, id):
+  response = send request to dater/profile/ API with id
+>>>>>>> 6300bd4 (Added pseudocode, and fixed formatting)
+
+  return response.json()
+
+def post_dater_profile(request, id):
+  response = send request to dater/profile API with id 
+
+  return response.json()
+
+def cupid_home(request, id):
+  response = send request to cupid/profile/ API with id
+
+  return response.json()
+
+def cupid_gigs(request, id):
+  response = send request to cupid/gigs/ API with id
+
+  return response.json()
+
+def cupid_balance(request, id):
+  response = send request to cupid/balance/ API with id
+
+  return response.json() 
+
+def cupid_transfer(request, id):
+  response = send request to cupid/transfer/ API with id
+
+  return response.json()
+
+# This is for the cupid to rate the dater
+def rate_dater(request, id):
+  response = send request to cupid/rate/ API with id
+
+  return response.json()
+
+def cupid_gig(request, id):
+  response = send request to cupid/gig/ API with id
+
+  return response.json()
+
+def get_cupid_profile(request, id):
+  response = send request to cupid/profile/ API with id
+
+  return response.json()
+
+def post_cupid_profile(request, id):
+  response = send request to cupid/profile/ API with id
+
+  return response.json() 
+
+def manager_home(request, id):
+  response = send request to manager/home/ API with id
+
+  return response.json()
+
+def get_cupids(request):
+  response = send request to manager/cupids/ API 
+
+  return response.json()
+
+def get_daters(request):
+  response = send request to manager/daters/ API 
+
+  return response.json()
+
+def suspend(request, id):
+  response = send request to manager/suspend/ API with id
+
+  return response.json()
+
+def unsuspend(request, id):
+  response = send request to manager/unsuspend/ API with id
+
+  return response.json()
 ```
+
 
 app/tests.py
 ``` python
@@ -964,9 +1160,8 @@ else if user_input is expected input (correct login, for example):
   Log in
 else:
   Return error that login failed (user input invalid)
-```
 
-``` python
+
 # If a user fails to login
 if username does not match username in database:
   return failed login response
@@ -975,9 +1170,6 @@ elif password does not match password in database:
 else
   return successful login response
 
-```
-
-``` python
 # If a user does not give a good enough password for their account (we should enforce good password)
 if password does not contain an uppercase letter, a lowercase letter, a number, and a special character:
   return rejected password response (give better password)
