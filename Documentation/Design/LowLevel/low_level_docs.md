@@ -177,7 +177,7 @@ How will we test our code? What will we test? How will we document our tests?
 ```
 ### Vue Router
 
-The Vue app will live at URL `/app/`
+The Vue app will live at URL `/app/`. The following pages will be available through the Vue Router.
 
 | URL                | Notes                                |
 |--------------------|--------------------------------------|
@@ -377,8 +377,8 @@ Additional pages offered by [Vue Router](#vue-router)
 
 ### Internal API Endpoints
 
-| URL                         |   Method  |   Notes                       |
-|-----------------------------|-----------|-------------------------------|
+| URL                            |   Method  |   Notes                       |
+|--------------------------------|-----------|-------------------------------|
 | api/user/                      |   POST    | Create user (call right API)  |
 | api/user/<int:id>/             |   GET     | Get user data                 |
 | api/chat/                      |   POST    | Send message                  |
@@ -397,6 +397,7 @@ Additional pages offered by [Vue Router](#vue-router)
 | api/cupid/balance/             |   GET     | Get account balance           |
 | api/cupid/rating/              |   GET     | Get cupid's rating            |
 | api/cupid/profile/             |   GET     | Get cupid's profile           |
+| api/cupid/profile/             |   POST    | Set cupid's profile           |
 | api/intervention/create/       |   POST    | Create intervention           |
 | api/intervention/accept/       |   POST    | Accept intervention           |
 | api/intervention/complete/     |   POST    | Complete intervention         |
@@ -651,6 +652,14 @@ What views will we need? What will they do? What will they take in? What will th
     * Output (json):
       * If the notification is sent, return a success message
       * If the notification is not sent, return an error message
+27. Suspend/Unsuspend - for managers
+    * Purpose: Allow a manager to suspend daters or cupids
+    * Input (json):
+      * User (string)
+      * Suspend (boolean)
+      * Message (string)
+    * Output (json):
+      * If the change is successful, return a success message
 
 #### How to build an internal API
 
@@ -776,6 +785,7 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
         * Average Rating : Decimal Field
         * Date Joined : Date Field
         * Last Active : DateTime Field
+        * Suspended : Boolean Field
 * Cupid
     * **User : OneToOne Field (As provided by Django)**
     * isActive : Boolean Field (Is cupid accepting interventions)
@@ -789,6 +799,7 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
         * Average Rating : Decimal Field
         * Date Joined : Date Field
         * Last Active : DateTime Field
+        * Suspended : Boolean Field
 * Message
     * **id : Auto Field**
     * Owner : Foreign Key (User)
