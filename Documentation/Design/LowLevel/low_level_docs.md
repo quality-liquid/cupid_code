@@ -190,7 +190,7 @@ How will we test our code? What will we test? How will we document our tests?
   This is the general format most of the asynchronous functions will follow for validating data before displaying it. 
   These functions will use the makeRequest function described in the connection of Vue and Django.
 
-  ```javascript
+  ``` javascript
   async function get<Data>() {
     await the results from getting the profile 
       - this will make a call to the external apis
@@ -390,21 +390,6 @@ What will the project structure look like? What will the files be named? What wi
     * settings.py
     * urls.py
     * wsgi.py
-  * app/
-    * migrations/
-    * static/
-      * favicon.ico
-    * templates/
-      * app/
-        * home.html
-        * login.html
-        * signup.html
-    * admin.py
-    * apps.py
-    * models.py
-    * tests.py
-    * urls.py
-    * views.py
   * api/
     * migrations/
     * admin.py
@@ -430,6 +415,7 @@ What will the project structure look like? What will the files be named? What wi
 
 Additional pages offered by [Vue Router](#vue-router)
 
+<<<<<<< HEAD
 | URL                             |   Method  | Notes                               |
 |---------------------------------|-----------|-------------------------------------|
 | /api/user/create/               |   POST    | Create user (use corresponding API) |
@@ -472,6 +458,49 @@ Additional pages offered by [Vue Router](#vue-router)
 | /api/manager/unsupend/          |   POST    | unsuspend cupid / dater             |
 | /api/stt/                       |   POST    | Convert speech to text              |
 | /api/notify/                    |   POST    | Send a message according to pref.   |
+=======
+| URL                             | Method | Notes                               |
+|---------------------------------|--------|-------------------------------------|
+| /api/user/                      | GET    | Get a list of users                 |
+| /api/user/create/               | POST   | Create user (use corresponding API) |
+| /api/user/<int:id>/             | GET    | Get user data                       |
+| /api/chat/                      | POST   | Send message                        |
+| /api/chat/<int:id>/             | GET    | Return the last five chat messages  |
+| /api/dater/calendar/<int:id>/   | GET    | Get the dater's calendar            |
+| /api/dater/rate/                | POST   | Cupid rate Dater                    |
+| /api/dater/ratings/<int:id>/    | GET    | Get list of dater's ratings         |
+| /api/dater/avg_rating/<int:id>/ | GET    | Get dater's average rating          |
+| /api/dater/transfer/            | POST   | Initiate transfer in                |
+| /api/dater/balance/<int:id>/    | GET    | Get account balance                 |
+| /api/dater/profile/<int:id>/    | GET    | Get dater's profile                 |
+| /api/dater/profile/             | POST   | Set dater's profile                 |
+| /api/cupid/rate/                | POST   | Dater rating a Cupid                |
+| /api/cupid/ratings/<int:id>/    | GET    | Get list of cupid's ratings         |
+| /api/cupid/avg_rating/<int:id>/ | GET    | Get cupid's average rating          |
+| /api/cupid/transfer/            | POST   | Initiate transfer out               |
+| /api/cupid/balance/<int:id>/    | GET    | Get account balance                 |
+| /api/cupid/profile/<int:id>/    | GET    | Get cupid's profile                 |
+| /api/cupid/profile/             | POST   | Set cupid's profile                 |
+| /api/gig/create/                | POST   | Create gig                          |
+| /api/gig/accept/                | POST   | Accept gig                          |
+| /api/gig/complete/              | POST   | Complete gig                        |
+| /api/gig/drop/                  | POST   | Drop gig                            |
+| /api/gig/<int:count>/           | GET    | Return number of gigs around cupid  |
+| /api/geo/stores/                | GET    | List of nearby stores               |
+| /api/geo/activities/            | GET    | Nearby activities                   |
+| /api/geo/events/                | GET    | Nearby events                       |
+| /api/geo/attractions/           | GET    | Nearby attractions                  |
+| /api/geo/user/<int:id>/         | GET    | Get a user's location               |
+| /api/manager/dater_count/       | GET    | Manager reports                     |
+| /api/manager/cupid_count/       | GET    | Manager reports                     |
+| /api/manager/active_cupids/     | GET    | Manager reports                     |
+| /api/manager/gig_rate/          | GET    | Manager reports                     |
+| /api/manager/suspend/           | POST   | suspend cupid / dater               |
+| /api/manager/unsuspend/         | POST   | unsuspend cupid / dater             |
+| /api/stt/                       | POST   | Convert speech to text              |
+| /api/sms/                       | POST   | Send a text message                 |
+| /api/email/                     | POST   | Send an email message               |
+>>>>>>> b624aa8d80d2f1a8baa19b5740e40330dfb0ceef
 
 ### Internal API Design (Nate S)
 
@@ -984,165 +1013,6 @@ INSTALLED_APPS = [
 ]
 ```
 
-app/urls.py
-``` python
-from django.urls import path
-from . import views
-
-
-
-```
-
-app/views.py
-``` python
-
-def get_dater_profile(request, id):
-    url = 'http://localhost:8000/api/get_dater_profile/' + id + '/'
-    response = requests.get(url)
-    return response.json()
-
-# I think this is all the home page needs to get.
-def get_dater_home(request, id):
-  balance = get user balance from 'http://localhost:8000/dater/balance/' + id
-  return balance.json()
-
-# If I understand right, request holds json of user's conversation with AI. Pass to API, return to user
-def get_chat(request, id):
-  response = send request to 'http://localhost:8000/api/chat/' + id
-
-  return response.json()
-
-def listen(request):
-  response = send request to stt API
-
-  If feedback for cupid is sent:
-    pass that to /dater/rate/
-  return response.json()
-
-# This is for the dater to rate the cupid
-def rate_cupid(request, id):
-  response = post request to dater/rate/ API with id
-
-  return response.json()
-
-def dater_balance(request, id):
-  response = send request to dater/balance/ API with id
-
-  return response.json()
-
-def dater_transfer(request, id):
-  response = send request to dater/transfer/ API with id
-
-  return response.json()
-
-def calendar(request, id):
-  response = send request to dater/calendar/ API with id
-
-  return response.json()
-
-def get_dater_profile(request, id):
-  response = send request to dater/profile/ API with id
-
-  return response.json()
-
-def post_dater_profile(request, id):
-  response = send request to dater/profile API with id 
-
-  return response.json()
-
-def cupid_home(request, id):
-  response = send request to cupid/profile/ API with id
-
-  return response.json()
-
-def cupid_gigs(request, id):
-  response = send request to cupid/gigs/ API with id
-
-  return response.json()
-
-def cupid_balance(request, id):
-  response = send request to cupid/balance/ API with id
-
-  return response.json() 
-
-def cupid_transfer(request, id):
-  response = send request to cupid/transfer/ API with id
-
-  return response.json()
-
-# This is for the cupid to rate the dater
-def rate_dater(request, id):
-  response = send request to cupid/rate/ API with id
-
-  return response.json()
-
-def cupid_gig(request, id):
-  response = send request to cupid/gig/ API with id
-
-  return response.json()
-
-def get_cupid_profile(request, id):
-  response = send request to cupid/profile/ API with id
-
-  return response.json()
-
-def post_cupid_profile(request, id):
-  response = send request to cupid/profile/ API with id
-
-  return response.json() 
-
-def manager_home(request, id):
-  response = send request to manager/home/ API with id
-
-  return response.json()
-
-def get_cupids(request):
-  response = send request to manager/cupids/ API 
-
-  return response.json()
-
-def get_daters(request):
-  response = send request to manager/daters/ API 
-
-  return response.json()
-
-def suspend(request, id):
-  response = send request to manager/suspend/ API with id
-
-  return response.json()
-
-def unsuspend(request, id):
-  response = send request to manager/unsuspend/ API with id
-
-  return response.json()
-```
-
-
-app/tests.py
-``` python
-# Testing user input
-if user_input evaluates to True:
-  Might be SQL Injection or remote code execution. Return error that input is not valid
-else if user_input is expected input (correct login, for example):
-  Log in
-else:
-  Return error that login failed (user input invalid)
-
-
-# If a user fails to login
-if username does not match username in database:
-  return failed login response
-elif password does not match password in database:
-  return failed login response
-else
-  return successful login response
-
-# If a user does not give a good enough password for their account (we should enforce good password)
-if password does not contain an uppercase letter, a lowercase letter, a number, and a special character:
-  return rejected password response (give better password)
-```
-
-
 api/urls.py
 ``` python
 
@@ -1150,39 +1020,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('/user/', views.create_user),
-    path('/user/<int:pk>/', views.user_detail),
-    path('/chat/', views.chat),
-    path('/intervention/create/', views.intervention_create),
-    path('/intervention/accept/', views.intervention_accept),
-    path('/intervention/complete/', views.intervention_complete),
-    path('/intervention/<int:count>/', views.intervention_count),
-    path('/geo/stores/', views.geo_stores),
-    path('/geo/activities/', views.geo_activities),
-    path('/geo/events/', views.geo_events),
-    path('/geo/attractions/', views.geo_attractions),
-    path('/geo/user/<int:id>/', views.geo_user),
-    path('/cupid/rate/', views.cupid_rate),
-    path('/cupid/ratings/', views.cupid_ratings),
-    path('/cupid/avg_rating/<int:id>/', views.cupid_avg_rating),
-    path('/cupid/transfer/', views.cupid_transfer),
-    path('/cupid/balance/', views.cupid_balance),
-    path('/cupid/rating/', views.cupid_rating),
-    path('/cupid/profile/', views.cupid_profile),
-    path('/dater/calendar/<int:id>/', views.dater_calendar),
-    path('/dater/rate/', views.dater_rate),
-    path('/dater/ratings/<int:id>/', views.dater_ratings),
-    path('/dater/avg_rating/<int:id>/', views.dater_avg_rating),
-    path('/dater/transfer/', views.dater_transfer),
-    path('/dater/balance/', views.dater_balance),
-    path('/dater/profile/', views.dater_profile),
-    path('/manager/dater_count/', views.manager_dater_count),
-    path('/manager/cupid_count/', views.manager_cupid_count),
-    path('/manager/active_cupids/', views.manager_active_cupids),
-    path('/manager/intervention_rate/', views.manager_intervention_rate),
-    path('/stt/', views.stt),
-    path('/sms/', views.sms),
-    path('/email/', views.email),
+    
 ]
 
 ```
@@ -1281,6 +1119,7 @@ api/serializers.py
 from rest_framework import serializers
 
 
+
 ```
 
 api/views.py
@@ -1292,6 +1131,42 @@ from rest_framework import status
 from .models import Dater, Cupid, Message, Manager, InterventionRequest, Quest, Date, Feedback, PaymentCard, BankAccount
 from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, ManagerSerializer, InterventionRequestSerializer, QuestSerializer, DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
 
+def sign_in(reqeust):
+    if reqeust.method == "POST":
+        username = reqeust.POST.get("email")
+        password = reqeust.POST.get("password")
+        user = authenticate(reqeust, username=username, password=password)
+        if user is not None:
+            login(reqeust, user)
+            return redirect("/app/")
+
+        if User.objects.filter(email=username):
+            message = "Incorrect Password"
+        else:
+            message = "Email Not Found"
+        return render(
+            reqeust,
+            "registration/sign_in.html",
+            {
+                "message": message,
+                "email": username,
+            },
+        )
+    else:
+        return render(reqeust, "registration/sign_in.html")
+        
+def login(request):
+    if request.method == "POST":
+        username = request.POST.get("email")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("/app/")
+        else:
+            return render(request, "registration/login.html", {"message": "Incorrect Password"})
+    else:
+        return render(request, "registration/login.html")
 
 
 
