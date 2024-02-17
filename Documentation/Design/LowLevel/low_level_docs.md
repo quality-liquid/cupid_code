@@ -442,16 +442,15 @@ Additional pages offered by [Vue Router](#vue-router)
 | /api/dater/ratings/<int:id>/    |   GET     | Get list of dater's ratings         |
 | /api/dater/avg_rating/<int:id>/ |   GET     | Get dater's average rating          |
 | /api/dater/transfer/            |   POST    | Initiate transfer in                |
-| /api/dater/balance/             |   GET     | Get account balance                 |
-| /api/dater/profile/             |   GET     | Get dater's profile                 |
+| /api/dater/balance/<int:id>/    |   GET     | Get account balance                 |
+| /api/dater/profile/<int:id>/    |   GET     | Get dater's profile                 |
 | /api/dater/profile/             |   POST    | Set dater's profile                 |
 | /api/cupid/rate/                |   POST    | Send a rating of a cupid            |
-| /api/cupid/ratings/             |   GET     | Get list of cupid's ratings         |
+| /api/cupid/ratings/<int:id>/    |   GET     | Get list of cupid's ratings         |
 | /api/cupid/avg_rating/<int:id>/ |   GET     | Get cupid's average rating          |
 | /api/cupid/transfer/            |   POST    | Initiate transfer out               |
-| /api/cupid/balance/             |   GET     | Get account balance                 |
-| /api/cupid/rating/              |   GET     | Get cupid's rating                  |
-| /api/cupid/profile/             |   GET     | Get cupid's profile                 |
+| /api/cupid/balance/<int:id>/    |   GET     | Get account balance                 |
+| /api/cupid/profile/<int:id>/    |   GET     | Get cupid's profile                 |
 | /api/cupid/profile/             |   POST    | Set cupid's profile                 |
 | /api/intervention/create/       |   POST    | Create intervention                 |
 | /api/intervention/accept/       |   POST    | Accept intervention                 |
