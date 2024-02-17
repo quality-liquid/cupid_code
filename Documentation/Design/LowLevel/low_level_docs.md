@@ -375,46 +375,46 @@ What will the project structure look like? What will the files be named? What wi
 Additional pages offered by [Vue Router](#vue-router)
 
 
-| URL                            |   Method  |   Notes                       |
-|--------------------------------|-----------|-------------------------------|
-| api/user/                      |   POST    | Create user (call right API)  |
-| api/user/<int:id>/             |   GET     | Get user data                 |
-| api/chat/                      |   POST    | Send message                  |
-| api/dater/calendar/<int:id>/   |   GET     | Get the dater's cal           |
-| api/dater/rate/                |   POST    | Send a rating of a dater      |
-| api/dater/ratings/<int:id>/    |   GET     | Get list of dater's ratings   |
-| api/dater/avg_rating/<int:id>/ |   GET     | Get dater's average rating    |
-| api/dater/transfer/            |   POST    | Initiate transfer in          |
-| api/dater/balance/             |   GET     | Get account balance           |
-| api/dater/profile/             |   GET     | Get dater's profile           |
-| api/dater/profile/             |   POST    | Set dater's profile           |
-| api/cupid/rate/                |   POST    | Send a rating of a cupid      |
-| api/cupid/ratings/             |   GET     | Get list of cupid's ratings   |
-| api/cupid/avg_rating/<int:id>/ |   GET     | Get cupid's average rating    |
-| api/cupid/transfer/            |   POST    | Initiate transfer out         |
-| api/cupid/balance/             |   GET     | Get account balance           |
-| api/cupid/rating/              |   GET     | Get cupid's rating            |
-| api/cupid/profile/             |   GET     | Get cupid's profile           |
-| api/cupid/profile/             |   POST    | Set cupid's profile           |
-| api/intervention/create/       |   POST    | Create intervention           |
-| api/intervention/accept/       |   POST    | Accept intervention           |
-| api/intervention/complete/     |   POST    | Complete intervention         |
-| api/intervention/drop/         |   POST    | Drop intervention             |
-| api/intervention/<int:count>/  |   GET     | Return a list of count quests |
-| api/geo/stores/                |   GET     | List of nearby stores         |
-| api/geo/activities/            |   GET     | Nearby activities             |
-| api/geo/events/                |   GET     | Nearby events                 |
-| api/geo/attractions/           |   GET     | Nearby attractions            |
-| api/geo/user/<int:id>/         |   GET     | Get a user's location         |
-| api/manager/dater_count/       |   GET     | Manager reports               |
-| api/manager/cupid_count/       |   GET     | Manager reports               |
-| api/manager/active_cupids/     |   GET     | Manager reports               |
-| api/manager/intervention_rate/ |   GET     | Manager reports               |
-| api/manager/supend/            |   POST    | suspend cupid / dater         |
-| api/manager/unsupend/          |   POST    | unsuspend cupid / dater       |
-| api/stt/                       |   POST    | Convert speech to text        |
-| api/sms/                       |   POST    | Send a text message           |
-| api/email/                     |   POST    | Send an email message         |
+| URL                             |   Method  | Notes                         |
+|---------------------------------|-----------|-------------------------------|
+| /api/user/                      |   POST    | Create user (call right API)  |
+| /api/user/<int:id>/             |   GET     | Get user data                 |
+| /api/chat/                      |   POST    | Send message                  |
+| /api/dater/calendar/<int:id>/   |   GET     | Get the dater's cal           |
+| /api/dater/rate/                |   POST    | Send a rating of a dater      |
+| /api/dater/ratings/<int:id>/    |   GET     | Get list of dater's ratings   |
+| /api/dater/avg_rating/<int:id>/ |   GET     | Get dater's average rating    |
+| /api/dater/transfer/            |   POST    | Initiate transfer in          |
+| /api/dater/balance/             |   GET     | Get account balance           |
+| /api/dater/profile/             |   GET     | Get dater's profile           |
+| /api/dater/profile/             |   POST    | Set dater's profile           |
+| /api/cupid/rate/                |   POST    | Send a rating of a cupid      |
+| /api/cupid/ratings/             |   GET     | Get list of cupid's ratings   |
+| /api/cupid/avg_rating/<int:id>/ |   GET     | Get cupid's average rating    |
+| /api/cupid/transfer/            |   POST    | Initiate transfer out         |
+| /api/cupid/balance/             |   GET     | Get account balance           |
+| /api/cupid/rating/              |   GET     | Get cupid's rating            |
+| /api/cupid/profile/             |   GET     | Get cupid's profile           |
+| /api/cupid/profile/             |   POST    | Set cupid's profile           |
+| /api/intervention/create/       |   POST    | Create intervention           |
+| /api/intervention/accept/       |   POST    | Accept intervention           |
+| /api/intervention/complete/     |   POST    | Complete intervention         |
+| /api/intervention/drop/         |   POST    | Drop intervention             |
+| /api/intervention/<int:count>/  |   GET     | Return a list of count quests |
+| /api/geo/stores/                |   GET     | List of nearby stores         |
+| /api/geo/activities/            |   GET     | Nearby activities             |
+| /api/geo/events/                |   GET     | Nearby events                 |
+| /api/geo/attractions/           |   GET     | Nearby attractions            |
+| /api/geo/user/<int:id>/         |   GET     | Get a user's location         |
+| /api/manager/dater_count/       |   GET     | Manager reports               |
+| /api/manager/cupid_count/       |   GET     | Manager reports               |
+| /api/manager/active_cupids/     |   GET     | Manager reports               |
+| /api/manager/intervention_rate/ |   GET     | Manager reports               |
+| /api/manager/supend/            |   POST    | suspend cupid / dater         |
+| /api/manager/unsupend/          |   POST    | unsuspend cupid / dater       |
+| /api/stt/                       |   POST    | Convert speech to text        |
+| /api/sms/                       |   POST    | Send a text message           |
+| /api/email/                     |   POST    | Send an email message         |
 
 
 -----------
@@ -741,9 +741,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('user/', views.user_list),
-    path('user/<int:pk>/', views.user_detail),
-    path('user/create/', views.user_create),
+    path('/user/', views.user_list),
+    path('/user/<int:pk>/', views.user_detail),
+    path('/user/create/', views.user_create),
 ]
 ```
 
@@ -753,7 +753,7 @@ from django.urls import path, include
 
 urlpatterns = [
     ...
-    path('api/', include('api.urls')),
+    path('/api/', include('api.urls')),
 ]
 ```
 
@@ -911,10 +911,9 @@ Check the following Pseudocode section for `tests.py`, which contains planned un
 
 cupid_code/urls.py
 ``` python
-path("", include("{app}.urls")),
+path("", include("app.urls")),
+path("api/", include("api.urls")),
 path("admin/", admin.site.urls),
-
-
 ```
 
 cupid_code/settings.py
@@ -924,35 +923,20 @@ cupid_code/settings.py
 
 INSTALLED_APPS = [
   ...
-  'django.contrib.admin'
+  'django.contrib.admin',
+  rest_framework,
+  'api',
+  'app',
   ...
 ]
 ```
 
 app/urls.py
 ``` python
-path("welcome/", welcome),
-path("login/", login),
-path("signup/", sign_up),
-path("dater/home/", get_dater_home),
-path("dater/chat/", chat),
-path("dater/listen/", listen),
-path("dater/rate/", rate_cupid),
-path("dater/balance/", dater_balance),
-path("dater/transfer/", dater_transfer),
-path("dater/calendar/", calendar),
-path("dater/profile/", get_dater_profile),
-path("cupid/home/", cupid_home),
-path("cupid/gigs/", get_all_gigs),
-path("cupid/balance/", cupid_balance),
-path("cupid/transfer/", cupid_transfer),
-path("cupid/rate/", rate_dater),
-path("cupid/gig/", use_gig),
-path("cupid/profile/", cupid_profile),
-path("manager/home/", manager_home),
-path("manager/daters/", get_all_daters),
-path("manager/suspend/", suspend),
-path("manager/unsuspend/", unsuspend),
+from django.urls import path
+from . import views
+
+
 
 ```
 
@@ -966,8 +950,7 @@ def get_dater_profile(request, id):
 
 # I think this is all the home page needs to get.
 def get_dater_home(request, id):
-  balance = get user balance from 'http://localhost:8000/dater/balance'
-
+  balance = get user balance from 'http://localhost:8000/dater/balance/' + id
   return balance.json()
 
 # If I understand right, request holds json of user's conversation with AI. Pass to API, return to user
@@ -1244,96 +1227,6 @@ api/serializers.py
 
 from rest_framework import serializers
 
-class DaterSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    username = serializers.CharField(max_length=100)
-    email = serializers.EmailField()
-    password = serializers.CharField(max_length=100)
-    phone_number = serializers.CharField(max_length=10)
-    budget = serializers.DecimalField(max_digits=10, decimal_places=2)
-    communication_preferences = serializers.IntegerField()
-    profile_picture = serializers.ImageField()
-    average_rating = serializers.DecimalField(max_digits=10, decimal_places=2)
-    text_available_to_ai = serializers.TextField()
-    cupid_cash_balance = serializers.DecimalField(max_digits=10, decimal_places=2)
-    location = serializers.TextField()
-    date_joined = serializers.DateField()
-    last_active = serializers.DateTimeField()
-
-class CupidSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    username = serializers.CharField(max_length=100)
-    email = serializers.EmailField()
-    password = serializers.CharField(max_length=100)
-    is_active = serializers.BooleanField()
-    total_interventions_completed = serializers.IntegerField()
-    total_interventions_failed = serializers.IntegerField()
-    payment = serializers.TextField()
-    status = serializers.TextField()
-    cupid_cash_balance = serializers.DecimalField(max_digits=10, decimal_places=2)
-    location = serializers.TextField()
-    average_rating = serializers.DecimalField(max_digits=10, decimal_places=2)
-    date_joined = serializers.DateField()
-    last_active = serializers.DateTimeField()
-    
-class MessageSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    owner = serializers.ForeignKey(User, on_delete=models.CASCADE)
-    text = serializers.TextField()
-    from_ai = serializers.BooleanField()
-    
-class ManagerSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    username = serializers.CharField(max_length=100)
-    email = serializers.EmailField()
-    password = serializers.CharField(max_length=100)
-
-class InterventionRequestSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    dater = serializers.ForeignKey(Dater, on_delete=models.CASCADE)
-    cupid = serializers.ForeignKey(Cupid, on_delete=models.CASCADE)
-    quest = serializers.OneToOneField(Quest, on_delete=models.CASCADE)
-    status = serializers.TextField()
-    date_time_of_request = serializers.DateTimeField()
-    date_time_of_claim = serializers.DateTimeField()
-    date_time_of_completion = serializers.DateTimeField()
-
-class QuestSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    intervention = serializers.OneToOneField(InterventionRequest, on_delete=models.CASCADE)
-    budget = serializers.DecimalField(max_digits=10, decimal_places=2)
-    items_requested = serializers.TextField()
-    pickup_location = serializers.TextField()
-
-class DateSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    dater = serializers.ForeignKey(Dater, on_delete=models.CASCADE)
-    date_time = serializers.DateTimeField()
-    location = serializers.TextField()
-    description = serializers.TextField()
-    status = serializers.TextField()
-    budget = serializers.DecimalField(max_digits=10, decimal_places=2)
-    
-class FeedbackSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    user = serializers.ForeignKey(User, on_delete=models.CASCADE)
-    intervention_request = serializers.ForeignKey(InterventionRequest, on_delete=models.CASCADE)
-    message = serializers.TextField()
-    star_rating = serializers.IntegerField()
-    date_time = serializers.DateTimeField()
-    
-class PaymentCardSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    user = serializers.ForeignKey(User, on_delete=models.CASCADE)
-    card_number = serializers.TextField()
-    cvv = serializers.TextField()
-    expiration = serializers.TextField()
-    
-class BankAccountSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    user = serializers.ForeignKey(User, on_delete=models.CASCADE)
-    routing_number = serializers.TextField()
-    account_number = serializers.TextField()
 
 ```
 
@@ -1346,229 +1239,9 @@ from rest_framework import status
 from .models import Dater, Cupid, Message, Manager, InterventionRequest, Quest, Date, Feedback, PaymentCard, BankAccount
 from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, ManagerSerializer, InterventionRequestSerializer, QuestSerializer, DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
 
-@api_view(['POST'])
-def create_user(request):
-    serializer = DaterSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
-def user_detail(request, pk):
-    try:
-        user = Dater.objects.get(pk=pk)
-    except Dater.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = DaterSerializer(user)
-    return Response(serializer.data)
-    
-@api_view(['POST'])
-def chat(request):
-    serializer = MessageSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-@api_view(['POST'])
-def intervention_create(request):
-    serializer = InterventionRequestSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
-def intervention_accept(request):
-    serializer = InterventionRequestSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-@api_view(['POST'])
-def intervention_complete(request):
-    serializer = InterventionRequestSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-@api_view(['GET'])
-def intervention_count(request, count):
-    interventions = InterventionRequest.objects.all()[:count]
-    serializer = InterventionRequestSerializer(interventions, many=True)
-    return Response(serializer.data)
-    
-@api_view(['GET'])
-def geo_stores(request):
-    stores = Store.objects.all()
-    serializer = StoreSerializer(stores, many=True)
-    return Response(serializer.data)
-    
-@api_view(['GET'])
-def geo_activities(request):
-    activities = Activity.objects.all()
-    serializer = ActivitySerializer(activities, many=True)
-    return Response(serializer.data)
-    
-@api_view(['GET'])
-def geo_events(request):
-    events = Event.objects.all()
-    serializer = EventSerializer(events, many=True)
-    return Response(serializer.data)
-    
-@api_view(['GET'])
-def geo_attractions(request):
-    attractions = Attraction.objects.all()
-    serializer = AttractionSerializer(attractions, many=True)
-    return Response(serializer.data)
-    
-@api_view(['POST'])
-def cupid_rate(request):
-    serializer = CupidSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-@api_view(['GET'])
-def cupid_ratings(request):
-    ratings = Cupid.objects.all()
-    serializer = CupidSerializer(ratings, many=True)
-    return Response(serializer.data)
-    
-@api_view(['GET'])
-def cupid_avg_rating(request, id):
-    try:
-        rating = Cupid.objects.get(pk=id)
-    except Cupid.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = CupidSerializer(rating)
-    return Response(serializer.data)
-    
-@api_view(['POST'])
-def cupid_transfer(request):
-    serializer = CupidSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-@api_view(['GET'])
-def cupid_balance(request):
-    balance = Cupid.objects.all()
-    serializer = CupidSerializer(balance, many=True)
-    return Response(serializer.data)
-    
-@api_view(['POST'])
-def cupid_rating(request):
-    serializer = CupidSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-@api_view(['GET'])
-def cupid_profile(request):
-    profile = Cupid.objects.all()
-    serializer = CupidSerializer(profile, many=True)
-    return Response(serializer.data)
-    
-@api_view(['GET'])
-def dater_calendar(request, id):
-    calendar = Date.objects.all()
-    serializer = DateSerializer(calendar, many=True)
-    return Response(serializer.data)
-    
-@api_view(['POST'])
-def dater_rate(request):
-    serializer = DaterSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
-def dater_ratings(request, id):
-    ratings = Dater.objects.all()
-    serializer = DaterSerializer(ratings, many=True)
-    return Response(serializer.data)
-    
-@api_view(['GET'])
-def dater_avg_rating(request, id):
-    try:
-        rating = Dater.objects.get(pk=id)
-    except Dater.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = DaterSerializer(rating)
-    return Response(serializer.data)
-    
-@api_view(['POST'])
-def dater_transfer(request):
-    serializer = DaterSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-@api_view(['GET'])
-def dater_balance(request):
-    balance = Dater.objects.all()
-    serializer = DaterSerializer(balance, many=True)
-    return Response(serializer.data)
-    
-@api_view(['GET'])
-def dater_profile(request):
-    profile = Dater.objects.all()
-    serializer = DaterSerializer(profile, many=True)
-    return Response(serializer.data)
-
-@api_view(['GET'])
-def manager_dater_count(request):
-    count = Dater.objects.all().count()
-    return Response(count)
-    
-@api_view(['GET'])
-def manager_cupid_count(request):
-    count = Cupid.objects.all().count()
-    return Response(count)
-    
-@api_view(['GET'])
-def manager_active_cupids(request):
-    active = Cupid.objects.filter(is_active=True)
-    serializer = CupidSerializer(active, many=True)
-    return Response(serializer.data)
-
-@api_view(['GET'])
-def manager_intervention_rate(request):
-    rate = InterventionRequest.objects.all().count()
-    return Response(rate)
-    
-@api_view(['POST'])
-def stt(request):
-    serializer = MessageSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-@api_view(['POST'])
-def sms(request):
-    serializer = MessageSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-@api_view(['POST'])
-def email(request):
-    serializer = MessageSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 ```
 
