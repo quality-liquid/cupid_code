@@ -415,58 +415,13 @@ What will the project structure look like? What will the files be named? What wi
 
 Additional pages offered by [Vue Router](#vue-router)
 
-<<<<<<< HEAD
-| URL                             |   Method  | Notes                               |
-|---------------------------------|-----------|-------------------------------------|
-| /api/user/create/               |   POST    | Create user (use corresponding API) |
-| /api/user/<int:id>/             |   GET     | Get user data                       |
-| /api/chat/                      |   POST    | Send message (return AI response)   |
-| /api/chat/<int:id>/             |   GET     | Return the chat log of a give dater |
-| /api/dater/calendar/<int:id>/   |   GET     | Get the dater's calendar (date list)|
-| /api/dater/date/<int:id>/       |   GET     | Get date by id                      |
-| /api/dater/rate/                |   POST    | Send a rating of a dater            |
-| /api/dater/ratings/<int:id>/    |   GET     | Get list of dater's ratings         |
-| /api/dater/avg_rating/<int:id>/ |   GET     | Get dater's average rating          |
-| /api/dater/transfer/            |   POST    | Initiate transfer in                |
-| /api/dater/balance/<int:id>/    |   GET     | Get account balance                 |
-| /api/dater/profile/<int:id>/    |   GET     | Get dater's profile                 |
-| /api/dater/profile/             |   POST    | Set dater's profile                 |
-| /api/cupid/rate/                |   POST    | Send a rating of a cupid            |
-| /api/cupid/ratings/<int:id>/    |   GET     | Get list of cupid's ratings         |
-| /api/cupid/avg_rating/<int:id>/ |   GET     | Get cupid's average rating          |
-| /api/cupid/transfer/            |   POST    | Initiate transfer out               |
-| /api/cupid/balance/<int:id>/    |   GET     | Get account balance                 |
-| /api/cupid/profile/<int:id>/    |   GET     | Get cupid's profile                 |
-| /api/cupid/profile/             |   POST    | Set cupid's profile                 |
-| /api/intervention/create/       |   POST    | Create intervention                 |
-| /api/intervention/accept/       |   POST    | Accept intervention                 |
-| /api/intervention/complete/     |   POST    | Complete intervention               |
-| /api/intervention/drop/         |   POST    | Drop intervention                   |
-| /api/intervention/<int:count>/  |   GET     | Return a list of count quests       |
-| /api/geo/stores/                |   GET     | List of nearby stores               |
-| /api/geo/activities/            |   GET     | Nearby activities                   |
-| /api/geo/events/                |   GET     | Nearby events                       |
-| /api/geo/attractions/           |   GET     | Nearby attractions                  |
-| /api/geo/user/<int:id>/         |   GET     | Get a user's location               |
-| /api/manager/cupids/            |   GET     | Get a list of cupids                |
-| /api/manager/daters/            |   GET     | Get a list of daters                |
-| /api/manager/dater_count/       |   GET     | Manager reports                     |
-| /api/manager/cupid_count/       |   GET     | Manager reports                     |
-| /api/manager/active_cupids/     |   GET     | Manager reports                     |
-| /api/manager/intervention_rate/ |   GET     | Manager reports                     |
-| /api/manager/supend/            |   POST    | suspend cupid / dater               |
-| /api/manager/unsupend/          |   POST    | unsuspend cupid / dater             |
-| /api/stt/                       |   POST    | Convert speech to text              |
-| /api/notify/                    |   POST    | Send a message according to pref.   |
-=======
 | URL                             | Method | Notes                               |
 |---------------------------------|--------|-------------------------------------|
-| /api/user/                      | GET    | Get a list of users                 |
 | /api/user/create/               | POST   | Create user (use corresponding API) |
 | /api/user/<int:id>/             | GET    | Get user data                       |
 | /api/chat/                      | POST   | Send message                        |
 | /api/chat/<int:id>/             | GET    | Return the last five chat messages  |
-| /api/dater/calendar/<int:id>/   | GET    | Get the dater's calendar            |
+| /api/dater/calendar/<int:id>/   |   GET  | Get the dater's calendar (date list)|
 | /api/dater/rate/                | POST   | Cupid rate Dater                    |
 | /api/dater/ratings/<int:id>/    | GET    | Get list of dater's ratings         |
 | /api/dater/avg_rating/<int:id>/ | GET    | Get dater's average rating          |
@@ -491,6 +446,8 @@ Additional pages offered by [Vue Router](#vue-router)
 | /api/geo/events/                | GET    | Nearby events                       |
 | /api/geo/attractions/           | GET    | Nearby attractions                  |
 | /api/geo/user/<int:id>/         | GET    | Get a user's location               |
+| /api/manager/cupids/            | GET    | Get a list of cupids                |
+| /api/manager/daters/            | GET    | Get a list of daters                |
 | /api/manager/dater_count/       | GET    | Manager reports                     |
 | /api/manager/cupid_count/       | GET    | Manager reports                     |
 | /api/manager/active_cupids/     | GET    | Manager reports                     |
@@ -498,9 +455,7 @@ Additional pages offered by [Vue Router](#vue-router)
 | /api/manager/suspend/           | POST   | suspend cupid / dater               |
 | /api/manager/unsuspend/         | POST   | unsuspend cupid / dater             |
 | /api/stt/                       | POST   | Convert speech to text              |
-| /api/sms/                       | POST   | Send a text message                 |
-| /api/email/                     | POST   | Send an email message               |
->>>>>>> b624aa8d80d2f1a8baa19b5740e40330dfb0ceef
+| /api/notify/                    | POST   | Send a message according to pref.   |
 
 ### Internal API Design (Nate S)
 
