@@ -402,297 +402,70 @@ What will the project structure look like? What will the files be named? What wi
   * manage.py
   * db.sqlite3
 
-### Outward Facing Endpoints 
+### URL Mapping
 
-| URL                | Method | Notes                                |
-|--------------------|--------|--------------------------------------|
-| /                  | GET    | Welcome                              |
-| /login/            | GET    | Login page                           |
-| /login/            | POST   | Send form                            |
-| /signup/           | GET    | Signup page                          |
-| /signup/           | POST   | Send form                            |
-| /app/              | GET    | Vue Router takes over from here      |
+#### static endpoints
+
+| URL                | Method | Notes                                | View Function |
+|--------------------|--------|--------------------------------------|---------------|
+| /                  | GET    | Welcome                              | index         |
+| /login/            | GET    | Login page                           | login         |
+| /login/            | POST   | Send form                            | check_login   |
+| /signup/           | GET    | Signup page                          | signup        |
+| /signup/           | POST   | Send form                            | check_signup  |
+| /app/              | GET    | Vue Router takes over from here      |               |
 
 Additional pages offered by [Vue Router](#vue-router)
 
-| URL                             | Method | Notes                               |
-|---------------------------------|--------|-------------------------------------|
-| /api/user/create/               | POST   | Create user (use corresponding API) |
-| /api/user/<int:id>/             | GET    | Get user data                       |
-| /api/chat/                      | POST   | Send message                        |
-| /api/chat/<int:id>/             | GET    | Return the last five chat messages  |
-| /api/dater/calendar/<int:id>/   |   GET  | Get the dater's calendar (date list)|
-| /api/dater/rate/                | POST   | Cupid rate Dater                    |
-| /api/dater/ratings/<int:id>/    | GET    | Get list of dater's ratings         |
-| /api/dater/avg_rating/<int:id>/ | GET    | Get dater's average rating          |
-| /api/dater/transfer/            | POST   | Initiate transfer in                |
-| /api/dater/balance/<int:id>/    | GET    | Get account balance                 |
-| /api/dater/profile/<int:id>/    | GET    | Get dater's profile                 |
-| /api/dater/profile/             | POST   | Set dater's profile                 |
-| /api/cupid/rate/                | POST   | Dater rating a Cupid                |
-| /api/cupid/ratings/<int:id>/    | GET    | Get list of cupid's ratings         |
-| /api/cupid/avg_rating/<int:id>/ | GET    | Get cupid's average rating          |
-| /api/cupid/transfer/            | POST   | Initiate transfer out               |
-| /api/cupid/balance/<int:id>/    | GET    | Get account balance                 |
-| /api/cupid/profile/<int:id>/    | GET    | Get cupid's profile                 |
-| /api/cupid/profile/             | POST   | Set cupid's profile                 |
-| /api/gig/create/                | POST   | Create gig                          |
-| /api/gig/accept/                | POST   | Accept gig                          |
-| /api/gig/complete/              | POST   | Complete gig                        |
-| /api/gig/drop/                  | POST   | Drop gig                            |
-| /api/gig/<int:count>/           | GET    | Return number of gigs around cupid  |
-| /api/geo/stores/                | GET    | List of nearby stores               |
-| /api/geo/activities/            | GET    | Nearby activities                   |
-| /api/geo/events/                | GET    | Nearby events                       |
-| /api/geo/attractions/           | GET    | Nearby attractions                  |
-| /api/geo/user/<int:id>/         | GET    | Get a user's location               |
-| /api/manager/cupids/            | GET    | Get a list of cupids                |
-| /api/manager/daters/            | GET    | Get a list of daters                |
-| /api/manager/dater_count/       | GET    | Manager reports                     |
-| /api/manager/cupid_count/       | GET    | Manager reports                     |
-| /api/manager/active_cupids/     | GET    | Manager reports                     |
-| /api/manager/gig_rate/          | GET    | Manager reports                     |
-| /api/manager/suspend/           | POST   | suspend cupid / dater               |
-| /api/manager/unsuspend/         | POST   | unsuspend cupid / dater             |
-| /api/stt/                       | POST   | Convert speech to text              |
-| /api/notify/                    | POST   | Send a message according to pref.   |
-
-### Internal API Design (Nate S)
+#### dynamic endpoints
 
 * Implement with the Django Rest Framework
   * https://www.django-rest-framework.org/tutorial/quickstart/
-  * Makes building APIs easier
-* The purpose of using Internal APIs is to make the system modular and easy to change. If we decide to change the way we handle a certain part of the system, we can do so without changing the entire system. This will also allow us to test the system in parts, and make sure that each part is working as intended.
-  * For example, if we need to use another external API we dont have to change the way we use that API in our application, we can just change the internal API that calls the external API.
-  * Another example is if we need to change the way we handle user authentication, we can do so without changing the entire system.
+  * Makes building APIs easier by providing a set of tools for building APIs
 * Django API Reference
   * https://docs.djangoproject.com/en/5.0/ref/
 
-1. Create User - for all users
-   * Purpose: Create a new user
-   * Input (json):
-     * Usertype (string)
-       * Dater
-       * Cupid
-       * Manager
-     * Username (string)
-       * Check for uniqueness
-       * Must start with a letter and contain only letters, numbers, and underscores
-     * Email (string)
-       * Must be a valid email address
-       * Check for uniqueness
-     * Password (string)
-       * Minimum 8 characters with at least one uppercase letter, one lowercase letter, one number, and one special character
-     * Confirm Password (string)
-       * Must match Password
-     * Phone Number (string)
-       * 10 digits
-       * Check for uniqueness
-   * Output (json): 
-     * If the user is created, return a success message
-     * If the user already exists, return an error message
-     * If the user is not created, return an error message
-2. Login - for all users
-   * Purpose: Authenticate a user
-   * Input (json):
-     * Username (string)
-     * Password (string)
-   * Output (json):
-     * If the user is signed in, return a success message
-     * If the user is not signed in, return an error message
-3. Chat with AI - for Daters only
-   * Purpose: Allow a user to chat with the AI
-   * Input (json):
-     * User (string)
-     * Message (string)
-   * Output (json):
-     * If the message is sent, return a success message
-     * If the message is not sent, return an error message
-4. Request Cupid - for Daters/AI
-    * Purpose: Allow a user or AI to request a cupid
-    * Input (json):
-      * User location (string)
-      * User budget (decimal)
-      * User preferences (string)
-      * User communication preferences (string)
-      * User name (string)
-      * Task description (string)
-    * Output (json):
-      * If the request is sent, return a success message
-      * If the request is not sent, return an error message
-5. Accept Cupid Request - for Cupids
-    * Purpose: Allow a cupid to accept a request
-    * Input (json):
-      * Cupid name (string)
-      * Request id (string)
-    * Output (json):
-      * If the request is accepted, return a success message
-      * If the request is not accepted, return an error message
-6. Complete Cupid Request - for Cupids
-    * Purpose: Allow a cupid to complete a request
-    * Input (json):
-      * Cupid name (string)
-      * Request id (string)
-    * Output (json):
-      * If the request is completed, return a success message
-      * If the request is not completed, return an error message
-7. Rate Cupid - for Daters
-    * Purpose: Allow a dater to rate a cupid
-    * Input (json):
-      * Cupid name (string)
-      * Dater name (string)
-      * Rating (integer)
-    * Output (json):
-      * If the rating is submitted, return a success message
-      * If the rating is not submitted, return an error message
-8. Rate Dater - for Cupids
-    * Purpose: Allow a cupid to rate a dater
-    * Input (json):
-      * Cupid name (string)
-      * Dater name (string)
-      * Rating (integer)
-    * Output (json):
-      * If the rating is submitted, return a success message
-      * If the rating is not submitted, return an error message
-9. Get Nearby Stores - for Daters/AI
-    * Purpose: Allow a dater to get nearby stores
-    * Input (json):
-      * User location (string)
-    * Output (json):
-      * If the stores are found, return a success message
-      * If the stores are not found, return an error message
-10. Get Nearby Restaurants - for Daters/AI
-    * Purpose: Allow a dater to get nearby restaurants
-    * Input (json):
-      * User location (string)
-    * Output (json):
-      * If the restaurants are found, return a success message
-      * If the restaurants are not found, return an error message
-11. Get Nearby Activities - for Daters/AI
-    * Purpose: Allow a dater to get nearby activities
-    * Input (json):
-      * User location (string)
-    * Output (json):
-      * If the activities are found, return a success message
-      * If the activities are not found, return an error message
-12. Get Nearby Events - for Daters/AI
-    * Purpose: Allow a dater to get nearby events
-    * Input (json):
-      * User location (string)
-    * Output (json):
-      * If the events are found, return a success message
-      * If the events are not found, return an error message
-13. Get Nearby Attractions - for Daters/AI
-    * Purpose: Allow a dater to get nearby attractions
-    * Input (json):
-      * User location (string)
-    * Output (json):
-      * If the attractions are found, return a success message
-      * If the attractions are not found, return an error message
-14. Transfer Cupid Cash - for Cupids
-    * Purpose: Allow a cupid to transfer cupid cash
-    * Input (json):
-      * Cupid name (string)
-      * Amount (decimal)
-    * Output (json):
-      * If the transfer is successful, return a success message
-      * If the transfer is not successful, return an error message
-15. Get Cupid Cash Balance - for Cupids
-    * Purpose: Allow a cupid to see their cupid cash balance
-    * Input (json):
-      * Cupid name (string)
-    * Output (json):
-      * If the balance is found, return the balance
-      * If the balance is not found, return an error message
-16. Speech to Text - for AI
-    * Purpose: Allow AI to convert speech to text
-    * Input (json):
-      * Speech (mp3 file)
-    * Output (json):
-      * If the speech is converted, return the text
-      * If the speech is not converted, return an error message
-17. Edit User profile - for all users
-    * Purpose: Allow a user to edit their profile
-    * Input (json):
-      * User (string)
-      * ... 
-    * Output (json):
-      * If the profile is edited, return a success message
-      * If the profile is not edited, return an error message
-18. Get User Profile - for all users
-    * Purpose: Allow a user to see their profile
-    * Input (json):
-      * User (string)
-    * Output (json):
-      * If the profile is found, return the profile
-      * If the profile is not found, return an error message
-19. Get Dater Calendar - for Daters
-    * Purpose: Allow a dater to see their calendar
-    * Input (json):
-      * Dater name (string)
-    * Output (json):
-      * If the calendar is found, return the calendar
-      * If the calendar is not found, return an error message
-20. Get Manager Report - for Managers
-    * Purpose: Allow a manager to see a report
-    * Input (json):
-      * Manager name (string)
-    * Output (json):
-      * If the report is found, return the report
-      * If the report is not found, return an error message
-21. Get Cupid Requests - for Cupids
-    * Purpose: Allow a cupid to see available requests
-    * Input (json):
-      * Cupid name (string)
-    * Output (json):
-      * If the requests are found, return the requests
-      * If the requests are not found, return an error message
-22. Get Cupid Rating - for Cupids
-    * Purpose: Allow a cupid to see their rating
-    * Input (json):
-      * Cupid name (string)
-    * Output (json):
-      * If the rating is found, return the rating
-      * If the rating is not found, return an error message
-23. Get Dater Rating - for Daters
-    * Purpose: Allow a dater to see their rating
-    * Input (json):
-      * Dater name (string)
-    * Output (json):
-      * If the rating is found, return the rating
-      * If the rating is not found, return an error message
-24. Get User Location - for all users
-    * Purpose: Allow a user to see their location
-    * Input (json):
-      * User (string)
-      * IP address (string)
-    * Output (json):
-      * If the location is found, return the location
-      * If the location is not found, return an error message
-25. Text Notification - for all users
-    * Purpose: Allow a user to receive a text notification
-    * Input (json):
-      * User (string)
-      * Message (string)
-    * Output (json):
-      * If the notification is sent, return a success message
-      * If the notification is not sent, return an error message
-26. Email Notification - for all users 
-    * Purpose: Allow a user to receive an email notification
-    * Input (json):
-      * User (string)
-      * Message (string)
-    * Output (json):
-      * If the notification is sent, return a success message
-      * If the notification is not sent, return an error message
-27. Suspend/Unsuspend - for managers
-    * Purpose: Allow a manager to suspend daters or cupids
-    * Input (json):
-      * User (string)
-      * Suspend (boolean)
-      * Message (string)
-    * Output (json):
-      * If the change is successful, return a success message
+| URL                             | Method | Notes                                | View Function |
+|---------------------------------|--------|--------------------------------------|---------------|
+| /api/user/create/               | POST   | Create user (use corresponding API)  |               |
+| /api/user/<int:id>/             | GET    | Get user data                        |               |
+| /api/chat/                      | POST   | Send message                         |               |
+| /api/chat/<int:id>/             | GET    | Return the last five chat messages   |               |
+| /api/dater/calendar/<int:id>/   | GET    | Get the dater's calendar (date list) |               |      
+| /api/dater/rate/                | POST   | Cupid rate Dater                     |               |
+| /api/dater/ratings/<int:id>/    | GET    | Get list of dater's ratings          |               |
+| /api/dater/avg_rating/<int:id>/ | GET    | Get dater's average rating           |               |
+| /api/dater/transfer/            | POST   | Initiate transfer in                 |               |
+| /api/dater/balance/<int:id>/    | GET    | Get account balance                  |               |
+| /api/dater/profile/<int:id>/    | GET    | Get dater's profile                  |               |
+| /api/dater/profile/             | POST   | Set dater's profile                  |               |
+| /api/cupid/rate/                | POST   | Dater rating a Cupid                 |               |
+| /api/cupid/ratings/<int:id>/    | GET    | Get list of cupid's ratings          |               |
+| /api/cupid/avg_rating/<int:id>/ | GET    | Get cupid's average rating           |               |
+| /api/cupid/transfer/            | POST   | Initiate transfer out                |               |
+| /api/cupid/balance/<int:id>/    | GET    | Get account balance                  |               |
+| /api/cupid/profile/<int:id>/    | GET    | Get cupid's profile                  |               |
+| /api/cupid/profile/             | POST   | Set cupid's profile                  |               |
+| /api/gig/create/                | POST   | Create gig                           |               |
+| /api/gig/accept/                | POST   | Accept gig                           |               |
+| /api/gig/complete/              | POST   | Complete gig                         |               |
+| /api/gig/drop/                  | POST   | Drop gig                             |               |
+| /api/gig/<int:count>/           | GET    | Return number of gigs around cupid   |               |
+| /api/geo/stores/                | GET    | List of nearby stores                |               |
+| /api/geo/activities/            | GET    | Nearby activities                    |               |
+| /api/geo/events/                | GET    | Nearby events                        |               |
+| /api/geo/attractions/           | GET    | Nearby attractions                   |               |
+| /api/geo/user/<int:id>/         | GET    | Get a user's location                |               |
+| /api/manager/cupids/            | GET    | Get a list of cupids                 |               |
+| /api/manager/daters/            | GET    | Get a list of daters                 |               |
+| /api/manager/dater_count/       | GET    | Manager reports                      |               |
+| /api/manager/cupid_count/       | GET    | Manager reports                      |               |
+| /api/manager/active_cupids/     | GET    | Manager reports                      |               |
+| /api/manager/gig_rate/          | GET    | Manager reports                      |               |
+| /api/manager/suspend/           | POST   | suspend cupid / dater                |               |
+| /api/manager/unsuspend/         | POST   | unsuspend cupid / dater              |               |
+| /api/stt/                       | POST   | Convert speech to text               |               |
+| /api/notify/                    | POST   | Send a message according to pref.    |               |
 
 #### How to build an internal API
 
