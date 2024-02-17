@@ -432,12 +432,12 @@ Additional pages offered by [Vue Router](#vue-router)
 
 | URL                             |   Method  | Notes                               |
 |---------------------------------|-----------|-------------------------------------|
-| /api/user/                      |   GET     | Get a list of users                 |
 | /api/user/create/               |   POST    | Create user (use corresponding API) |
 | /api/user/<int:id>/             |   GET     | Get user data                       |
-| /api/chat/                      |   POST    | Send message                        |
+| /api/chat/                      |   POST    | Send message (return AI response)   |
 | /api/chat/<int:id>/             |   GET     | Return the chat log of a give dater |
-| /api/dater/calendar/<int:id>/   |   GET     | Get the dater's calendar            |
+| /api/dater/calendar/<int:id>/   |   GET     | Get the dater's calendar (date list)|
+| /api/dater/date/<int:id>/       |   GET     | Get date by id                      |
 | /api/dater/rate/                |   POST    | Send a rating of a dater            |
 | /api/dater/ratings/<int:id>/    |   GET     | Get list of dater's ratings         |
 | /api/dater/avg_rating/<int:id>/ |   GET     | Get dater's average rating          |
@@ -462,6 +462,8 @@ Additional pages offered by [Vue Router](#vue-router)
 | /api/geo/events/                |   GET     | Nearby events                       |
 | /api/geo/attractions/           |   GET     | Nearby attractions                  |
 | /api/geo/user/<int:id>/         |   GET     | Get a user's location               |
+| /api/manager/cupids/            |   GET     | Get a list of cupids                |
+| /api/manager/daters/            |   GET     | Get a list of daters                |
 | /api/manager/dater_count/       |   GET     | Manager reports                     |
 | /api/manager/cupid_count/       |   GET     | Manager reports                     |
 | /api/manager/active_cupids/     |   GET     | Manager reports                     |
@@ -469,8 +471,7 @@ Additional pages offered by [Vue Router](#vue-router)
 | /api/manager/supend/            |   POST    | suspend cupid / dater               |
 | /api/manager/unsupend/          |   POST    | unsuspend cupid / dater             |
 | /api/stt/                       |   POST    | Convert speech to text              |
-| /api/sms/                       |   POST    | Send a text message                 |
-| /api/email/                     |   POST    | Send an email message               |
+| /api/notify/                    |   POST    | Send a message according to pref.   |
 
 ### Internal API Design (Nate S)
 
