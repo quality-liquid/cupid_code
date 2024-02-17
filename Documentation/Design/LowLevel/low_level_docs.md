@@ -10,20 +10,76 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 
 02/08/24
 
+<!--toc:start-->
+- [**Cupid Code**](#cupid-code)
+- [**Low Level Design Document**](#low-level-design-document)
+    - [Sub-team Members](#sub-team-members)
+      - [Frontend Team Members](#frontend-team-members)
+      - [Middleend Team Members](#middleend-team-members)
+      - [Backend Team Members](#backend-team-members)
+    - [Sub-team Responsibilities](#sub-team-responsibilities)
+      - [Frontend team](#frontend-team)
+      - [Middleend team](#middleend-team)
+      - [Backend team](#backend-team)
+    - [Team Conventions and Standards](#team-conventions-and-standards)
+      - [Branching Conventions](#branching-conventions)
+      - [Naming Conventions](#naming-conventions)
+      - [Coding Standards](#coding-standards)
+      - [Commenting Standards](#commenting-standards)
+      - [Testing Standards](#testing-standards)
+  - [Frontend Design](#frontend-design)
+    - [Security](#security)
+    - [UI](#ui)
+    - [UX](#ux)
+    - [Templates](#templates)
+    - [Vue Router](#vue-router)
+    - [Testing](#testing)
+  - [Connecting Vue and Django](#connecting-vue-and-django)
+      - [Poetry](#poetry)
+      - [Vite Config](#vite-config)
+      - [NPM](#npm)
+      - [Serverside](#serverside)
+        - [Files to Add](#files-to-add)
+        - [Environment](#environment)
+        - [Middleware](#middleware)
+        - [In Server Settings](#in-server-settings)
+        - [In Core views.py](#in-core-viewspy)
+        - [In Core index.html](#in-core-indexhtml)
+      - [Clientside](#clientside)
+  - [Backend Design](#backend-design)
+    - [Django Project Structure (Nate S)](#django-project-structure-nate-s)
+    - [Outward Facing Endpoints](#outward-facing-endpoints)
+    - [Internal API Design (Nate S)](#internal-api-design-nate-s)
+      - [How to build an internal API](#how-to-build-an-internal-api)
+    - [Django Models](#django-models)
+    - [Django Migrations](#django-migrations)
+      - [Dummy Daters](#dummy-daters)
+      - [Dummy Cupids](#dummy-cupids)
+      - [Dummy Manager](#dummy-manager)
+      - [Dummy messages](#dummy-messages)
+      - [Dummy Interventions](#dummy-interventions)
+      - [Dummy Dates](#dummy-dates)
+      - [Feedback](#feedback)
+    - [Django Settings (Daniel)](#django-settings-daniel)
+    - [Django Admin (Daniel)](#django-admin-daniel)
+    - [Unit Tests (Daniel)](#unit-tests-daniel)
+    - [Pseudocode](#pseudocode)
+<!--toc:end-->
+
 -----------
 ### Sub-team Members
 
-#### Frontend team
+#### Frontend Team Members
 
 * Eric 
 * Brighton 
 * Brandon
 
-#### Middleend team 
+#### Middleend Team Members
 
 * Emma
 
-#### Backend team
+#### Backend Team Members
 
 * Nate Stott 
 * Nate McKenzie 
@@ -374,51 +430,47 @@ What will the project structure look like? What will the files be named? What wi
 
 Additional pages offered by [Vue Router](#vue-router)
 
-
-| URL                             |   Method  | Notes                         |
-|---------------------------------|-----------|-------------------------------|
-| /api/user/                      |   POST    | Create user (call right API)  |
-| /api/user/<int:id>/             |   GET     | Get user data                 |
-| /api/chat/                      |   POST    | Send message                  |
-| /api/dater/calendar/<int:id>/   |   GET     | Get the dater's cal           |
-| /api/dater/rate/                |   POST    | Send a rating of a dater      |
-| /api/dater/ratings/<int:id>/    |   GET     | Get list of dater's ratings   |
-| /api/dater/avg_rating/<int:id>/ |   GET     | Get dater's average rating    |
-| /api/dater/transfer/            |   POST    | Initiate transfer in          |
-| /api/dater/balance/             |   GET     | Get account balance           |
-| /api/dater/profile/             |   GET     | Get dater's profile           |
-| /api/dater/profile/             |   POST    | Set dater's profile           |
-| /api/cupid/rate/                |   POST    | Send a rating of a cupid      |
-| /api/cupid/ratings/             |   GET     | Get list of cupid's ratings   |
-| /api/cupid/avg_rating/<int:id>/ |   GET     | Get cupid's average rating    |
-| /api/cupid/transfer/            |   POST    | Initiate transfer out         |
-| /api/cupid/balance/             |   GET     | Get account balance           |
-| /api/cupid/rating/              |   GET     | Get cupid's rating            |
-| /api/cupid/profile/             |   GET     | Get cupid's profile           |
-| /api/cupid/profile/             |   POST    | Set cupid's profile           |
-| /api/intervention/create/       |   POST    | Create intervention           |
-| /api/intervention/accept/       |   POST    | Accept intervention           |
-| /api/intervention/complete/     |   POST    | Complete intervention         |
-| /api/intervention/drop/         |   POST    | Drop intervention             |
-| /api/intervention/<int:count>/  |   GET     | Return a list of count quests |
-| /api/geo/stores/                |   GET     | List of nearby stores         |
-| /api/geo/activities/            |   GET     | Nearby activities             |
-| /api/geo/events/                |   GET     | Nearby events                 |
-| /api/geo/attractions/           |   GET     | Nearby attractions            |
-| /api/geo/user/<int:id>/         |   GET     | Get a user's location         |
-| /api/manager/dater_count/       |   GET     | Manager reports               |
-| /api/manager/cupid_count/       |   GET     | Manager reports               |
-| /api/manager/active_cupids/     |   GET     | Manager reports               |
-| /api/manager/intervention_rate/ |   GET     | Manager reports               |
-| /api/manager/supend/            |   POST    | suspend cupid / dater         |
-| /api/manager/unsupend/          |   POST    | unsuspend cupid / dater       |
-| /api/stt/                       |   POST    | Convert speech to text        |
-| /api/sms/                       |   POST    | Send a text message           |
-| /api/email/                     |   POST    | Send an email message         |
-
-
------------
-
+| URL                             |   Method  | Notes                               |
+|---------------------------------|-----------|-------------------------------------|
+| /api/user/                      |   GET     | Get a list of users                 |
+| /api/user/create/               |   POST    | Create user (use corresponding API) |
+| /api/user/<int:id>/             |   GET     | Get user data                       |
+| /api/chat/                      |   POST    | Send message                        |
+| /api/chat/<int:id>/             |   GET     | Return the chat log of a give dater |
+| /api/dater/calendar/<int:id>/   |   GET     | Get the dater's calendar            |
+| /api/dater/rate/                |   POST    | Send a rating of a dater            |
+| /api/dater/ratings/<int:id>/    |   GET     | Get list of dater's ratings         |
+| /api/dater/avg_rating/<int:id>/ |   GET     | Get dater's average rating          |
+| /api/dater/transfer/            |   POST    | Initiate transfer in                |
+| /api/dater/balance/<int:id>/    |   GET     | Get account balance                 |
+| /api/dater/profile/<int:id>/    |   GET     | Get dater's profile                 |
+| /api/dater/profile/             |   POST    | Set dater's profile                 |
+| /api/cupid/rate/                |   POST    | Send a rating of a cupid            |
+| /api/cupid/ratings/<int:id>/    |   GET     | Get list of cupid's ratings         |
+| /api/cupid/avg_rating/<int:id>/ |   GET     | Get cupid's average rating          |
+| /api/cupid/transfer/            |   POST    | Initiate transfer out               |
+| /api/cupid/balance/<int:id>/    |   GET     | Get account balance                 |
+| /api/cupid/profile/<int:id>/    |   GET     | Get cupid's profile                 |
+| /api/cupid/profile/             |   POST    | Set cupid's profile                 |
+| /api/intervention/create/       |   POST    | Create intervention                 |
+| /api/intervention/accept/       |   POST    | Accept intervention                 |
+| /api/intervention/complete/     |   POST    | Complete intervention               |
+| /api/intervention/drop/         |   POST    | Drop intervention                   |
+| /api/intervention/<int:count>/  |   GET     | Return a list of count quests       |
+| /api/geo/stores/                |   GET     | List of nearby stores               |
+| /api/geo/activities/            |   GET     | Nearby activities                   |
+| /api/geo/events/                |   GET     | Nearby events                       |
+| /api/geo/attractions/           |   GET     | Nearby attractions                  |
+| /api/geo/user/<int:id>/         |   GET     | Get a user's location               |
+| /api/manager/dater_count/       |   GET     | Manager reports                     |
+| /api/manager/cupid_count/       |   GET     | Manager reports                     |
+| /api/manager/active_cupids/     |   GET     | Manager reports                     |
+| /api/manager/intervention_rate/ |   GET     | Manager reports                     |
+| /api/manager/supend/            |   POST    | suspend cupid / dater               |
+| /api/manager/unsupend/          |   POST    | unsuspend cupid / dater             |
+| /api/stt/                       |   POST    | Convert speech to text              |
+| /api/sms/                       |   POST    | Send a text message                 |
+| /api/email/                     |   POST    | Send an email message               |
 
 ### Internal API Design (Nate S)
 
@@ -833,12 +885,12 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
     * Star Rating : Integer Field (bound to 1-5)
     * DateTime : DateTime Field 
 * Payment Card
-    * **User : Foreign Key (can be a cupid or dater as both have a OneToOne user)**
+    * **User : Foreign Key**
     * Card Number : Text Field
     * CVV : Text Field
     * Expiration : Text Field
 * Bank Account
-    * **User : Foreign Key (can be a cupid or dater as both have a OneToOne user)**
+    * **User : Foreign Key**
     * Routing Number : Text Field
     * Account Number : Text Field
     
@@ -955,7 +1007,7 @@ def get_dater_home(request, id):
 
 # If I understand right, request holds json of user's conversation with AI. Pass to API, return to user
 def get_chat(request, id):
-  response = send request to 'http://localhost:8000/api/get_chat/' + id
+  response = send request to 'http://localhost:8000/api/chat/' + id
 
   return response.json()
 
