@@ -219,7 +219,9 @@ Every function should have a test
 ### Security
   While a majority of the security will occur on the backend, the frontend will do a little bit to ensure good data is being passed through. This will primarily consist of validating input and output.
 
-  If there is bad input, we will visually inform the user of it with sufficient detail. This gives them the opportunity to change it and comply with our standards. For example, if someone sends a chat to the AI, we will verify that there is no code injection or other malicious works inserted that would jeopardize the app. If bad input is given, we will inform the user (either via toast or other means) that something went wrong.
+
+  Input Validation:
+  - If there is bad input given by the user, we will visually inform the user of it with sufficient detail. This gives them the opportunity to change it and comply with our standards. For example, if someone sends a chat to the AI, we will verify that there is no code injection or other malicious works inserted that would jeopardize the app. If bad input is given, we will inform the user (either via toast or other means) that something went wrong.
 
   This will also be done for requests from the backend to make sure the given JSON is correct and valid. This can be done as simple as a check between who the frontend considers the user and who the backend considers the user. This could be done with IDs or other unique keys.
 
@@ -241,8 +243,10 @@ Every function should have a test
   ```
 
 ### UI
+  One of the key features of the Vue.js framework is the reactivity system. The reactivity system allows for data changes to be tracked and for the user interface to update accordingly, creating a better user interface.
 
-### UX
+### UX 
+  Vue.js excels at creating a superior user experience through its single-page application (SPA) capabilities. By adopting a SPA architecture, Vue enables seamless and fluid navigation within the application, eliminating the need for full page reloads. This results in faster transitions between views, reducing latency and providing users with a smoother and more responsive interaction. The Vue Router facilitates the dynamic loading of components based on routes, ensuring that only the necessary content is fetched and rendered, optimizing performance. The reactivity system of Vue ensures that as the application state changes, the corresponding components update in real-time, offering a dynamic and engaging interface. Additionally, Vue's component-based structure promotes code modularity and reusability, contributing to easier maintenance and scalability.
 
 ### Templates
   A majority of the frontend design will use the Vue.js framework, but we will want to implement Django Templates for 2 cases.
