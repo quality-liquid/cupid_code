@@ -207,14 +207,23 @@ Every function should have a test
 -----------
 ## Frontend Design
 
-### Security
-  While a majority of the security will occur on the back, the front will do a little bit to ensure good data is being passed through. This will primarily be validating input and output. 
-  If there is bad input, we will visually inform the user of it with sufficient detail. This gives them the opportunity to change it and comply with our standards.
-  For example, if someone sends a chat to the AI, we will verify that there is no code injection or other malicious works inserted that would jeopardize the app. If bad input is given, we will inform the user (either via toast or other means) that something went wrong.
-  This will also be done for requests from the backend to make sure the given json is correct and valid. This can be done as simple as a check between who the frontend considers the user and who the backend considers the user. This could be done with ids or other unique keys.
+### Vue.js Framework
+  For the frontend component of the Cupid Code web application, we will be using the Vue.js framework to create a seemless user experience that is visually appealing and intuitive.
 
-  This is the general format most of the asynchronous functions will follow for validating data before displaying it. 
-  These functions will use the makeRequest function described in the connection of Vue and Django.
+  Vue.js is a framework that supports Single-Page Applications (SPA). It consists of Vue components (`.vue` files) that contain all of the HTML, JavaScript, and CSS in a single file. The Vue components allow for reusability.
+
+  With Vue, we can choose to use the Vue Composition API or the Options API. The Composition API lends itself to larger applications (such as Cupid Code) and will therefore be used for this project.
+
+  Vue.js Docs: https://vuejs.org/guide/
+
+### Security
+  While a majority of the security will occur on the backend, the frontend will do a little bit to ensure good data is being passed through. This will primarily consist of validating input and output.
+
+  If there is bad input, we will visually inform the user of it with sufficient detail. This gives them the opportunity to change it and comply with our standards. For example, if someone sends a chat to the AI, we will verify that there is no code injection or other malicious works inserted that would jeopardize the app. If bad input is given, we will inform the user (either via toast or other means) that something went wrong.
+
+  This will also be done for requests from the backend to make sure the given JSON is correct and valid. This can be done as simple as a check between who the frontend considers the user and who the backend considers the user. This could be done with IDs or other unique keys.
+
+  This is the general format most of the asynchronous functions will follow for validating data before displaying it. These functions will use the makeRequest function described in the connection of Vue and Django.
 
   ``` javascript
   async function get<Data>() {
@@ -236,9 +245,9 @@ Every function should have a test
 ### UX
 
 ### Templates
-  A majority of the frontend design will occur in View, but we will want to implement Django Templates for 2 cases. 
-    Case 1: A django template is needed to connect the back to the front.
-    Case 2: To protect the system, we can make the signing up/logging in its own Django app that will authenticate logging in so that you must be a verified user to use the rest of the app. This method will utilize the Django settings.py variables as well since you can tell it what the login page will be.
+  A majority of the frontend design will use the Vue.js framework, but we will want to implement Django Templates for 2 cases.
+  - Case 1: A django template is needed to connect the back to the front.
+  - Case 2: To protect the system, we can make the signing up/logging in its own Django app that will authenticate logging in so that the visitor must be a verified user to use the rest of the app. This method will utilize the Django settings.py variables as well since you can tell it what the login page will be.
 
   This won't deal with many of the external links since it will be an isolated app that's sole purpose is to add & validate users and redirect them based off of the type of account they are.
 
