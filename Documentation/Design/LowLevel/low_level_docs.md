@@ -13,11 +13,11 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 <!--toc:start-->
 - [**Cupid Code**](#cupid-code)
 - [**Low Level Design Document**](#low-level-design-document)
-    - [Sub-team Members](#sub-team-members)
+    - [Sub-team Members](#subteam-members)
       - [Frontend Team Members](#frontend-team-members)
       - [Middleend Team Members](#middleend-team-members)
       - [Backend Team Members](#backend-team-members)
-    - [Sub-team Responsibilities](#sub-team-responsibilities)
+    - [Sub-team Responsibilities](#subteam-responsibilities)
       - [Frontend team](#frontend-team)
       - [Middleend team](#middleend-team)
       - [Backend team](#backend-team)
@@ -47,28 +47,21 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
         - [In Core index.html](#in-core-indexhtml)
       - [Clientside](#clientside)
   - [Backend Design](#backend-design)
-    - [Django Project Structure (Nate S)](#django-project-structure-nate-s)
+    - [Django Project Structure](#django-project-structure)
     - [URL Mapping](#url-mapping)
       - [static endpoints](#static-endpoints)
       - [dynamic endpoints](#dynamic-endpoints)
-      - [How to build an internal API](#how-to-build-an-internal-api)
     - [Django Models](#django-models)
     - [Django Migrations](#django-migrations)
-      - [Dummy Daters](#dummy-daters)
-      - [Dummy Cupids](#dummy-cupids)
-      - [Dummy Manager](#dummy-manager)
-      - [Dummy messages](#dummy-messages)
-      - [Dummy Gigs](#dummy-gigs)
-      - [Dummy Dates](#dummy-dates)
-      - [Feedback](#feedback)
-    - [Django Settings (Daniel)](#django-settings-daniel)
-    - [Django Admin (Daniel)](#django-admin-daniel)
-    - [Unit Tests (Daniel)](#unit-tests-daniel)
+    - [Django Settings](#django-settings)
+    - [Django Admin](#django-admin)
+    - [Unit Tests](#unit-tests)
+    - [Quick Tutorial on how to use the Django Rest Framework](#quick-tutorial-on-how-to-use-the-django-rest-framework)
     - [Pseudocode](#pseudocode)
 <!--toc:end-->
 
 -----------
-### Sub-team Members
+### Subteam Members
 
 #### Frontend Team Members
 
@@ -87,7 +80,7 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 * Daniel
 
 -----------
-### Sub-team Responsibilities
+### Subteam Responsibilities
 
 #### Frontend team
 
@@ -216,7 +209,7 @@ Every function should have a test
   This is the general format most of the asynchronous functions will follow for validating data before displaying it. 
   These functions will use the makeRequest function described in the connection of Vue and Django.
 
-  ``` javascript
+``` javascript
   async function get<Data>() {
     await the results from getting the profile 
       - this will make a call to the external apis
@@ -229,7 +222,7 @@ Every function should have a test
     await the request with the method "post" & a body with the information to send
     navigate elsewhere OR rerender page
   }
-  ```
+```
 
 ### UI
 
@@ -428,7 +421,7 @@ Mapping what endpoints the frontend needs is helpful for the backend to know wha
 * Django Rest Framework Authentication
   * https://www.django-rest-framework.org/api-guide/authentication/
 
-### Django Project Structure 
+### Django Project Structure
 
 What will the project structure look like? What will the files be named? What will the directories be named?
 
@@ -648,7 +641,7 @@ The INSTALLED_APPS lists Django applications that are enabled in this project. T
 `django.contrib.admin`
 
 
-### Django Admin 
+### Django Admin
 
 The Django admin site adds the possibility to have admin accounts with levels of management and control. The main functions this account can provide are the following:
 * Easy creation, management, and deletion of user accounts
@@ -664,7 +657,7 @@ There are some concerns with the admin site and admin accounts. These include:
 To address these concerns, admins may be enforced to have strong passwords (12+ characters, including special characters, numbers, and a mix of lower and upper case characters). Then admin accounts may be used during times when the software experiences the least amount of activity to do intensive work (except for emergencies).
 
 
-### Unit Tests 
+### Unit Tests
 
 We will create unit tests to ensure that the software performs as expected. We will also ensure that security measures are in place to prevent improper usage of the software and protect user data, including Personal Identifiable Information (PII). 
 
