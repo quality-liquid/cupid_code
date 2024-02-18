@@ -22,7 +22,7 @@
 | Brandon Herrin | Editing                                                                 | 2.0       |   
 | Low Level      |                                                                         |           |   
 | Name           | Job                                                                     | Time(hrs) |   
-| Nate Stott     | Backend - pseudocode, serializers, editing, structure                   | 10        |   
+| Nate Stott     | Backend - pseudocode, serializers, editing, structure                   | 12        |   
 | Emma Wright    | Middleman, Classes                                                      | 4         |   
 | Daniel Barfuss | Backend - Security, Unit Tests, Django Admin & Settings, View functions | 7         |   
 | Brighton Ellis | Frontend - UI/UX                                                        | 1.75      |   
