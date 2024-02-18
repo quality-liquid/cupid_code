@@ -398,12 +398,12 @@ By following these strategies, we can effectively manage the challenges of imple
        * Username
        * Email
        * Password
-       * isActive (whether a Cupid is accepting interventions)
+       * isActive (whether a Cupid is accepting gigs)
        * Location
        * Cupid cash balance
        * Average rating
-       * Total interventions completed
-       * Total interventions failed
+       * Total gigs completed
+       * Total gigs failed
        * Date joined
        * Last active time
        * Payment information
@@ -412,7 +412,7 @@ By following these strategies, we can effectively manage the challenges of imple
    * Username
    * Email
    * Password
-4. Intervention Request
+4. Gig
    * Dater who requested
    * Cupid who claimed - or unclaimed
    * Quest
@@ -421,7 +421,7 @@ By following these strategies, we can effectively manage the challenges of imple
    * Date and time of claim by Cupid
    * Date and time of completion
 5. Quest (separate for modularity)
-   * Intervention request attached to
+   * Gig attached to
    * Message to Cupid
    * Allowed budget
    * Item requested
@@ -434,15 +434,9 @@ By following these strategies, we can effectively manage the challenges of imple
        * Description
        * Status (planned, completed, canceled)
        * Budget
-7. Cupid Feedback
-   * Cupid in question
-   * Intervention request resulting in feedback
-   * Message
-   * Star rating (hearts)
-   * Day and time feedback received
-8. Dater Feedback
-   * Dater in question
-   * Intervention request resulting in feedback
+7. Feedback
+   * User in question
+   * Gig resulting in feedback
    * Message
    * Star rating (hearts)
    * Day and time feedback received
@@ -461,13 +455,14 @@ By following these strategies, we can effectively manage the challenges of imple
    * This data is sensitive because it includes money information
    * Routing Number
    * Account Number
+
 12. Reports
    * Manager dashboard:
        * Revenue
        * Registered dater count
        * Registered Cupid count
        * Current active Cupid count
-       * Interventions per day/week/month
+       * Gigs per day/week/month
        * Cupid feedback and complaints
        * Also see Cupid profiles individually to gauge rating, success/fail ratio, response times.
    * Dater:
@@ -477,6 +472,6 @@ By following these strategies, we can effectively manage the challenges of imple
    * Cupid:
        * Can see hotspots of dater activity to stay in the area
        * Can see information regarding common date times and locations
-       * Can see statistics on completed interventions, money earned, failed interventions
+       * Can see statistics on completed gigs, money earned, failed gigs
    * Text and Email notifications API (Twilio) 
    * Nearby Shops API (yelpapi)
