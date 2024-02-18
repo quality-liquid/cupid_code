@@ -592,18 +592,12 @@ The frontend will communicate with the backend using HTTP GET and POST requests.
 Mapping what endpoints the frontend needs is helpful for the backend to know what to build. This will be done in the URL Mapping section.
 
 #### Resources for the Backend
-* Django Rest Framework Quickstart
-  * https://www.django-rest-framework.org/tutorial/quickstart/
-* Django Rest Framework API Reference
-  * https://docs.djangoproject.com/en/5.0/ref/
-* Django Rest Framework Serializers
-  * https://www.django-rest-framework.org/api-guide/serializers/
-* Django Rest Framework Views
-  * https://www.django-rest-framework.org/api-guide/views/
-* Django Rest Framework Permissions
-  * https://www.django-rest-framework.org/api-guide/permissions/
-* Django Rest Framework Authentication
-  * https://www.django-rest-framework.org/api-guide/authentication/
+* [Django Rest Framework Quickstart](https://www.django-rest-framework.org/tutorial/quickstart/)
+* [Django Rest Framework API Reference](https://docs.djangoproject.com/en/5.0/ref/)
+* [Django Rest Framework Serializers](https://www.django-rest-framework.org/api-guide/serializers/)
+* [Django Rest Framework Views](https://www.django-rest-framework.org/api-guide/views/)
+* [Django Rest Framework Permissions](https://www.django-rest-framework.org/api-guide/permissions/)
+* [Django Rest Framework Authentication](https://www.django-rest-framework.org/api-guide/authentication/)
 
 ### Django Project Structure
 
@@ -693,11 +687,12 @@ The following endpoints will need user data to be used. Authentication will be r
 
 ### Django Models
 
-We will use the Django built in User model, but add roles to it. This comes with authentication functionality and the following fields. Details available in 
+We will use the Django built in User model, but add roles to it by extending `AbstractUser`. This comes with authentication functionality and the following fields. Details available in 
 [Django docs](https://docs.djangoproject.com/en/5.0/ref/contrib/auth/#django.contrib.auth.models.User).
 
 * User
-  * **id : Auto Field**
+  * **id**
+  * *role added by us*
   * username
   * first_name
   * last_name
@@ -747,7 +742,7 @@ relationship as their primary key.
         * Location : Text Field (Containing geo coordinates) 
         * Average Rating : Decimal Field
         * Suspended : Boolean Field
-* Manager doesn't need anything more than a Django default user in the manager role
+* Manager doesn't need anything more than a Django User in the manager role
 * Message
     * **id : Auto Field**
     * Owner : Foreign Key (User)
