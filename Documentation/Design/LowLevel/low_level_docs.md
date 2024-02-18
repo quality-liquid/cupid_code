@@ -206,9 +206,7 @@ If there is bad input, we will visually inform the user of it with sufficient de
 For example, if someone sends a chat to the AI, we will verify that there is no code injection or other malicious works inserted that would jeopardize the app. If bad input is given, we will inform the user (either via toast or other means) that something went wrong.
 This will also be done for requests from the backend to make sure the given json is correct and valid. This can be done as simple as a check between who the frontend considers the user and who the backend considers the user. This could be done with ids or other unique keys.
 
-This is the general format most of the asynchronous functions will follow for validating data before displaying it. 
-These functions will use the makeRequest function described in the connection of Vue and Django.
-
+The general psuedocode format + a psuedocode example for each to further display how each will be used.
 ``` javascript
 async function get<Data>() {
   await the results from getting the profile 
@@ -219,6 +217,14 @@ async function get<Data>() {
     - if bad, put up error on screen for user (toast or otherwise)
 }
 
+async function getUser() {
+  results = await makeRequest(`/api/user/${id}`)
+  if results is valid (has all expected data)
+    render the home page or profile page // This one can be used for both to ensure the user is logged in, real, and has their data
+  if not
+    render an error page saying something went wrong.
+}
+
 async function post<Data>() {
   check the data to be sent to ensure it is valid
   if valid 
@@ -226,6 +232,17 @@ async function post<Data>() {
    - navigate elsewhere OR rerender page
   if not valid
     - Display an error for the User (toast or otherwise)
+}
+
+async function updateUser() {
+  if all necessary data has valid updates to it
+    await makeRequest(`/api/dater/profile/`, 'post', 
+    {
+      dict of new data to be sent
+    })
+    rerender page or navigate back to home
+  if data is not valid
+    display an error about updating (a toast would make sense here)
 }
 ```
 Note that this will be the ONLY time there will be any calls made to the backend's APIs. The calls will use the URLs written and described in the backend section of the document. We are building it like this so that data is only called in a few, secure places. This will help narrow any data leaks or exploits that may come from these calls and help in the debugging process and maintain good, safe code.
@@ -307,7 +324,6 @@ The Vue app will live at URL `/app/`. The following pages will be available thro
 
 
 #### How the Router works
-
   This will all go into the App.vue file that is generated with the vue project.
   There might be an async function to decide what the routes will be but other than that this is all you need. Any other async calls should only be made in the components themselves. This is necessary for clean, readable code and security purposes so we don't have data living somewhere it isn't needed.
 ```javascript
