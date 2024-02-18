@@ -364,7 +364,7 @@ These are some easy to implement methods to test our product before release:
 
 By incorporating these testing practices into your Vue application development workflow, you can enhance its quality, reliability, and maintainability, ultimately delivering a robust and user-friendly experience to your users.
 
-Unit Test Example
+Unit Test Examples
 
 *Note that these will live in their own file, likely called unitTest.js*
 ```javascript
