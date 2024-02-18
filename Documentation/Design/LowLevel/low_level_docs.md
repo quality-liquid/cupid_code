@@ -632,68 +632,71 @@ Additional pages offered by [Vue Router](#vue-router)
 
 The following endpoints will need user data to be used. Authentication will be required for all of these endpoints.
 
-| URL                             | Method | View Function         | Notes                                |
-|---------------------------------|--------|-----------------------|--------------------------------------|
-| /api/user/create/               | POST   | create_user           | Create user (use corresponding API)  |
-| /api/user/<int:id>/             | GET    | get_user              | Get user data                        |
-| /api/chat/                      | POST   | send_chat_message     | Send message                         |
-| /api/chat/<int:id>/             | GET    | get_five_messages     | Return the last five chat messages   |
-| /api/dater/calendar/<int:id>/   | GET    | get_calendar          | Get the dater's calendar (date list) |      
-| /api/dater/rate/                | POST   | rate_dater            | Cupid rate Dater                     |
-| /api/dater/ratings/<int:id>/    | GET    | get_dater_ratings     | Get list of dater's ratings          |
-| /api/dater/avg_rating/<int:id>/ | GET    | get_dater_avg_rating  | Get dater's average rating           |
-| /api/dater/transfer/            | POST   | dater_transfer        | Initiate transfer in                 |
-| /api/dater/balance/<int:id>/    | GET    | get_dater_balance     | Get account balance                  |
-| /api/dater/profile/<int:id>/    | GET    | get_dater_profile     | Get dater's profile                  |
-| /api/dater/profile/             | POST   | set_dater_profile     | Set dater's profile                  |
-| /api/cupid/rate/                | POST   | rate_cupid            | Dater rating a Cupid                 |
-| /api/cupid/ratings/<int:id>/    | GET    | get_cupid_ratings     | Get list of cupid's ratings          |
-| /api/cupid/avg_rating/<int:id>/ | GET    | get_cupid_avg_rating  | Get cupid's average rating           |
-| /api/cupid/transfer/            | POST   | cupid_transfer        | Initiate transfer out                |
-| /api/cupid/balance/<int:id>/    | GET    | get_cupid_balance     | Get account balance                  |
-| /api/cupid/profile/<int:id>/    | GET    | get_cupid_profile     | Get cupid's profile                  |
-| /api/cupid/profile/             | POST   | set_cupid_profile     | Set cupid's profile                  |
-| /api/gig/create/                | POST   | create_gig            | Create gig                           |
-| /api/gig/accept/                | POST   | accept_gig            | Accept gig                           |
-| /api/gig/complete/              | POST   | complete_gig          | Complete gig                         |
-| /api/gig/drop/                  | POST   | drop_gig              | Drop gig                             |
-| /api/gig/<int:count>/           | GET    | get_gigs              | Return number of gigs around cupid   |
-| /api/geo/stores/                | GET    | get_stores            | List of nearby stores                |
-| /api/geo/activities/            | GET    | get_activities        | Nearby activities                    |
-| /api/geo/events/                | GET    | get_events            | Nearby events                        |
-| /api/geo/attractions/           | GET    | get_attractions       | Nearby attractions                   |
-| /api/geo/user/<int:id>/         | GET    | get_user_location     | Get a user's location                |
-| /api/manager/cupids/            | GET    | get_cupids            | Get a list of cupids                 |
-| /api/manager/daters/            | GET    | get_daters            | Get a list of daters                 |
-| /api/manager/dater_count/       | GET    | get_dater_count       | Manager reports                      |
-| /api/manager/cupid_count/       | GET    | get_cupid_count       | Manager reports                      |
-| /api/manager/active_cupids/     | GET    | get_active_cupids     | Manager reports                      |
-| /api/manager/active_daters/     | GET    | get_active_daters     | Manager reports                      |
-| /api/manager/gig_rate/          | GET    | get_gig_rate          | Manager reports                      |
-| /api/manager/gig_count/         | GET    | get_gig_count         | Manager reports                      |
-| /api/manager/gig_drop_rate/     | GET    | get_gig_drop_rate     | Manager reports                      |
-| /api/manager/gig_complete_rate/ | GET    | get_gig_complete_rate | Manager reports                      |
-| /api/manager/suspend/           | POST   | suspend               | suspend cupid / dater                |
-| /api/manager/unsuspend/         | POST   | unsuspend             | unsuspend cupid / dater              |
-| /api/stt/                       | POST   | speech_to_text        | Convert speech to text               |
-| /api/notify/                    | POST   | notify                | Send a message according to pref.    |
+| URL                             | Method    | View Function         | Notes                                               |
+|---------------------------------|-----------|-----------------------|-----------------------------------------------------|
+| /api/user/create/               | POST      | create_user           | Create user (use corresponding API)                 |
+| /api/user/<int:id>/             | GET       | get_user              | Get user data                                       |
+| /api/chat/                      | POST      | send_chat_message     | Send message                                        |
+| /api/chat/<int:id>/             | GET       | get_five_messages     | Return the last five chat messages                  |
+| /api/dater/calendar/<int:id>/   | GET, POST | calendar              | Get the dater's calendar (date list), create a date |
+| /api/dater/rate/                | POST      | rate_dater            | Cupid rate Dater                                    |
+| /api/dater/ratings/<int:id>/    | GET       | get_dater_ratings     | Get list of dater's ratings                         |
+| /api/dater/avg_rating/<int:id>/ | GET       | get_dater_avg_rating  | Get dater's average rating                          |
+| /api/dater/transfer/            | POST      | dater_transfer        | Initiate transfer in                                |
+| /api/dater/balance/<int:id>/    | GET       | get_dater_balance     | Get account balance                                 |
+| /api/dater/profile/<int:id>/    | GET       | get_dater_profile     | Get dater's profile                                 |
+| /api/dater/profile/             | POST      | set_dater_profile     | Set dater's profile                                 |
+| /api/cupid/rate/                | POST      | rate_cupid            | Dater rating a Cupid                                |
+| /api/cupid/ratings/<int:id>/    | GET       | get_cupid_ratings     | Get list of cupid's ratings                         |
+| /api/cupid/avg_rating/<int:id>/ | GET       | get_cupid_avg_rating  | Get cupid's average rating                          |
+| /api/cupid/transfer/            | POST      | cupid_transfer        | Initiate transfer out                               |
+| /api/cupid/balance/<int:id>/    | GET       | get_cupid_balance     | Get account balance                                 |
+| /api/cupid/profile/<int:id>/    | GET       | get_cupid_profile     | Get cupid's profile                                 |
+| /api/cupid/profile/             | POST      | set_cupid_profile     | Set cupid's profile                                 |
+| /api/gig/create/                | POST      | create_gig            | Create gig                                          |
+| /api/gig/accept/                | POST      | accept_gig            | Accept gig                                          |
+| /api/gig/complete/              | POST      | complete_gig          | Complete gig                                        |
+| /api/gig/drop/                  | POST      | drop_gig              | Drop gig                                            |
+| /api/gig/<int:count>/           | GET       | get_gigs              | Return number of gigs around cupid                  |
+| /api/geo/stores/                | GET       | get_stores            | List of nearby stores                               |
+| /api/geo/activities/            | GET       | get_activities        | Nearby activities                                   |
+| /api/geo/events/                | GET       | get_events            | Nearby events                                       |
+| /api/geo/attractions/           | GET       | get_attractions       | Nearby attractions                                  |
+| /api/geo/user/<int:id>/         | GET       | get_user_location     | Get a user's location                               |
+| /api/manager/cupids/            | GET       | get_cupids            | Get a list of cupids                                |
+| /api/manager/daters/            | GET       | get_daters            | Get a list of daters                                |
+| /api/manager/dater_count/       | GET       | get_dater_count       | Manager reports                                     |
+| /api/manager/cupid_count/       | GET       | get_cupid_count       | Manager reports                                     |
+| /api/manager/active_cupids/     | GET       | get_active_cupids     | Manager reports                                     |
+| /api/manager/active_daters/     | GET       | get_active_daters     | Manager reports                                     |
+| /api/manager/gig_rate/          | GET       | get_gig_rate          | Manager reports                                     |
+| /api/manager/gig_count/         | GET       | get_gig_count         | Manager reports                                     |
+| /api/manager/gig_drop_rate/     | GET       | get_gig_drop_rate     | Manager reports                                     |
+| /api/manager/gig_complete_rate/ | GET       | get_gig_complete_rate | Manager reports                                     |
+| /api/manager/suspend/           | POST      | suspend               | suspend cupid / dater                               |
+| /api/manager/unsuspend/         | POST      | unsuspend             | unsuspend cupid / dater                             |
+| /api/stt/                       | POST      | speech_to_text        | Convert speech to text                              |
+| /api/notify/                    | POST      | notify                | Send a message according to pref.                   |
 
 ### Django Models
+
 We will use the Django built in User model, but add roles to it. This comes with authentication functionality and the following fields. Details available in 
 [Django docs](https://docs.djangoproject.com/en/5.0/ref/contrib/auth/#django.contrib.auth.models.User).
 
-* username
-* first_name
-* last_name
-* email
-* password
-* groups
-* user_permissions
-* is_staff
-* is_active
-* is_superuser
-* last_login
-* date_joined
+* User
+  * **id : Auto Field**
+  * username
+  * first_name
+  * last_name
+  * email
+  * password
+  * groups
+  * user_permissions
+  * is_staff
+  * is_active
+  * is_superuser
+  * last_login
+  * date_joined
 
 Each model will correspond to a table. Bold denotes a primary key. For most tables,
 this is the default id provided by Django. For certain one-to-one tables they will use that
@@ -982,7 +985,7 @@ urlpatterns = [
     path("/api/user/<int:id>/"), views.get_user, name="get_user"),
     path("/api/chat/"), views.send_chat_message, name="send_chat_message"),
     path("/api/chat/<int:id>/"), views.get_five_messages, name="get_five_messages"),
-    path("/api/dater/calendar/<int:id>/"), views.get_calendar, name="get_calendar"),
+    path("/api/dater/calendar/<int:id>/"), views.calendar, name="calendar"),
     path("/api/dater/rate/"), views.rate_dater, name="rate_dater"),
     path("/api/dater/ratings/<int:id>/"), views.get_dater_ratings, name="get_dater_ratings"),
     path("/api/dater/avg_rating/<int:id>/"), views.get_dater_avg_rating, name="get_dater_avg_rating"),
@@ -1211,14 +1214,24 @@ def get_five_messages(request, id):
 
   return response
 
-def get_calendar(request, id):
-  dater = Dater.objects.get(id=id)
-
-  calendar = Date.objects.filter(dater=id)
-
-  response = calendar.json()
-
-  return response
+def calendar(request, id):
+    if request.method == "POST":
+        dater = Dater.objects.get(id=id)
+        date = Date(
+            dater = dater,
+            date_time = request.date_time,
+            location = request.location,
+            description = request.description,
+            status = request.status,
+            budget = request.budget,
+        )
+        date.save()
+        return JsonResponse({'message': 'Date has been created'})
+    else:
+        dater = Dater.objects.get(id=id)
+        calendar = Date.objects.filter(dater=id)
+        response = calendar.json()
+        return response
 
 def rate_dater(request):
   dater_id = request.dater_id
