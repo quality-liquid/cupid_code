@@ -13,11 +13,11 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 <!--toc:start-->
 - [**Cupid Code**](#cupid-code)
 - [**Low Level Design Document**](#low-level-design-document)
-    - [Sub-team Members](#subteam-members)
+    - [Subteam Members](#subteam-members)
       - [Frontend Team Members](#frontend-team-members)
       - [Middleend Team Members](#middleend-team-members)
       - [Backend Team Members](#backend-team-members)
-    - [Sub-team Responsibilities](#subteam-responsibilities)
+    - [Subteam Responsibilities](#subteam-responsibilities)
       - [Frontend team](#frontend-team)
       - [Middleend team](#middleend-team)
       - [Backend team](#backend-team)
@@ -29,9 +29,21 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
   - [Frontend Design](#frontend-design)
     - [Security](#security)
     - [UI](#ui)
+      - [User flow:](#user-flow)
+      - [Screen designs:](#screen-designs)
+      - [Navigation Structure:](#navigation-structure)
+      - [Layout guidelines:](#layout-guidelines)
+      - [Color Palette:](#color-palette)
+      - [Icon Use:](#icon-use)
+      - [Responsive design:](#responsive-design)
+      - [Making accounts and logging in](#making-accounts-and-logging-in)
+      - [Dater](#dater)
+      - [Cupid](#cupid)
+      - [Manager](#manager)
     - [UX](#ux)
     - [Templates](#templates)
     - [Vue Router](#vue-router)
+      - [How the Router works](#how-the-router-works)
     - [Testing](#testing)
   - [Connecting Vue and Django](#connecting-vue-and-django)
       - [Poetry](#poetry)
@@ -47,6 +59,7 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
       - [Clientside](#clientside)
   - [Backend Design](#backend-design)
     - [Summary](#summary)
+      - [Resources for the Backend](#resources-for-the-backend)
     - [Django Project Structure](#django-project-structure)
     - [URL Mapping](#url-mapping)
       - [static endpoints](#static-endpoints)
@@ -56,7 +69,7 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
     - [Django Settings](#django-settings)
     - [Django Admin](#django-admin)
     - [Unit Tests](#unit-tests)
-    - [Quick Tutorial on how to use the Django Rest Framework](#quick-tutorial-on-how-to-use-the-django-rest-framework)
+      - [Quick Tutorial on how to use the Django Rest Framework](#quick-tutorial-on-how-to-use-the-django-rest-framework)
     - [Pseudocode](#pseudocode)
 <!--toc:end-->
 
@@ -289,12 +302,15 @@ The app will primary be designed for portrait orientation for mobile devices. Th
 
 
 #### Making accounts and logging in
+From the login/User creation page, the user will be able to enter their information with respect to their use-case for the app (dater or Cupid). Should the user receive several poor ratings from their counterpart, and upon the discretion of the manager, a user can be suspended from the app for a time or indefinitely. 
 
 ![alt_text](images/createacc.png "Create_Acc")
 ![alt_text](images/login.png "Login")
 ![alt_text](images/suspended.png "Suspended")
 
 #### Dater
+The Dater will have access to 5 features from the app. They can enable the listening function for our AI-bot to determine how well the date is going, texting with the chat-bot to help them get prepared for the date, add cash to their online account to be utilized for purchasing gigs and paying the delivery of the cupid, and a calendar to schedule their date so our system knows how best to assist the dater leading up to the date. Once a delivery is completed, the user will have the ability to rate the experience between them and the cupid. 
+
 ![alt_text](images/uh.png "User_Home")
 ![alt_text](images/aichat.png "Ai_Chat")
 ![alt_text](images/calendar.png "Calendar")
@@ -304,6 +320,8 @@ The app will primary be designed for portrait orientation for mobile devices. Th
 ![alt_text](images/useracc.png "User_Acc")
 
 #### Cupid
+The Cupid home page will display their personal rating on a scale to 5, as well as a running list of gig offer to accept delivery for. They will be displayed to them based on their location.  From there, the cupid can either accept a gig delivery or drop an already accepted delivery. Once a gig is selected, it will show all of the information for the delivery as well as the ability to update the completion status. Once a gig is completed, the Cupid will be provided a screen to supply their feedback for the Dater they were delivering for. The cupid will also be able to acces their earnings page (which will be synonymous with their account info page) to see their running earnings as well as the next pay date. 
+
 ![alt_text](images/ch.png "Cupid_Home")
 ![alt_text](images/ch_cash.png "Cash_Earned")
 ![alt_text](images/ch_gig1.png "Gig_1")
@@ -311,6 +329,8 @@ The app will primary be designed for portrait orientation for mobile devices. Th
 ![alt_text](images/ch_rate.png "Rate_Daters")
 
 #### Manager
+The manager page will work very similarly to that of the cupid page, however they will have access to lists of current users (Daters and Cupids) as well as their ratings and usage info. Their home screen will allow them to select between viewing Daters, Cupids, or Statistical information with respect to app usage. The manager will be able to make the decision of whether or not to suspend another user from their account based on innappropriate usage of the app or conduct during a delivery/date. 
+
 ![alt_text](images/manager_home.png "Cupid_Home")
 ![alt_text](images/manage_cupids.png "Manage_Cupids")
 ![alt_text](images/manage_cupid.png "Manage_Cupid")
@@ -321,7 +341,7 @@ The app will primary be designed for portrait orientation for mobile devices. Th
 Crafting a seamless user experience is at the forefront of our app development mission. Through meticulous attention to detail, we are committed to ensuring a smooth and intuitive journey for every user. Our strategy centers around maintaining a cohesive and polished aesthetic, characterized by consistent color schemes that resonate throughout the app. Clear, easily discernible buttons and text inputs are prioritized, enhancing usability and reducing friction in navigation. Leveraging widely adopted formats and design conventions, we empower users to effortlessly engage with our app, fostering familiarity and ease of use. With our unwavering dedication to excellence in UX design, we are poised to deliver an exceptional digital experience that exceeds expectations and leaves a lasting impression.
 
 ### Templates
-A majority of the frontend design will occur in View, but we will want to implement Django Templates for 2 cases. 
+A majority of the frontend design will occur in Vue, but we will want to implement Django Templates for 2 cases. 
   Case 1: A django template is needed to connect the back to the front.
   Case 2: To protect the system, we can make the signing up/logging in its own Django app that will authenticate logging in so that you must be a verified user to use the rest of the app. This method will utilize the Django settings.py variables as well since you can tell it what the login page will be.
 
@@ -554,15 +574,15 @@ return middleware
 ## Backend Design
 
 This section will include the following subsections:
-  * Summary
-  * Django Project Structure
-  * URL Mapping
-  * Django Models
-  * Django Migrations
-  * Django Settings
-  * Django Admin
-  * Unit Tests
-  * Pseudocode
+    - [Summary](#summary)
+    - [Django Project Structure](#django-project-structure)
+    - [URL Mapping](#url-mapping)
+    - [Django Models](#django-models)
+    - [Django Migrations](#django-migrations)
+    - [Django Settings](#django-settings)
+    - [Django Admin](#django-admin)
+    - [Unit Tests](#unit-tests)
+    - [Pseudocode](#pseudocode)
 
 ### Summary
 
@@ -572,18 +592,12 @@ The frontend will communicate with the backend using HTTP GET and POST requests.
 Mapping what endpoints the frontend needs is helpful for the backend to know what to build. This will be done in the URL Mapping section.
 
 #### Resources for the Backend
-* Django Rest Framework Quickstart
-  * https://www.django-rest-framework.org/tutorial/quickstart/
-* Django Rest Framework API Reference
-  * https://docs.djangoproject.com/en/5.0/ref/
-* Django Rest Framework Serializers
-  * https://www.django-rest-framework.org/api-guide/serializers/
-* Django Rest Framework Views
-  * https://www.django-rest-framework.org/api-guide/views/
-* Django Rest Framework Permissions
-  * https://www.django-rest-framework.org/api-guide/permissions/
-* Django Rest Framework Authentication
-  * https://www.django-rest-framework.org/api-guide/authentication/
+* [Django Rest Framework Quickstart](https://www.django-rest-framework.org/tutorial/quickstart/)
+* [Django Rest Framework API Reference](https://docs.djangoproject.com/en/5.0/ref/)
+* [Django Rest Framework Serializers](https://www.django-rest-framework.org/api-guide/serializers/)
+* [Django Rest Framework Views](https://www.django-rest-framework.org/api-guide/views/)
+* [Django Rest Framework Permissions](https://www.django-rest-framework.org/api-guide/permissions/)
+* [Django Rest Framework Authentication](https://www.django-rest-framework.org/api-guide/authentication/)
 
 ### Django Project Structure
 
@@ -673,11 +687,12 @@ The following endpoints will need user data to be used. Authentication will be r
 
 ### Django Models
 
-We will use the Django built in User model, but add roles to it. This comes with authentication functionality and the following fields. Details available in 
+We will use the Django built in User model, but add roles to it by extending `AbstractUser`. This comes with authentication functionality and the following fields. Details available in 
 [Django docs](https://docs.djangoproject.com/en/5.0/ref/contrib/auth/#django.contrib.auth.models.User).
 
 * User
-  * **id : Auto Field**
+  * **id**
+  * *role added by us*
   * username
   * first_name
   * last_name
@@ -727,7 +742,7 @@ relationship as their primary key.
         * Location : Text Field (Containing geo coordinates) 
         * Average Rating : Decimal Field
         * Suspended : Boolean Field
-* Manager doesn't need anything more than a Django default user in the manager role
+* Manager doesn't need anything more than a Django User in the manager role
 * Message
     * **id : Auto Field**
     * Owner : Foreign Key (User)
