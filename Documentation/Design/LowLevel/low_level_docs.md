@@ -205,12 +205,28 @@ How will we test our code? What will we test? How will we document our tests?
   }
   ```
 
-### UI
+### UI/UX
+Intro:
+This application is intended to be used as a dating aid for individuals with above average difficulty levels interacting in social environments, specifically romatic encounters. 
 
-### UX
+#### User flow:
+
+#### Screen designs:
+
+#### Navigation Structure:
+
+#### Layout guidelines:
+
+#### Color Palette:
+
+#### Icon Use:
+
+#### Responsive design:
+
+
 
 ### Templates
-  A majority of the frontend design will occur in View, but we will want to implement Django Templates for 2 cases. 
+  A majority of the frontend design will occur in Vue, but we will want to implement Django Templates for 2 cases. 
     Case 1: A django template is needed to connect the back to the front.
     Case 2: To protect the system, we can make the signing up/logging in its own Django app that will authenticate logging in so that you must be a verified user to use the rest of the app. This method will utilize the Django settings.py variables as well since you can tell it what the login page will be.
 

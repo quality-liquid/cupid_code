@@ -20,12 +20,13 @@
 | Nate McKenzie  | Database & Reports                  | 4.5       |   
 | Eric DeBloois  | Figma Prototype                     | 2.5       |   
 | Brandon Herrin | Editing                             | 2.0       |   
+
 | Low Level      |                                     |           |   
 | Name           | Job                                 | Time(hrs) |   
 | Nate Stott     | Backend - API,                      | 5         |   
 | Emma Wright    | Middleman, Classes                  | 4         |   
 | Daniel Barfuss | Backend - Security, Unit Tests, Django Admin & Settings, View functions  | 7          |   
-| Brighton Ellis | Frontend - UI/UX                    | 1.75      |   
+| Brighton Ellis | Frontend - UI/UX, Figma,                    | 6         |   
 | Nate McKenzie  | Backend - DB, Migration, URLs       | 6         |   
 | Eric DeBloois  |                                     |           |   
 | Brandon Herrin |                                     |           |   
