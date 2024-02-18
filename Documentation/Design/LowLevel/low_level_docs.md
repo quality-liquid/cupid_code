@@ -48,8 +48,9 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
       - [Clientside](#clientside)
   - [Backend Design](#backend-design)
     - [Django Project Structure (Nate S)](#django-project-structure-nate-s)
-    - [Outward Facing Endpoints](#outward-facing-endpoints)
-    - [Internal API Design (Nate S)](#internal-api-design-nate-s)
+    - [URL Mapping](#url-mapping)
+      - [static endpoints](#static-endpoints)
+      - [dynamic endpoints](#dynamic-endpoints)
       - [How to build an internal API](#how-to-build-an-internal-api)
     - [Django Models](#django-models)
     - [Django Migrations](#django-migrations)
@@ -57,7 +58,7 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
       - [Dummy Cupids](#dummy-cupids)
       - [Dummy Manager](#dummy-manager)
       - [Dummy messages](#dummy-messages)
-      - [Dummy Interventions](#dummy-interventions)
+      - [Dummy Gigs](#dummy-gigs)
       - [Dummy Dates](#dummy-dates)
       - [Feedback](#feedback)
     - [Django Settings (Daniel)](#django-settings-daniel)
@@ -568,14 +569,32 @@ urlpatterns = [
 ```
 
 ### Django Models
-Each model will correspond to a table. Bold denotes unique identifiers. Django may provide an ID, but in the case of OneToOne fields, we will more often use those relationships.
+Each model will correspond to a table. Bold denotes a primary key. For most tables,
+this is the default id provided by Django. For certain one-to-one tables they will use that
+relationship as their primary key. 
+
+We will use the Django built in User model, but add roles to it. This comes with authentication functionality and the following fields. Details available in 
+[Django docs](https://docs.djangoproject.com/en/5.0/ref/contrib/auth/#django.contrib.auth.models.User).
+
+* username
+* first_name
+* last_name
+* email
+* password
+* groups
+* user_permissions
+* is_staff
+* is_active
+* is_superuser
+* last_login
+* date_joined
+
 * Dater
     * **User : OneToOne Field (As provided by Django)**
     * Phone Number : Text Field (validate user input)
     * Budget : Decimal Field
     * Communication preferences : IntegerChoices
     * Profile Picture : Image Field 
-    * Average Rating : Decimal Field
     * Text available to AI
         * Description of self : Text Field
         * Dating strengths : Text Field
@@ -589,41 +608,38 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
         * Cupid Cash Balance : Decimal Field
         * Location : Text Field (Containing geo coordinates) 
         * Average Rating : Decimal Field
-        * Date Joined : Date Field
-        * Last Active : DateTime Field
         * Suspended : Boolean Field
 * Cupid
     * **User : OneToOne Field (As provided by Django)**
-    * isActive : Boolean Field (Is cupid accepting interventions)
-    * Total interventions completed : Integer Field
-    * Total interventions failed : Integer Field
+    * Accepting Gigs : Boolean Field (Is cupid accepting gigs)
+    * Total gigs completed : Integer Field
+    * Total gigs failed : Integer Field
     * Payment : Text Field with payment info (encrypted) 
     * Status : Text Choices
     * Common with Dater
         * Cupid Cash Balance : Decimal Field
         * Location : Text Field (Containing geo coordinates) 
         * Average Rating : Decimal Field
-        * Date Joined : Date Field
-        * Last Active : DateTime Field
         * Suspended : Boolean Field
 * Message
     * **id : Auto Field**
     * Owner : Foreign Key (User)
     * Text : Text Field
     * fromAI : Boolean Field (Indicates which side of the convo this message belongs to)
-* Manager
-    * User : OneToOne Field (As provided by Django)
-* Intervention Request
+
+* Manager doesn't need anything more than a Django user in the manager role
+
+* Gig
     * **id : Auto Field**
     * Dater : Foreign Key
-    * Cupid : Foreign Key (nullable, may not be assigned to cupid yet)
+    * Cupid : Foreign Key
     * Quest : OneToOne Field
     * Status : Text Choices
     * DateTime of request : DateTime Field
     * DateTime of claim : DateTime Field
     * DateTime of completion : DateTime Field
 * Quest (separate for modularity)
-    * **Intervention : *Established by OneToOne Field on Quest***
+    * **Gig : *Established by OneToOne Field on Gig***
     * Budget : Decimal Field
     * Items Requested : Text Field 
     * Pickup location : Text Field (address or geolocation to get object from)
@@ -631,14 +647,14 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
     * **id : Auto Field**
     * Dater : Foreign Key
     * Date & Time : DateTime Field
-    * Location : Text Field (Containing geo coordinates?) 
+    * Location : Text Field (Containing geo coordinates) 
     * Description : Text Field
     * Status : Text Choices
     * Budget : Decimal Field
 * Feedback
     * **id : Auto Field**
     * User : Foreign Key (can be a cupid or dater as both have a OneToOne user)
-    * Intervention Request : Foreign Key
+    * Gig : Foreign Key
     * Message : Text Field
     * Star Rating : Integer Field (bound to 1-5)
     * DateTime : DateTime Field 
@@ -660,16 +676,16 @@ Each model will correspond to a table. Bold denotes unique identifiers. Django m
 * username:dater1, password:password, 200 cupid coin balance, budget of 50
 * username:dater2, password:password, 20 cupid coin balance, budget of 50
 #### Dummy Cupids
-* username:cupid1, password:password, 54 completed interventions, 12 failed
-* username:cupid2, password:password, 4 completed interventions, 16 failed
+* username:cupid1, password:password, 54 completed gigs, 12 failed
+* username:cupid2, password:password, 4 completed gigs, 16 failed
 #### Dummy Manager
 * username:manager, password:password
 #### Dummy messages
 * Create a few dummy conversation for each dater.
-#### Dummy Interventions
-* Unclaimed intervention with a unique quest
-* Unclaimed intervention with a unique quest
-* Claimed intervention
+#### Dummy Gigs
+* Unclaimed gig with a unique quest
+* Unclaimed gig with a unique quest
+* Claimed gig
 #### Dummy Dates
 * A dummy location, date is june 17th so it will never come during this semester.
 #### Feedback
@@ -757,58 +773,73 @@ api/models.py
 ``` python
 
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+    class Role(models.TextChoices):
+        DATER = 'Dater'
+        CUPID = 'Cupid'
+        MANAGER = 'Manager'
+
+    role = models.CharField(choices=Role.choices, max_length=7)
 
 class Dater(models.Model):
-    username = models.CharField(max_length=100)
-    email = models.EmailField()
-    password = models.CharField(max_length=100)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     phone_number = models.CharField(max_length=10)
     budget = models.DecimalField(max_digits=10, decimal_places=2)
     communication_preferences = models.IntegerField()
     profile_picture = models.ImageField()
-    average_rating = models.DecimalField(max_digits=10, decimal_places=2)
-    text_available_to_ai = models.TextField()
+    description = models.TextField()
+    dating_strengths = models.TextField()
+    dating_weaknesses = models.TextField()
+    interests = models.TextField()
+    past = models.TextField()
+    nerd_type = models.TextField()
+    relationship_goals = models.TextField()
+    ai_degree = models.TextField()
     cupid_cash_balance = models.DecimalField(max_digits=10, decimal_places=2)
     location = models.TextField()
-    date_joined = models.DateField()
-    last_active = models.DateTimeField()
+    average_rating = models.DecimalField(max_digits=10, decimal_places=2)
+    suspended = models.BooleanField()
 
 class Cupid(models.Model):
-    username = models.CharField(max_length=100)
-    email = models.EmailField()
-    password = models.CharField(max_length=100)
-    is_active = models.BooleanField()
-    total_interventions_completed = models.IntegerField()
-    total_interventions_failed = models.IntegerField()
+    class Status(models.IntegerChoices):
+        OFFLINE = 0
+        GIGGING = 1
+        AVAILABLE = 2
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    accepting_gigs = models.BooleanField()
+    gigs_completed = models.IntegerField()
+    gigs_failed = models.IntegerField()
     payment = models.TextField()
-    status = models.TextField()
+    status = models.IntegerField(choices=Status.choices)
     cupid_cash_balance = models.DecimalField(max_digits=10, decimal_places=2)
     location = models.TextField()
     average_rating = models.DecimalField(max_digits=10, decimal_places=2)
-    date_joined = models.DateField()
-    last_active = models.DateTimeField()
     
 class Message(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, primary_key=True, on_delete=models.CASCADE)
     text = models.TextField()
     from_ai = models.BooleanField()
 
-class Manager(models.Model):
-    username = models.CharField(max_length=100)
-    email = models.EmailField()
-    password = models.CharField(max_length=100)
+class Gig(models.Model):
+    class Status(models.IntegerChoices):
+        UNCLAIMED = 0
+        CLAIMED = 1
+        COMPLETE = 2
+        DROPPED = 2
 
-class InterventionRequest(models.Model):
     dater = models.ForeignKey(Dater, on_delete=models.CASCADE)
     cupid = models.ForeignKey(Cupid, on_delete=models.CASCADE)
     quest = models.OneToOneField(Quest, on_delete=models.CASCADE)
-    status = models.TextField()
+    status = models.IntegerField(chioces=Status.choices)
     date_time_of_request = models.DateTimeField()
     date_time_of_claim = models.DateTimeField()
     date_time_of_completion = models.DateTimeField()
 
 class Quest(models.Model):
-    intervention = models.OneToOneField(InterventionRequest, on_delete=models.CASCADE)
+    gig = models.OneToOneField(Gig, on_delete=models.CASCADE, primary_key = True)
     budget = models.DecimalField(max_digits=10, decimal_places=2)
     items_requested = models.TextField()
     pickup_location = models.TextField()
@@ -823,7 +854,7 @@ class Date(models.Model):
 
 class Feedback(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    intervention_request = models.ForeignKey(InterventionRequest, on_delete=models.CASCADE)
+    gig = models.ForeignKey(Gig, on_delete=models.CASCADE)
     message = models.TextField()
     star_rating = models.IntegerField()
     date_time = models.DateTimeField()
@@ -856,8 +887,8 @@ api/views.py
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Dater, Cupid, Message, Manager, InterventionRequest, Quest, Date, Feedback, PaymentCard, BankAccount
-from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, ManagerSerializer, InterventionRequestSerializer, QuestSerializer, DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
+from .models import Dater, Cupid, Message, Manager, Gig, Quest, Date, Feedback, PaymentCard, BankAccount
+from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, ManagerSerializer, GigSerializer, QuestSerializer, DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
 
 def sign_in(reqeust):
     if reqeust.method == "POST":
