@@ -950,8 +950,10 @@ def get_user(request, id):
 
 def send_chat_message(request):
   forward_message = request.{name of message in body}
+  save forward_message to DB as Message
 
   response = {method call to send to external AI chat API}
+  save response to DB as Message
 
   return response.json()
 
