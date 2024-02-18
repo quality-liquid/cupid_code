@@ -590,21 +590,21 @@ Mapping what endpoints the frontend needs is helpful for the backend to know wha
 What will the project structure look like? What will the files be named? What will the directories be named?
 
 * cupid_code/
-  * cupid_code/ # main project directory
-    * settings.py # main settings file
-    * urls.py # main url file
-    * wsgi.py # web server gateway interface
-  * api/ # app for the api
-    * migrations/ # migrations for the api app
-    * admin.py # admin configuration
-    * apps.py # app configuration
-    * models.py # define the models
-    * serializers.py # define the serializers
-    * tests.py # write unit tests
-    * urls.py # map the urls to the views
-    * views.py # define and implement the views
-  * manage.py # command line utility for managing the project
-  * db.sqlite3 # the database
+  * cupid_code/ - Main project directory.
+    * settings.py - Main settings file.
+    * urls.py - Main url file.
+    * wsgi.py - Web server gateway interface.
+  * api/ - App for the api.
+    * migrations/ - Migrations for the api app.
+    * admin.py - Admin configuration.
+    * apps.py - App configuration.
+    * models.py - Define the models.
+    * serializers.py - Define the serializers.
+    * tests.py - Write unit tests.
+    * urls.py - Map the urls to the views.
+    * views.py - Define and implement the views.
+  * manage.py - Command line utility for managing the project.
+  * db.sqlite3 - The database. We can change this to another database if we want.
 
 ### URL Mapping
 
@@ -771,8 +771,7 @@ relationship as their primary key.
     * **User : Foreign Key**
     * Routing Number : Text Field
     * Account Number : Text Field
-    
-    
+
 ### Django Migrations
 
 * Dummy Daters
@@ -799,14 +798,17 @@ relationship as their primary key.
 
 ### Django Settings
 
-The settings.py file is used to apply settings to the entire Django project. Here are the current additions to the settings.py file that are included beyond the base settings:
+The settings.py file is used to apply settings to the entire Django project. The following adjustments will be made to the settings.py file:
 
-**Admin Allowed in INSTALLED_APPS**
-
-The INSTALLED_APPS lists Django applications that are enabled in this project. To include the ability to have admins, this app is included in the list:
-
-`django.contrib.admin`
-
+* `DEBUG` will be set to `False` in production
+* `ALLOWED_HOSTS` will be set to the domain name of the production server
+* django.contrib.admin will be added to `INSTALLED_APPS` to enable the Django admin site
+* api will be added to `INSTALLED_APPS` to enable the API
+* `MIDDLEWARE` will be adjusted to include the asset middleware
+* `STATIC_URL` will be set to the asset url
+* `TEMPLATES` will be adjusted to include the welcome.html file
+* `SECURE_SSL_REDIRECT` will be set to `True`
+* `SESSION_COOKIE_SECURE` will be set to `True`
 
 ### Django Admin
 
@@ -817,22 +819,35 @@ The Django admin site adds the possibility to have admin accounts with levels of
 * Ability to export data (if needed)
 * Logging and history of changes made to data
 
-There are some concerns with the admin site and admin accounts. These include:
-* Security concerns if an admin account is compromised (bad actor would have access to admin tools)
-* Heavy resource usage when modifying accounts or data
+There are some concerns with the admin site and admin accounts:
+* Security concerns 
+  * Admin accounts are a prime target for hackers
+  * Admin accounts could be used to access sensitive data
+  * Admin accounts could be used to modify data in a way that could be harmful
+  * Admin accounts could be used to delete data
+  * Admin accounts could be used improperly or maliciously
+* Resource usage 
+  * Admin accounts take a lot of resources to maintain
+  * Admin accounts could be used to do intensive work that could slow down the software
 
-To address these concerns, admins may be enforced to have strong passwords (12+ characters, including special characters, numbers, and a mix of lower and upper case characters). Then admin accounts may be used during times when the software experiences the least amount of activity to do intensive work (except for emergencies).
+The Django admin site will be used to create the initial Manager accounts to manage the site.
 
+While the admin site is a powerful tool, it is not the best tool for day-to-day operations. While the server is in production, the admin site will be disabled. Instead, the API will be used to manage the data.
 
 ### Unit Tests
 
-We will create unit tests to ensure that the software performs as expected. We will also ensure that security measures are in place to prevent improper usage of the software and protect user data, including Personal Identifiable Information (PII). 
+Each view will have a corresponding unit test. The unit tests will be used to verify that the views are functioning as expected.
+* Good input will be used to verify that the views are functioning as expected
+* Bad input will be used to verify that the views are functioning as expected
+* Edge cases will be used to verify that the views are functioning as expected
 
-Check the following Pseudocode section for `tests.py`, which contains planned unit tests.
-
+The following tools will be used to create unit tests for the software:
+* Django test framework will be used to create unit tests for the software.
+  * https://docs.djangoproject.com/en/3.2/topics/testing/
 * Django debug toolbar will be used to monitor the performance of the software and to identify any potential issues.
   * https://django-debug-toolbar.readthedocs.io/en/latest/
 
+Pseudocode can be found at the bottom of the [Pseudocode](#pseudocode) section.
 
 #### Quick Tutorial on how to use the Django Rest Framework
 
@@ -1739,5 +1754,5 @@ class APITestCase(TestCase):
         response = create_user(mock_request)
         self.assertEqual(response.status_code, 400)
     
-    ...
+    # etc ...
 ```
