@@ -13,11 +13,11 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 <!--toc:start-->
 - [**Cupid Code**](#cupid-code)
 - [**Low Level Design Document**](#low-level-design-document)
-    - [Sub-team Members](#subteam-members)
+    - [Subteam Members](#subteam-members)
       - [Frontend Team Members](#frontend-team-members)
       - [Middleend Team Members](#middleend-team-members)
       - [Backend Team Members](#backend-team-members)
-    - [Sub-team Responsibilities](#subteam-responsibilities)
+    - [Subteam Responsibilities](#subteam-responsibilities)
       - [Frontend team](#frontend-team)
       - [Middleend team](#middleend-team)
       - [Backend team](#backend-team)
@@ -29,9 +29,21 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
   - [Frontend Design](#frontend-design)
     - [Security](#security)
     - [UI](#ui)
+      - [User flow:](#user-flow)
+      - [Screen designs:](#screen-designs)
+      - [Navigation Structure:](#navigation-structure)
+      - [Layout guidelines:](#layout-guidelines)
+      - [Color Palette:](#color-palette)
+      - [Icon Use:](#icon-use)
+      - [Responsive design:](#responsive-design)
+      - [Making accounts and logging in](#making-accounts-and-logging-in)
+      - [Dater](#dater)
+      - [Cupid](#cupid)
+      - [Manager](#manager)
     - [UX](#ux)
     - [Templates](#templates)
     - [Vue Router](#vue-router)
+      - [How the Router works](#how-the-router-works)
     - [Testing](#testing)
   - [Connecting Vue and Django](#connecting-vue-and-django)
       - [Poetry](#poetry)
@@ -47,6 +59,7 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
       - [Clientside](#clientside)
   - [Backend Design](#backend-design)
     - [Summary](#summary)
+      - [Resources for the Backend](#resources-for-the-backend)
     - [Django Project Structure](#django-project-structure)
     - [URL Mapping](#url-mapping)
       - [static endpoints](#static-endpoints)
@@ -56,7 +69,7 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
     - [Django Settings](#django-settings)
     - [Django Admin](#django-admin)
     - [Unit Tests](#unit-tests)
-    - [Quick Tutorial on how to use the Django Rest Framework](#quick-tutorial-on-how-to-use-the-django-rest-framework)
+      - [Quick Tutorial on how to use the Django Rest Framework](#quick-tutorial-on-how-to-use-the-django-rest-framework)
     - [Pseudocode](#pseudocode)
 <!--toc:end-->
 
@@ -561,15 +574,15 @@ return middleware
 ## Backend Design
 
 This section will include the following subsections:
-  * Summary
-  * Django Project Structure
-  * URL Mapping
-  * Django Models
-  * Django Migrations
-  * Django Settings
-  * Django Admin
-  * Unit Tests
-  * Pseudocode
+    - [Summary](#summary)
+    - [Django Project Structure](#django-project-structure)
+    - [URL Mapping](#url-mapping)
+    - [Django Models](#django-models)
+    - [Django Migrations](#django-migrations)
+    - [Django Settings](#django-settings)
+    - [Django Admin](#django-admin)
+    - [Unit Tests](#unit-tests)
+    - [Pseudocode](#pseudocode)
 
 ### Summary
 
