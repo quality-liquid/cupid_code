@@ -13,17 +13,16 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 <!--toc:start-->
 - [**Cupid Code**](#cupid-code)
 - [**Low Level Design Document**](#low-level-design-document)
-    - [Sub-team Members](#sub-team-members)
+    - [Sub-team Members](#subteam-members)
       - [Frontend Team Members](#frontend-team-members)
       - [Middleend Team Members](#middleend-team-members)
       - [Backend Team Members](#backend-team-members)
-    - [Sub-team Responsibilities](#sub-team-responsibilities)
+    - [Sub-team Responsibilities](#subteam-responsibilities)
       - [Frontend team](#frontend-team)
       - [Middleend team](#middleend-team)
       - [Backend team](#backend-team)
     - [Team Conventions and Standards](#team-conventions-and-standards)
       - [Branching Conventions](#branching-conventions)
-      - [Naming Conventions](#naming-conventions)
       - [Coding Standards](#coding-standards)
       - [Commenting Standards](#commenting-standards)
       - [Testing Standards](#testing-standards)
@@ -47,28 +46,22 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
         - [In Core index.html](#in-core-indexhtml)
       - [Clientside](#clientside)
   - [Backend Design](#backend-design)
-    - [Django Project Structure (Nate S)](#django-project-structure-nate-s)
+    - [Summary](#summary)
+    - [Django Project Structure](#django-project-structure)
     - [URL Mapping](#url-mapping)
       - [static endpoints](#static-endpoints)
       - [dynamic endpoints](#dynamic-endpoints)
-      - [How to build an internal API](#how-to-build-an-internal-api)
     - [Django Models](#django-models)
     - [Django Migrations](#django-migrations)
-      - [Dummy Daters](#dummy-daters)
-      - [Dummy Cupids](#dummy-cupids)
-      - [Dummy Manager](#dummy-manager)
-      - [Dummy messages](#dummy-messages)
-      - [Dummy Gigs](#dummy-gigs)
-      - [Dummy Dates](#dummy-dates)
-      - [Feedback](#feedback)
-    - [Django Settings (Daniel)](#django-settings-daniel)
-    - [Django Admin (Daniel)](#django-admin-daniel)
-    - [Unit Tests (Daniel)](#unit-tests-daniel)
+    - [Django Settings](#django-settings)
+    - [Django Admin](#django-admin)
+    - [Unit Tests](#unit-tests)
+    - [Quick Tutorial on how to use the Django Rest Framework](#quick-tutorial-on-how-to-use-the-django-rest-framework)
     - [Pseudocode](#pseudocode)
 <!--toc:end-->
 
 -----------
-### Sub-team Members
+### Subteam Members
 
 #### Frontend Team Members
 
@@ -87,7 +80,7 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 * Daniel
 
 -----------
-### Sub-team Responsibilities
+### Subteam Responsibilities
 
 #### Frontend team
 
@@ -108,9 +101,9 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 
 #### Middleend team
 
-* work with both teams to ensure that the frontend and backend work together
-* do work as requested by either team
-  * a team could be falling behind and need help
+* Work with both teams to ensure that the frontend and backend work together
+* Do work as requested by either team
+  * A team could be falling behind and need help
 
 #### Backend team
 
@@ -131,29 +124,33 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 -----------
 ### Team Conventions and Standards
 
+Our code should be clean and easy to read. Our code should tell a story. 
+Constant git branching will be used to make the history of the code speak for itself.
+This section is about how we will achieve these goals
+
 #### Branching Conventions
 
-* Master 
-  * what we are showing
-* Hot Fixes 
-  * quick fixes for master
-* Releases 
-  * the next version to be merged with master
-* Development 
-  * what we are working on
-* Features 
-  * new features for the development branch
+<img src="images/git_workflow.jpg" alt="Git Workflow" style="width:500px;height:300px;">
 
-#### Naming Conventions
-
-How will we name our files, directories, variables, functions, classes, etc.?
-
-lowerCamelCase for frontend/Vue
-underscore_naming for backend/Django
+* *master*
+  * Working code
+  * What users will use
+  * Very little commits
+* *release*
+  * Working code
+  * What users will use once all the new features are worked out
+* *hotfix*
+  * Used to quickly fix issues in *master* or *release*
+  * Do as little as possible to fix bugs
+* development
+  * Get code ready to merge with *release*
+  * Code should be mostly working but It's ok to break things
+* feature
+  * There should be many of theses
+  * This is where new ideas will be experimented with
+  * If working merge with *development*
 
 #### Coding Standards
-
-Our code should be clean and easy to read. Our code should tell a story. Here is how we will do that.
 
 How will we name our variables?
   * Descriptive names
@@ -161,6 +158,8 @@ How will we name our variables?
   * No abbreviations
   * No numbers in names
   * No special characters in names other than _ to separate words
+    * lowerCamelCase for frontend/Vue
+    * underscore_naming for backend/Django
 
 How will we format our code?
   * Use PEP8 for python
@@ -171,26 +170,31 @@ How will we format our code?
     * https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/
 
 How long can a line be?
-  * No horizontal scroll
+  * No horizontal scrolling allowed
+    * Keep lines to around 200 charters
   * Every line should only do 1 thing normally
 
 How long can a function be?
   * No limit but try to keep efficient (if it's too long, it's probably doing too much)
   * Every function should only do 1 thing normally
-  * If it's doing too much, break it up
-  * If it's doing too little, combine it
+    * If giving the function a name is hard that means its either doing to much or to little
 
-Will we use type hints?
-  * Yes, for python
+Will we use type annotation in python?
+  * Yes, all functions and variables should have type annotations
 
 When nesting code how many levels deep can we go?
  * Ideally 3, but no more than 5
    * If it's more than 5, it's probably doing too much
+     * https://www.youtube.com/watch?v=CFRhGnuXG-4
+     * Extraction
+       * Pull code into its own function
+     * Inversion
+       * Invert the condition and get rid of blocks
 
 #### Commenting Standards
 
 When will we use comments?
-  * Can make notes or use for testing, but clean up before merging
+  * Can make notes on code, but clean up before merging
   * Can use TODO comments to mark things that need to be done
 
 When will we use docstrings?
@@ -213,9 +217,7 @@ If there is bad input, we will visually inform the user of it with sufficient de
 For example, if someone sends a chat to the AI, we will verify that there is no code injection or other malicious works inserted that would jeopardize the app. If bad input is given, we will inform the user (either via toast or other means) that something went wrong.
 This will also be done for requests from the backend to make sure the given json is correct and valid. This can be done as simple as a check between who the frontend considers the user and who the backend considers the user. This could be done with ids or other unique keys.
 
-This is the general format most of the asynchronous functions will follow for validating data before displaying it. 
-These functions will use the makeRequest function described in the connection of Vue and Django.
-
+The general psuedocode format + a psuedocode example for each to further display how each will be used.
 ``` javascript
 async function get<Data>() {
   await the results from getting the profile 
@@ -226,6 +228,14 @@ async function get<Data>() {
     - if bad, put up error on screen for user (toast or otherwise)
 }
 
+async function getUser() {
+  results = await makeRequest(`/api/user/${id}`)
+  if results is valid (has all expected data)
+    render the home page or profile page // This one can be used for both to ensure the user is logged in, real, and has their data
+  if not
+    render an error page saying something went wrong.
+}
+
 async function post<Data>() {
   check the data to be sent to ensure it is valid
   if valid 
@@ -233,6 +243,17 @@ async function post<Data>() {
    - navigate elsewhere OR rerender page
   if not valid
     - Display an error for the User (toast or otherwise)
+}
+
+async function updateUser() {
+  if all necessary data has valid updates to it
+    await makeRequest(`/api/dater/profile/`, 'post', 
+    {
+      dict of new data to be sent
+    })
+    rerender page or navigate back to home
+  if data is not valid
+    display an error about updating (a toast would make sense here)
 }
 ```
 Note that this will be the ONLY time there will be any calls made to the backend's APIs. The calls will use the URLs written and described in the backend section of the document. We are building it like this so that data is only called in a few, secure places. This will help narrow any data leaks or exploits that may come from these calls and help in the debugging process and maintain good, safe code.
@@ -307,7 +328,7 @@ A majority of the frontend design will occur in View, but we will want to implem
 
 This won't deal with many of the external links since it will be an isolated app that's sole purpose is to add & validate users and redirect them based off of the type of account they are.
 
-```html
+``` html
 {% load static %}
 <head>
   <style>
@@ -344,10 +365,9 @@ The Vue app will live at URL `/app/`. The following pages will be available thro
 
 
 #### How the Router works
-
   This will all go into the App.vue file that is generated with the vue project.
   There might be an async function to decide what the routes will be but other than that this is all you need. Any other async calls should only be made in the components themselves. This is necessary for clean, readable code and security purposes so we don't have data living somewhere it isn't needed.
-```javascript
+``` javascript
 <script>
   import ref and computed from vue;
   import all components from ./components;
@@ -566,7 +586,7 @@ Mapping what endpoints the frontend needs is helpful for the backend to know wha
 * Django Rest Framework Authentication
   * https://www.django-rest-framework.org/api-guide/authentication/
 
-### Django Project Structure 
+### Django Project Structure
 
 What will the project structure look like? What will the files be named? What will the directories be named?
 
@@ -786,7 +806,7 @@ The INSTALLED_APPS lists Django applications that are enabled in this project. T
 `django.contrib.admin`
 
 
-### Django Admin 
+### Django Admin
 
 The Django admin site adds the possibility to have admin accounts with levels of management and control. The main functions this account can provide are the following:
 * Easy creation, management, and deletion of user accounts
@@ -802,7 +822,7 @@ There are some concerns with the admin site and admin accounts. These include:
 To address these concerns, admins may be enforced to have strong passwords (12+ characters, including special characters, numbers, and a mix of lower and upper case characters). Then admin accounts may be used during times when the software experiences the least amount of activity to do intensive work (except for emergencies).
 
 
-### Unit Tests 
+### Unit Tests
 
 We will create unit tests to ensure that the software performs as expected. We will also ensure that security measures are in place to prevent improper usage of the software and protect user data, including Personal Identifiable Information (PII). 
 
