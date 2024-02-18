@@ -897,7 +897,207 @@ def login(request):
         return render(request, "registration/login.html")
 
 
+def create_user(request):
+  for each profile data for user:
+    create a variable = request.{specific data}
 
+  dater = Dater(
+    model_column = request.POST[matching variable]
+  )
+
+  dater.save()
+  
+  return redirect("/app/")
+
+
+def get_user(request, id):
+  user = {flag that identifies who the user is (Dater/Cupid/Manager)}.objects.get(id=id)
+
+  response = user.json()
+
+  return response
+
+def send_chat_message(request):
+  forward_message = request.{name of message in body}
+
+  response = {method call to send to external AI chat API}
+
+  return response.json()
+
+def get_five_messages(request, id):
+  dater = Dater.objects.get(id=id)
+
+  list_of_messages = Message.objects.filter(owner=id)
+
+  ordered_most_recent_messages = reorder list_of_messages from newest to oldest
+
+  list_of_messages = first five of ordered_most_recent_messages
+
+  response = list_of_messages.json()
+
+  return response
+
+def get_calendar(request, id):
+  dater = Dater.objects.get(id=id)
+
+  calendar = Date.objects.filter(dater=id)
+
+  response = calendar.json()
+
+  return response
+
+def rate_dater(request):
+  dater_id = request.dater_id
+  dater = Dater.get(id=dater_id)
+  rating = request.POST["rating"]
+
+  feedback = Feedback(
+    user = rating.user,
+    intervention_request = rating.intervention_request, 
+    message = rating.message,
+    star_rating = request.star_rating,
+    datetime = rating.datetime, 
+  )
+
+  feedback.save()
+
+  new_rating = avg_rating(rating, dater_id)
+  dater.avg_rating = new_rating
+
+  dater.save()
+
+  return JsonResponse({'message': 'Rating has been submitted'})
+
+def get_dater_ratings(request, id):
+  dater = Dater.objects.get(id=id)
+
+  ratings = Feedback.objects.get(user=id)
+  
+  response = ratings.json()
+
+  return response
+
+def get_dater_avg_rating(request, id):
+  dater = Dater.objects.get(id=id)
+
+  avg_rating = dater.avg_rating
+
+  response = avg_rating.json()
+
+  return response
+
+def dater_transfer(request):
+  dater_id = request.user_id
+  card_on_file = Payment_Card.objects.get(user=dater_id)
+
+  transfer_amount = request.transfer_amount
+  
+  result = way to transfer money from card(card_on_file, transfer_amount)
+
+  dater.balance = dater.balance + result
+
+  send result to company bank account
+
+  dater.save()
+
+  return JsonResponse({'message': 'Payment successful'})
+
+def get_dater_balance(request, id):
+  dater = Dater.objects.get(id=id)
+
+  response = dater.balance.json()
+
+  return response
+
+def get_dater_profile(request, id):
+  dater = Dater.objects.get(id=id)
+
+  response = dater.json()
+
+  return response
+
+def set_dater_profile(request):
+  dater_id = request.user
+
+  dater = Dater.objects.get(dater_id)
+
+  for each dater profile property sent in request:
+    dater.property = profile property sent    
+
+  dater.save()
+
+  return JsonResponse({'message': 'Profile saved'})
+
+def rate_cupid(request):
+  cupid_id = request.cupid_id
+  cupid = Cupid.get(id=cupid_id)
+  rating = request.POST["rating"]
+
+  feedback = Feedback(
+    user = rating.user,
+    intervention_request = rating.intervention_request, 
+    message = rating.message,
+    star_rating = request.star_rating,
+    datetime = rating.datetime, 
+  )
+
+  feedback.save()
+
+  new_rating = avg_rating(rating, cupid_id)
+  cupid.avg_rating = new_rating
+
+  cupid.save()
+
+  return JsonResponse({'message': 'Rating has been submitted'}) 
+
+def get_cupid_avg_rating(request, id):
+  cupid = Cupid.objects.get(id=id)
+
+  avg_rating = cupid.avg_rating
+
+  response = avg_rating.json()
+
+  return response
+
+def cupid_transfer(request):
+  cupid_id = request.cupid_id
+  bank_account = Bank_Account.objects.get(user=cupid_id)
+
+  transfer_amount = request.transfer_amount
+  
+  send transfer_amount to bank_account
+  
+  cupid.balance = dater.balance - transfer_amount
+
+  cupid.save()
+
+  return JsonResponse({'message': 'Deposit successful'})
+
+def get_cupid_balance(request, id):
+  dupid = Cupid.objects.get(id=id)
+
+  response = cupid.balance.json()
+
+  return response
+
+def get_cupid_profile(request, id):
+  cupid = Cupid.objects.get(id=id)
+
+  response = cupid.json()
+
+  return response
+
+def set_cupid_profile(request):
+  cupid_id = request.user
+
+  cupid = Cupid.objects.get(cupid_id)
+
+  for each cupid profile property sent in request:
+    cupid.property = profile property sent    
+
+  cupid.save()
+
+  return JsonResponse({'message': 'Profile saved'})
 
 ```
 
