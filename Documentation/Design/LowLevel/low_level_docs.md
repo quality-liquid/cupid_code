@@ -28,6 +28,7 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
       - [Commenting Standards](#commenting-standards)
       - [Testing Standards](#testing-standards)
   - [Frontend Design](#frontend-design)
+    - [Vue.js](#vue.js)
     - [Security](#security)
     - [UI](#ui)
     - [UX](#ux)
@@ -90,7 +91,8 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 ### Sub-team Responsibilities
 
 #### Frontend team
-
+* Vue.js Framework
+  - Using Vue.js
 * Security 
     * Validate all input and output
 * UI (Clean looking)
@@ -207,7 +209,7 @@ Every function should have a test
 -----------
 ## Frontend Design
 
-### Vue.js Framework
+### Vue.js
   For the frontend component of the Cupid Code web application, we will be using the Vue.js framework to create a seemless user experience that is visually appealing and intuitive.
 
   Vue.js is a framework that supports Single-Page Applications (SPA). It consists of Vue components (`.vue` files) that contain all of the HTML, JavaScript, and CSS in a single file. The Vue components allow for reusability.
