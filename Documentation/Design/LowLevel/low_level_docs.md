@@ -208,39 +208,74 @@ Every function should have a test
 ## Frontend Design
 
 ### Security
-  While a majority of the security will occur on the back, the front will do a little bit to ensure good data is being passed through. This will primarily be validating input and output. 
-  If there is bad input, we will visually inform the user of it with sufficient detail. This gives them the opportunity to change it and comply with our standards.
-  For example, if someone sends a chat to the AI, we will verify that there is no code injection or other malicious works inserted that would jeopardize the app. If bad input is given, we will inform the user (either via toast or other means) that something went wrong.
-  This will also be done for requests from the backend to make sure the given json is correct and valid. This can be done as simple as a check between who the frontend considers the user and who the backend considers the user. This could be done with ids or other unique keys.
+While a majority of the security will occur on the back, the front will do a little bit to ensure good data is being passed through. This will primarily be validating input and output. 
+If there is bad input, we will visually inform the user of it with sufficient detail. This gives them the opportunity to change it and comply with our standards.
+For example, if someone sends a chat to the AI, we will verify that there is no code injection or other malicious works inserted that would jeopardize the app. If bad input is given, we will inform the user (either via toast or other means) that something went wrong.
+This will also be done for requests from the backend to make sure the given json is correct and valid. This can be done as simple as a check between who the frontend considers the user and who the backend considers the user. This could be done with ids or other unique keys.
 
-  This is the general format most of the asynchronous functions will follow for validating data before displaying it. 
-  These functions will use the makeRequest function described in the connection of Vue and Django.
+This is the general format most of the asynchronous functions will follow for validating data before displaying it. 
+These functions will use the makeRequest function described in the connection of Vue and Django.
 
-  ``` javascript
-  async function get<Data>() {
-    await the results from getting the profile 
-      - this will make a call to the external apis
-      - also will use the make requests function referenced in connection
-    validate the results
-      - if good, set the data to the on screen refs and rerender
-      - if bad, put up error on screen for user (toast or otherwise)
-  }
-  async function post<Data>() {
-    await the request with the method "post" & a body with the information to send
-    navigate elsewhere OR rerender page
-  }
-  ```
+``` javascript
+async function get<Data>() {
+  await the results from getting the profile 
+    - this will make a call to the external apis
+    - also will use the make requests function referenced in connection
+  validate the results
+    - if good, set the data to the on screen refs and rerender
+    - if bad, put up error on screen for user (toast or otherwise)
+}
+
+async function post<Data>() {
+  check the data to be sent to ensure it is valid
+  if valid 
+   - await the request with the method "post" & a body with the information to send
+   - navigate elsewhere OR rerender page
+  if not valid
+    - Display an error for the User (toast or otherwise)
+}
+```
+Note that this will be the ONLY time there will be any calls made to the backend's APIs. The calls will use the URLs written and described in the backend section of the document. We are building it like this so that data is only called in a few, secure places. This will help narrow any data leaks or exploits that may come from these calls and help in the debugging process and maintain good, safe code.
 
 ### UI
+#### Making accounts and logging in
+
+![alt_text](images/createacc.png "Create_Acc")
+![alt_text](images/login.png "Login")
+![alt_text](images/suspended.png "Suspended")
+
+#### Dater
+![alt_text](images/uh.png "User_Home")
+![alt_text](images/aichat.png "Ai_Chat")
+![alt_text](images/calendar.png "Calendar")
+![alt_text](images/listen1.png "Listen_1")
+![alt_text](images/listen2.png "Listen_2")
+![alt_text](images/cupidcash.png "Cupid_Cash")
+![alt_text](images/useracc.png "User_Acc")
+
+#### Cupid
+![alt_text](images/ch.png "Cupid_Home")
+![alt_text](images/ch_cash.png "Cash_Earned")
+![alt_text](images/ch_gig1.png "Gig_1")
+![alt_text](images/ch_gig2.png "Gig_2")
+![alt_text](images/ch_rate.png "Rate_Daters")
+
+#### Manager
+![alt_text](images/manger_home.png "Cupid_Home")
+![alt_text](images/manage_cupids.png "Manage_Cupids")
+![alt_text](images/manage_cupid.png "Manage_Cupid")
+![alt_text](images/manage_daters.png "Manage_Daters")
+![alt_text](images/manager_dater.png "Manage_Dater")
 
 ### UX
+Crafting a seamless user experience is at the forefront of our app development mission. Through meticulous attention to detail, we are committed to ensuring a smooth and intuitive journey for every user. Our strategy centers around maintaining a cohesive and polished aesthetic, characterized by consistent color schemes that resonate throughout the app. Clear, easily discernible buttons and text inputs are prioritized, enhancing usability and reducing friction in navigation. Leveraging widely adopted formats and design conventions, we empower users to effortlessly engage with our app, fostering familiarity and ease of use. With our unwavering dedication to excellence in UX design, we are poised to deliver an exceptional digital experience that exceeds expectations and leaves a lasting impression.
 
 ### Templates
-  A majority of the frontend design will occur in View, but we will want to implement Django Templates for 2 cases. 
-    Case 1: A django template is needed to connect the back to the front.
-    Case 2: To protect the system, we can make the signing up/logging in its own Django app that will authenticate logging in so that you must be a verified user to use the rest of the app. This method will utilize the Django settings.py variables as well since you can tell it what the login page will be.
+A majority of the frontend design will occur in View, but we will want to implement Django Templates for 2 cases. 
+  Case 1: A django template is needed to connect the back to the front.
+  Case 2: To protect the system, we can make the signing up/logging in its own Django app that will authenticate logging in so that you must be a verified user to use the rest of the app. This method will utilize the Django settings.py variables as well since you can tell it what the login page will be.
 
-  This won't deal with many of the external links since it will be an isolated app that's sole purpose is to add & validate users and redirect them based off of the type of account they are.
+This won't deal with many of the external links since it will be an isolated app that's sole purpose is to add & validate users and redirect them based off of the type of account they are.
 
 ```html
 {% load static %}
@@ -277,7 +312,80 @@ The Vue app will live at URL `/app/`. The following pages will be available thro
 | /manager/cupids/   | manager reports                      |
 | /manager/daters/   | manager reports                      |
 
+
+#### How the Router works
+
+  This will all go into the App.vue file that is generated with the vue project.
+  There might be an async function to decide what the routes will be but other than that this is all you need. Any other async calls should only be made in the components themselves. This is necessary for clean, readable code and security purposes so we don't have data living somewhere it isn't needed.
+```javascript
+<script>
+  import ref and computed from vue;
+  import all components from ./components;
+
+  const routes = {
+    "/<link>": AssociatedComponent,
+    "/dater/home": DaterHome,
+    "/dater/chat": DaterChat,
+    etc...
+  }
+
+  const currPath = ref(windows location hash)
+
+  eventListener("hashchange", () => {
+    change currPaths value to windows location hash
+  }) // This will run everytime it's changed to ensure it's correct.
+
+  const currView = computed(() => {
+    return routes[currpaths values first slice or '/']
+  }) // Keeps track of what component to display
+
+</script>
+
+<template>
+  <a href "#/<link>"> Relavent Name </a> 
+  <a href "#/dater/home"> Home Page </a>
+  <a href "#/dater/chat"> Chat with the AI! </a>
+  etc..
+  <component :is="currView" />
+</template>
+
+```
+
 ### Testing
+These are some easy to implement methods to test our product before release:
+
+1. **Unit Testing**: Begin by writing unit tests for individual components using frameworks like Jest or Mocha. Unit tests focus on testing isolated units of code, such as methods, computed properties, and components, ensuring they behave as expected.
+
+2. **Component Testing**: Utilize Vue Test Utils to write tests for Vue components. These tests simulate user interactions and verify component behavior, such as rendering correctly, responding to user input, and emitting events.
+
+3. **Integration Testing**: Test how different components work together by performing integration tests. Integration tests verify interactions between multiple components and ensure they integrate seamlessly within the application.
+
+4. **Mocking**: Use mocks and stubs to isolate components or services from dependencies during testing. Mocking allows you to control the behavior of external dependencies and focus solely on testing the component or functionality in question.
+
+By incorporating these testing practices into your Vue application development workflow, you can enhance its quality, reliability, and maintainability, ultimately delivering a robust and user-friendly experience to your users.
+
+Unit Test Example
+
+*Note that these will live in their own file, likely called unitTest.js*
+```javascript
+import { mount } from '@vue/test-utils';
+import GetBalance from '@/components/GetBalance.vue';
+
+describe('GetBalance', () => {
+  it('Display the original balance', async () => {
+    const wrapper = mount(GetBalance);
+    
+    // Initially, the balance should mimic whats in the DB
+    expect(wrapper.find('p').text()).toContain('Balance: <TesterBalance>');
+    
+    // Simulate a click on the button to add funds
+    await wrapper.find('button').trigger('click');
+    
+    // After clicking, the balance should increase
+    expect(wrapper.find('p').text()).toContain('Balance: <AddedBalance>');
+  });
+});
+```
 
 -----------
 ## Connecting Vue and Django
