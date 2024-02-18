@@ -261,11 +261,11 @@ Note that this will be the ONLY time there will be any calls made to the backend
 ![alt_text](images/ch_rate.png "Rate_Daters")
 
 #### Manager
-![alt_text](images/manger_home.png "Cupid_Home")
+![alt_text](images/manager_home.png "Cupid_Home")
 ![alt_text](images/manage_cupids.png "Manage_Cupids")
 ![alt_text](images/manage_cupid.png "Manage_Cupid")
 ![alt_text](images/manage_daters.png "Manage_Daters")
-![alt_text](images/manager_dater.png "Manage_Dater")
+![alt_text](images/manage_dater.png "Manage_Dater")
 
 ### UX
 Crafting a seamless user experience is at the forefront of our app development mission. Through meticulous attention to detail, we are committed to ensuring a smooth and intuitive journey for every user. Our strategy centers around maintaining a cohesive and polished aesthetic, characterized by consistent color schemes that resonate throughout the app. Clear, easily discernible buttons and text inputs are prioritized, enhancing usability and reducing friction in navigation. Leveraging widely adopted formats and design conventions, we empower users to effortlessly engage with our app, fostering familiarity and ease of use. With our unwavering dedication to excellence in UX design, we are poised to deliver an exceptional digital experience that exceeds expectations and leaves a lasting impression.
