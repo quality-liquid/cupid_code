@@ -156,20 +156,25 @@ underscore_naming for backend/Django
 How will we format our code?
 
 How long can a line be?
-  No horizontal scroll
-  Every line should only do 1 thing normally
+  * No horizontal scroll
+  * Every line should only do 1 thing normally
+
 How long can a function be?
-  No limit but try to keep efficient
+  * No limit but try to keep efficient
+
 Will we use type hints?
-  Yes, for python
+  * Yes, for python
+
 When nesting code how many levels deep can we go?
 
 #### Commenting Standards
 
 When will we use comments?
-  Can make notes or use for testing, but clean up before merging
+  * Can make notes or use for testing, but clean up before merging
+
 When will we use docstrings?
-  Should annotate the I/O of a function
+  * Should annotate the I/O of a function
+
 How will we format our comments? 
 
 How will we format our docstrings?
@@ -569,10 +574,6 @@ urlpatterns = [
 ```
 
 ### Django Models
-Each model will correspond to a table. Bold denotes a primary key. For most tables,
-this is the default id provided by Django. For certain one-to-one tables they will use that
-relationship as their primary key. 
-
 We will use the Django built in User model, but add roles to it. This comes with authentication functionality and the following fields. Details available in 
 [Django docs](https://docs.djangoproject.com/en/5.0/ref/contrib/auth/#django.contrib.auth.models.User).
 
@@ -588,6 +589,10 @@ We will use the Django built in User model, but add roles to it. This comes with
 * is_superuser
 * last_login
 * date_joined
+
+Each model will correspond to a table. Bold denotes a primary key. For most tables,
+this is the default id provided by Django. For certain one-to-one tables they will use that
+relationship as their primary key. 
 
 * Dater
     * **User : OneToOne Field (As provided by Django)**
@@ -621,13 +626,14 @@ We will use the Django built in User model, but add roles to it. This comes with
         * Location : Text Field (Containing geo coordinates) 
         * Average Rating : Decimal Field
         * Suspended : Boolean Field
+
+* Manager doesn't need anything more than a Django user in the manager role
+
 * Message
     * **id : Auto Field**
     * Owner : Foreign Key (User)
     * Text : Text Field
     * fromAI : Boolean Field (Indicates which side of the convo this message belongs to)
-
-* Manager doesn't need anything more than a Django user in the manager role
 
 * Gig
     * **id : Auto Field**
