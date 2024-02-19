@@ -226,27 +226,6 @@ Every function should have a test
 -----------
 ## Frontend Design
 
-<<<<<<< HEAD
-### Vue.js
-  For the frontend component of the Cupid Code web application, we will be using the Vue.js framework to create a seemless user experience that is visually appealing and intuitive.
-
-  Vue.js is a framework that supports Single-Page Applications (SPA). It consists of Vue components (`.vue` files) that contain all of the HTML, JavaScript, and CSS in a single file. The Vue components allow for reusability.
-
-  With Vue, we can choose to use the Vue Composition API or the Options API. The Composition API lends itself to larger applications (such as Cupid Code) and will therefore be used for this project.
-
-  Vue.js Docs: https://vuejs.org/guide/
-
-### Security
-  While a majority of the security will occur on the backend, the frontend will do a little bit to ensure good data is being passed through. This will primarily consist of validating input and output.
-
-
-  Input Validation:
-  - If there is bad input given by the user, we will visually inform the user of it with sufficient detail. This gives them the opportunity to change it and comply with our standards. For example, if someone sends a chat to the AI, we will verify that there is no code injection or other malicious works inserted that would jeopardize the app. If bad input is given, we will inform the user (either via toast or other means) that something went wrong.
-
-  This will also be done for requests from the backend to make sure the given JSON is correct and valid. This can be done as simple as a check between who the frontend considers the user and who the backend considers the user. This could be done with IDs or other unique keys.
-
-  This is the general format most of the asynchronous functions will follow for validating data before displaying it. These functions will use the makeRequest function described in the connection of Vue and Django.
-=======
 ### Security
 While a majority of the security will occur on the back, the front will do a little bit to ensure good data is being passed through. This will primarily be validating input and output. 
 If there is bad input, we will visually inform the user of it with sufficient detail. This gives them the opportunity to change it and comply with our standards.
@@ -263,7 +242,6 @@ async function get<Data>() {
     - if good, set the data to the on screen refs and rerender
     - if bad, put up error on screen for user (toast or otherwise)
 }
->>>>>>> master
 
 async function getUser() {
   results = await makeRequest(`/api/user/${id}`)
@@ -296,17 +274,6 @@ async function updateUser() {
 Note that this will be the ONLY time there will be any calls made to the backend's APIs. The calls will use the URLs written and described in the backend section of the document. We are building it like this so that data is only called in a few, secure places. This will help narrow any data leaks or exploits that may come from these calls and help in the debugging process and maintain good, safe code.
 
 ### UI
-<<<<<<< HEAD
-  One of the key features of the Vue.js framework is the reactivity system. The reactivity system allows for data changes to be tracked and for the user interface to update accordingly, creating a better user interface.
-
-### UX 
-  Vue.js excels at creating a superior user experience through its single-page application (SPA) capabilities. By adopting a SPA architecture, Vue enables seamless and fluid navigation within the application, eliminating the need for full page reloads. This results in faster transitions between views, reducing latency and providing users with a smoother and more responsive interaction. The Vue Router facilitates the dynamic loading of components based on routes, ensuring that only the necessary content is fetched and rendered, optimizing performance. The reactivity system of Vue ensures that as the application state changes, the corresponding components update in real-time, offering a dynamic and engaging interface. Additionally, Vue's component-based structure promotes code modularity and reusability, contributing to easier maintenance and scalability.
-
-### Templates
-  A majority of the frontend design will use the Vue.js framework, but we will want to implement Django Templates for 2 cases.
-  - Case 1: A django template is needed to connect the back to the front.
-  - Case 2: To protect the system, we can make the signing up/logging in its own Django app that will authenticate logging in so that the visitor must be a verified user to use the rest of the app. This method will utilize the Django settings.py variables as well since you can tell it what the login page will be.
-=======
 This application is intended to be used as a dating aid for individuals with above average difficulty levels interacting in social environments, specifically romatic encounters. For this purpose we have developed the application to allow for smooth transition between elements and pages, soft visual appearances to be ease on eye-fatigue, and clear usage instructions so that anybody could pick up the app and understand how to use it. 
 
 #### User flow:
@@ -379,7 +346,6 @@ Crafting a seamless user experience is at the forefront of our app development m
 A majority of the frontend design will occur in Vue, but we will want to implement Django Templates for 2 cases. 
   Case 1: A django template is needed to connect the back to the front.
   Case 2: To protect the system, we can make the signing up/logging in its own Django app that will authenticate logging in so that you must be a verified user to use the rest of the app. This method will utilize the Django settings.py variables as well since you can tell it what the login page will be.
->>>>>>> master
 
 This won't deal with many of the external links since it will be an isolated app that's sole purpose is to add & validate users and redirect them based off of the type of account they are.
 
