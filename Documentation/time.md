@@ -24,7 +24,7 @@
 | Name           | Job                                                                     | Time(hrs) |   
 | Nate Stott     | Backend - pseudocode, serializers, editing, structure                   | 13        |   
 | Emma Wright    | Middleman, Classes                                                      | 6         |   
-| Daniel Barfuss | Backend - Security, Unit Tests, Django Admin & Settings, View functions | 7         |   
+| Daniel Barfuss | Backend - Security, Unit Tests, Django Admin & Settings, View functions | 11        |   
 | Brighton Ellis | Frontend - UI/UX, Figma                                                 | 6.5       |   
 | Nate McKenzie  | Backend - DB, Migration, URLs                                           | 9         |   
 | Eric DeBloois  |                                                                         |           |   

@@ -148,7 +148,7 @@ Nate Stott, Nate McKenzie, Daniel
 
 Our code should be clean and easy to read. Our code should tell a story. 
 Constant git branching will be used to make the history of the code speak for itself.
-This section is about how we will achieve these goals
+This section is about how we will achieve these goals.
 
 #### Branching Conventions
 
@@ -284,7 +284,7 @@ Note that this will be the ONLY time there will be any calls made to the backend
 This application is intended to be used as a dating aid for individuals with above average difficulty levels interacting in social environments, specifically romatic encounters. For this purpose we have developed the application to allow for smooth transition between elements and pages, soft visual appearances to be ease on eye-fatigue, and clear usage instructions so that anybody could pick up the app and understand how to use it. 
 
 #### User flow:
-The user will be immediately be directed to the login page, where they will be given the opportunity to either create an account based on their intended use on the app, or to sign in to a previously created account. Each user type has a home page relative to the features that are pertinent to them. Ie. Daters will have access to info about scheduling their date, adding cash to their online wallet, chatting with our dating assistive bot while cupids will have access to available gigs in their area as well as an earnings page to view their coming payments. Each page will provide a navigation panel in the upper portion to access account details and other necessary features. Tap-sensitive buttons on each page will dynamically redirect the specific user to their desired destination. 
+The user will be immediately directed to the login page, where they will be given the opportunity to either create an account based on their intended use on the app, or to sign in to a previously created account. Each user type has a home page relative to the features that are pertinent to them. Ie. Daters will have access to info about scheduling their date, adding cash to their online wallet, chatting with our dating assistive bot while cupids will have access to available gigs in their area as well as an earnings page to view their coming payments. Each page will provide a navigation panel in the upper portion to access account details and other necessary features. Tap-sensitive buttons on each page will dynamically redirect the specific user to their desired destination. 
 
 #### Screen designs:
 Proper contrast between content and backgrounds is maintained across each panel on the application. The color tone is soft, so as not to be too "loud" for the user. All screens are suited with a navigation bar in the upper portion of the screen that is locked in place during scrolling. Content is situated below the navigation bar and will have content centered on the screen, keeping appropriate margin distances between each component and the screen. 
@@ -293,7 +293,7 @@ Proper contrast between content and backgrounds is maintained across each panel 
 The navigation bar will will always contain an icon in the upper right corner that will access the current user's account.  Once off of the home page, it will display an arrow which will redirect the user back to their appropriate home page. 
 
 #### Layout guidelines:
-The padding between visual elements will differ based on the screen size of the user, however keeping a pixel distance of no less than 12px and no more than 24px will allow for each of the components and buttons to be displayed on the device in such a manner that the components do not appear crowded nor too spaced apart. All content will be displayed within the size of the conten-background color, which allows for strong contrast between black font and the color, as well as not overwhelm the user with bright and flashing pages as they go from feature to feature. Content boxes on pages with scrolling will each have shadows, assisting with the overall visually distinctive and appealing aspects of the app. 
+The padding between visual elements will differ based on the screen size of the user, however keeping a pixel distance of no less than 12px and no more than 24px will allow for each of the components and buttons to be displayed on the device in such a manner that the components do not appear crowded nor too spaced apart. All content will be displayed within the size of the content-background color, which allows for strong contrast between black font and the color, as well as not overwhelm the user with bright and flashing pages as they go from feature to feature. Content boxes on pages with scrolling will each have shadows, assisting with the overall visually distinctive and appealing aspects of the app. 
 
 #### Color Palette:
 **primary-blue**: 46ADF0
@@ -329,7 +329,7 @@ The Dater will have access to 5 features from the app. They can enable the liste
 ![alt_text](images/useracc.png "User_Acc")
 
 #### Cupid
-The Cupid home page will display their personal rating on a scale to 5, as well as a running list of gig offer to accept delivery for. They will be displayed to them based on their location.  From there, the cupid can either accept a gig delivery or drop an already accepted delivery. Once a gig is selected, it will show all of the information for the delivery as well as the ability to update the completion status. Once a gig is completed, the Cupid will be provided a screen to supply their feedback for the Dater they were delivering for. The cupid will also be able to acces their earnings page (which will be synonymous with their account info page) to see their running earnings as well as the next pay date. 
+The Cupid home page will display their personal rating on a scale to 5, as well as a running list of gig offers to accept delivery for. They will be displayed to them based on their location.  From there, the cupid can either accept a gig delivery or drop an already accepted delivery. Once a gig is selected, it will show all of the information for the delivery as well as the ability to update the completion status. Once a gig is completed, the Cupid will be provided a screen to supply their feedback for the Dater they were delivering for. The cupid will also be able to acces their earnings page (which will be synonymous with their account info page) to see their running earnings as well as the next pay date. 
 
 ![alt_text](images/ch.png "Cupid_Home")
 ![alt_text](images/ch_cash.png "Cash_Earned")
@@ -467,7 +467,7 @@ These are some easy to implement methods to test our product before release:
 
 4. **Mocking**: Use mocks and stubs to isolate components or services from dependencies during testing. Mocking allows you to control the behavior of external dependencies and focus solely on testing the component or functionality in question.
 
-By incorporating these testing practices into your Vue application development workflow, you can enhance its quality, reliability, and maintainability, ultimately delivering a robust and user-friendly experience to your users.
+By incorporating these testing practices into our Vue application development workflow, we can enhance its quality, reliability, and maintainability, ultimately delivering a robust and user-friendly experience to our users.
 
 Unit Test Examples
 
@@ -514,7 +514,7 @@ Subsections
 
 ### Summary
 The main method we will be implementing will be using these tools: Vite, NPM, and Poetry. 
-The frontend will be setup using npm for vite and vue. The backend using poetry for django. This section details what each version manager & config file needs to have as well as every additional file necessary and what each file has in it. 
+The frontend will be setup using npm for Vite and Vue. The backend using Poetry for Django. This section details what each version manager & configuration file needs to have as well as every additional file necessary and what each file has in it. 
 
 #### Poetry
 
@@ -652,7 +652,7 @@ Subsections
 
 ### Summary
 
-The backend will be built using Django and the Django Rest Framework. As a result much of the needed security is already implemented. 
+The backend will be built using Django and the Django REST Framework. As a result much of the needed security is already implemented. 
 A majority of the work will be in the models, views, and serializers. The models will be the database, the views will be the API, and the serializers will be the conversion of the models to JSON and vice versa.
 The frontend will communicate with the backend using HTTP GET and POST requests. The backend will respond with JSON data. This will be made easy by the Django Rest Framework.
 Mapping what endpoints the frontend needs is helpful for the backend to know what to build. This will be done in the URL Mapping section.
@@ -667,7 +667,7 @@ Mapping what endpoints the frontend needs is helpful for the backend to know wha
 
 ### Django Project Structure
 
-What will the project structure look like? What will the files be named? What will the directories be named?
+This is what our project structure will look like:
 
 * cupid_code/
   * cupid_code/ - Main project directory.
@@ -753,12 +753,12 @@ The following endpoints will need user data to be used. Authentication will be r
 
 ### Django Models
 
-We will use the Django built in User model, but add roles to it by extending `AbstractUser`. This comes with authentication functionality and the following fields. Details available in 
+We will use the Django built-in User model, but add roles to it by extending `AbstractUser`. This comes with authentication functionality and the following fields. Details available in 
 [Django docs](https://docs.djangoproject.com/en/5.0/ref/contrib/auth/#django.contrib.auth.models.User).
 
 * User
   * **id**
-  * *role added by us*
+  * *role added by us {Dater, Cupid, Manager}*
   * username
   * first_name
   * last_name
