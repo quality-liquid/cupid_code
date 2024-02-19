@@ -8,7 +8,7 @@ Sprint Leader: Nate Stott
 
 Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Daniel Barfuss, Brandon Herrin
 
-02/08/24
+02/19/24
 
 <!--toc:start-->
 - [**Cupid Code**](#cupid-code)
@@ -71,7 +71,7 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
     - [Django Settings](#django-settings)
     - [Django Admin](#django-admin)
     - [Unit Tests](#unit-tests)
-      - [Quick Tutorial on how to use the Django Rest Framework](#quick-tutorial-on-how-to-use-the-django-rest-framework)
+    - [Quick Tutorial on how to use the Django Rest Framework](#quick-tutorial-on-how-to-use-the-django-rest-framework)
     - [Pseudocode](#pseudocode)
 <!--toc:end-->
 
@@ -924,7 +924,7 @@ The following tools will be used to create unit tests for the software:
 
 Pseudocode can be found at the bottom of the [Pseudocode](#pseudocode) section.
 
-#### Quick Tutorial on how to use the Django Rest Framework
+### Quick Tutorial on how to use the Django Rest Framework
 
 * Create a new app in the project
 ``` 
