@@ -8,16 +8,16 @@ Sprint Leader: Nate Stott
 
 Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Daniel Barfuss, Brandon Herrin
 
-02/08/24
+02/19/24
 
 <!--toc:start-->
 - [**Cupid Code**](#cupid-code)
 - [**Low Level Design Document**](#low-level-design-document)
-    - [Sub-team Members](#subteam-members)
+    - [Subteam Members](#subteam-members)
       - [Frontend Team Members](#frontend-team-members)
       - [Middleend Team Members](#middleend-team-members)
       - [Backend Team Members](#backend-team-members)
-    - [Sub-team Responsibilities](#subteam-responsibilities)
+    - [Subteam Responsibilities](#subteam-responsibilities)
       - [Frontend team](#frontend-team)
       - [Middleend team](#middleend-team)
       - [Backend team](#backend-team)
@@ -27,16 +27,30 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
       - [Commenting Standards](#commenting-standards)
       - [Testing Standards](#testing-standards)
   - [Frontend Design](#frontend-design)
+    - [Vue.js](#vue.js)
     - [Security](#security)
     - [UI](#ui)
+      - [User flow:](#user-flow)
+      - [Screen designs:](#screen-designs)
+      - [Navigation Structure:](#navigation-structure)
+      - [Layout guidelines:](#layout-guidelines)
+      - [Color Palette:](#color-palette)
+      - [Icon Use:](#icon-use)
+      - [Responsive design:](#responsive-design)
+      - [Making accounts and logging in](#making-accounts-and-logging-in)
+      - [Dater](#dater)
+      - [Cupid](#cupid)
+      - [Manager](#manager)
     - [UX](#ux)
     - [Templates](#templates)
     - [Vue Router](#vue-router)
+      - [How the Router works](#how-the-router-works)
     - [Testing](#testing)
   - [Connecting Vue and Django](#connecting-vue-and-django)
       - [Poetry](#poetry)
       - [Vite Config](#vite-config)
-      - [NPM](#npm)
+      - [Node.js](#node.js)
+      - [npm](#npm)
       - [Serverside](#serverside)
         - [Files to Add](#files-to-add)
         - [Environment](#environment)
@@ -47,6 +61,7 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
       - [Clientside](#clientside)
   - [Backend Design](#backend-design)
     - [Summary](#summary)
+      - [Resources for the Backend](#resources-for-the-backend)
     - [Django Project Structure](#django-project-structure)
     - [URL Mapping](#url-mapping)
       - [static endpoints](#static-endpoints)
@@ -61,72 +76,79 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 <!--toc:end-->
 
 -----------
-### Subteam Members
+### Subteams
 
-#### Frontend Team Members
+#### Frontend Team
+Eric, Brighton, Brandon
 
-* Eric 
-* Brighton 
-* Brandon
+* Security
+  * Validate all input and output
+  * Make sure the app is secure
+* Design the UI
+  * Use Figma to design the UI
+* Design the UX
+  * Make sure the app is easy to use
+* Design the frontend code
+  * Use Vue.js
+  * Use Vue Router
+* Design the Django templates
+  * Welcome page
+  * Login page
+  * Signup page
+  * 404 page
+* Design the Vue Router
+  * Map the URLs
 
-#### Middleend Team Members
-
-* Emma
-
-#### Backend Team Members
-
-* Nate Stott 
-* Nate McKenzie 
-* Daniel
-
------------
-### Subteam Responsibilities
-
-#### Frontend team
-
-* Security 
-    * Validate all input and output
-* UI (Clean looking)
-    * Attractive to look at (keep people coming back)
-* UX (Easy to use)
-    * Intuitive design
-    * Easy to navigate
-    * What is happening is clear
-* Django Templates (if needed)
-* Interact with backend (requests)
-    * Deal with timeouts
-* Test on many browsers
-    * Phone
-    * Desktop
-
-#### Middleend team
+#### Middleend Team
+Emma
 
 * Work with both teams to ensure that the frontend and backend work together
 * Do work as requested by either team
   * A team could be falling behind and need help
+* Quality Assurance
+  * Ensure that both teams are following the conventions and standards
+  * Ensure that both teams are testing their code
+  * Ensure that both teams are documenting their code
 
-#### Backend team
+#### Backend Team
+Nate Stott, Nate McKenzie, Daniel
 
 * Security
-    * Django Admin
-    * User Authentication
-    * Validate all input and output
-* Django models (database)
-* Map URLs to views
-* Django views (Communicate with frontend, responses)
-    * 200
-    * 404
-* Create system APIs to call external APIs (easy to switch out)
-* Django Migrations
-* Django settings
-* Unit tests
+  * Make sure the backend is secure
+  * Make sure the backend api is only accessible by the frontend
+  * Secure the database
+  * Secure Django Admin
+  * Design user authentication
+* Design the backend code
+  * Use Django
+  * Use Django Rest Framework
+  * Use Django Rest Framework Serializers
+  * Use Django Rest Framework Views
+  * Use Django Rest Framework Authentication
+* Design the database
+  * Use Django Models
+  * Use Django Migrations
+* Design Django Admin
+  * What will we do with it?
+  * Who will have access to it?
+* Design the Django settings
+  * What will we need to change?
+* Design the Django URL Mapping
+  * What endpoints will we need?
+  * What will the endpoints do?
+* Design the endpoints
+  * What will the frontend need?
+  * What will the backend need?
+* Design the Django Unit Tests
+  * What will we test?
+  * How will we test it?
 
 -----------
 ### Team Conventions and Standards
 
 Our code should be clean and easy to read. Our code should tell a story. 
 Constant git branching will be used to make the history of the code speak for itself.
-This section is about how we will achieve these goals
+This section is about how we will achieve these goals.
 
 #### Branching Conventions
 
@@ -262,7 +284,7 @@ Note that this will be the ONLY time there will be any calls made to the backend
 This application is intended to be used as a dating aid for individuals with above average difficulty levels interacting in social environments, specifically romatic encounters. For this purpose we have developed the application to allow for smooth transition between elements and pages, soft visual appearances to be ease on eye-fatigue, and clear usage instructions so that anybody could pick up the app and understand how to use it. 
 
 #### User flow:
-The user will be immediately be directed to the login page, where they will be given the opportunity to either create an account based on their intended use on the app, or to sign in to a previously created account. Each user type has a home page relative to the features that are pertinent to them. Ie. Daters will have access to info about scheduling their date, adding cash to their online wallet, chatting with our dating assistive bot while cupids will have access to available gigs in their area as well as an earnings page to view their coming payments. Each page will provide a navigation panel in the upper portion to access account details and other necessary features. Tap-sensitive buttons on each page will dynamically redirect the specific user to their desired destination. 
+The user will be immediately directed to the login page, where they will be given the opportunity to either create an account based on their intended use on the app, or to sign in to a previously created account. Each user type has a home page relative to the features that are pertinent to them. Ie. Daters will have access to info about scheduling their date, adding cash to their online wallet, chatting with our dating assistive bot while cupids will have access to available gigs in their area as well as an earnings page to view their coming payments. Each page will provide a navigation panel in the upper portion to access account details and other necessary features. Tap-sensitive buttons on each page will dynamically redirect the specific user to their desired destination. 
 
 #### Screen designs:
 Proper contrast between content and backgrounds is maintained across each panel on the application. The color tone is soft, so as not to be too "loud" for the user. All screens are suited with a navigation bar in the upper portion of the screen that is locked in place during scrolling. Content is situated below the navigation bar and will have content centered on the screen, keeping appropriate margin distances between each component and the screen. 
@@ -271,7 +293,7 @@ Proper contrast between content and backgrounds is maintained across each panel 
 The navigation bar will will always contain an icon in the upper right corner that will access the current user's account.  Once off of the home page, it will display an arrow which will redirect the user back to their appropriate home page. 
 
 #### Layout guidelines:
-The padding between visual elements will differ based on the screen size of the user, however keeping a pixel distance of no less than 12px and no more than 24px will allow for each of the components and buttons to be displayed on the device in such a manner that the components do not appear crowded nor too spaced apart. All content will be displayed within the size of the conten-background color, which allows for strong contrast between black font and the color, as well as not overwhelm the user with bright and flashing pages as they go from feature to feature. Content boxes on pages with scrolling will each have shadows, assisting with the overall visually distinctive and appealing aspects of the app. 
+The padding between visual elements will differ based on the screen size of the user, however keeping a pixel distance of no less than 12px and no more than 24px will allow for each of the components and buttons to be displayed on the device in such a manner that the components do not appear crowded nor too spaced apart. All content will be displayed within the size of the content-background color, which allows for strong contrast between black font and the color, as well as not overwhelm the user with bright and flashing pages as they go from feature to feature. Content boxes on pages with scrolling will each have shadows, assisting with the overall visually distinctive and appealing aspects of the app. 
 
 #### Color Palette:
 **primary-blue**: 46ADF0
@@ -307,7 +329,7 @@ The Dater will have access to 5 features from the app. They can enable the liste
 ![alt_text](images/useracc.png "User_Acc")
 
 #### Cupid
-The Cupid home page will display their personal rating on a scale to 5, as well as a running list of gig offer to accept delivery for. They will be displayed to them based on their location.  From there, the cupid can either accept a gig delivery or drop an already accepted delivery. Once a gig is selected, it will show all of the information for the delivery as well as the ability to update the completion status. Once a gig is completed, the Cupid will be provided a screen to supply their feedback for the Dater they were delivering for. The cupid will also be able to acces their earnings page (which will be synonymous with their account info page) to see their running earnings as well as the next pay date. 
+The Cupid home page will display their personal rating on a scale to 5, as well as a running list of gig offers to accept delivery for. They will be displayed to them based on their location.  From there, the cupid can either accept a gig delivery or drop an already accepted delivery. Once a gig is selected, it will show all of the information for the delivery as well as the ability to update the completion status. Once a gig is completed, the Cupid will be provided a screen to supply their feedback for the Dater they were delivering for. The cupid will also be able to acces their earnings page (which will be synonymous with their account info page) to see their running earnings as well as the next pay date. 
 
 ![alt_text](images/ch.png "Cupid_Home")
 ![alt_text](images/ch_cash.png "Cash_Earned")
@@ -350,6 +372,33 @@ This won't deal with many of the external links since it will be an isolated app
 </body>  
 ```
 ### Vue Router
+
+  We will be using the Vue Router to route the user to the correct page. Using information about the user from the backend and reusable components, we can direct the user to the correct page based upon user type.
+
+  Example Vue Router (simple example):
+```javascript
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+
+import Home from './components/Home.vue';
+import About from './components/Dater.vue';
+import Contact from './components/Cupid.vue';
+
+Vue.use(VueRouter);
+
+const routes = [
+  { path: '/', component: Home },
+  { path: '/dater', component: Dater },
+  { path: '/cupid', component: Cupid }
+];
+
+const router = new VueRouter({
+  routes,
+  mode: 'history'
+});
+
+export default router;
+```
 
 The Vue app will live at URL `/app/`. The following pages will be available through the Vue Router.
 
@@ -418,7 +467,7 @@ These are some easy to implement methods to test our product before release:
 
 4. **Mocking**: Use mocks and stubs to isolate components or services from dependencies during testing. Mocking allows you to control the behavior of external dependencies and focus solely on testing the component or functionality in question.
 
-By incorporating these testing practices into your Vue application development workflow, you can enhance its quality, reliability, and maintainability, ultimately delivering a robust and user-friendly experience to your users.
+By incorporating these testing practices into our Vue application development workflow, we can enhance its quality, reliability, and maintainability, ultimately delivering a robust and user-friendly experience to our users.
 
 Unit Test Examples
 
@@ -446,8 +495,26 @@ describe('GetBalance', () => {
 -----------
 ## Connecting Vue and Django
 
+Subsections
+- [Summary](#summary)
+- [Poetry](#poetry)
+- [Vite Config](#vite-config)
+- [Node.js](#nodejs)
+- [Npm](#npm)
+- [Serverside](#serverside)
+- [Files to Add](#files-to-addy)
+- [Environemnt](#environment)
+- [Middleware](#middleware)
+- [Im Server Settings](#in-server-settings)
+- [In core views](#in-core-viewspy)
+- [In core index](#in-core-viewspy)
+- [Clientside](#clientside)
+- [Psuedocode](#pseudocode)
+
+
+### Summary
 The main method we will be implementing will be using these tools: Vite, NPM, and Poetry. 
-The frontend will be setup using npm for vite and vue. The backend using poetry for django.
+The frontend will be setup using npm for Vite and Vue. The backend using Poetry for Django. This section details what each version manager & configuration file needs to have as well as every additional file necessary and what each file has in it. 
 
 #### Poetry
 
@@ -469,8 +536,20 @@ The frontend will be setup using npm for vite and vue. The backend using poetry 
   },
   base: "/static"
 ```
-#### NPM
 
+#### Node.js
+
+  The [current LTS version](https://nodejs.org/en) (20.11.1 as of 2/18/2024) of Node.js will be used for project development. `nvm` (Node Version Manager) will be used to manage the version of Node.js being used.
+
+  `nvm` commands for selecting Node.js version:
+  ```
+  $ nvm install -lts
+  $ nvm use --lts
+  ```
+
+#### Npm
+
+  `npm` will be used for package management
 * Vue 3.3.11+
 * Cookie 0.6.0+
 
@@ -531,8 +610,8 @@ The frontend will be setup using npm for vite and vue. The backend using poetry 
 For running the server by default, you won't need to add anything. However, if you want to make some actual requests then this is where Cookie comes in. 
 Add a utils folder in your src folder, and make a file called make_requests.js here. Here you'll write a function to send and receive json from the server.
 
-Pseudocode
-``` python
+#### Pseudocode
+``` javascript
 import cookie
 
 makeRequest(uri, method, body):
@@ -560,58 +639,52 @@ return middleware
 -----------
 ## Backend Design
 
-This section will include the following subsections:
-  * Summary
-  * Django Project Structure
-  * URL Mapping
-  * Django Models
-  * Django Migrations
-  * Django Settings
-  * Django Admin
-  * Unit Tests
-  * Pseudocode
+Subsections
+- [Summary](#summary)
+- [Django Project Structure](#django-project-structure)
+- [URL Mapping](#url-mapping)
+- [Django Models](#django-models)
+- [Django Migrations](#django-migrations)
+- [Django Settings](#django-settings)
+- [Django Admin](#django-admin)
+- [Unit Tests](#unit-tests)
+- [Pseudocode](#pseudocode)
 
 ### Summary
 
-The backend will be built using Django and the Django Rest Framework. As a result much of the needed security is already implemented. 
+The backend will be built using Django and the Django REST Framework. As a result much of the needed security is already implemented. 
 A majority of the work will be in the models, views, and serializers. The models will be the database, the views will be the API, and the serializers will be the conversion of the models to JSON and vice versa.
 The frontend will communicate with the backend using HTTP GET and POST requests. The backend will respond with JSON data. This will be made easy by the Django Rest Framework.
 Mapping what endpoints the frontend needs is helpful for the backend to know what to build. This will be done in the URL Mapping section.
 
 #### Resources for the Backend
-* Django Rest Framework Quickstart
-  * https://www.django-rest-framework.org/tutorial/quickstart/
-* Django Rest Framework API Reference
-  * https://docs.djangoproject.com/en/5.0/ref/
-* Django Rest Framework Serializers
-  * https://www.django-rest-framework.org/api-guide/serializers/
-* Django Rest Framework Views
-  * https://www.django-rest-framework.org/api-guide/views/
-* Django Rest Framework Permissions
-  * https://www.django-rest-framework.org/api-guide/permissions/
-* Django Rest Framework Authentication
-  * https://www.django-rest-framework.org/api-guide/authentication/
+* [Django Rest Framework Quickstart](https://www.django-rest-framework.org/tutorial/quickstart/)
+* [Django Rest Framework API Reference](https://docs.djangoproject.com/en/5.0/ref/)
+* [Django Rest Framework Serializers](https://www.django-rest-framework.org/api-guide/serializers/)
+* [Django Rest Framework Views](https://www.django-rest-framework.org/api-guide/views/)
+* [Django Rest Framework Permissions](https://www.django-rest-framework.org/api-guide/permissions/)
+* [Django Rest Framework Authentication](https://www.django-rest-framework.org/api-guide/authentication/)
 
 ### Django Project Structure
 
-What will the project structure look like? What will the files be named? What will the directories be named?
+This is what our project structure will look like:
 
 * cupid_code/
-  * cupid_code/ # main project directory
-    * settings.py # main settings file
-    * urls.py # main url file
-    * wsgi.py # web server gateway interface
-  * api/ # app for the api
-    * migrations/ # migrations for the api app
-    * admin.py # admin configuration
-    * apps.py # app configuration
-    * models.py # define the models
-    * serializers.py # define the serializers
-    * tests.py # write unit tests
-    * urls.py # map the urls to the views
-    * views.py # define and implement the views
-  * manage.py # command line utility for managing the project
-  * db.sqlite3 # the database
+  * cupid_code/ - Main project directory.
+    * settings.py - Main settings file.
+    * urls.py - Main url file.
+    * wsgi.py - Web server gateway interface.
+  * api/ - App for the api.
+    * migrations/ - Migrations for the api app.
+    * admin.py - Admin configuration.
+    * apps.py - App configuration.
+    * models.py - Define the models.
+    * serializers.py - Define the serializers.
+    * tests.py - Write unit tests.
+    * urls.py - Map the urls to the views.
+    * views.py - Define and implement the views.
+  * manage.py - Command line utility for managing the project.
+  * db.sqlite3 - The database. We can change this to another database if we want.
 
 ### URL Mapping
 
@@ -680,11 +753,12 @@ The following endpoints will need user data to be used. Authentication will be r
 
 ### Django Models
 
-We will use the Django built in User model, but add roles to it. This comes with authentication functionality and the following fields. Details available in 
+We will use the Django built-in User model, but add roles to it by extending `AbstractUser`. This comes with authentication functionality and the following fields. Details available in 
 [Django docs](https://docs.djangoproject.com/en/5.0/ref/contrib/auth/#django.contrib.auth.models.User).
 
 * User
-  * **id : Auto Field**
+  * **id**
+  * *role added by us {Dater, Cupid, Manager}*
   * username
   * first_name
   * last_name
@@ -734,7 +808,7 @@ relationship as their primary key.
         * Location : Text Field (Containing geo coordinates) 
         * Average Rating : Decimal Field
         * Suspended : Boolean Field
-* Manager doesn't need anything more than a Django default user in the manager role
+* Manager doesn't need anything more than a Django User in the manager role
 * Message
     * **id : Auto Field**
     * Owner : Foreign Key (User)
@@ -778,8 +852,7 @@ relationship as their primary key.
     * **User : Foreign Key**
     * Routing Number : Text Field
     * Account Number : Text Field
-    
-    
+
 ### Django Migrations
 
 * Dummy Daters
@@ -806,14 +879,17 @@ relationship as their primary key.
 
 ### Django Settings
 
-The settings.py file is used to apply settings to the entire Django project. Here are the current additions to the settings.py file that are included beyond the base settings:
+The settings.py file is used to apply settings to the entire Django project. The following adjustments will be made to the settings.py file:
 
-**Admin Allowed in INSTALLED_APPS**
-
-The INSTALLED_APPS lists Django applications that are enabled in this project. To include the ability to have admins, this app is included in the list:
-
-`django.contrib.admin`
-
+* `DEBUG` will be set to `False` in production
+* `ALLOWED_HOSTS` will be set to the domain name of the production server
+* django.contrib.admin will be added to `INSTALLED_APPS` to enable the Django admin site
+* api will be added to `INSTALLED_APPS` to enable the API
+* `MIDDLEWARE` will be adjusted to include the asset middleware
+* `STATIC_URL` will be set to the asset url
+* `TEMPLATES` will be adjusted to include the welcome.html file
+* `SECURE_SSL_REDIRECT` will be set to `True`
+* `SESSION_COOKIE_SECURE` will be set to `True`
 
 ### Django Admin
 
@@ -824,24 +900,37 @@ The Django admin site adds the possibility to have admin accounts with levels of
 * Ability to export data (if needed)
 * Logging and history of changes made to data
 
-There are some concerns with the admin site and admin accounts. These include:
-* Security concerns if an admin account is compromised (bad actor would have access to admin tools)
-* Heavy resource usage when modifying accounts or data
+There are some concerns with the admin site and admin accounts:
+* Security concerns 
+  * Admin accounts are a prime target for hackers
+  * Admin accounts could be used to access sensitive data
+  * Admin accounts could be used to modify data in a way that could be harmful
+  * Admin accounts could be used to delete data
+  * Admin accounts could be used improperly or maliciously
+* Resource usage 
+  * Admin accounts take a lot of resources to maintain
+  * Admin accounts could be used to do intensive work that could slow down the software
 
-To address these concerns, admins may be enforced to have strong passwords (12+ characters, including special characters, numbers, and a mix of lower and upper case characters). Then admin accounts may be used during times when the software experiences the least amount of activity to do intensive work (except for emergencies).
+The Django admin site will be used to create the initial Manager accounts to manage the site.
 
+While the admin site is a powerful tool, it is not the best tool for day-to-day operations. While the server is in production, the admin site will be disabled. Instead, the API will be used to manage the data.
 
 ### Unit Tests
 
-We will create unit tests to ensure that the software performs as expected. We will also ensure that security measures are in place to prevent improper usage of the software and protect user data, including Personal Identifiable Information (PII). 
+Each view will have a corresponding unit test. The unit tests will be used to verify that the views are functioning as expected.
+* Good input will be used to verify that the views are functioning as expected
+* Bad input will be used to verify that the views are functioning as expected
+* Edge cases will be used to verify that the views are functioning as expected
 
-Check the following Pseudocode section for `tests.py`, which contains planned unit tests.
-
+The following tools will be used to create unit tests for the software:
+* Django test framework will be used to create unit tests for the software.
+  * https://docs.djangoproject.com/en/3.2/topics/testing/
 * Django debug toolbar will be used to monitor the performance of the software and to identify any potential issues.
   * https://django-debug-toolbar.readthedocs.io/en/latest/
 
+Pseudocode can be found at the bottom of the [Pseudocode](#pseudocode) section.
 
-#### Quick Tutorial on how to use the Django Rest Framework
+### Quick Tutorial on how to use the Django Rest Framework
 
 * Create a new app in the project
 ``` 
@@ -1746,5 +1835,5 @@ class APITestCase(TestCase):
         response = create_user(mock_request)
         self.assertEqual(response.status_code, 400)
     
-    ...
+    # etc ...
 ```

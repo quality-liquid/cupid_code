@@ -22,13 +22,13 @@
 | Brandon Herrin | Editing                                                                 | 2.0       |   
 | Low Level      |                                                                         |           |   
 | Name           | Job                                                                     | Time(hrs) |   
-| Nate Stott     | Backend - pseudocode, serializers, editing, structure                   | 12        |   
-| Emma Wright    | Middleman, Classes                                                      | 4         |   
-| Daniel Barfuss | Backend - Security, Unit Tests, Django Admin & Settings, View functions | 7         |   
+| Nate Stott     | Backend - pseudocode, serializers, editing, structure                   | 13        |   
+| Emma Wright    | Middleman, Classes                                                      | 6         |   
+| Daniel Barfuss | Backend - Security, Unit Tests, Django Admin & Settings, View functions | 11        |   
 | Brighton Ellis | Frontend - UI/UX, Figma                                                 | 6.5       |   
 | Nate McKenzie  | Backend - DB, Migration, URLs                                           | 9         |   
 | Eric DeBloois  |                                                                         |           |   
-| Brandon Herrin |                                                                         |           |   
+| Brandon Herrin | Frontend - Vue.js testing, Vue.js routing, Frontend editing             | 8         |   
 
 | Sprint 3       |     |           |   
 |----------------|-----|-----------|
