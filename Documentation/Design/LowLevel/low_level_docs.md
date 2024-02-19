@@ -489,8 +489,26 @@ describe('GetBalance', () => {
 -----------
 ## Connecting Vue and Django
 
+Subsections
+- [Summary](#summary)
+- [Poetry](#poetry)
+- [Vite Config](#vite-config)
+- [Node.js](#nodejs)
+- [Npm](#npm)
+- [Serverside](#serverside)
+- [Files to Add](#files-to-addy)
+- [Environemnt](#environment)
+- [Middleware](#middleware)
+- [Im Server Settings](#in-server-settings)
+- [In core views](#in-core-viewspy)
+- [In core index](#in-core-viewspy)
+- [Clientside](#clientside)
+- [Psuedocode](#pseudocode)
+
+
+### Summary
 The main method we will be implementing will be using these tools: Vite, NPM, and Poetry. 
-The frontend will be setup using npm for vite and vue. The backend using poetry for django.
+The frontend will be setup using npm for vite and vue. The backend using poetry for django. This section details what each version manager & config file needs to have as well as every additional file necessary and what each file has in it. 
 
 #### Poetry
 
@@ -513,7 +531,7 @@ The frontend will be setup using npm for vite and vue. The backend using poetry 
   base: "/static"
 ```
 
-### Node.js
+#### Node.js
 
   The [current LTS version](https://nodejs.org/en) (20.11.1 as of 2/18/2024) of Node.js will be used for project development. `nvm` (Node Version Manager) will be used to manage the version of Node.js being used.
 
@@ -523,7 +541,7 @@ The frontend will be setup using npm for vite and vue. The backend using poetry 
   $ nvm use --lts
   ```
 
-#### npm
+#### Npm
 
   `npm` will be used for package management
 * Vue 3.3.11+
@@ -586,8 +604,8 @@ The frontend will be setup using npm for vite and vue. The backend using poetry 
 For running the server by default, you won't need to add anything. However, if you want to make some actual requests then this is where Cookie comes in. 
 Add a utils folder in your src folder, and make a file called make_requests.js here. Here you'll write a function to send and receive json from the server.
 
-Pseudocode
-``` python
+#### Pseudocode
+``` javascript
 import cookie
 
 makeRequest(uri, method, body):
