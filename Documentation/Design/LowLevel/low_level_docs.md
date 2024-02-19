@@ -311,7 +311,7 @@ The app will primarily be designed for portrait orientation for mobile devices. 
 
 
 #### Making accounts and logging in
-From the login/User creation page, the user will be able to enter their information with respect to their use-case for the app (dater or Cupid). Should the user receive several poor ratings from their counterpart, and upon the discretion of the manager, a user can be suspended from the app for a time or indefinitely. 
+From the login/User creation page, the user will be able to enter their information with respect to their use-case for the app (Dater or Cupid). Should the user receive several poor ratings from their counterpart, and upon the discretion of the manager, a user can be suspended from the app for a time or indefinitely. 
 
 ![alt_text](images/createacc.png "Create_Acc")
 ![alt_text](images/login.png "Login")
@@ -352,7 +352,7 @@ Crafting a seamless user experience is at the forefront of our app development m
 ### Templates
 A majority of the frontend design will occur in Vue, but we will want to implement Django Templates for 2 cases. 
   Case 1: A django template is needed to connect the back to the front.
-  Case 2: To protect the system, we can make the signing up/logging in its own Django app that will authenticate logging in so that you must be a verified user to use the rest of the app. This method will utilize the Django settings.py variables as well since you can tell it what the login page will be.
+  Case 2: To protect the system, we can make the sign-up/login process its own Django app that will authenticate logging in so that you must be a verified user to use the rest of the app. This method will utilize the Django settings.py variables as well since you can tell it what the login page will be.
 
 This won't deal with many of the external links since it will be an isolated app that's sole purpose is to add & validate users and redirect them based off of the type of account they are.
 
@@ -421,7 +421,7 @@ The Vue app will live at URL `/app/`. The following pages will be available thro
 
 #### How the Router works
   This will all go into the App.vue file that is generated with the vue project.
-  There might be an async function to decide what the routes will be but other than that this is all you need. Any other async calls should only be made in the components themselves. This is necessary for clean, readable code and security purposes so we don't have data living somewhere it isn't needed.
+  There will be an async function to decide what the routes will be. Any other async calls should only be made in the components themselves. This is necessary for clean, readable code and security purposes so we don't have data living somewhere it isn't needed.
 ``` javascript
 <script>
   import ref and computed from vue;
@@ -513,7 +513,7 @@ Subsections
 
 
 ### Summary
-The main method we will be implementing will be using these tools: Vite, NPM, and Poetry. 
+We will be using these tools: Vite, NPM, and Poetry. 
 The frontend will be setup using npm for Vite and Vue. The backend using Poetry for Django. This section details what each version manager & configuration file needs to have as well as every additional file necessary and what each file has in it. 
 
 #### Poetry
