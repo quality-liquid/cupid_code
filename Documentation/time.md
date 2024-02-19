@@ -28,7 +28,7 @@
 | Brighton Ellis | Frontend - UI/UX, Figma                                                 | 6.5       |   
 | Nate McKenzie  | Backend - DB, Migration, URLs                                           | 9         |   
 | Eric DeBloois  |                                                                         |           |   
-| Brandon Herrin |                                                                         |           |   
+| Brandon Herrin | Frontend - Vue.js testing, Vue.js routing, Frontend editing             | 8         |   
 
 | Sprint 3       |     |           |   
 |----------------|-----|-----------|
