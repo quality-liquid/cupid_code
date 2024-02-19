@@ -76,66 +76,72 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 <!--toc:end-->
 
 -----------
-### Subteam Members
+### Subteams
 
-#### Frontend Team Members
+#### Frontend Team
+Eric, Brighton, Brandon
 
-* Eric 
-* Brighton 
-* Brandon
+* Security
+  * Validate all input and output
+  * Make sure the app is secure
+* Design the UI
+  * Use Figma to design the UI
+* Design the UX
+  * Make sure the app is easy to use
+* Design the frontend code
+  * Use Vue.js
+  * Use Vue Router
+* Design the Django templates
+  * Welcome page
+  * Login page
+  * Signup page
+  * 404 page
+* Design the Vue Router
+  * Map the URLs
 
-#### Middleend Team Members
-
-* Emma
-
-#### Backend Team Members
-
-* Nate Stott 
-* Nate McKenzie 
-* Daniel
-
------------
-### Subteam Responsibilities
-
-#### Frontend team
-* Vue.js Framework
-  - Using Vue.js
-* Security 
-    * Validate all input and output
-* UI (Clean looking)
-    * Attractive to look at (keep people coming back)
-* UX (Easy to use)
-    * Intuitive design
-    * Easy to navigate
-    * What is happening is clear
-* Django Templates (if needed)
-* Interact with backend (requests)
-    * Deal with timeouts
-* Test on many browsers
-    * Phone
-    * Desktop
-
-#### Middleend team
+#### Middleend Team
+Emma
 
 * Work with both teams to ensure that the frontend and backend work together
 * Do work as requested by either team
   * A team could be falling behind and need help
+* Quality Assurance
+  * Ensure that both teams are following the conventions and standards
+  * Ensure that both teams are testing their code
+  * Ensure that both teams are documenting their code
 
-#### Backend team
+#### Backend Team
+Nate Stott, Nate McKenzie, Daniel
 
 * Security
-    * Django Admin
-    * User Authentication
-    * Validate all input and output
-* Django models (database)
-* Map URLs to views
-* Django views (Communicate with frontend, responses)
-    * 200
-    * 404
-* Create system APIs to call external APIs (easy to switch out)
-* Django Migrations
-* Django settings
-* Unit tests
+  * Make sure the backend is secure
+  * Make sure the backend api is only accessible by the frontend
+  * Secure the database
+  * Secure Django Admin
+  * Design user authentication
+* Design the backend code
+  * Use Django
+  * Use Django Rest Framework
+  * Use Django Rest Framework Serializers
+  * Use Django Rest Framework Views
+  * Use Django Rest Framework Authentication
+* Design the database
+  * Use Django Models
+  * Use Django Migrations
+* Design Django Admin
+  * What will we do with it?
+  * Who will have access to it?
+* Design the Django settings
+  * What will we need to change?
+* Design the Django URL Mapping
+  * What endpoints will we need?
+  * What will the endpoints do?
+* Design the endpoints
+  * What will the frontend need?
+  * What will the backend need?
+* Design the Django Unit Tests
+  * What will we test?
+  * How will we test it?
 
 -----------
 ### Team Conventions and Standards
@@ -633,16 +639,16 @@ return middleware
 -----------
 ## Backend Design
 
-This section will include the following subsections:
-    - [Summary](#summary)
-    - [Django Project Structure](#django-project-structure)
-    - [URL Mapping](#url-mapping)
-    - [Django Models](#django-models)
-    - [Django Migrations](#django-migrations)
-    - [Django Settings](#django-settings)
-    - [Django Admin](#django-admin)
-    - [Unit Tests](#unit-tests)
-    - [Pseudocode](#pseudocode)
+Subsections
+- [Summary](#summary)
+- [Django Project Structure](#django-project-structure)
+- [URL Mapping](#url-mapping)
+- [Django Models](#django-models)
+- [Django Migrations](#django-migrations)
+- [Django Settings](#django-settings)
+- [Django Admin](#django-admin)
+- [Unit Tests](#unit-tests)
+- [Pseudocode](#pseudocode)
 
 ### Summary
 
