@@ -13,21 +13,16 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 <!--toc:start-->
 - [**Cupid Code**](#cupid-code)
 - [**Low Level Design Document**](#low-level-design-document)
-    - [Subteam Members](#subteam-members)
-      - [Frontend Team Members](#frontend-team-members)
-      - [Middleend Team Members](#middleend-team-members)
-      - [Backend Team Members](#backend-team-members)
-    - [Subteam Responsibilities](#subteam-responsibilities)
-      - [Frontend team](#frontend-team)
-      - [Middleend team](#middleend-team)
-      - [Backend team](#backend-team)
+    - [Subteams](#subteams)
+      - [Frontend Team](#frontend-team)
+      - [Middleend Team](#middleend-team)
+      - [Backend Team](#backend-team)
     - [Team Conventions and Standards](#team-conventions-and-standards)
       - [Branching Conventions](#branching-conventions)
       - [Coding Standards](#coding-standards)
       - [Commenting Standards](#commenting-standards)
       - [Testing Standards](#testing-standards)
   - [Frontend Design](#frontend-design)
-    - [Vue.js](#vue.js)
     - [Security](#security)
     - [UI](#ui)
       - [User flow:](#user-flow)
@@ -47,10 +42,11 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
       - [How the Router works](#how-the-router-works)
     - [Testing](#testing)
   - [Connecting Vue and Django](#connecting-vue-and-django)
+    - [Summary](#summary)
       - [Poetry](#poetry)
       - [Vite Config](#vite-config)
-      - [Node.js](#node.js)
-      - [npm](#npm)
+      - [Node.js](#nodejs)
+      - [Npm](#npm)
       - [Serverside](#serverside)
         - [Files to Add](#files-to-add)
         - [Environment](#environment)
@@ -59,8 +55,9 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
         - [In Core views.py](#in-core-viewspy)
         - [In Core index.html](#in-core-indexhtml)
       - [Clientside](#clientside)
+      - [Pseudocode](#pseudocode)
   - [Backend Design](#backend-design)
-    - [Summary](#summary)
+    - [Backend Summary](#backend-summary)
       - [Resources for the Backend](#resources-for-the-backend)
     - [Django Project Structure](#django-project-structure)
     - [URL Mapping](#url-mapping)
@@ -72,7 +69,7 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
     - [Django Admin](#django-admin)
     - [Unit Tests](#unit-tests)
     - [Quick Tutorial on how to use the Django Rest Framework](#quick-tutorial-on-how-to-use-the-django-rest-framework)
-    - [Pseudocode](#pseudocode)
+    - [Backend Pseudocode](#backend-pseudocode)
 <!--toc:end-->
 
 -----------
@@ -640,7 +637,7 @@ return middleware
 ## Backend Design
 
 Subsections
-- [Summary](#summary)
+- [Backend Summary](#backend-summary)
 - [Django Project Structure](#django-project-structure)
 - [URL Mapping](#url-mapping)
 - [Django Models](#django-models)
@@ -648,9 +645,9 @@ Subsections
 - [Django Settings](#django-settings)
 - [Django Admin](#django-admin)
 - [Unit Tests](#unit-tests)
-- [Pseudocode](#pseudocode)
+- [Backend Pseudocode](#backend-pseudocode)
 
-### Summary
+### Backend Summary
 
 The backend will be built using Django and the Django REST Framework. As a result much of the needed security is already implemented. 
 A majority of the work will be in the models, views, and serializers. The models will be the database, the views will be the API, and the serializers will be the conversion of the models to JSON and vice versa.
@@ -1036,7 +1033,7 @@ urlpatterns = [
 ```
 
 
-### Pseudocode
+### Backend Pseudocode
 
 cupid_code/urls.py
 ``` python
