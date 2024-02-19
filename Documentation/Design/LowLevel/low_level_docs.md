@@ -284,21 +284,21 @@ async function updateUser() {
     display an error about updating (a toast would make sense here)
 }
 ```
-Note that this will be the ONLY time there will be any calls made to the backend's APIs. The calls will use the URLs written and described in the backend section of the document. We are building it like this so that data is only called in a few, secure places. This will help narrow any data leaks or exploits that may come from these calls and help in the debugging process and maintain good, safe code.
+Note that this will be the ONLY time there will be any calls made to the backend's APIs. The calls will use the URLs written and described in the backend section of the document. We are building it like this so that data is only called in a few secure places. This will help narrow any data leaks or exploits that may come from these calls and help in the debugging process and maintain good, safe code.
 
 ### UI
 This application is intended to be used as a dating aid for individuals with above average difficulty levels interacting in social environments, specifically romantic encounters. For this purpose we have developed the application to allow for smooth transition between elements and pages, soft visual appearances to be ease on eye-fatigue, and clear usage instructions so that anybody could pick up the app and understand how to use it. 
 
-#### User flow:
-The user will be immediately directed to the login page, where they will be given the opportunity to either create an account based on their intended use on the app, or to sign in to a previously created account. Each user type has a home page relative to the features that are pertinent to them. i.e. Daters will have access to info about scheduling their date, adding cash to their online wallet, and chatting with our dating assistive bot; while cupids will have access to available gigs in their area as well as an earnings page to view their coming payments. Each page will provide a navigation panel in the upper portion to access account details and other necessary features. Tap-sensitive buttons on each page will dynamically redirect the specific user to their desired destination. 
+#### User Flow:
+The user will be immediately directed to the login page, where they will be given the opportunity to either create an account based on their intended use on the app, or to sign in to a previously created account. Each user type has a home page relative to the features that are pertinent to them. Ie. Daters will have access to info about scheduling their date, adding cash to their online wallet, chatting with our dating assistive bot while cupids will have access to available gigs in their area as well as an earnings page to view their coming payments. Each page will provide a navigation panel in the upper portion to access account details and other necessary features. Tap-sensitive buttons on each page will dynamically redirect the specific user to their desired destination. 
 
-#### Screen designs:
+#### Screen Designs:
 Proper contrast between content and backgrounds is maintained across each panel on the application. The color tone is soft, so as not to be too "loud" for the user. All screens are suited with a navigation bar in the upper portion of the screen that is locked in place during scrolling. Content is situated below the navigation bar and will have content centered on the screen, keeping appropriate margin distances between each component and the screen. 
 
 #### Navigation Structure:
 The navigation bar will will always contain an icon in the upper right corner that will access the current user's account.  Once off of the home page, it will display an arrow which will redirect the user back to their appropriate home page. 
 
-#### Layout guidelines:
+#### Layout Guidelines:
 The padding between visual elements will differ based on the screen size of the user, however keeping a pixel distance of no less than 12px and no more than 24px will allow for each of the components and buttons to be displayed on the device in such a manner that the components do not appear crowded nor too spaced apart. All content will be displayed within the size of the content-background color, which allows for strong contrast between black font and the color, as well as not overwhelm the user with bright and flashing pages as they go from feature to feature. Content boxes on pages with scrolling will each have shadows, assisting with the overall visually distinctive and appealing aspects of the app. 
 
 #### Color Palette:
@@ -312,11 +312,11 @@ The padding between visual elements will differ based on the screen size of the 
 #### Icon Use:
 Our Icon use will come from that of the Google Fonts library, which has many simple to use/implement icons available. These icons are already widely used and will allow for ease of comprehension for the user as to what their purpose is. 
 
-#### Responsive design:
+#### Responsive Design:
 The app will primarily be designed for portrait orientation for mobile devices. Capabilities will also be adapted for desktop usage. This is because the use-case for this app will be primary for messaging our AI-bot or seeking local gigs. In either of these situation, providing a landscape function would not create any ease to the user, but rather would inhibit them from seeing important details on their screen because of their keyboard pop-up. Border and other styling designs will respond with each screen size it is displayed on. 
 
 
-#### Making accounts and logging in
+#### Making accounts and Logging in
 From the login/User creation page, the user will be able to enter their information with respect to their use-case for the app (Dater or Cupid). Should the user receive several poor ratings from their counterpart, and upon the discretion of the manager, a user can be suspended from the app for a time or indefinitely. 
 
 ![alt_text](images/createacc.png "Create_Acc")
@@ -335,7 +335,7 @@ The Dater will have access to 5 features from the app. They can enable the liste
 ![alt_text](images/useracc.png "User_Acc")
 
 #### Cupid
-The Cupid home page will display their personal rating on a scale to 5, as well as a running list of gig offers to accept delivery for. They will be displayed to them based on their location.  From there, the cupid can either accept a gig delivery or drop an already accepted delivery. Once a gig is selected, it will show all of the information for the delivery as well as the ability to update the completion status. Once a gig is completed, the Cupid will be provided a screen to supply their feedback for the Dater they were delivering for. The cupid will also be able to access their earnings page (which will be synonymous with their account info page) to see their running earnings as well as the next pay date. 
+The Cupid home page will display their personal rating on a scale to 5, as well as a running list of gig offers to accept delivery for. They will be displayed to them based on their location. From there, the cupid can either accept a gig delivery or drop an already accepted delivery. Once a gig is selected, it will show all of the information for the delivery as well as the ability to update the completion status. Once a gig is completed, the Cupid will be provided a screen to supply their feedback for the Dater they were delivering for. The cupid will also be able to acces their earnings page (which will be synonymous with their account info page) to see their running earnings as well as the next pay date. 
 
 ![alt_text](images/ch.png "Cupid_Home")
 ![alt_text](images/ch_cash.png "Cash_Earned")
@@ -360,7 +360,7 @@ A majority of the frontend design will occur in Vue, but we will want to impleme
   Case 1: A Django template is needed to connect the back to the front.
   Case 2: To protect the system, we can make the sign-up/login process its own Django app that will authenticate logging in so that you must be a verified user to use the rest of the app. This method will utilize the Django `settings.py` variables as well since you can tell it what the login page will be.
 
-This won't deal with many of the external links since it will be an isolated app that's sole purpose is to add & validate users and redirect them based off of the type of account they are.
+This won't deal with many of the external links since it will be an isolated app whose sole purpose is to add & validate users and redirect them based off of the type of account they are.
 
 ``` html
 {% load static %}
@@ -379,7 +379,7 @@ This won't deal with many of the external links since it will be an isolated app
 ```
 ### Vue Router
 
-  We will be using the Vue Router to route the user to the correct page. Using information about the user from the backend and reusable components, we can direct the user to the correct page based upon user type.
+We will be using the Vue Router to route the user to the correct page. Using information about the user from the backend and reusable components, we can direct the user to the correct page based upon user type.
 
   Example Vue Router (simple example):
 ```javascript
@@ -475,9 +475,9 @@ These are some easy to implement methods to test our product before release:
 
 By incorporating these testing practices into our Vue application development workflow, we can enhance its quality, reliability, and maintainability, ultimately delivering a robust and user-friendly experience to our users.
 
-Unit Test Examples
+Unit Test Example
 
-*Note that these will live in their own file, likely called `unitTest.js`*
+*Note that these will live in their own javascript file*
 ```javascript
 import { mount } from '@vue/test-utils';
 import GetBalance from '@/components/GetBalance.vue';
@@ -519,11 +519,11 @@ Subsections
 
 
 ### Summary
-We will be using these tools: Vite, npm, and Poetry. 
-The frontend will be setup using npm for Vite and Vue. The backend using Poetry for Django. This section details what each version manager & configuration file needs to have as well as every additional file necessary and what each file has in it. 
+We will be using these tools: Vite, NVM, NPM, and Poetry. 
+The frontend will be setup using NVM & NPM for Vite and Vue. The backend will be using Poetry for Django. This section details what each version manager & configuration file needs to have as well as every additional file necessary and what each of those files needs to have in it. 
 
 #### Poetry
-
+These are all of the dependencies we'll install
 * Python 3.11+
 * Django 5.0.2+
 * Requests 2.31.0+
@@ -531,6 +531,7 @@ The frontend will be setup using npm for Vite and Vue. The backend using Poetry 
 
 #### Vite Config
 
+This is what the vite config file will need to look like.
 ``` javascript
   plugins: [vue()],
   build: {
@@ -545,23 +546,25 @@ The frontend will be setup using npm for Vite and Vue. The backend using Poetry 
 
 #### Node.js
 
-  The [current LTS version](https://nodejs.org/en) (20.11.1 as of 2/18/2024) of Node.js will be used for project development. `nvm` (Node Version Manager) will be used to manage the version of Node.js being used.
+The [current LTS version](https://nodejs.org/en) (20.11.1 as of 2/18/2024) of Node.js will be used for project development. `nvm` (Node Version Manager) will be used to manage the version of Node.js being used.
 
-  `nvm` commands for selecting Node.js version:
-  ```
-  $ nvm install -lts
-  $ nvm use --lts
-  ```
+`nvm` commands for selecting Node.js version:
+```
+$ nvm install -lts
+$ nvm use --lts
+```
 
 #### npm
 
-  `npm` will be used for package management
+`npm` will be used for package management
+These are the dependencies we'll install
 * Vue 3.3.11+
 * Cookie 0.6.0+
 
 #### Serverside
 
-*Note: Before doing this, make sure you've started a Vite project, Django project and started at least one app in the Django project*
+*Note: Before doing this, make sure you've started a vite project, django project and started at least one app in the django project*
+*The Django app will be referred to as 'core' here*
 
 ##### Files to Add
 
@@ -572,13 +575,14 @@ The frontend will be setup using npm for Vite and Vue. The backend using Poetry 
 ##### Environment
 
 * Add "ASSET_URL=http://localhost:5173" to both.
-* Change the URL to whatever the client is hosted on.
-* Port 5173 is the default of Vite so we'll be using that.
+* Change the url to whatever the client is being hosted on.
+* Port 5173 is the default of vite so we'll be using that.
 
 ##### Middleware
 
 * Add the asset middleware here
 * We already have a written one
+* An example is in the psuedocode
 
 ##### In Server Settings
 
@@ -602,13 +606,13 @@ The frontend will be setup using npm for Vite and Vue. The backend using Poetry 
 
 ##### In Core index.html
 
-  * Generate a default, basic html file
-  * Using Django Template, add an if/else statement to the head tag.
-    * If debug
-      * Two scripts. One points to /@vite/client and one points to `src/main.js`
-        * These will point towards the asset_url from the view as well
-      * The else will hold a link and a script using the css and js file from the manifest
-  * Add an empty div with id "app" do the body tag. This will connect it to vue's "app" div in its generated `index.html` file.
+* Generate a default, basic html file
+* Using Django Template, add an if/else statement to the head tag.
+  * If debug
+    * Two scripts. One points to /@vite/client and one points to src/main.js
+      * These will point towards the asset_url from the view as well
+    * The else will hold a link and a script using the css and js file from the manifest
+* Add an empty div with id "app" do the body tag. This will connect it to vue's "app" div in its generated index.html file.
 
 
 #### Clientside
@@ -627,7 +631,7 @@ makeRequest(uri, method, body):
   if the method is post then turn the body into valid JSON
 
   result = fetch to serverside
-  json = the result's json
+  json = the results json
   return the json
 ```
 ``` python
