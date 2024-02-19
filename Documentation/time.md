@@ -27,7 +27,7 @@
 | Daniel Barfuss | Backend - Security, Unit Tests, Django Admin & Settings, View functions | 7         |   
 | Brighton Ellis | Frontend - UI/UX, Figma                                                 | 6.5       |   
 | Nate McKenzie  | Backend - DB, Migration, URLs                                           | 9         |   
-| Eric DeBloois  |                                                                         |           |   
+| Eric DeBloois  | Figma low level, general editing                                        | 6.5       |   
 | Brandon Herrin | Frontend - Vue.js testing, Vue.js routing, Frontend editing             | 8         |   
 
 | Sprint 3       |     |           |   
