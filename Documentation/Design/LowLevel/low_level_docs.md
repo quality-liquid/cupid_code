@@ -49,7 +49,8 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
   - [Connecting Vue and Django](#connecting-vue-and-django)
       - [Poetry](#poetry)
       - [Vite Config](#vite-config)
-      - [NPM](#npm)
+      - [Node.js](#node.js)
+      - [npm](#npm)
       - [Serverside](#serverside)
         - [Files to Add](#files-to-add)
         - [Environment](#environment)
@@ -511,8 +512,20 @@ The frontend will be setup using npm for vite and vue. The backend using poetry 
   },
   base: "/static"
 ```
-#### NPM
 
+### Node.js
+
+  The [current LTS version](https://nodejs.org/en) (20.11.1 as of 2/18/2024) of Node.js will be used for project development. `nvm` (Node Version Manager) will be used to manage the version of Node.js being used.
+
+  `nvm` commands for selecting Node.js version:
+  ```
+  $ nvm install -lts
+  $ nvm use --lts
+  ```
+
+#### npm
+
+  `npm` will be used for package management
 * Vue 3.3.11+
 * Cookie 0.6.0+
 
