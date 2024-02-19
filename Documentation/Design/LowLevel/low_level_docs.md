@@ -13,17 +13,16 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 <!--toc:start-->
 - [**Cupid Code**](#cupid-code)
 - [**Low Level Design Document**](#low-level-design-document)
-    - [Sub-team Members](#sub-team-members)
+    - [Subteam Members](#subteam-members)
       - [Frontend Team Members](#frontend-team-members)
       - [Middleend Team Members](#middleend-team-members)
       - [Backend Team Members](#backend-team-members)
-    - [Sub-team Responsibilities](#sub-team-responsibilities)
+    - [Subteam Responsibilities](#subteam-responsibilities)
       - [Frontend team](#frontend-team)
       - [Middleend team](#middleend-team)
       - [Backend team](#backend-team)
     - [Team Conventions and Standards](#team-conventions-and-standards)
       - [Branching Conventions](#branching-conventions)
-      - [Naming Conventions](#naming-conventions)
       - [Coding Standards](#coding-standards)
       - [Commenting Standards](#commenting-standards)
       - [Testing Standards](#testing-standards)
@@ -31,9 +30,21 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
     - [Vue.js](#vue.js)
     - [Security](#security)
     - [UI](#ui)
+      - [User flow:](#user-flow)
+      - [Screen designs:](#screen-designs)
+      - [Navigation Structure:](#navigation-structure)
+      - [Layout guidelines:](#layout-guidelines)
+      - [Color Palette:](#color-palette)
+      - [Icon Use:](#icon-use)
+      - [Responsive design:](#responsive-design)
+      - [Making accounts and logging in](#making-accounts-and-logging-in)
+      - [Dater](#dater)
+      - [Cupid](#cupid)
+      - [Manager](#manager)
     - [UX](#ux)
     - [Templates](#templates)
     - [Vue Router](#vue-router)
+      - [How the Router works](#how-the-router-works)
     - [Testing](#testing)
   - [Connecting Vue and Django](#connecting-vue-and-django)
       - [Poetry](#poetry)
@@ -48,28 +59,23 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
         - [In Core index.html](#in-core-indexhtml)
       - [Clientside](#clientside)
   - [Backend Design](#backend-design)
-    - [Django Project Structure (Nate S)](#django-project-structure-nate-s)
+    - [Summary](#summary)
+      - [Resources for the Backend](#resources-for-the-backend)
+    - [Django Project Structure](#django-project-structure)
     - [URL Mapping](#url-mapping)
       - [static endpoints](#static-endpoints)
       - [dynamic endpoints](#dynamic-endpoints)
-      - [How to build an internal API](#how-to-build-an-internal-api)
     - [Django Models](#django-models)
     - [Django Migrations](#django-migrations)
-      - [Dummy Daters](#dummy-daters)
-      - [Dummy Cupids](#dummy-cupids)
-      - [Dummy Manager](#dummy-manager)
-      - [Dummy messages](#dummy-messages)
-      - [Dummy Gigs](#dummy-gigs)
-      - [Dummy Dates](#dummy-dates)
-      - [Feedback](#feedback)
-    - [Django Settings (Daniel)](#django-settings-daniel)
-    - [Django Admin (Daniel)](#django-admin-daniel)
-    - [Unit Tests (Daniel)](#unit-tests-daniel)
+    - [Django Settings](#django-settings)
+    - [Django Admin](#django-admin)
+    - [Unit Tests](#unit-tests)
+      - [Quick Tutorial on how to use the Django Rest Framework](#quick-tutorial-on-how-to-use-the-django-rest-framework)
     - [Pseudocode](#pseudocode)
 <!--toc:end-->
 
 -----------
-### Sub-team Members
+### Subteam Members
 
 #### Frontend Team Members
 
@@ -88,7 +94,7 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 * Daniel
 
 -----------
-### Sub-team Responsibilities
+### Subteam Responsibilities
 
 #### Frontend team
 * Vue.js Framework
@@ -110,9 +116,9 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 
 #### Middleend team
 
-* work with both teams to ensure that the frontend and backend work together
-* do work as requested by either team
-  * a team could be falling behind and need help
+* Work with both teams to ensure that the frontend and backend work together
+* Do work as requested by either team
+  * A team could be falling behind and need help
 
 #### Backend team
 
@@ -133,29 +139,33 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 -----------
 ### Team Conventions and Standards
 
+Our code should be clean and easy to read. Our code should tell a story. 
+Constant git branching will be used to make the history of the code speak for itself.
+This section is about how we will achieve these goals
+
 #### Branching Conventions
 
-* Master 
-  * what we are showing
-* Hot Fixes 
-  * quick fixes for master
-* Releases 
-  * the next version to be merged with master
-* Development 
-  * what we are working on
-* Features 
-  * new features for the development branch
+<img src="images/git_workflow.jpg" alt="Git Workflow" style="width:500px;height:300px;">
 
-#### Naming Conventions
-
-How will we name our files, directories, variables, functions, classes, etc.?
-
-lowerCamelCase for frontend/Vue
-underscore_naming for backend/Django
+* *master*
+  * Working code
+  * What users will use
+  * Very little commits
+* *release*
+  * Working code
+  * What users will use once all the new features are worked out
+* *hotfix*
+  * Used to quickly fix issues in *master* or *release*
+  * Do as little as possible to fix bugs
+* development
+  * Get code ready to merge with *release*
+  * Code should be mostly working but It's ok to break things
+* feature
+  * There should be many of theses
+  * This is where new ideas will be experimented with
+  * If working merge with *development*
 
 #### Coding Standards
-
-Our code should be clean and easy to read. Our code should tell a story. Here is how we will do that.
 
 How will we name our variables?
   * Descriptive names
@@ -163,6 +173,8 @@ How will we name our variables?
   * No abbreviations
   * No numbers in names
   * No special characters in names other than _ to separate words
+    * lowerCamelCase for frontend/Vue
+    * underscore_naming for backend/Django
 
 How will we format our code?
   * Use PEP8 for python
@@ -173,26 +185,31 @@ How will we format our code?
     * https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/
 
 How long can a line be?
-  * No horizontal scroll
+  * No horizontal scrolling allowed
+    * Keep lines to around 200 charters
   * Every line should only do 1 thing normally
 
 How long can a function be?
   * No limit but try to keep efficient (if it's too long, it's probably doing too much)
   * Every function should only do 1 thing normally
-  * If it's doing too much, break it up
-  * If it's doing too little, combine it
+    * If giving the function a name is hard that means its either doing to much or to little
 
-Will we use type hints?
-  * Yes, for python
+Will we use type annotation in python?
+  * Yes, all functions and variables should have type annotations
 
 When nesting code how many levels deep can we go?
  * Ideally 3, but no more than 5
    * If it's more than 5, it's probably doing too much
+     * https://www.youtube.com/watch?v=CFRhGnuXG-4
+     * Extraction
+       * Pull code into its own function
+     * Inversion
+       * Invert the condition and get rid of blocks
 
 #### Commenting Standards
 
 When will we use comments?
-  * Can make notes or use for testing, but clean up before merging
+  * Can make notes on code, but clean up before merging
   * Can use TODO comments to mark things that need to be done
 
 When will we use docstrings?
@@ -209,6 +226,7 @@ Every function should have a test
 -----------
 ## Frontend Design
 
+<<<<<<< HEAD
 ### Vue.js
   For the frontend component of the Cupid Code web application, we will be using the Vue.js framework to create a seemless user experience that is visually appealing and intuitive.
 
@@ -228,23 +246,57 @@ Every function should have a test
   This will also be done for requests from the backend to make sure the given JSON is correct and valid. This can be done as simple as a check between who the frontend considers the user and who the backend considers the user. This could be done with IDs or other unique keys.
 
   This is the general format most of the asynchronous functions will follow for validating data before displaying it. These functions will use the makeRequest function described in the connection of Vue and Django.
+=======
+### Security
+While a majority of the security will occur on the back, the front will do a little bit to ensure good data is being passed through. This will primarily be validating input and output. 
+If there is bad input, we will visually inform the user of it with sufficient detail. This gives them the opportunity to change it and comply with our standards.
+For example, if someone sends a chat to the AI, we will verify that there is no code injection or other malicious works inserted that would jeopardize the app. If bad input is given, we will inform the user (either via toast or other means) that something went wrong.
+This will also be done for requests from the backend to make sure the given json is correct and valid. This can be done as simple as a check between who the frontend considers the user and who the backend considers the user. This could be done with ids or other unique keys.
 
-  ``` javascript
-  async function get<Data>() {
-    await the results from getting the profile 
-      - this will make a call to the external apis
-      - also will use the make requests function referenced in connection
-    validate the results
-      - if good, set the data to the on screen refs and rerender
-      - if bad, put up error on screen for user (toast or otherwise)
-  }
-  async function post<Data>() {
-    await the request with the method "post" & a body with the information to send
-    navigate elsewhere OR rerender page
-  }
-  ```
+The general psuedocode format + a psuedocode example for each to further display how each will be used.
+``` javascript
+async function get<Data>() {
+  await the results from getting the profile 
+    - this will make a call to the external apis
+    - also will use the make requests function referenced in connection
+  validate the results
+    - if good, set the data to the on screen refs and rerender
+    - if bad, put up error on screen for user (toast or otherwise)
+}
+>>>>>>> master
+
+async function getUser() {
+  results = await makeRequest(`/api/user/${id}`)
+  if results is valid (has all expected data)
+    render the home page or profile page // This one can be used for both to ensure the user is logged in, real, and has their data
+  if not
+    render an error page saying something went wrong.
+}
+
+async function post<Data>() {
+  check the data to be sent to ensure it is valid
+  if valid 
+   - await the request with the method "post" & a body with the information to send
+   - navigate elsewhere OR rerender page
+  if not valid
+    - Display an error for the User (toast or otherwise)
+}
+
+async function updateUser() {
+  if all necessary data has valid updates to it
+    await makeRequest(`/api/dater/profile/`, 'post', 
+    {
+      dict of new data to be sent
+    })
+    rerender page or navigate back to home
+  if data is not valid
+    display an error about updating (a toast would make sense here)
+}
+```
+Note that this will be the ONLY time there will be any calls made to the backend's APIs. The calls will use the URLs written and described in the backend section of the document. We are building it like this so that data is only called in a few, secure places. This will help narrow any data leaks or exploits that may come from these calls and help in the debugging process and maintain good, safe code.
 
 ### UI
+<<<<<<< HEAD
   One of the key features of the Vue.js framework is the reactivity system. The reactivity system allows for data changes to be tracked and for the user interface to update accordingly, creating a better user interface.
 
 ### UX 
@@ -254,10 +306,84 @@ Every function should have a test
   A majority of the frontend design will use the Vue.js framework, but we will want to implement Django Templates for 2 cases.
   - Case 1: A django template is needed to connect the back to the front.
   - Case 2: To protect the system, we can make the signing up/logging in its own Django app that will authenticate logging in so that the visitor must be a verified user to use the rest of the app. This method will utilize the Django settings.py variables as well since you can tell it what the login page will be.
+=======
+This application is intended to be used as a dating aid for individuals with above average difficulty levels interacting in social environments, specifically romatic encounters. For this purpose we have developed the application to allow for smooth transition between elements and pages, soft visual appearances to be ease on eye-fatigue, and clear usage instructions so that anybody could pick up the app and understand how to use it. 
 
-  This won't deal with many of the external links since it will be an isolated app that's sole purpose is to add & validate users and redirect them based off of the type of account they are.
+#### User flow:
+The user will be immediately be directed to the login page, where they will be given the opportunity to either create an account based on their intended use on the app, or to sign in to a previously created account. Each user type has a home page relative to the features that are pertinent to them. Ie. Daters will have access to info about scheduling their date, adding cash to their online wallet, chatting with our dating assistive bot while cupids will have access to available gigs in their area as well as an earnings page to view their coming payments. Each page will provide a navigation panel in the upper portion to access account details and other necessary features. Tap-sensitive buttons on each page will dynamically redirect the specific user to their desired destination. 
 
-```html
+#### Screen designs:
+Proper contrast between content and backgrounds is maintained across each panel on the application. The color tone is soft, so as not to be too "loud" for the user. All screens are suited with a navigation bar in the upper portion of the screen that is locked in place during scrolling. Content is situated below the navigation bar and will have content centered on the screen, keeping appropriate margin distances between each component and the screen. 
+
+#### Navigation Structure:
+The navigation bar will will always contain an icon in the upper right corner that will access the current user's account.  Once off of the home page, it will display an arrow which will redirect the user back to their appropriate home page. 
+
+#### Layout guidelines:
+The padding between visual elements will differ based on the screen size of the user, however keeping a pixel distance of no less than 12px and no more than 24px will allow for each of the components and buttons to be displayed on the device in such a manner that the components do not appear crowded nor too spaced apart. All content will be displayed within the size of the conten-background color, which allows for strong contrast between black font and the color, as well as not overwhelm the user with bright and flashing pages as they go from feature to feature. Content boxes on pages with scrolling will each have shadows, assisting with the overall visually distinctive and appealing aspects of the app. 
+
+#### Color Palette:
+**primary-blue**: 46ADF0
+**secondary-blue**: 10194B
+**primary-red**: F02A69
+**secondary-red**: 802446
+**content-background**: FCEBFF
+
+
+#### Icon Use:
+Our Icon use will come from that of the Google Fonts library, which has many simple to use/implement icons available. These icons are already widely used and will allow for ease of comprehension for the user as to what their purpose is. 
+
+#### Responsive design:
+The app will primary be designed for portrait orientation for mobile devices. This is because the use-case for this app will be primary for messaging our AI-bot or seeking local gigs. In either of these situation, providing a landscape function would not create any ease to the user, but rather would inhibit them from seeing important details on their screen because of their keyboard pop-up. Border and other styling designs will respond with each screen size it is displayed on. 
+
+
+#### Making accounts and logging in
+From the login/User creation page, the user will be able to enter their information with respect to their use-case for the app (dater or Cupid). Should the user receive several poor ratings from their counterpart, and upon the discretion of the manager, a user can be suspended from the app for a time or indefinitely. 
+
+![alt_text](images/createacc.png "Create_Acc")
+![alt_text](images/login.png "Login")
+![alt_text](images/suspended.png "Suspended")
+
+#### Dater
+The Dater will have access to 5 features from the app. They can enable the listening function for our AI-bot to determine how well the date is going, texting with the chat-bot to help them get prepared for the date, add cash to their online account to be utilized for purchasing gigs and paying the delivery of the cupid, and a calendar to schedule their date so our system knows how best to assist the dater leading up to the date. Once a delivery is completed, the user will have the ability to rate the experience between them and the cupid. 
+
+![alt_text](images/uh.png "User_Home")
+![alt_text](images/aichat.png "Ai_Chat")
+![alt_text](images/calendar.png "Calendar")
+![alt_text](images/listen1.png "Listen_1")
+![alt_text](images/listen2.png "Listen_2")
+![alt_text](images/cupidcash.png "Cupid_Cash")
+![alt_text](images/useracc.png "User_Acc")
+
+#### Cupid
+The Cupid home page will display their personal rating on a scale to 5, as well as a running list of gig offer to accept delivery for. They will be displayed to them based on their location.  From there, the cupid can either accept a gig delivery or drop an already accepted delivery. Once a gig is selected, it will show all of the information for the delivery as well as the ability to update the completion status. Once a gig is completed, the Cupid will be provided a screen to supply their feedback for the Dater they were delivering for. The cupid will also be able to acces their earnings page (which will be synonymous with their account info page) to see their running earnings as well as the next pay date. 
+
+![alt_text](images/ch.png "Cupid_Home")
+![alt_text](images/ch_cash.png "Cash_Earned")
+![alt_text](images/ch_gig1.png "Gig_1")
+![alt_text](images/ch_gig2.png "Gig_2")
+![alt_text](images/ch_rate.png "Rate_Daters")
+
+#### Manager
+The manager page will work very similarly to that of the cupid page, however they will have access to lists of current users (Daters and Cupids) as well as their ratings and usage info. Their home screen will allow them to select between viewing Daters, Cupids, or Statistical information with respect to app usage. The manager will be able to make the decision of whether or not to suspend another user from their account based on innappropriate usage of the app or conduct during a delivery/date. 
+
+![alt_text](images/manager_home.png "Cupid_Home")
+![alt_text](images/manage_cupids.png "Manage_Cupids")
+![alt_text](images/manage_cupid.png "Manage_Cupid")
+![alt_text](images/manage_daters.png "Manage_Daters")
+![alt_text](images/manage_dater.png "Manage_Dater")
+
+### UX
+Crafting a seamless user experience is at the forefront of our app development mission. Through meticulous attention to detail, we are committed to ensuring a smooth and intuitive journey for every user. Our strategy centers around maintaining a cohesive and polished aesthetic, characterized by consistent color schemes that resonate throughout the app. Clear, easily discernible buttons and text inputs are prioritized, enhancing usability and reducing friction in navigation. Leveraging widely adopted formats and design conventions, we empower users to effortlessly engage with our app, fostering familiarity and ease of use. With our unwavering dedication to excellence in UX design, we are poised to deliver an exceptional digital experience that exceeds expectations and leaves a lasting impression.
+
+### Templates
+A majority of the frontend design will occur in Vue, but we will want to implement Django Templates for 2 cases. 
+  Case 1: A django template is needed to connect the back to the front.
+  Case 2: To protect the system, we can make the signing up/logging in its own Django app that will authenticate logging in so that you must be a verified user to use the rest of the app. This method will utilize the Django settings.py variables as well since you can tell it what the login page will be.
+>>>>>>> master
+
+This won't deal with many of the external links since it will be an isolated app that's sole purpose is to add & validate users and redirect them based off of the type of account they are.
+
+``` html
 {% load static %}
 <head>
   <style>
@@ -319,7 +445,79 @@ The Vue app will live at URL `/app/`. The following pages will be available thro
 | /manager/cupids/   | manager reports                      |
 | /manager/daters/   | manager reports                      |
 
+
+#### How the Router works
+  This will all go into the App.vue file that is generated with the vue project.
+  There might be an async function to decide what the routes will be but other than that this is all you need. Any other async calls should only be made in the components themselves. This is necessary for clean, readable code and security purposes so we don't have data living somewhere it isn't needed.
+``` javascript
+<script>
+  import ref and computed from vue;
+  import all components from ./components;
+
+  const routes = {
+    "/<link>": AssociatedComponent,
+    "/dater/home": DaterHome,
+    "/dater/chat": DaterChat,
+    etc...
+  }
+
+  const currPath = ref(windows location hash)
+
+  eventListener("hashchange", () => {
+    change currPaths value to windows location hash
+  }) // This will run everytime it's changed to ensure it's correct.
+
+  const currView = computed(() => {
+    return routes[currpaths values first slice or '/']
+  }) // Keeps track of what component to display
+
+</script>
+
+<template>
+  <a href "#/<link>"> Relavent Name </a> 
+  <a href "#/dater/home"> Home Page </a>
+  <a href "#/dater/chat"> Chat with the AI! </a>
+  etc..
+  <component :is="currView" />
+</template>
+
+```
+
 ### Testing
+These are some easy to implement methods to test our product before release:
+
+1. **Unit Testing**: Begin by writing unit tests for individual components using frameworks like Jest or Mocha. Unit tests focus on testing isolated units of code, such as methods, computed properties, and components, ensuring they behave as expected.
+
+2. **Component Testing**: Utilize Vue Test Utils to write tests for Vue components. These tests simulate user interactions and verify component behavior, such as rendering correctly, responding to user input, and emitting events.
+
+3. **Integration Testing**: Test how different components work together by performing integration tests. Integration tests verify interactions between multiple components and ensure they integrate seamlessly within the application.
+
+4. **Mocking**: Use mocks and stubs to isolate components or services from dependencies during testing. Mocking allows you to control the behavior of external dependencies and focus solely on testing the component or functionality in question.
+
+By incorporating these testing practices into your Vue application development workflow, you can enhance its quality, reliability, and maintainability, ultimately delivering a robust and user-friendly experience to your users.
+
+Unit Test Examples
+
+*Note that these will live in their own file, likely called unitTest.js*
+```javascript
+import { mount } from '@vue/test-utils';
+import GetBalance from '@/components/GetBalance.vue';
+
+describe('GetBalance', () => {
+  it('Display the original balance', async () => {
+    const wrapper = mount(GetBalance);
+    
+    // Initially, the balance should mimic whats in the DB
+    expect(wrapper.find('p').text()).toContain('Balance: <TesterBalance>');
+    
+    // Simulate a click on the button to add funds
+    await wrapper.find('button').trigger('click');
+    
+    // After clicking, the balance should increase
+    expect(wrapper.find('p').text()).toContain('Balance: <AddedBalance>');
+  });
+});
+```
 
 -----------
 ## Connecting Vue and Django
@@ -439,15 +637,15 @@ return middleware
 ## Backend Design
 
 This section will include the following subsections:
-  * Summary
-  * Django Project Structure
-  * URL Mapping
-  * Django Models
-  * Django Migrations
-  * Django Settings
-  * Django Admin
-  * Unit Tests
-  * Pseudocode
+    - [Summary](#summary)
+    - [Django Project Structure](#django-project-structure)
+    - [URL Mapping](#url-mapping)
+    - [Django Models](#django-models)
+    - [Django Migrations](#django-migrations)
+    - [Django Settings](#django-settings)
+    - [Django Admin](#django-admin)
+    - [Unit Tests](#unit-tests)
+    - [Pseudocode](#pseudocode)
 
 ### Summary
 
@@ -457,39 +655,33 @@ The frontend will communicate with the backend using HTTP GET and POST requests.
 Mapping what endpoints the frontend needs is helpful for the backend to know what to build. This will be done in the URL Mapping section.
 
 #### Resources for the Backend
-* Django Rest Framework Quickstart
-  * https://www.django-rest-framework.org/tutorial/quickstart/
-* Django Rest Framework API Reference
-  * https://docs.djangoproject.com/en/5.0/ref/
-* Django Rest Framework Serializers
-  * https://www.django-rest-framework.org/api-guide/serializers/
-* Django Rest Framework Views
-  * https://www.django-rest-framework.org/api-guide/views/
-* Django Rest Framework Permissions
-  * https://www.django-rest-framework.org/api-guide/permissions/
-* Django Rest Framework Authentication
-  * https://www.django-rest-framework.org/api-guide/authentication/
+* [Django Rest Framework Quickstart](https://www.django-rest-framework.org/tutorial/quickstart/)
+* [Django Rest Framework API Reference](https://docs.djangoproject.com/en/5.0/ref/)
+* [Django Rest Framework Serializers](https://www.django-rest-framework.org/api-guide/serializers/)
+* [Django Rest Framework Views](https://www.django-rest-framework.org/api-guide/views/)
+* [Django Rest Framework Permissions](https://www.django-rest-framework.org/api-guide/permissions/)
+* [Django Rest Framework Authentication](https://www.django-rest-framework.org/api-guide/authentication/)
 
-### Django Project Structure 
+### Django Project Structure
 
 What will the project structure look like? What will the files be named? What will the directories be named?
 
 * cupid_code/
-  * cupid_code/ # main project directory
-    * settings.py # main settings file
-    * urls.py # main url file
-    * wsgi.py # web server gateway interface
-  * api/ # app for the api
-    * migrations/ # migrations for the api app
-    * admin.py # admin configuration
-    * apps.py # app configuration
-    * models.py # define the models
-    * serializers.py # define the serializers
-    * tests.py # write unit tests
-    * urls.py # map the urls to the views
-    * views.py # define and implement the views
-  * manage.py # command line utility for managing the project
-  * db.sqlite3 # the database
+  * cupid_code/ - Main project directory.
+    * settings.py - Main settings file.
+    * urls.py - Main url file.
+    * wsgi.py - Web server gateway interface.
+  * api/ - App for the api.
+    * migrations/ - Migrations for the api app.
+    * admin.py - Admin configuration.
+    * apps.py - App configuration.
+    * models.py - Define the models.
+    * serializers.py - Define the serializers.
+    * tests.py - Write unit tests.
+    * urls.py - Map the urls to the views.
+    * views.py - Define and implement the views.
+  * manage.py - Command line utility for managing the project.
+  * db.sqlite3 - The database. We can change this to another database if we want.
 
 ### URL Mapping
 
@@ -510,68 +702,72 @@ Additional pages offered by [Vue Router](#vue-router)
 
 The following endpoints will need user data to be used. Authentication will be required for all of these endpoints.
 
-| URL                             | Method | View Function         | Notes                                |
-|---------------------------------|--------|-----------------------|--------------------------------------|
-| /api/user/create/               | POST   | create_user           | Create user (use corresponding API)  |
-| /api/user/<int:id>/             | GET    | get_user              | Get user data                        |
-| /api/chat/                      | POST   | send_chat_message     | Send message                         |
-| /api/chat/<int:id>/             | GET    | get_five_messages     | Return the last five chat messages   |
-| /api/dater/calendar/<int:id>/   | GET    | get_calendar          | Get the dater's calendar (date list) |      
-| /api/dater/rate/                | POST   | rate_dater            | Cupid rate Dater                     |
-| /api/dater/ratings/<int:id>/    | GET    | get_dater_ratings     | Get list of dater's ratings          |
-| /api/dater/avg_rating/<int:id>/ | GET    | get_dater_avg_rating  | Get dater's average rating           |
-| /api/dater/transfer/            | POST   | dater_transfer        | Initiate transfer in                 |
-| /api/dater/balance/<int:id>/    | GET    | get_dater_balance     | Get account balance                  |
-| /api/dater/profile/<int:id>/    | GET    | get_dater_profile     | Get dater's profile                  |
-| /api/dater/profile/             | POST   | set_dater_profile     | Set dater's profile                  |
-| /api/cupid/rate/                | POST   | rate_cupid            | Dater rating a Cupid                 |
-| /api/cupid/ratings/<int:id>/    | GET    | get_cupid_ratings     | Get list of cupid's ratings          |
-| /api/cupid/avg_rating/<int:id>/ | GET    | get_cupid_avg_rating  | Get cupid's average rating           |
-| /api/cupid/transfer/            | POST   | cupid_transfer        | Initiate transfer out                |
-| /api/cupid/balance/<int:id>/    | GET    | get_cupid_balance     | Get account balance                  |
-| /api/cupid/profile/<int:id>/    | GET    | get_cupid_profile     | Get cupid's profile                  |
-| /api/cupid/profile/             | POST   | set_cupid_profile     | Set cupid's profile                  |
-| /api/gig/create/                | POST   | create_gig            | Create gig                           |
-| /api/gig/accept/                | POST   | accept_gig            | Accept gig                           |
-| /api/gig/complete/              | POST   | complete_gig          | Complete gig                         |
-| /api/gig/drop/                  | POST   | drop_gig              | Drop gig                             |
-| /api/gig/<int:count>/           | GET    | get_gigs              | Return number of gigs around cupid   |
-| /api/geo/stores/                | GET    | get_stores            | List of nearby stores                |
-| /api/geo/activities/            | GET    | get_activities        | Nearby activities                    |
-| /api/geo/events/                | GET    | get_events            | Nearby events                        |
-| /api/geo/attractions/           | GET    | get_attractions       | Nearby attractions                   |
-| /api/geo/user/<int:id>/         | GET    | get_user_location     | Get a user's location                |
-| /api/manager/cupids/            | GET    | get_cupids            | Get a list of cupids                 |
-| /api/manager/daters/            | GET    | get_daters            | Get a list of daters                 |
-| /api/manager/dater_count/       | GET    | get_dater_count       | Manager reports                      |
-| /api/manager/cupid_count/       | GET    | get_cupid_count       | Manager reports                      |
-| /api/manager/active_cupids/     | GET    | get_active_cupids     | Manager reports                      |
-| /api/manager/active_daters/     | GET    | get_active_daters     | Manager reports                      |
-| /api/manager/gig_rate/          | GET    | get_gig_rate          | Manager reports                      |
-| /api/manager/gig_count/         | GET    | get_gig_count         | Manager reports                      |
-| /api/manager/gig_drop_rate/     | GET    | get_gig_drop_rate     | Manager reports                      |
-| /api/manager/gig_complete_rate/ | GET    | get_gig_complete_rate | Manager reports                      |
-| /api/manager/suspend/           | POST   | suspend               | suspend cupid / dater                |
-| /api/manager/unsuspend/         | POST   | unsuspend             | unsuspend cupid / dater              |
-| /api/stt/                       | POST   | speech_to_text        | Convert speech to text               |
-| /api/notify/                    | POST   | notify                | Send a message according to pref.    |
+| URL                             | Method    | View Function         | Notes                                               |
+|---------------------------------|-----------|-----------------------|-----------------------------------------------------|
+| /api/user/create/               | POST      | create_user           | Create user (use corresponding API)                 |
+| /api/user/<int:id>/             | GET       | get_user              | Get user data                                       |
+| /api/chat/                      | POST      | send_chat_message     | Send message                                        |
+| /api/chat/<int:id>/             | GET       | get_five_messages     | Return the last five chat messages                  |
+| /api/dater/calendar/<int:id>/   | GET, POST | calendar              | Get the dater's calendar (date list), create a date |
+| /api/dater/rate/                | POST      | rate_dater            | Cupid rate Dater                                    |
+| /api/dater/ratings/<int:id>/    | GET       | get_dater_ratings     | Get list of dater's ratings                         |
+| /api/dater/avg_rating/<int:id>/ | GET       | get_dater_avg_rating  | Get dater's average rating                          |
+| /api/dater/transfer/            | POST      | dater_transfer        | Initiate transfer in                                |
+| /api/dater/balance/<int:id>/    | GET       | get_dater_balance     | Get account balance                                 |
+| /api/dater/profile/<int:id>/    | GET       | get_dater_profile     | Get dater's profile                                 |
+| /api/dater/profile/             | POST      | set_dater_profile     | Set dater's profile                                 |
+| /api/cupid/rate/                | POST      | rate_cupid            | Dater rating a Cupid                                |
+| /api/cupid/ratings/<int:id>/    | GET       | get_cupid_ratings     | Get list of cupid's ratings                         |
+| /api/cupid/avg_rating/<int:id>/ | GET       | get_cupid_avg_rating  | Get cupid's average rating                          |
+| /api/cupid/transfer/            | POST      | cupid_transfer        | Initiate transfer out                               |
+| /api/cupid/balance/<int:id>/    | GET       | get_cupid_balance     | Get account balance                                 |
+| /api/cupid/profile/<int:id>/    | GET       | get_cupid_profile     | Get cupid's profile                                 |
+| /api/cupid/profile/             | POST      | set_cupid_profile     | Set cupid's profile                                 |
+| /api/gig/create/                | POST      | create_gig            | Create gig                                          |
+| /api/gig/accept/                | POST      | accept_gig            | Accept gig                                          |
+| /api/gig/complete/              | POST      | complete_gig          | Complete gig                                        |
+| /api/gig/drop/                  | POST      | drop_gig              | Drop gig                                            |
+| /api/gig/<int:count>/           | GET       | get_gigs              | Return number of gigs around cupid                  |
+| /api/geo/stores/                | GET       | get_stores            | List of nearby stores                               |
+| /api/geo/activities/            | GET       | get_activities        | Nearby activities                                   |
+| /api/geo/events/                | GET       | get_events            | Nearby events                                       |
+| /api/geo/attractions/           | GET       | get_attractions       | Nearby attractions                                  |
+| /api/geo/user/<int:id>/         | GET       | get_user_location     | Get a user's location                               |
+| /api/manager/cupids/            | GET       | get_cupids            | Get a list of cupids                                |
+| /api/manager/daters/            | GET       | get_daters            | Get a list of daters                                |
+| /api/manager/dater_count/       | GET       | get_dater_count       | Manager reports                                     |
+| /api/manager/cupid_count/       | GET       | get_cupid_count       | Manager reports                                     |
+| /api/manager/active_cupids/     | GET       | get_active_cupids     | Manager reports                                     |
+| /api/manager/active_daters/     | GET       | get_active_daters     | Manager reports                                     |
+| /api/manager/gig_rate/          | GET       | get_gig_rate          | Manager reports                                     |
+| /api/manager/gig_count/         | GET       | get_gig_count         | Manager reports                                     |
+| /api/manager/gig_drop_rate/     | GET       | get_gig_drop_rate     | Manager reports                                     |
+| /api/manager/gig_complete_rate/ | GET       | get_gig_complete_rate | Manager reports                                     |
+| /api/manager/suspend/           | POST      | suspend               | suspend cupid / dater                               |
+| /api/manager/unsuspend/         | POST      | unsuspend             | unsuspend cupid / dater                             |
+| /api/stt/                       | POST      | speech_to_text        | Convert speech to text                              |
+| /api/notify/                    | POST      | notify                | Send a message according to pref.                   |
 
 ### Django Models
-We will use the Django built in User model, but add roles to it. This comes with authentication functionality and the following fields. Details available in 
+
+We will use the Django built in User model, but add roles to it by extending `AbstractUser`. This comes with authentication functionality and the following fields. Details available in 
 [Django docs](https://docs.djangoproject.com/en/5.0/ref/contrib/auth/#django.contrib.auth.models.User).
 
-* username
-* first_name
-* last_name
-* email
-* password
-* groups
-* user_permissions
-* is_staff
-* is_active
-* is_superuser
-* last_login
-* date_joined
+* User
+  * **id**
+  * *role added by us*
+  * username
+  * first_name
+  * last_name
+  * email
+  * password
+  * groups
+  * user_permissions
+  * is_staff
+  * is_active
+  * is_superuser
+  * last_login
+  * date_joined
 
 Each model will correspond to a table. Bold denotes a primary key. For most tables,
 this is the default id provided by Django. For certain one-to-one tables they will use that
@@ -609,7 +805,7 @@ relationship as their primary key.
         * Location : Text Field (Containing geo coordinates) 
         * Average Rating : Decimal Field
         * Suspended : Boolean Field
-* Manager doesn't need anything more than a Django default user in the manager role
+* Manager doesn't need anything more than a Django User in the manager role
 * Message
     * **id : Auto Field**
     * Owner : Foreign Key (User)
@@ -653,8 +849,7 @@ relationship as their primary key.
     * **User : Foreign Key**
     * Routing Number : Text Field
     * Account Number : Text Field
-    
-    
+
 ### Django Migrations
 
 * Dummy Daters
@@ -681,16 +876,19 @@ relationship as their primary key.
 
 ### Django Settings
 
-The settings.py file is used to apply settings to the entire Django project. Here are the current additions to the settings.py file that are included beyond the base settings:
+The settings.py file is used to apply settings to the entire Django project. The following adjustments will be made to the settings.py file:
 
-**Admin Allowed in INSTALLED_APPS**
+* `DEBUG` will be set to `False` in production
+* `ALLOWED_HOSTS` will be set to the domain name of the production server
+* django.contrib.admin will be added to `INSTALLED_APPS` to enable the Django admin site
+* api will be added to `INSTALLED_APPS` to enable the API
+* `MIDDLEWARE` will be adjusted to include the asset middleware
+* `STATIC_URL` will be set to the asset url
+* `TEMPLATES` will be adjusted to include the welcome.html file
+* `SECURE_SSL_REDIRECT` will be set to `True`
+* `SESSION_COOKIE_SECURE` will be set to `True`
 
-The INSTALLED_APPS lists Django applications that are enabled in this project. To include the ability to have admins, this app is included in the list:
-
-`django.contrib.admin`
-
-
-### Django Admin 
+### Django Admin
 
 The Django admin site adds the possibility to have admin accounts with levels of management and control. The main functions this account can provide are the following:
 * Easy creation, management, and deletion of user accounts
@@ -699,22 +897,35 @@ The Django admin site adds the possibility to have admin accounts with levels of
 * Ability to export data (if needed)
 * Logging and history of changes made to data
 
-There are some concerns with the admin site and admin accounts. These include:
-* Security concerns if an admin account is compromised (bad actor would have access to admin tools)
-* Heavy resource usage when modifying accounts or data
+There are some concerns with the admin site and admin accounts:
+* Security concerns 
+  * Admin accounts are a prime target for hackers
+  * Admin accounts could be used to access sensitive data
+  * Admin accounts could be used to modify data in a way that could be harmful
+  * Admin accounts could be used to delete data
+  * Admin accounts could be used improperly or maliciously
+* Resource usage 
+  * Admin accounts take a lot of resources to maintain
+  * Admin accounts could be used to do intensive work that could slow down the software
 
-To address these concerns, admins may be enforced to have strong passwords (12+ characters, including special characters, numbers, and a mix of lower and upper case characters). Then admin accounts may be used during times when the software experiences the least amount of activity to do intensive work (except for emergencies).
+The Django admin site will be used to create the initial Manager accounts to manage the site.
 
+While the admin site is a powerful tool, it is not the best tool for day-to-day operations. While the server is in production, the admin site will be disabled. Instead, the API will be used to manage the data.
 
-### Unit Tests 
+### Unit Tests
 
-We will create unit tests to ensure that the software performs as expected. We will also ensure that security measures are in place to prevent improper usage of the software and protect user data, including Personal Identifiable Information (PII). 
+Each view will have a corresponding unit test. The unit tests will be used to verify that the views are functioning as expected.
+* Good input will be used to verify that the views are functioning as expected
+* Bad input will be used to verify that the views are functioning as expected
+* Edge cases will be used to verify that the views are functioning as expected
 
-Check the following Pseudocode section for `tests.py`, which contains planned unit tests.
-
+The following tools will be used to create unit tests for the software:
+* Django test framework will be used to create unit tests for the software.
+  * https://docs.djangoproject.com/en/3.2/topics/testing/
 * Django debug toolbar will be used to monitor the performance of the software and to identify any potential issues.
   * https://django-debug-toolbar.readthedocs.io/en/latest/
 
+Pseudocode can be found at the bottom of the [Pseudocode](#pseudocode) section.
 
 #### Quick Tutorial on how to use the Django Rest Framework
 
@@ -860,7 +1071,7 @@ urlpatterns = [
     path("/api/user/<int:id>/"), views.get_user, name="get_user"),
     path("/api/chat/"), views.send_chat_message, name="send_chat_message"),
     path("/api/chat/<int:id>/"), views.get_five_messages, name="get_five_messages"),
-    path("/api/dater/calendar/<int:id>/"), views.get_calendar, name="get_calendar"),
+    path("/api/dater/calendar/<int:id>/"), views.calendar, name="calendar"),
     path("/api/dater/rate/"), views.rate_dater, name="rate_dater"),
     path("/api/dater/ratings/<int:id>/"), views.get_dater_ratings, name="get_dater_ratings"),
     path("/api/dater/avg_rating/<int:id>/"), views.get_dater_avg_rating, name="get_dater_avg_rating"),
@@ -1089,14 +1300,24 @@ def get_five_messages(request, id):
 
   return response
 
-def get_calendar(request, id):
-  dater = Dater.objects.get(id=id)
-
-  calendar = Date.objects.filter(dater=id)
-
-  response = calendar.json()
-
-  return response
+def calendar(request, id):
+    if request.method == "POST":
+        dater = Dater.objects.get(id=id)
+        date = Date(
+            dater = dater,
+            date_time = request.date_time,
+            location = request.location,
+            description = request.description,
+            status = request.status,
+            budget = request.budget,
+        )
+        date.save()
+        return JsonResponse({'message': 'Date has been created'})
+    else:
+        dater = Dater.objects.get(id=id)
+        calendar = Date.objects.filter(dater=id)
+        response = calendar.json()
+        return response
 
 def rate_dater(request):
   dater_id = request.dater_id
@@ -1611,5 +1832,5 @@ class APITestCase(TestCase):
         response = create_user(mock_request)
         self.assertEqual(response.status_code, 400)
     
-    ...
+    # etc ...
 ```
