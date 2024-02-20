@@ -1,14 +1,8 @@
 from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render
 from django.conf  import settings
 import json
 import os
 from django.contrib.auth.decorators import login_required
-from core.models import Note
-from django.forms import model_to_dict
-from django.http import JsonResponse
 
 # Load manifest when server launches
 MANIFEST = {}
