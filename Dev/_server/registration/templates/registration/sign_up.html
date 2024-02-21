@@ -4,6 +4,18 @@
 <form action="/registration/sign_up/" method="post" class="">
   {% csrf_token %}
   <div class="">
+    <div class="">
+      <label class="">
+        Email
+        <input type="email" name="email">
+      </label>
+    </div>
+    <div class="">
+      <label class="">
+        Password
+        <input type="password" name="password">
+      </label>
+    </div>
     <label class="">
       First Name
       <input type="text" name="first_name">
@@ -17,14 +29,8 @@
   </div>
   <div class="">
     <label class="">
-      Email
-      <input type="email" name="email">
-    </label>
-  </div>
-  <div class="">
-    <label class="">
-      Password
-      <input type="password" name="password">
+      Address
+      <input type="text" name="address">
     </label>
   </div>
   <div class="">
@@ -37,7 +43,7 @@
       <input type="radio" name="user-type"/>
     </label>
   </div>
-  
+
   <button class="">Create Account</button>
 </form>
 {% endblock %}
