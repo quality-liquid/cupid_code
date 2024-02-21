@@ -6,17 +6,17 @@ from django.contrib.auth.hashers import make_password
 
 
 def dummy_dater1(User, Dater):
-    user1 = User(
+    user = User(
         username = 'dater1',
         password = make_password('password'),
         email = 'bob@cupid_code.com',
         first_name = 'Bob',
         last_name = 'The Builder',
     )
-    user1.save()
+    user.save()
 
     dater1 = Dater(
-        user = user1,
+        user = user,
         phone_number = '1234567890',
         budget = 50,
         communication_preference = 0,
@@ -41,17 +41,17 @@ def dummy_dater1(User, Dater):
     dater1.save()
 
 def dummy_dater2(User, Dater):
-    user2 = User(
+    user = User(
         username = 'dater2',
         password = make_password('password'),
         email = 'Manny@cupid_code.com',
         first_name = 'Handy',
         last_name = 'Manny',
     )
-    user2.save()
+    user.save()
 
     dater2 = Dater(
-        user = user2,
+        user = user,
         phone_number = '1223334444',
         budget = 50,
         communication_preference = 0,
@@ -75,11 +75,74 @@ def dummy_dater2(User, Dater):
 
     dater2.save()
 
+def dummy_cupid1(User, Cupid):
+    # username:cupid1, password:password, 54 completed gigs, 11 failed
+    user = User(
+        username = 'cupid1',
+        password = make_password('password'),
+        email = 'joe@mail.com',
+        first_name = 'Joe',
+        last_name = 'Brown',
+    )
+    user.save()
+
+    cupid1 = Cupid(
+        user = user,
+        accepting_gigs = True,
+        gigs_completed = 54,
+        gigs_failed = 11,
+        payment = '1123124000 1999999501250',
+        status = 2,
+        cupid_cash_balance = 1100,
+        location = 'Logan, UT',
+        average_rating = 4.1
+    )
+
+    #This portion should happen automatically, but not in migrations
+    cupid1.user.role = "Cupid"
+    cupid1.user.save()
+
+    cupid1.save()
+
+def dummy_cupid2(User, Cupid):
+    user = User(
+        username = 'cupid2',
+        password = make_password('password'),
+        email = 'really@me.com',
+        first_name = 'Cupid',
+        last_name = 'Himself',
+    )
+    user.save()
+
+    cupid2 = Cupid(
+        user = user,
+        accepting_gigs = False,
+        gigs_completed = 4,
+        gigs_failed = 16,
+        payment = '1111000000 1240912501250',
+        status = 0,
+        cupid_cash_balance = 12,
+        location = 'Logan, UT',
+        average_rating = 1.2
+    )
+
+    #This portion should happen automatically, but not in migrations
+    cupid2.user.role = "Cupid"
+    cupid2.user.save()
+
+    cupid2.save()
+
 def dummy_daters(apps, schema_editor):
         User = apps.get_model('api', 'User')
         Dater = apps.get_model('api', 'Dater')
         dummy_dater1(User,Dater)
         dummy_dater2(User,Dater)
+
+def dummy_cupids(apps, schema_editor):
+        User = apps.get_model('api', 'User')
+        Cupid = apps.get_model('api', 'Cupid')
+        dummy_cupid1(User,Cupid)
+        dummy_cupid2(User,Cupid)
 
 def dummy_quests(apps, schema_editor):
     Quest = apps.get_model('api', 'Quest')
@@ -97,6 +160,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(dummy_quests),
         migrations.RunPython(dummy_daters),
+        migrations.RunPython(dummy_cupids),
+        migrations.RunPython(dummy_quests),
     ]
