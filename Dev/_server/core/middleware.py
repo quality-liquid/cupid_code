@@ -5,9 +5,9 @@ from django.http import StreamingHttpResponse
 def asset_proxy_middleware(next):
     def middleware(request):
         # checking for .
-        if "." in request.path:
+        if '.' in request.path:
             # Proxy request to asset server
-            response = requests.get(f"{os.environ.get('ASSET_URL')}{request.path.replace('/static', '')}", stream=True)
+            response = requests.get(f'{os.environ.get('ASSET_URL')}{request.path.replace('/static', '')}', stream=True)
 
             # Stream response
             return StreamingHttpResponse(
