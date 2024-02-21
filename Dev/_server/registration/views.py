@@ -1,36 +1,38 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, logout
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+import requests
 
 
+def welcome(request):
+    render(request, 'registration/index.html')
 
-def welcome(req):
-    render(req, 'registration/index.html')
 
-#TODO: Create User
-def sign_up(req):
-    if req.method == 'POST':
-        user = User.objects.create_user(
-            
-        )
-        login(req, user)
+def sign_up(request):
+    if request.method == 'POST':
+        user = requests.post('http://localhost:8000/api/user/create/', data=request.POST)
+        login(request, user)
         return redirect('/')
     else:
-        return render(req, 'registration/sign_up.html')
+        return render(request, 'registration/sign_up.html')
 
-#TODO: Ensure the authenticate is what we want to use
-def sign_in(req):
-    if req.method == 'POST':
-        user = authenticate(req, username=req.POST.get('email'), password=req.POST.get('password'))
+
+def sign_in(request):
+    if request.method == 'POST':
+        user = requests.get(f'http://localhost:8000/api/user/', data=request.POST)
         if user is not None:
-            login(req, user)
+            login(request, user)
             return redirect('/')
-
-        return render(req, 'registration/sign_in.html')
+        return render(request, 'registration/sign_in.html')
     else:
-        return render(req, 'registration/sign_in.html')
+        return render(request, 'registration/sign_in.html')
 
+
+@login_required
 def logout_view(request):
-    logout(request)
-    return JsonResponse({'success': True })
+    try:
+        logout(request)
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
