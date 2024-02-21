@@ -8,3 +8,6 @@ out
 gen
 .vscode
 .env
+
+# Python artifacts
+**/__pycache__/
