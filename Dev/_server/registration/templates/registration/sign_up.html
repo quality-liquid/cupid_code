@@ -4,18 +4,18 @@
 <form action="/registration/sign_up/" method="post" class="">
   {% csrf_token %}
   <div class="">
-    <div class="">
-      <label class="">
-        Email
-        <input type="email" name="email">
-      </label>
-    </div>
-    <div class="">
-      <label class="">
-        Password
-        <input type="password" name="password">
-      </label>
-    </div>
+    <label class="">
+      Email
+      <input type="email" name="email">
+    </label>
+  </div>
+  <div class="">
+    <label class="">
+      Password
+      <input type="password" name="password">
+    </label>
+  </div>
+  <div class="">
     <label class="">
       First Name
       <input type="text" name="first_name">
@@ -33,16 +33,8 @@
       <input type="text" name="address">
     </label>
   </div>
-  <div class="">
-    <label class="">
-      Dater
-      <input type="radio" name="user-type"/>
-    </label>
-    <label class="">
-      Cupid
-      <input type="radio" name="user-type"/>
-    </label>
-  </div>
+  {% block additional %}
+  {% endblock %}
 
   <button class="">Create Account</button>
 </form>
