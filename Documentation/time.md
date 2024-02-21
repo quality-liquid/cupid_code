@@ -37,6 +37,6 @@
 | Emma Wright    |     |           |   
 | Daniel Barfuss |     |           |   
 | Brighton Ellis |     |           |   
-| Nate McKenzie  |     |           |   
+| Nate McKenzie  |     | 3.25      |   
 | Eric DeBloois  |     |           |   
 | Brandon Herrin |     |           |   
