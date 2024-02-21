@@ -13,21 +13,16 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
 <!--toc:start-->
 - [**Cupid Code**](#cupid-code)
 - [**Low Level Design Document**](#low-level-design-document)
-    - [Subteam Members](#subteam-members)
-      - [Frontend Team Members](#frontend-team-members)
-      - [Middleend Team Members](#middleend-team-members)
-      - [Backend Team Members](#backend-team-members)
-    - [Subteam Responsibilities](#subteam-responsibilities)
-      - [Frontend team](#frontend-team)
-      - [Middleend team](#middleend-team)
-      - [Backend team](#backend-team)
+    - [Subteams](#subteams)
+      - [Frontend Team](#frontend-team)
+      - [Middleend Team](#middleend-team)
+      - [Backend Team](#backend-team)
     - [Team Conventions and Standards](#team-conventions-and-standards)
       - [Branching Conventions](#branching-conventions)
       - [Coding Standards](#coding-standards)
       - [Commenting Standards](#commenting-standards)
       - [Testing Standards](#testing-standards)
   - [Frontend Design](#frontend-design)
-    - [Vue.js](#vue.js)
     - [Security](#security)
     - [UI](#ui)
       - [User flow:](#user-flow)
@@ -47,9 +42,10 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
       - [How the Router works](#how-the-router-works)
     - [Testing](#testing)
   - [Connecting Vue and Django](#connecting-vue-and-django)
+    - [Summary](#summary)
       - [Poetry](#poetry)
       - [Vite Config](#vite-config)
-      - [Node.js](#node.js)
+      - [Node.js](#nodejs)
       - [npm](#npm)
       - [Serverside](#serverside)
         - [Files to Add](#files-to-add)
@@ -59,8 +55,9 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
         - [In Core views.py](#in-core-viewspy)
         - [In Core index.html](#in-core-indexhtml)
       - [Clientside](#clientside)
+      - [Pseudocode](#pseudocode)
   - [Backend Design](#backend-design)
-    - [Summary](#summary)
+    - [Backend Summary](#backend-summary)
       - [Resources for the Backend](#resources-for-the-backend)
     - [Django Project Structure](#django-project-structure)
     - [URL Mapping](#url-mapping)
@@ -72,77 +69,83 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
     - [Django Admin](#django-admin)
     - [Unit Tests](#unit-tests)
     - [Quick Tutorial on how to use the Django Rest Framework](#quick-tutorial-on-how-to-use-the-django-rest-framework)
-    - [Pseudocode](#pseudocode)
+    - [Backend Pseudocode](#backend-pseudocode)
 <!--toc:end-->
 
 -----------
-### Subteam Members
+### Subteams
 
-#### Frontend Team Members
+#### Frontend Team
+Eric, Brighton, Brandon
 
-* Eric 
-* Brighton 
-* Brandon
+* Security
+  * Validate all input and output
+  * Make sure the app is secure
+* Design the UI
+  * Use Figma to design the UI
+* Design the UX
+  * Make sure the app is easy to use
+* Design the frontend code
+  * Use Vue.js
+  * Use Vue Router
+* Design the Django templates
+  * Welcome page
+  * Login page
+  * Signup page
+  * 404 page
+* Design the Vue Router
+  * Map the URLs
 
-#### Middleend Team Members
-
-* Emma
-
-#### Backend Team Members
-
-* Nate Stott 
-* Nate McKenzie 
-* Daniel
-
------------
-### Subteam Responsibilities
-
-#### Frontend team
-* Vue.js Framework
-  - Using Vue.js
-* Security 
-    * Validate all input and output
-* UI (Clean looking)
-    * Attractive to look at (keep people coming back)
-* UX (Easy to use)
-    * Intuitive design
-    * Easy to navigate
-    * What is happening is clear
-* Django Templates (if needed)
-* Interact with backend (requests)
-    * Deal with timeouts
-* Test on many browsers
-    * Phone
-    * Desktop
-
-#### Middleend team
+#### Middleend Team
+Emma
 
 * Work with both teams to ensure that the frontend and backend work together
 * Do work as requested by either team
   * A team could be falling behind and need help
+* Quality Assurance
+  * Ensure that both teams are following the conventions and standards
+  * Ensure that both teams are testing their code
+  * Ensure that both teams are documenting their code
 
-#### Backend team
+#### Backend Team
+Nate Stott, Nate McKenzie, Daniel
 
 * Security
-    * Django Admin
-    * User Authentication
-    * Validate all input and output
-* Django models (database)
-* Map URLs to views
-* Django views (Communicate with frontend, responses)
-    * 200
-    * 404
-* Create system APIs to call external APIs (easy to switch out)
-* Django Migrations
-* Django settings
-* Unit tests
+  * Make sure the backend is secure
+  * Make sure the backend api is only accessible by the frontend
+  * Secure the database
+  * Secure Django Admin
+  * Design user authentication
+* Design the backend code
+  * Use Django
+  * Use Django Rest Framework
+  * Use Django Rest Framework Serializers
+  * Use Django Rest Framework Views
+  * Use Django Rest Framework Authentication
+* Design the database
+  * Use Django Models
+  * Use Django Migrations
+* Design Django Admin
+  * What will we do with it?
+  * Who will have access to it?
+* Design the Django settings
+  * What will we need to change?
+* Design the Django URL Mapping
+  * What endpoints will we need?
+  * What will the endpoints do?
+* Design the endpoints
+  * What will the frontend need?
+  * What will the backend need?
+* Design the Django Unit Tests
+  * What will we test?
+  * How will we test it?
 
 -----------
 ### Team Conventions and Standards
 
 Our code should be clean and easy to read. Our code should tell a story. 
 Constant git branching will be used to make the history of the code speak for itself.
-This section is about how we will achieve these goals
+This section is about how we will achieve these goals.
 
 #### Branching Conventions
 
@@ -201,7 +204,7 @@ Will we use type annotation in python?
 When nesting code how many levels deep can we go?
  * Ideally 3, but no more than 5
    * If it's more than 5, it's probably doing too much
-     * https://www.youtube.com/watch?v=CFRhGnuXG-4
+     * [CodeAesthetic Video](https://www.youtube.com/watch?v=CFRhGnuXG-4)
      * Extraction
        * Pull code into its own function
      * Inversion
@@ -227,13 +230,22 @@ Every function should have a test
 -----------
 ## Frontend Design
 
+Subsections
+- [Frontend Design](#frontend-design)
+- [Security](#security)
+- [UI](#ui)
+- [UX](#ux)
+- [Templates](#templates)
+- [Vue Router](#vue-router)
+- [Testing](#testing)
+
 ### Security
 While a majority of the security will occur on the back, the front will do a little bit to ensure good data is being passed through. This will primarily be validating input and output. 
 If there is bad input, we will visually inform the user of it with sufficient detail. This gives them the opportunity to change it and comply with our standards.
 For example, if someone sends a chat to the AI, we will verify that there is no code injection or other malicious works inserted that would jeopardize the app. If bad input is given, we will inform the user (either via toast or other means) that something went wrong.
 This will also be done for requests from the backend to make sure the given json is correct and valid. This can be done as simple as a check between who the frontend considers the user and who the backend considers the user. This could be done with ids or other unique keys.
 
-The general psuedocode format + a psuedocode example for each to further display how each will be used.
+The general pseudocode format + a pseudocode example for each to further display how each will be used.
 ``` javascript
 async function get<Data>() {
   await the results from getting the profile 
@@ -272,40 +284,40 @@ async function updateUser() {
     display an error about updating (a toast would make sense here)
 }
 ```
-Note that this will be the ONLY time there will be any calls made to the backend's APIs. The calls will use the URLs written and described in the backend section of the document. We are building it like this so that data is only called in a few, secure places. This will help narrow any data leaks or exploits that may come from these calls and help in the debugging process and maintain good, safe code.
+Note that this will be the ONLY time there will be any calls made to the backend's APIs. The calls will use the URLs written and described in the backend section of the document. We are building it like this so that data is only called in a few secure places. This will help narrow any data leaks or exploits that may come from these calls and help in the debugging process and maintain good, safe code.
 
 ### UI
-This application is intended to be used as a dating aid for individuals with above average difficulty levels interacting in social environments, specifically romatic encounters. For this purpose we have developed the application to allow for smooth transition between elements and pages, soft visual appearances to be ease on eye-fatigue, and clear usage instructions so that anybody could pick up the app and understand how to use it. 
+This application is intended to be used as a dating aid for individuals with above average difficulty levels interacting in social environments, specifically romantic encounters. For this purpose we have developed the application to allow for smooth transition between elements and pages, soft visual appearances to be ease on eye-fatigue, and clear usage instructions so that anybody could pick up the app and understand how to use it. 
 
-#### User flow:
-The user will be immediately be directed to the login page, where they will be given the opportunity to either create an account based on their intended use on the app, or to sign in to a previously created account. Each user type has a home page relative to the features that are pertinent to them. Ie. Daters will have access to info about scheduling their date, adding cash to their online wallet, chatting with our dating assistive bot while cupids will have access to available gigs in their area as well as an earnings page to view their coming payments. Each page will provide a navigation panel in the upper portion to access account details and other necessary features. Tap-sensitive buttons on each page will dynamically redirect the specific user to their desired destination. 
+#### User Flow:
+The user will be immediately directed to the login page, where they will be given the opportunity to either create an account based on their intended use on the app, or to sign in to a previously created account. Each user type has a home page relative to the features that are pertinent to them. Ie. Daters will have access to info about scheduling their date, adding cash to their online wallet, chatting with our dating assistive bot while cupids will have access to available gigs in their area as well as an earnings page to view their coming payments. Each page will provide a navigation panel in the upper portion to access account details and other necessary features. Tap-sensitive buttons on each page will dynamically redirect the specific user to their desired destination. 
 
-#### Screen designs:
+#### Screen Designs:
 Proper contrast between content and backgrounds is maintained across each panel on the application. The color tone is soft, so as not to be too "loud" for the user. All screens are suited with a navigation bar in the upper portion of the screen that is locked in place during scrolling. Content is situated below the navigation bar and will have content centered on the screen, keeping appropriate margin distances between each component and the screen. 
 
 #### Navigation Structure:
 The navigation bar will will always contain an icon in the upper right corner that will access the current user's account.  Once off of the home page, it will display an arrow which will redirect the user back to their appropriate home page. 
 
-#### Layout guidelines:
-The padding between visual elements will differ based on the screen size of the user, however keeping a pixel distance of no less than 12px and no more than 24px will allow for each of the components and buttons to be displayed on the device in such a manner that the components do not appear crowded nor too spaced apart. All content will be displayed within the size of the conten-background color, which allows for strong contrast between black font and the color, as well as not overwhelm the user with bright and flashing pages as they go from feature to feature. Content boxes on pages with scrolling will each have shadows, assisting with the overall visually distinctive and appealing aspects of the app. 
+#### Layout Guidelines:
+The padding between visual elements will differ based on the screen size of the user, however keeping a pixel distance of no less than 12px and no more than 24px will allow for each of the components and buttons to be displayed on the device in such a manner that the components do not appear crowded nor too spaced apart. All content will be displayed within the size of the content-background color, which allows for strong contrast between black font and the color, as well as not overwhelm the user with bright and flashing pages as they go from feature to feature. Content boxes on pages with scrolling will each have shadows, assisting with the overall visually distinctive and appealing aspects of the app. 
 
 #### Color Palette:
-**primary-blue**: 46ADF0
-**secondary-blue**: 10194B
-**primary-red**: F02A69
-**secondary-red**: 802446
-**content-background**: FCEBFF
+- **primary-blue**: `#46ADF0`
+- **secondary-blue**: `#10194B`
+- **primary-red**: `#F02A69`
+- **secondary-red**: `#802446`
+- **content-background**: `#FCEBFF`
 
 
 #### Icon Use:
 Our Icon use will come from that of the Google Fonts library, which has many simple to use/implement icons available. These icons are already widely used and will allow for ease of comprehension for the user as to what their purpose is. 
 
-#### Responsive design:
-The app will primary be designed for portrait orientation for mobile devices. This is because the use-case for this app will be primary for messaging our AI-bot or seeking local gigs. In either of these situation, providing a landscape function would not create any ease to the user, but rather would inhibit them from seeing important details on their screen because of their keyboard pop-up. Border and other styling designs will respond with each screen size it is displayed on. 
+#### Responsive Design:
+The app will primarily be designed for portrait orientation for mobile devices. Capabilities will also be adapted for desktop usage. This is because the use-case for this app will be primary for messaging our AI-bot or seeking local gigs. In either of these situation, providing a landscape function would not create any ease to the user, but rather would inhibit them from seeing important details on their screen because of their keyboard pop-up. Border and other styling designs will respond with each screen size it is displayed on. 
 
 
-#### Making accounts and logging in
-From the login/User creation page, the user will be able to enter their information with respect to their use-case for the app (dater or Cupid). Should the user receive several poor ratings from their counterpart, and upon the discretion of the manager, a user can be suspended from the app for a time or indefinitely. 
+#### Making accounts and Logging in
+From the login/User creation page, the user will be able to enter their information with respect to their use-case for the app (Dater or Cupid). Should the user receive several poor ratings from their counterpart, and upon the discretion of the manager, a user can be suspended from the app for a time or indefinitely. 
 
 ![alt_text](images/createacc.png "Create_Acc")
 ![alt_text](images/login.png "Login")
@@ -323,7 +335,7 @@ The Dater will have access to 5 features from the app. They can enable the liste
 ![alt_text](images/useracc.png "User_Acc")
 
 #### Cupid
-The Cupid home page will display their personal rating on a scale to 5, as well as a running list of gig offer to accept delivery for. They will be displayed to them based on their location.  From there, the cupid can either accept a gig delivery or drop an already accepted delivery. Once a gig is selected, it will show all of the information for the delivery as well as the ability to update the completion status. Once a gig is completed, the Cupid will be provided a screen to supply their feedback for the Dater they were delivering for. The cupid will also be able to acces their earnings page (which will be synonymous with their account info page) to see their running earnings as well as the next pay date. 
+The Cupid home page will display their personal rating on a scale to 5, as well as a running list of gig offers to accept delivery for. They will be displayed to them based on their location. From there, the cupid can either accept a gig delivery or drop an already accepted delivery. Once a gig is selected, it will show all of the information for the delivery as well as the ability to update the completion status. Once a gig is completed, the Cupid will be provided a screen to supply their feedback for the Dater they were delivering for. The cupid will also be able to acces their earnings page (which will be synonymous with their account info page) to see their running earnings as well as the next pay date. 
 
 ![alt_text](images/ch.png "Cupid_Home")
 ![alt_text](images/ch_cash.png "Cash_Earned")
@@ -332,7 +344,7 @@ The Cupid home page will display their personal rating on a scale to 5, as well 
 ![alt_text](images/ch_rate.png "Rate_Daters")
 
 #### Manager
-The manager page will work very similarly to that of the cupid page, however they will have access to lists of current users (Daters and Cupids) as well as their ratings and usage info. Their home screen will allow them to select between viewing Daters, Cupids, or Statistical information with respect to app usage. The manager will be able to make the decision of whether or not to suspend another user from their account based on innappropriate usage of the app or conduct during a delivery/date. 
+The manager page will work very similarly to that of the cupid page, however they will have access to lists of current users (Daters and Cupids) as well as their ratings and usage info. Their home screen will allow them to select between viewing Daters, Cupids, or Statistical information with respect to app usage. The manager will be able to make the decision of whether or not to suspend another user from their account based on inappropriate usage of the app or conduct during a delivery/date. 
 
 ![alt_text](images/manager_home.png "Cupid_Home")
 ![alt_text](images/manage_cupids.png "Manage_Cupids")
@@ -345,10 +357,10 @@ Crafting a seamless user experience is at the forefront of our app development m
 
 ### Templates
 A majority of the frontend design will occur in Vue, but we will want to implement Django Templates for 2 cases. 
-  Case 1: A django template is needed to connect the back to the front.
-  Case 2: To protect the system, we can make the signing up/logging in its own Django app that will authenticate logging in so that you must be a verified user to use the rest of the app. This method will utilize the Django settings.py variables as well since you can tell it what the login page will be.
+  Case 1: A Django template is needed to connect the back to the front.
+  Case 2: To protect the system, we can make the sign-up/login process its own Django app that will authenticate logging in so that you must be a verified user to use the rest of the app. This method will utilize the Django `settings.py` variables as well since you can tell it what the login page will be.
 
-This won't deal with many of the external links since it will be an isolated app that's sole purpose is to add & validate users and redirect them based off of the type of account they are.
+This won't deal with many of the external links since it will be an isolated app whose sole purpose is to add & validate users and redirect them based off of the type of account they are.
 
 ``` html
 {% load static %}
@@ -367,7 +379,7 @@ This won't deal with many of the external links since it will be an isolated app
 ```
 ### Vue Router
 
-  We will be using the Vue Router to route the user to the correct page. Using information about the user from the backend and reusable components, we can direct the user to the correct page based upon user type.
+We will be using the Vue Router to route the user to the correct page. Using information about the user from the backend and reusable components, we can direct the user to the correct page based upon user type.
 
   Example Vue Router (simple example):
 ```javascript
@@ -402,7 +414,7 @@ The Vue app will live at URL `/app/`. The following pages will be available thro
 | /dater/chat/       | dater chat page                      |
 | /dater/listen/     | dater listen page                    |
 | /dater/balance/    | dater cash page                      |
-| /dater/calender/   | dater calender page                  |
+| /dater/calendar/   | dater calendar page                  |
 | /dater/profile/    | dater profile page                   |
 | /cupid/home/       | cupid homepage                       |
 | /cupid/gigs/       | cupid gigs                           |
@@ -415,7 +427,7 @@ The Vue app will live at URL `/app/`. The following pages will be available thro
 
 #### How the Router works
   This will all go into the App.vue file that is generated with the vue project.
-  There might be an async function to decide what the routes will be but other than that this is all you need. Any other async calls should only be made in the components themselves. This is necessary for clean, readable code and security purposes so we don't have data living somewhere it isn't needed.
+  There will be an async function to decide what the routes will be. Any other async calls should only be made in the components themselves. This is necessary for clean, readable code and security purposes so we don't have data living somewhere it isn't needed.
 ``` javascript
 <script>
   import ref and computed from vue;
@@ -461,11 +473,11 @@ These are some easy to implement methods to test our product before release:
 
 4. **Mocking**: Use mocks and stubs to isolate components or services from dependencies during testing. Mocking allows you to control the behavior of external dependencies and focus solely on testing the component or functionality in question.
 
-By incorporating these testing practices into your Vue application development workflow, you can enhance its quality, reliability, and maintainability, ultimately delivering a robust and user-friendly experience to your users.
+By incorporating these testing practices into our Vue application development workflow, we can enhance its quality, reliability, and maintainability, ultimately delivering a robust and user-friendly experience to our users.
 
-Unit Test Examples
+Unit Test Example
 
-*Note that these will live in their own file, likely called unitTest.js*
+*Note that these will live in their own javascript file*
 ```javascript
 import { mount } from '@vue/test-utils';
 import GetBalance from '@/components/GetBalance.vue';
@@ -494,24 +506,24 @@ Subsections
 - [Poetry](#poetry)
 - [Vite Config](#vite-config)
 - [Node.js](#nodejs)
-- [Npm](#npm)
+- [npm](#npm)
 - [Serverside](#serverside)
 - [Files to Add](#files-to-addy)
 - [Environemnt](#environment)
 - [Middleware](#middleware)
-- [Im Server Settings](#in-server-settings)
+- [In Server Settings](#in-server-settings)
 - [In core views](#in-core-viewspy)
 - [In core index](#in-core-viewspy)
 - [Clientside](#clientside)
-- [Psuedocode](#pseudocode)
+- [Pseudocode](#pseudocode)
 
 
 ### Summary
-The main method we will be implementing will be using these tools: Vite, NPM, and Poetry. 
-The frontend will be setup using npm for vite and vue. The backend using poetry for django. This section details what each version manager & config file needs to have as well as every additional file necessary and what each file has in it. 
+We will be using these tools: Vite, NVM, NPM, and Poetry. 
+The frontend will be setup using NVM & NPM for Vite and Vue. The backend will be using Poetry for Django. This section details what each version manager & configuration file needs to have as well as every additional file necessary and what each of those files needs to have in it. 
 
 #### Poetry
-
+These are all of the dependencies we'll install
 * Python 3.11+
 * Django 5.0.2+
 * Requests 2.31.0+
@@ -519,6 +531,7 @@ The frontend will be setup using npm for vite and vue. The backend using poetry 
 
 #### Vite Config
 
+This is what the vite config file will need to look like.
 ``` javascript
   plugins: [vue()],
   build: {
@@ -533,40 +546,43 @@ The frontend will be setup using npm for vite and vue. The backend using poetry 
 
 #### Node.js
 
-  The [current LTS version](https://nodejs.org/en) (20.11.1 as of 2/18/2024) of Node.js will be used for project development. `nvm` (Node Version Manager) will be used to manage the version of Node.js being used.
+The [current LTS version](https://nodejs.org/en) (20.11.1 as of 2/18/2024) of Node.js will be used for project development. `nvm` (Node Version Manager) will be used to manage the version of Node.js being used.
 
-  `nvm` commands for selecting Node.js version:
-  ```
-  $ nvm install -lts
-  $ nvm use --lts
-  ```
+`nvm` commands for selecting Node.js version:
+```
+$ nvm install -lts
+$ nvm use --lts
+```
 
-#### Npm
+#### npm
 
-  `npm` will be used for package management
+`npm` will be used for package management
+These are the dependencies we'll install
 * Vue 3.3.11+
 * Cookie 0.6.0+
 
 #### Serverside
 
 *Note: Before doing this, make sure you've started a vite project, django project and started at least one app in the django project*
+*The Django app will be referred to as 'core' here*
 
 ##### Files to Add
 
-* middleware.py in core app
+* `middleware.py` in core app
 * .env & .env.example in server directory
-* templates/core folder with an index.html file in core app
+* templates/core folder with an `index.html` file in core app
 
 ##### Environment
 
 * Add "ASSET_URL=http://localhost:5173" to both.
-* Change the url to whatever the client is hosted on.
+* Change the url to whatever the client is being hosted on.
 * Port 5173 is the default of vite so we'll be using that.
 
 ##### Middleware
 
 * Add the asset middleware here
 * We already have a written one
+* An example is in the psuedocode
 
 ##### In Server Settings
 
@@ -586,23 +602,23 @@ The frontend will be setup using npm for vite and vue. The backend using poetry 
     * manifest: MANIFEST variable
     * js_file: Set to emptry string is in debug mode otherwise set to the manifest file
     * css_file: Follow same protocol as js_file.
-  * return a render of the request, index.html, and the context.
+  * return a render of the request, `index.html`, and the context.
 
 ##### In Core index.html
 
-  * Generate a default, basic html file
-  * Using Django Template, add an if/else statement to the head tag.
-    * If debug
-      * Two scripts. One points to /@vite/client and one points to src/main.js
-        * These will point towards the asset_url from the view as well
-      * The else will hold a link and a script using the css and js file from the manifest
-  * Add an empty div with id "app" do the body tag. This will connect it to vue's "app" div in its generated index.html file.
+* Generate a default, basic html file
+* Using Django Template, add an if/else statement to the head tag.
+  * If debug
+    * Two scripts. One points to /@vite/client and one points to src/main.js
+      * These will point towards the asset_url from the view as well
+    * The else will hold a link and a script using the css and js file from the manifest
+* Add an empty div with id "app" do the body tag. This will connect it to vue's "app" div in its generated index.html file.
 
 
 #### Clientside
 
 For running the server by default, you won't need to add anything. However, if you want to make some actual requests then this is where Cookie comes in. 
-Add a utils folder in your src folder, and make a file called make_requests.js here. Here you'll write a function to send and receive json from the server.
+Add a utils folder in your src folder, and make a file called `make_requests.js` here. Here you'll write a function to send and receive json from the server.
 
 #### Pseudocode
 ``` javascript
@@ -615,7 +631,7 @@ makeRequest(uri, method, body):
   if the method is post then turn the body into valid JSON
 
   result = fetch to serverside
-  json = the result's json
+  json = the results json
   return the json
 ```
 ``` python
@@ -633,20 +649,20 @@ return middleware
 -----------
 ## Backend Design
 
-This section will include the following subsections:
-    - [Summary](#summary)
-    - [Django Project Structure](#django-project-structure)
-    - [URL Mapping](#url-mapping)
-    - [Django Models](#django-models)
-    - [Django Migrations](#django-migrations)
-    - [Django Settings](#django-settings)
-    - [Django Admin](#django-admin)
-    - [Unit Tests](#unit-tests)
-    - [Pseudocode](#pseudocode)
+Subsections
+- [Backend Summary](#backend-summary)
+- [Django Project Structure](#django-project-structure)
+- [URL Mapping](#url-mapping)
+- [Django Models](#django-models)
+- [Django Migrations](#django-migrations)
+- [Django Settings](#django-settings)
+- [Django Admin](#django-admin)
+- [Unit Tests](#unit-tests)
+- [Backend Pseudocode](#backend-pseudocode)
 
-### Summary
+### Backend Summary
 
-The backend will be built using Django and the Django Rest Framework. As a result much of the needed security is already implemented. 
+The backend will be built using Django and the Django REST Framework. As a result much of the needed security is already implemented. 
 A majority of the work will be in the models, views, and serializers. The models will be the database, the views will be the API, and the serializers will be the conversion of the models to JSON and vice versa.
 The frontend will communicate with the backend using HTTP GET and POST requests. The backend will respond with JSON data. This will be made easy by the Django Rest Framework.
 Mapping what endpoints the frontend needs is helpful for the backend to know what to build. This will be done in the URL Mapping section.
@@ -661,7 +677,7 @@ Mapping what endpoints the frontend needs is helpful for the backend to know wha
 
 ### Django Project Structure
 
-What will the project structure look like? What will the files be named? What will the directories be named?
+This is what our project structure will look like:
 
 * cupid_code/
   * cupid_code/ - Main project directory.
@@ -747,12 +763,12 @@ The following endpoints will need user data to be used. Authentication will be r
 
 ### Django Models
 
-We will use the Django built in User model, but add roles to it by extending `AbstractUser`. This comes with authentication functionality and the following fields. Details available in 
+We will use the Django built-in User model, but add roles to it by extending `AbstractUser`. This comes with authentication functionality and the following fields. Details available in 
 [Django docs](https://docs.djangoproject.com/en/5.0/ref/contrib/auth/#django.contrib.auth.models.User).
 
 * User
   * **id**
-  * *role added by us*
+  * *role added by us {Dater, Cupid, Manager}*
   * username
   * first_name
   * last_name
@@ -873,7 +889,7 @@ relationship as their primary key.
 
 ### Django Settings
 
-The settings.py file is used to apply settings to the entire Django project. The following adjustments will be made to the settings.py file:
+The `settings.py` file is used to apply settings to the entire Django project. The following adjustments will be made to the `settings.py` file:
 
 * `DEBUG` will be set to `False` in production
 * `ALLOWED_HOSTS` will be set to the domain name of the production server
@@ -881,7 +897,7 @@ The settings.py file is used to apply settings to the entire Django project. The
 * api will be added to `INSTALLED_APPS` to enable the API
 * `MIDDLEWARE` will be adjusted to include the asset middleware
 * `STATIC_URL` will be set to the asset url
-* `TEMPLATES` will be adjusted to include the welcome.html file
+* `TEMPLATES` will be adjusted to include the `welcome.html` file
 * `SECURE_SSL_REDIRECT` will be set to `True`
 * `SESSION_COOKIE_SECURE` will be set to `True`
 
@@ -931,7 +947,7 @@ Pseudocode can be found at the bottom of the [Pseudocode](#pseudocode) section.
 $ python manage.py startapp example
 ```
 
-* In the project settings.py file, add the following to the INSTALLED_APPS list:
+* In the project `settings.py` file, add the following to the INSTALLED_APPS list:
   * 'rest_framework'
   * 'example'
 ``` python
@@ -943,7 +959,7 @@ INSTALLED_APPS = [
 ]
 ```
 
-* In the example/models.py file, create the models that will be used by the API
+* In the `example/models.py` file, create the models that will be used by the API
 ``` python
 
 from django.db import models
@@ -956,7 +972,7 @@ class User(models.Model):
 
 ```
 
-* In the example/serializers.py file, create the serializers that will be used by the API (serializers are used to convert model instances to JSON and vice versa)
+* In the `example/serializers.py` file, create the serializers that will be used by the API (serializers are used to convert model instances to JSON and vice versa)
   * ReaderUserSerializer will be used to convert User instances to JSON
   * WriterUserSerializer will be used to convert JSON to User instances
 ``` python
@@ -975,7 +991,7 @@ class WriterUserSerializer(serializers.Serializer):
     is_suspended = serializers.BooleanField()
 ```
 
-* In the example/views.py file, create the views that will be used by the API
+* In the `example/views.py` file, create the views that will be used by the API
 ``` python
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -1007,7 +1023,7 @@ def user_create(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 ```
 
-* In the example/urls.py file, create the URLs that will be used by the API
+* In the `example/urls.py` file, create the URLs that will be used by the API
 ``` python
 from django.urls import path
 from . import views
@@ -1019,7 +1035,7 @@ urlpatterns = [
 ]
 ```
 
-* In the project's urls.py file, include the api's urls
+* In the project's `urls.py` file, include the api's urls
 ``` python
 from django.urls import path, include
 
@@ -1030,7 +1046,7 @@ urlpatterns = [
 ```
 
 
-### Pseudocode
+### Backend Pseudocode
 
 cupid_code/urls.py
 ``` python
