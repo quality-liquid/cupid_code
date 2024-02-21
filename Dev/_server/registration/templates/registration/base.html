@@ -8,7 +8,29 @@
   <style>
     /* style your login pages here because the normal
       static asset flow is different now */
+    :root {
+      --primary-blue: #46ADF0;
+      --secondary-blue: #10194B;
+      --primary-red: #F02A69;
+      --secondary-red: #802446;
+      --content-background: #FCEBFF;
+    }
 
+    .navbar {
+      padding: 4px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar a {
+      display: flex;
+      gap: 10px;
+    }
+
+    .welcome-page {
+      background-color: var(--content-background);
+    }
   </style>
 </head>
 <body>
