@@ -2,6 +2,8 @@
 
 from django.db import migrations
 from django.contrib.auth.hashers import make_password
+from django.db import transaction
+from datetime import datetime, timedelta
 
 
 
@@ -39,6 +41,7 @@ def dummy_dater1(User, Dater):
     dater1.user.save()
 
     dater1.save()
+    return dater1
 
 def dummy_dater2(User, Dater):
     user = User(
@@ -74,9 +77,100 @@ def dummy_dater2(User, Dater):
     dater2.user.save()
 
     dater2.save()
+    return dater2
+
+def dummy_messages1(dater, Message):
+    message1 = Message(
+        owner = dater,
+        text = 'Hi AI, I need help.',
+        from_ai = False
+    )
+    message2 = Message(
+        owner = dater,
+        text = 'No',
+        from_ai = True
+    )
+    message3 = Message(
+        owner = dater,
+        text = 'Thanks for nothing',
+        from_ai = False
+    )
+    message1.save()
+    message2.save()
+    message3.save()
+
+def dummy_messages2(dater, Message):
+    message1 = Message(
+        owner = dater,
+        text = 'Good day robot. I would greatly appreciate your assistance in my date. What should I say next?',
+        from_ai = False
+    )
+    message2 = Message(
+        owner = dater,
+        text = 'Ask them about themselves instead of talking about yourself.',
+        from_ai = True
+    )
+    message3 = Message(
+        owner = dater,
+        text = 'Thank you for the help good sir.',
+        from_ai = False
+    )
+    message1.save()
+    message2.save()
+    message3.save()
+
+@transaction.atomic
+def dummy_unclaimed(dater, Gig, Quest):
+    quest1 = Quest(
+        budget = 20,
+        items_requested = 'Flowers',
+        pickup_location = 'Smiths'
+    )
+    quest2 = Quest(
+        budget = 10,
+        items_requested = 'Chocolate',
+        pickup_location = 'Smiths'
+    )
+    quest1.save()
+    quest2.save()
+
+    gig1 = Gig(
+        dater = dater,
+        quest = quest1,
+        status = 0,
+        date_time_of_request = datetime.now(),
+    )
+
+    gig2 = Gig(
+        dater = dater,
+        quest = quest2,
+        status = 0,
+        date_time_of_request = datetime.now(),
+    )
+    gig1.save()
+    gig2.save()
+
+@transaction.atomic
+def dummy_claimed(dater, Gig, Quest, cupid):
+    quest = Quest(
+        budget = 200,
+        items_requested = 'Concert tickets',
+        pickup_location = 'Not Smiths'
+    )
+    quest.save()
+
+    gig = Gig(
+        dater = dater,
+        quest = quest,
+        cupid = cupid,
+        status = 1,
+        date_time_of_request = datetime.now() - timedelta(minutes=15),
+        date_time_of_claim = datetime.now() - timedelta(minutes=5),
+    )
+    gig.save()
+
 
 def dummy_cupid1(User, Cupid):
-    # username:cupid1, password:password, 54 completed gigs, 11 failed
     user = User(
         username = 'cupid1',
         password = make_password('password'),
@@ -88,11 +182,11 @@ def dummy_cupid1(User, Cupid):
 
     cupid1 = Cupid(
         user = user,
-        accepting_gigs = True,
+        accepting_gigs = False,
         gigs_completed = 54,
         gigs_failed = 11,
         payment = '1123124000 1999999501250',
-        status = 2,
+        status = 1,
         cupid_cash_balance = 1100,
         location = 'Logan, UT',
         average_rating = 4.1
@@ -132,26 +226,48 @@ def dummy_cupid2(User, Cupid):
 
     cupid2.save()
 
-def dummy_daters(apps, schema_editor):
-        User = apps.get_model('api', 'User')
-        Dater = apps.get_model('api', 'Dater')
-        dummy_dater1(User,Dater)
-        dummy_dater2(User,Dater)
-
-def dummy_cupids(apps, schema_editor):
-        User = apps.get_model('api', 'User')
-        Cupid = apps.get_model('api', 'Cupid')
-        dummy_cupid1(User,Cupid)
-        dummy_cupid2(User,Cupid)
-
-def dummy_quests(apps, schema_editor):
-    Quest = apps.get_model('api', 'Quest')
-    quest = Quest(
-        budget = 20,
-        items_requested = 'flowers',
-        pickup_location = 'outside'
+def dummy_manager(User):
+    user = User(
+        username = 'manager',
+        password = make_password('password'),
+        email = 'manager@cupid_code.com',
+        first_name = 'Mr.',
+        last_name = 'Boss',
+        is_staff = True,
+        role = "Manager"
     )
-    quest.save()
+
+    user.save()
+
+def main(apps, schema_editor):
+    #Find models
+    User = apps.get_model('api', 'User')
+    Dater = apps.get_model('api', 'Dater')
+    Message = apps.get_model('api', 'Message')
+    Gig = apps.get_model('api', 'Gig')
+    Quest = apps.get_model('api', 'Quest')
+    Cupid = apps.get_model('api', 'Cupid')
+
+    #Daters
+    dater1 = dummy_dater1(User,Dater)
+    dater2 = dummy_dater2(User,Dater)
+    
+    #Cupids
+    cupid1 = dummy_cupid1(User,Cupid)
+    dummy_cupid2(User,Cupid)
+
+    #Manager
+    dummy_manager(User)
+
+    #Messages
+    dummy_messages1(dater1.user, Message)
+    dummy_messages2(dater2.user, Message)
+    
+    #Gigs
+    dummy_unclaimed(dater1, Gig, Quest)
+    dummy_claimed(dater1, Gig, Quest, cupid1)
+
+
 
 class Migration(migrations.Migration):
 
@@ -160,7 +276,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(dummy_daters),
-        migrations.RunPython(dummy_cupids),
-        migrations.RunPython(dummy_quests),
+        migrations.RunPython(main),
     ]

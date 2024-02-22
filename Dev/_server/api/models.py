@@ -64,7 +64,6 @@ class Message(models.Model):
     from_ai = models.BooleanField()
 
 class Quest(models.Model):
-    # Don't forget the one-to-one relationship with Gig
     budget = models.DecimalField(max_digits=10, decimal_places=2)
     items_requested = models.TextField()
     pickup_location = models.TextField()
@@ -77,12 +76,12 @@ class Gig(models.Model):
         DROPPED = 3
 
     dater = models.ForeignKey(Dater, on_delete=models.CASCADE)
-    cupid = models.ForeignKey(Cupid, on_delete=models.CASCADE)
+    cupid = models.ForeignKey(Cupid, on_delete=models.CASCADE, null=True)
     quest = models.OneToOneField('Quest', on_delete=models.CASCADE)
     status = models.IntegerField(choices=Status.choices)
     date_time_of_request = models.DateTimeField()
-    date_time_of_claim = models.DateTimeField()
-    date_time_of_completion = models.DateTimeField()
+    date_time_of_claim = models.DateTimeField(null=True)
+    date_time_of_completion = models.DateTimeField(null=True)
 
 class Date(models.Model):
     dater = models.ForeignKey(Dater, on_delete=models.CASCADE)
