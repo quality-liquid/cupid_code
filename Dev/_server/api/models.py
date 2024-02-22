@@ -52,7 +52,6 @@ class Cupid(models.Model):
     accepting_gigs = models.BooleanField()
     gigs_completed = models.IntegerField()
     gigs_failed = models.IntegerField()
-    payment = models.TextField()
     status = models.IntegerField(choices=Status.choices)
     cupid_cash_balance = models.DecimalField(max_digits=10, decimal_places=2)
     location = models.TextField()
