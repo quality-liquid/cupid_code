@@ -151,7 +151,7 @@ def dummy_unclaimed(dater, Gig, Quest):
     gig2.save()
 
 @transaction.atomic
-def dummy_claimed(dater, Gig, Quest, cupid):
+def dummy_claimed(dater, cupid, Gig, Quest):
     quest = Quest(
         budget = 200,
         items_requested = 'Concert tickets',
@@ -239,6 +239,38 @@ def dummy_manager(User):
 
     user.save()
 
+def dummy_dates(dater1, dater2, Date):
+    date1 = Date(
+        dater = dater1,
+        date_time = datetime.now() + timedelta(days = 45),
+        location = 'McDonalds',
+        description = 'Gonna get some chicken nuggets',
+        status = 'planned',
+        budget = 12.5,
+    )
+    date2 = Date(
+        dater = dater1,
+        date_time = datetime.now() + timedelta(days = 40),
+        location = 'Wendys',
+        description = 'I love me some chicken nuggets',
+        status = 'planned',
+        budget = 27.5,
+    )
+    date3 = Date(
+        dater = dater2,
+        date_time = datetime.now() + timedelta(days = 48),
+        location = 'Park',
+        description = 'Gonna go for a walk',
+        status = 'planned',
+        budget = 1.5,
+    )
+
+    date1.save()
+    date2.save()
+    date3.save()
+
+
+
 def main(apps, schema_editor):
     #Find models
     User = apps.get_model('api', 'User')
@@ -247,6 +279,7 @@ def main(apps, schema_editor):
     Gig = apps.get_model('api', 'Gig')
     Quest = apps.get_model('api', 'Quest')
     Cupid = apps.get_model('api', 'Cupid')
+    Date = apps.get_model('api', 'Date')
 
     #Daters
     dater1 = dummy_dater1(User,Dater)
@@ -265,7 +298,23 @@ def main(apps, schema_editor):
     
     #Gigs
     dummy_unclaimed(dater1, Gig, Quest)
-    dummy_claimed(dater1, Gig, Quest, cupid1)
+    dummy_claimed(dater1, cupid1, Gig, Quest)
+
+    #Dates
+    dummy_dates(dater1, dater2, Date)
+
+    # Feedback
+    #dummy_feedbacks()
+      # A couple positive reviews for each cupid
+      # A couple negative reviews for each cupid
+      # A couple positive reviews for each dater
+      # A couple negative reviews for each dater
+
+    #bank accounts
+    #dummy_bank_accounts()
+
+    #payment cards
+    #dummy_payment_cards()
 
 
 

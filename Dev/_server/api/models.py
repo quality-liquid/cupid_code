@@ -84,11 +84,17 @@ class Gig(models.Model):
     date_time_of_completion = models.DateTimeField(null=True)
 
 class Date(models.Model):
+    class Status(models.TextChoices):
+        PLANNED = 'planned'
+        OCCURING = 'occuring'
+        PAST = 'past'
+        CANCELED = 'canceled'
+
     dater = models.ForeignKey(Dater, on_delete=models.CASCADE)
     date_time = models.DateTimeField()
     location = models.TextField()
     description = models.TextField()
-    status = models.TextField()
+    status = models.TextField(choices = Status.choices)
     budget = models.DecimalField(max_digits=10, decimal_places=2)
 
 class Feedback(models.Model):
