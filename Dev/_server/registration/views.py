@@ -9,15 +9,7 @@ def welcome(request):
     render(request, 'registration/index.html')
 
 
-def sign_up_dater(request):
-    if request.method == 'POST':
-        user = requests.post('http://localhost:8000/api/user/create/', data=request.POST)
-        login(request, user)
-        return redirect('/')
-    else:
-        return render(request, 'registration/sign_up.html')
-
-def sign_up_cupid(request):
+def sign_up(request):
     if request.method == 'POST':
         user = requests.post('http://localhost:8000/api/user/create/', data=request.POST)
         login(request, user)
