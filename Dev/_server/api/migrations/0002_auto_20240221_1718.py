@@ -229,6 +229,7 @@ def dummy_cupid2(User, Cupid):
     cupid2.user.save()
 
     cupid2.save()
+    return cupid2
 
 def dummy_manager(User):
     user = User(
@@ -308,6 +309,21 @@ def dummy_feedbacks(gigs, Feedback):
     gig2_cupid.save()
     gig2_dater.save()
 
+def dummy_bank_accounts(cupid1, cupid2, BankAccount):
+    bankAccount1 = BankAccount(
+        user = cupid1.user,
+        routing_number = '123512512',
+        account_number = '13512589798609'
+    )
+    bankAccount2 = BankAccount(
+        user = cupid2.user,
+        routing_number = '123124987',
+        account_number = '13510001248109'
+    )
+
+    bankAccount1.save()
+    bankAccount2.save()
+
 
 def main(apps, schema_editor):
     #Find models
@@ -319,6 +335,8 @@ def main(apps, schema_editor):
     Cupid = apps.get_model('api', 'Cupid')
     Date = apps.get_model('api', 'Date')
     Feedback = apps.get_model('api', 'Feedback')
+    BankAccount = apps.get_model('api', 'BankAccount')
+    PaymentCard = apps.get_model('api', 'PaymentCard')
 
     #Daters
     dater1 = dummy_dater1(User,Dater)
@@ -326,7 +344,7 @@ def main(apps, schema_editor):
     
     #Cupids
     cupid1 = dummy_cupid1(User,Cupid)
-    dummy_cupid2(User,Cupid)
+    cupid2 = dummy_cupid2(User,Cupid)
 
     #Manager
     dummy_manager(User)
@@ -345,18 +363,12 @@ def main(apps, schema_editor):
 
     # Feedback
     dummy_feedbacks(gigs, Feedback)
-      # A couple positive reviews for each cupid
-      # A couple negative reviews for each cupid
-      # A couple positive reviews for each dater
-      # A couple negative reviews for each dater
-
-    #bank accounts
-    #dummy_bank_accounts()
 
     #payment cards
     #dummy_payment_cards()
 
-
+    #bank accounts
+    dummy_bank_accounts(cupid1, cupid2, BankAccount)
 
 class Migration(migrations.Migration):
 
