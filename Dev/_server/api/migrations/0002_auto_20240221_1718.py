@@ -149,6 +149,7 @@ def dummy_unclaimed(dater, Gig, Quest):
     )
     gig1.save()
     gig2.save()
+    return [gig1, gig2]
 
 @transaction.atomic
 def dummy_claimed(dater, cupid, Gig, Quest):
@@ -168,6 +169,8 @@ def dummy_claimed(dater, cupid, Gig, Quest):
         date_time_of_claim = datetime.now() - timedelta(minutes=5),
     )
     gig.save()
+
+    return [gig]
 
 
 def dummy_cupid1(User, Cupid):
@@ -197,6 +200,7 @@ def dummy_cupid1(User, Cupid):
     cupid1.user.save()
 
     cupid1.save()
+    return cupid1
 
 def dummy_cupid2(User, Cupid):
     user = User(
@@ -269,6 +273,40 @@ def dummy_dates(dater1, dater2, Date):
     date2.save()
     date3.save()
 
+def dummy_feedbacks(gigs, Feedback):
+    gig0_dater = Feedback(
+        user = gigs[0].dater.user,
+        gig = gigs[0],
+        message = 'I do not want to deliver to this guy',
+        star_rating = 0,
+        date_time = gigs[0].date_time_of_request
+    )
+    gig1_dater = Feedback(
+        user = gigs[1].dater.user,
+        gig = gigs[1],
+        message = 'This guy is great, but I do not have time',
+        star_rating = 5,
+        date_time = gigs[1].date_time_of_request
+    )
+    gig2_dater = Feedback(
+        user = gigs[2].dater.user,
+        gig = gigs[2],
+        message = 'He was rude, but alright',
+        star_rating = 3,
+        date_time = gigs[2].date_time_of_request
+    )
+    gig2_cupid = Feedback(
+        user = gigs[2].cupid.user,
+        gig = gigs[2],
+        message = 'This cupid was great!',
+        star_rating = 5,
+        date_time = gigs[2].date_time_of_request
+    )
+
+    gig0_dater.save()
+    gig1_dater.save()
+    gig2_cupid.save()
+    gig2_dater.save()
 
 
 def main(apps, schema_editor):
@@ -280,6 +318,7 @@ def main(apps, schema_editor):
     Quest = apps.get_model('api', 'Quest')
     Cupid = apps.get_model('api', 'Cupid')
     Date = apps.get_model('api', 'Date')
+    Feedback = apps.get_model('api', 'Feedback')
 
     #Daters
     dater1 = dummy_dater1(User,Dater)
@@ -297,14 +336,15 @@ def main(apps, schema_editor):
     dummy_messages2(dater2.user, Message)
     
     #Gigs
-    dummy_unclaimed(dater1, Gig, Quest)
-    dummy_claimed(dater1, cupid1, Gig, Quest)
+    gigs = []
+    gigs.extend(dummy_unclaimed(dater1, Gig, Quest))
+    gigs.extend(dummy_claimed(dater1, cupid1, Gig, Quest))
 
     #Dates
     dummy_dates(dater1, dater2, Date)
 
     # Feedback
-    #dummy_feedbacks()
+    dummy_feedbacks(gigs, Feedback)
       # A couple positive reviews for each cupid
       # A couple negative reviews for each cupid
       # A couple positive reviews for each dater
