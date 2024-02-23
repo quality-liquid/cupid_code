@@ -9,7 +9,30 @@ from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, Qu
 @api_view(['POST'])
 def create_user(request):
     """
+    Request the server to create an appropriate dater, cupid, or manager from info given.
 
+    Args (request.post)
+       user_type(str): Dater, Cupid, Manager
+       password(str): unhashed password
+       username(str) 
+       email(str)
+       first_name(str)
+       last_name(str)
+       phone_number(str)
+
+       budget(float): the user's default budget
+       communication_preference(int): EMAIL = 0, TEXT = 1
+       description(str)
+       dating_strengths(str)
+       dating_weaknesses(str)
+       interests(str)
+       past(str)
+       nerd_type(str)
+       relationship_goals(str)
+       ai_degree(str)
+       cupid_cash_balance(str)
+    Returns:
+        Dater, Cupid, or Manager serialized
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -17,7 +40,13 @@ def create_user(request):
 @api_view(['GET'])
 def get_user(request):
     """
+    Get a user's information
 
+    Args (request.post)
+        user_id(int): The id of the user
+    
+    Returns:
+        Dater, Cupid, or Manager serialized
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -117,6 +146,7 @@ def get_cupid_ratings(request, pk):
     """
     return Response(status=status.HTTP_200_OK)
 
+# ME FINISH
 
 @api_view(['GET'])
 def get_cupid_avg_rating(request, pk):
@@ -229,14 +259,12 @@ def get_attractions(request):
     """
     return Response(status=status.HTTP_200_OK)
 
-
 @api_view(['GET'])
 def get_user_location(request, pk):
     """
 
     """
     return Response(status=status.HTTP_200_OK)
-
 
 @api_view(['GET'])
 def get_cupids(request):
