@@ -11,7 +11,7 @@ def create_user(request):
     """
     Request the server to create an appropriate dater, cupid, or manager from info given.
 
-    Args (request.post)
+    Args (request.post):
        user_type(str): Dater, Cupid, Manager
        password(str): unhashed password
        username(str) 
@@ -32,7 +32,8 @@ def create_user(request):
        ai_degree(str)
        cupid_cash_balance(str)
     Returns:
-        Dater, Cupid, or Manager serialized
+        Response:
+            Dater, Cupid, or Manager serialized
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -42,11 +43,12 @@ def get_user(request):
     """
     Get a user's information
 
-    Args (request.post)
+    Args (request.post):
         user_id(int): The id of the user
     
     Returns:
-        Dater, Cupid, or Manager serialized
+        Response:
+            Dater, Cupid, or Manager serialized
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -54,7 +56,16 @@ def get_user(request):
 @api_view(['POST'])
 def send_chat_message(request):
     """
+    For a dater.
+    Stores the given message in the database, sends it to the AI, and returns the AI's response.
 
+    Args (request.post):
+        user_id(int): The id of the dater
+        message(str): The message
+
+    Returns:
+        Response:
+            message(str): The AI's response
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -62,7 +73,14 @@ def send_chat_message(request):
 @api_view(['GET'])
 def get_five_messages(request, pk):
     """
+    Returns the five most recent messages between user and AI.
 
+    Args:
+        request: information about the request
+        pk(int): the user_id as included in the URL
+    Returns:
+        Response:
+            The five messages serialized
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -70,6 +88,7 @@ def get_five_messages(request, pk):
 @api_view(['GET', 'POST'])
 def calendar(request, pk):
     """
+
 
     """
     return Response(status=status.HTTP_200_OK)
