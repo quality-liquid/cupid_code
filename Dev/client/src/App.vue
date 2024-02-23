@@ -1,17 +1,14 @@
 <script setup>
 import {makeRequest} from './utils/make_request'
-import HelloWorld from './components/HelloWorld.vue'
 import {ref, computed} from 'vue'
 
 const chosenRoute = ref({});
 
 
+//Get User and decide which routes to use based on User's Role.
 async function getUser() {
   results = await makeRequest();
-    
 }
-
-
 
 const daterRoutes = {
   '#/dater/home/': Home,
