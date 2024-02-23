@@ -1,30 +1,56 @@
 <script setup>
+import {makeRequest} from './utils/make_request'
 import HelloWorld from './components/HelloWorld.vue'
+import {ref, computed} from 'vue'
+
+const chosenRoute = ref({});
+
+
+async function getUser() {
+  results = await makeRequest();
+    
+}
+
+
+
+const daterRoutes = {
+  '#/dater/home/': Home,
+  '#/dater/balance/': Balance,
+  '#/dater/profile/': Profile,
+  '#/dater/chat/': Chat,
+  '#/dater/listen/': Listen,
+  '#/dater/calendar/': Calendar,
+}
+
+const cupidRoutes = {
+  '#/cupid/home/': Home,
+  '#/cupid/balance/': Balance,
+  '#/cupid/profile/': Profile,
+  '#/cupid/gigs/': Gigs,
+}
+
+const managerRoutes = {
+  '#/manager/home/': Home,
+  '#/manager/cupids/': Cupids,
+  '#/manager/daters/': Daters
+}
+
+const currPath = ref(window.location.hash)
+
+eventListener("hashchange", () => {
+  currPath.value = window.location.hash
+}) // This will run everytime it's changed to ensure it's correct.
+
+const currView = computed(() => {
+  return routes[currPath.value.slice(1) || '/']
+}) 
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
-</template>
+  <nav v-for="route in chosenRoute" :key="route">
+    <a href={{ route }}> {{ chosenRoute[route] }}</a>
+  </nav>
+  <component :is="currView" />
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+</template>
