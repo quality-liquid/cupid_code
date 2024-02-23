@@ -48,6 +48,11 @@ class Cupid(models.Model):
         GIGGING = 1
         AVAILABLE = 2
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.user.role = User.Role.CUPID
+        self.user.save()
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     accepting_gigs = models.BooleanField()
     gigs_completed = models.IntegerField()
