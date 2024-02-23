@@ -262,6 +262,15 @@ def get_attractions(request):
 @api_view(['GET'])
 def get_user_location(request, pk):
     """
+    For gigs, the location of the user is needed to determine the delivery location of the gig.
+
+    Args:
+        request: Information about the request.
+        pk (int): The id of the user to get the location of.
+    Returns:
+        Response:
+            If the location of the user was retrieved successfully, return a 200 status code.
+            If the location of the user was not retrieved successfully, return a 400 status code.
 
     """
     return Response(status=status.HTTP_200_OK)
@@ -269,7 +278,14 @@ def get_user_location(request, pk):
 @api_view(['GET'])
 def get_cupids(request):
     """
+    A manager can get all the cupid profiles.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the cupid profiles were retrieved successfully, return a 200 status code.
+            If the cupid profiles were not retrieved successfully, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -277,7 +293,14 @@ def get_cupids(request):
 @api_view(['GET'])
 def get_daters(request):
     """
+    A manager can get all the dater profiles.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the dater profiles were retrieved successfully, return a 200 status code.
+            If the dater profiles were not retrieved successfully, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -285,7 +308,14 @@ def get_daters(request):
 @api_view(['GET'])
 def get_dater_count(request):
     """
+    A manager can get the number of daters that are currently active.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the number of daters that are currently active was retrieved successfully, return a 200 status code.
+            If the number of daters that are currently active was not retrieved successfully, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -293,7 +323,14 @@ def get_dater_count(request):
 @api_view(['GET'])
 def get_cupid_count(request):
     """
+    A manager can get the number of cupids that are currently active.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the number of cupids that are currently active was retrieved successfully, return a 200 status code.
+            If the number of cupids that are currently active was not retrieved successfully, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -301,7 +338,14 @@ def get_cupid_count(request):
 @api_view(['GET'])
 def get_active_cupids(request):
     """
+    A manager can get the number of active cupids.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the number of active cupids was retrieved successfully, return a 200 status code.
+            If the number of active cupids was not retrieved successfully, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -309,7 +353,14 @@ def get_active_cupids(request):
 @api_view(['GET'])
 def get_active_daters(request):
     """
+    A manager can get the number of active daters.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the number of active daters was retrieved successfully, return a 200 status code.
+            If the number of active daters was not retrieved successfully, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -317,7 +368,14 @@ def get_active_daters(request):
 @api_view(['GET'])
 def get_gig_rate(request):
     """
+    A manager can get the rate of gigs per hour.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the rate of gigs per hour was retrieved successfully, return a 200 status code.
+            If the rate of gigs per hour was not retrieved successfully, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -325,7 +383,14 @@ def get_gig_rate(request):
 @api_view(['GET'])
 def get_gig_count(request):
     """
+    A manager can get the number of gigs that are currently active.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the number of gigs that are currently active was retrieved successfully, return a 200 status code.
+            If the number of gigs that are currently active was not retrieved successfully, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -333,7 +398,14 @@ def get_gig_count(request):
 @api_view(['GET'])
 def get_gig_drop_rate(request):
     """
+    A manager can get the rate of gigs that are dropped.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the rate of gigs that are dropped was retrieved successfully, return a 200 status code.
+            If the rate of gigs that are dropped was not retrieved successfully, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -341,7 +413,14 @@ def get_gig_drop_rate(request):
 @api_view(['GET'])
 def get_gig_complete_rate(request):
     """
+    A manager can get the rate of gigs that are completed.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the rate of gigs that are completed was retrieved successfully, return a 200 status code.
+            If the rate of gigs that are completed was not retrieved successfully, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -349,7 +428,14 @@ def get_gig_complete_rate(request):
 @api_view(['POST'])
 def suspend(request):
     """
+    Manager can suspend a user.
 
+    Args (request.post):
+        user_id (int): The id of the user to suspend.
+    Returns:
+        Response:
+            If the user was suspended successfully, return a 200 status code.
+            If the user was not suspended successfully, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -357,7 +443,14 @@ def suspend(request):
 @api_view(['POST'])
 def unsuspend(request):
     """
+    Manager can unsuspend a user.
 
+    Args (request.post):
+        user_id (int): The id of the user to unsuspend.
+    Returns:
+        Response:
+            If the user was unsuspended successfully, return a 200 status code.
+            If the user was not unsuspended successfully, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -365,7 +458,18 @@ def unsuspend(request):
 @api_view(['POST'])
 def speech_to_text(request):
     """
+    For a Dater.
+    Convert an audio file to text. When the audio is converted to text, the text is sent to the external AI service.
+    The response from the AI service is analyzed and a gig could be created based on the response.
 
+    Args (request.post):
+        audio (json): The audio to convert to text.
+            audio['type'] (str): The type of audio file.
+            audio['data'] (str): The audio file in base64 format.
+    Returns:
+        Response:
+            If the audio was converted to text successfully and indicate if a gig was created or not, return a 200 status code.
+            If the audio was not converted to text successfully, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -373,6 +477,14 @@ def speech_to_text(request):
 @api_view(['POST'])
 def notify(request):
     """
+    Notify a user (any type) of something via a text or email.
 
+    Args (request.post):
+        user_id (int): The id of the user to notify.
+        message (str): The message to send to the user.
+    Returns:
+        Response:
+            If the message was sent successfully, return a 200 status code.
+            If the message was not sent successfully, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
