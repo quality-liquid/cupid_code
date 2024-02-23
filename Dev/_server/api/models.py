@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-# Create your models here.
+
 
 class User(AbstractUser):
     class Role(models.TextChoices):
@@ -9,6 +9,7 @@ class User(AbstractUser):
         MANAGER = 'Manager'
 
     role = models.CharField(choices=Role.choices, max_length=7)
+
 
 class Dater(models.Model):
     class Communication(models.IntegerChoices):
@@ -23,7 +24,7 @@ class Dater(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     phone_number = models.CharField(max_length=10)
     budget = models.DecimalField(max_digits=10, decimal_places=2)
-    communication_preference = models.IntegerField(choices = Communication.choices)
+    communication_preference = models.IntegerField(choices=Communication.choices)
     description = models.TextField()
     dating_strengths = models.TextField()
     dating_weaknesses = models.TextField()
@@ -36,10 +37,9 @@ class Dater(models.Model):
     location = models.TextField()
     average_rating = models.DecimalField(max_digits=10, decimal_places=2)
     suspended = models.BooleanField()
-    #TODO: ImageField cannot be used without Pillow. We will have to add that to poetry before
+    # TODO: ImageField cannot be used without Pillow. We will have to add that to poetry before
     # implementing profile_picture.
-    #profile_picture = models.ImageField()
-
+    # profile_picture = models.ImageField()
 
 
 class Cupid(models.Model):
@@ -56,16 +56,19 @@ class Cupid(models.Model):
     cupid_cash_balance = models.DecimalField(max_digits=10, decimal_places=2)
     location = models.TextField()
     average_rating = models.DecimalField(max_digits=10, decimal_places=2)
-    
+
+
 class Message(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     from_ai = models.BooleanField()
 
+
 class Quest(models.Model):
     budget = models.DecimalField(max_digits=10, decimal_places=2)
     items_requested = models.TextField()
     pickup_location = models.TextField()
+
 
 class Gig(models.Model):
     class Status(models.IntegerChoices):
@@ -82,10 +85,11 @@ class Gig(models.Model):
     date_time_of_claim = models.DateTimeField(null=True)
     date_time_of_completion = models.DateTimeField(null=True)
 
+
 class Date(models.Model):
     class Status(models.TextChoices):
         PLANNED = 'planned'
-        OCCURING = 'occuring'
+        OCCURRING = 'occurring'
         PAST = 'past'
         CANCELED = 'canceled'
 
@@ -93,8 +97,9 @@ class Date(models.Model):
     date_time = models.DateTimeField()
     location = models.TextField()
     description = models.TextField()
-    status = models.TextField(choices = Status.choices)
+    status = models.TextField(choices=Status.choices)
     budget = models.DecimalField(max_digits=10, decimal_places=2)
+
 
 class Feedback(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -102,15 +107,16 @@ class Feedback(models.Model):
     message = models.TextField()
     star_rating = models.IntegerField()
     date_time = models.DateTimeField()
-    
+
+
 class PaymentCard(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     card_number = models.TextField()
     cvv = models.TextField()
     expiration = models.TextField()
 
+
 class BankAccount(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     routing_number = models.TextField()
     account_number = models.TextField()
-

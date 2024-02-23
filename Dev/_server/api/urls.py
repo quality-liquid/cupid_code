@@ -45,5 +45,4 @@ urlpatterns = [
     path('manager/unsuspend/', views.unsuspend, name='unsuspend'),
     path('stt/', views.speech_to_text, name='speech_to_text'),
     path('notify/', views.notify, name='notify'),
-    
 ]
