@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
+from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, QuestSerializer, GigSerializer, DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
 
 @api_view(['POST'])
 def create_user(request):
