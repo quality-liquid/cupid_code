@@ -170,7 +170,16 @@ def get_cupid_ratings(request, pk):
 @api_view(['GET'])
 def get_cupid_avg_rating(request, pk):
     """
-
+    Return the average rating for the requested Cupid.
+    
+    Args:
+        request: Information about the request.
+            
+        pk (int): ID for the requested user
+    Returns:
+        Response:
+            Average rating from the user's record (int).
+            If the account could not be found, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -178,7 +187,14 @@ def get_cupid_avg_rating(request, pk):
 @api_view(['POST'])
 def cupid_transfer(request):
     """
+    Performs financial transfer from a Cupid's balance to their bank account.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the transfer went through successfully, return a 200 status code.
+            If the transfer failed, return a corresponding error status code (400 if on our end, 500 if on bank's end)
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -186,7 +202,15 @@ def cupid_transfer(request):
 @api_view(['GET'])
 def get_cupid_balance(request, pk):
     """
+    Returns a number representing the Cupid's balance on their account.
 
+    Args:
+        request: Information about the request.
+        pk (int): ID for the requested Cupid.
+    Returns:
+        Response:
+            Balance on the Cupid's account (int).
+            If the account could not be found, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -194,7 +218,14 @@ def get_cupid_balance(request, pk):
 @api_view(['GET'])
 def get_cupid_profile(request, pk):
     """
+    Returns all details on a Cupid's profile (details from Cupid record).
 
+    Args: 
+        request: Information about the request.
+        pk (int): ID for the requested Cupid.
+    Returns:
+        Response:
+            Requested details from Cupid's record (JSON)
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -202,7 +233,14 @@ def get_cupid_profile(request, pk):
 @api_view(['POST'])
 def set_cupid_profile(request):
     """
+    Creates or changes data in a Cupid's profile.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the profile was created or changed successfully, return a 200 status code.
+            If the profile failed to be created or changed (insufficent permissions, bad data, or error), return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -210,7 +248,14 @@ def set_cupid_profile(request):
 @api_view(['POST'])
 def create_gig(request):
     """
+    Creates a gig.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the gig was created correctly, return a 200 status code.
+            If the gig was failed to be created, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -218,7 +263,14 @@ def create_gig(request):
 @api_view(['POST'])
 def accept_gig(request):
     """
+    Modifies the gig to show that it has been accepted by a Cupid.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the gig was successfully accepted, return a 200 status code.
+            If the gig could not be accepted or was already accepted, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -226,7 +278,14 @@ def accept_gig(request):
 @api_view(['POST'])
 def complete_gig(request):
     """
+    Modifies the gig to show that it has been completed.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the gig was successfully completed, return a 200 status code.
+            If the gig could not be completed or was already completed, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -234,7 +293,14 @@ def complete_gig(request):
 @api_view(['POST'])
 def drop_gig(request):
     """
+    Modifies the gig to show that it is no longer claimed by a Cupid. Cupid is no longer in charge of the gig.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the gig was successfully dropped, return a 200 status code.
+            If the gig could not be dropped, was already dropped, or does not have a Cupid assigned, return a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -242,7 +308,14 @@ def drop_gig(request):
 @api_view(['GET'])
 def get_gigs(request, count):
     """
+    Returns a list of gigs, up to the number of `count`.
 
+    Args:
+        request: Information about the request.
+        count (int): The number of gigs to return and display.
+    Returns:
+        Response:
+            A list of gigs (JSON)
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -250,7 +323,13 @@ def get_gigs(request, count):
 @api_view(['GET'])
 def get_stores(request):
     """
+    Reaches out to an API with an address to get stores near that address location.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            A list of nearby stores, including their specific location (JSON)
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -258,7 +337,13 @@ def get_stores(request):
 @api_view(['GET'])
 def get_activities(request):
     """
+    Reaches out to an API with an address to get possible activities near that address location.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            A list of nearby activities, including their specific location (JSON)
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -266,7 +351,13 @@ def get_activities(request):
 @api_view(['GET'])
 def get_events(request):
     """
+    Reaches out to an API with an address to get current entertainment events near that address location.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            A list of nearby events, including their specific location (JSON)
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -274,7 +365,13 @@ def get_events(request):
 @api_view(['GET'])
 def get_attractions(request):
     """
+    Reaches out to an API with an address to get attractions near that address location.
 
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            A list of nearby attractions, including their specific location (JSON)
     """
     return Response(status=status.HTTP_200_OK)
 
