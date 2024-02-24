@@ -23,6 +23,7 @@ class Dater(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     phone_number = models.CharField(max_length=10)
+    email = models.EmailField()
     budget = models.DecimalField(max_digits=10, decimal_places=2)
     communication_preference = models.IntegerField(choices=Communication.choices)
     description = models.TextField()
@@ -36,7 +37,7 @@ class Dater(models.Model):
     cupid_cash_balance = models.DecimalField(max_digits=10, decimal_places=2)
     location = models.TextField()
     average_rating = models.DecimalField(max_digits=10, decimal_places=2)
-    suspended = models.BooleanField()
+    is_suspended = models.BooleanField()
     # TODO: ImageField cannot be used without Pillow. We will have to add that to poetry before
     # implementing profile_picture.
     # profile_picture = models.ImageField()
