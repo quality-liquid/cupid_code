@@ -10,7 +10,7 @@ class DaterSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if data['password'] != data['password_confirm']:
-            raise serializers.ValidationError('Password and password confirmation do not match')
+            return serializers.ValidationError('Password and password confirmation do not match')
         return data
 
     def create(self, validated_data):
