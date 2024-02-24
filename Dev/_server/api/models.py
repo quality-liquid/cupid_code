@@ -62,6 +62,7 @@ class Cupid(models.Model):
     cupid_cash_balance = models.DecimalField(max_digits=10, decimal_places=2)
     location = models.TextField()
     average_rating = models.DecimalField(max_digits=10, decimal_places=2)
+    is_suspended = models.BooleanField()
 
 
 class Message(models.Model):
@@ -101,7 +102,6 @@ class Date(models.Model):
 
     dater = models.ForeignKey(Dater, on_delete=models.CASCADE)
     date_time = models.DateTimeField()
-    location = models.TextField()
     description = models.TextField()
     status = models.TextField(choices=Status.choices)
     budget = models.DecimalField(max_digits=10, decimal_places=2)
@@ -117,6 +117,7 @@ class Feedback(models.Model):
 
 class PaymentCard(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name_on_card = models.TextField()
     card_number = models.TextField()
     cvv = models.TextField()
     expiration = models.TextField()
