@@ -30,13 +30,13 @@
 | Eric DeBloois  | Frontend - Figma, general editing                                       | 6.5       |   
 | Brandon Herrin | Frontend - Vue.js testing, Vue.js routing, Editing/Proofread            | 10        |   
 
-| Sprint 3       |     |           |   
-|----------------|-----|-----------|
-| Name           | Job | Time(hrs) | 
-| Nate Stott     |     |           |   
-| Emma Wright    |     |           |   
-| Daniel Barfuss |     |           |   
-| Brighton Ellis |     |           |   
-| Nate McKenzie  |     | 3.25      |   
-| Eric DeBloois  |     |           |   
-| Brandon Herrin |     |           |   
+| Sprint 3       |         |           |   
+|----------------|---------|-----------|
+| Name           | Job     | Time(hrs) | 
+| Nate Stott     | Backend | 5         |   
+| Emma Wright    |         |           |   
+| Daniel Barfuss |         |           |   
+| Brighton Ellis |         |           |   
+| Nate McKenzie  |         | 3.25      |   
+| Eric DeBloois  |         |           |   
+| Brandon Herrin |         |           |   
