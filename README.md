@@ -14,8 +14,7 @@ The Dater will set a budget for the date so the AI can provide assistance during
 Cupid Code is a web app that uses Vue.js for the front end and Django for the back end.
 
 ## Installation
-If you have this project then you have everything you need to run the django server and the vue.js middleware.
-Run the Dev/setup.sh and Dev/start.sh scripts to start the django server and the vue.js middleware.
+Go to the Dev directory and look at the README.md file for instructions on how to run the app.
 
 ## Support
 If you have any questions or need help with the project, please contact the project owner.
