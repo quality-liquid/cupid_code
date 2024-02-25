@@ -22,8 +22,7 @@ class Dater(models.Model):
         self.user.save()
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    phone_number = models.CharField(max_length=10)
-    email = models.EmailField()
+    phone_number = models.CharField(max_length=10, unique=True)
     budget = models.DecimalField(max_digits=10, decimal_places=2)
     communication_preference = models.IntegerField(choices=Communication.choices)
     description = models.TextField()
@@ -71,12 +70,6 @@ class Message(models.Model):
     from_ai = models.BooleanField()
 
 
-class Quest(models.Model):
-    budget = models.DecimalField(max_digits=10, decimal_places=2)
-    items_requested = models.TextField()
-    pickup_location = models.TextField()
-
-
 class Gig(models.Model):
     class Status(models.IntegerChoices):
         UNCLAIMED = 0
@@ -86,11 +79,20 @@ class Gig(models.Model):
 
     dater = models.ForeignKey(Dater, on_delete=models.CASCADE)
     cupid = models.ForeignKey(Cupid, on_delete=models.CASCADE, null=True)
-    quest = models.OneToOneField('Quest', on_delete=models.CASCADE)
     status = models.IntegerField(choices=Status.choices)
-    date_time_of_request = models.DateTimeField()
+    date_time_of_request = models.DateTimeField(auto_now_add=True)
     date_time_of_claim = models.DateTimeField(null=True)
     date_time_of_completion = models.DateTimeField(null=True)
+    # because a gig has a quest, we don't need to add a quest field here. We add a gig field to the quest
+    # django will automatically add a quest field
+
+
+class Quest(models.Model):
+    budget = models.DecimalField(max_digits=10, decimal_places=2)
+    items_requested = models.TextField()
+    pickup_location = models.TextField()
+    gig = models.OneToOneField(Gig, on_delete=models.CASCADE, primary_key=True)
+
 
 
 class Date(models.Model):
