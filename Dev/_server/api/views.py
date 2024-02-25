@@ -191,6 +191,8 @@ def cupid_transfer(request):
 
     Args:
         request: Information about the request.
+            request.post: The json data sent to the server.
+                cupid_id (int): The id of the Cupid to transfer from.
     Returns:
         Response:
             If the transfer went through successfully, return a 200 status code.
@@ -237,6 +239,9 @@ def set_cupid_profile(request):
 
     Args:
         request: Information about the request.
+            request.post: The json data sent to the server.
+                cupid_id (int): The id of the Cupid to create or change.
+                data (json): The data to create or change in the Cupid's profile.
     Returns:
         Response:
             If the profile was created or changed successfully, return a 200 status code.
@@ -252,6 +257,13 @@ def create_gig(request):
 
     Args:
         request: Information about the request.
+            request.post: The json data sent to the server.
+                dater_id (int): The id of the dater who is requesting the gig.
+                quest (json): The quest that the gig is for.
+                    quest['budget'] (float): The budget for the gig.
+                    quest['items_requested'] (str): The items requested for the gig.
+                    quest['pickup_location'] (str): The location to pick up the items for the gig.
+
     Returns:
         Response:
             If the gig was created correctly, return a 200 status code.
@@ -267,6 +279,8 @@ def accept_gig(request):
 
     Args:
         request: Information about the request.
+            request.post: The json data sent to the server.
+                gig_id (int): The id of the gig to accept.
     Returns:
         Response:
             If the gig was successfully accepted, return a 200 status code.
@@ -282,6 +296,8 @@ def complete_gig(request):
 
     Args:
         request: Information about the request.
+            request.post: The json data sent to the server.
+                gig_id (int): The id of the gig to complete.
     Returns:
         Response:
             If the gig was successfully completed, return a 200 status code.
@@ -297,6 +313,8 @@ def drop_gig(request):
 
     Args:
         request: Information about the request.
+            request.post: The json data sent to the server.
+                gig_id (int): The id of the gig to drop.
     Returns:
         Response:
             If the gig was successfully dropped, return a 200 status code.
@@ -546,8 +564,10 @@ def suspend(request):
     """
     Manager can suspend a user.
 
-    Args (request.post):
-        user_id (int): The id of the user to suspend.
+    Args:
+        request: Information about the request.
+            request.post: The json data sent to the server.
+                user_id (int): The id of the user to suspend.
     Returns:
         Response:
             If the user was suspended successfully, return a 200 status code.
@@ -561,8 +581,10 @@ def unsuspend(request):
     """
     Manager can unsuspend a user.
 
-    Args (request.post):
-        user_id (int): The id of the user to unsuspend.
+    Args:
+        request: Information about the request.
+            request.post: The json data sent to the server.
+                user_id (int): The id of the user to unsuspend.
     Returns:
         Response:
             If the user was unsuspended successfully, return a 200 status code.
@@ -578,10 +600,12 @@ def speech_to_text(request):
     Convert an audio file to text. When the audio is converted to text, the text is sent to the external AI service.
     The response from the AI service is analyzed and a gig could be created based on the response.
 
-    Args (request.post):
-        audio (json): The audio to convert to text.
-            audio['type'] (str): The type of audio file.
-            audio['data'] (str): The audio file in base64 format.
+    Args:
+        request: Information about the request.
+            request.post: The json data sent to the server.
+                audio (json): The audio to convert to text.
+                    audio['type'] (str): The type of audio file.
+                    audio['data'] (str): The audio file in base64 format.
     Returns:
         Response:
             If the audio was converted to text successfully and indicate if a gig was created or not, return a 200 status code.
@@ -595,9 +619,11 @@ def notify(request):
     """
     Notify a user (any type) of something via a text or email.
 
-    Args (request.post):
-        user_id (int): The id of the user to notify.
-        message (str): The message to send to the user.
+    Args:
+        request: Information about the request.
+            request.post: The json data sent to the server.
+                user_id (int): The id of the user to notify.
+                message (str): The message to send to the user.
     Returns:
         Response:
             If the message was sent successfully, return a 200 status code.
