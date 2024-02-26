@@ -51,7 +51,21 @@ def create_user(request):
             If the user was created successfully, return serialized user and a 200 status code.
             If the user was not created successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    user_data = request.post
+    if user_data['user_type'] == 'Dater':
+        serializer = DaterSerializer(data=user_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif user_data['user_type'] == 'Cupid':
+        serializer = CupidSerializer(data=user_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
