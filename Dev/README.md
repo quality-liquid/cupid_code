@@ -3,6 +3,11 @@
 ## Automated Cupid Code Setup
 run `./setup.sh` to install poetry and node_modules
 run `./start.sh` to start the django server and the vue.js middleware
+run `./stop.sh` to stop the django server and the vue.js middleware
+
+tmux ls to see what sessions are running
+tmux kill-session -t my_session to kill the session
+tmux a -t my_session to attach to the session
 
 ## Manual Cupid Code Setup
 
