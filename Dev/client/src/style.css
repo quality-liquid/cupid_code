@@ -31,6 +31,12 @@ button:hover {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --primary-blue: #46ADF0;
+  --secondary-blue: #10194B;
+  --primary-red: #F02A69;
+  --secondary-red: #802446;
+  --content-background: #FCEBFF;
 }
 
 a {

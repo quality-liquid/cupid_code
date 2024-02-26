@@ -1,11 +1,17 @@
 # Django + Vue
 
-## Getting Started
+## Automated Cupid Code Setup
+run `./setup.sh` to install poetry and node_modules
+run `./start.sh` to start the django server and the vue.js middleware
+
+## Manual Cupid Code Setup
+
+### Getting Started
 
 Run `poetry install` in the Dev directory to make sure the poetry.lock file exists/is up to date.
 
 ------
-## Django
+### Django
 
 In `_server`, create your own .env file. You can copy the data in the .env.example file 
 
@@ -16,13 +22,13 @@ Activate your shell using `poetry shell`
 In `_server`, run `python manage.py makemigrations` and `python manage.py migrate`
 
 ------
-## Vue
+### Vue
 In `client`, run `npm install` to get all dependies. 
 
 Make sure you do this anytime the package.json file is changed since node_modules will always be gitignored.
 
 ------
-## Running the server
+### Running the server
 
 In one terminal, run `python mangae.py runserver` in `_server`
     
@@ -33,7 +39,7 @@ In another terminal, run `npm run dev` in `client`
 Visit the app at `http://localhost:8000`
 
 ------
-## Additional Notes
+### Additional Notes
 
 VSCode will underline all imports and uses of imports in `_server` with yellow if your shell is not activated. This is okay! This is just how VSCode interprets the version management. It counts them as missing if you're coding w/o the shell management. If you want the lines gone then code with the shell active and use the quick fix to set it to the Poetry environment it will remove the underlines.
 

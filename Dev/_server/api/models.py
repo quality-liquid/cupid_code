@@ -22,7 +22,7 @@ class Dater(models.Model):
         self.user.save()
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    phone_number = models.CharField(max_length=10)
+    phone_number = models.CharField(max_length=10, unique=True)
     budget = models.DecimalField(max_digits=10, decimal_places=2)
     communication_preference = models.IntegerField(choices=Communication.choices)
     description = models.TextField()
@@ -36,7 +36,7 @@ class Dater(models.Model):
     cupid_cash_balance = models.DecimalField(max_digits=10, decimal_places=2)
     location = models.TextField()
     average_rating = models.DecimalField(max_digits=10, decimal_places=2)
-    suspended = models.BooleanField()
+    is_suspended = models.BooleanField()
     # TODO: ImageField cannot be used without Pillow. We will have to add that to poetry before
     # implementing profile_picture.
     # profile_picture = models.ImageField()
@@ -48,6 +48,11 @@ class Cupid(models.Model):
         GIGGING = 1
         AVAILABLE = 2
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.user.role = User.Role.CUPID
+        self.user.save()
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     accepting_gigs = models.BooleanField()
     gigs_completed = models.IntegerField()
@@ -56,18 +61,13 @@ class Cupid(models.Model):
     cupid_cash_balance = models.DecimalField(max_digits=10, decimal_places=2)
     location = models.TextField()
     average_rating = models.DecimalField(max_digits=10, decimal_places=2)
+    is_suspended = models.BooleanField()
 
 
 class Message(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     from_ai = models.BooleanField()
-
-
-class Quest(models.Model):
-    budget = models.DecimalField(max_digits=10, decimal_places=2)
-    items_requested = models.TextField()
-    pickup_location = models.TextField()
 
 
 class Gig(models.Model):
@@ -79,11 +79,20 @@ class Gig(models.Model):
 
     dater = models.ForeignKey(Dater, on_delete=models.CASCADE)
     cupid = models.ForeignKey(Cupid, on_delete=models.CASCADE, null=True)
-    quest = models.OneToOneField('Quest', on_delete=models.CASCADE)
     status = models.IntegerField(choices=Status.choices)
-    date_time_of_request = models.DateTimeField()
+    date_time_of_request = models.DateTimeField(auto_now_add=True)
     date_time_of_claim = models.DateTimeField(null=True)
     date_time_of_completion = models.DateTimeField(null=True)
+    # because a gig has a quest, we don't need to add a quest field here. We add a gig field to the quest
+    # django will automatically add a quest field
+
+
+class Quest(models.Model):
+    budget = models.DecimalField(max_digits=10, decimal_places=2)
+    items_requested = models.TextField()
+    pickup_location = models.TextField()
+    gig = models.OneToOneField(Gig, on_delete=models.CASCADE, primary_key=True)
+
 
 
 class Date(models.Model):
@@ -95,7 +104,6 @@ class Date(models.Model):
 
     dater = models.ForeignKey(Dater, on_delete=models.CASCADE)
     date_time = models.DateTimeField()
-    location = models.TextField()
     description = models.TextField()
     status = models.TextField(choices=Status.choices)
     budget = models.DecimalField(max_digits=10, decimal_places=2)
@@ -111,6 +119,7 @@ class Feedback(models.Model):
 
 class PaymentCard(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name_on_card = models.TextField()
     card_number = models.TextField()
     cvv = models.TextField()
     expiration = models.TextField()

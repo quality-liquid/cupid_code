@@ -30,13 +30,13 @@
 | Eric DeBloois  | Frontend - Figma, general editing                                       | 6.5       |   
 | Brandon Herrin | Frontend - Vue.js testing, Vue.js routing, Editing/Proofread            | 10        |   
 
-| Sprint 3       |     |           |   
-|----------------|-----|-----------|
-| Name           | Job | Time(hrs) | 
-| Nate Stott     |     |           |   
-| Emma Wright    |     |           |   
-| Daniel Barfuss |     |           |   
-| Brighton Ellis |     |           |   
-| Nate McKenzie  |     | 3.25      |   
+| Sprint 3       |         |           |   
+|----------------|---------|-----------|
+| Name           | Job     | Time(hrs) | 
+| Nate Stott     | Backend | 5         |   
+| Emma Wright    |         |           |   
+| Daniel Barfuss |         |           |   
+| Brighton Ellis |         |           |   
+| Nate McKenzie  |         | 3.25      |   
 | Eric DeBloois  | Creation of Vue pages for Login, Create Account, and Cupid pages | 3.0 |   
-| Brandon Herrin |     |           |   
+| Brandon Herrin |         |           |   

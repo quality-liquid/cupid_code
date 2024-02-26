@@ -969,7 +969,7 @@ class User(models.Model):
     email = models.EmailField()
     password = models.CharField(max_length=100)
     is_suspended = models.BooleanField()
-
+    is_cupid = models.BooleanField()
 ```
 
 * In the `example/serializers.py` file, create the serializers that will be used by the API (serializers are used to convert model instances to JSON and vice versa)
@@ -979,16 +979,28 @@ class User(models.Model):
 from rest_framework import serializers
 from .models import User
 
-class ReaderUserSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    username = serializers.CharField(max_length=100)
-    email = serializers.EmailField()
-
-class WriterUserSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=100)
-    email = serializers.EmailField()
-    password = serializers.CharField(max_length=100)
-    is_suspended = serializers.BooleanField()
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'password']
+    
+    def validate(self, data):
+        if data['password'] == data['confirm_password']:
+            return serializers.ValidationError('Password cannot be "password"')
+        return data
+    
+    def create(self, validated_data):
+        user = User(**validated_data)
+        user.is_suspended = False
+        user.save()
+        return user
+        
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+        instance.password = validated_data.get('password', instance.password)
+        instance.save()
+        return instance
 ```
 
 * In the `example/views.py` file, create the views that will be used by the API
@@ -1002,7 +1014,7 @@ from .serializers import UserSerializer
 @api_view(['GET'])
 def user_list(request):
     users = User.objects.all()
-    serializer = ReaderUserSerializer(users, many=True)
+    serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
     
 @api_view(['GET'])
@@ -1011,16 +1023,35 @@ def user_detail(request, pk):
         user = User.objects.get(pk=pk)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = ReaderUserSerializer(user)
+    serializer = UserSerializer(user)
     return Response(serializer.data)
     
 @api_view(['POST'])
 def user_create(request):
-    serializer = WriterUserSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer = UserSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True):
+    serializer.save()
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+@api_view(['PUT'])
+def user_update(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = UserSerializer(user, data=request.data)
+    serializer.is_valid(raise_exception=True):
+    serializer.save()
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+def user_delete(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    user.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
 ```
 
 * In the `example/urls.py` file, create the URLs that will be used by the API
