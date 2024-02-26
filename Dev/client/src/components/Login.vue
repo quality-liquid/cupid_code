@@ -1,5 +1,6 @@
-<script setup>
+<script>
 import { makeRequest } from '../utils/make_request.js';
+import cupid_logo from '../assets/cupid_logo.png'
 
 async function login() {
     await makeRequest('/sign_in/', 'post', {
@@ -11,11 +12,15 @@ async function login() {
     // Redirect to dashboard if good
 }
 
+export default {
+  name: 'Login'
+};
+
 </script>
 
 <template>
     <div id="login_paper">
-        <img src="../assets/cupid_logo.png" alt="Cupid Code Logo">
+        <img :src="cupid_logo" alt="Cupid Code Logo">
         <form action={{ login() }}>
             <div>
                 <label class="form_input">

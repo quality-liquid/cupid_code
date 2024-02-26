@@ -1,4 +1,4 @@
-<script setup>
+<script>
 import { makeRequest } from '../utils/make_request.js';
 
 async function register() {
@@ -12,6 +12,10 @@ async function register() {
     // Redirect to dashboard
 }
 
+
+export default {
+  name: 'SignUp'
+};
 </script>
 
 <template>

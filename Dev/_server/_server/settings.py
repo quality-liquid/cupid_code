@@ -28,6 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+VITE_APP_DIR = BASE_DIR / "src"
+
 
 # Application definition
 

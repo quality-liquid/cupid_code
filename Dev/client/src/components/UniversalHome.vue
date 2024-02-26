@@ -1,4 +1,4 @@
-<script setup>
+<script>
 import {makeRequest} from '../utils/make_request.js'
 import {ref, computed} from 'vue'
 
@@ -9,7 +9,7 @@ const chosenRoute = ref({});
 async function getUser() {
   results = await makeRequest();
 }
-
+/*
 const daterRoutes = {
   '#/dater/home/': Home,
   '#/dater/balance/': Balance,
@@ -31,10 +31,10 @@ const managerRoutes = {
   '#/manager/cupids/': Cupids,
   '#/manager/daters/': Daters
 }
-
+*/
 const currPath = ref(window.location.hash)
 
-eventListener("hashchange", () => {
+window.addEventListener("hashchange", () => {
   currPath.value = window.location.hash
 }) // This will run everytime it's changed to ensure it's correct.
 
@@ -42,6 +42,9 @@ const currView = computed(() => {
   return routes[currPath.value.slice(1) || '/']
 }) 
 
+export default {
+  name: 'Home'
+};
 </script>
 
 <template>
