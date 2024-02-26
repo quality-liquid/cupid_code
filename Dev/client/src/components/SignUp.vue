@@ -1,10 +1,13 @@
 <script setup>
-import { makeRequest } from '../utils/make_request';
+import { makeRequest } from '../utils/make_request.js';
 
 async function register() {
-    await makeRequest('core/sign_in/', 'post', {
+    // Validate data 
+    await makeRequest('/sign_in/', 'post', {
         email,
-        password
+        password,
+        accountType,
+
     })
     // Redirect to dashboard
 }

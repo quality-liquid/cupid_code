@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.conf  import settings
+from django.conf import settings
 import json
 import os
 from django.contrib.auth.decorators import login_required
@@ -14,7 +14,6 @@ if not settings.DEBUG:
     MANIFEST = json.load(f)
 
 # Create your views here.
-@login_required
 def index(req):
     context = {
         'asset_url': os.environ.get('ASSET_URL', ''),
@@ -29,19 +28,15 @@ def sign_up(request):
     if request.method == 'POST':
         user = requests.post('http://localhost:8000/api/user/create/', data=request.POST)
         login(request, user)
-        return redirect('/')
-    else:
-        return render(request, 'registration/sign_up.html')
+    return redirect('/')
 
 def sign_in(request):
     if request.method == 'POST':
         user = requests.get(f'http://localhost:8000/api/user/', data=request.POST)
         if user is not None:
             login(request, user)
-            return redirect('/')
-        return render(request, 'registration/sign_in.html')
-    else:
-        return render(request, 'registration/sign_in.html')
+    return redirect('/')
+
 
 
 @login_required
