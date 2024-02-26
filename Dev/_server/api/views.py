@@ -97,8 +97,14 @@ def get_five_messages(request, pk):
 @api_view(['GET', 'POST'])
 def calendar(request, pk):
     """
+    For a dater.
+    Returns the dater's scheduled dates.
 
-
+    Args (request.post):
+        user_id(int): The id of the dater
+    Returns:
+        Response:
+            The planned dates
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -106,7 +112,17 @@ def calendar(request, pk):
 @api_view(['POST'])
 def rate_dater(request):
     """
+    For a cupid.
+    Saves a rating of a dater to the database.
 
+    Args (request.post):
+        user_id(int): The id of the dater
+        gig_id(int): The id of the gig
+        message(str): Message of feedback
+        rating(int): 1-5 stars(hearts)
+    Returns:
+        Response:
+            Saved Feedback serialized
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -114,7 +130,15 @@ def rate_dater(request):
 @api_view(['GET'])
 def get_dater_ratings(request, pk):
     """
+    For all users.
+    Returns the ratings of a specific dater.
 
+    Args:
+        request: information about the request
+        pk(int): the user_id as included in the URL
+    Returns:
+        Response:
+            Sequence of Feedback objects
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -122,7 +146,15 @@ def get_dater_ratings(request, pk):
 @api_view(['GET'])
 def get_dater_avg_rating(request, pk):
     """
+    For all users.
+    Returns the average rating of a specific user.
 
+    Args:
+        request: information about the request
+        pk(int): the user_id as included in the URL
+    Returns:
+        Response:
+            rating(int): The dater's rating
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -130,7 +162,16 @@ def get_dater_avg_rating(request, pk):
 @api_view(['POST'])
 def dater_transfer(request):
     """
+    For a dater.
+    Charges the dater's card and updates their balance.
 
+    Args (request.post):
+        user_id(int): The id of the dater
+        card_id(int): The id of the card to charge
+        amount(float): The amount to transfer
+    Returns:
+        Response:
+            OK
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -138,7 +179,15 @@ def dater_transfer(request):
 @api_view(['GET'])
 def get_dater_balance(request, pk):
     """
+    For daters.
+    Returns the balance of a specific dater.
 
+    Args:
+        request: information about the request
+        pk(int): the user_id as included in the URL
+    Returns:
+        Response:
+            balance(int): The balance of the dater
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -146,7 +195,15 @@ def get_dater_balance(request, pk):
 @api_view(['GET'])
 def get_dater_profile(request, pk):
     """
+    For daters.
+    Returns the profile information of the dater.
 
+    Args:
+        request: information about the request
+        pk(int): the user_id as included in the URL
+    Returns:
+        Response:
+            The dater serialized
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -154,7 +211,15 @@ def get_dater_profile(request, pk):
 @api_view(['POST'])
 def set_dater_profile(request):
     """
+    For a dater.
+    Saves the profile data of a dater.
 
+    Args (request.post):
+        user_id(int): The id of the dater
+        serialized dater
+    Returns:
+        Response:
+            Saved dater serialized
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -162,7 +227,17 @@ def set_dater_profile(request):
 @api_view(['POST'])
 def rate_cupid(request):
     """
+    For a dater.
+    Save a rating of a cupid.
 
+    Args (request.post):
+        user_id(int): The id of the cupid
+        gig_id(int): The id of the gig
+        message(str): Message of feedback
+        rating(int): 1-5 stars(hearts)
+    Returns:
+        Response:
+            Saved dater serialized
     """
     return Response(status=status.HTTP_200_OK)
 
@@ -170,7 +245,15 @@ def rate_cupid(request):
 @api_view(['GET'])
 def get_cupid_ratings(request, pk):
     """
+    For all users.
+    Returns the ratings of a specific cupid.
 
+    Args:
+        request: information about the request
+        pk(int): the user_id as included in the URL
+    Returns:
+        Response:
+            Sequence of Feedback objects
     """
     return Response(status=status.HTTP_200_OK)
 
