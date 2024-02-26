@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd _server || exit
+
 # Run Django server
 echo "Starting Django server..."
 # Check if python3 command is available
@@ -13,6 +15,7 @@ else
     exit 1
 fi
 
+cd ../client || exit
 # Run Vue development server
 echo "Starting Vue development server..."
 npm run dev
