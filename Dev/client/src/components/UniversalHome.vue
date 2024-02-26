@@ -1,5 +1,5 @@
 <script setup>
-import {makeRequest} from './utils/make_request'
+import {makeRequest} from '../utils/make_request'
 import {ref, computed} from 'vue'
 
 const chosenRoute = ref({});

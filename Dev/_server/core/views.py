@@ -14,7 +14,6 @@ if not settings.DEBUG:
     MANIFEST = json.load(f)
 
 # Create your views here.
-@login_required
 def index(req):
     context = {
         'asset_url': os.environ.get('ASSET_URL', ''),
