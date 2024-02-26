@@ -1,8 +1,7 @@
 from rest_framework import serializers
-from .models import Dater, Cupid, Message, Quest, Gig, Date, Feedback, PaymentCard, BankAccount
+from .models import Dater, Cupid, Message, Gig, Date, Feedback, PaymentCard, BankAccount
 
 
-# TODO make better serializers
 class DaterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dater
@@ -25,6 +24,7 @@ class DaterSerializer(serializers.ModelSerializer):
         instance.is_suspended = validated_data.get('is_suspended', instance.is_suspended)
         instance.save()
         return instance
+
 
 class CupidSerializer(serializers.ModelSerializer):
     class Meta:
@@ -57,12 +57,6 @@ class CupidSerializer(serializers.ModelSerializer):
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = '__all__'
-
-
-class QuestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Quest
         fields = '__all__'
 
 

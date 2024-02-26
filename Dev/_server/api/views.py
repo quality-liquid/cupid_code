@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, QuestSerializer, GigSerializer, DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
+from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, GigSerializer, DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
 
 # 1. write the code for the models
 # TODO 2. write doc strings for all the views so we know what they should take in, what they should do, and what they should return
@@ -10,6 +10,7 @@ from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, Qu
 # TODO 5. write the code for the views
 # TODO 6. write the tests for the views
 # TODO 7. debug
+
 
 @api_view(['POST'])
 def create_user(request):
