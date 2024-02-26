@@ -2,11 +2,13 @@
 import { makeRequest } from '../utils/make_request.js';
 
 async function login() {
-    await makeRequest('core/sign_in/', 'post', {
+    await makeRequest('/sign_in/', 'post', {
         email,
         password
     })
-    // Redirect to dashboard
+    // Validate response
+
+    // Redirect to dashboard if good
 }
 
 </script>

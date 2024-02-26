@@ -28,19 +28,15 @@ def sign_up(request):
     if request.method == 'POST':
         user = requests.post('http://localhost:8000/api/user/create/', data=request.POST)
         login(request, user)
-        return redirect('/')
-    else:
-        return render(request, 'registration/sign_up.html')
+    return redirect('/')
 
 def sign_in(request):
     if request.method == 'POST':
         user = requests.get(f'http://localhost:8000/api/user/', data=request.POST)
         if user is not None:
             login(request, user)
-            return redirect('/')
-        return render(request, 'registration/sign_in.html')
-    else:
-        return render(request, 'registration/sign_in.html')
+    return redirect('/')
+
 
 
 @login_required
