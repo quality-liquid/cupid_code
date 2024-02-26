@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.conf  import settings
+from django.conf import settings
 import json
 import os
 from django.contrib.auth.decorators import login_required
@@ -14,7 +14,6 @@ if not settings.DEBUG:
     MANIFEST = json.load(f)
 
 # Create your views here.
-@login_required
 def index(req):
     context = {
         'asset_url': os.environ.get('ASSET_URL', ''),
