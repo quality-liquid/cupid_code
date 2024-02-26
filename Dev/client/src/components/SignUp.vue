@@ -1,6 +1,9 @@
 <script>
 import { makeRequest } from '../utils/make_request.js';
 
+const cupidURL = new URL('../assets/cupid_logo.png', import.meta.url).href
+
+
 async function register() {
     // Validate data 
     await makeRequest('/sign_in/', 'post', {
@@ -20,9 +23,9 @@ export default {
 
 <template>
     <div>
-        <img src="../assets/cupid_logo.png" alt="Cupid Code Logo">
+        <img :src="cupidURL" alt="Cupid Code Logo">
         <h1>Create Your Account!</h1>
-        <form action={{ register() }}>
+        <form>
             <label class="form_input">
                 Account Type
                 <br>
