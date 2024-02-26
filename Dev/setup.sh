@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Navigate to Dev directory
-cd Dev || exit
-
 # Install Python dependencies using poetry
 poetry install
 
