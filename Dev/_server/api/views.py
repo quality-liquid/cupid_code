@@ -17,6 +17,8 @@ from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, Gi
 # Text and Email notifications API (Twilio) https://www.twilio.com/en-us
 # Nearby Shops API (yelpapi) https://pypi.org/project/yelpapi/
 
+# Nate S start
+
 @api_view(['POST'])
 def create_user(request):
     """
@@ -262,7 +264,7 @@ def get_cupid_ratings(request, pk):
     """
     return Response(status=status.HTTP_200_OK)
 
-# ME FINISH
+# Nate S end
 
 @api_view(['GET'])
 def get_cupid_avg_rating(request, pk):
