@@ -21,3 +21,5 @@ db.sqlite3
 
 poetry.lock
 pyproject.toml
+
+migrations
