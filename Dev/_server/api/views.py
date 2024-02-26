@@ -4,13 +4,18 @@ from rest_framework.response import Response
 from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, GigSerializer, DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
 
 # 1. write the code for the models
-# TODO 2. write doc strings for all the views so we know what they should take in, what they should do, and what they should return
-# TODO 3. agree on how the serializers should be used and write the code to use them
+# 2. write doc strings for all the views so we know what they should take in, what they should do, and what they should return
+# 3. agree on how the serializers should be used and write the code to use them
 # TODO 4. agree on what external APIs we will use
 # TODO 5. write the code for the views
 # TODO 6. write the tests for the views
 # TODO 7. debug
 
+# AI API (Microsoft Copilot)
+# Location API (Geolocation)
+# Speech To Text API (pyttsx3)
+# Text and Email notifications API (Twilio)
+# Nearby Shops API (yelpapi)
 
 @api_view(['POST'])
 def create_user(request):
