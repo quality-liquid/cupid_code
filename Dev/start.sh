@@ -19,9 +19,13 @@ tmux send-keys -t my_django_session "echo 'Starting Django server...'" Enter
 
 # Check if python3 command is available
 if command -v python3 &>/dev/null; then
+    tmux send-keys -t my_django_session "python3 manage.py makemigrations" Enter
+    tmux send-keys -t my_django_session "python3 manage.py migrate" Enter
     tmux send-keys -t my_django_session "python3 manage.py runserver" Enter
 # Check if python command is available
 elif command -v python &>/dev/null; then
+    tmux send-keys -t my_django_session "python manage.py makemigrations" Enter
+    tmux send-keys -t my_django_session "python manage.py migrate" Enter
     tmux send-keys -t my_django_session "python manage.py runserver" Enter
 else
     echo "Python interpreter not found. Please install Python."
