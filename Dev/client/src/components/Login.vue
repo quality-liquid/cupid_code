@@ -1,10 +1,20 @@
 <script setup>
+import makeRequest from '../utils/make_request';
+
+async function login() {
+    await makeRequest('core/sign_in/', 'post', {
+        email,
+        password
+    })
+    // Redirect to dashboard
+}
+
 </script>
 
 <template>
     <div id="login_paper">
         <img src="../assets/cupid_logo.png" alt="Cupid Code Logo">
-        <form action="/registration/sign_in/">
+        <form action={{ login() }}>
             <div>
                 <label class="form_input">
                 Email
@@ -20,7 +30,7 @@
             <button class="big_button">Sign In</button>
         </form>
 
-        <a href="Sign Up">Create Account</a>
+        <a href="/register">Create Account</a>
     </div>
 </template>
 
