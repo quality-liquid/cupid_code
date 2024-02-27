@@ -3,6 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, GigSerializer, DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
 from .models import User, Dater, Cupid, Gig
+from django.contrib.sessions.models import Session
+from django.utils import timezone
 
 # 1. write the code for the models
 # 2. write doc strings for all the views so we know what they should take in, what they should do, and what they should return
@@ -621,8 +623,15 @@ def get_active_cupids(request):
             If the number of active cupids was retrieved successfully, return the number of active cupids and a 200 status code.
             If the number of active cupids was not retrieved successfully, return an error message and a 400 status code.
     """
+    active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
+    number_cupid_sessions = 0
+    for session in active_sessions:
+        session_data = session.get_decoded()
+        user_id = session_data.get('_auth_user_id')
+        if User.objects.get(id=user_id).role == 'Cupid':
+            number_cupid_sessions += 1
 
-    return Response(status=status.HTTP_200_OK)
+    return Response({'active_cupid_sessions': number_cupid_sessions}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -637,7 +646,15 @@ def get_active_daters(request):
             If the number of active daters was retrieved successfully, return the number of active daters and a 200 status code.
             If the number of active daters was not retrieved successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
+    number_dater_sessions = 0
+    for session in active_sessions:
+        session_data = session.get_decoded()
+        user_id = session_data.get('_auth_user_id')
+        if User.objects.get(id=user_id).role == 'Dater':
+            number_dater_sessions += 1
+
+    return Response({'active_dater_sessions': number_dater_sessions}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -652,6 +669,7 @@ def get_gig_rate(request):
             If the rate of gigs per hour was retrieved successfully, return the gig rate and a 200 status code.
             If the rate of gigs per hour was not retrieved successfully, return an error message and a 400 status code.
     """
+    
     return Response(status=status.HTTP_200_OK)
 
 
