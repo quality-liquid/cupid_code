@@ -2,20 +2,25 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, GigSerializer, DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
+from .models import User, Dater, Cupid, Gig
+from django.contrib.sessions.models import Session
+from django.utils import timezone
 
 # 1. write the code for the models
 # 2. write doc strings for all the views so we know what they should take in, what they should do, and what they should return
 # 3. agree on how the serializers should be used and write the code to use them
-# TODO 4. agree on what external APIs we will use
+# 4. agree on what external APIs we will use
 # TODO 5. write the code for the views
 # TODO 6. write the tests for the views
 # TODO 7. debug
 
-# AI API (Microsoft Copilot)
-# Location API (Geolocation)
-# Speech To Text API (pyttsx3)
-# Text and Email notifications API (Twilio)
-# Nearby Shops API (yelpapi)
+# AI API (Microsoft Copilot) (openai) https://platform.openai.com/docs/quickstart?context=python
+# Location API (Geolocation) https://pypi.org/project/geolocation-python/
+# Speech To Text API (pyttsx3) https://pypi.org/project/pyttsx3/
+# Text and Email notifications API (Twilio) https://www.twilio.com/en-us
+# Nearby Shops API (yelpapi) https://pypi.org/project/yelpapi/
+
+# Nate S start
 
 @api_view(['POST'])
 def create_user(request):
@@ -49,7 +54,21 @@ def create_user(request):
             If the user was created successfully, return serialized user and a 200 status code.
             If the user was not created successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    user_data = request.post
+    if user_data['user_type'] == 'Dater':
+        serializer = DaterSerializer(data=user_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif user_data['user_type'] == 'Cupid':
+        serializer = CupidSerializer(data=user_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -262,7 +281,7 @@ def get_cupid_ratings(request, pk):
     """
     return Response(status=status.HTTP_200_OK)
 
-# ME FINISH
+# Nate S end
 
 @api_view(['GET'])
 def get_cupid_avg_rating(request, pk):
@@ -505,7 +524,23 @@ def get_user_location(request, pk):
             If the location of the user was not retrieved successfully, return an error message and a 400 status code.
 
     """
-    return Response(status=status.HTTP_200_OK)
+    user = User.objects.get(id=pk)
+    if user.role == 'Dater':
+        user_data = Dater.objects.get(id=pk)
+        serializer = DaterSerializer(data=user_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'location': serializer.validated_data["location"]}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif user.role == 'Cupid':
+        user_data = Cupid.objects.get(id=pk)
+        serializer = CupidSerializer(data=user_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'location': serializer.validated_data["location"]}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def get_cupids(request):
@@ -519,7 +554,10 @@ def get_cupids(request):
             If the cupid profiles were retrieved successfully, return the serialized cupids and a 200 status code.
             If the cupid profiles were not retrieved successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    cupids = Cupid.objects.all()
+
+    return Response({'cupids': cupids}, status=status.HTTP_200_OK)
+    
 
 
 @api_view(['GET'])
@@ -534,7 +572,9 @@ def get_daters(request):
             If the dater profiles were retrieved successfully, return the serialized daters and a 200 status code.
             If the dater profiles were not retrieved successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    daters = Dater.objects.all()
+
+    return Response({'daters': daters}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -549,7 +589,9 @@ def get_dater_count(request):
             If the number of daters that are currently active was retrieved successfully, return the number of daters and a 200 status code.
             If the number of daters that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    daters = Dater.objects.all()
+
+    return Response({'count': len(daters)}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -564,7 +606,9 @@ def get_cupid_count(request):
             If the number of cupids that are currently active was retrieved successfully, return the cupid count and a 200 status code.
             If the number of cupids that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    cupids = Cupid.objects.all()
+
+    return Response({'count': len(cupids)}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -579,7 +623,15 @@ def get_active_cupids(request):
             If the number of active cupids was retrieved successfully, return the number of active cupids and a 200 status code.
             If the number of active cupids was not retrieved successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
+    number_cupid_sessions = 0
+    for session in active_sessions:
+        session_data = session.get_decoded()
+        user_id = session_data.get('_auth_user_id')
+        if User.objects.get(id=user_id).role == 'Cupid':
+            number_cupid_sessions += 1
+
+    return Response({'active_cupid_sessions': number_cupid_sessions}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -594,7 +646,15 @@ def get_active_daters(request):
             If the number of active daters was retrieved successfully, return the number of active daters and a 200 status code.
             If the number of active daters was not retrieved successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
+    number_dater_sessions = 0
+    for session in active_sessions:
+        session_data = session.get_decoded()
+        user_id = session_data.get('_auth_user_id')
+        if User.objects.get(id=user_id).role == 'Dater':
+            number_dater_sessions += 1
+
+    return Response({'active_dater_sessions': number_dater_sessions}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -609,6 +669,7 @@ def get_gig_rate(request):
             If the rate of gigs per hour was retrieved successfully, return the gig rate and a 200 status code.
             If the rate of gigs per hour was not retrieved successfully, return an error message and a 400 status code.
     """
+    
     return Response(status=status.HTTP_200_OK)
 
 
@@ -624,7 +685,10 @@ def get_gig_count(request):
             If the number of gigs that are currently active was retrieved successfully, return the gig count and a 200 status code.
             If the number of gigs that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    gigs = Gig.objects.all()
+
+    return Response({'count': len(gigs)}, status=status.HTTP_200_OK)
+
 
 
 @api_view(['GET'])
@@ -671,8 +735,23 @@ def suspend(request):
             If the user was suspended successfully, return a 200 status code.
             If the user was not suspended successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
-
+    user_data = request.post
+    if user_data['user_type'] == 'Dater':
+        serializer = DaterSerializer(data=user_data)
+        if serializer.is_valid():
+            serializer.validated_data['is_suspended'] = True
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif user_data['user_type'] == 'Cupid':
+        serializer = CupidSerializer(data=user_data)
+        if serializer.is_valid():
+            serializer.validated_data['is_suspended'] = True
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def unsuspend(request):
@@ -688,7 +767,23 @@ def unsuspend(request):
             If the user was unsuspended successfully, return a 200 status code.
             If the user was not unsuspended successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    user_data = request.post
+    if user_data['user_type'] == 'Dater':
+        serializer = DaterSerializer(data=user_data)
+        if serializer.is_valid():
+            serializer.validated_data['is_suspended'] = False
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif user_data['user_type'] == 'Cupid':
+        serializer = CupidSerializer(data=user_data)
+        if serializer.is_valid():
+            serializer.validated_data['is_suspended'] = False
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
