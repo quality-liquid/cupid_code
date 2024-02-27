@@ -4,6 +4,7 @@
 run `./setup.sh` to install poetry and node_modules
 run `./start.sh` to start the django server and the vue.js middleware
 run `./stop.sh` to stop the django server and the vue.js middleware
+run `./restart.sh` to restart the django server and the vue.js middleware
 
 tmux ls to see what sessions are running
 tmux kill-session -t my_session to kill the session
@@ -48,4 +49,4 @@ Visit the app at `http://localhost:8000`
 
 VSCode will underline all imports and uses of imports in `_server` with yellow if your shell is not activated. This is okay! This is just how VSCode interprets the version management. It counts them as missing if you're coding w/o the shell management. If you want the lines gone then code with the shell active and use the quick fix to set it to the Poetry environment it will remove the underlines.
 
-If you get any yellow unerlines in `client` then you likely have not updated your node_modules. Run `npm install` and it will solve that issue!
+If you get any yellow underlines in `client` then you likely have not updated your node_modules. Run `npm install` and it will solve that issue!

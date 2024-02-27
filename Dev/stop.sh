@@ -11,5 +11,5 @@ done
 
 # Kill all tmux sessions
 tmux kill-server
-echo "Tmux sessions killed:"
+echo "Tmux sessions killed"
 tmux ls
