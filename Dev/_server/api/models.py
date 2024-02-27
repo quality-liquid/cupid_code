@@ -69,6 +69,10 @@ class Message(models.Model):
     text = models.TextField()
     from_ai = models.BooleanField()
 
+class Quest(models.Model):
+    budget = models.DecimalField(max_digits=10, decimal_places=2)
+    items_requested = models.TextField()
+    pickup_location = models.TextField()
 
 class Gig(models.Model):
     class Status(models.IntegerChoices):
@@ -83,17 +87,7 @@ class Gig(models.Model):
     date_time_of_request = models.DateTimeField(auto_now_add=True)
     date_time_of_claim = models.DateTimeField(null=True)
     date_time_of_completion = models.DateTimeField(null=True)
-    # because a gig has a quest, we don't need to add a quest field here. We add a gig field to the quest
-    # django will automatically add a quest field
-
-
-class Quest(models.Model):
-    budget = models.DecimalField(max_digits=10, decimal_places=2)
-    items_requested = models.TextField()
-    pickup_location = models.TextField()
-    gig = models.OneToOneField(Gig, on_delete=models.CASCADE, primary_key=True)
-
-
+    quest = models.OneToOneField(Quest, on_delete=models.CASCADE)
 
 class Date(models.Model):
     class Status(models.TextChoices):
@@ -104,6 +98,7 @@ class Date(models.Model):
 
     dater = models.ForeignKey(Dater, on_delete=models.CASCADE)
     date_time = models.DateTimeField()
+    location = models.TextField()
     description = models.TextField()
     status = models.TextField(choices=Status.choices)
     budget = models.DecimalField(max_digits=10, decimal_places=2)
