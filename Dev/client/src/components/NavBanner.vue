@@ -27,16 +27,15 @@
       },
       methods: {
         goBack(){
-          // redirect to user home page
+          // TODO: redirect to home page
         },
         userAccount(){
-          // redirect to user account page
+          // TODO: redirect to user account page
         },
         searchIcon(){
-          // allow for search capability
+          // TODO: allow for search capability
         }
-      }
-  
+      },
     })
   
   </script>
