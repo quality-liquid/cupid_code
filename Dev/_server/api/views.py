@@ -2,12 +2,13 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import DaterSerializer, CupidSerializer, ManagerSerializer, MessageSerializer, GigSerializer, \
-    DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
-from .models import User, Dater, Cupid, Gig, Message, Date, Feedback, PaymentCard, BankAccount
+    DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer, QuestSerializer
+from .models import User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, PaymentCard, BankAccount
 from django.contrib.sessions.models import Session
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
-
+from geopy.geocoders import Nominatim
+import geoip2.database
 
 # 1. write the code for the models
 # 2. write doc strings for all the views so we know what they should take in, what they should do, and what they should return
@@ -403,7 +404,13 @@ def get_cupid_ratings(request, pk):
         Response:
             Sequence of Feedback objects
     """
-    return Response(status=status.HTTP_200_OK)
+    cupid = get_object_or_404(Cupid, id=pk)
+    try:
+        ratings = Feedback.objects.filter(user=cupid)
+    except Feedback.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    serializer = FeedbackSerializer(ratings, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -420,7 +427,17 @@ def get_cupid_avg_rating(request, pk):
             Average rating from the user's record (int).
             If the account could not be found, return a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    cupid = get_object_or_404(Cupid, id=pk)
+    try:
+        ratings = Feedback.objects.filter(user=cupid)
+    except Feedback.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    total = 0
+    for rating in ratings:
+        total += rating.star_rating
+    avg = total / len(ratings)
+    return Response({'rating': avg}, status=status.HTTP_200_OK)
+
 
 
 @api_view(['POST'])
@@ -437,6 +454,17 @@ def cupid_transfer(request):
             If the transfer went through successfully, return a 200 status code.
             If the transfer failed, return a corresponding error status code (400 if on our end, 500 if on bank's end)
     """
+    data = request.post
+    cupid = get_object_or_404(Cupid, id=data['user_id'])
+    bank_account = get_object_or_404(BankAccount, user=cupid.user)
+    if bank_account.balance < cupid.cupid_cash_balance:
+        return Response({"error: you dont have that much money"}, status=status.HTTP_400_BAD_REQUEST)
+    serializer = BankAccountSerializer(bank_account)
+    if serializer.is_valid():
+        serializer.validated_data['balance'] -= cupid.cupid_cash_balance
+        serializer.save()
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_200_OK)
 
 
@@ -453,7 +481,8 @@ def get_cupid_balance(request, pk):
             Balance on the Cupid's account (int).
             If the account could not be found, return a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    cupid = get_object_or_404(Cupid, id=pk)
+    return Response({'balance': cupid.cupid_cash_balance}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -468,7 +497,9 @@ def get_cupid_profile(request, pk):
         Response:
             Requested details from Cupid's record (JSON)
     """
-    return Response(status=status.HTTP_200_OK)
+    cupid = get_object_or_404(Cupid, id=pk)
+    serializer = CupidSerializer(cupid)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -486,7 +517,13 @@ def set_cupid_profile(request):
             If the profile was created or changed successfully, return a 200 status code.
             If the profile failed to be created or changed (insufficent permissions, bad data, or error), return a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    data = request.post
+    cupid = get_object_or_404(Cupid, id=data['user_id'])
+    serializer = CupidSerializer(cupid, data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -508,7 +545,19 @@ def create_gig(request):
             If the gig was created correctly, return a 200 status code.
             If the gig was failed to be created, return a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    data = request.post
+    dater = get_object_or_404(Dater, id=data['dater_id'])
+    serializer = QuestSerializer(data=data['quest'])
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    quest = get_object_or_404(Quest, id=serializer.data['id'])
+    serializer = GigSerializer(data={'dater': dater, 'quest': quest})
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -525,7 +574,14 @@ def accept_gig(request):
             If the gig was successfully accepted, return a 200 status code.
             If the gig could not be accepted or was already accepted, return a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    data = request.post
+    gig = get_object_or_404(Gig, id=data['gig_id'])
+    serializer = GigSerializer(gig)
+    if serializer.is_valid():
+        serializer.validated_data['is_accepted'] = True
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -542,7 +598,14 @@ def complete_gig(request):
             If the gig was successfully completed, return a 200 status code.
             If the gig could not be completed or was already completed, return a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    data = request.post
+    gig = get_object_or_404(Gig, id=data['gig_id'])
+    serializer = GigSerializer(gig)
+    if serializer.is_valid():
+        serializer.validated_data['is_completed'] = True
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -559,7 +622,14 @@ def drop_gig(request):
             If the gig was successfully dropped, return a 200 status code.
             If the gig could not be dropped, was already dropped, or does not have a Cupid assigned, return a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    data = request.post
+    gig = get_object_or_404(Gig, id=data['gig_id'])
+    serializer = GigSerializer(gig)
+    if serializer.is_valid():
+        serializer.validated_data['is_accepted'] = False
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -574,8 +644,55 @@ def get_gigs(request, count):
         Response:
             A list of gigs (JSON)
     """
-    return Response(status=status.HTTP_200_OK)
+    gigs = Gig.objects.all()
+    near_gigs = []
+    for gig in gigs:
+        cupid = gig.cupid
+        quest = gig.quest
+        if __locations_are_near(quest.pickup_location, cupid.location) and not gig.is_accepted:
+            near_gigs.append(gig)
+    serializer = GigSerializer(near_gigs, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
+def __get_location_from_address(address):
+    """
+    Returns the location of an address.
+    """
+    # Initialize Nominatim geocoder
+    geolocator = Nominatim(user_agent="geoapiExercises")
+
+    # Getting location details
+    location = geolocator.geocode(address)
+
+    if location:
+        # Extracting latitude and longitude
+        latitude = location.latitude
+        longitude = location.longitude
+
+        return latitude, longitude
+    else:
+        return None, None
+
+def __get_location_from_ip_address(ip_address):
+    """
+    Returns the location of an IP address.
+    """
+    geoip_database_path = "geodata/GeoLite2-City_20240227/GeoLite2-City.mmdb"
+    with geoip2.database.Reader(geoip_database_path) as reader:
+        try:
+            response = reader.city(ip_address)
+            latitude = response.location.latitude
+            longitude = response.location.longitude
+            return latitude, longitude
+        except geoip2.errors.AddressNotFoundError:
+            return None, None
+
+
+def __locations_are_near(location1, location2):
+    """
+    Returns whether two locations are near each other.
+    """
+    return True
 
 @api_view(['GET'])
 def get_stores(request):

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Dater, Cupid, User, Message, Gig, Date, Feedback, PaymentCard, BankAccount
+from .models import Dater, Cupid, User, Message, Gig, Quest, Date, Feedback, PaymentCard, BankAccount
 
 
 class DaterSerializer(serializers.ModelSerializer):
@@ -53,6 +53,11 @@ class GigSerializer(serializers.ModelSerializer):
         model = Gig
         fields = '__all__'
 
+
+class QuestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Quest
+        fields = '__all__'
 
 class DateSerializer(serializers.ModelSerializer):
     class Meta:
