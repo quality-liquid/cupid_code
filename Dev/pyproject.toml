@@ -6,12 +6,13 @@ authors = ["Emma <a02324881@usu.edu>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 django = "^5.0.2"
 requests = "^2.31.0"
 python-dotenv = "^1.0.1"
 djangorestframework = "^3.14.0"
 django-debug-toolbar = "^4.3.0"
+pillow = "^10.2.0"
 
 
 [build-system]

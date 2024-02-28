@@ -1,6 +1,8 @@
 <script>
 import { makeRequest } from '../utils/make_request.js';
-import cupid_logo from '../assets/cupid_logo.png'
+import {ref} from 'vue';
+
+const image = ref(null)
 
 async function login() {
     await makeRequest('/sign_in/', 'post', {
@@ -12,6 +14,7 @@ async function login() {
     // Redirect to dashboard if good
 }
 
+
 export default {
   name: 'Login'
 };
@@ -20,8 +23,8 @@ export default {
 
 <template>
     <div id="login_paper">
-        <img :src="cupid_logo" alt="Cupid Code Logo">
-        <form action={{ login() }}>
+        <img src="/get_img/" alt="Cupid Code Logo">
+        <form>
             <div>
                 <label class="form_input">
                 Email
@@ -34,7 +37,8 @@ export default {
                 <input type="password" name="password">
                 </label>
             </div>
-            <button class="big_button">Sign In</button>
+            <button class="big_button" @click="login">Sign In</button>
+            <button class="big_button" @click="login">Sign In</button>
         </form>
 
         <a href="/register">Create Account</a>
@@ -42,13 +46,23 @@ export default {
 </template>
 
 <style scoped>
-    body {
+    :root {
         background-color: #5675FF;
-        place-items: center;
+    }
+
+    body {
+        margin: 0;
     }
     
+    .login_paper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .big_button {
         background-color: #ff6ba2;
         border-radius: 10px;
+        color: white;
     }
 </style>
