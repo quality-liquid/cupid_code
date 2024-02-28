@@ -5,6 +5,7 @@ from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, Gi
 from .models import User, Dater, Cupid, Gig
 from django.contrib.sessions.models import Session
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
 
 # 1. write the code for the models
 # 2. write doc strings for all the views so we know what they should take in, what they should do, and what they should return
