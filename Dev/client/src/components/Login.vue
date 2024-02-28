@@ -2,7 +2,8 @@
 import { makeRequest } from '../utils/make_request.js';
 import {ref} from 'vue';
 
-const image = ref(null)
+const email = ref('')
+const password = ref('')
 
 async function login() {
     await makeRequest('/sign_in/', 'post', {
@@ -22,47 +23,45 @@ export default {
 </script>
 
 <template>
-    <div id="login_paper">
+    <div class="login_paper">
         <img :src="'/get_img/'" alt="Cupid Code Logo">
-        <form>
-            <div>
-                <label class="form_input">
+        <form class="form">
+            <label class="form_input" for="email">
                 Email
-                <input type="email" name="email">
-                </label>
-            </div>
-            <div class="">
-                <label class="form_input">
+                <input type="email" name="email" :value="email" @change="(e) => email = e.target.value">
+            </label>
+            <label class="form_input" for="password">
                 Password
-                <input type="password" name="password">
-                </label>
-            </div>
-            <button class="big_button" @click="login">Sign In</button>
-            <button class="big_button" @click="login">Sign In</button>
+                <input type="password" name="password" :value="password" @change="(e) => password = e.target.value">
+            </label>
+            <button class="button" @click="login">Sign In</button>
         </form>
-
-        <a href="/register">Create Account</a>
     </div>
 </template>
 
 <style scoped>
-    :root {
-        background-color: #5675FF;
-    }
-
-    body {
-        margin: 0;
-    }
-    
     .login_paper {
         display: flex;
         justify-content: center;
         align-items: center;
+        background-color: var(--primary-blue);
     }
 
-    .big_button {
-        background-color: #ff6ba2;
+    .button {
+        background-color: var(--secondary-red);
         border-radius: 10px;
         color: white;
+        border: none;
+        border-radius: 4px;
     }
+
+    .form {
+        display: flex;
+        flex-flow: column wrap;
+    }
+    .form_input {
+        display: flex;
+        flex-direction: column;
+    }
+
 </style>
