@@ -37,9 +37,7 @@ class Dater(models.Model):
     location = models.TextField()
     average_rating = models.DecimalField(max_digits=10, decimal_places=2)
     is_suspended = models.BooleanField()
-    # TODO: ImageField cannot be used without Pillow. We will have to add that to poetry before
-    # implementing profile_picture.
-    # profile_picture = models.ImageField()
+    profile_picture = models.ImageField()
 
 
 class Cupid(models.Model):
