@@ -38,7 +38,6 @@ def sign_in(request):
     return redirect('/')
 
 
-
 @login_required
 def logout_view(request):
     try:

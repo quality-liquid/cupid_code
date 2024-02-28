@@ -1,7 +1,11 @@
 <script>
 import { makeRequest } from '../utils/make_request.js';
+import {ref} from 'vue';
 
 const cupidURL = new URL('../assets/cupid_logo.png', import.meta.url).href
+
+const email = ref('')
+const password = ref('')
 
 
 async function register() {
@@ -26,6 +30,10 @@ export default {
         <img :src="cupidURL" alt="Cupid Code Logo">
         <h1>Create Your Account!</h1>
         <form>
+            <label>
+                Email
+                <input type="email" />
+            </label>
             <label class="form_input">
                 Account Type
                 <br>

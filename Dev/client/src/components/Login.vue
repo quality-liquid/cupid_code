@@ -1,8 +1,6 @@
 <script>
 import { makeRequest } from '../utils/make_request.js';
 
-const cupidURL = new URL('../assets/cupid_logo.png', import.meta.url).href
-
 async function login() {
     await makeRequest('/sign_in/', 'post', {
         email,
@@ -22,7 +20,7 @@ export default {
 
 <template>
     <div id="login_paper">
-        <img :src="cupidURL" alt="Cupid Code Logo">
+        <img :src="'localhost:5173/static/assets/cupid_code.png'" alt="Cupid Code Logo">
         <form>
             <div>
                 <label class="form_input">
@@ -36,7 +34,7 @@ export default {
                 <input type="password" name="password">
                 </label>
             </div>
-            <button class="big_button">Sign In</button>
+            <button class="big_button" @click="login">Sign In</button>
         </form>
 
         <a href="/register">Create Account</a>
