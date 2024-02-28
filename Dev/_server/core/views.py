@@ -6,12 +6,17 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
 from django.http import JsonResponse
 import requests
+from django.http import HttpRequest
+from django.http import FileResponse
+
 
 # Load manifest when server launches
 MANIFEST = {}
 if not settings.DEBUG:
     f = open(f'{settings.BASE_DIR}/core/static/manifest.json')
     MANIFEST = json.load(f)
+
+
 
 # Create your views here.
 def index(req):
@@ -37,7 +42,11 @@ def sign_in(request):
             login(request, user)
     return redirect('/')
 
-
+def get_image(req: HttpRequest):
+    FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
+    VAULT_PATH = os.environ.get('VAULT_PATH', '')
+    path = os.path.join(VAULT_PATH, 'cupid_logo' + FILE_EXTENSION)
+    return FileResponse(open(path, "rb"))
 
 @login_required
 def logout_view(request):

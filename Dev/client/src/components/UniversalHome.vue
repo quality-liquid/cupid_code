@@ -1,13 +1,15 @@
 <script>
 import {makeRequest} from '../utils/make_request.js'
 import {ref, computed} from 'vue'
+import { CupidHome } from '../CupidVues';
 
 const chosenRoute = ref({});
 
 
 //Get User and decide which routes to use based on User's Role.
 async function getUser() {
-  results = await makeRequest();
+  results = await makeRequest(`/api/user/`);
+  
 }
 /*
 const daterRoutes = {
@@ -20,7 +22,7 @@ const daterRoutes = {
 }
 
 const cupidRoutes = {
-  '#/cupid/home/': Home,
+  '#/cupid/home/': CupidHome,
   '#/cupid/balance/': Balance,
   '#/cupid/profile/': Profile,
   '#/cupid/gigs/': Gigs,
