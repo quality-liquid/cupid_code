@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Dater, Cupid, Message, Gig, Date, Feedback, PaymentCard, BankAccount
+from .models import Dater, Cupid, User, Message, Gig, Date, Feedback, PaymentCard, BankAccount
 
 
 class DaterSerializer(serializers.ModelSerializer):
@@ -34,6 +34,12 @@ class CupidSerializer(serializers.ModelSerializer):
         cupid.is_suspended = False
         cupid.save()
         return cupid
+
+
+class ManagerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
 
 
 class MessageSerializer(serializers.ModelSerializer):
