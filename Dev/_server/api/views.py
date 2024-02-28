@@ -126,13 +126,13 @@ def send_chat_message(request):
     data = request.post
     user_id = data['user_id']
     message = data['message']
-    # save message to database
+    # save a message to database
     serializer = MessageSerializer(data={'owner': user_id, 'text': message, 'from_ai': False})
     if serializer.is_valid():
         serializer.save()
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    # send message to AI
+    # send a message to AI
     ai_response = __get_ai_response(message)
     # save AI's response to database
     serializer = MessageSerializer(data={'owner': user_id, 'text': ai_response, 'from_ai': True})
@@ -294,6 +294,10 @@ def dater_transfer(request):
     data = request.post
     dater = get_object_or_404(Dater, id=data['user_id'])
     card = get_object_or_404(PaymentCard, id=data['card_id'])
+    if card.user != dater.user:
+        return Response({"error: that card doesnt belong to you"}, status=status.HTTP_400_BAD_REQUEST)
+    if card.balance < data['amount']:
+        return Response({"error: you dont have that much money"}, status=status.HTTP_400_BAD_REQUEST)
     serializer = PaymentCardSerializer(card)
     if serializer.is_valid():
         serializer.validated_data['balance'] -= data['amount']
@@ -315,7 +319,9 @@ def get_dater_balance(request, pk):
         Response:
             balance(int): The balance of the dater
     """
-    return Response(status=status.HTTP_200_OK)
+    dater = get_object_or_404(Dater, id=pk)
+    card = get_object_or_404(PaymentCard, user=dater.user)
+    return Response({'balance': card.balance}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -331,7 +337,10 @@ def get_dater_profile(request, pk):
         Response:
             The dater serialized
     """
-    return Response(status=status.HTTP_200_OK)
+
+    dater = get_object_or_404(Dater, id=pk)
+    serializer = DaterSerializer(dater)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -347,7 +356,13 @@ def set_dater_profile(request):
         Response:
             Saved dater serialized
     """
-    return Response(status=status.HTTP_200_OK)
+    data = request.post
+    dater = get_object_or_404(Dater, id=data['user_id'])
+    serializer = DaterSerializer(dater, data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -365,7 +380,14 @@ def rate_cupid(request):
         Response:
             Saved dater serialized
     """
-    return Response(status=status.HTTP_200_OK)
+    data = request.post
+    dater = get_object_or_404(Dater, id=data['user_id'])
+    gig = get_object_or_404(Gig, id=data['gig_id'])
+    serializer = FeedbackSerializer(data={'user': dater, 'gig': gig, 'message': data['message'], 'star_rating': data['rating']})
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -383,8 +405,6 @@ def get_cupid_ratings(request, pk):
     """
     return Response(status=status.HTTP_200_OK)
 
-
-# Nate S end
 
 @api_view(['GET'])
 def get_cupid_avg_rating(request, pk):
@@ -613,6 +633,9 @@ def get_attractions(request):
     """
     return Response(status=status.HTTP_200_OK)
 
+# Nate S end
+
+# Daniel start
 
 @api_view(['GET'])
 def get_user_location(request, pk):
@@ -927,3 +950,5 @@ def notify(request):
             If the message was not sent successfully, return an error message and a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
+
+# Daniel end
