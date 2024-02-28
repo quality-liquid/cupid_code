@@ -16,6 +16,12 @@ tmux a -t my_session to attach to the session
 
 Run `poetry install` in the Dev directory to make sure the poetry.lock file exists/is up to date.
 
+Run `npm install` in the client directory to make sure current npm packages are installed
+
+from the Dev directory run `./setup.sh` to set up all of the necessary things for shell script setup
+
+Then, run './start.sh' to start up the vue router and the django servers. 
+
 ------
 ### Django
 
