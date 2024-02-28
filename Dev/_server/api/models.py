@@ -58,6 +58,7 @@ class Cupid(models.Model):
     status = models.IntegerField(choices=Status.choices)
     cupid_cash_balance = models.DecimalField(max_digits=10, decimal_places=2)
     location = models.TextField()
+    gig_range = models.IntegerField()
     average_rating = models.DecimalField(max_digits=10, decimal_places=2)
     is_suspended = models.BooleanField()
 

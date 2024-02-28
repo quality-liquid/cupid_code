@@ -247,6 +247,7 @@ def dummy_cupid1(User, Cupid):
         gigs_failed = 11,
         status = 1,
         cupid_cash_balance = 1100,
+        gig_range = 20,
         location = 'Logan, UT',
         average_rating = 4.1,
         is_suspended = False,
@@ -286,6 +287,7 @@ def dummy_cupid2(User, Cupid):
         status = 0,
         cupid_cash_balance = 12,
         location = 'Logan, UT',
+        gig_range = 20,
         average_rating = 1.2,
         is_suspended = False,
     )
