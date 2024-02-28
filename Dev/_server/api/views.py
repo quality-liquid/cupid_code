@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, GigSerializer, DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
+from .models import Dater, Cupid, Message, Gig, Date, Feedback, PaymentCard, BankAccount, User
 
 # 1. write the code for the models
 # 2. write doc strings for all the views so we know what they should take in, what they should do, and what they should return
@@ -51,15 +52,15 @@ def create_user(request):
             If the user was created successfully, return serialized user and a 200 status code.
             If the user was not created successfully, return an error message and a 400 status code.
     """
-    user_data = request.post
-    if user_data['user_type'] == 'Dater':
-        serializer = DaterSerializer(data=user_data)
+    data = request.post
+    if data['user_type'] == 'Dater':
+        serializer = DaterSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif user_data['user_type'] == 'Cupid':
-        serializer = CupidSerializer(data=user_data)
+    elif data['user_type'] == 'Cupid':
+        serializer = CupidSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
