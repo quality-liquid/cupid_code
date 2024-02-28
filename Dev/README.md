@@ -1,11 +1,17 @@
 # Django + Vue
 
 ## Automated Cupid Code Setup
-run `./setup.sh` to install poetry and node_modules
+1. Make sure you have installed poetry, npm, python, and tmux
+2. chmod +x setup.sh start.sh stop.sh restart.sh to make the scripts executable
+3. make sure you are in the Dev directory
+4. run `./setup.sh` to install poetry, install npm_modules, create the .env file, install python dependencies, and create the database
+
+After the setup is complete, you can
 run `./start.sh` to start the django server and the vue.js middleware
 run `./stop.sh` to stop the django server and the vue.js middleware
 run `./restart.sh` to restart the django server and the vue.js middleware
 
+#### Tmux Commands
 tmux ls to see what sessions are running
 tmux kill-session -t my_session to kill the session
 tmux a -t my_session to attach to the session

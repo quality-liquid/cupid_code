@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# make sure you are using your virtual environment
+source "$VIRTUAL_ENV/bin/activate"
+
 # Install Python dependencies using poetry
 poetry install
 
@@ -29,3 +32,6 @@ cd ../client || exit
 
 # Install npm dependencies
 npm install
+
+# Go back to Dev directory
+cd .. || exit
