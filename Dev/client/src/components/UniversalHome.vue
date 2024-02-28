@@ -1,7 +1,7 @@
 <script>
 import {makeRequest} from '../utils/make_request.js'
 import {ref, computed} from 'vue'
-import { CupidHome } from '../CupidVues';
+//import { CupidHome } from '../CupidVues/CupidHome.vue';
 
 const chosenRoute = ref({});
 
