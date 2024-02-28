@@ -70,6 +70,12 @@ def create_user(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif data['user_type'] == 'Manager':
+        serializer = ManagerSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -86,17 +92,21 @@ def get_user(request):
         Response:
             Dater, Cupid, or Manager serialized
     """
-    user = User.objects.get(id=request.post['user_id'])
-    user_data = get_object_or_404(Dater, id=request.post['user_id'])
+    data = request.post
+    user = get_object_or_404(User, id=data['user_id'])
     if user.role == 'Dater':
-        serializer = DaterSerializer(data=user_data)
+        serializer = DaterSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     elif user.role == 'Cupid':
-        serializer = CupidSerializer(data=user_data)
+        serializer = CupidSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     elif user.role == 'Manager':
-        serializer = ManagerSerializer(data=user_data)
+        serializer = ManagerSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     else:
-        return Response({"error": "invalid user type"}, status=status.HTTP_400_BAD_REQUEST)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 @api_view(['POST'])
@@ -281,7 +291,15 @@ def dater_transfer(request):
         Response:
             OK
     """
-    return Response(status=status.HTTP_200_OK)
+    data = request.post
+    dater = get_object_or_404(Dater, id=data['user_id'])
+    card = get_object_or_404(PaymentCard, id=data['card_id'])
+    serializer = PaymentCardSerializer(card)
+    if serializer.is_valid():
+        serializer.validated_data['balance'] -= data['amount']
+        serializer.save()
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
