@@ -1,11 +1,13 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, GigSerializer, DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
-from .models import User, Dater, Cupid, Gig
+from .serializers import DaterSerializer, CupidSerializer, ManagerSerializer, MessageSerializer, GigSerializer, \
+    DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
+from .models import User, Dater, Cupid, Gig, Message, Date, Feedback, PaymentCard, BankAccount
 from django.contrib.sessions.models import Session
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
+
 
 # 1. write the code for the models
 # 2. write doc strings for all the views so we know what they should take in, what they should do, and what they should return
@@ -15,7 +17,7 @@ from django.shortcuts import get_object_or_404
 # TODO 6. write the tests for the views
 # TODO 7. debug
 
-# AI API (Microsoft Copilot) (openai) https://platform.openai.com/docs/quickstart?context=python
+# AI API (openai) https://platform.openai.com/docs/quickstart?context=python
 # Location API (Geolocation) https://pypi.org/project/geolocation-python/
 # Speech To Text API (pyttsx3) https://pypi.org/project/pyttsx3/
 # Text and Email notifications API (Twilio) https://www.twilio.com/en-us
@@ -84,7 +86,17 @@ def get_user(request):
         Response:
             Dater, Cupid, or Manager serialized
     """
-    return Response(status=status.HTTP_200_OK)
+    user = User.objects.get(id=request.post['user_id'])
+    user_data = get_object_or_404(Dater, id=request.post['user_id'])
+    if user.role == 'Dater':
+        serializer = DaterSerializer(data=user_data)
+    elif user.role == 'Cupid':
+        serializer = CupidSerializer(data=user_data)
+    elif user.role == 'Manager':
+        serializer = ManagerSerializer(data=user_data)
+    else:
+        return Response({"error": "invalid user type"}, status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -101,7 +113,32 @@ def send_chat_message(request):
         Response:
             message(str): The AI's response
     """
-    return Response(status=status.HTTP_200_OK)
+    data = request.post
+    user_id = data['user_id']
+    message = data['message']
+    # save message to database
+    serializer = MessageSerializer(data={'owner': user_id, 'text': message, 'from_ai': False})
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # send message to AI
+    ai_response = __get_ai_response(message)
+    # save AI's response to database
+    serializer = MessageSerializer(data={'owner': user_id, 'text': ai_response, 'from_ai': True})
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # return AI's response
+    return Response({'message': ai_response}, status=status.HTTP_200_OK)
+
+
+def __get_ai_response(message: str):
+    """
+    Send the message to the AI and return the response.
+    """
+    return "AI's response"
 
 
 @api_view(['GET'])
@@ -116,7 +153,10 @@ def get_five_messages(request, pk):
         Response:
             The five messages serialized
     """
-    return Response(status=status.HTTP_200_OK)
+    user = get_object_or_404(User, id=pk)
+    messages = Message.objects.filter(owner=user).order_by('-id')[:5]
+    serializer = MessageSerializer(messages, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET', 'POST'])
@@ -131,7 +171,20 @@ def calendar(request, pk):
         Response:
             The planned dates
     """
-    return Response(status=status.HTTP_200_OK)
+    if request.method == 'GET':
+        dater = get_object_or_404(Dater, id=pk)
+        dates = Date.objects.filter(dater=dater)
+        serializer = DateSerializer(dates, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    elif request.method == 'POST':
+        data = request.post
+        serializer = DateSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -281,6 +334,7 @@ def get_cupid_ratings(request, pk):
             Sequence of Feedback objects
     """
     return Response(status=status.HTTP_200_OK)
+
 
 # Nate S end
 
@@ -511,6 +565,7 @@ def get_attractions(request):
     """
     return Response(status=status.HTTP_200_OK)
 
+
 @api_view(['GET'])
 def get_user_location(request, pk):
     """
@@ -543,6 +598,7 @@ def get_user_location(request, pk):
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['GET'])
 def get_cupids(request):
     """
@@ -558,7 +614,6 @@ def get_cupids(request):
     cupids = Cupid.objects.all()
 
     return Response({'cupids': cupids}, status=status.HTTP_200_OK)
-    
 
 
 @api_view(['GET'])
@@ -670,7 +725,7 @@ def get_gig_rate(request):
             If the rate of gigs per hour was retrieved successfully, return the gig rate and a 200 status code.
             If the rate of gigs per hour was not retrieved successfully, return an error message and a 400 status code.
     """
-    
+
     return Response(status=status.HTTP_200_OK)
 
 
@@ -689,7 +744,6 @@ def get_gig_count(request):
     gigs = Gig.objects.all()
 
     return Response({'count': len(gigs)}, status=status.HTTP_200_OK)
-
 
 
 @api_view(['GET'])
@@ -753,6 +807,7 @@ def suspend(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 def unsuspend(request):
