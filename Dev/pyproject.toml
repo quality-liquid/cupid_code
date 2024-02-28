@@ -6,7 +6,7 @@ authors = ["Emma <a02324881@usu.edu>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 django = "^5.0.2"
 requests = "^2.31.0"
 python-dotenv = "^1.0.1"
