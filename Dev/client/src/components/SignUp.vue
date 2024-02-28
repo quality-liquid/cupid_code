@@ -6,6 +6,8 @@ const cupidURL = new URL('../assets/cupid_logo.png', import.meta.url).href
 
 const email = ref('')
 const password = ref('')
+const accType = ref('')
+
 
 
 async function register() {
