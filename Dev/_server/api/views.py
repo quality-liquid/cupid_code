@@ -9,6 +9,8 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from geopy.geocoders import Nominatim
 import geoip2.database
+from math import radians, sin, cos, sqrt, atan2
+
 
 # 1. write the code for the models
 # 2. write doc strings for all the views so we know what they should take in, what they should do, and what they should return
@@ -106,8 +108,6 @@ def get_user(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
 
 
 @api_view(['POST'])
@@ -224,7 +224,8 @@ def rate_dater(request):
     data = request.post
     cupid = get_object_or_404(Cupid, id=data['user_id'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
-    serializer = FeedbackSerializer(data={'user': cupid, 'gig': gig, 'message': data['message'], 'star_rating': data['rating']})
+    serializer = FeedbackSerializer(
+        data={'user': cupid, 'gig': gig, 'message': data['message'], 'star_rating': data['rating']})
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -384,7 +385,8 @@ def rate_cupid(request):
     data = request.post
     dater = get_object_or_404(Dater, id=data['user_id'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
-    serializer = FeedbackSerializer(data={'user': dater, 'gig': gig, 'message': data['message'], 'star_rating': data['rating']})
+    serializer = FeedbackSerializer(
+        data={'user': dater, 'gig': gig, 'message': data['message'], 'star_rating': data['rating']})
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -437,7 +439,6 @@ def get_cupid_avg_rating(request, pk):
         total += rating.star_rating
     avg = total / len(ratings)
     return Response({'rating': avg}, status=status.HTTP_200_OK)
-
 
 
 @api_view(['POST'])
@@ -649,10 +650,12 @@ def get_gigs(request, count):
     for gig in gigs:
         cupid = gig.cupid
         quest = gig.quest
-        if __locations_are_near(quest.pickup_location, cupid.location) and not gig.is_accepted:
+        max_distance_miles = 20
+        if __locations_are_near(quest.pickup_location, cupid.location, max_distance_miles) and not gig.is_accepted:
             near_gigs.append(gig)
     serializer = GigSerializer(near_gigs, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 def __get_location_from_address(address):
     """
@@ -673,6 +676,7 @@ def __get_location_from_address(address):
     else:
         return None, None
 
+
 def __get_location_from_ip_address(ip_address):
     """
     Returns the location of an IP address.
@@ -688,11 +692,34 @@ def __get_location_from_ip_address(ip_address):
             return None, None
 
 
-def __locations_are_near(location1, location2):
+def __locations_are_near(location1, location2, max_distance_miles):
     """
     Returns whether two locations are near each other.
     """
-    return True
+    return __within_distance(location1[0], location1[1], location2[0], location2[1], max_distance_miles)
+
+
+def __haversine_distance(lat1, lon1, lat2, lon2):
+    # Radius of the Earth in miles
+    R = 3958.8  # miles
+
+    # Convert latitude and longitude from degrees to radians
+    lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
+
+    # Haversine formula
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+    a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    distance = R * c
+
+    return distance
+
+
+def __within_distance(lat1, lon1, lat2, lon2, max_distance_miles):
+    distance = __haversine_distance(lat1, lon1, lat2, lon2)
+    return distance <= max_distance_miles
+
 
 @api_view(['GET'])
 def get_stores(request):
@@ -749,6 +776,7 @@ def get_attractions(request):
             If the attractions were not retrieved successfully, return an error message and a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
+
 
 # Nate S end
 
