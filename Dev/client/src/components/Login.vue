@@ -23,7 +23,7 @@ export default {
 
 <template>
     <div id="login_paper">
-        <img src="/get_img/" alt="Cupid Code Logo">
+        <img src="http://localhost:8000/get_img/" alt="Cupid Code Logo">
         <form>
             <div>
                 <label class="form_input">
