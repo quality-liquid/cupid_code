@@ -932,7 +932,21 @@ files = [
 idna = ">=2.0"
 multidict = ">=4.0"
 
+[[package]]
+name = "yelpapi"
+version = "2.5.1"
+description = "yelpapi is a pure Python implementation of the Yelp Fusion API."
+optional = false
+python-versions = "*"
+files = [
+    {file = "yelpapi-2.5.1-py3-none-any.whl", hash = "sha256:d92ae7f2ee3994ee7f6d96a85a280b89e8d1717a7409512664a1e1330f4cb3fa"},
+    {file = "yelpapi-2.5.1.tar.gz", hash = "sha256:439806cbc5334fcbe12ea147befc5af10249a452a65e424941045754b4771c43"},
+]
+
+[package.dependencies]
+requests = "*"
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "cb4622b94b0586cefcb07711cfd04b6800d4dddc662ea59248d91e296824cd98"
+content-hash = "1c527c94c47e2dbd2420132b86fbf1f79e66e2f64c9781efbf177da169ad7f99"

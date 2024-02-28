@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404
 from geopy.geocoders import Nominatim
 import geoip2.database
 from math import radians, sin, cos, sqrt, atan2
+from yelpapi import YelpAPI
 
 
 # 1. write the code for the models
@@ -20,7 +21,7 @@ from math import radians, sin, cos, sqrt, atan2
 # TODO 6. write the tests for the views
 # TODO 7. debug
 
-# AI API (openai) https://platform.openai.com/docs/quickstart?context=python
+# AI API (pytensor) https://pytensor.readthedocs.io/en/latest/
 # Location API (Geolocation) https://pypi.org/project/geolocation-python/
 # Speech To Text API (pyttsx3) https://pypi.org/project/pyttsx3/
 # Text and Email notifications API (Twilio) https://www.twilio.com/en-us
@@ -650,8 +651,7 @@ def get_gigs(request, count):
     for gig in gigs:
         cupid = gig.cupid
         quest = gig.quest
-        max_distance_miles = 20
-        if __locations_are_near(quest.pickup_location, cupid.location, max_distance_miles) and not gig.is_accepted:
+        if not gig.is_accepted and __locations_are_near(quest.pickup_location, cupid.location, cupid.gig_range):
             near_gigs.append(gig)
     serializer = GigSerializer(near_gigs, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
@@ -729,7 +729,7 @@ def __within_distance(lat1, lon1, lat2, lon2, max_distance_miles):
 
 
 @api_view(['GET'])
-def get_stores(request):
+def get_stores(request, pk):
     """
     Reaches out to an API with an address to get stores near that address location.
 
@@ -739,11 +739,11 @@ def get_stores(request):
         Response:
             A list of nearby stores, including their specific location (JSON)
     """
-    return Response(status=status.HTTP_200_OK)
+    return __call_yelp_api(pk, "stores")
 
 
 @api_view(['GET'])
-def get_activities(request):
+def get_activities(request, pk):
     """
     Reaches out to an API with an address to get possible activities near that address location.
 
@@ -753,11 +753,11 @@ def get_activities(request):
         Response:
             A list of nearby activities, including their specific location (JSON)
     """
-    return Response(status=status.HTTP_200_OK)
+    return __call_yelp_api(pk, "activities")
 
 
 @api_view(['GET'])
-def get_events(request):
+def get_events(request, pk):
     """
     Reaches out to an API with an address to get current entertainment events near that address location.
 
@@ -767,11 +767,11 @@ def get_events(request):
         Response:
             A list of nearby events, including their specific location (JSON)
     """
-    return Response(status=status.HTTP_200_OK)
+    return __call_yelp_api(pk, "events")
 
 
 @api_view(['GET'])
-def get_attractions(request):
+def get_attractions(request, pk):
     """
     Reaches out to an API with an address to get attractions near that address location.
 
@@ -782,7 +782,42 @@ def get_attractions(request):
             If the attractions were retrieved successfully, return a list of nearby attractions, including their specific location amd a 200 status code.
             If the attractions were not retrieved successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    return __call_yelp_api(pk, "attractions")
+
+
+@api_view(['GET'])
+def get_restaurants(request, pk):
+    """
+    Reaches out to an API with an address to get restaurants near that address location.
+
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            If the restaurants were retrieved successfully, return a list of nearby restaurants, including their specific location and a 200 status code.
+            If the restaurants were not retrieved successfully, return an error message and a 400 status code.
+    """
+    return __call_yelp_api(pk, "restaurants")
+
+
+def __call_yelp_api(pk, search):
+    dater = get_object_or_404(Dater, id=pk)
+    latitude, longitude = dater.location.split(" ")
+    api_key = __get_yelp_api_key()
+    with YelpAPI(api_key, timeout_s=5.0) as yelp_api:
+        try:
+            search_results = yelp_api.search_query(term=search, latitude=latitude, longitude=longitude, limit=10)
+            return Response(search_results, status=status.HTTP_200_OK)
+        except YelpAPI.YelpAPIError as e:
+            return Response(e, status=status.HTTP_400_BAD_REQUEST)
+
+
+def __get_yelp_api_key():
+    """
+    Returns the Yelp API key.
+    """
+    with open('yelp_api_key.txt', 'r') as file:
+        return file.read().split(" ")[-1]
 
 
 # Nate S end
