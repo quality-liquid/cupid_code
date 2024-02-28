@@ -13,6 +13,8 @@ async function login() {
     // Validate response
 
     // Redirect to dashboard if good
+
+    // Add error class to which one is invalid
 }
 
 
@@ -48,7 +50,7 @@ export default {
     }
 
     .button {
-        background-color: var(--secondary-red);
+        background-color: var(--primary-red);
         border-radius: 10px;
         color: white;
         border: none;
@@ -62,6 +64,10 @@ export default {
     .form_input {
         display: flex;
         flex-direction: column;
+    }
+
+    .error {
+        border: 4px var(--secondary-red) solid;
     }
 
 </style>

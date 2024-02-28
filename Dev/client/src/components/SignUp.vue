@@ -2,7 +2,7 @@
 import { makeRequest } from '../utils/make_request.js';
 import {ref} from 'vue';
 
-const cupidURL = new URL('../assets/cupid_logo.png', import.meta.url).href
+console.log('Routed to Register')
 
 const email = ref('')
 const password = ref('')

@@ -5,7 +5,7 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="container">
         Welcome to Cupid Code, where love meets technology in the most nerdy and delightful way possible! <br>
         Are you tired of awkward dates and missed opportunities? Look no further! Cupid Code is here to revolutionize your dating experience. <br>
         Our AI-powered app is designed specifically for the more intellectually inclined, offering a plethora of 
@@ -19,3 +19,11 @@ export default {
   </div>
 
 </template>
+
+<style scoped>
+  .container {
+    display: flex;
+    margin-top: 20px;
+    padding: 10px;
+  }
+</style>
