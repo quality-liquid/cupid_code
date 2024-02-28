@@ -38,6 +38,7 @@ export default {
                 </label>
             </div>
             <button class="big_button" @click="login">Sign In</button>
+            <button class="big_button" @click="login">Sign In</button>
         </form>
 
         <a href="/register">Create Account</a>

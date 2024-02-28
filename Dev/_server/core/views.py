@@ -48,7 +48,6 @@ def get_image(req: HttpRequest):
     path = os.path.join(VAULT_PATH, 'cupid_logo' + FILE_EXTENSION)
     return FileResponse(open(path, "rb"))
 
-
 @login_required
 def logout_view(request):
     try:
