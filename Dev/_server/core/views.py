@@ -45,7 +45,7 @@ def sign_in(request):
 def get_image(req: HttpRequest):
     FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
     VAULT_PATH = os.environ.get('VAULT_PATH', '')
-    path = os.path.join(VAULT_PATH, 'cupid_logo' + FILE_EXTENSION)
+    path = os.path.join(VAULT_PATH, 'cupid_logo' + '.' + FILE_EXTENSION)
     return FileResponse(open(path, "rb"))
 
 @login_required
