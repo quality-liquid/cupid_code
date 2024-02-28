@@ -657,6 +657,11 @@ def get_gigs(request, count):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+def __get_location_string(ip_address):
+    latitude, longitude = __get_location_from_ip_address(ip_address)
+    return f"{latitude} {longitude}"
+
+
 def __get_location_from_address(address):
     """
     Returns the location of an address.
@@ -696,7 +701,9 @@ def __locations_are_near(location1, location2, max_distance_miles):
     """
     Returns whether two locations are near each other.
     """
-    return __within_distance(location1[0], location1[1], location2[0], location2[1], max_distance_miles)
+    latitude1, longitude1 = location1.split(" ")
+    latitude2, longitude2 = location2.split(" ")
+    return __within_distance(latitude1, longitude1, latitude2, longitude2, max_distance_miles)
 
 
 def __haversine_distance(lat1, lon1, lat2, lon2):
