@@ -138,6 +138,8 @@ def __get_ai_response(message: str):
     """
     Send the message to the AI and return the response.
     """
+    # https://pytensor.readthedocs.io/en/latest/
+    # https://huggingface.co/
     return "AI's response"
 
 
@@ -154,7 +156,10 @@ def get_five_messages(request, pk):
             The five messages serialized
     """
     user = get_object_or_404(User, id=pk)
-    messages = Message.objects.filter(owner=user).order_by('-id')[:5]
+    try:
+        messages = Message.objects.filter(owner=user).order_by('-id')[:5]
+    except Message.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
     serializer = MessageSerializer(messages, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -173,7 +178,10 @@ def calendar(request, pk):
     """
     if request.method == 'GET':
         dater = get_object_or_404(Dater, id=pk)
-        dates = Date.objects.filter(dater=dater)
+        try:
+            dates = Date.objects.filter(dater=dater)
+        except Date.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
         serializer = DateSerializer(dates, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'POST':
@@ -202,7 +210,14 @@ def rate_dater(request):
         Response:
             Saved Feedback serialized
     """
-    return Response(status=status.HTTP_200_OK)
+    data = request.post
+    cupid = get_object_or_404(Cupid, id=data['user_id'])
+    gig = get_object_or_404(Gig, id=data['gig_id'])
+    serializer = FeedbackSerializer(data={'user': cupid, 'gig': gig, 'message': data['message'], 'star_rating': data['rating']})
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -218,7 +233,13 @@ def get_dater_ratings(request, pk):
         Response:
             Sequence of Feedback objects
     """
-    return Response(status=status.HTTP_200_OK)
+    dater = get_object_or_404(Dater, id=pk)
+    try:
+        ratings = Feedback.objects.filter(user=dater)
+    except Feedback.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    serializer = FeedbackSerializer(ratings, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -234,7 +255,16 @@ def get_dater_avg_rating(request, pk):
         Response:
             rating(int): The dater's rating
     """
-    return Response(status=status.HTTP_200_OK)
+    dater = get_object_or_404(Dater, id=pk)
+    try:
+        ratings = Feedback.objects.filter(user=dater)
+    except Feedback.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    total = 0
+    for rating in ratings:
+        total += rating.star_rating
+    avg = total / len(ratings)
+    return Response({'rating': avg}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
