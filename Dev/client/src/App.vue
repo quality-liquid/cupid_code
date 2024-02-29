@@ -5,6 +5,7 @@ import SignUp from './components/SignUp.vue'
 import Welcome from './components/Welcome.vue'
 import UniversalHome from './components/UniversalHome.vue'
 
+
 const routes = {
   '/': Welcome,
   '/register': SignUp,
@@ -31,7 +32,7 @@ const currentView = computed(() => {
       <a href="#/login"> Login </a>
       <a href="#/"> Back </a>
     </nav>
-    <component :is="currentView" :props="routes"/> 
+    <component :is="currentView" :routes="routes" :currPath="currPath"/> 
   </div>
 </template>
 
