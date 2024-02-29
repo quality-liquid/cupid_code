@@ -31,7 +31,7 @@ const currentView = computed(() => {
       <a href="#/login"> Login </a>
       <a href="#/"> Back </a>
     </nav>
-    <component :is="currentView" /> 
+    <component :is="currentView" :props="routes"/> 
   </div>
 </template>
 

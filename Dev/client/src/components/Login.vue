@@ -2,6 +2,8 @@
 import { makeRequest } from '../utils/make_request.js';
 import {ref} from 'vue';
 
+const props = defineProps(['routes'])
+
 const email = ref('')
 const password = ref('')
 

@@ -2,6 +2,7 @@
 import { makeRequest } from '../utils/make_request.js';
 import {ref} from 'vue';
 
+const props = defineProps(['routes'])
 
 // For both accounts
 const email = ref('')
@@ -50,13 +51,13 @@ async function register() {
         })
     }
     // Redirect to dashboard
-
+    
 }
 
 function previewFile() {
   let preview = document.querySelector('img[name=pfp]');
-  let file    = document.querySelector('input[type=file]').files[0];
-  let reader  = new FileReader();
+  let file = document.querySelector('input[type=file]').files[0];
+  let reader = new FileReader();
 
   reader.onloadend = function () {
     preview.src = reader.result;
