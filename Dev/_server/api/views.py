@@ -839,23 +839,19 @@ def get_user_location(request, pk):
             If the location of the user was not retrieved successfully, return an error message and a 400 status code.
 
     """
-    user = User.objects.get(id=pk)
+    user = get_object_or_404(User, id=pk)
     if user.role == 'Dater':
-        user_data = Dater.objects.get(id=pk)
+        user_data = get_object_or_404(Dater, id=pk)
         serializer = DaterSerializer(data=user_data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'location': serializer.validated_data["location"]}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif user.role == 'Cupid':
-        user_data = Cupid.objects.get(id=pk)
+        user_data = get_object_or_404(Cupid, id=pk)
         serializer = CupidSerializer(data=user_data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'location': serializer.validated_data["location"]}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({'location': serializer.validated_data["location"]}, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1014,9 +1010,9 @@ def get_gig_count(request):
             If the number of gigs that are currently active was retrieved successfully, return the gig count and a 200 status code.
             If the number of gigs that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
-    gigs = Gig.objects.all()
+    number_of_gigs = Gig.objects.all().count()
 
-    return Response({'count': len(gigs)}, status=status.HTTP_200_OK)
+    return Response({'count': number_of_gigs}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -1076,20 +1072,15 @@ def suspend(request):
     user_data = request.post
     if user_data['user_type'] == 'Dater':
         serializer = DaterSerializer(data=user_data)
-        if serializer.is_valid():
-            serializer.validated_data['is_suspended'] = True
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif user_data['user_type'] == 'Cupid':
         serializer = CupidSerializer(data=user_data)
-        if serializer.is_valid():
-            serializer.validated_data['is_suspended'] = True
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    if serializer.is_valid():
+        serializer.validated_data['is_suspended'] = True
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -1109,20 +1100,15 @@ def unsuspend(request):
     user_data = request.post
     if user_data['user_type'] == 'Dater':
         serializer = DaterSerializer(data=user_data)
-        if serializer.is_valid():
-            serializer.validated_data['is_suspended'] = False
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif user_data['user_type'] == 'Cupid':
         serializer = CupidSerializer(data=user_data)
-        if serializer.is_valid():
-            serializer.validated_data['is_suspended'] = False
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    if serializer.is_valid():
+        serializer.validated_data['is_suspended'] = False
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
