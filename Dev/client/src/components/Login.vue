@@ -1,4 +1,4 @@
-<script>
+<script setup>
 import { makeRequest } from '../utils/make_request.js';
 import {ref} from 'vue';
 
@@ -17,16 +17,13 @@ async function login() {
     // Add error class to which one is invalid
 }
 
-
-export default {
-  name: 'Login'
-};
-
 </script>
 
 <template>
+    <div class="image">
+        <img :src="'/get_img/'" alt="Cupid Code Logo" width="200" height="200">
+    </div>
     <div class="login_paper">
-        <img :src="'/get_img/'" alt="Cupid Code Logo">
         <form class="form">
             <label class="form_input" for="email">
                 Email
@@ -42,11 +39,20 @@ export default {
 </template>
 
 <style scoped>
+    .image {
+        display: flex;
+        margin-top: 50px;
+        border-radius: 16px;
+    }
     .login_paper {
         display: flex;
+        margin-top: 20px;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: var(--primary-blue);
+        background-color: var(--secondary-blue);
+        border-radius: 16px;
+        color: white;
     }
 
     .button {
@@ -60,10 +66,29 @@ export default {
     .form {
         display: flex;
         flex-flow: column wrap;
+        justify-content: center;
+        align-items: center;
     }
+
     .form_input {
+        margin: 4px;
+        text-align: center;
+    }
+
+    input {
         display: flex;
         flex-direction: column;
+        border: none;
+        padding: 16px;
+        border-radius: 8px;
+        margin: 8px;
+    }
+
+    .button {
+        margin: 10px;
+        padding: 16px;
+        border: none;
+        border-radius: 8px;
     }
 
     .error {

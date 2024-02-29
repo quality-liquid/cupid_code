@@ -37,16 +37,21 @@ const currentView = computed(() => {
 
 <style scoped>
   .nav {
-    display: flex;
-    position: absolute;
+    color: white;
+    background-color: var(--primary-blue);
     top: 0;
     left: 0;
-    gap: 8px;
-    background-color: var(--primary-blue);
+    right: 0; 
+    display: flex;
+    position: absolute;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 8px 16px;
+
   }
 
-  .link {
+  a {
     color: white;
-
+    gap: 10px;
   }
 </style>

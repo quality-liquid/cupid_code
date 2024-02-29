@@ -23,7 +23,8 @@ export default {
 <style scoped>
   .container {
     display: flex;
-    margin-top: 20px;
+    justify-content: center;
+    margin-top: 30px;
     padding: 10px;
   }
 </style>
