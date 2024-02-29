@@ -21,7 +21,7 @@ async function login() {
 
 <template>
     <div class="image">
-        <img :src="'/get_img/'" alt="Cupid Code Logo" width="200" height="200">
+        <img :src="'/get_img/'" alt="Cupid Code Logo" width="400" height="400">
     </div>
     <div class="login_paper">
         <form class="form">
@@ -38,9 +38,10 @@ async function login() {
     </div>
 </template>
 
-<style scoped>
+<style>
     .image {
         display: flex;
+        justify-content: center;
         margin-top: 50px;
         border-radius: 16px;
     }
