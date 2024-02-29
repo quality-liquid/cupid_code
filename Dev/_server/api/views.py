@@ -11,6 +11,7 @@ from geopy.geocoders import Nominatim
 import geoip2.database
 from math import radians, sin, cos, sqrt, atan2
 from yelpapi import YelpAPI
+import datetime
 
 
 # 1. write the code for the models
@@ -871,7 +872,11 @@ def get_cupids(request):
     """
     cupids = Cupid.objects.all()
 
-    return Response({'cupids': cupids}, status=status.HTTP_200_OK)
+    serializer = CupidSerializer(data=cupids, many=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -888,7 +893,11 @@ def get_daters(request):
     """
     daters = Dater.objects.all()
 
-    return Response({'daters': daters}, status=status.HTTP_200_OK)
+    serializer = DaterSerializer(data=daters, many=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -903,9 +912,9 @@ def get_dater_count(request):
             If the number of daters that are currently active was retrieved successfully, return the number of daters and a 200 status code.
             If the number of daters that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
-    daters = Dater.objects.all()
+    number_of_daters = Dater.objects.all().count()
 
-    return Response({'count': len(daters)}, status=status.HTTP_200_OK)
+    return Response({'count': number_of_daters}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -920,9 +929,9 @@ def get_cupid_count(request):
             If the number of cupids that are currently active was retrieved successfully, return the cupid count and a 200 status code.
             If the number of cupids that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
-    cupids = Cupid.objects.all()
+    number_of_cupids = Cupid.objects.all().count()
 
-    return Response({'count': len(cupids)}, status=status.HTTP_200_OK)
+    return Response({'count': number_of_cupids}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -983,8 +992,14 @@ def get_gig_rate(request):
             If the rate of gigs per hour was retrieved successfully, return the gig rate and a 200 status code.
             If the rate of gigs per hour was not retrieved successfully, return an error message and a 400 status code.
     """
-
-    return Response(status=status.HTTP_200_OK)
+    try:
+        yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
+        gigs_from_past_day = Gig.objects.filter(date_time_of_request_range=(yesterday, datetime.datetime.now()))
+        gig_rate = gigs_from_past_day.count() / 24
+        response = gig_rate.json()
+        return Response(response, status=status.HTTP_200_OK)
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1031,7 +1046,17 @@ def get_gig_complete_rate(request):
             If the rate of gigs that are completed was retrieved successfully, return the gig complete rate and a 200 status code.
             If the rate of gigs that are completed was not retrieved successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    try:
+        number_of_completed_gigs = Gig.objects.filter(status=2).count()
+        number_of_gigs = Gig.objects.all().count()
+
+        gig_complete_rate = number_of_completed_gigs / number_of_gigs
+
+        response = gig_complete_rate.json()
+
+        return Response(response, status=status.HTTP_200_OK)
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
