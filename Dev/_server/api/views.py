@@ -62,8 +62,7 @@ def create_user(request):
             If the user was created successfully, return serialized user and a 200 status code.
             If the user was not created successfully, return an error message and a 400 status code.
     """
-    data = request.data
-
+    data = request.data.dict()
     username = data['email']
     password = data['password']
     email = data['email']
@@ -75,9 +74,6 @@ def create_user(request):
         if User.objects.filter(email=username):
             #TODO: This isn't exactly what we want to do.
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        print("\n"*5)
-        print("BUILDIGN USER")
-        print("\n"*5)
         user = User.objects.create_user(
             username=username,
             password=password,
@@ -86,6 +82,7 @@ def create_user(request):
             last_name=last_name,
             role=role.capitalize(),
         )
+        data['user'] = user.id
 
     if data['role'] == 'dater':
         serializer = DaterSerializer(data=data)
@@ -94,13 +91,16 @@ def create_user(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif data['role'] == 'cupid':
-        serializer = CupidSerializer(data=data,user=user)
-        print(serializer)
+        serializer = CupidSerializer(data=data)
         if serializer.is_valid():
             print("\n"*5)
-            print("valid")
+            print("SERIALIZER")
+            print(serializer)
             print("\n"*5)
             serializer.save()
+            print("\n"*5)
+            print("saved")
+            print("\n"*5)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print("\n"*5)
         print(serializer.errors)

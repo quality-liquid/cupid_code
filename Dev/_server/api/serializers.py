@@ -24,14 +24,15 @@ class CupidSerializer(serializers.ModelSerializer):
         model = Cupid
         fields = '__all__'
 
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(CupidSerializer, self).__init__(*args, **kwargs)
+
     def validate(self, data):
-        if data['password'] != data['password_confirm']:
-            return serializers.ValidationError('Password and password confirmation do not match')
         return data
 
     def create(self, validated_data):
         cupid = Cupid(**validated_data)
-        cupid.user = validated_data.pop('user', None)
         cupid.is_suspended = False
         cupid.save()
         return cupid
