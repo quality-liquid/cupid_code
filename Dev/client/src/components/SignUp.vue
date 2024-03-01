@@ -13,6 +13,7 @@ const addr = ref('')
 const fname = ref('')
 const lname = ref('')
 const username = ref('')
+const desc = ref('')
 let image = null 
 
 // Dater specific - 
@@ -47,6 +48,7 @@ async function register() {
             user_type: accType.value,
             phone_number: phone.value,
             location: addr.value,
+            description: desc.value,
             //profile_picture: image,
             dating_strengths: str.value,
             dating_weakness: weak.value,
@@ -69,6 +71,7 @@ async function register() {
             user_type: accType.value,
             phone_number: phone.value,
             location: addr.value,
+            description: desc.value,
             //profile_picture: image
         })
         window.addEventListener('hashchange', () => {
@@ -149,6 +152,10 @@ function previewFile() {
                 Profile Picture
                 <input type="file" id="image" name="image" @change="previewFile"/>
                 <img name="pfp" src="" height="100" alt="Image preview...">
+            </label>
+            <label class="text_detail" for="desc">
+                Physical Description
+                <textarea :value="desc" id="desc" @change="(e) => desc = e.target.value"></textarea>
             </label>
             <div v-if="accType === 'Dater'" class="form">
                 <label class="input_detail" for="nerd_type">
