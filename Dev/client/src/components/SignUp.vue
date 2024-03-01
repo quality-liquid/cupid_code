@@ -2,10 +2,7 @@
 import { makeRequest } from '../utils/make_request.js';
 import {ref} from 'vue';
 
-const props = defineProps({
-  routes: Object,
-  currPath: String
-})
+const currPath = ref(window.location.hash);
 
 // For both accounts
 const email = ref('')
@@ -37,14 +34,14 @@ async function register() {
         }
     }
 
-    if (accType.value === 'dater' && check === checkData.length) {
+    if (accType.value === 'Dater' && check === checkData.length) {
         await makeRequest('/api/user/create/', 'post', {
             email: email.value,
             password: password.value,
             role: accType.value,
             phone_number: phone.value,
             location: addr.value,
-            profile_picture: image.value,
+            //profile_picture: image,
             dating_strengths: str.value,
             dating_weaknesses: weak.value,
             nerd_type: ntype.value,
@@ -52,21 +49,22 @@ async function register() {
             relationship_goals: goals.value,
             past: past.value,
         })
+        
         window.addEventListener('hashchange', () => {
-            props.currPath.value = '#/home';
+            currPath.value = '#/home';
         })
     }
-    else if (accType.value === 'cupid' && check === checkData.length) {
+    else if (accType.value === 'Cupid' && check === checkData.length) {
         await makeRequest('/api/user/create/', 'post', {
             email: email.value,
             password: password.value,
             role: accType.value,
             phone_number: phone.value,
             location: addr.value,
-            profile_picture: image.value
+            //profile_picture: image
         })
         window.addEventListener('hashchange', () => {
-            props.currPath.value = '#/home';
+            currPath.value = '#/home';
         })
     }
     else {
@@ -105,11 +103,11 @@ function previewFile() {
                 <label class="radio_detail" for="cupid">
                     Cupid 
                 </label>
-                <input type="radio" id="cupid" name="accountType" :value="accType" @change="(e) => accType = 'cupid'"/>
+                <input type="radio" id="cupid" name="accountType" :value="accType" @change="(e) => accType = 'Cupid'"/>
                 <label class="radio_detail" for="dater">
                     Dater
                 </label>
-                <input type="radio" id="dater" name="accountType" :value="accType" @change="(e) => accType = 'dater'"/>
+                <input type="radio" id="dater" name="accountType" :value="accType" @change="(e) => accType = 'Dater'"/>
             </div>
             <label class="input_detail" for="email">
                 Email
@@ -132,7 +130,7 @@ function previewFile() {
                 <input type="file" id="image" name="image" @change="previewFile"/>
                 <img name="pfp" src="" height="100" alt="Image preview...">
             </label>
-            <div v-if="accType === 'dater'" class="form">
+            <div v-if="accType === 'Dater'" class="form">
                 <label class="input_detail" for="nerd_type">
                     Nerd Type
                     <input type="text" id="nerd_type" :value="ntype" @change="(e) => ntype = e.target.value"/>

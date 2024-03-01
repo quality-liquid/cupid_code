@@ -3,10 +3,7 @@ import { makeRequest } from '../utils/make_request.js';
 import { ref } from 'vue';
 
 
-const props = defineProps({
-  routes: Object,
-  currPath: String
-})
+const currPath = ref(window.location.hash);
 
 const email = ref('')
 const password = ref('')
@@ -22,7 +19,7 @@ async function login() {
     
     // Redirect to dashboard if good
     window.addEventListener('hashchange', () => {
-        props.currPath.value = '/#/home';
+        currPath.value = '/#/home';
     })
 }
 
@@ -33,7 +30,7 @@ async function login() {
             <div class="image">
                 <img :src="'/get_img/'" alt="Cupid Code Logo" width="300" height="300">
             </div>
-            <form class="form">
+            <form class="form" @submit.prevent="login">
                 <label class="form_input" for="email">
                     Email
                     <input type="email" placeholder="example@email.com" id="email" name="email" :value="email" @change="(e) => email = e.target.value">
@@ -42,7 +39,7 @@ async function login() {
                     Password
                     <input type="password" placeholder="Password" id="password" name="password" :value="password" @change="(e) => password = e.target.value">
                 </label>
-                <button class="button" @click="login" type="button">Sign In</button>
+                <button class="button">Sign In</button>
             </form>
         </div>
         <div class="atag">

@@ -1,3 +1,5 @@
+import base64
+from operator import contains
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -15,7 +17,9 @@ import geoip2.database
 from math import radians, sin, cos, sqrt, atan2
 from yelpapi import YelpAPI
 import datetime
-
+#import speech_recognition
+#import torch
+#from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
 # 3. agree on how the serializers should be used and write the code to use them
 # 4. agree on what external APIs we will use
@@ -64,6 +68,7 @@ def create_user(request):
     """
     #Prepare data input
     data = request.data
+    data['role'] = data['role'].lower()
     #TODO: Once these fields are provided by front-end, remove these overrides here
     data['username'] = data['email']
     data['description'] = "MISSING"
@@ -94,7 +99,11 @@ def create_user(request):
     elif data['role'] == 'manager':
         return Response(userSerializer.data, status=status.HTTP_201_CREATED)
     else:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "invalid user type"}, status=status.HTTP_400_BAD_REQUEST)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -113,15 +122,13 @@ def get_user(request):
     user = get_object_or_404(User, id=data['user_id'])
     if user.role == 'Dater':
         serializer = DaterSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
     elif user.role == 'Cupid':
         serializer = CupidSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
     elif user.role == 'Manager':
         serializer = ManagerSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -162,10 +169,18 @@ def send_chat_message(request):
 def __get_ai_response(message: str):
     """
     Send the message to the AI and return the response.
+    https://pytensor.readthedocs.io/en/latest/
+    https://huggingface.co/
     """
-    # https://pytensor.readthedocs.io/en/latest/
-    # https://huggingface.co/
-    return "AI's response"
+    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+    model = GPT2LMHeadModel.from_pretrained("gpt2")
+    # Tokenize input text
+    input_ids = tokenizer.encode(message, return_tensors='pt')
+    # Generate response
+    output = model.generate(input_ids, max_length=100, num_return_sequences=1, early_stopping=True)
+    # Decode and return response
+    response = tokenizer.decode(output[0], skip_special_tokens=True)
+    return response
 
 
 @api_view(['GET'])
@@ -666,6 +681,7 @@ def get_gigs(request, count):
         quest = gig.quest
         if not gig.is_accepted and __locations_are_near(quest.pickup_location, cupid.location, cupid.gig_range):
             near_gigs.append(gig)
+    near_gigs = near_gigs[:count]
     serializer = GigSerializer(near_gigs, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -752,7 +768,10 @@ def get_stores(request, pk):
         Response:
             A list of nearby stores, including their specific location (JSON)
     """
-    return __call_yelp_api(pk, "stores")
+    response = __call_yelp_api(pk, "stores")
+    if response:
+        return Response(response, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -766,7 +785,10 @@ def get_activities(request, pk):
         Response:
             A list of nearby activities, including their specific location (JSON)
     """
-    return __call_yelp_api(pk, "activities")
+    response = __call_yelp_api(pk, "activities")
+    if response:
+        return Response(response, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -780,7 +802,10 @@ def get_events(request, pk):
         Response:
             A list of nearby events, including their specific location (JSON)
     """
-    return __call_yelp_api(pk, "events")
+    response = __call_yelp_api(pk, "events")
+    if response:
+        return Response(response, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -795,7 +820,10 @@ def get_attractions(request, pk):
             If the attractions were retrieved successfully, return a list of nearby attractions, including their specific location amd a 200 status code.
             If the attractions were not retrieved successfully, return an error message and a 400 status code.
     """
-    return __call_yelp_api(pk, "attractions")
+    response = __call_yelp_api(pk, "attractions")
+    if response:
+        return Response(response, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -810,7 +838,10 @@ def get_restaurants(request, pk):
             If the restaurants were retrieved successfully, return a list of nearby restaurants, including their specific location and a 200 status code.
             If the restaurants were not retrieved successfully, return an error message and a 400 status code.
     """
-    return __call_yelp_api(pk, "restaurants")
+    response = __call_yelp_api(pk, "restaurants")
+    if response:
+        return Response(response, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 def __call_yelp_api(pk, search):
@@ -819,10 +850,9 @@ def __call_yelp_api(pk, search):
     api_key = __get_yelp_api_key()
     with YelpAPI(api_key, timeout_s=5.0) as yelp_api:
         try:
-            search_results = yelp_api.search_query(term=search, latitude=latitude, longitude=longitude, limit=10)
-            return Response(search_results, status=status.HTTP_200_OK)
+            return yelp_api.search_query(term=search, latitude=latitude, longitude=longitude, limit=10)
         except YelpAPI.YelpAPIError as e:
-            return Response(e, status=status.HTTP_400_BAD_REQUEST)
+            return None
 
 
 def __get_yelp_api_key():
@@ -938,7 +968,6 @@ def get_cupid_count(request):
             If the number of cupids that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
     number_of_cupids = Cupid.objects.all().count()
-
     return Response({'count': number_of_cupids}, status=status.HTTP_200_OK)
 
 
@@ -1133,6 +1162,7 @@ def speech_to_text(request):
     Args:
         request: Information about the request.
             request.post: The json data sent to the server.
+                dater_id (int): The id of the dater who is requesting
                 audio (json): The audio to convert to text.
                     audio['type'] (str): The type of audio file.
                     audio['data'] (str): The audio file in base64 format.
@@ -1141,7 +1171,75 @@ def speech_to_text(request):
             If the audio was converted to text successfully and indicate if a gig was created or not, return a 200 status code.
             If the audio was not converted to text successfully or a gig could not be created, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    data = request.data
+    dater = get_object_or_404(Dater, id=data['user_id'])
+    audio = data['audio']
+    audio_type = audio['type']
+    audio_data = audio['data']
+    recognizer = speech_recognition.Recognizer()
+    try:
+        # Convert base64 audio data to bytes
+        audio_bytes = base64.b64decode(audio_data)
+        # Convert bytes to audio file
+        with open("audio_file." + audio_type, "wb") as f:
+            f.write(audio_bytes)
+        # Transcribe audio
+        with speech_recognition.AudioFile("audio_file." + audio_type) as source:
+            audio_data = recognizer.record(source)
+            text = recognizer.recognize_sphinx(audio_data)
+        prompt = f"""
+                  The following text is transcribed from an audio file. 
+                  Analyze the text to determine if a gig should be created. 
+                  A gig can be created by saying 'create gig'. 
+                  The purpose of a gig is to tell a Cupid what to do to save the date. 
+                  If a gig is created, the Cupid will be able to see the gig and accept it. 
+                  A gig will need to know what items are requested for the date. 
+                  The budget for the gig will be the amount of money the Dater is willing to spend on the date.
+                  Budget: {dater.budget}
+                  Please give your response in the following form:
+                      Create gig: True or False
+                      Items requested: Flowers, Chocolate, etc. or NA if no items are requested
+                  The text is: 
+                  
+                  """
+        message = prompt + text
+        response = __get_ai_response(message)
+        if contains("Create gig: True", response):
+            requested_items = "NA"
+            for line in response.split("\n"):
+                if contains("Items requested:", line):
+                    requested_items = line.split(":")[1].strip()
+            if requested_items == "NA":
+                return Response({"error": "gig creation failed. no specified pickup items", "gig_created": False}, status=status.HTTP_200_OK)
+            locations = __call_yelp_api(dater.location, requested_items)
+            quest_data = {
+                "budget": dater.budget,
+                "items_requested": requested_items,
+                "pickup_location": locations[0]["address"]
+            }
+            serializer = QuestSerializer(data=quest_data)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                return Response({"error": "gig creation failed. could not serialize quest."}, status=status.HTTP_400_BAD_REQUEST)
+            gig_data = {
+                "dater": dater,
+                "quest": serializer.data
+            }
+            serializer = GigSerializer(data=gig_data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"message": "gig was created", "gig_created": True}, status=status.HTTP_200_OK)
+            else:
+                return Response({"error": "gig creation failed. could not serialize."}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"message": "gig creation not needed", "gig_created": False}, status=status.HTTP_200_OK)
+    except speech_recognition.UnknownValueError:
+        return Response({"error": "Could not understand the audio."}, status=status.HTTP_400_BAD_REQUEST)
+    except speech_recognition.RequestError as e:
+        return Response({"error": "Could not request results; {0}".format(e)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
