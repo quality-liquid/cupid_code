@@ -2,6 +2,7 @@ import cookie from "cookie";
 
 export async function makeRequest(uri, method = "get", body = {}) {
   const parsedCookie = cookie.parse(document.cookie)
+  console.log(parsedCookie)
   const options = {
     method,
     headers: {

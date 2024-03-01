@@ -12,19 +12,19 @@ const email = ref('')
 const password = ref('')
 
 async function login() {
-    await makeRequest('/sign_in/', 'post', {
+    const results = await makeRequest('/sign_in/', 'post', {
         email,
         password
     })
     // Validate response
-
+    
+    // Add error class to which one is invalid
+    
     // Redirect to dashboard if good
-
     window.addEventListener('hashchange', () => {
-        props.currPath.value = 'localhost:8000/#/home';
+        props.currPath.value = '/#/home';
     })
 }
-    // Add error class to which one is invalid
 
 </script>
 
@@ -42,7 +42,7 @@ async function login() {
                     Password
                     <input type="password" placeholder="Password" id="password" name="password" :value="password" @change="(e) => password = e.target.value">
                 </label>
-                <button class="button" @click="login">Sign In</button>
+                <button class="button" @click="login" type="button">Sign In</button>
             </form>
         </div>
         <div class="atag">

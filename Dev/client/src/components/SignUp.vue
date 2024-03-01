@@ -13,9 +13,9 @@ const password = ref('')
 const accType = ref('')
 const phone = ref()
 const addr = ref('')
-const image = null 
+let image = null 
 
-// Dater specific
+// Dater specific - 
 const str = ref('')
 const weak = ref('')
 const ntype = ref('')
@@ -23,13 +23,22 @@ const interests = ref('')
 const goals = ref('')
 const past = ref('')
 
-console.log(accType)
-
 async function register() {
     // Validate data
-    image = document.querySelector('img[name=pfp]')
-    if (accType.toLowerCase === 'dater') {
-        await makeRequest('/sign_in/', 'post', {
+    image = document.querySelector('img[name=pfp]');
+    const checkData = [email, password, accType, phone, addr]
+
+    let check = 0;
+    for (let i = 0; i < checkData.length; i++) {
+        if (checkData[i] !== '') check++;
+        else {
+            const error = document.querySelector(`input[name=${checkData[i]}]`);
+            error.class = error.class + 'error';
+        }
+    }
+
+    if (accType.value === 'dater' && check === checkData.length) {
+        await makeRequest(uri='/sign_up/', method='post', body={
             email: email,
             password: password,
             role: accType,
@@ -42,9 +51,12 @@ async function register() {
             relationship_goals: goals,
             past: past
         })
+        window.addEventListener('hashchange', () => {
+            props.currPath.value = '#/home';
+        })
     }
-    else {
-        await makeRequest('/sign_in/', 'post', {
+    else if (accType.value === 'cupid' && check === checkData.length) {
+        await makeRequest('/sign_up/', 'post', {
             email: email,
             password: password,
             role: accType,
@@ -52,11 +64,14 @@ async function register() {
             location: addr,
             profile_picture: image
         })
-    }
-    // Redirect to dashboard
         window.addEventListener('hashchange', () => {
-        props.currPath.value = '#/home';
-    })
+            props.currPath.value = '#/home';
+        })
+    }
+    else {
+        console.log("Something went wrong")
+    }
+
 }
 
 function previewFile() {
@@ -83,7 +98,7 @@ function previewFile() {
             <img :src="'/get_img/'" alt="Cupid Code Logo" width="300" height="300">
         </div>
         <h1>Create Your Account!</h1>
-        <form class="form">
+        <form class="form" @submit.prevent="register">
             <h3>Account Type</h3>
             <div class="radios">
                 <label class="radio_detail" for="cupid">
@@ -142,7 +157,7 @@ function previewFile() {
                     <textarea :value="weak" id="weaknesses" @change="(e) => weak = e.target.value"></textarea>
                 </label>
             </div>
-            <button class="button" @click="register">Create Account</button>
+            <button class="button">Create Account</button>
         </form>
     </div>
 </template>
@@ -208,6 +223,9 @@ function previewFile() {
         border: none;
         color: var(--secondary-red);
     }
+    input:focus {
+        border-color: var(--primary-red)!important;
+    }
 
     .text_detail {
         display: flex;
@@ -231,6 +249,6 @@ function previewFile() {
         border-radius: 8px;
     }
     .error {
-        border: 4px var(--secondary-red) solid;
+        border: 2px var(--secondary-red) solid;
     }
 </style>
