@@ -17,7 +17,7 @@ def dummy_dater1(User, Dater):
     user = User(
         username = 'dater1',
         password = make_password('password'),
-        email = 'bob@cupid_code.com',
+        email = 'bob@cupidcode.com',
         first_name = 'Bob',
         last_name = 'The Builder',
     )
@@ -60,7 +60,7 @@ def dummy_dater2(User, Dater):
     user = User(
         username = 'dater2',
         password = make_password('password'),
-        email = 'Manny@cupid_code.com',
+        email = 'Manny@cupidcode.com',
         first_name = 'Handy',
         last_name = 'Manny',
     )
@@ -315,7 +315,7 @@ def dummy_manager(User):
     user = User(
         username = 'manager',
         password = make_password('password'),
-        email = 'manager@cupid_code.com',
+        email = 'manager@cupidcode.com',
         first_name = 'Mr.',
         last_name = 'Boss',
         is_staff = True,
