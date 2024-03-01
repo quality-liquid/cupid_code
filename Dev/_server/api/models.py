@@ -4,11 +4,12 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     class Role(models.TextChoices):
-        DATER = 'Dater'
-        CUPID = 'Cupid'
-        MANAGER = 'Manager'
+        DATER = 'dater'
+        CUPID = 'cupid'
+        MANAGER = 'manager'
 
     role = models.CharField(choices=Role.choices, max_length=7)
+    phone_number = models.CharField(max_length=10, unique=True)
 
 
 class Dater(models.Model):
@@ -22,9 +23,8 @@ class Dater(models.Model):
         self.user.save()
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    phone_number = models.CharField(max_length=10, unique=True)
-    budget = models.DecimalField(max_digits=10, decimal_places=2)
-    communication_preference = models.IntegerField(choices=Communication.choices)
+    budget = models.DecimalField(default=0, max_digits=10, decimal_places=2)
+    communication_preference = models.IntegerField(default=Communication.EMAIL, choices=Communication.choices)
     description = models.TextField()
     dating_strengths = models.TextField()
     dating_weaknesses = models.TextField()
@@ -32,12 +32,12 @@ class Dater(models.Model):
     past = models.TextField()
     nerd_type = models.TextField()
     relationship_goals = models.TextField()
-    ai_degree = models.TextField()
-    cupid_cash_balance = models.DecimalField(max_digits=10, decimal_places=2)
+    ai_degree = models.TextField(default="max")
+    cupid_cash_balance = models.DecimalField(default=0,max_digits=10, decimal_places=2)
     location = models.TextField()
-    average_rating = models.DecimalField(max_digits=10, decimal_places=2)
-    is_suspended = models.BooleanField()
-    profile_picture = models.ImageField()
+    average_rating = models.DecimalField(default=0,max_digits=10, decimal_places=2)
+    is_suspended = models.BooleanField(default=False)
+    profile_picture = models.ImageField(null=True)
 
 
 class Cupid(models.Model):

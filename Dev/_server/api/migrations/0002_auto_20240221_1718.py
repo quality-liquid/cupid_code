@@ -20,12 +20,13 @@ def dummy_dater1(User, Dater):
         email = 'bob@cupidcode.com',
         first_name = 'Bob',
         last_name = 'The Builder',
+        role = 'dater',
+        phone_number = '1234567890',
     )
     user.save()
 
     dater1 = Dater(
         user = user,
-        phone_number = '1234567890',
         budget = 50,
         communication_preference = 0,
         description = 'I like to build things in my spare time.',
@@ -41,10 +42,6 @@ def dummy_dater1(User, Dater):
         average_rating = 4.3,
         is_suspended = False,
     )
-
-    #This portion should happen automatically, but that doesn't work in migrations
-    dater1.user.role = "Dater"
-    dater1.user.save()
 
     dater1.save()
     return dater1
@@ -63,12 +60,13 @@ def dummy_dater2(User, Dater):
         email = 'Manny@cupidcode.com',
         first_name = 'Handy',
         last_name = 'Manny',
+        role = 'dater',
+        phone_number = '1223334444',
     )
     user.save()
 
     dater2 = Dater(
         user = user,
-        phone_number = '1223334444',
         budget = 50,
         communication_preference = 0,
         description = 'I fix things for people around town',
@@ -84,10 +82,6 @@ def dummy_dater2(User, Dater):
         average_rating = 3.3,
         is_suspended = False,
     )
-
-    #This portion should happen automatically, but that doesn't work in migrations
-    dater2.user.role = "Dater"
-    dater2.user.save()
 
     dater2.save()
     return dater2
@@ -242,6 +236,8 @@ def dummy_cupid1(User, Cupid):
         email = 'joe@mail.com',
         first_name = 'Joe',
         last_name = 'Brown',
+        role = 'cupid',
+        phone_number = '1223423544',
     )
 
     user.save()
@@ -258,10 +254,6 @@ def dummy_cupid1(User, Cupid):
         average_rating = 4.1,
         is_suspended = False,
     )
-
-    #This portion should happen automatically, but that doesn't work in migrations
-    cupid1.user.role = "Cupid"
-    cupid1.user.save()
 
     cupid1.save()
 
@@ -281,6 +273,8 @@ def dummy_cupid2(User, Cupid):
         email = 'really@me.com',
         first_name = 'Cupid',
         last_name = 'Himself',
+        role = 'cupid',
+        phone_number = '1234124124',
     )
 
     user.save()
@@ -297,10 +291,6 @@ def dummy_cupid2(User, Cupid):
         average_rating = 1.2,
         is_suspended = False,
     )
-
-    #This portion should happen automatically, but that doesn't work in migrations
-    cupid2.user.role = "Cupid"
-    cupid2.user.save()
 
     cupid2.save()
 
@@ -319,7 +309,8 @@ def dummy_manager(User):
         first_name = 'Mr.',
         last_name = 'Boss',
         is_staff = True,
-        role = "Manager"
+        phone_number = '0982137894',
+        role = "manager"
     )
 
     user.save()

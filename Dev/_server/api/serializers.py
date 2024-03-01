@@ -1,16 +1,24 @@
 from rest_framework import serializers
+from django.contrib.auth.hashers import make_password
 from .models import Dater, Cupid, User, Message, Gig, Quest, Date, Feedback, PaymentCard, BankAccount
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
+    def create(self, validated_data):
+        user = User(**validated_data)
+        user.password = make_password(user.password)
+        user.save()
+        return user
+
 
 
 class DaterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dater
         fields = '__all__'
-
-    def validate(self, data):
-        if data['password'] != data['password_confirm']:
-            return serializers.ValidationError('Password and password confirmation do not match')
-        return data
 
     def create(self, validated_data):
         dater = Dater(**validated_data)

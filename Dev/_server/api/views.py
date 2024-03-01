@@ -1,12 +1,15 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import DaterSerializer, CupidSerializer, ManagerSerializer, MessageSerializer, GigSerializer, \
+from .serializers import UserSerializer, DaterSerializer, CupidSerializer, ManagerSerializer, MessageSerializer, GigSerializer, \
     DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer, QuestSerializer
 from .models import User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, PaymentCard, BankAccount
+
 from django.contrib.sessions.models import Session
+from django.contrib.auth import login, logout
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
+
 from geopy.geocoders import Nominatim
 import geoip2.database
 from math import radians, sin, cos, sqrt, atan2
@@ -14,8 +17,6 @@ from yelpapi import YelpAPI
 import datetime
 
 
-# 1. write the code for the models
-# 2. write doc strings for all the views so we know what they should take in, what they should do, and what they should return
 # 3. agree on how the serializers should be used and write the code to use them
 # 4. agree on what external APIs we will use
 # TODO 5. write the code for the views
@@ -23,8 +24,7 @@ import datetime
 # TODO 7. debug
 
 # AI API (pytensor) https://pytensor.readthedocs.io/en/latest/
-# Location API (Geolocation) https://pypi.org/project/geolocation-python/
-# Speech To Text API (pyttsx3) https://pypi.org/project/pyttsx3/
+# Location API (Geolocation) https://pypi.org/project/geolocation-python/ Speech To Text API (pyttsx3) https://pypi.org/project/pyttsx3/
 # Text and Email notifications API (Twilio) https://www.twilio.com/en-us
 # Nearby Shops API (yelpapi) https://pypi.org/project/yelpapi/
 
@@ -62,56 +62,37 @@ def create_user(request):
             If the user was created successfully, return serialized user and a 200 status code.
             If the user was not created successfully, return an error message and a 400 status code.
     """
-    data = request.data.dict()
-    username = data['email']
-    password = data['password']
-    email = data['email']
-    first_name = "FAKE"
-    last_name = "FAKE"
-    role = data['role']
+    #Prepare data input
+    data = request.data
+    #TODO: Once these fields are provided by front-end, remove these overrides here
+    data['username'] = data['email']
+    data['description'] = "MISSING"
 
-    if username and password and email and first_name and last_name:
-        if User.objects.filter(email=username):
-            #TODO: This isn't exactly what we want to do.
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        user = User.objects.create_user(
-            username=username,
-            password=password,
-            email=email,
-            first_name=first_name,
-            last_name=last_name,
-            role=role.capitalize(),
-        )
-        data['user'] = user.id
+    #Create user
+    userSerializer = UserSerializer(data=data)
+    if userSerializer.is_valid():
+        userSerializer.save()
+        data['user'] = userSerializer.data['id']
+    else:
+        return Response(userSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    #Create dater or cupid as appropriate
     if data['role'] == 'dater':
         serializer = DaterSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
+            login(request, User.objects.get(id = userSerializer.data['id']))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif data['role'] == 'cupid':
         serializer = CupidSerializer(data=data)
         if serializer.is_valid():
-            print("\n"*5)
-            print("SERIALIZER")
-            print(serializer)
-            print("\n"*5)
             serializer.save()
-            print("\n"*5)
-            print(serializer.data)
-            print("\n"*5)
+            login(request, User.objects.get(id = userSerializer.data['id']))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        print("\n"*5)
-        print(serializer.errors)
-        print("\n"*5)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif data['role'] == 'manager':
-        serializer = ManagerSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(userSerializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 

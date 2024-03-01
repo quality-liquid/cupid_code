@@ -30,19 +30,10 @@ def index(req):
     }
     return render(req, 'core/index.html', context)
 
-def sign_up(request):
-    if request.method == 'POST':
-        # Get the raw JSON data from the request body
-        json_data = request.body.decode('utf-8')
-        
-        # Parse the JSON data
-        data = json.loads(json_data)
+@login_required
+def TEST_SIGNIN(request):
+    print(request.user)
 
-        user = requests.post('http://localhost:8000/api/user/create/', data=data)
-        user_id = user.json()['user']
-        print(user_id)
-        login(request, User.objects.get(id = user_id))
-    return redirect('/')
 
 def sign_in(request):
     if request.method == 'POST':
