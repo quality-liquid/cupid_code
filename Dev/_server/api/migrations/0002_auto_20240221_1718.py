@@ -17,7 +17,7 @@ def dummy_dater1(User, Dater):
     user = User(
         username = 'dater1',
         password = make_password('password'),
-        email = 'bob@cupid_code.com',
+        email = 'bob@cupidcode.com',
         first_name = 'Bob',
         last_name = 'The Builder',
     )
@@ -60,7 +60,7 @@ def dummy_dater2(User, Dater):
     user = User(
         username = 'dater2',
         password = make_password('password'),
-        email = 'Manny@cupid_code.com',
+        email = 'Manny@cupidcode.com',
         first_name = 'Handy',
         last_name = 'Manny',
     )
@@ -175,6 +175,8 @@ def dummy_unclaimed(dater, Gig, Quest):
         quest = quest1,
         status = 0,
         date_time_of_request = make_aware(datetime.now()),
+        dropped_count = 0,
+        accepted_count = 0,
     )
 
     gig2 = Gig(
@@ -182,6 +184,8 @@ def dummy_unclaimed(dater, Gig, Quest):
         quest = quest2,
         status = 0,
         date_time_of_request = make_aware(datetime.now()),
+        dropped_count = 0,
+        accepted_count = 0,
     )
 
     gig1.save()
@@ -215,6 +219,8 @@ def dummy_claimed(dater, cupid, Gig, Quest):
         status = 1,
         date_time_of_request = make_aware(datetime.now() - timedelta(minutes=15)),
         date_time_of_claim = make_aware(datetime.now() - timedelta(minutes=5)),
+        dropped_count = 0,
+        accepted_count = 1,
     )
 
     gig.save()
@@ -247,6 +253,7 @@ def dummy_cupid1(User, Cupid):
         gigs_failed = 11,
         status = 1,
         cupid_cash_balance = 1100,
+        gig_range = 20,
         location = 'Logan, UT',
         average_rating = 4.1,
         is_suspended = False,
@@ -286,6 +293,7 @@ def dummy_cupid2(User, Cupid):
         status = 0,
         cupid_cash_balance = 12,
         location = 'Logan, UT',
+        gig_range = 20,
         average_rating = 1.2,
         is_suspended = False,
     )
@@ -307,7 +315,7 @@ def dummy_manager(User):
     user = User(
         username = 'manager',
         password = make_password('password'),
-        email = 'manager@cupid_code.com',
+        email = 'manager@cupidcode.com',
         first_name = 'Mr.',
         last_name = 'Boss',
         is_staff = True,

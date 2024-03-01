@@ -13,6 +13,9 @@ python-dotenv = "^1.0.1"
 djangorestframework = "^3.14.0"
 django-debug-toolbar = "^4.3.0"
 pillow = "^10.2.0"
+geopy = "^2.4.1"
+geoip2 = "^4.8.0"
+yelpapi = "^2.5.1"
 
 
 [build-system]

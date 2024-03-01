@@ -1,68 +1,120 @@
-<script>
+<script setup>
 import { makeRequest } from '../utils/make_request.js';
-import {ref} from 'vue';
+import { ref } from 'vue';
 
-const image = ref(null)
+
+const props = defineProps({
+  routes: Object,
+  currPath: String
+})
+
+const email = ref('')
+const password = ref('')
 
 async function login() {
-    await makeRequest('/sign_in/', 'post', {
+    const results = await makeRequest('/sign_in/', 'post', {
         email,
         password
     })
     // Validate response
-
+    
+    // Add error class to which one is invalid
+    
     // Redirect to dashboard if good
+    window.addEventListener('hashchange', () => {
+        props.currPath.value = '/#/home';
+    })
 }
-
-
-export default {
-  name: 'Login'
-};
 
 </script>
 
 <template>
-    <div id="login_paper">
-        <img src="/get_img/" alt="Cupid Code Logo">
-        <form>
-            <div>
-                <label class="form_input">
-                Email
-                <input type="email" name="email">
-                </label>
+        <div class="login_paper">
+            <div class="image">
+                <img :src="'/get_img/'" alt="Cupid Code Logo" width="300" height="300">
             </div>
-            <div class="">
-                <label class="form_input">
-                Password
-                <input type="password" name="password">
+            <form class="form">
+                <label class="form_input" for="email">
+                    Email
+                    <input type="email" placeholder="example@email.com" id="email" name="email" :value="email" @change="(e) => email = e.target.value">
                 </label>
-            </div>
-            <button class="big_button" @click="login">Sign In</button>
-            <button class="big_button" @click="login">Sign In</button>
-        </form>
-
-        <a href="/register">Create Account</a>
-    </div>
+                <label class="form_input" for="password">
+                    Password
+                    <input type="password" placeholder="Password" id="password" name="password" :value="password" @change="(e) => password = e.target.value">
+                </label>
+                <button class="button" @click="login" type="button">Sign In</button>
+            </form>
+        </div>
+        <div class="atag">
+            <a href="#/register">Don't have an Account? Create One!</a>
+        </div>
 </template>
 
 <style scoped>
-    :root {
-        background-color: #5675FF;
-    }
-
-    body {
-        margin: 0;
-    }
-    
-    .login_paper {
+    .image {
         display: flex;
         justify-content: center;
-        align-items: center;
+        margin-top: 50px;
+        border-radius: 16px;
     }
-
-    .big_button {
-        background-color: #ff6ba2;
+    .login_paper {
+        display: flex;
+        flex-flow: column wrap;
+    }
+    .button {
+        background-color: var(--primary-red);
         border-radius: 10px;
         color: white;
+        border: none;
+        border-radius: 4px;
+        box-shadow: 5px 5px 2px rgba(128, 128, 128, 0.5);
     }
+
+    .form {
+        display: flex;
+        flex-flow: column wrap;
+        background-color: white;
+    }
+
+    .form_input {
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
+    }
+    input {
+        border: 3px rgba(128, 128, 128, 0.5) solid;
+        border-radius: 4px;
+        width: auto;
+        padding: 8px;
+        margin: 10px;
+    }
+
+    .button {
+        margin: 10px;
+        padding: 16px;
+        border: none;
+        border-radius: 8px;
+    }
+
+    .atag {
+        display: flex;
+        margin: 10px;
+        justify-content: center;
+    }
+    a {
+        margin: 10px;
+        color: white;
+    }
+
+    a:hover {
+        color: white;
+    }
+
+    a:visited {
+        color: var(--primary-red);
+    }
+    .error {
+        border: 4px var(--secondary-red) solid;
+    }
+
 </style>

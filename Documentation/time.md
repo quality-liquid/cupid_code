@@ -34,9 +34,9 @@
 |----------------|---------|-----------|
 | Name           | Job     | Time(hrs) | 
 | Nate Stott     | Backend | 5         |   
-| Emma Wright    | Connecting Front & Back        | 3       |   
+| Emma Wright    | Connecting Front & Back        | 8       |   
 | Daniel Barfuss |         |           |   
 | Brighton Ellis |         |           |   
-| Nate McKenzie  |         | 3.25      |   
+| Nate McKenzie  |         | 6         |   
 | Eric DeBloois  | Creation of Vue pages for Login, Create Account, and Cupid pages | 3.0 |   
 | Brandon Herrin |         |           |   

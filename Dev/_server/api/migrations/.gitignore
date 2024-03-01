@@ -1,0 +1,23 @@
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+.vscode
+.env
+
+# Python artifacts
+**/__pycache__/
+
+node_modules
+npm-debug.log
+package-lock.json
+package.json
+
+db.sqlite3
+
+poetry.lock
+pyproject.toml

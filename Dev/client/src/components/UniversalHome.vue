@@ -1,7 +1,7 @@
-<script>
+<script setup>
 import {makeRequest} from '../utils/make_request.js'
 import {ref, computed} from 'vue'
-import { CupidHome } from '../CupidVues';
+//import { CupidHome } from '../CupidVues/CupidHome.vue';
 
 const chosenRoute = ref({});
 
@@ -44,15 +44,19 @@ const currView = computed(() => {
   return routes[currPath.value.slice(1) || '/']
 }) 
 
-export default {
-  name: 'Home'
-};
 </script>
 
 <template>
   <nav v-for="route in chosenRoute" :key="route">
     <a href={{ route }}> {{ chosenRoute[route] }}</a>
   </nav>
+  <h1>Under Construction!</h1>
   <component :is="currView" />
 
 </template>
+
+<style>
+  h1 {
+    margin: 20px;
+  }
+</style>
