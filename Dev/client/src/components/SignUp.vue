@@ -2,10 +2,7 @@
 import { makeRequest } from '../utils/make_request.js';
 import {ref} from 'vue';
 
-const props = defineProps({
-  routes: Object,
-  currPath: String
-})
+const currPath = window.location.hash;
 
 // For both accounts
 const email = ref('')
@@ -132,7 +129,7 @@ function previewFile() {
                 <input type="file" id="image" name="image" @change="previewFile"/>
                 <img name="pfp" src="" height="100" alt="Image preview...">
             </label>
-            <div v-if="accType === 'dater'" class="form">
+            <div v-if="accType === 'Dater'" class="form">
                 <label class="input_detail" for="nerd_type">
                     Nerd Type
                     <input type="text" id="nerd_type" :value="ntype" @change="(e) => ntype = e.target.value"/>
