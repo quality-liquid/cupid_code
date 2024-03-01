@@ -1,3 +1,6 @@
+import base64
+from operator import contains
+
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -12,6 +15,7 @@ import geoip2.database
 from math import radians, sin, cos, sqrt, atan2
 from yelpapi import YelpAPI
 import datetime
+import speech_recognition
 
 
 # 1. write the code for the models
@@ -654,6 +658,7 @@ def get_gigs(request, count):
         quest = gig.quest
         if not gig.is_accepted and __locations_are_near(quest.pickup_location, cupid.location, cupid.gig_range):
             near_gigs.append(gig)
+    near_gigs = near_gigs[:count]
     serializer = GigSerializer(near_gigs, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -1121,6 +1126,7 @@ def speech_to_text(request):
     Args:
         request: Information about the request.
             request.post: The json data sent to the server.
+                dater_id (int): The id of the dater who is requesting
                 audio (json): The audio to convert to text.
                     audio['type'] (str): The type of audio file.
                     audio['data'] (str): The audio file in base64 format.
@@ -1129,7 +1135,69 @@ def speech_to_text(request):
             If the audio was converted to text successfully and indicate if a gig was created or not, return a 200 status code.
             If the audio was not converted to text successfully or a gig could not be created, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    data = request.data
+    dater = get_object_or_404(Dater, id=data['user_id'])
+    audio = data['audio']
+    audio_type = audio['type']
+    audio_data = audio['data']
+    recognizer = speech_recognition.Recognizer()
+    try:
+        # Convert base64 audio data to bytes
+        audio_bytes = base64.b64decode(audio_data)
+        # Convert bytes to audio file
+        with open("audio_file." + audio_type, "wb") as f:
+            f.write(audio_bytes)
+        # Transcribe audio
+        with speech_recognition.AudioFile("audio_file." + audio_type) as source:
+            audio_data = recognizer.record(source)  # Read the entire audio file
+            text = recognizer.recognize_sphinx(audio_data)
+            prompt = f"""
+                      The following text is transcribed from an audio file. 
+                      Analyze the text to determine if a gig should be created. 
+                      A gig can be created by saying 'create gig'. 
+                      The purpose of a gig is to tell a Cupid what to do to save the date. 
+                      If a gig is created, the Cupid will be able to see the gig and accept it. 
+                      A gig will need to know what items are requested for the date. 
+                      The budget for the gig will be the amount of money the Dater is willing to spend on the date.
+                      Budget: {dater.budget}
+                      Please give your response in the following form:
+                          Create gig: True or False
+                          Items requested: Flowers, Chocolate, etc. or NA if no items are requested
+                      The text is: 
+                      
+                      """
+            message = prompt + text
+            response = __get_ai_response(message)
+            if contains("Create gig: True", response):
+                requested_items = "NA"
+                for line in response.split("\n"):
+                    if contains("Items requested:", line):
+                        requested_items = line.split(":")[1].strip()
+                if requested_items == "NA":
+                    return Response({"error": "gig creation failed", "gig_created": False}, status=status.HTTP_200_OK)
+
+                gig_data = {
+                    "dater_id": dater.id,
+                    "quest": {
+                        "budget": dater.budget,
+                        "items_requested": requested_items,
+                        "pickup_location": "123 Main St"
+                    }
+                }
+
+                create_gig_response = create_gig(gig_data)
+                if create_gig_response.status_code == 200:
+                    return Response({"transcription": text, "gig_created": True}, status=status.HTTP_200_OK)
+                else:
+                    return Response({"error": "gig creation failed", "gig_created": False}, status=status.HTTP_200_OK)
+            else:
+                return Response({"transcription": text, "gig_created": False}, status=status.HTTP_200_OK)
+    except speech_recognition.UnknownValueError:
+        return Response({"error": "Could not understand the audio."}, status=status.HTTP_400_BAD_REQUEST)
+    except speech_recognition.RequestError as e:
+        return Response({"error": "Could not request results; {0}".format(e)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
