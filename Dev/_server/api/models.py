@@ -52,15 +52,15 @@ class Cupid(models.Model):
         self.user.save()
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    accepting_gigs = models.BooleanField()
-    gigs_completed = models.IntegerField()
-    gigs_failed = models.IntegerField()
-    status = models.IntegerField(choices=Status.choices)
-    cupid_cash_balance = models.DecimalField(max_digits=10, decimal_places=2)
-    location = models.TextField()
-    gig_range = models.IntegerField()
-    average_rating = models.DecimalField(max_digits=10, decimal_places=2)
-    is_suspended = models.BooleanField()
+    accepting_gigs = models.BooleanField(default=False)
+    gigs_completed = models.IntegerField(default=0)
+    gigs_failed = models.IntegerField(default=0)
+    status = models.IntegerField(default=0,choices=Status.choices)
+    cupid_cash_balance = models.DecimalField(default=0,max_digits=10, decimal_places=2)
+    location = models.TextField(default="")
+    gig_range = models.IntegerField(default=20)
+    average_rating = models.DecimalField(default=0,max_digits=10, decimal_places=2)
+    is_suspended = models.BooleanField(default=False)
 
 
 class Message(models.Model):

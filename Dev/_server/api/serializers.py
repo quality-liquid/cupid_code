@@ -31,6 +31,7 @@ class CupidSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         cupid = Cupid(**validated_data)
+        cupid.user = validated_data.pop('user', None)
         cupid.is_suspended = False
         cupid.save()
         return cupid

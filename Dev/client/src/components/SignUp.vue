@@ -38,7 +38,7 @@ async function register() {
     }
 
     if (accType.value === 'dater' && check === checkData.length) {
-        await makeRequest(uri='/sign_up/', method='post', body={
+        await makeRequest('/sign_up/', 'post', {
             email: email,
             password: password,
             role: accType,
@@ -57,12 +57,12 @@ async function register() {
     }
     else if (accType.value === 'cupid' && check === checkData.length) {
         await makeRequest('/sign_up/', 'post', {
-            email: email,
-            password: password,
-            role: accType,
-            phone_number: phone,
-            location: addr,
-            profile_picture: image
+            email: email.value,
+            password: password.value,
+            role: accType.value,
+            phone_number: phone.value,
+            location: addr.value,
+            profile_picture: image.value
         })
         window.addEventListener('hashchange', () => {
             props.currPath.value = '#/home';

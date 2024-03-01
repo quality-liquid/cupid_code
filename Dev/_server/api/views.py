@@ -38,7 +38,7 @@ def create_user(request):
     Args:
         request: Information about the request.
             request.post: The json data sent to the server.
-               user_type (str): Dater, Cupid, Manager
+               role (str): Dater, Cupid, Manager
                password (str): unhashed password
                confirm_password (str): unhashed password
                username (str)
@@ -62,20 +62,51 @@ def create_user(request):
             If the user was created successfully, return serialized user and a 200 status code.
             If the user was not created successfully, return an error message and a 400 status code.
     """
-    data = request.post
-    if data['user_type'] == 'Dater':
+    data = request.data
+
+    username = data['email']
+    password = data['password']
+    email = data['email']
+    first_name = "FAKE"
+    last_name = "FAKE"
+    role = data['role']
+
+    if username and password and email and first_name and last_name:
+        if User.objects.filter(email=username):
+            #TODO: This isn't exactly what we want to do.
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        print("\n"*5)
+        print("BUILDIGN USER")
+        print("\n"*5)
+        user = User.objects.create_user(
+            username=username,
+            password=password,
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            role=role.capitalize(),
+        )
+
+    if data['role'] == 'dater':
         serializer = DaterSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif data['user_type'] == 'Cupid':
-        serializer = CupidSerializer(data=data)
+    elif data['role'] == 'cupid':
+        serializer = CupidSerializer(data=data,user=user)
+        print(serializer)
         if serializer.is_valid():
+            print("\n"*5)
+            print("valid")
+            print("\n"*5)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print("\n"*5)
+        print(serializer.errors)
+        print("\n"*5)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif data['user_type'] == 'Manager':
+    elif data['role'] == 'manager':
         serializer = ManagerSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -1070,9 +1101,9 @@ def suspend(request):
             If the user was not suspended successfully, return an error message and a 400 status code.
     """
     user_data = request.post
-    if user_data['user_type'] == 'Dater':
+    if user_data['role'] == 'Dater':
         serializer = DaterSerializer(data=user_data)
-    elif user_data['user_type'] == 'Cupid':
+    elif user_data['role'] == 'Cupid':
         serializer = CupidSerializer(data=user_data)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -1098,9 +1129,9 @@ def unsuspend(request):
             If the user was not unsuspended successfully, return an error message and a 400 status code.
     """
     user_data = request.post
-    if user_data['user_type'] == 'Dater':
+    if user_data['role'] == 'Dater':
         serializer = DaterSerializer(data=user_data)
-    elif user_data['user_type'] == 'Cupid':
+    elif user_data['role'] == 'Cupid':
         serializer = CupidSerializer(data=user_data)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
