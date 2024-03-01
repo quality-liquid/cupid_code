@@ -2,7 +2,7 @@
 import { makeRequest } from '../utils/make_request.js';
 import {ref} from 'vue';
 
-const currPath = window.location.hash;
+const currPath = ref(window.location.hash);
 
 // For both accounts
 const email = ref('')
@@ -50,7 +50,7 @@ async function register() {
         })
         
         window.addEventListener('hashchange', () => {
-            props.currPath.value = '#/home';
+            currPath.value = '#/home';
         })
     }
     else if (accType.value === 'Cupid' && check === checkData.length) {
@@ -63,7 +63,7 @@ async function register() {
             //profile_picture: image
         })
         window.addEventListener('hashchange', () => {
-            props.currPath.value = '#/home';
+            currPath.value = '#/home';
         })
     }
     else {
