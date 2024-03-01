@@ -1,6 +1,5 @@
 import base64
 from operator import contains
-
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -16,7 +15,8 @@ from math import radians, sin, cos, sqrt, atan2
 from yelpapi import YelpAPI
 import datetime
 import speech_recognition
-
+import torch
+from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
 # 1. write the code for the models
 # 2. write doc strings for all the views so we know what they should take in, what they should do, and what they should return
@@ -69,24 +69,16 @@ def create_user(request):
     data = request.post
     if data['user_type'] == 'Dater':
         serializer = DaterSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif data['user_type'] == 'Cupid':
         serializer = CupidSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif data['user_type'] == 'Manager':
         serializer = ManagerSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "invalid user type"}, status=status.HTTP_400_BAD_REQUEST)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -105,15 +97,13 @@ def get_user(request):
     user = get_object_or_404(User, id=data['user_id'])
     if user.role == 'Dater':
         serializer = DaterSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
     elif user.role == 'Cupid':
         serializer = CupidSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
     elif user.role == 'Manager':
         serializer = ManagerSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -154,10 +144,18 @@ def send_chat_message(request):
 def __get_ai_response(message: str):
     """
     Send the message to the AI and return the response.
+    https://pytensor.readthedocs.io/en/latest/
+    https://huggingface.co/
     """
-    # https://pytensor.readthedocs.io/en/latest/
-    # https://huggingface.co/
-    return "AI's response"
+    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+    model = GPT2LMHeadModel.from_pretrained("gpt2")
+    # Tokenize input text
+    input_ids = tokenizer.encode(message, return_tensors='pt')
+    # Generate response
+    output = model.generate(input_ids, max_length=100, num_return_sequences=1, early_stopping=True)
+    # Decode and return response
+    response = tokenizer.decode(output[0], skip_special_tokens=True)
+    return response
 
 
 @api_view(['GET'])
