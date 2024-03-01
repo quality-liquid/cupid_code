@@ -34,7 +34,7 @@
 |----------------|---------|-----------|
 | Name           | Job     | Time(hrs) | 
 | Nate Stott     | Backend | 5         |   
-| Emma Wright    | Connecting Front & Back        | 3       |   
+| Emma Wright    | Connecting Front & Back        | 8       |   
 | Daniel Barfuss |         |           |   
 | Brighton Ellis |         |           |   
 | Nate McKenzie  |         | 6         |   

@@ -2,6 +2,10 @@
 import { makeRequest } from '../utils/make_request.js';
 import {ref} from 'vue';
 
+const props = defineProps({
+  routes: Object,
+  currPath: String
+})
 
 // For both accounts
 const email = ref('')
@@ -9,9 +13,9 @@ const password = ref('')
 const accType = ref('')
 const phone = ref()
 const addr = ref('')
-const image = null 
+let image = null 
 
-// Dater specific
+// Dater specific - 
 const str = ref('')
 const weak = ref('')
 const ntype = ref('')
@@ -19,13 +23,22 @@ const interests = ref('')
 const goals = ref('')
 const past = ref('')
 
-console.log(accType)
-
 async function register() {
     // Validate data
-    image = document.querySelector('img[name=pfp]')
-    if (accType.toLowerCase === 'dater') {
-        await makeRequest('/sign_in/', 'post', {
+    image = document.querySelector('img[name=pfp]');
+    const checkData = [email, password, accType, phone, addr]
+
+    let check = 0;
+    for (let i = 0; i < checkData.length; i++) {
+        if (checkData[i] !== '') check++;
+        else {
+            const error = document.querySelector(`input[name=${checkData[i]}]`);
+            error.class = error.class + 'error';
+        }
+    }
+
+    if (accType.value === 'dater' && check === checkData.length) {
+        await makeRequest(uri='/sign_up/', method='post', body={
             email: email,
             password: password,
             role: accType,
@@ -38,9 +51,12 @@ async function register() {
             relationship_goals: goals,
             past: past
         })
+        window.addEventListener('hashchange', () => {
+            props.currPath.value = '#/home';
+        })
     }
-    else {
-        await makeRequest('/sign_in/', 'post', {
+    else if (accType.value === 'cupid' && check === checkData.length) {
+        await makeRequest('/sign_up/', 'post', {
             email: email,
             password: password,
             role: accType,
@@ -48,15 +64,20 @@ async function register() {
             location: addr,
             profile_picture: image
         })
+        window.addEventListener('hashchange', () => {
+            props.currPath.value = '#/home';
+        })
     }
-    // Redirect to dashboard
+    else {
+        console.log("Something went wrong")
+    }
 
 }
 
 function previewFile() {
   let preview = document.querySelector('img[name=pfp]');
-  let file    = document.querySelector('input[type=file]').files[0];
-  let reader  = new FileReader();
+  let file = document.querySelector('input[type=file]').files[0];
+  let reader = new FileReader();
 
   reader.onloadend = function () {
     preview.src = reader.result;
@@ -74,69 +95,69 @@ function previewFile() {
 <template>
     <div class="container">
         <div class="image">
-            <img :src="'/get_img/'" alt="Cupid Code Logo" width="400" height="400">
+            <img :src="'/get_img/'" alt="Cupid Code Logo" width="300" height="300">
         </div>
-        <form class="form">
-            <h1>Create Your Account!</h1>
+        <h1>Create Your Account!</h1>
+        <form class="form" @submit.prevent="register">
+            <h3>Account Type</h3>
             <div class="radios">
-                <h3>Account Type</h3>
                 <label class="radio_detail" for="cupid">
                     Cupid 
-                    <input type="radio" id="cupid" name="accountType" :value="accType" @change="(e) => accType = 'cupid'"/>
                 </label>
+                <input type="radio" id="cupid" name="accountType" :value="accType" @change="(e) => accType = 'cupid'"/>
                 <label class="radio_detail" for="dater">
                     Dater
-                    <input type="radio" id="dater" name="accountType" :value="accType" @change="(e) => accType = 'dater'"/>
                 </label>
+                <input type="radio" id="dater" name="accountType" :value="accType" @change="(e) => accType = 'dater'"/>
             </div>
             <label class="input_detail" for="email">
                 Email
-                <input type="email" :value="email" @change="(e) => email = e.target.value"/>
+                <input type="email" id="email" placeholder="example@email.com" :value="email" @change="(e) => email = e.target.value"/>
             </label>
             <label class="input_detail" for="password">
                 Password
-                <input type="password" :value="password" @change="(e) => password = e.target.value"/>
+                <input type="password" id="password" placeholder="Password" :value="password" @change="(e) => password = e.target.value"/>
             </label>
             <label class="input_detail" for="fname">
                 Phone Number
-                <input type="number" :value="phone" @change="(e) => phone = e.target.value"/>
-            </label>
-            <label class="input_detail" for="image">
-                Profile Picture
-                <input type="file" name="image" @change="previewFile"/>
-                <img name="pfp" src="" height="200" alt="Image preview...">
+                <input type="number" id="fname" :value="phone" placeholder="8889991111" @change="(e) => phone = e.target.value"/>
             </label>
             <label class="input_detail" for="address">
                 Address
-                <input type="text" :value="addr" @change="(e) => addr = e.target.value"/>
+                <input type="text" id="address" :value="addr" placeholder="1300 N 400 W Example Lane" @change="(e) => addr = e.target.value"/>
+            </label>
+            <label class="input_detail" for="image">
+                Profile Picture
+                <input type="file" id="image" name="image" @change="previewFile"/>
+                <img name="pfp" src="" height="100" alt="Image preview...">
             </label>
             <div v-if="accType === 'dater'" class="form">
                 <label class="input_detail" for="nerd_type">
                     Nerd Type
-                    <input type="text" :value="ntype" @change="(e) => ntype = e.target.value"/>
+                    <input type="text" id="nerd_type" :value="ntype" @change="(e) => ntype = e.target.value"/>
                 </label>
                 <label class="text_detail" for="goals">
                     Relationship Goals
-                    <textarea :value="goals" @change="(e) => goals = e.target.value"></textarea>
+                    <textarea :value="goals" id="goals" @change="(e) => goals = e.target.value"></textarea>
                 </label>
                 <label class="text_detail" for="interests">
                     Interests
-                    <textarea :value="interests" @change="(e) => interests = e.target.value"></textarea>
+                    <textarea :value="interests" id="interests" @change="(e) => interests = e.target.value"></textarea>
                 </label>
                 <label class="text_detail" for="past">
                     Past Dating History
-                    <textarea :value="past" @change="(e) => past = e.target.value"></textarea>
+                    <textarea :value="past" id="past" @change="(e) => past = e.target.value"></textarea>
                 </label>
                 <label class="text_detail" for="strengths">
                     Dating Strengths
-                    <textarea :value="str" @change="(e) => str = e.target.value"></textarea>
+                    <textarea :value="str" id="strengths" @change="(e) => str = e.target.value"></textarea>
                 </label>
                 <label class="text_detail" for="weaknesses">
                     Dating Weaknesses
-                    <textarea :value="weak" @change="(e) => weak = e.target.value"></textarea>
+                    <textarea :value="weak" id="weaknesses" @change="(e) => weak = e.target.value"></textarea>
                 </label>
             </div>
-            <button class="button" @click="register">Create Account</button>
+            <button class="button">Create Account</button>
         </form>
     </div>
 </template>
@@ -144,69 +165,68 @@ function previewFile() {
 
 <style scoped>
     h1 {
-        margin: 30px;
+        text-align: center;
     }
 
+    h3 {
+        text-align: center;
+    }
+
+    .form {
+        display: flex;
+        flex-flow: column wrap;
+    }
     .image {
         display: flex;
-        margin-top: 50px;
-        border-radius: 16px;
+        justify-content: center;
+        margin-top: 30px;
     }
+
     .button {
+        width: auto;
         background-color: var(--primary-red);
         border-radius: 10px;
         color: white;
         border: none;
         border-radius: 4px;
+        box-shadow: 5px 5px 2px rgba(128, 128, 128, 0.5);
+        text-decoration: solid;
     }
-    .container {
-        margin: auto;
-        padding: 10px;
-    }
-    .form {
-        display: flex;
-        flex-flow: column wrap;
-        justify-content: center;
-        align-items: center;
-        background-color: var(--secondary-blue);
-        border-radius: 16px;
-        color: white;
-        margin-top: 20px;
-    }
+
     .radios {
         display: flex;
-        flex-flow: column wrap;
-        margin-bottom: 8px;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-items: center;
     }
     .radio_detail {
         display: flex;
-        padding: 4px;
-        align-items: center;
-        justify-content: center;
     }
     .input_detail {
-        margin: 4px;
-        text-align: center;
-    }
-
-    input {
         display: flex;
         flex-direction: column;
-        border: none;
-        padding: 16px;
-        border-radius: 8px;
-        margin: 8px;
+        padding: 8px;
+        font-weight: bold;
     }
-
+    input {
+        border: 3px rgba(128, 128, 128, 0.5) solid;
+        border-radius: 4px;
+        width: auto;
+        padding: 8px;
+        margin: 10px;
+    }
+    input[type="file"] {
+        border: none;
+    }
     input[name="accountType"] {
         display: flex;
         border: none;
         color: var(--secondary-red);
     }
-
-    input[name="image"] {
-        display: flex;
+    input:focus {
+        border-color: var(--primary-red)!important;
     }
+
     .text_detail {
         display: flex;
         justify-content: center;
@@ -217,9 +237,10 @@ function previewFile() {
     
     textarea {
         padding: 16px;
-        margin: 8px;
-        width: 100px;
+        width: auto;
         height: 100px;
+        border: 3px rgba(128, 128, 128, 0.5) solid;
+        border-radius: 16px;
     }
     .button {
         margin: 10px;
@@ -228,6 +249,6 @@ function previewFile() {
         border-radius: 8px;
     }
     .error {
-        border: 4px var(--secondary-red) solid;
+        border: 2px var(--secondary-red) solid;
     }
 </style>

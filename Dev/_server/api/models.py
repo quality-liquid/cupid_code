@@ -78,7 +78,6 @@ class Gig(models.Model):
         UNCLAIMED = 0
         CLAIMED = 1
         COMPLETE = 2
-        DROPPED = 3
 
     dater = models.ForeignKey(Dater, on_delete=models.CASCADE)
     cupid = models.ForeignKey(Cupid, on_delete=models.CASCADE, null=True)
@@ -87,6 +86,8 @@ class Gig(models.Model):
     date_time_of_claim = models.DateTimeField(null=True)
     date_time_of_completion = models.DateTimeField(null=True)
     quest = models.OneToOneField(Quest, on_delete=models.CASCADE)
+    dropped_count = models.IntegerField()
+    accepted_count = models.IntegerField()
 
 class Date(models.Model):
     class Status(models.TextChoices):
