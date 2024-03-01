@@ -1,15 +1,16 @@
-from django.shortcuts import render, redirect
-from django.conf import settings
 import json
 import os
+import requests
+
+from django.shortcuts import render, redirect
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
 from django.http import JsonResponse
-import requests
 from django.http import HttpRequest
 from django.http import FileResponse
 
-
+from api.models import User
 # Load manifest when server launches
 MANIFEST = {}
 if not settings.DEBUG:
@@ -38,7 +39,9 @@ def sign_up(request):
         data = json.loads(json_data)
 
         user = requests.post('http://localhost:8000/api/user/create/', data=data)
-        login(request, user)
+        user_id = user.json()['user']
+        print(user_id)
+        login(request, User.objects.get(id = user_id))
     return redirect('/')
 
 def sign_in(request):

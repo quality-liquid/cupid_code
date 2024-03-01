@@ -46,11 +46,8 @@ class Cupid(models.Model):
         GIGGING = 1
         AVAILABLE = 2
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.user = User.objects.get(email=self.user)
-
     def save(self, *args, **kwargs):
+        self.user = User.objects.get(email=self.user)
         super().save(*args, **kwargs)
         self.user.role = User.Role.CUPID
         self.user.save()

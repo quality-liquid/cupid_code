@@ -99,7 +99,7 @@ def create_user(request):
             print("\n"*5)
             serializer.save()
             print("\n"*5)
-            print("saved")
+            print(serializer.data)
             print("\n"*5)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print("\n"*5)
