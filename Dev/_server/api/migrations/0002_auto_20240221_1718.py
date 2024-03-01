@@ -175,6 +175,8 @@ def dummy_unclaimed(dater, Gig, Quest):
         quest = quest1,
         status = 0,
         date_time_of_request = make_aware(datetime.now()),
+        dropped_count = 0,
+        accepted_count = 0,
     )
 
     gig2 = Gig(
@@ -182,6 +184,8 @@ def dummy_unclaimed(dater, Gig, Quest):
         quest = quest2,
         status = 0,
         date_time_of_request = make_aware(datetime.now()),
+        dropped_count = 0,
+        accepted_count = 0,
     )
 
     gig1.save()
@@ -215,6 +219,8 @@ def dummy_claimed(dater, cupid, Gig, Quest):
         status = 1,
         date_time_of_request = make_aware(datetime.now() - timedelta(minutes=15)),
         date_time_of_claim = make_aware(datetime.now() - timedelta(minutes=5)),
+        dropped_count = 0,
+        accepted_count = 1,
     )
 
     gig.save()

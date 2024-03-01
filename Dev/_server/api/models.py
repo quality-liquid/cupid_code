@@ -78,7 +78,6 @@ class Gig(models.Model):
         UNCLAIMED = 0
         CLAIMED = 1
         COMPLETE = 2
-        DROPPED = 3
 
     dater = models.ForeignKey(Dater, on_delete=models.CASCADE)
     cupid = models.ForeignKey(Cupid, on_delete=models.CASCADE, null=True)
