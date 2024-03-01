@@ -38,7 +38,7 @@ async function register() {
     }
 
     if (accType.value === 'dater' && check === checkData.length) {
-        await makeRequest(uri='/sign_in/', method='post', body={
+        await makeRequest(uri='/sign_up/', method='post', body={
             email: email,
             password: password,
             role: accType,
@@ -56,7 +56,7 @@ async function register() {
         })
     }
     else if (accType.value === 'cupid' && check === checkData.length) {
-        await makeRequest('/sign_in/', 'post', {
+        await makeRequest('/sign_up/', 'post', {
             email: email,
             password: password,
             role: accType,

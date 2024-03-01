@@ -31,6 +31,7 @@ def index(req):
 
 def sign_up(request):
     if request.method == 'POST':
+        print(request)
         user = requests.post('http://localhost:8000/api/user/create/', data=request.POST)
         login(request, user)
     return redirect('/')
