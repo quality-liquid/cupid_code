@@ -37,32 +37,33 @@ async function register() {
         }
     }
 
-    if (accType.value === 'dater' && check === checkData.length) {
-        await makeRequest(uri='/sign_up/', method='post', body={
-            email: email,
-            password: password,
-            role: accType,
-            phone_number: phone,
-            location: addr,
-            profile_picture: image,
-            dating_strengths: str,
-            dating_weakness: weak,
-            nerd_type: ntype,
-            relationship_goals: goals,
-            past: past
+    if (accType.value === 'Dater' && check === checkData.length) {
+        const results = await makeRequest('/sign_up/', 'post', {
+            email: email.value,
+            password: password.value,
+            user_type: accType.value,
+            phone_number: phone.value,
+            location: addr.value,
+            //profile_picture: image,
+            dating_strengths: str.value,
+            dating_weakness: weak.value,
+            nerd_type: ntype.value,
+            relationship_goals: goals.value,
+            past: past.value
         })
+        
         window.addEventListener('hashchange', () => {
             props.currPath.value = '#/home';
         })
     }
-    else if (accType.value === 'cupid' && check === checkData.length) {
+    else if (accType.value === 'Cupid' && check === checkData.length) {
         await makeRequest('/sign_up/', 'post', {
-            email: email,
-            password: password,
-            role: accType,
-            phone_number: phone,
-            location: addr,
-            profile_picture: image
+            email: email.value,
+            password: password.value,
+            user_type: accType.value,
+            phone_number: phone.value,
+            location: addr.value,
+            //profile_picture: image
         })
         window.addEventListener('hashchange', () => {
             props.currPath.value = '#/home';
@@ -104,11 +105,11 @@ function previewFile() {
                 <label class="radio_detail" for="cupid">
                     Cupid 
                 </label>
-                <input type="radio" id="cupid" name="accountType" :value="accType" @change="(e) => accType = 'cupid'"/>
+                <input type="radio" id="cupid" name="accountType" :value="accType" @change="(e) => accType = 'Cupid'"/>
                 <label class="radio_detail" for="dater">
                     Dater
                 </label>
-                <input type="radio" id="dater" name="accountType" :value="accType" @change="(e) => accType = 'dater'"/>
+                <input type="radio" id="dater" name="accountType" :value="accType" @change="(e) => accType = 'Dater'"/>
             </div>
             <label class="input_detail" for="email">
                 Email
