@@ -232,6 +232,7 @@ function previewFile() {
         display: flex;
         flex-direction: column;
         padding: 8px;
+        margin: 10px;
         font-weight: bold;
     }
     input {
