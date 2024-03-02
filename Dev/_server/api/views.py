@@ -1082,7 +1082,19 @@ def get_gig_drop_rate(request):
             If the rate of gigs that are dropped was retrieved successfully, return the gig drop rate and a 200 status code.
             If the rate of gigs that are dropped was not retrieved successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    try:
+        number_of_drops = 0
+        yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
+        gigs_from_past_day = Gig.objects.filter(date_time_of_request_range=(yesterday, datetime.datetime.now()))
+        for gig in gigs_from_past_day:
+            number_of_drops += gig.dropped_count
+
+        drop_rate = number_of_drops / 24
+        response = drop_rate.json()
+        return Response(response, status=status.HTTP_200_OK)
+
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1106,8 +1118,8 @@ def get_gig_complete_rate(request):
         response = gig_complete_rate.json()
 
         return Response(response, status=status.HTTP_200_OK)
-    except:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"error": e}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
