@@ -5,6 +5,7 @@ from django.db import migrations,transaction
 from django.contrib.auth.hashers import make_password
 from django.utils.timezone import make_aware
 
+#TODO: You cannot log in as these guys, I suspect the passwords are broken
 
 def dummy_dater1(User, Dater):
     """

@@ -108,9 +108,18 @@ def create_user(request):
 
 @api_view(['POST'])
 def sign_in(request):
+    """
+    Log in a user
+
+    Args (request.post):
+        email(str): The email of the user (See TODO)
+        password(str): The password of the user
+
+    Returns:
+        Response:
+            Dater, Cupid, or Manager serialized
+    """
     data = request.data
-    print(data['email'])
-    print(data['password'])
     #TODO: authenticate works with username, but front-end is giving emails
     user = authenticate(request, username=data['email'], password=data['password'])
     if user is not None:
