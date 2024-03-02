@@ -145,7 +145,10 @@ def sign_out(request):
         Response:
             OK
     """
-    logout(request)
+    try:
+        logout(request)
+    except Session.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_200_OK)
 
 
@@ -206,7 +209,7 @@ def send_chat_message(request):
         Response:
             message(str): The AI's response
     """
-    data = request.post
+    data = request.data
     user_id = data['user_id']
     message = data['message']
     # save a message to database
@@ -286,7 +289,7 @@ def calendar(request, pk):
         serializer = DateSerializer(dates, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'POST':
-        data = request.post
+        data = request.data
         serializer = DateSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -311,7 +314,7 @@ def rate_dater(request):
         Response:
             Saved Feedback serialized
     """
-    data = request.post
+    data = request.data
     cupid = get_object_or_404(Cupid, id=data['user_id'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = FeedbackSerializer(
@@ -383,7 +386,7 @@ def dater_transfer(request):
         Response:
             OK
     """
-    data = request.post
+    data = request.data
     dater = get_object_or_404(Dater, id=data['user_id'])
     card = get_object_or_404(PaymentCard, id=data['card_id'])
     if card.user != dater.user:
@@ -448,7 +451,7 @@ def set_dater_profile(request):
         Response:
             Saved dater serialized
     """
-    data = request.post
+    data = request.data
     dater = get_object_or_404(Dater, id=data['user_id'])
     serializer = DaterSerializer(dater, data=data)
     if serializer.is_valid():
@@ -472,7 +475,7 @@ def rate_cupid(request):
         Response:
             Saved dater serialized
     """
-    data = request.post
+    data = request.data
     dater = get_object_or_404(Dater, id=data['user_id'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = FeedbackSerializer(
@@ -545,7 +548,7 @@ def cupid_transfer(request):
             If the transfer went through successfully, return a 200 status code.
             If the transfer failed, return a corresponding error status code (400 if on our end, 500 if on bank's end)
     """
-    data = request.post
+    data = request.data
     cupid = get_object_or_404(Cupid, id=data['user_id'])
     bank_account = get_object_or_404(BankAccount, user=cupid.user)
     if bank_account.balance < cupid.cupid_cash_balance:
@@ -608,7 +611,7 @@ def set_cupid_profile(request):
             If the profile was created or changed successfully, return a 200 status code.
             If the profile failed to be created or changed (insufficent permissions, bad data, or error), return a 400 status code.
     """
-    data = request.post
+    data = request.data
     cupid = get_object_or_404(Cupid, id=data['user_id'])
     serializer = CupidSerializer(cupid, data=data)
     if serializer.is_valid():
@@ -636,7 +639,7 @@ def create_gig(request):
             If the gig was created correctly, return a 200 status code.
             If the gig was failed to be created, return a 400 status code.
     """
-    data = request.post
+    data = request.data
     dater = get_object_or_404(Dater, id=data['dater_id'])
     serializer = QuestSerializer(data=data['quest'])
     if serializer.is_valid():
@@ -665,7 +668,7 @@ def accept_gig(request):
             If the gig was successfully accepted, return a 200 status code.
             If the gig could not be accepted or was already accepted, return a 400 status code.
     """
-    data = request.post
+    data = request.data
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = GigSerializer(gig)
     if serializer.is_valid():
@@ -689,7 +692,7 @@ def complete_gig(request):
             If the gig was successfully completed, return a 200 status code.
             If the gig could not be completed or was already completed, return a 400 status code.
     """
-    data = request.post
+    data = request.data
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = GigSerializer(gig)
     if serializer.is_valid():
@@ -713,7 +716,7 @@ def drop_gig(request):
             If the gig was successfully dropped, return a 200 status code.
             If the gig could not be dropped, was already dropped, or does not have a Cupid assigned, return a 400 status code.
     """
-    data = request.post
+    data = request.data
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = GigSerializer(gig)
     if serializer.is_valid():
@@ -1168,7 +1171,7 @@ def suspend(request):
             If the user was suspended successfully, return a 200 status code.
             If the user was not suspended successfully, return an error message and a 400 status code.
     """
-    user_data = request.post
+    user_data = request.data
     if user_data['role'] == 'Dater':
         serializer = DaterSerializer(data=user_data)
     elif user_data['role'] == 'Cupid':
@@ -1196,7 +1199,7 @@ def unsuspend(request):
             If the user was unsuspended successfully, return a 200 status code.
             If the user was not unsuspended successfully, return an error message and a 400 status code.
     """
-    user_data = request.post
+    user_data = request.data
     if user_data['role'] == 'Dater':
         serializer = DaterSerializer(data=user_data)
     elif user_data['role'] == 'Cupid':
@@ -1318,7 +1321,7 @@ def notify(request):
             If the message was sent successfully, return a 200 status code.
             If the message was not sent successfully, return an error message and a 400 status code.
     """
-    data = request.post
+    data = request.data
     dater = get_object_or_404(Dater, id=data['user_id'])
     account_sid = 'AC9b5808bbd03ee994e26fc36e9a59aeef'
     auth_token = '584fb19de19ec92bacf218df367efb4c'
