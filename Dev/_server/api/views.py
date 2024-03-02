@@ -15,7 +15,6 @@ from math import radians, sin, cos, sqrt, atan2
 from yelpapi import YelpAPI
 import datetime
 import speech_recognition
-import torch
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
 # 1. write the code for the models
@@ -32,7 +31,6 @@ from transformers import GPT2Tokenizer, GPT2LMHeadModel
 # Text and Email notifications API (Twilio) https://www.twilio.com/en-us
 # Nearby Shops API (yelpapi) https://pypi.org/project/yelpapi/
 
-# Nate S start
 
 @api_view(['POST'])
 def create_user(request):
@@ -838,10 +836,6 @@ def __get_yelp_api_key():
         return file.read().split(" ")[-1]
 
 
-# Nate S end
-
-# Daniel start
-
 @api_view(['GET'])
 def get_user_location(request, pk):
     """
@@ -884,7 +878,6 @@ def get_cupids(request):
             If the cupid profiles were not retrieved successfully, return an error message and a 400 status code.
     """
     cupids = Cupid.objects.all()
-
     serializer = CupidSerializer(data=cupids, many=True)
     if serializer.is_valid():
         serializer.save()
@@ -905,7 +898,6 @@ def get_daters(request):
             If the dater profiles were not retrieved successfully, return an error message and a 400 status code.
     """
     daters = Dater.objects.all()
-
     serializer = DaterSerializer(data=daters, many=True)
     if serializer.is_valid():
         serializer.save()
@@ -926,7 +918,6 @@ def get_dater_count(request):
             If the number of daters that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
     number_of_daters = Dater.objects.all().count()
-
     return Response({'count': number_of_daters}, status=status.HTTP_200_OK)
 
 
@@ -1010,8 +1001,8 @@ def get_gig_rate(request):
         gig_rate = gigs_from_past_day.count() / 24
         response = gig_rate.json()
         return Response(response, status=status.HTTP_200_OK)
-    except:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"error": e}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1027,7 +1018,6 @@ def get_gig_count(request):
             If the number of gigs that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
     number_of_gigs = Gig.objects.all().count()
-
     return Response({'count': number_of_gigs}, status=status.HTTP_200_OK)
 
 
@@ -1233,5 +1223,3 @@ def notify(request):
             If the message was not sent successfully, return an error message and a 400 status code.
     """
     return Response(status=status.HTTP_200_OK)
-
-# Daniel end
