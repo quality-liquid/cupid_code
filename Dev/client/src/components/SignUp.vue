@@ -10,6 +10,10 @@ const password = ref('')
 const accType = ref('')
 const phone = ref()
 const addr = ref('')
+const fname = ref('')
+const lname = ref('')
+const username = ref('')
+const desc = ref('')
 let image = null 
 
 // Dater specific - 
@@ -35,12 +39,16 @@ async function register() {
     }
 
     if (accType.value === 'Dater' && check === checkData.length) {
-        await makeRequest('/api/user/create/', 'post', {
+        const results = await makeRequest('/api/user/create/', 'post', {
+            username: username.value,
+            first_name: fname.value,
+            last_name: lname.value,
             email: email.value,
             password: password.value,
             role: accType.value,
             phone_number: phone.value,
             location: addr.value,
+            description: desc.value,
             //profile_picture: image,
             dating_strengths: str.value,
             dating_weaknesses: weak.value,
@@ -56,11 +64,15 @@ async function register() {
     }
     else if (accType.value === 'Cupid' && check === checkData.length) {
         await makeRequest('/api/user/create/', 'post', {
+            username: username.value,
+            first_name: fname.value,
+            last_name: lname.value,
             email: email.value,
             password: password.value,
             role: accType.value,
             phone_number: phone.value,
             location: addr.value,
+            description: desc.value,
             //profile_picture: image
         })
         window.addEventListener('hashchange', () => {
@@ -109,6 +121,18 @@ function previewFile() {
                 </label>
                 <input type="radio" id="dater" name="accountType" :value="accType" @change="(e) => accType = 'Dater'"/>
             </div>
+            <label class="input_detail" for="fname">
+                First Name
+                <input type="text" id="fname" placeholder="First Name" :value="fname" @change="(e) => fname = e.target.value"/>
+            </label>
+            <label class="input_detail" for="lname">
+                Last Name
+                <input type="text" id="lname" placeholder="Last Name" :value="lname" @change="(e) => lname = e.target.value"/>
+            </label>
+            <label class="input_detail" for="username">
+                Username
+                <input type="text" id="username" placeholder="username01" :value="username" @change="(e) => username = e.target.value"/>
+            </label>
             <label class="input_detail" for="email">
                 Email
                 <input type="email" id="email" placeholder="example@email.com" :value="email" @change="(e) => email = e.target.value"/>
@@ -129,6 +153,10 @@ function previewFile() {
                 Profile Picture
                 <input type="file" id="image" name="image" @change="previewFile"/>
                 <img name="pfp" src="" height="100" alt="Image preview...">
+            </label>
+            <label class="text_detail" for="desc">
+                Physical Description
+                <textarea :value="desc" id="desc" @change="(e) => desc = e.target.value"></textarea>
             </label>
             <div v-if="accType === 'Dater'" class="form">
                 <label class="input_detail" for="nerd_type">
@@ -205,6 +233,7 @@ function previewFile() {
         display: flex;
         flex-direction: column;
         padding: 8px;
+        margin: 10px;
         font-weight: bold;
     }
     input {
@@ -232,6 +261,7 @@ function previewFile() {
         flex-flow: column wrap;
         padding: 8px;
         margin: 10px;
+        font-weight: bold;
     }
     
     textarea {

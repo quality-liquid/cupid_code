@@ -37,6 +37,6 @@
 | Emma Wright    | Connecting Front & Back        | 8       |   
 | Daniel Barfuss |         |           |   
 | Brighton Ellis |         |           |   
-| Nate McKenzie  |         | 11        |   
-| Eric DeBloois  | Creation of Vue pages for Login, Create Account, and Cupid pages | 3.0 |   
+| Nate McKenzie  |         | 15        |   
+| Eric DeBloois  | Creation of Vue pages for Login, Create Account, and Cupid pages | 7.5 |   
 | Brandon Herrin |         |           |   
