@@ -4,20 +4,15 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from twilio.rest import Client
-import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-
-
 from .serializers import UserSerializer, DaterSerializer, CupidSerializer, ManagerSerializer, MessageSerializer, GigSerializer, \
     DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer, QuestSerializer
 from .models import User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, PaymentCard, BankAccount
-
 from django.contrib.sessions.models import Session
 from django.contrib.auth import login, logout, authenticate
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
-
 from geopy.geocoders import Nominatim
 import geoip2.database
 from math import radians, sin, cos, sqrt, atan2
@@ -28,7 +23,7 @@ from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
 # 3. agree on how the serializers should be used and write the code to use them
 # 4. agree on what external APIs we will use
-# TODO 5. write the code for the views
+# 5. write the code for the views
 # TODO 6. write the tests for the views
 # TODO 7. debug
 
@@ -73,7 +68,6 @@ def create_user(request):
     #Prepare data input
     data = request.data
     data['role'] = data['role'].lower()
-
     #Create user
     userSerializer = UserSerializer(data=data)
     if userSerializer.is_valid():
@@ -81,7 +75,6 @@ def create_user(request):
         data['user'] = userSerializer.data['id']
     else:
         return Response(userSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
     #Create dater or cupid as appropriate
     if data['role'] == User.Role.DATER:
         serializer = DaterSerializer(data=data)
@@ -101,10 +94,7 @@ def create_user(request):
         return Response(userSerializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response({"error": "invalid user type"}, status=status.HTTP_400_BAD_REQUEST)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 def sign_in(request):
@@ -938,7 +928,6 @@ def get_cupids(request):
             If the cupid profiles were not retrieved successfully, return an error message and a 400 status code.
     """
     cupids = Cupid.objects.all()
-
     serializer = CupidSerializer(data=cupids, many=True)
     if serializer.is_valid():
         serializer.save()
@@ -959,7 +948,6 @@ def get_daters(request):
             If the dater profiles were not retrieved successfully, return an error message and a 400 status code.
     """
     daters = Dater.objects.all()
-
     serializer = DaterSerializer(data=daters, many=True)
     if serializer.is_valid():
         serializer.save()
@@ -980,7 +968,6 @@ def get_dater_count(request):
             If the number of daters that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
     number_of_daters = Dater.objects.all().count()
-
     return Response({'count': number_of_daters}, status=status.HTTP_200_OK)
 
 
@@ -1019,7 +1006,6 @@ def get_active_cupids(request):
         user_id = session_data.get('_auth_user_id')
         if User.objects.get(id=user_id).role == User.Role.CUPID:
             number_cupid_sessions += 1
-
     return Response({'active_cupid_sessions': number_cupid_sessions}, status=status.HTTP_200_OK)
 
 
@@ -1064,8 +1050,8 @@ def get_gig_rate(request):
         gig_rate = gigs_from_past_day.count() / 24
         response = gig_rate.json()
         return Response(response, status=status.HTTP_200_OK)
-    except:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"error": e}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1081,7 +1067,6 @@ def get_gig_count(request):
             If the number of gigs that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
     number_of_gigs = Gig.objects.all().count()
-
     return Response({'count': number_of_gigs}, status=status.HTTP_200_OK)
 
 
