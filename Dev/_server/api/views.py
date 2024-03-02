@@ -758,15 +758,12 @@ def __get_location_from_address(address):
     """
     # Initialize Nominatim geocoder
     geolocator = Nominatim(user_agent="geoapiExercises")
-
     # Getting location details
     location = geolocator.geocode(address)
-
     if location:
         # Extracting latitude and longitude
         latitude = location.latitude
         longitude = location.longitude
-
         return latitude, longitude
     else:
         return None, None
@@ -1131,8 +1128,8 @@ def get_gig_drop_rate(request):
         response = drop_rate.json()
         return Response(response, status=status.HTTP_200_OK)
 
-    except:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"error": e}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1150,11 +1147,8 @@ def get_gig_complete_rate(request):
     try:
         number_of_completed_gigs = Gig.objects.filter(status=2).count()
         number_of_gigs = Gig.objects.all().count()
-
         gig_complete_rate = number_of_completed_gigs / number_of_gigs
-
         response = gig_complete_rate.json()
-
         return Response(response, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({"error": e}, status=status.HTTP_400_BAD_REQUEST)
