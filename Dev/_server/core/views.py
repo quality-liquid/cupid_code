@@ -30,28 +30,20 @@ def index(req):
     }
     return render(req, 'core/index.html', context)
 
-@login_required
-def TEST_SIGNIN(request):
-    print(request.user)
-
-
-def sign_in(request):
-    if request.method == 'POST':
-        user = requests.get(f'http://localhost:8000/api/user/', data=request.POST)
-        if user is not None:
-            login(request, user)
-    return redirect('/')
-
 def get_image(req: HttpRequest):
     FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
     VAULT_PATH = os.environ.get('VAULT_PATH', '')
     path = os.path.join(VAULT_PATH, 'cupid_logo' + '.' + FILE_EXTENSION)
     return FileResponse(open(path, "rb"))
 
+#TODO: Is this the way we want to logout?
 @login_required
 def logout_view(request):
     try:
         logout(request)
-        return JsonResponse({'success': True})
+
+        #This makes life easier than the option for now
+        return redirect("/")
+        #return JsonResponse({'success': True})
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)})

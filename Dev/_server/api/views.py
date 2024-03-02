@@ -3,12 +3,13 @@ from operator import contains
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
 from .serializers import UserSerializer, DaterSerializer, CupidSerializer, ManagerSerializer, MessageSerializer, GigSerializer, \
     DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer, QuestSerializer
 from .models import User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, PaymentCard, BankAccount
 
 from django.contrib.sessions.models import Session
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 
@@ -82,21 +83,21 @@ def create_user(request):
         return Response(userSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     #Create dater or cupid as appropriate
-    if data['role'] == 'dater':
+    if data['role'] == User.Role.DATER:
         serializer = DaterSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             login(request, User.objects.get(id = userSerializer.data['id']))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif data['role'] == 'cupid':
+    elif data['role'] == User.Role.CUPID:
         serializer = CupidSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             login(request, User.objects.get(id = userSerializer.data['id']))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif data['role'] == 'manager':
+    elif data['role'] == User.Role.MANAGER:
         return Response(userSerializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response({"error": "invalid user type"}, status=status.HTTP_400_BAD_REQUEST)
@@ -105,6 +106,30 @@ def create_user(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def sign_in(request):
+    data = request.data
+    print(data['email'])
+    print(data['password'])
+    #TODO: authenticate works with username, but front-end is giving emails
+    user = authenticate(request, username=data['email'], password=data['password'])
+    if user is not None:
+        login(request, user)
+        if user.role == User.Role.DATER:
+            dater = Dater.objects.get(user=user)
+            serializer = DaterSerializer(dater)
+        elif user.role == User.Role.CUPID:
+            cupid = Cupid.objects.get(user=user)
+            serializer = CupidSerializer(cupid)
+        elif user.role == User.Role.MANAGER:
+            serializer = ManagerSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        if User.objects.filter(email=data['email']):
+            reason = 'Incorrect password'
+        else:
+            reason = 'User not found'
+        return Response({'Reason':reason},status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def get_user(request):
@@ -118,18 +143,17 @@ def get_user(request):
         Response:
             Dater, Cupid, or Manager serialized
     """
-    data = request.post
+    data = request.data
     user = get_object_or_404(User, id=data['user_id'])
-    if user.role == 'Dater':
+    if user.role == User.Role.DATER:
         serializer = DaterSerializer(user)
-    elif user.role == 'Cupid':
+    elif user.role == User.Role.CUPID:
         serializer = CupidSerializer(user)
-    elif user.role == 'Manager':
+    elif user.role == User.Role.MANAGER:
         serializer = ManagerSerializer(user)
-    else:
+    else: 
         return Response(status=status.HTTP_400_BAD_REQUEST)
     return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 @api_view(['POST'])
 def send_chat_message(request):
@@ -882,10 +906,10 @@ def get_user_location(request, pk):
 
     """
     user = get_object_or_404(User, id=pk)
-    if user.role == 'Dater':
+    if user.role == User.Role.DATER:
         user_data = get_object_or_404(Dater, id=pk)
         serializer = DaterSerializer(data=user_data)
-    elif user.role == 'Cupid':
+    elif user.role == User.Role.CUPID:
         user_data = get_object_or_404(Cupid, id=pk)
         serializer = CupidSerializer(data=user_data)
     else:
@@ -988,7 +1012,7 @@ def get_active_cupids(request):
     for session in active_sessions:
         session_data = session.get_decoded()
         user_id = session_data.get('_auth_user_id')
-        if User.objects.get(id=user_id).role == 'Cupid':
+        if User.objects.get(id=user_id).role == User.Role.CUPID:
             number_cupid_sessions += 1
 
     return Response({'active_cupid_sessions': number_cupid_sessions}, status=status.HTTP_200_OK)
@@ -1011,7 +1035,7 @@ def get_active_daters(request):
     for session in active_sessions:
         session_data = session.get_decoded()
         user_id = session_data.get('_auth_user_id')
-        if User.objects.get(id=user_id).role == 'Dater':
+        if User.objects.get(id=user_id).role == User.Role.DATER:
             number_dater_sessions += 1
 
     return Response({'active_dater_sessions': number_dater_sessions}, status=status.HTTP_200_OK)

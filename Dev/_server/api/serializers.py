@@ -14,7 +14,6 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-
 class DaterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dater
@@ -30,14 +29,7 @@ class DaterSerializer(serializers.ModelSerializer):
 class CupidSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cupid
-        fields = '__all__'
-
-    def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user', None)
-        super(CupidSerializer, self).__init__(*args, **kwargs)
-
-    def validate(self, data):
-        return data
+        fields='__all__'
 
     def create(self, validated_data):
         cupid = Cupid(**validated_data)

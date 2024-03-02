@@ -9,9 +9,9 @@ const email = ref('')
 const password = ref('')
 
 async function login() {
-    const results = await makeRequest('/sign_in/', 'post', {
-        email,
-        password
+    const results = await makeRequest('/api/user/sign_in/', 'post', {
+        email: email.value,
+        password: password.value,
     })
     // Validate response
     
