@@ -44,6 +44,7 @@ urlpatterns = [
     path('manager/gig_drop_rate/', views.get_gig_drop_rate, name='get_gig_drop_rate'),
     path('manager/gig_complete_rate/', views.get_gig_complete_rate, name='get_gig_complete_rate'),
     path('manager/suspend/', views.suspend, name='suspend'),
+    path('manager/delete_user/<int:pk>/', views.delete_user, name='delete_user'),
     path('manager/unsuspend/', views.unsuspend, name='unsuspend'),
     path('stt/', views.speech_to_text, name='speech_to_text'),
     path('notify/', views.notify, name='notify'),

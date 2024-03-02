@@ -6,7 +6,8 @@ from rest_framework.response import Response
 from twilio.rest import Client
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-from .serializers import UserSerializer, DaterSerializer, CupidSerializer, ManagerSerializer, MessageSerializer, GigSerializer, \
+from .serializers import UserSerializer, DaterSerializer, CupidSerializer, ManagerSerializer, MessageSerializer, \
+    GigSerializer, \
     DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer, QuestSerializer
 from .models import User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, PaymentCard, BankAccount
 from django.contrib.sessions.models import Session
@@ -20,6 +21,7 @@ from yelpapi import YelpAPI
 import datetime
 import speech_recognition
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
+
 
 # 3. agree on how the serializers should be used and write the code to use them
 # 4. agree on what external APIs we will use
@@ -65,29 +67,29 @@ def create_user(request):
             If the user was created successfully, return serialized user and a 200 status code.
             If the user was not created successfully, return an error message and a 400 status code.
     """
-    #Prepare data input
+    # Prepare data input
     data = request.data
     data['role'] = data['role'].lower()
-    #Create user
+    # Create user
     userSerializer = UserSerializer(data=data)
     if userSerializer.is_valid():
         userSerializer.save()
         data['user'] = userSerializer.data['id']
     else:
         return Response(userSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    #Create dater or cupid as appropriate
+    # Create dater or cupid as appropriate
     if data['role'] == User.Role.DATER:
         serializer = DaterSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            login(request, User.objects.get(id = userSerializer.data['id']))
+            login(request, User.objects.get(id=userSerializer.data['id']))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif data['role'] == User.Role.CUPID:
         serializer = CupidSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            login(request, User.objects.get(id = userSerializer.data['id']))
+            login(request, User.objects.get(id=userSerializer.data['id']))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif data['role'] == User.Role.MANAGER:
@@ -128,7 +130,24 @@ def sign_in(request):
             reason = 'Incorrect password'
         else:
             reason = 'User not found'
-        return Response({'Reason':reason},status=status.HTTP_400_BAD_REQUEST)
+        return Response({'Reason': reason}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def sign_out(request):
+    """
+    Log out a user
+
+    Args (request.post):
+        user_id(int): The id of the user
+
+    Returns:
+        Response:
+            OK
+    """
+    logout(request)
+    return Response(status=status.HTTP_200_OK)
+
 
 @api_view(['GET'])
 def get_user(request):
@@ -150,9 +169,28 @@ def get_user(request):
         serializer = CupidSerializer(user)
     elif user.role == User.Role.MANAGER:
         serializer = ManagerSerializer(user)
-    else: 
+    else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def delete_user(request, pk):
+    """
+    For a manager.
+    Delete a user
+
+    Args (request.post):
+        user_id(int): The id of the user
+
+    Returns:
+        Response:
+            OK
+    """
+    user = get_object_or_404(User, id=pk)
+    user.delete()
+    return Response(status=status.HTTP_200_OK)
+
 
 @api_view(['POST'])
 def send_chat_message(request):
@@ -1236,7 +1274,8 @@ def speech_to_text(request):
                 if contains("Items requested:", line):
                     requested_items = line.split(":")[1].strip()
             if requested_items == "NA":
-                return Response({"error": "gig creation failed. no specified pickup items", "gig_created": False}, status=status.HTTP_200_OK)
+                return Response({"error": "gig creation failed. no specified pickup items", "gig_created": False},
+                                status=status.HTTP_200_OK)
             locations = __call_yelp_api(dater.location, requested_items)
             quest_data = {
                 "budget": dater.budget,
@@ -1247,7 +1286,8 @@ def speech_to_text(request):
             if serializer.is_valid():
                 serializer.save()
             else:
-                return Response({"error": "gig creation failed. could not serialize quest."}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"error": "gig creation failed. could not serialize quest."},
+                                status=status.HTTP_400_BAD_REQUEST)
             gig_data = {
                 "dater": dater,
                 "quest": serializer.data
@@ -1257,7 +1297,8 @@ def speech_to_text(request):
                 serializer.save()
                 return Response({"message": "gig was created", "gig_created": True}, status=status.HTTP_200_OK)
             else:
-                return Response({"error": "gig creation failed. could not serialize."}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"error": "gig creation failed. could not serialize."},
+                                status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"message": "gig creation not needed", "gig_created": False}, status=status.HTTP_200_OK)
     except speech_recognition.UnknownValueError:
@@ -1314,4 +1355,3 @@ def notify(request):
         return Response(message.sid, status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
