@@ -1286,47 +1286,35 @@ def notify(request):
             If the message was sent successfully, return a 200 status code.
             If the message was not sent successfully, return an error message and a 400 status code.
     """
-
     data = request.post
     dater = get_object_or_404(Dater, id=data['user_id'])
     account_sid = 'AC9b5808bbd03ee994e26fc36e9a59aeef'
     auth_token = '584fb19de19ec92bacf218df367efb4c'
-    
+    message = data['message']
     if dater.communication_preference == 0:
         dater_email = dater.email
-        message = data['message']
-
-        message = Mail(
+        mail = Mail(
             from_email='throhawy@gmail.com',
             to_emails=dater_email,
             subject='Notification from Cupid Code',
-            html_content='<strong>Go on a date!</strong>'
+            html_content=message
         )
         try:
             sg = SendGridAPIClient('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')
-            response = sg.send(message)
+            response = sg.send(mail)
         except Exception as e:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": e}, status=status.HTTP_400_BAD_REQUEST)
         return Response(response, status=status.HTTP_200_OK)
-
-
     elif dater.communication_preference == 1:
         # We are hard-coding the number since only verified numbers can be used
-        phone_number = '+18017083373'
-        message = data['message']
-
+        dater_phone_number = '+18017083373'
         client = Client(account_sid, auth_token)
-
         message = client.messages.create(
             from_='+18446234068',
             body=message,
-            to=phone_number
+            to=dater_phone_number
         )
-
-
+        return Response(message.sid, status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-    return Response(status=status.HTTP_200_OK)
 
