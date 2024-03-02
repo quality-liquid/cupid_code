@@ -23,9 +23,8 @@ import geoip2.database
 from math import radians, sin, cos, sqrt, atan2
 from yelpapi import YelpAPI
 import datetime
-#import speech_recognition
-#import torch
-#from transformers import GPT2Tokenizer, GPT2LMHeadModel
+import speech_recognition
+from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
 # 3. agree on how the serializers should be used and write the code to use them
 # 4. agree on what external APIs we will use
@@ -38,7 +37,6 @@ import datetime
 # Text and Email notifications API (Twilio) https://www.twilio.com/en-us
 # Nearby Shops API (yelpapi) https://pypi.org/project/yelpapi/
 
-# Nate S start
 
 @api_view(['POST'])
 def create_user(request):
@@ -898,10 +896,6 @@ def __get_yelp_api_key():
         return file.read().split(" ")[-1]
 
 
-# Nate S end
-
-# Daniel start
-
 @api_view(['GET'])
 def get_user_location(request, pk):
     """
@@ -1336,4 +1330,3 @@ def notify(request):
 
     return Response(status=status.HTTP_200_OK)
 
-# Daniel end
