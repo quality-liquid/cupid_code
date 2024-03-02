@@ -8,9 +8,10 @@ const chosenRoute = ref({});
 
 //Get User and decide which routes to use based on User's Role.
 async function getUser() {
-  results = await makeRequest(`/api/user/`);
+  const results = await makeRequest(`/api/user/`);
   
 }
+
 /*
 const daterRoutes = {
   '#/dater/home/': Home,
