@@ -47,7 +47,7 @@ class Cupid(models.Model):
         AVAILABLE = 2
 
     def save(self, *args, **kwargs):
-        self.user = User.objects.get(email=self.user)
+        self.user = User.objects.get(username=self.user)
         super().save(*args, **kwargs)
         self.user.role = User.Role.CUPID
         self.user.save()

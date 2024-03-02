@@ -70,9 +70,6 @@ def create_user(request):
     #Prepare data input
     data = request.data
     data['role'] = data['role'].lower()
-    #TODO: Once these fields are provided by front-end, remove these overrides here
-    data['username'] = data['email']
-    data['description'] = "MISSING"
 
     #Create user
     userSerializer = UserSerializer(data=data)
@@ -112,7 +109,7 @@ def sign_in(request):
     Log in a user
 
     Args (request.post):
-        email(str): The email of the user (See TODO)
+        email(str): The email of the user 
         password(str): The password of the user
 
     Returns:
@@ -120,8 +117,8 @@ def sign_in(request):
             Dater, Cupid, or Manager serialized
     """
     data = request.data
-    #TODO: authenticate works with username, but front-end is giving emails
-    user = authenticate(request, username=data['email'], password=data['password'])
+    username = User.objects.get(email=data['email']).username
+    user = authenticate(request, username=username, password=data['password'])
     if user is not None:
         login(request, user)
         if user.role == User.Role.DATER:
