@@ -48,7 +48,6 @@ const currentView = computed(() => {
     justify-content: space-evenly;
     align-items: center;
     padding: 8px 16px;
-
   }
 
   a {
