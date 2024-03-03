@@ -28,10 +28,10 @@ const currView = computed(() => {
 </script>
 
 <template>
-<nav>
-    
-</nav>
-<component :is="currView" />
+  <nav>
+      
+  </nav>
+  <component :is="currView" />
 </template>
 
 <style scoped>
