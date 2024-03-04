@@ -25,6 +25,28 @@
 
   let cupids = ref([{ }])
 
+  const cupidComponent = new VueElement({
+    
+    element: "#cupidStuffs",
+    data: {
+      name: "",
+    },
+    methods: {
+      getCupidName(){
+        this.name
+      },
+      getCupidRating() {
+        this.rating
+      },
+      getCupidLocation(){
+        this.location
+      },
+      getCupidCompletedGigs(){
+        this.completedGigs
+      }
+    }
+  })
+
 </script>
 
 
