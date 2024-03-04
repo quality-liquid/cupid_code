@@ -1,8 +1,20 @@
 <script setup>
 import { makeRequest } from '../utils/make_request.js';
-import {ref} from 'vue';
+import { ref, computed } from 'vue';
+import UniversalHome from './UniversalHome.vue'
 
-const currPath = ref(window.location.hash);
+
+const currPath = ref(window.location.hash)
+
+const routes = {
+    '/#/home': UniversalHome,
+}
+let logged_in = false
+
+const currentView = computed(() => {
+  return routes['/#/home']
+})
+
 
 // For both accounts
 const email = ref('')
@@ -16,7 +28,7 @@ const username = ref('')
 const desc = ref('')
 let image = null 
 
-// Dater specific - 
+// Dater specific 
 const str = ref('')
 const weak = ref('')
 const ntype = ref('')
@@ -27,7 +39,8 @@ const past = ref('')
 async function register() {
     // Validate data
     image = document.querySelector('img[name=pfp]');
-    const checkData = [email, password, accType, phone, addr]
+
+    const checkData = [email, password, accType, phone, addr, desc]
 
     let check = 0;
     for (let i = 0; i < checkData.length; i++) {
@@ -60,6 +73,7 @@ async function register() {
         
         window.addEventListener('hashchange', () => {
             currPath.value = '#/home';
+            logged_in = true;
         })
     }
     else if (accType.value === 'Cupid' && check === checkData.length) {
@@ -77,9 +91,11 @@ async function register() {
         })
         window.addEventListener('hashchange', () => {
             currPath.value = '#/home';
+            logged_in = true;
         })
     }
     else {
+        // Handle Error
         console.log("Something went wrong")
     }
 
@@ -104,7 +120,7 @@ function previewFile() {
 </script>
 
 <template>
-    <div class="container">
+    <div class="container" v-if="!logged_in">
         <div class="image">
             <img :src="'/get_img/'" alt="Cupid Code Logo" width="300" height="300">
         </div>
@@ -141,9 +157,9 @@ function previewFile() {
                 Password
                 <input type="password" id="password" placeholder="Password" :value="password" @change="(e) => password = e.target.value"/>
             </label>
-            <label class="input_detail" for="fname">
+            <label class="input_detail" for="phone">
                 Phone Number
-                <input type="number" id="fname" :value="phone" placeholder="8889991111" @change="(e) => phone = e.target.value"/>
+                <input type="number" id="phone" :value="phone" placeholder="8889991111" @change="(e) => phone = e.target.value"/>
             </label>
             <label class="input_detail" for="address">
                 Address
@@ -186,6 +202,9 @@ function previewFile() {
             </div>
             <button class="button">Create Account</button>
         </form>
+    </div>
+    <div v-else>
+        <component :is="currentView"/>
     </div>
 </template>
 

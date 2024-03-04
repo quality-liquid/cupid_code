@@ -1,12 +1,25 @@
 <script setup>
 import { makeRequest } from '../utils/make_request.js';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import UniversalHome from './UniversalHome.vue';
 
 
 const currPath = ref(window.location.hash);
 
+const routes = {
+    '/home': UniversalHome,
+}
+
+let logged_in = false
+
+const currentView = computed(() => {
+  return routes['/home']
+})
+
+
 const email = ref('')
 const password = ref('')
+
 
 async function login() {
     const results = await makeRequest('/api/user/sign_in/', 'post', {
@@ -20,31 +33,35 @@ async function login() {
     // Redirect to dashboard if good
     window.addEventListener('hashchange', () => {
         currPath.value = '/#/home';
+        logged_in = true;
     })
 }
 
 </script>
 
 <template>
-        <div class="login_paper">
-            <div class="image">
-                <img :src="'/get_img/'" alt="Cupid Code Logo" width="300" height="300">
-            </div>
-            <form class="form" @submit.prevent="login">
-                <label class="form_input" for="email">
-                    Email
-                    <input type="email" placeholder="example@email.com" id="email" name="email" :value="email" @change="(e) => email = e.target.value">
-                </label>
-                <label class="form_input" for="password">
-                    Password
-                    <input type="password" placeholder="Password" id="password" name="password" :value="password" @change="(e) => password = e.target.value">
-                </label>
-                <button class="button">Sign In</button>
-            </form>
+    <div v-if="!logged_in" class="login_paper">
+        <div class="image">
+            <img :src="'/get_img/'" alt="Cupid Code Logo" width="300" height="300">
         </div>
-        <div class="atag">
-            <a href="#/register">Don't have an Account? Create One!</a>
-        </div>
+        <form class="form" @submit.prevent="login">
+            <label class="form_input" for="email">
+                Email
+                <input type="email" placeholder="example@email.com" id="email" name="email" :value="email" @change="(e) => email = e.target.value">
+            </label>
+            <label class="form_input" for="password">
+                Password
+                <input type="password" placeholder="Password" id="password" name="password" :value="password" @change="(e) => password = e.target.value">
+            </label>
+            <button class="button">Sign In</button>
+        </form>
+    </div>
+    <div v-else>
+        <component :is="currentView"/>
+    </div>
+    <div v-if="!logged_in" class="atag">
+        <a href="#/register">Don't have an Account? Create One!</a>
+    </div>
 </template>
 
 <style scoped>
