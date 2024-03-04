@@ -70,6 +70,7 @@ def create_user(request):
     # Prepare data input
     data = request.data
     data['role'] = data['role'].lower()
+    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     # Create user
     userSerializer = UserSerializer(data=data)
     if userSerializer.is_valid():
@@ -83,18 +84,30 @@ def create_user(request):
         if serializer.is_valid():
             serializer.save()
             login(request, User.objects.get(id=userSerializer.data['id']))
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+            #Prepare return data for front-end use
+            returnData = serializer.data
+            returnData['user'] = userSerializer.data
+            del returnData['user']['password']
+            return Response(returnData, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif data['role'] == User.Role.CUPID:
         serializer = CupidSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             login(request, User.objects.get(id=userSerializer.data['id']))
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+            #Prepare return data for front-end use
+            returnData = serializer.data
+            returnData['user'] = userSerializer.data
+            del returnData['user']['password']
+            return Response(returnData, status=status.HTTP_201_CREATED)
+        User.objects.get(id=data['user']).delete()
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif data['role'] == User.Role.MANAGER:
         return Response(userSerializer.data, status=status.HTTP_201_CREATED)
     else:
+        User.objects.get(id=data['user']).delete()
         return Response({"error": "invalid user type"}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -124,7 +137,13 @@ def sign_in(request):
             serializer = CupidSerializer(cupid)
         elif user.role == User.Role.MANAGER:
             serializer = ManagerSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+
+        #Prepare return data for front-end use
+        userSerializer = UserSerializer(user)
+        returnData = serializer.data
+        returnData['user'] = userSerializer.data
+        del returnData['user']['password']
+        return Response(returnData, status=status.HTTP_200_OK)
     else:
         if User.objects.filter(email=data['email']):
             reason = 'Incorrect password'
@@ -776,7 +795,7 @@ def __get_location_from_ip_address(ip_address):
     """
     Returns the location of an IP address.
     """
-    geoip_database_path = "geodata/GeoLite2-City_20240227/GeoLite2-City.mmdb"
+    geoip_database_path = "api/geodata/GeoLite2-City_20240227/GeoLite2-City.mmdb"
     with geoip2.database.Reader(geoip_database_path) as reader:
         try:
             response = reader.city(ip_address)
