@@ -3,6 +3,8 @@ from unittest.mock import MagicMock
 from unittest.mock import patch
 from .views import *
 
+# good means will be tested with good input,
+# bad means will be tested with bad input
 
 class TestApi(TestCase):
     """
@@ -36,6 +38,7 @@ class TestApi(TestCase):
         pass
 
     def test_bad__haversine_distance(self):
+        pass
 
     def test_good__within_distance(self):
         pass
@@ -249,6 +252,7 @@ class TestApiCupid(TestCase):
         pass
 
     def test_bad_get_cupid_profile(self):
+        pass
 
     def test_good_set_cupid_profile(self):
         pass
