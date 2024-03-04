@@ -30,7 +30,8 @@ from transformers import GPT2Tokenizer, GPT2LMHeadModel
 # TODO 7. debug
 
 # AI API (pytensor) https://pytensor.readthedocs.io/en/latest/
-# Location API (Geolocation) https://pypi.org/project/geolocation-python/ Speech To Text API (pyttsx3) https://pypi.org/project/pyttsx3/
+# Location API (Geolocation) https://pypi.org/project/geolocation-python/
+# Speech To Text API (pyttsx3) https://pypi.org/project/pyttsx3/
 # Text and Email notifications API (Twilio) https://www.twilio.com/en-us
 # Nearby Shops API (yelpapi) https://pypi.org/project/yelpapi/
 
@@ -69,6 +70,7 @@ def create_user(request):
     """
     # Prepare data input
     data = request.data
+    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     data['role'] = data['role'].lower()
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     # Create user
@@ -125,6 +127,7 @@ def sign_in(request):
             Dater, Cupid, or Manager serialized
     """
     data = request.data
+    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     username = User.objects.get(email=data['email']).username
     user = authenticate(request, username=username, password=data['password'])
     if user is not None:
@@ -150,25 +153,6 @@ def sign_in(request):
         else:
             reason = 'User not found'
         return Response({'Reason': reason}, status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(['POST'])
-def sign_out(request):
-    """
-    Log out a user
-
-    Args (request.post):
-        user_id(int): The id of the user
-
-    Returns:
-        Response:
-            OK
-    """
-    try:
-        logout(request)
-    except Session.DoesNotExist:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-    return Response(status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -229,6 +213,7 @@ def send_chat_message(request):
             message(str): The AI's response
     """
     data = request.data
+    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     user_id = data['user_id']
     message = data['message']
     # save a message to database
@@ -309,6 +294,7 @@ def calendar(request, pk):
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'POST':
         data = request.data
+        data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
         serializer = DateSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -334,6 +320,7 @@ def rate_dater(request):
             Saved Feedback serialized
     """
     data = request.data
+    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     cupid = get_object_or_404(Cupid, id=data['user_id'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = FeedbackSerializer(
@@ -406,6 +393,7 @@ def dater_transfer(request):
             OK
     """
     data = request.data
+    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, id=data['user_id'])
     card = get_object_or_404(PaymentCard, id=data['card_id'])
     if card.user != dater.user:
@@ -471,6 +459,7 @@ def set_dater_profile(request):
             Saved dater serialized
     """
     data = request.data
+    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, id=data['user_id'])
     serializer = DaterSerializer(dater, data=data)
     if serializer.is_valid():
@@ -495,6 +484,7 @@ def rate_cupid(request):
             Saved dater serialized
     """
     data = request.data
+    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, id=data['user_id'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = FeedbackSerializer(
@@ -568,6 +558,7 @@ def cupid_transfer(request):
             If the transfer failed, return a corresponding error status code (400 if on our end, 500 if on bank's end)
     """
     data = request.data
+    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     cupid = get_object_or_404(Cupid, id=data['user_id'])
     bank_account = get_object_or_404(BankAccount, user=cupid.user)
     if bank_account.balance < cupid.cupid_cash_balance:
@@ -631,6 +622,7 @@ def set_cupid_profile(request):
             If the profile failed to be created or changed (insufficent permissions, bad data, or error), return a 400 status code.
     """
     data = request.data
+    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     cupid = get_object_or_404(Cupid, id=data['user_id'])
     serializer = CupidSerializer(cupid, data=data)
     if serializer.is_valid():
@@ -659,6 +651,7 @@ def create_gig(request):
             If the gig was failed to be created, return a 400 status code.
     """
     data = request.data
+    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, id=data['dater_id'])
     serializer = QuestSerializer(data=data['quest'])
     if serializer.is_valid():
@@ -688,6 +681,7 @@ def accept_gig(request):
             If the gig could not be accepted or was already accepted, return a 400 status code.
     """
     data = request.data
+    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = GigSerializer(gig)
     if serializer.is_valid():
@@ -712,6 +706,7 @@ def complete_gig(request):
             If the gig could not be completed or was already completed, return a 400 status code.
     """
     data = request.data
+    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = GigSerializer(gig)
     if serializer.is_valid():
@@ -736,6 +731,7 @@ def drop_gig(request):
             If the gig could not be dropped, was already dropped, or does not have a Cupid assigned, return a 400 status code.
     """
     data = request.data
+    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = GigSerializer(gig)
     if serializer.is_valid():
@@ -1252,6 +1248,7 @@ def speech_to_text(request):
             If the audio was not converted to text successfully or a gig could not be created, return an error message and a 400 status code.
     """
     data = request.data
+    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, id=data['user_id'])
     audio = data['audio']
     audio_type = audio['type']

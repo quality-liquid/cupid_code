@@ -36,7 +36,7 @@
 | Nate Stott     | Backend                                                          | 13        |   
 | Emma Wright    | Connecting Front & Back                                          | 8         |   
 | Daniel Barfuss | Last 15 views                                                    | 6         |   
-| Brighton Ellis |                                                                  |           |   
+| Brighton Ellis | Manager Page Skeletons + Dater Page Skeletons                    | 8         |   
 | Nate McKenzie  |                                                                  | 15        |   
 | Eric DeBloois  | Creation of Vue pages for Login, Create Account, and Cupid pages | 7.5       |   
 | Brandon Herrin | Starting Dater Vue pages and Calendar work (work in progress)    | 6.0       |
