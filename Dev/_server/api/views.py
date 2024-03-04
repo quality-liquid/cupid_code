@@ -72,7 +72,6 @@ def create_user(request):
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     data['role'] = data['role'].lower()
-    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     # Create user
     userSerializer = UserSerializer(data=data)
     if userSerializer.is_valid():
