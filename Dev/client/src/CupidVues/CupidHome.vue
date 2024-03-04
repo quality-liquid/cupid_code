@@ -1,4 +1,4 @@
-<script>
+<script setup>
     /* Set the width of the side navigation to 250px */
     function openNav() {
         document.getElementById("mySidenav").style.width = "250px";
@@ -8,6 +8,57 @@
     function closeNav() {
         document.getElementById("mySidenav").style.width = "0";
     }
+
+    /* Pretty sure this is how data is made available to be displayed in the template tag */
+    new Vue({
+      el: '#app',
+      router,
+      data: {
+        gigs: [
+          { id:"0", location: 'Logan UT', pickup: 'Wow, a description!', deliver: '123 Street Drive, Logan UT', active: true },
+          { id:"1", location: 'Logan UT', pickup: 'Wow, a description!', deliver: '123 Street Drive, Logan UT', active: false },
+          { id:"2", location: 'Somewhere UT', pickup: 'Wow, a description!', deliver: '123 Street Drive, Somewhere UT', active: true }
+        ]
+      }, 
+      methods: {
+        viewGig(gig) {
+            this.$router.push({ path: `/gig/${gig.id}`, params: { gig } });
+        }
+      }
+    });
+
+    const GigInfo = {
+      template: `
+        <div>
+          <h1>{{ gig.location }}</h1>
+          <p>Email: {{ gig.pickup }}</p>
+          <p>Phone Number: {{ gig.deliver }}</p>
+          <p>Status: {{ gig.active ? 'Active' : 'Inactive' }}</p>
+          <button @click="goBack">Go Back</button>
+        </div>
+      `,
+      data() {
+        return {
+          gig: {}
+        };
+      },
+      methods: {
+        goBack() {
+          this.$router.go(-1);
+        }
+      },
+      created() {
+        this.gig = this.$route.params.gig;
+      }
+    };
+
+    const routes = [
+      { path: '/gig/:id', component: GigInfo, props: true }
+    ];
+
+    const router = new VueRouter({
+      routes
+    });
 </script>
 
 <template>
@@ -25,9 +76,30 @@
         </span>
     </nav>
 
+    <div class="body">
+        <div v-for="item in items" :key="item.id" 
+        :class="{ 'active': item.active, 'inactive': !item.active }" 
+        @click="viewGig(item)">
+            <h3>{{ item.location }}</h3>
+            <p>Pickup: {{ item.Pickup }}</p>
+            <p>Deliver Number: {{ item.Deliver }}</p>
+            <p>Status: {{ item.active ? 'Active' : 'Inactive' }}</p>
+            <button :class="{'active': !item.active, 'inactive': item.active}">
+                {{ item.active ? 'Drop Gig' : 'Accept' }}
+            </button>
+        </div>
+    </div>
+
 </template>
 
-<style>
+<style scoped>
+    .active {
+      background-color: blue;
+    }
+    .inactive {
+      background-color: red;
+    }
+
     /* The side navigation menu */
     .sidenav {
         height: 100%; /* 100% Full-height */
@@ -35,7 +107,7 @@
         position: fixed; /* Stay in place */
         z-index: 1; /* Stay on top */
         top: 0; /* Stay at the top */
-        left: 0;
+        right: 0;
         background-color: #111; /* Black*/
         overflow-x: hidden; /* Disable horizontal scroll */
         padding-top: 60px; /* Place content 60px from the top */

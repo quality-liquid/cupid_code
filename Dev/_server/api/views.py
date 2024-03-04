@@ -1,10 +1,17 @@
+import base64
+from operator import contains
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import DaterSerializer, CupidSerializer, ManagerSerializer, MessageSerializer, GigSerializer, \
+from twilio.rest import Client
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+from .serializers import UserSerializer, DaterSerializer, CupidSerializer, ManagerSerializer, MessageSerializer, \
+    GigSerializer, \
     DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer, QuestSerializer
 from .models import User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, PaymentCard, BankAccount
 from django.contrib.sessions.models import Session
+from django.contrib.auth import login, logout, authenticate
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from geopy.geocoders import Nominatim
@@ -12,23 +19,21 @@ import geoip2.database
 from math import radians, sin, cos, sqrt, atan2
 from yelpapi import YelpAPI
 import datetime
+import speech_recognition
+from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
 
-# 1. write the code for the models
-# 2. write doc strings for all the views so we know what they should take in, what they should do, and what they should return
 # 3. agree on how the serializers should be used and write the code to use them
 # 4. agree on what external APIs we will use
-# TODO 5. write the code for the views
+# 5. write the code for the views
 # TODO 6. write the tests for the views
 # TODO 7. debug
 
 # AI API (pytensor) https://pytensor.readthedocs.io/en/latest/
-# Location API (Geolocation) https://pypi.org/project/geolocation-python/
-# Speech To Text API (pyttsx3) https://pypi.org/project/pyttsx3/
+# Location API (Geolocation) https://pypi.org/project/geolocation-python/ Speech To Text API (pyttsx3) https://pypi.org/project/pyttsx3/
 # Text and Email notifications API (Twilio) https://www.twilio.com/en-us
 # Nearby Shops API (yelpapi) https://pypi.org/project/yelpapi/
 
-# Nate S start
 
 @api_view(['POST'])
 def create_user(request):
@@ -38,7 +43,7 @@ def create_user(request):
     Args:
         request: Information about the request.
             request.post: The json data sent to the server.
-               user_type (str): Dater, Cupid, Manager
+               role (str): Dater, Cupid, Manager
                password (str): unhashed password
                confirm_password (str): unhashed password
                username (str)
@@ -62,27 +67,89 @@ def create_user(request):
             If the user was created successfully, return serialized user and a 200 status code.
             If the user was not created successfully, return an error message and a 400 status code.
     """
-    data = request.post
-    if data['user_type'] == 'Dater':
+    # Prepare data input
+    data = request.data
+    data['role'] = data['role'].lower()
+    # Create user
+    userSerializer = UserSerializer(data=data)
+    if userSerializer.is_valid():
+        userSerializer.save()
+        data['user'] = userSerializer.data['id']
+    else:
+        return Response(userSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # Create dater or cupid as appropriate
+    if data['role'] == User.Role.DATER:
         serializer = DaterSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
+            login(request, User.objects.get(id=userSerializer.data['id']))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif data['user_type'] == 'Cupid':
+    elif data['role'] == User.Role.CUPID:
         serializer = CupidSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
+            login(request, User.objects.get(id=userSerializer.data['id']))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif data['user_type'] == 'Manager':
-        serializer = ManagerSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif data['role'] == User.Role.MANAGER:
+        return Response(userSerializer.data, status=status.HTTP_201_CREATED)
     else:
+        return Response({"error": "invalid user type"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def sign_in(request):
+    """
+    Log in a user
+
+    Args (request.post):
+        email(str): The email of the user 
+        password(str): The password of the user
+
+    Returns:
+        Response:
+            Dater, Cupid, or Manager serialized
+    """
+    data = request.data
+    username = User.objects.get(email=data['email']).username
+    user = authenticate(request, username=username, password=data['password'])
+    if user is not None:
+        login(request, user)
+        if user.role == User.Role.DATER:
+            dater = Dater.objects.get(user=user)
+            serializer = DaterSerializer(dater)
+        elif user.role == User.Role.CUPID:
+            cupid = Cupid.objects.get(user=user)
+            serializer = CupidSerializer(cupid)
+        elif user.role == User.Role.MANAGER:
+            serializer = ManagerSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        if User.objects.filter(email=data['email']):
+            reason = 'Incorrect password'
+        else:
+            reason = 'User not found'
+        return Response({'Reason': reason}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def sign_out(request):
+    """
+    Log out a user
+
+    Args (request.post):
+        user_id(int): The id of the user
+
+    Returns:
+        Response:
+            OK
+    """
+    try:
+        logout(request)
+    except Session.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    return Response(status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -97,19 +164,35 @@ def get_user(request):
         Response:
             Dater, Cupid, or Manager serialized
     """
-    data = request.post
+    data = request.data
     user = get_object_or_404(User, id=data['user_id'])
-    if user.role == 'Dater':
+    if user.role == User.Role.DATER:
         serializer = DaterSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    elif user.role == 'Cupid':
+    elif user.role == User.Role.CUPID:
         serializer = CupidSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    elif user.role == 'Manager':
+    elif user.role == User.Role.MANAGER:
         serializer = ManagerSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def delete_user(request, pk):
+    """
+    For a manager.
+    Delete a user
+
+    Args (request.post):
+        user_id(int): The id of the user
+
+    Returns:
+        Response:
+            OK
+    """
+    user = get_object_or_404(User, id=pk)
+    user.delete()
+    return Response(status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -126,7 +209,7 @@ def send_chat_message(request):
         Response:
             message(str): The AI's response
     """
-    data = request.post
+    data = request.data
     user_id = data['user_id']
     message = data['message']
     # save a message to database
@@ -150,10 +233,18 @@ def send_chat_message(request):
 def __get_ai_response(message: str):
     """
     Send the message to the AI and return the response.
+    https://pytensor.readthedocs.io/en/latest/
+    https://huggingface.co/
     """
-    # https://pytensor.readthedocs.io/en/latest/
-    # https://huggingface.co/
-    return "AI's response"
+    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+    model = GPT2LMHeadModel.from_pretrained("gpt2")
+    # Tokenize input text
+    input_ids = tokenizer.encode(message, return_tensors='pt')
+    # Generate response
+    output = model.generate(input_ids, max_length=100, num_return_sequences=1, early_stopping=True)
+    # Decode and return response
+    response = tokenizer.decode(output[0], skip_special_tokens=True)
+    return response
 
 
 @api_view(['GET'])
@@ -198,7 +289,7 @@ def calendar(request, pk):
         serializer = DateSerializer(dates, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'POST':
-        data = request.post
+        data = request.data
         serializer = DateSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -223,7 +314,7 @@ def rate_dater(request):
         Response:
             Saved Feedback serialized
     """
-    data = request.post
+    data = request.data
     cupid = get_object_or_404(Cupid, id=data['user_id'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = FeedbackSerializer(
@@ -295,7 +386,7 @@ def dater_transfer(request):
         Response:
             OK
     """
-    data = request.post
+    data = request.data
     dater = get_object_or_404(Dater, id=data['user_id'])
     card = get_object_or_404(PaymentCard, id=data['card_id'])
     if card.user != dater.user:
@@ -360,7 +451,7 @@ def set_dater_profile(request):
         Response:
             Saved dater serialized
     """
-    data = request.post
+    data = request.data
     dater = get_object_or_404(Dater, id=data['user_id'])
     serializer = DaterSerializer(dater, data=data)
     if serializer.is_valid():
@@ -384,7 +475,7 @@ def rate_cupid(request):
         Response:
             Saved dater serialized
     """
-    data = request.post
+    data = request.data
     dater = get_object_or_404(Dater, id=data['user_id'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = FeedbackSerializer(
@@ -457,7 +548,7 @@ def cupid_transfer(request):
             If the transfer went through successfully, return a 200 status code.
             If the transfer failed, return a corresponding error status code (400 if on our end, 500 if on bank's end)
     """
-    data = request.post
+    data = request.data
     cupid = get_object_or_404(Cupid, id=data['user_id'])
     bank_account = get_object_or_404(BankAccount, user=cupid.user)
     if bank_account.balance < cupid.cupid_cash_balance:
@@ -520,7 +611,7 @@ def set_cupid_profile(request):
             If the profile was created or changed successfully, return a 200 status code.
             If the profile failed to be created or changed (insufficent permissions, bad data, or error), return a 400 status code.
     """
-    data = request.post
+    data = request.data
     cupid = get_object_or_404(Cupid, id=data['user_id'])
     serializer = CupidSerializer(cupid, data=data)
     if serializer.is_valid():
@@ -548,7 +639,7 @@ def create_gig(request):
             If the gig was created correctly, return a 200 status code.
             If the gig was failed to be created, return a 400 status code.
     """
-    data = request.post
+    data = request.data
     dater = get_object_or_404(Dater, id=data['dater_id'])
     serializer = QuestSerializer(data=data['quest'])
     if serializer.is_valid():
@@ -577,7 +668,7 @@ def accept_gig(request):
             If the gig was successfully accepted, return a 200 status code.
             If the gig could not be accepted or was already accepted, return a 400 status code.
     """
-    data = request.post
+    data = request.data
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = GigSerializer(gig)
     if serializer.is_valid():
@@ -601,7 +692,7 @@ def complete_gig(request):
             If the gig was successfully completed, return a 200 status code.
             If the gig could not be completed or was already completed, return a 400 status code.
     """
-    data = request.post
+    data = request.data
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = GigSerializer(gig)
     if serializer.is_valid():
@@ -625,7 +716,7 @@ def drop_gig(request):
             If the gig was successfully dropped, return a 200 status code.
             If the gig could not be dropped, was already dropped, or does not have a Cupid assigned, return a 400 status code.
     """
-    data = request.post
+    data = request.data
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = GigSerializer(gig)
     if serializer.is_valid():
@@ -654,6 +745,7 @@ def get_gigs(request, count):
         quest = gig.quest
         if not gig.is_accepted and __locations_are_near(quest.pickup_location, cupid.location, cupid.gig_range):
             near_gigs.append(gig)
+    near_gigs = near_gigs[:count]
     serializer = GigSerializer(near_gigs, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -669,15 +761,12 @@ def __get_location_from_address(address):
     """
     # Initialize Nominatim geocoder
     geolocator = Nominatim(user_agent="geoapiExercises")
-
     # Getting location details
     location = geolocator.geocode(address)
-
     if location:
         # Extracting latitude and longitude
         latitude = location.latitude
         longitude = location.longitude
-
         return latitude, longitude
     else:
         return None, None
@@ -740,7 +829,10 @@ def get_stores(request, pk):
         Response:
             A list of nearby stores, including their specific location (JSON)
     """
-    return __call_yelp_api(pk, "stores")
+    response = __call_yelp_api(pk, "stores")
+    if response:
+        return Response(response, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -754,7 +846,10 @@ def get_activities(request, pk):
         Response:
             A list of nearby activities, including their specific location (JSON)
     """
-    return __call_yelp_api(pk, "activities")
+    response = __call_yelp_api(pk, "activities")
+    if response:
+        return Response(response, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -768,7 +863,10 @@ def get_events(request, pk):
         Response:
             A list of nearby events, including their specific location (JSON)
     """
-    return __call_yelp_api(pk, "events")
+    response = __call_yelp_api(pk, "events")
+    if response:
+        return Response(response, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -783,7 +881,10 @@ def get_attractions(request, pk):
             If the attractions were retrieved successfully, return a list of nearby attractions, including their specific location amd a 200 status code.
             If the attractions were not retrieved successfully, return an error message and a 400 status code.
     """
-    return __call_yelp_api(pk, "attractions")
+    response = __call_yelp_api(pk, "attractions")
+    if response:
+        return Response(response, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -798,7 +899,10 @@ def get_restaurants(request, pk):
             If the restaurants were retrieved successfully, return a list of nearby restaurants, including their specific location and a 200 status code.
             If the restaurants were not retrieved successfully, return an error message and a 400 status code.
     """
-    return __call_yelp_api(pk, "restaurants")
+    response = __call_yelp_api(pk, "restaurants")
+    if response:
+        return Response(response, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 def __call_yelp_api(pk, search):
@@ -807,10 +911,9 @@ def __call_yelp_api(pk, search):
     api_key = __get_yelp_api_key()
     with YelpAPI(api_key, timeout_s=5.0) as yelp_api:
         try:
-            search_results = yelp_api.search_query(term=search, latitude=latitude, longitude=longitude, limit=10)
-            return Response(search_results, status=status.HTTP_200_OK)
+            return yelp_api.search_query(term=search, latitude=latitude, longitude=longitude, limit=10)
         except YelpAPI.YelpAPIError as e:
-            return Response(e, status=status.HTTP_400_BAD_REQUEST)
+            return None
 
 
 def __get_yelp_api_key():
@@ -820,10 +923,6 @@ def __get_yelp_api_key():
     with open('yelp_api_key.txt', 'r') as file:
         return file.read().split(" ")[-1]
 
-
-# Nate S end
-
-# Daniel start
 
 @api_view(['GET'])
 def get_user_location(request, pk):
@@ -840,10 +939,10 @@ def get_user_location(request, pk):
 
     """
     user = get_object_or_404(User, id=pk)
-    if user.role == 'Dater':
+    if user.role == User.Role.DATER:
         user_data = get_object_or_404(Dater, id=pk)
         serializer = DaterSerializer(data=user_data)
-    elif user.role == 'Cupid':
+    elif user.role == User.Role.CUPID:
         user_data = get_object_or_404(Cupid, id=pk)
         serializer = CupidSerializer(data=user_data)
     else:
@@ -867,7 +966,6 @@ def get_cupids(request):
             If the cupid profiles were not retrieved successfully, return an error message and a 400 status code.
     """
     cupids = Cupid.objects.all()
-
     serializer = CupidSerializer(data=cupids, many=True)
     if serializer.is_valid():
         serializer.save()
@@ -888,7 +986,6 @@ def get_daters(request):
             If the dater profiles were not retrieved successfully, return an error message and a 400 status code.
     """
     daters = Dater.objects.all()
-
     serializer = DaterSerializer(data=daters, many=True)
     if serializer.is_valid():
         serializer.save()
@@ -909,7 +1006,6 @@ def get_dater_count(request):
             If the number of daters that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
     number_of_daters = Dater.objects.all().count()
-
     return Response({'count': number_of_daters}, status=status.HTTP_200_OK)
 
 
@@ -926,7 +1022,6 @@ def get_cupid_count(request):
             If the number of cupids that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
     number_of_cupids = Cupid.objects.all().count()
-
     return Response({'count': number_of_cupids}, status=status.HTTP_200_OK)
 
 
@@ -947,9 +1042,8 @@ def get_active_cupids(request):
     for session in active_sessions:
         session_data = session.get_decoded()
         user_id = session_data.get('_auth_user_id')
-        if User.objects.get(id=user_id).role == 'Cupid':
+        if User.objects.get(id=user_id).role == User.Role.CUPID:
             number_cupid_sessions += 1
-
     return Response({'active_cupid_sessions': number_cupid_sessions}, status=status.HTTP_200_OK)
 
 
@@ -970,7 +1064,7 @@ def get_active_daters(request):
     for session in active_sessions:
         session_data = session.get_decoded()
         user_id = session_data.get('_auth_user_id')
-        if User.objects.get(id=user_id).role == 'Dater':
+        if User.objects.get(id=user_id).role == User.Role.DATER:
             number_dater_sessions += 1
 
     return Response({'active_dater_sessions': number_dater_sessions}, status=status.HTTP_200_OK)
@@ -994,8 +1088,8 @@ def get_gig_rate(request):
         gig_rate = gigs_from_past_day.count() / 24
         response = gig_rate.json()
         return Response(response, status=status.HTTP_200_OK)
-    except:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"error": e}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1011,7 +1105,6 @@ def get_gig_count(request):
             If the number of gigs that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
     number_of_gigs = Gig.objects.all().count()
-
     return Response({'count': number_of_gigs}, status=status.HTTP_200_OK)
 
 
@@ -1027,7 +1120,19 @@ def get_gig_drop_rate(request):
             If the rate of gigs that are dropped was retrieved successfully, return the gig drop rate and a 200 status code.
             If the rate of gigs that are dropped was not retrieved successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    try:
+        number_of_drops = 0
+        yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
+        gigs_from_past_day = Gig.objects.filter(date_time_of_request_range=(yesterday, datetime.datetime.now()))
+        for gig in gigs_from_past_day:
+            number_of_drops += gig.dropped_count
+
+        drop_rate = number_of_drops / 24
+        response = drop_rate.json()
+        return Response(response, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        return Response({"error": e}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1045,14 +1150,11 @@ def get_gig_complete_rate(request):
     try:
         number_of_completed_gigs = Gig.objects.filter(status=2).count()
         number_of_gigs = Gig.objects.all().count()
-
         gig_complete_rate = number_of_completed_gigs / number_of_gigs
-
         response = gig_complete_rate.json()
-
         return Response(response, status=status.HTTP_200_OK)
-    except:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"error": e}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -1069,10 +1171,10 @@ def suspend(request):
             If the user was suspended successfully, return a 200 status code.
             If the user was not suspended successfully, return an error message and a 400 status code.
     """
-    user_data = request.post
-    if user_data['user_type'] == 'Dater':
+    user_data = request.data
+    if user_data['role'] == 'Dater':
         serializer = DaterSerializer(data=user_data)
-    elif user_data['user_type'] == 'Cupid':
+    elif user_data['role'] == 'Cupid':
         serializer = CupidSerializer(data=user_data)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -1097,10 +1199,10 @@ def unsuspend(request):
             If the user was unsuspended successfully, return a 200 status code.
             If the user was not unsuspended successfully, return an error message and a 400 status code.
     """
-    user_data = request.post
-    if user_data['user_type'] == 'Dater':
+    user_data = request.data
+    if user_data['role'] == 'Dater':
         serializer = DaterSerializer(data=user_data)
-    elif user_data['user_type'] == 'Cupid':
+    elif user_data['role'] == 'Cupid':
         serializer = CupidSerializer(data=user_data)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -1121,6 +1223,7 @@ def speech_to_text(request):
     Args:
         request: Information about the request.
             request.post: The json data sent to the server.
+                dater_id (int): The id of the dater who is requesting
                 audio (json): The audio to convert to text.
                     audio['type'] (str): The type of audio file.
                     audio['data'] (str): The audio file in base64 format.
@@ -1129,7 +1232,78 @@ def speech_to_text(request):
             If the audio was converted to text successfully and indicate if a gig was created or not, return a 200 status code.
             If the audio was not converted to text successfully or a gig could not be created, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
+    data = request.data
+    dater = get_object_or_404(Dater, id=data['user_id'])
+    audio = data['audio']
+    audio_type = audio['type']
+    audio_data = audio['data']
+    recognizer = speech_recognition.Recognizer()
+    try:
+        # Convert base64 audio data to bytes
+        audio_bytes = base64.b64decode(audio_data)
+        # Convert bytes to audio file
+        with open("audio_file." + audio_type, "wb") as f:
+            f.write(audio_bytes)
+        # Transcribe audio
+        with speech_recognition.AudioFile("audio_file." + audio_type) as source:
+            audio_data = recognizer.record(source)
+            text = recognizer.recognize_sphinx(audio_data)
+        prompt = f"""
+                  The following text is transcribed from an audio file. 
+                  Analyze the text to determine if a gig should be created. 
+                  A gig can be created by saying 'create gig'. 
+                  The purpose of a gig is to tell a Cupid what to do to save the date. 
+                  If a gig is created, the Cupid will be able to see the gig and accept it. 
+                  A gig will need to know what items are requested for the date. 
+                  The budget for the gig will be the amount of money the Dater is willing to spend on the date.
+                  Budget: {dater.budget}
+                  Please give your response in the following form:
+                      Create gig: True or False
+                      Items requested: Flowers, Chocolate, etc. or NA if no items are requested
+                  The text is: 
+                  
+                  """
+        message = prompt + text
+        response = __get_ai_response(message)
+        if contains("Create gig: True", response):
+            requested_items = "NA"
+            for line in response.split("\n"):
+                if contains("Items requested:", line):
+                    requested_items = line.split(":")[1].strip()
+            if requested_items == "NA":
+                return Response({"error": "gig creation failed. no specified pickup items", "gig_created": False},
+                                status=status.HTTP_200_OK)
+            locations = __call_yelp_api(dater.location, requested_items)
+            quest_data = {
+                "budget": dater.budget,
+                "items_requested": requested_items,
+                "pickup_location": locations[0]["address"]
+            }
+            serializer = QuestSerializer(data=quest_data)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                return Response({"error": "gig creation failed. could not serialize quest."},
+                                status=status.HTTP_400_BAD_REQUEST)
+            gig_data = {
+                "dater": dater,
+                "quest": serializer.data
+            }
+            serializer = GigSerializer(data=gig_data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"message": "gig was created", "gig_created": True}, status=status.HTTP_200_OK)
+            else:
+                return Response({"error": "gig creation failed. could not serialize."},
+                                status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"message": "gig creation not needed", "gig_created": False}, status=status.HTTP_200_OK)
+    except speech_recognition.UnknownValueError:
+        return Response({"error": "Could not understand the audio."}, status=status.HTTP_400_BAD_REQUEST)
+    except speech_recognition.RequestError as e:
+        return Response({"error": "Could not request results; {0}".format(e)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -1147,6 +1321,34 @@ def notify(request):
             If the message was sent successfully, return a 200 status code.
             If the message was not sent successfully, return an error message and a 400 status code.
     """
-    return Response(status=status.HTTP_200_OK)
-
-# Daniel end
+    data = request.data
+    dater = get_object_or_404(Dater, id=data['user_id'])
+    account_sid = 'AC9b5808bbd03ee994e26fc36e9a59aeef'
+    auth_token = '584fb19de19ec92bacf218df367efb4c'
+    message = data['message']
+    if dater.communication_preference == 0:
+        dater_email = dater.email
+        mail = Mail(
+            from_email='throhawy@gmail.com',
+            to_emails=dater_email,
+            subject='Notification from Cupid Code',
+            html_content=message
+        )
+        try:
+            sg = SendGridAPIClient('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')
+            response = sg.send(mail)
+        except Exception as e:
+            return Response({"error": e}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(response, status=status.HTTP_200_OK)
+    elif dater.communication_preference == 1:
+        # We are hard-coding the number since only verified numbers can be used
+        dater_phone_number = '+18017083373'
+        client = Client(account_sid, auth_token)
+        message = client.messages.create(
+            from_='+18446234068',
+            body=message,
+            to=dater_phone_number
+        )
+        return Response(message.sid, status=status.HTTP_200_OK)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)

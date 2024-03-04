@@ -32,7 +32,7 @@ const currentView = computed(() => {
       <a href="#/login"> Login </a>
       <a href="#/"> Back </a>
     </nav>
-    <component :is="currentView" :routes="routes" :currPath="currPath"/> 
+    <component :is="currentView"/> 
   </div>
 </template>
 
@@ -48,7 +48,6 @@ const currentView = computed(() => {
     justify-content: space-evenly;
     align-items: center;
     padding: 8px 16px;
-
   }
 
   a {
