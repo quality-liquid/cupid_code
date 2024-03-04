@@ -1,20 +1,6 @@
 <script setup>
 import { makeRequest } from '../utils/make_request.js';
 import { ref, computed } from 'vue';
-import UniversalHome from './UniversalHome.vue';
-
-
-const currPath = ref(window.location.hash);
-
-const routes = {
-    '/home': UniversalHome,
-}
-
-let logged_in = false
-
-const currentView = computed(() => {
-  return routes['/home']
-})
 
 
 const email = ref('')
@@ -31,10 +17,26 @@ async function login() {
     // Add error class to which one is invalid
     
     // Redirect to dashboard if good
-    window.addEventListener('hashchange', () => {
-        currPath.value = '/#/home';
-        logged_in = true;
-    })
+    logged_in = true
+    if (results.user_type === 'Dater') {
+        window.addEventListener('hashchange', () => {
+            currPath.value = '#/dater/home'
+        })
+    } else if (results.user_type === 'Cupid') {
+        window.addEventListener('hashchange', () => {
+            currPath.value = '#/cupid/home'
+        })
+    } else if (results.user_type === 'Manager') {
+        window.addEventListener('hashchange', () => {
+            currPath.value = '#/manager/home'
+        })
+    }
+    else  {
+        window.addEventListener('hashchange', () => {
+            currPath.value = '#/login'
+            logged_in = false
+        })
+    }
 }
 
 </script>
@@ -55,9 +57,6 @@ async function login() {
             </label>
             <button class="button">Sign In</button>
         </form>
-    </div>
-    <div v-else>
-        <component :is="currentView"/>
     </div>
     <div v-if="!logged_in" class="atag">
         <a href="#/register">Don't have an Account? Create One!</a>

@@ -1,19 +1,6 @@
 <script setup>
 import { makeRequest } from '../utils/make_request.js';
 import { ref, computed } from 'vue';
-import UniversalHome from './UniversalHome.vue'
-
-
-const currPath = ref(window.location.hash)
-
-const routes = {
-    '/#/home': UniversalHome,
-}
-let logged_in = false
-
-const currentView = computed(() => {
-  return routes['/#/home']
-})
 
 
 // For both accounts
@@ -72,7 +59,7 @@ async function register() {
         })
         
         window.addEventListener('hashchange', () => {
-            currPath.value = '#/home';
+            currPath.value = '/#/dater/home';
             logged_in = true;
         })
     }
@@ -90,7 +77,7 @@ async function register() {
             //profile_picture: image
         })
         window.addEventListener('hashchange', () => {
-            currPath.value = '#/home';
+            currPath.value = '#/cupid/home';
             logged_in = true;
         })
     }
@@ -202,9 +189,6 @@ function previewFile() {
             </div>
             <button class="button">Create Account</button>
         </form>
-    </div>
-    <div v-else>
-        <component :is="currentView"/>
     </div>
 </template>
 

@@ -3,14 +3,21 @@ import { ref, computed } from 'vue'
 import Login from './components/Login.vue'
 import SignUp from './components/SignUp.vue'
 import Welcome from './components/Welcome.vue'
-import UniversalHome from './components/UniversalHome.vue'
+import DaterHome from './DaterVues/DaterHome.vue'
+import ManagerHome from './ManagerVues/ManagerHome.vue'
+import CupidHome from './CupidVues/CupidHome.vue'
 
+// Variables to display different home views
+let logged_in = false;
+let type = '';
 
 const routes = {
-  '/': Welcome,
-  '/register': SignUp,
-  '/login': Login,
-  '/home': UniversalHome
+  '#/': Welcome,
+  '#/register': SignUp,
+  '#/login': Login,
+  '#/dater/home': DaterHome,
+  '#/manager/home': ManagerHome,
+  '#/cupid/home': CupidHome
 }
 
 const currPath = ref(window.location.hash)
@@ -27,10 +34,10 @@ const currentView = computed(() => {
 
 <template>
   <div id="app">
-    <nav class="nav">
+    <nav class="nav" v-if="!logged_in">
       <a href="#/register"> Sign Up </a>
       <a href="#/login"> Login </a>
-      <a href="#/"> Back </a>
+      <a href="#/"> Home </a>
     </nav>
     <component :is="currentView"/> 
   </div>
