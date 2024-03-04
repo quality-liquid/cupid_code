@@ -6,92 +6,8 @@ from .views import *
 
 class TestApi(TestCase):
     """
-    Test the API application.
+    Test external API calls
     """
-    def test_create_user(self):
-        pass
-
-    def test_sign_in(self):
-        pass
-
-    def test_sign_out(self):
-        pass
-
-    def test_get_user(self):
-        pass
-
-    def test_delete_user(self):
-        pass
-
-    def test_send_chat_message(self):
-        pass
-
-    def test__get_ai_response(self):
-        pass
-
-    def test_get_five_messages(self):
-        pass
-
-    def test_calendar(self):
-        pass
-
-    def test_rate_dater(self):
-        pass
-
-    def test_get_dater_ratings(self):
-        pass
-
-    def test_get_dater_avg_rating(self):
-        pass
-
-    def test_dater_transfer(self):
-        pass
-
-    def test_get_dater_balance(self):
-        pass
-
-    def test_get_dater_profile(self):
-        pass
-
-    def test_set_dater_profile(self):
-        pass
-
-    def test_rate_cupid(self):
-        pass
-
-    def test_get_cupid_ratings(self):
-        pass
-
-    def test_get_cupid_avg_rating(self):
-        pass
-
-    def test_cupid_transfer(self):
-        pass
-
-    def test_get_cupid_balance(self):
-        pass
-
-    def test_get_cupid_profile(self):
-        pass
-
-    def test_set_cupid_profile(self):
-        pass
-
-    def test_create_gig(self):
-        pass
-
-    def test_accept_gig(self):
-        pass
-
-    def test_complete_gig(self):
-        pass
-
-    def test_drop_gig(self):
-        pass
-
-    def test_get_gigs(self):
-        pass
-
     def test__get_location_string(self):
         pass
 
@@ -134,6 +50,117 @@ class TestApi(TestCase):
     def test_get_user_location(self):
         pass
 
+    def test_speech_to_text(self):
+        pass
+
+    def test_notify(self):
+        pass
+
+
+class TestApiUser(TestCase):
+    """
+    Test general user endpoints
+    """
+    def test_create_user(self):
+        pass
+
+    def test_sign_in(self):
+        pass
+
+    def test_sign_out(self):
+        pass
+
+    def test_get_user(self):
+        pass
+
+    def test_delete_user(self):
+        pass
+
+
+class TestApiDater(TestCase):
+    """
+    Test the dater endpoints
+    """
+
+    def test_send_chat_message(self):
+        pass
+
+    def test__get_ai_response(self):
+        pass
+
+    def test_get_five_messages(self):
+        pass
+
+    def test_calendar(self):
+        pass
+
+    def test_get_dater_ratings(self):
+        pass
+
+    def test_get_dater_avg_rating(self):
+        pass
+
+    def test_dater_transfer(self):
+        pass
+
+    def test_get_dater_balance(self):
+        pass
+
+    def test_get_dater_profile(self):
+        pass
+
+    def test_set_dater_profile(self):
+        pass
+
+    def test_rate_cupid(self):
+        pass
+
+
+class TestApiCupid(TestCase):
+    """
+    Test the cupid endpoints
+    """
+    def test_rate_dater(self):
+        pass
+
+    def test_get_cupid_ratings(self):
+        pass
+
+    def test_get_cupid_avg_rating(self):
+        pass
+
+    def test_cupid_transfer(self):
+        pass
+
+    def test_get_cupid_balance(self):
+        pass
+
+    def test_get_cupid_profile(self):
+        pass
+
+    def test_set_cupid_profile(self):
+        pass
+
+    def test_create_gig(self):
+        pass
+
+    def test_accept_gig(self):
+        pass
+
+    def test_complete_gig(self):
+        pass
+
+    def test_drop_gig(self):
+        pass
+
+    def test_get_gigs(self):
+        pass
+
+
+class TestApiManager(TestCase):
+    """
+    Test the manager endpoints
+    """
     def test_get_cupids(self):
         pass
 
@@ -168,10 +195,4 @@ class TestApi(TestCase):
         pass
 
     def test_unsuspend(self):
-        pass
-
-    def test_speech_to_text(self):
-        pass
-
-    def test_notify(self):
         pass
