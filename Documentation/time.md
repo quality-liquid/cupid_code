@@ -39,4 +39,4 @@
 | Brighton Ellis |                                                                  |           |   
 | Nate McKenzie  |                                                                  | 15        |   
 | Eric DeBloois  | Creation of Vue pages for Login, Create Account, and Cupid pages | 7.5       |   
-| Brandon Herrin |                                                                  |           |
+| Brandon Herrin | Starting Dater Vue pages and Calendar work (work in progress)    | 6.0       |
