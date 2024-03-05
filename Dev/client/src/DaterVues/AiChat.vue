@@ -2,7 +2,7 @@
 
 </script>
 
-<template>
+<template>  
     <div>
         Chatbox
     </div>

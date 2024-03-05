@@ -60,7 +60,6 @@ async function register() {
         
         window.addEventListener('hashchange', () => {
             currPath.value = '/#/dater/home';
-            logged_in = true;
         })
     }
     else if (accType.value === 'Cupid' && check === checkData.length) {
@@ -78,7 +77,6 @@ async function register() {
         })
         window.addEventListener('hashchange', () => {
             currPath.value = '#/cupid/home';
-            logged_in = true;
         })
     }
     else {
@@ -107,7 +105,7 @@ function previewFile() {
 </script>
 
 <template>
-    <div class="container" v-if="!logged_in">
+    <div class="container">
         <div class="image">
             <img :src="'/get_img/'" alt="Cupid Code Logo" width="300" height="300">
         </div>
