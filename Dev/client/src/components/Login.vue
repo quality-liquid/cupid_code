@@ -1,12 +1,12 @@
 <script setup>
 import { makeRequest } from '../utils/make_request.js';
-import { ref } from 'vue';
+import { ref, computed, registerRuntimeCompiler } from 'vue';
 
-
-const currPath = ref(window.location.hash);
 
 const email = ref('')
 const password = ref('')
+
+const props = defineProps(['currPath'])
 
 async function login() {
     const results = await makeRequest('/api/user/sign_in/', 'post', {
@@ -14,46 +14,64 @@ async function login() {
         password: password.value,
     })
     // Validate response
-    
+    const doc = document.getElementById('error')
+    if (results.method === '400' || results.method === 400) {
+        doc.className = 'error shown'
+        return;
+    }
+    else {
+        doc.className = 'error'
+    }
     // Add error class to which one is invalid
     
     // Redirect to dashboard if good
-    window.addEventListener('hashchange', () => {
-        currPath.value = '/#/home';
-    })
+    if (results.user['role'].toLowerCase() === 'dater') {
+        props.currPath = '#/dater/home'
+        window.addEventListener('hashchange', () => {
+        })
+    } else if (results.user['role'].toLowerCase() === 'cupid') {
+        props.currPath = '#/cupid/home'
+        window.addEventListener('hashchange', () => {
+        })
+    } else if (results.user['role'].toLowerCase() === 'manager') {
+        props.currPath = '#/manager/home'
+        window.addEventListener('hashchange', () => {
+        })
+    }
+    else  {
+        props.currPath = '#/login'
+        window.addEventListener('hashchange', () => {
+        })
+    }
+    console.log(props.currPath.value)
 }
 
 </script>
 
 <template>
-        <div class="login_paper">
-            <div class="image">
-                <img :src="'/get_img/'" alt="Cupid Code Logo" width="300" height="300">
-            </div>
-            <form class="form" @submit.prevent="login">
-                <label class="form_input" for="email">
-                    Email
-                    <input type="email" placeholder="example@email.com" id="email" name="email" :value="email" @change="(e) => email = e.target.value">
-                </label>
-                <label class="form_input" for="password">
-                    Password
-                    <input type="password" placeholder="Password" id="password" name="password" :value="password" @change="(e) => password = e.target.value">
-                </label>
-                <button class="button">Sign In</button>
-            </form>
+    <div class="login_paper">
+        <div class="image">
+            <img :src="'/get_img/'" alt="Cupid Code Logo" width="300" height="300">
         </div>
-        <div class="atag">
-            <a href="#/register">Don't have an Account? Create One!</a>
-        </div>
+        <form class="form" @submit.prevent="login">
+            <span id="error" class="error">Email or Password is wrong!</span>
+            <label class="form_input" for="email">
+                Email
+                <input type="email" placeholder="example@email.com" id="email" name="email" :value="email" @change="(e) => email = e.target.value">
+            </label>
+            <label class="form_input" for="password">
+                Password
+                <input type="password" placeholder="Password" id="password" name="password" :value="password" @change="(e) => password = e.target.value">
+            </label>
+            <button class="button">Sign In</button>
+        </form>
+    </div>
+    <div class="atag">
+        <a href="#/register">Don't have an Account? Create One!</a>
+    </div>
 </template>
 
 <style scoped>
-    .image {
-        display: flex;
-        justify-content: center;
-        margin-top: 50px;
-        border-radius: 16px;
-    }
     .login_paper {
         display: flex;
         flex-flow: column wrap;
@@ -110,8 +128,20 @@ async function login() {
     a:visited {
         color: var(--primary-red);
     }
+
     .error {
-        border: 4px var(--secondary-red) solid;
+        position: relative;
+        left: -300px;
+        overflow: hidden;
+        color: var(--secondary-red);
+    }
+
+    .shown {
+        left: 0px;
+        display: flex;
+        justify-content: center;
+        overflow: visible;
+        padding: 10px;
     }
 
 </style>

@@ -1,8 +1,7 @@
 <script setup>
 import { makeRequest } from '../utils/make_request.js';
-import {ref} from 'vue';
+import { ref, computed } from 'vue';
 
-const currPath = ref(window.location.hash);
 
 // For both accounts
 const email = ref('')
@@ -16,7 +15,7 @@ const username = ref('')
 const desc = ref('')
 let image = null 
 
-// Dater specific - 
+// Dater specific 
 const str = ref('')
 const weak = ref('')
 const ntype = ref('')
@@ -27,7 +26,8 @@ const past = ref('')
 async function register() {
     // Validate data
     image = document.querySelector('img[name=pfp]');
-    const checkData = [email, password, accType, phone, addr]
+
+    const checkData = [email, password, accType, phone, addr, desc]
 
     let check = 0;
     for (let i = 0; i < checkData.length; i++) {
@@ -59,7 +59,7 @@ async function register() {
         })
         
         window.addEventListener('hashchange', () => {
-            currPath.value = '#/home';
+            currPath.value = '/#/dater/home';
         })
     }
     else if (accType.value === 'Cupid' && check === checkData.length) {
@@ -76,10 +76,11 @@ async function register() {
             //profile_picture: image
         })
         window.addEventListener('hashchange', () => {
-            currPath.value = '#/home';
+            currPath.value = '#/cupid/home';
         })
     }
     else {
+        // Handle Error
         console.log("Something went wrong")
     }
 
@@ -141,9 +142,9 @@ function previewFile() {
                 Password
                 <input type="password" id="password" placeholder="Password" :value="password" @change="(e) => password = e.target.value"/>
             </label>
-            <label class="input_detail" for="fname">
+            <label class="input_detail" for="phone">
                 Phone Number
-                <input type="number" id="fname" :value="phone" placeholder="8889991111" @change="(e) => phone = e.target.value"/>
+                <input type="number" id="phone" :value="phone" placeholder="8889991111" @change="(e) => phone = e.target.value"/>
             </label>
             <label class="input_detail" for="address">
                 Address
