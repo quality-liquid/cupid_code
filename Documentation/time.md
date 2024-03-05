@@ -40,3 +40,14 @@
 | Nate McKenzie  |                                                                  | 15        |   
 | Eric DeBloois  | Creation of Vue pages for Login, Create Account, and Cupid pages | 7.5       |   
 | Brandon Herrin | Starting Dater Vue pages and Calendar work (work in progress)    | 6.0       |
+
+| Sprint 4       |      |           |   
+|----------------|------|-----------|
+| Name           | Job  | Time(hrs) | 
+| Nate Stott     |      |           |   
+| Emma Wright    |      |           |   
+| Daniel Barfuss |      |           |   
+| Brighton Ellis |      |           |   
+| Nate McKenzie  |      |           |   
+| Eric DeBloois  |      |           |   
+| Brandon Herrin |      |           | 
