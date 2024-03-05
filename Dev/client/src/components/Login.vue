@@ -1,12 +1,11 @@
 <script setup>
 import { makeRequest } from '../utils/make_request.js';
-import { ref, computed, registerRuntimeCompiler } from 'vue';
-
+import { ref } from 'vue';
+import router from '../router/index.js';
 
 const email = ref('')
 const password = ref('')
 
-const props = defineProps(['currPath'])
 
 async function login() {
     const results = await makeRequest('/api/user/sign_in/', 'post', {
@@ -26,24 +25,15 @@ async function login() {
     
     // Redirect to dashboard if good
     if (results.user['role'].toLowerCase() === 'dater') {
-        props.currPath = '#/dater/home'
-        window.addEventListener('hashchange', () => {
-        })
+        router.push('/dater/home')
     } else if (results.user['role'].toLowerCase() === 'cupid') {
-        props.currPath = '#/cupid/home'
-        window.addEventListener('hashchange', () => {
-        })
+        router.push('/cupid/home')
     } else if (results.user['role'].toLowerCase() === 'manager') {
-        props.currPath = '#/manager/home'
-        window.addEventListener('hashchange', () => {
-        })
+        router.push('/manager/home')
     }
-    else  {
-        props.currPath = '#/login'
-        window.addEventListener('hashchange', () => {
-        })
+    else {
+        router.push('/login')
     }
-    console.log(props.currPath.value)
 }
 
 </script>
