@@ -13,6 +13,10 @@ async function login() {
         password: password.value,
     })
     // Validate response
+    if (results.method !== '200' || results.method !== 200) {
+        return;
+    }
+    // Add error class to which one is invalid
     const doc = document.getElementById('error')
     if (results.method === '400' || results.method === 400) {
         doc.className = 'error shown'
@@ -21,7 +25,6 @@ async function login() {
     else {
         doc.className = 'error'
     }
-    // Add error class to which one is invalid
     
     // Redirect to dashboard if good
     if (results.user['role'].toLowerCase() === 'dater') {
@@ -133,5 +136,4 @@ async function login() {
         overflow: visible;
         padding: 10px;
     }
-
 </style>

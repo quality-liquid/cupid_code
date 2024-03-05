@@ -1,7 +1,7 @@
 <script setup>
 import { makeRequest } from '../utils/make_request.js';
 import { ref, computed } from 'vue';
-
+import router from '../router/index.js';
 
 // For both accounts
 const email = ref('')
@@ -25,7 +25,6 @@ const past = ref('')
 
 async function register() {
     // Validate data
-    image = document.querySelector('img[name=pfp]');
 
     const checkData = [email, password, accType, phone, addr, desc]
 
@@ -49,7 +48,7 @@ async function register() {
             phone_number: phone.value,
             location: addr.value,
             description: desc.value,
-            //profile_picture: image,
+            profile_picture: image,
             dating_strengths: str.value,
             dating_weaknesses: weak.value,
             nerd_type: ntype.value,
@@ -59,7 +58,7 @@ async function register() {
         })
         
         window.addEventListener('hashchange', () => {
-            currPath.value = '/#/dater/home';
+            router.push('/dater/home')
         })
     }
     else if (accType.value === 'Cupid' && check === checkData.length) {
@@ -73,10 +72,10 @@ async function register() {
             phone_number: phone.value,
             location: addr.value,
             description: desc.value,
-            //profile_picture: image
+            profile_picture: image
         })
         window.addEventListener('hashchange', () => {
-            currPath.value = '#/cupid/home';
+            router.push('/cupid/home')
         })
     }
     else {
@@ -90,6 +89,8 @@ function previewFile() {
   let preview = document.querySelector('img[name=pfp]');
   let file = document.querySelector('input[type=file]').files[0];
   let reader = new FileReader();
+  
+  image = file
 
   reader.onloadend = function () {
     preview.src = reader.result;

@@ -13,13 +13,11 @@ function openDrawer() {
   }
 }
 
-
 async function logout() {
   const result = await makeRequest(`/logout/`)
   router.push('/')
 }
 </script>
-
 
 <template>
     <div id="app">
@@ -27,7 +25,9 @@ async function logout() {
         <button @click="openDrawer" class="icon-button">
                 <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
         </button>
-        <h3>Hello</h3>
+        <button @click="openDrawer" class="icon-button"> <!-- This will be the profile picture when setup -->
+                <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
+        </button>
         <div id="navbar" class="navbar">
           <router-link class="link" to="/dater/home"> Home </router-link>
           <router-link class="link" to="/dater/profile/"> Profile </router-link>
@@ -41,7 +41,9 @@ async function logout() {
         <button @click="openDrawer" class="icon-button">
                 <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
         </button>
-        <h3>Hello</h3>
+        <button @click="openDrawer" class="icon-button"> <!-- This will be the profile picture when setup -->
+                <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
+        </button>
         <div id="navbar" class="navbar">
           <router-link class="link" to="/cupid/home"> Home </router-link>
           <a class="link" @click="logout"> Logout </a>
@@ -51,7 +53,9 @@ async function logout() {
         <button @click="openDrawer" class="icon-button">
                 <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
         </button>
-        <h3>Hello</h3>
+        <button @click="openDrawer" class="icon-button"> <!-- This will be the profile picture when setup -->
+                <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
+        </button>
         <div id="navbar" class="navbar">
           <router-link class="link" to="/manager/home"> Home </router-link>
           <a class="link" @click="logout"> Logout </a>
@@ -70,5 +74,8 @@ async function logout() {
   .link {
     color: white;
     gap: 10px;
+    background-color: var(--primary-blue);
   }
+
+
 </style>
