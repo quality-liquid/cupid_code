@@ -2,64 +2,18 @@
 import router from './router/index.js';
 import { makeRequest } from './utils/make_request.js';
 
-const currPath = window.location.hash
+const user_id = parseInt(window.location.hash.split('/')[3])
 
-function openDrawer() {
-  const element = document.getElementById('navbar')
-  if (element.className === 'navbar') {
-    element.className = 'navbar opened'
-  }
-  else {
-    element.className = 'navbar'
-  }
-}
-
-async function logout() {
-  const result = await makeRequest(`/logout/`)
-  router.push('/')
+async function getUser() {
+  const results = await makeRequest('api/user/', 'get', {
+    user_id: user_id
+  })
 }
 </script>
 
 <template>
     <div id="app">
-      <nav class="nav homenav" v-if="currPath.includes('dater')">
-        <button @click="openDrawer" class="icon-button">
-                <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
-        </button>
-        <!-- This will be the profile picture when setup -->
-        <img :src="'/get_menu/'" alt="Profile Picture" class="icon">
-        <div id="navbar" class="navbar">
-          <router-link class="link" to="/dater/home"> Home </router-link>
-          <router-link class="link" to="/dater/profile/"> Profile </router-link>
-          <router-link class="link" to="/dater/chat/"> AI Chat </router-link>
-          <router-link class="link" to="/dater/listen/"> AI Listen </router-link>
-          <router-link class="link" to="/dater/balance/"> Balance</router-link>
-          <button class="logout" @click="logout"> Logout </button>
-        </div>
-      </nav>
-      <nav class="nav homenav" v-else-if="currPath.includes('cupid')">
-        <button @click="openDrawer" class="icon-button">
-                <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
-        </button>
-        <!-- This will be the profile picture when setup -->
-        <img :src="'/get_menu/'" alt="Profile Picture" class="icon">
-        <div id="navbar" class="navbar">
-          <router-link class="link" to="/cupid/home"> Home </router-link>
-          <a class="link" @click="logout"> Logout </a>
-        </div>
-      </nav>
-      <nav class="nav homenav" v-else-if="currPath.includes('manager')">
-        <button @click="openDrawer" class="icon-button">
-                <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
-        </button>
-        <!-- This will be the profile picture when setup -->
-        <img :src="'/get_menu/'" alt="Profile Picture" class="icon">
-        <div id="navbar" class="navbar">
-          <router-link class="link" to="/manager/home"> Home </router-link>
-          <a class="link" @click="logout"> Logout </a>
-        </div>
-      </nav>
-      <nav class="nav" v-else>
+      <nav class="nav">
           <router-link class="link" to="/login"> Login </router-link>
           <router-link class="link" to="/register"> Sign Up </router-link>
           <router-link class="link" to="/"> Welcome </router-link>
@@ -69,19 +23,5 @@ async function logout() {
 </template>
 
 <style scoped>
-  .link {
-    color: white;
-    gap: 10px;
-    padding-bottom: 4px;
-  }
-  .logout {
-    display: flex;
-    align-self: center;
-    color: white;
-    background-color: var(--secondary-red);
-    border: none;
-    border-radius: 4px;
-    margin: 8px;
-    margin-top: 300px;
-  }
+
 </style>
