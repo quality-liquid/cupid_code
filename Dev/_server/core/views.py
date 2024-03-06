@@ -36,10 +36,28 @@ def get_image(req: HttpRequest):
     path = os.path.join(VAULT_PATH, 'cupid_logo' + '.' + FILE_EXTENSION)
     return FileResponse(open(path, "rb"))
 
-def get_icon(req: HttpRequest):
+def get_menu(req: HttpRequest):
     FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
     VAULT_PATH = os.environ.get('VAULT_PATH', '')
     path = os.path.join(VAULT_PATH, 'menu_icon' + '.' + FILE_EXTENSION)
+    return FileResponse(open(path, "rb"))
+
+def get_money(req: HttpRequest):
+    FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
+    VAULT_PATH = os.environ.get('VAULT_PATH', '')
+    path = os.path.join(VAULT_PATH, 'money_icon' + '.' + FILE_EXTENSION)
+    return FileResponse(open(path, "rb"))
+
+def get_mic(req: HttpRequest):
+    FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
+    VAULT_PATH = os.environ.get('VAULT_PATH', '')
+    path = os.path.join(VAULT_PATH, 'mic_icon' + '.' + FILE_EXTENSION)
+    return FileResponse(open(path, "rb"))
+
+def get_chat(req: HttpRequest):
+    FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
+    VAULT_PATH = os.environ.get('VAULT_PATH', '')
+    path = os.path.join(VAULT_PATH, 'chat_icon' + '.' + FILE_EXTENSION)
     return FileResponse(open(path, "rb"))
 
 #TODO: Is this the way we want to logout?
@@ -47,7 +65,6 @@ def get_icon(req: HttpRequest):
 def logout_view(request):
     try:
         logout(request)
-
         #This makes life easier than the option for now
         return redirect("/")
         #return JsonResponse({'success': True})

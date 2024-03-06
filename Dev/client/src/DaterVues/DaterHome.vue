@@ -8,13 +8,15 @@ import router from '../router/index.js'
 <template>
 <div class="container">
   <div class="widget blue">
-    <span class="material-symbols-outlined">attach_money</span>
+    <img :src="'/get_chat/'" alt="Menu Open icon" class="wid_icon">
     <router-link class="header" to="/dater/chat">AI Chat</router-link>
   </div>
   <div class="widget red">
+    <img :src="'/get_mic/'" alt="Menu Open icon" class="wid_icon">
     <router-link class="header" to="/dater/listen">AI Listen</router-link>
   </div>
   <div class="widget blue">
+    <img :src="'/get_money/'" alt="Menu Open icon" class="wid_icon">
     <router-link class="header" to="/dater/balance">Add Cash</router-link>
   </div>
   <div class="widget red"> <!-- This will become Calendar when it's made -->
@@ -34,6 +36,7 @@ import router from '../router/index.js'
 
   .widget {
     display: flex;
+    flex-flow: column nowrap;
     align-items: center;
     justify-content: center;
     padding: 50px;

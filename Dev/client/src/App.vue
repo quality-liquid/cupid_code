@@ -1,5 +1,6 @@
 <script setup>
 import router from './router/index.js';
+import { makeRequest } from './utils/make_request.js';
 
 const currPath = window.location.hash
 
@@ -23,10 +24,10 @@ async function logout() {
     <div id="app">
       <nav class="nav homenav" v-if="currPath.includes('dater')">
         <button @click="openDrawer" class="icon-button">
-                <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
+                <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
         </button>
         <!-- This will be the profile picture when setup -->
-        <img :src="'/get_icon/'" alt="Profile Picture" class="icon">
+        <img :src="'/get_menu/'" alt="Profile Picture" class="icon">
         <div id="navbar" class="navbar">
           <router-link class="link" to="/dater/home"> Home </router-link>
           <router-link class="link" to="/dater/profile/"> Profile </router-link>
@@ -38,10 +39,10 @@ async function logout() {
       </nav>
       <nav class="nav homenav" v-else-if="currPath.includes('cupid')">
         <button @click="openDrawer" class="icon-button">
-                <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
+                <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
         </button>
         <!-- This will be the profile picture when setup -->
-        <img :src="'/get_icon/'" alt="Profile Picture" class="icon">
+        <img :src="'/get_menu/'" alt="Profile Picture" class="icon">
         <div id="navbar" class="navbar">
           <router-link class="link" to="/cupid/home"> Home </router-link>
           <a class="link" @click="logout"> Logout </a>
@@ -49,10 +50,10 @@ async function logout() {
       </nav>
       <nav class="nav homenav" v-else-if="currPath.includes('manager')">
         <button @click="openDrawer" class="icon-button">
-                <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
+                <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
         </button>
         <!-- This will be the profile picture when setup -->
-        <img :src="'/get_icon/'" alt="Profile Picture" class="icon">
+        <img :src="'/get_menu/'" alt="Profile Picture" class="icon">
         <div id="navbar" class="navbar">
           <router-link class="link" to="/manager/home"> Home </router-link>
           <a class="link" @click="logout"> Logout </a>
