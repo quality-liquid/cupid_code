@@ -26,39 +26,6 @@
         }
       }
     });
-
-    const GigInfo = {
-      template: `
-        <div>
-          <h1>{{ gig.location }}</h1>
-          <p>Email: {{ gig.pickup }}</p>
-          <p>Phone Number: {{ gig.deliver }}</p>
-          <p>Status: {{ gig.active ? 'Active' : 'Inactive' }}</p>
-          <button @click="goBack">Go Back</button>
-        </div>
-      `,
-      data() {
-        return {
-          gig: {}
-        };
-      },
-      methods: {
-        goBack() {
-          this.$router.go(-1);
-        }
-      },
-      created() {
-        this.gig = this.$route.params.gig;
-      }
-    };
-
-    const routes = [
-      { path: '/gig/:id', component: GigInfo, props: true }
-    ];
-
-    const router = new VueRouter({
-      routes
-    });
 </script>
 
 <template>
@@ -77,9 +44,10 @@
     </nav>
 
     <div class="body">
+        <!-- Clicking on this gig item, reroute to GigDetails page -->
         <div v-for="item in items" :key="item.id" 
         :class="{ 'active': item.active, 'inactive': !item.active }" 
-        @click="viewGig(item)">
+        @click="">
             <h3>{{ item.location }}</h3>
             <p>Pickup: {{ item.Pickup }}</p>
             <p>Deliver Number: {{ item.Deliver }}</p>

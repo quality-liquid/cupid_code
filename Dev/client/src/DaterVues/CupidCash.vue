@@ -2,7 +2,7 @@
 
 </script>
 
-<template>
+<template>  
     <div>Check balance</div>
     <h1>Cupid Cash</h1>
     <div>

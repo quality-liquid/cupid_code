@@ -1,8 +1,7 @@
 <script setup>
 import { makeRequest } from '../utils/make_request.js';
-import {ref} from 'vue';
-
-const currPath = ref(window.location.hash);
+import { ref, computed } from 'vue';
+import router from '../router/index.js';
 
 // For both accounts
 const email = ref('')
@@ -16,7 +15,7 @@ const username = ref('')
 const desc = ref('')
 let image = null 
 
-// Dater specific - 
+// Dater specific 
 const str = ref('')
 const weak = ref('')
 const ntype = ref('')
@@ -26,8 +25,8 @@ const past = ref('')
 
 async function register() {
     // Validate data
-    image = document.querySelector('img[name=pfp]');
-    const checkData = [email, password, accType, phone, addr]
+
+    const checkData = [email, password, accType, phone, addr, desc]
 
     let check = 0;
     for (let i = 0; i < checkData.length; i++) {
@@ -49,7 +48,7 @@ async function register() {
             phone_number: phone.value,
             location: addr.value,
             description: desc.value,
-            //profile_picture: image,
+            profile_picture: image,
             dating_strengths: str.value,
             dating_weaknesses: weak.value,
             nerd_type: ntype.value,
@@ -59,7 +58,7 @@ async function register() {
         })
         
         window.addEventListener('hashchange', () => {
-            currPath.value = '#/home';
+            router.push('/dater/home')
         })
     }
     else if (accType.value === 'Cupid' && check === checkData.length) {
@@ -73,13 +72,14 @@ async function register() {
             phone_number: phone.value,
             location: addr.value,
             description: desc.value,
-            //profile_picture: image
+            profile_picture: image
         })
         window.addEventListener('hashchange', () => {
-            currPath.value = '#/home';
+            router.push('/cupid/home')
         })
     }
     else {
+        // Handle Error
         console.log("Something went wrong")
     }
 
@@ -89,6 +89,8 @@ function previewFile() {
   let preview = document.querySelector('img[name=pfp]');
   let file = document.querySelector('input[type=file]').files[0];
   let reader = new FileReader();
+  
+  image = file
 
   reader.onloadend = function () {
     preview.src = reader.result;
@@ -141,9 +143,9 @@ function previewFile() {
                 Password
                 <input type="password" id="password" placeholder="Password" :value="password" @change="(e) => password = e.target.value"/>
             </label>
-            <label class="input_detail" for="fname">
+            <label class="input_detail" for="phone">
                 Phone Number
-                <input type="number" id="fname" :value="phone" placeholder="8889991111" @change="(e) => phone = e.target.value"/>
+                <input type="number" id="phone" :value="phone" placeholder="8889991111" @change="(e) => phone = e.target.value"/>
             </label>
             <label class="input_detail" for="address">
                 Address

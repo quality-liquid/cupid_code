@@ -1,64 +1,90 @@
 <script setup>
 import {ref, computed} from 'vue';
-import AiChat from './AiChat.vue';
-import AiListen from './AiListen.vue';
-import CupidCash from './CupidCash.vue';
-import Profile from './Profile.vue';
+import router from '../router/index.js'
 
+const user_id  = parseInt(window.location.hash.split('/')[3])
 
-const routes = {
-  '#/dater/home/': DaterHome,
-  '#/dater/balance/': CupidCash,
-  '#/dater/profile/': Profile,
-  '#/dater/chat/': AiChat,
-  '#/dater/listen/': AiListen,
-  //'#/dater/calendar/': Calendar,
+function openDrawer() {
+  const element = document.getElementById('navbar')
+  if (element.className === 'navbar') {
+    element.className = 'navbar opened'
+  }
+  else {
+    element.className = 'navbar'
+  }
 }
 
-const currPath = ref(window.location.hash)
-
-window.addEventListener("hashchange", () => {
-  currPath.value = window.location.hash
-}) // This will run everytime it's changed to ensure it's correct.
-
-const currView = computed(() => {
-  return routes[currPath.value.slice(1) || '/#/dater/home']
-}) 
+async function logout() {
+  const result = await makeRequest(`/logout/`)
+  router.push('/')
+}
 
 </script>
 
 <template>
-  <nav class="nav">
-    Page user is on
-    <div class="navbar">
-      <a href="#/dater/home"> Home </a>
-      <a href="#/dater/profile/"> Profile </a>
-      <a href="#/dater/chat/"> AI Chat </a>
-      <a href="#/dater/listen/"> AI Listen </a>
-      <a href="#/dater/balance/"> Balance</a>
-      <a href="">Back</a>
-    </div>
-  </nav>
-  <component :is="currView" />
+<nav class="nav homenav">
+  <button @click="openDrawer" class="icon-button">
+    <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
+  </button>
+  <!-- This will be the profile picture when setup -->
+  <img :src="'/get_menu/'" alt="Profile Picture" class="icon">
+  <div id="navbar" class="navbar">
+    <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
+    <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
+    <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
+    <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
+    <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
+    <button class="logout" @click="logout"> Logout </button>
+  </div>
+</nav>  
+
+<div class="container">
+  <div class="widget blue">
+    <img :src="'/get_chat/'" alt="Menu Open icon" class="wid_icon">
+    <router-link class="header" :to="{name: 'AiChat', params: {id: user_id}}">AI Chat</router-link>
+  </div>
+  <div class="widget red">
+    <img :src="'/get_mic/'" alt="Menu Open icon" class="wid_icon">
+    <router-link class="header" :to="{name: 'AiListen', params: {id: user_id}}">AI Listen</router-link>
+  </div>
+  <div class="widget blue">
+    <img :src="'/get_money/'" alt="Menu Open icon" class="wid_icon">
+    <router-link class="header" :to="{name: 'CupidCash', params: {id: user_id}}">Add Cash</router-link>
+  </div>
+  <div class="widget red"> <!-- This will become Calendar when it's made -->
+    <router-link class="header" :to="{name: 'DaterProfile', params: {id: user_id}}">Edit Profile</router-link>
+  </div>
+</div>
 </template>
 
 <style scoped>
-  .nav {
-    color: white;
-    background-color: var(--primary-blue);
-    top: 0;
-    left: 0;
-    right: 0; 
+  .container {
+    margin: 10px;
+    margin-top: 50px;
     display: flex;
-    position: absolute;
-    justify-content: space-evenly;
+    flex-flow: row wrap;
+    gap: 10px;
+  }
+
+  .widget {
+    display: flex;
+    flex-flow: column nowrap;
     align-items: center;
-    padding: 8px 16px;
+    justify-content: center;
+    padding: 50px;
+    border: none;
+    border-radius: 16px;
   }
 
-  .navbar {
-    /* Style the nav shelf that slides in/out */
-    display: flex;
+  .header {
+    color: white;
   }
 
+  .blue {
+    background-color: var(--secondary-blue);
+  }
+
+  .red {
+    background-color: var(--secondary-red);
+  }
 </style>

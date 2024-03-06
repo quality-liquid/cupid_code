@@ -1,57 +1,27 @@
 <script setup>
-import { ref, computed } from 'vue'
-import Login from './components/Login.vue'
-import SignUp from './components/SignUp.vue'
-import Welcome from './components/Welcome.vue'
-import UniversalHome from './components/UniversalHome.vue'
+import router from './router/index.js';
+import { makeRequest } from './utils/make_request.js';
 
+const user_id = parseInt(window.location.hash.split('/')[3])
 
-const routes = {
-  '/': Welcome,
-  '/register': SignUp,
-  '/login': Login,
-  '/home': UniversalHome
+async function getUser() {
+  const results = await makeRequest('api/user/', 'get', {
+    user_id: user_id
+  })
 }
-
-const currPath = ref(window.location.hash)
-
-window.addEventListener('hashchange', () => {
-  currPath.value = window.location.hash
-})
-
-const currentView = computed(() => {
-  return routes[currPath.value.slice(1) || '/' ]
-})
-
 </script>
 
 <template>
-  <div id="app">
-    <nav class="nav">
-      <a href="#/register"> Sign Up </a>
-      <a href="#/login"> Login </a>
-      <a href="#/"> Back </a>
-    </nav>
-    <component :is="currentView"/> 
-  </div>
+    <div id="app">
+      <nav class="nav">
+          <router-link class="link" to="/login"> Login </router-link>
+          <router-link class="link" to="/register"> Sign Up </router-link>
+          <router-link class="link" to="/"> Welcome </router-link>
+      </nav>
+    </div>
+    <router-view />
 </template>
 
 <style scoped>
-  .nav {
-    color: white;
-    background-color: var(--primary-blue);
-    top: 0;
-    left: 0;
-    right: 0; 
-    display: flex;
-    position: absolute;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 8px 16px;
-  }
 
-  a {
-    color: white;
-    gap: 10px;
-  }
 </style>
