@@ -1,24 +1,13 @@
 <script setup>
-    new Vue({
-      el: '#app',
-      data: {
-        pickupComplete: false,
-        itemsToPickup: [
-          { id: 1, name: 'Item 1' },
-          { id: 2, name: 'Item 2' },
-          { id: 3, name: 'Item 3' }
-        ],
-        pickupLocation: 'Delivery Location'
-      }
-    });
+    
 </script>
 
 <template>
     <!-- If a gig is active, background is blue. If inactive, background is red -->
-    <div id="app" :class="{'active': gig.active, 'inactive': !gig.active}">
+    <div :class="{'active': gig.active, 'inactive': !gig.active}">
         <!-- gig.location is just the City and state -->
-        <h1>Gig Details | <!-- {{ gig.location }} --></h1>
-        <p>Pickup: <!-- {{ gig.pickup }} --></p>
+        <h1>Gig Details | gig.location</h1>
+        <p>Pickup: gig.pickup</p>
 
         <!-- If a gig is active, show user info. If not active, don't show user info -->
         <div :class="{'show': gig.active, 'hidden': !gig.active}">
@@ -27,8 +16,8 @@
                 <input type="checkbox" v-model="pickupComplete"> Pickup Complete
             </label>
 
-            <p>Deliver: <!-- {{ gig.deliver }} --> </p>
-            <p>Address: <!-- {{ gig.address }} This is the full street address --></p>
+            <p>Deliver: gig.deliver </p>
+            <p>Address:  gig.address </p>
 
             <!-- If pickup is complete, show complete gig button -->
             <!-- If complete gig is clicked, reroute to GigComplete Page-->

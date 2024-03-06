@@ -1,46 +1,13 @@
 <script setup>
-    /* Set the width of the side navigation to 250px */
-    function openNav() {
-        document.getElementById("mySidenav").style.width = "250px";
-    }
+    import { makeRequest } from '../utils/make_request.js';
+    import { ref, computed } from 'vue';
 
-    /* Set the width of the side navigation to 0 */
-    function closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
-    }
-
-    /* Pretty sure this is how data is made available to be displayed in the template tag */
-    new Vue({
-      el: '#app',
-      router,
-      data: {
-        gigs: [
-          { id:"0", location: 'Logan UT', pickup: 'Wow, a description!', deliver: '123 Street Drive, Logan UT', active: true },
-          { id:"1", location: 'Logan UT', pickup: 'Wow, a description!', deliver: '123 Street Drive, Logan UT', active: false },
-          { id:"2", location: 'Somewhere UT', pickup: 'Wow, a description!', deliver: '123 Street Drive, Somewhere UT', active: true }
-        ]
-      }, 
-      methods: {
-        viewGig(gig) {
-            this.$router.push({ path: `/gig/${gig.id}`, params: { gig } });
-        }
-      }
-    });
+    
 </script>
 
 <template>
     <nav>
-        <span>Rating: </span> 
-        <!-- TODO: Put their rating here! -->
-        
-        <div id="accountPopOut" class="sidnav">
-            <a href="">Logout</a>
-        </div>
-
-        <span onclick="openNav()">
-            <img src="" alt="">
-            <!-- Basic user picture goes here!  -->
-        </span>
+        Wow, a nav bar
     </nav>
 
     <div class="body">
