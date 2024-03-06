@@ -46,12 +46,12 @@ const routes = [
         component: AiListen
     },
     {
-        path: '/dater/balance',
+        path: '/dater/balance/:id',
         name: 'Cupid Cash',
         component: CupidCash
     },
     {
-        path: '/dater/profile',
+        path: '/dater/profile/:id',
         name: 'Dater Profile',
         component: DaterProfile
     },

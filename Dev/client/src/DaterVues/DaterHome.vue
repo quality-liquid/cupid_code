@@ -8,6 +8,7 @@ import router from '../router/index.js'
 <template>
 <div class="container">
   <div class="widget blue">
+    <span class="material-symbols-outlined">attach_money</span>
     <router-link class="header" to="/dater/chat">AI Chat</router-link>
   </div>
   <div class="widget red">
@@ -24,8 +25,11 @@ import router from '../router/index.js'
 
 <style scoped>
   .container {
+    margin: 10px;
+    margin-top: 50px;
     display: flex;
     flex-flow: row wrap;
+    gap: 10px;
   }
 
   .widget {
@@ -35,6 +39,10 @@ import router from '../router/index.js'
     padding: 50px;
     border: none;
     border-radius: 16px;
+  }
+
+  .header {
+    color: white;
   }
 
   .blue {
