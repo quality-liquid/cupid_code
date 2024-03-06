@@ -33,10 +33,21 @@
 | Sprint 3       |                                                                  |           |   
 |----------------|------------------------------------------------------------------|-----------|
 | Name           | Job                                                              | Time(hrs) | 
-| Nate Stott     | Backend                                                          | 13        |   
+| Nate Stott     | Views, django routing, apis                                      | 13        |   
 | Emma Wright    | Connecting Front & Back                                          | 8         |   
 | Daniel Barfuss | Last 15 views                                                    | 6         |   
 | Brighton Ellis | Manager Page Skeletons + Dater Page Skeletons                    | 8         |   
 | Nate McKenzie  |                                                                  | 15        |   
 | Eric DeBloois  | Creation of Vue pages for Login, Create Account, and Cupid pages | 7.5       |   
 | Brandon Herrin | Starting Dater Vue pages and Calendar work (work in progress)    | 6.0       |
+
+| Sprint 4       |                                                 |           |   
+|----------------|-------------------------------------------------|-----------|
+| Name           | Job                                             | Time(hrs) | 
+| Nate Stott     | Unit tests / debugging, implement gemini ai api | 1         |   
+| Emma Wright    |                                                 |           |   
+| Daniel Barfuss |                                                 |           |   
+| Brighton Ellis |                                                 |           |   
+| Nate McKenzie  |                                                 |           |   
+| Eric DeBloois  |                                                 |           |   
+| Brandon Herrin |                                                 |           | 

@@ -1,64 +1,47 @@
 <script setup>
 import {ref, computed} from 'vue';
-import AiChat from './AiChat.vue';
-import AiListen from './AiListen.vue';
-import CupidCash from './CupidCash.vue';
-import Profile from './Profile.vue';
+import router from '../router/index.js'
 
-
-const routes = {
-  '#/dater/home/': DaterHome,
-  '#/dater/balance/': CupidCash,
-  '#/dater/profile/': Profile,
-  '#/dater/chat/': AiChat,
-  '#/dater/listen/': AiListen,
-  //'#/dater/calendar/': Calendar,
-}
-
-const currPath = ref(window.location.hash)
-
-window.addEventListener("hashchange", () => {
-  currPath.value = window.location.hash
-}) // This will run everytime it's changed to ensure it's correct.
-
-const currView = computed(() => {
-  return routes[currPath.value.slice(1) || '/#/dater/home']
-}) 
 
 </script>
 
 <template>
-  <nav class="nav">
-    Page user is on
-    <div class="navbar">
-      <a href="#/dater/home"> Home </a>
-      <a href="#/dater/profile/"> Profile </a>
-      <a href="#/dater/chat/"> AI Chat </a>
-      <a href="#/dater/listen/"> AI Listen </a>
-      <a href="#/dater/balance/"> Balance</a>
-      <a href="">Back</a>
-    </div>
-  </nav>
-  <component :is="currView" />
+<div class="container">
+  <div class="widget blue">
+    <router-link class="header" to="/dater/chat">AI Chat</router-link>
+  </div>
+  <div class="widget red">
+    <router-link class="header" to="/dater/listen">AI Listen</router-link>
+  </div>
+  <div class="widget blue">
+    <router-link class="header" to="/dater/balance">Add Cash</router-link>
+  </div>
+  <div class="widget red"> <!-- This will become Calendar when it's made -->
+    <router-link class="header" to="/dater/profile">Edit Profile</router-link>
+  </div>
+</div>
 </template>
 
 <style scoped>
-  .nav {
-    color: white;
-    background-color: var(--primary-blue);
-    top: 0;
-    left: 0;
-    right: 0; 
+  .container {
     display: flex;
-    position: absolute;
-    justify-content: space-evenly;
+    flex-flow: row wrap;
+  }
+
+  .widget {
+    display: flex;
     align-items: center;
-    padding: 8px 16px;
+    justify-content: center;
+    padding: 50px;
+    border: none;
+    border-radius: 16px;
   }
 
-  .navbar {
-    /* Style the nav shelf that slides in/out */
-    display: flex;
+  .blue {
+    background-color: var(--secondary-blue);
   }
 
+  .red {
+    background-color: var(--secondary-red);
+  }
 </style>

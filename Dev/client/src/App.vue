@@ -1,57 +1,81 @@
 <script setup>
-import { ref, computed } from 'vue'
-import Login from './components/Login.vue'
-import SignUp from './components/SignUp.vue'
-import Welcome from './components/Welcome.vue'
-import UniversalHome from './components/UniversalHome.vue'
+import router from './router/index.js';
 
+const currPath = window.location.hash
 
-const routes = {
-  '/': Welcome,
-  '/register': SignUp,
-  '/login': Login,
-  '/home': UniversalHome
+function openDrawer() {
+  const element = document.getElementById('navbar')
+  if (element.className === 'navbar') {
+    element.className = 'navbar opened'
+  }
+  else {
+    element.className = 'navbar'
+  }
 }
 
-const currPath = ref(window.location.hash)
-
-window.addEventListener('hashchange', () => {
-  currPath.value = window.location.hash
-})
-
-const currentView = computed(() => {
-  return routes[currPath.value.slice(1) || '/' ]
-})
-
+async function logout() {
+  const result = await makeRequest(`/logout/`)
+  router.push('/')
+}
 </script>
 
 <template>
-  <div id="app">
-    <nav class="nav">
-      <a href="#/register"> Sign Up </a>
-      <a href="#/login"> Login </a>
-      <a href="#/"> Back </a>
-    </nav>
-    <component :is="currentView"/> 
-  </div>
+    <div id="app">
+      <nav class="nav homenav" v-if="currPath.includes('dater')">
+        <button @click="openDrawer" class="icon-button">
+                <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
+        </button>
+        <button @click="openDrawer" class="icon-button"> <!-- This will be the profile picture when setup -->
+                <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
+        </button>
+        <div id="navbar" class="navbar">
+          <router-link class="link" to="/dater/home"> Home </router-link>
+          <router-link class="link" to="/dater/profile/"> Profile </router-link>
+          <router-link class="link" to="/dater/chat/"> AI Chat </router-link>
+          <router-link class="link" to="/dater/listen/"> AI Listen </router-link>
+          <router-link class="link" to="/dater/balance/"> Balance</router-link>
+          <a @click="logout"> Logout </a>
+        </div>
+      </nav>
+      <nav class="nav homenav" v-else-if="currPath.includes('cupid')">
+        <button @click="openDrawer" class="icon-button">
+                <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
+        </button>
+        <button @click="openDrawer" class="icon-button"> <!-- This will be the profile picture when setup -->
+                <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
+        </button>
+        <div id="navbar" class="navbar">
+          <router-link class="link" to="/cupid/home"> Home </router-link>
+          <a class="link" @click="logout"> Logout </a>
+        </div>
+      </nav>
+      <nav class="nav homenav" v-else-if="currPath.includes('manager')">
+        <button @click="openDrawer" class="icon-button">
+                <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
+        </button>
+        <button @click="openDrawer" class="icon-button"> <!-- This will be the profile picture when setup -->
+                <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
+        </button>
+        <div id="navbar" class="navbar">
+          <router-link class="link" to="/manager/home"> Home </router-link>
+          <a class="link" @click="logout"> Logout </a>
+        </div>
+      </nav>
+      <nav class="nav" v-else>
+          <router-link class="link" to="/login"> Login </router-link>
+          <router-link class="link" to="/register"> Sign Up </router-link>
+          <router-link class="link" to="/"> Welcome </router-link>
+      </nav>
+    </div>
+    <router-view />
 </template>
 
 <style scoped>
-  .nav {
-    color: white;
-    background-color: var(--primary-blue);
-    top: 0;
-    left: 0;
-    right: 0; 
-    display: flex;
-    position: absolute;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 8px 16px;
-  }
-
-  a {
+  .link {
     color: white;
     gap: 10px;
+    background-color: var(--primary-blue);
   }
+
+
 </style>
