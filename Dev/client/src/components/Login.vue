@@ -12,10 +12,6 @@ async function login() {
         email: email.value,
         password: password.value,
     })
-    // Validate response
-    if (results.method !== '200' || results.method !== 200) {
-        return;
-    }
     // Add error class to which one is invalid
     const doc = document.getElementById('error')
     if (results.method === '400' || results.method === 400) {

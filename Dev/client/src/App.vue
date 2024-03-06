@@ -25,25 +25,23 @@ async function logout() {
         <button @click="openDrawer" class="icon-button">
                 <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
         </button>
-        <button @click="openDrawer" class="icon-button"> <!-- This will be the profile picture when setup -->
-                <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
-        </button>
+        <!-- This will be the profile picture when setup -->
+        <img :src="'/get_icon/'" alt="Profile Picture" class="icon">
         <div id="navbar" class="navbar">
           <router-link class="link" to="/dater/home"> Home </router-link>
           <router-link class="link" to="/dater/profile/"> Profile </router-link>
           <router-link class="link" to="/dater/chat/"> AI Chat </router-link>
           <router-link class="link" to="/dater/listen/"> AI Listen </router-link>
           <router-link class="link" to="/dater/balance/"> Balance</router-link>
-          <a @click="logout"> Logout </a>
+          <button class="logout" @click="logout"> Logout </button>
         </div>
       </nav>
       <nav class="nav homenav" v-else-if="currPath.includes('cupid')">
         <button @click="openDrawer" class="icon-button">
                 <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
         </button>
-        <button @click="openDrawer" class="icon-button"> <!-- This will be the profile picture when setup -->
-                <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
-        </button>
+        <!-- This will be the profile picture when setup -->
+        <img :src="'/get_icon/'" alt="Profile Picture" class="icon">
         <div id="navbar" class="navbar">
           <router-link class="link" to="/cupid/home"> Home </router-link>
           <a class="link" @click="logout"> Logout </a>
@@ -53,9 +51,8 @@ async function logout() {
         <button @click="openDrawer" class="icon-button">
                 <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
         </button>
-        <button @click="openDrawer" class="icon-button"> <!-- This will be the profile picture when setup -->
-                <img :src="'/get_icon/'" alt="Menu Open icon" class="icon">
-        </button>
+        <!-- This will be the profile picture when setup -->
+        <img :src="'/get_icon/'" alt="Profile Picture" class="icon">
         <div id="navbar" class="navbar">
           <router-link class="link" to="/manager/home"> Home </router-link>
           <a class="link" @click="logout"> Logout </a>
@@ -74,8 +71,16 @@ async function logout() {
   .link {
     color: white;
     gap: 10px;
-    background-color: var(--primary-blue);
+    padding-bottom: 4px;
   }
-
-
+  .logout {
+    display: flex;
+    align-self: center;
+    color: white;
+    background-color: var(--secondary-red);
+    border: none;
+    border-radius: 4px;
+    margin: 8px;
+    margin-top: 300px;
+  }
 </style>
