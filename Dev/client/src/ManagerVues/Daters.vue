@@ -6,8 +6,11 @@
 
   <!-- for loop for daters -->
   <div v-for="dater of daters">
-    <section>
-      <nav >{{ dater.name }}</nav>
+    <section class="userListItem">
+      <nav>
+        <figure>icon</figure>
+        <p>{{ dater.name }}</p>
+      </nav>
       <article>
         <p>Rating: {{ dater.rating }}</p>
         <p>Location: {{ dater.location }}</p>

@@ -7,7 +7,10 @@
   <!-- for loop for cupids -->
   <div v-for="cupid of cupids">
     <section>
-      <nav >{{ cupid.name }}</nav>
+      <nav>
+        <figure>icon</figure>
+        <p>{{ cupid.name }}</p>
+      </nav>
       <article>
         <p>Rating: {{ cupid.rating }}</p>
         <p>Location: {{ cupid.location }}</p>
