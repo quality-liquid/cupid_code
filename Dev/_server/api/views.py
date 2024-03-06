@@ -1,8 +1,10 @@
 import base64
 from operator import contains
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from twilio.rest import Client
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
@@ -84,25 +86,21 @@ def create_user(request):
         serializer = DaterSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            login(request, User.objects.get(id=userSerializer.data['id']))
+            user = User.objects.get(id=userSerializer.data['id'])
+            login(request, user)
 
-            #Prepare return data for front-end use
-            returnData = serializer.data
-            returnData['user'] = userSerializer.data
-            del returnData['user']['password']
-            return Response(returnData, status=status.HTTP_201_CREATED)
+            return_data = user_expand(user,serializer)
+            return Response(return_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif data['role'] == User.Role.CUPID:
         serializer = CupidSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            login(request, User.objects.get(id=userSerializer.data['id']))
+            user = User.objects.get(id=userSerializer.data['id'])
+            login(request, user)
 
-            #Prepare return data for front-end use
-            returnData = serializer.data
-            returnData['user'] = userSerializer.data
-            del returnData['user']['password']
-            return Response(returnData, status=status.HTTP_201_CREATED)
+            return_data = user_expand(user,serializer)
+            return Response(return_data, status=status.HTTP_201_CREATED)
         User.objects.get(id=data['user']).delete()
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif data['role'] == User.Role.MANAGER:
@@ -140,12 +138,8 @@ def sign_in(request):
         elif user.role == User.Role.MANAGER:
             serializer = ManagerSerializer(user)
 
-        #Prepare return data for front-end use
-        userSerializer = UserSerializer(user)
-        returnData = serializer.data
-        returnData['user'] = userSerializer.data
-        del returnData['user']['password']
-        return Response(returnData, status=status.HTTP_200_OK)
+        return_data = user_expand(user, serializer)
+        return Response(return_data, status=status.HTTP_200_OK)
     else:
         if User.objects.filter(email=data['email']):
             reason = 'Incorrect password'
@@ -153,33 +147,51 @@ def sign_in(request):
             reason = 'User not found'
         return Response({'Reason': reason}, status=status.HTTP_400_BAD_REQUEST)
 
-
 @api_view(['GET'])
-def get_user(request):
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def get_user(request,pk):
     """
     Get a user's information
 
-    Args (request.post):
-        user_id(int): The id of the user
+    Args (URL query string):
+        pk(int): The id of the user
     
     Returns:
         Response:
             Dater, Cupid, or Manager serialized
     """
+    if pk != request.user.id:
+        #TODO: Different users should see different things
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
     data = request.data
-    user = get_object_or_404(User, id=data['user_id'])
+    user = get_object_or_404(User, id=pk)
+
     if user.role == User.Role.DATER:
-        serializer = DaterSerializer(user)
+        dater = Dater.objects.get(user=user)
+        serializer = DaterSerializer(dater)
     elif user.role == User.Role.CUPID:
-        serializer = CupidSerializer(user)
+        cupid = Cupid.objects.get(user=user)
+        serializer = CupidSerializer(cupid)
     elif user.role == User.Role.MANAGER:
         serializer = ManagerSerializer(user)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-    return Response(serializer.data, status=status.HTTP_200_OK)
 
+    return_data = user_expand(user, serializer)
+    return Response(return_data, status=status.HTTP_200_OK)
+
+def user_expand(user, serializer):
+    userSerializer = UserSerializer(user)
+    return_data = serializer.data
+    return_data['user'] = userSerializer.data
+    del return_data['user']['password']
+    return return_data
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def delete_user(request, pk):
     """
     For a manager.
@@ -192,19 +204,23 @@ def delete_user(request, pk):
         Response:
             OK
     """
+    if pk != request.user.id:
+        #TODO: Managers and owners should delete users
+        return Response(status=status.HTTP_403_FORBIDDEN)
     user = get_object_or_404(User, id=pk)
     user.delete()
     return Response(status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def send_chat_message(request):
     """
     For a dater.
     Stores the given message in the database, sends it to the AI, and returns the AI's response.
 
     Args (request.post):
-        user_id(int): The id of the dater
         message(str): The message
 
     Returns:
@@ -213,7 +229,7 @@ def send_chat_message(request):
     """
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    user_id = data['user_id']
+    user_id = request.user.id
     message = data['message']
     # save a message to database
     serializer = MessageSerializer(data={'owner': user_id, 'text': message, 'from_ai': False})
@@ -262,6 +278,8 @@ def get_five_messages(request, pk):
         Response:
             The five messages serialized
     """
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     user = get_object_or_404(User, id=pk)
     try:
         messages = Message.objects.filter(owner=user).order_by('-id')[:5]
