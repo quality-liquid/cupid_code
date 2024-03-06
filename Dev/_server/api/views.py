@@ -267,6 +267,8 @@ def __get_ai_response(message: str):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_five_messages(request, pk):
     """
     Returns the five most recent messages between user and AI.
@@ -290,19 +292,33 @@ def get_five_messages(request, pk):
 
 
 @api_view(['GET', 'POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def calendar(request, pk):
     """
     For a dater.
     Returns the dater's scheduled dates.
 
-    Args (request.post):
-        user_id(int): The id of the dater
+    GET
+    Args:
+        pk(int): the user_id as included in the URL
     Returns:
         Response:
-            The planned dates
+            The user's saved dates
+
+    POST
+    Args (request.post):
+        date_time(str): ISO 8601 timestamp (I fed output back into API, and GPT said that was the date format)
+        location(str): Coordinates
+        description(str): Arbitrary description
+        status(str): Date.Status (PLANNED, OCCURING, PAST, or CANCELED)
+        budget(decimal): The max budget for the date
+    Returns:
+        Response:
+            The saved date serialized
     """
     if request.method == 'GET':
-        dater = get_object_or_404(Dater, id=pk)
+        dater = get_object_or_404(Dater, user_id=pk)
         try:
             dates = Date.objects.filter(dater=dater)
         except Date.DoesNotExist:
@@ -312,6 +328,7 @@ def calendar(request, pk):
     elif request.method == 'POST':
         data = request.data
         data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
+        data['dater'] = request.user.id
         serializer = DateSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -322,6 +339,8 @@ def calendar(request, pk):
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def rate_dater(request):
     """
     For a cupid.
