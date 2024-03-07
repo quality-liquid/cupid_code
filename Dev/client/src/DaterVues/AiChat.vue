@@ -1,19 +1,102 @@
 <script setup>
+import { makeRequest } from '../utils/make_request';
+import {ref} from 'vue';
 
+const chatArr = ref([])
+const message = ref('')
+
+const user_id  = parseInt(window.location.hash.split('/')[3])
+
+async function getChats() {
+    const results = await makeRequest(`/api/chat/${user_id}`);
+    // May need to split results chat to fit into array
+    chatArr.value = results.chat
+}
+
+async function getResponse() {
+    const results = await makeRequest();
+    // Put response on screen
+}
 </script>
 
 <template>  
-    <div>
-        Chatbox
+    <div class="chatbox">
+        <div class="chat response">Example Chat for Styling Purposes</div> 
+        <div class="chat sent">Example Chat for Styling Purposes</div> 
     </div>
-    <div>
-        <label>
-            Type your message here
-            <input>
+    <div class="textbox">
+        <label for="message" class="message">
+            <h4>Enter Message Here</h4>
+            <input id="message" placeholder="Type your message to the AI!" :value="message" @change="(e) =>  message = e.target.value">
         </label>
     </div>
 </template>
 
 <style scoped>
+.chatbox {
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 10px;
+    margin-top: 40px;
+    height: 450px;
+    overflow-y: scroll;
+}
+
+.chat {
+    padding: 8px;
+    margin: 8px;
+    border: none;
+    border-radius: 4px;
+}
+
+.sent {
+    display: flex;
+    justify-content: flex-end;
+    background-color: var(--primary-red);
+    color: white;
+    position: relative;
+    margin-bottom: 10px;
+    margin-left: calc(100% - 240px);
+    padding: 10px;
+}
+
+.response {
+    display: flex;
+    justify-content: flex-start;
+    background-color: var(--secondary-blue);
+    color: white;
+    position: relative;
+    margin-bottom: 10px;
+    margin-right: calc(100% - 240px);
+    padding: 10px;
+}
+
+.textbox {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    background-color: var(--secondary-red);
+    padding: 24px;
+}
+
+.message {
+    text-align: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.message h4 {
+    margin: 4px;
+    margin-top: 0px;
+}
+
+.message input {
+    border: none;
+    border-radius: 4px;
+    padding: 8px;
+    margin: 4px;
+}
 
 </style>
