@@ -15,12 +15,13 @@ from .models import User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, Pay
 from django.contrib.sessions.models import Session
 from django.contrib.auth import login, logout, authenticate
 from django.utils import timezone
+from django.utils.timezone import make_aware
 from django.shortcuts import get_object_or_404
 from geopy.geocoders import Nominatim
 import geoip2.database
 from math import radians, sin, cos, sqrt, atan2
 from yelpapi import YelpAPI
-import datetime
+from datetime import datetime
 import speech_recognition
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
@@ -318,6 +319,8 @@ def calendar(request, pk):
             The saved date serialized
     """
     if request.method == 'GET':
+        if pk != request.user.id:
+            return Response(status=status.HTTP_403_FORBIDDEN)
         dater = get_object_or_404(Dater, user_id=pk)
         try:
             dates = Date.objects.filter(dater=dater)
@@ -358,11 +361,11 @@ def rate_dater(request):
     """
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    owner = get_object_or_404(Cupid, id=request.user.id)
-    target = get_object_or_404(Dater, id=data['dater_id'])
-    gig = get_object_or_404(Gig, id=data['gig_id'])
+    owner = request.user.id
+    target = data['dater_id']
+    gig = data['gig_id']
     serializer = FeedbackSerializer(
-        data={'owner': owner, 'target': target, 'gig': gig, 'message': data['message'], 'star_rating': data['rating']})
+        data={'owner': owner, 'target': target, 'gig': gig, 'message': data['message'], 'star_rating': data['rating'], 'date_time': make_aware(datetime.now())})
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -370,6 +373,8 @@ def rate_dater(request):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_dater_ratings(request, pk):
     """
     For all users.
@@ -382,9 +387,11 @@ def get_dater_ratings(request, pk):
         Response:
             Sequence of Feedback objects
     """
-    dater = get_object_or_404(Dater, id=pk)
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    dater = get_object_or_404(Dater, user_id=pk)
     try:
-        ratings = Feedback.objects.filter(user=dater)
+        ratings = Feedback.objects.filter(target=dater.user)
     except Feedback.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
     serializer = FeedbackSerializer(ratings, many=True)
@@ -392,6 +399,8 @@ def get_dater_ratings(request, pk):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_dater_avg_rating(request, pk):
     """
     For all users.
@@ -404,11 +413,14 @@ def get_dater_avg_rating(request, pk):
         Response:
             rating(int): The dater's rating
     """
-    dater = get_object_or_404(Dater, id=pk)
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    dater = get_object_or_404(Dater, user_id=pk)
     try:
-        ratings = Feedback.objects.filter(user=dater)
+        ratings = Feedback.objects.filter(target=dater.user)
     except Feedback.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    #TODO: Database has field to store this instead of recalculating all
     total = 0
     for rating in ratings:
         total += rating.star_rating
@@ -417,13 +429,14 @@ def get_dater_avg_rating(request, pk):
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def dater_transfer(request):
     """
     For a dater.
     Charges the dater's card and updates their balance.
 
     Args (request.post):
-        user_id(int): The id of the dater
         card_id(int): The id of the card to charge
         amount(float): The amount to transfer
     Returns:
@@ -432,18 +445,11 @@ def dater_transfer(request):
     """
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    dater = get_object_or_404(Dater, id=data['user_id'])
+    dater = get_object_or_404(Dater, user=request.user)
     card = get_object_or_404(PaymentCard, id=data['card_id'])
     if card.user != dater.user:
-        return Response({"error: that card doesnt belong to you"}, status=status.HTTP_400_BAD_REQUEST)
-    if card.balance < data['amount']:
-        return Response({"error: you dont have that much money"}, status=status.HTTP_400_BAD_REQUEST)
-    serializer = PaymentCardSerializer(card)
-    if serializer.is_valid():
-        serializer.validated_data['balance'] -= data['amount']
-        serializer.save()
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error: you don't have a card with that id"}, status=status.HTTP_403_FORBIDDEN)
+    return Response({f'Card charged {data["amount"]}'}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -459,7 +465,7 @@ def get_dater_balance(request, pk):
         Response:
             balance(int): The balance of the dater
     """
-    dater = get_object_or_404(Dater, id=pk)
+    dater = get_object_or_404(Dater, user_id=pk)
     card = get_object_or_404(PaymentCard, user=dater.user)
     return Response({'balance': card.balance}, status=status.HTTP_200_OK)
 
@@ -478,7 +484,7 @@ def get_dater_profile(request, pk):
             The dater serialized
     """
 
-    dater = get_object_or_404(Dater, id=pk)
+    dater = get_object_or_404(Dater, user_id=pk)
     serializer = DaterSerializer(dater)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -498,7 +504,7 @@ def set_dater_profile(request):
     """
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    dater = get_object_or_404(Dater, id=data['user_id'])
+    dater = get_object_or_404(Dater, user_id=data['user_id'])
     serializer = DaterSerializer(dater, data=data)
     if serializer.is_valid():
         serializer.save()
@@ -523,7 +529,7 @@ def rate_cupid(request):
     """
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    dater = get_object_or_404(Dater, id=data['user_id'])
+    dater = get_object_or_404(Dater, user_id=data['user_id'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = FeedbackSerializer(
         data={'user': dater, 'gig': gig, 'message': data['message'], 'star_rating': data['rating']})
@@ -546,7 +552,7 @@ def get_cupid_ratings(request, pk):
         Response:
             Sequence of Feedback objects
     """
-    cupid = get_object_or_404(Cupid, id=pk)
+    cupid = get_object_or_404(Cupid, user_id=pk)
     try:
         ratings = Feedback.objects.filter(user=cupid)
     except Feedback.DoesNotExist:
@@ -569,7 +575,7 @@ def get_cupid_avg_rating(request, pk):
             Average rating from the user's record (int).
             If the account could not be found, return a 400 status code.
     """
-    cupid = get_object_or_404(Cupid, id=pk)
+    cupid = get_object_or_404(Cupid, user_id=pk)
     try:
         ratings = Feedback.objects.filter(user=cupid)
     except Feedback.DoesNotExist:
@@ -597,7 +603,7 @@ def cupid_transfer(request):
     """
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    cupid = get_object_or_404(Cupid, id=data['user_id'])
+    cupid = get_object_or_404(Cupid, user_id=data['user_id'])
     bank_account = get_object_or_404(BankAccount, user=cupid.user)
     if bank_account.balance < cupid.cupid_cash_balance:
         return Response({"error: you dont have that much money"}, status=status.HTTP_400_BAD_REQUEST)
@@ -623,7 +629,7 @@ def get_cupid_balance(request, pk):
             Balance on the Cupid's account (int).
             If the account could not be found, return a 400 status code.
     """
-    cupid = get_object_or_404(Cupid, id=pk)
+    cupid = get_object_or_404(Cupid, user_id=pk)
     return Response({'balance': cupid.cupid_cash_balance}, status=status.HTTP_200_OK)
 
 
@@ -639,7 +645,7 @@ def get_cupid_profile(request, pk):
         Response:
             Requested details from Cupid's record (JSON)
     """
-    cupid = get_object_or_404(Cupid, id=pk)
+    cupid = get_object_or_404(Cupid, user_id=pk)
     serializer = CupidSerializer(cupid)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -661,7 +667,7 @@ def set_cupid_profile(request):
     """
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    cupid = get_object_or_404(Cupid, id=data['user_id'])
+    cupid = get_object_or_404(Cupid, user_id=data['user_id'])
     serializer = CupidSerializer(cupid, data=data)
     if serializer.is_valid():
         serializer.save()
@@ -690,7 +696,7 @@ def create_gig(request):
     """
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    dater = get_object_or_404(Dater, id=data['dater_id'])
+    dater = get_object_or_404(Dater, user_id=data['dater_id'])
     serializer = QuestSerializer(data=data['quest'])
     if serializer.is_valid():
         serializer.save()
@@ -959,7 +965,7 @@ def get_restaurants(request, pk):
 
 
 def __call_yelp_api(pk, search):
-    dater = get_object_or_404(Dater, id=pk)
+    dater = get_object_or_404(Dater, user_id=pk)
     latitude, longitude = dater.location.split(" ")
     api_key = __get_yelp_api_key()
     with YelpAPI(api_key, timeout_s=5.0) as yelp_api:
@@ -993,10 +999,10 @@ def get_user_location(request, pk):
     """
     user = get_object_or_404(User, id=pk)
     if user.role == User.Role.DATER:
-        user_data = get_object_or_404(Dater, id=pk)
+        user_data = get_object_or_404(Dater, user_id=pk)
         serializer = DaterSerializer(data=user_data)
     elif user.role == User.Role.CUPID:
-        user_data = get_object_or_404(Cupid, id=pk)
+        user_data = get_object_or_404(Cupid, user_id=pk)
         serializer = CupidSerializer(data=user_data)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -1136,8 +1142,8 @@ def get_gig_rate(request):
             If the rate of gigs per hour was not retrieved successfully, return an error message and a 400 status code.
     """
     try:
-        yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
-        gigs_from_past_day = Gig.objects.filter(date_time_of_request_range=(yesterday, datetime.datetime.now()))
+        yesterday = datetime.now() - datetime.timedelta(days=1)
+        gigs_from_past_day = Gig.objects.filter(date_time_of_request_range=(yesterday, datetime.now()))
         gig_rate = gigs_from_past_day.count() / 24
         response = gig_rate.json()
         return Response(response, status=status.HTTP_200_OK)
@@ -1175,8 +1181,8 @@ def get_gig_drop_rate(request):
     """
     try:
         number_of_drops = 0
-        yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
-        gigs_from_past_day = Gig.objects.filter(date_time_of_request_range=(yesterday, datetime.datetime.now()))
+        yesterday = datetime.now() - datetime.timedelta(days=1)
+        gigs_from_past_day = Gig.objects.filter(date_time_of_request_range=(yesterday, datetime.now()))
         for gig in gigs_from_past_day:
             number_of_drops += gig.dropped_count
 
@@ -1287,7 +1293,7 @@ def speech_to_text(request):
     """
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    dater = get_object_or_404(Dater, id=data['user_id'])
+    dater = get_object_or_404(Dater, user_id=data['user_id'])
     audio = data['audio']
     audio_type = audio['type']
     audio_data = audio['data']
@@ -1376,7 +1382,7 @@ def notify(request):
             If the message was not sent successfully, return an error message and a 400 status code.
     """
     data = request.data
-    dater = get_object_or_404(Dater, id=data['user_id'])
+    dater = get_object_or_404(Dater, user_id=data['user_id'])
     account_sid = 'AC9b5808bbd03ee994e26fc36e9a59aeef'
     auth_token = '584fb19de19ec92bacf218df367efb4c'
     message = data['message']

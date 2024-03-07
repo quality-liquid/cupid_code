@@ -48,6 +48,6 @@
 | Emma Wright    |                                                 |           |   
 | Daniel Barfuss |                                                 |           |   
 | Brighton Ellis |                                                 |           |   
-| Nate McKenzie  |                                                 |           |   
+| Nate McKenzie  | Implement api authorization, update backend docs| 4         |   
 | Eric DeBloois  |                                                 |           |   
 | Brandon Herrin |                                                 |           | 
