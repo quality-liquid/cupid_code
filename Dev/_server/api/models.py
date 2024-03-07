@@ -106,7 +106,8 @@ class Date(models.Model):
 
 
 class Feedback(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='owner')
+    target = models.ForeignKey(User, on_delete=models.CASCADE, related_name='target')
     gig = models.ForeignKey(Gig, on_delete=models.CASCADE)
     message = models.TextField()
     star_rating = models.IntegerField()

@@ -309,7 +309,7 @@ def calendar(request, pk):
     POST
     Args (request.post):
         date_time(str): ISO 8601 timestamp (I fed output back into API, and GPT said that was the date format)
-        location(str): Coordinates
+        location(str): Location of date
         description(str): Arbitrary description
         status(str): Date.Status (PLANNED, OCCURING, PAST, or CANCELED)
         budget(decimal): The max budget for the date
@@ -327,6 +327,7 @@ def calendar(request, pk):
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'POST':
         data = request.data
+        #TODO: Either us or the frontend needs to determine a planned location, and then we save that.
         data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
         data['dater'] = request.user.id
         serializer = DateSerializer(data=data)
@@ -347,7 +348,7 @@ def rate_dater(request):
     Saves a rating of a dater to the database.
 
     Args (request.post):
-        user_id(int): The id of the dater
+        dater_id(int): The id of the dater
         gig_id(int): The id of the gig
         message(str): Message of feedback
         rating(int): 1-5 stars(hearts)
@@ -357,10 +358,11 @@ def rate_dater(request):
     """
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    cupid = get_object_or_404(Cupid, id=data['user_id'])
+    owner = get_object_or_404(Cupid, id=request.user.id)
+    target = get_object_or_404(Dater, id=data['dater_id'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = FeedbackSerializer(
-        data={'user': cupid, 'gig': gig, 'message': data['message'], 'star_rating': data['rating']})
+        data={'owner': owner, 'target': target, 'gig': gig, 'message': data['message'], 'star_rating': data['rating']})
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
