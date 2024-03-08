@@ -13,6 +13,7 @@ import AiChat from '../DaterVues/AiChat.vue';
 import AiListen from '../DaterVues/AiListen.vue';
 import CupidCash from '../DaterVues/CupidCash.vue';
 import DaterProfile from '../DaterVues/DaterProfile.vue';
+import DepositMoney from '../DaterVues/DepositMoney.vue';
 
 const routes = [
     {
@@ -51,6 +52,11 @@ const routes = [
         component: CupidCash
     },
     {
+        path: '/dater/add-money/:id/:amt',
+        name: 'AddMoney',
+        component: DepositMoney
+    },
+    {
         path: '/dater/profile/:id',
         name: 'DaterProfile',
         component: DaterProfile
@@ -59,17 +65,11 @@ const routes = [
         path: '/cupid/home',
         name: 'CupidHome',
         component: CupidHome,
-        children: [
-
-        ]
     },
     {
         path: '/manager/home',
         name: 'ManagerHome',
         component: ManagerHome,
-        children: [
-
-        ]
     },
 ]
 

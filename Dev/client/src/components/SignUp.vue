@@ -55,6 +55,7 @@ async function register() {
             interests: interests.value,
             relationship_goals: goals.value,
             past: past.value,
+
         })
         
         window.addEventListener('hashchange', () => {
