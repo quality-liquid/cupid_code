@@ -600,9 +600,12 @@ def get_cupid_avg_rating(request, pk):
         return Response(status=status.HTTP_403_FORBIDDEN)
     cupid = get_object_or_404(Cupid, user_id=pk)
     try:
-        ratings = Feedback.objects.filter(user=cupid)
+        ratings = Feedback.objects.filter(target=cupid.user)
     except Feedback.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    #TODO: should not have to be calculated from scratch every time
+    if len(ratings) == 0:
+        return Response({'rating': 0}, status=status.HTTP_200_OK)
     total = 0
     for rating in ratings:
         total += rating.star_rating
@@ -611,6 +614,8 @@ def get_cupid_avg_rating(request, pk):
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def cupid_transfer(request):
     """
     Performs financial transfer from a Cupid's balance to their bank account.
@@ -618,28 +623,22 @@ def cupid_transfer(request):
     Args:
         request: Information about the request.
             request.post: The json data sent to the server.
-                cupid_id (int): The id of the Cupid to transfer from.
     Returns:
         Response:
             If the transfer went through successfully, return a 200 status code.
             If the transfer failed, return a corresponding error status code (400 if on our end, 500 if on bank's end)
     """
     data = request.data
+    #TODO: Properly update location, current fails to do anything
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    cupid = get_object_or_404(Cupid, user_id=data['user_id'])
+    cupid = get_object_or_404(Cupid, user_id=request.user.id)
     bank_account = get_object_or_404(BankAccount, user=cupid.user)
-    if bank_account.balance < cupid.cupid_cash_balance:
-        return Response({"error: you dont have that much money"}, status=status.HTTP_400_BAD_REQUEST)
-    serializer = BankAccountSerializer(bank_account)
-    if serializer.is_valid():
-        serializer.validated_data['balance'] -= cupid.cupid_cash_balance
-        serializer.save()
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    return Response(status=status.HTTP_200_OK)
+    return Response({f"Transfering {cupid.cupid_cash_balance} to {bank_account.routing_number}"},status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_cupid_balance(request, pk):
     """
     Returns a number representing the Cupid's balance on their account.
@@ -652,11 +651,15 @@ def get_cupid_balance(request, pk):
             Balance on the Cupid's account (int).
             If the account could not be found, return a 400 status code.
     """
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     cupid = get_object_or_404(Cupid, user_id=pk)
     return Response({'balance': cupid.cupid_cash_balance}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_cupid_profile(request, pk):
     """
     Returns all details on a Cupid's profile (details from Cupid record).
@@ -668,12 +671,16 @@ def get_cupid_profile(request, pk):
         Response:
             Requested details from Cupid's record (JSON)
     """
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     cupid = get_object_or_404(Cupid, user_id=pk)
     serializer = CupidSerializer(cupid)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def set_cupid_profile(request):
     """
     Creates or changes data in a Cupid's profile.
@@ -681,7 +688,6 @@ def set_cupid_profile(request):
     Args:
         request: Information about the request.
             request.post: The json data sent to the server.
-                cupid_id (int): The id of the Cupid to create or change.
                 data (json): The data to create or change in the Cupid's profile.
     Returns:
         Response:
@@ -690,7 +696,8 @@ def set_cupid_profile(request):
     """
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    cupid = get_object_or_404(Cupid, user_id=data['user_id'])
+    data['user'] = request.user.id
+    cupid = get_object_or_404(Cupid, user_id=request.user.id)
     serializer = CupidSerializer(cupid, data=data)
     if serializer.is_valid():
         serializer.save()
@@ -699,6 +706,8 @@ def set_cupid_profile(request):
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def create_gig(request):
     """
     Creates a gig.
@@ -706,7 +715,6 @@ def create_gig(request):
     Args:
         request: Information about the request.
             request.post: The json data sent to the server.
-                dater_id (int): The id of the dater who is requesting the gig.
                 quest (json): The quest that the gig is for.
                     quest['budget'] (float): The budget for the gig.
                     quest['items_requested'] (str): The items requested for the gig.
@@ -718,15 +726,16 @@ def create_gig(request):
             If the gig was failed to be created, return a 400 status code.
     """
     data = request.data
+    # TODO: Fails to update location
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    dater = get_object_or_404(Dater, user_id=data['dater_id'])
+    dater = get_object_or_404(Dater, user_id=request.user.id)
     serializer = QuestSerializer(data=data['quest'])
     if serializer.is_valid():
         serializer.save()
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     quest = get_object_or_404(Quest, id=serializer.data['id'])
-    serializer = GigSerializer(data={'dater': dater, 'quest': quest})
+    serializer = GigSerializer(data={'dater': dater, 'quest': quest.id, 'status': Gig.Status.UNCLAIMED, 'dropped_count':0,'accepted_count':0})
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
