@@ -199,8 +199,8 @@ def delete_user(request, pk):
     For a manager.
     Delete a user
 
-    Args (request.post):
-        user_id(int): The id of the user
+    Args:
+        pk(int): The id of the user
 
     Returns:
         Response:
@@ -1378,7 +1378,6 @@ def speech_to_text(request):
     Args:
         request: Information about the request.
             request.post: The json data sent to the server.
-                dater_id (int): The id of the dater who is requesting
                 audio (json): The audio to convert to text.
                     audio['type'] (str): The type of audio file.
                     audio['data'] (str): The audio file in base64 format.
@@ -1389,7 +1388,7 @@ def speech_to_text(request):
     """
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    dater = get_object_or_404(Dater, user_id=data['user_id'])
+    dater = get_object_or_404(Dater, user_id=request.user.id)
     audio = data['audio']
     audio_type = audio['type']
     audio_data = audio['data']
