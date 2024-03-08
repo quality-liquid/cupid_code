@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path('user/create/', views.create_user, name='create_user'),
     path('user/sign_in/', views.sign_in, name='sign_in'),
-    path('user/', views.get_user, name='get_user'),
+    path('user/<int:pk>', views.get_user, name='get_user'),
     path('chat/', views.send_chat_message, name='send_chat_message'),
     path('chat/<int:pk>/', views.get_five_messages, name='get_five_messages'),
     path('dater/calendar/<int:pk>/', views.calendar, name='calendar'),
@@ -13,7 +13,7 @@ urlpatterns = [
     path('dater/avg_rating/<int:pk>/', views.get_dater_avg_rating, name='get_dater_avg_rating'),
     path('dater/transfer/', views.dater_transfer, name='dater_transfer'),
     path('dater/balance/<int:pk>/', views.get_dater_balance, name='get_dater_balance'),
-    path('dater/profile/<int:id>/', views.get_dater_profile, name='get_dater_profile'),
+    path('dater/profile/<int:pk>/', views.get_dater_profile, name='get_dater_profile'),
     path('dater/profile/', views.set_dater_profile, name='set_dater_profile'),
     path('cupid/rate/', views.rate_cupid, name='rate_cupid'),
     path('cupid/ratings/<int:pk>/', views.get_cupid_ratings, name='get_cupid_ratings'),
