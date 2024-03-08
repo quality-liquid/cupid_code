@@ -12,10 +12,6 @@ async function login() {
         email: email.value,
         password: password.value,
     })
-    // Validate response
-    if (results.method !== '200' || results.method !== 200) {
-        return;
-    }
     // Add error class to which one is invalid
     const doc = document.getElementById('error')
     if (results.method === '400' || results.method === 400) {
@@ -25,14 +21,16 @@ async function login() {
     else {
         doc.className = 'error'
     }
+    console.log(results.user)
+    console.log(results.user['id'])
     
     // Redirect to dashboard if good
     if (results.user['role'].toLowerCase() === 'dater') {
-        router.push('/dater/home')
+        router.push({name: 'DaterHome', params: {id: results.user['id']}})
     } else if (results.user['role'].toLowerCase() === 'cupid') {
-        router.push('/cupid/home')
+        router.push({name: 'CupidHome', params: {id: results.user['id']}})
     } else if (results.user['role'].toLowerCase() === 'manager') {
-        router.push('/manager/home')
+        router.push({name: 'ManagerHome', params: {id: results.user['id']}})
     }
     else {
         router.push('/login')

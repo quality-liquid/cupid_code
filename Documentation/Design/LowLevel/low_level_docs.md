@@ -237,6 +237,7 @@ Subsections
 - [UX](#ux)
 - [Templates](#templates)
 - [Vue Router](#vue-router)
+  - [Implementation](#implementing-the-router)
 - [Testing](#testing)
 
 ### Security
@@ -381,86 +382,129 @@ This won't deal with many of the external links since it will be an isolated app
 
 We will be using the Vue Router to route the user to the correct page. Using information about the user from the backend and reusable components, we can direct the user to the correct page based upon user type.
 
+We will be using hash routing since the frontend and backend will be using different URLs. This will keep the frontend lighter and not be as tied into the backend for rendering every page. 
+
   Example Vue Router (simple example):
 ```javascript
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import create web history, web hash history from 'vue-router';
 
 import Home from './components/Home.vue';
 import About from './components/Dater.vue';
 import Contact from './components/Cupid.vue';
 
-Vue.use(VueRouter);
-
 const routes = [
-  { path: '/', component: Home },
-  { path: '/dater', component: Dater },
-  { path: '/cupid', component: Cupid }
+  { path: '/', name: 'Home', component: Home },
+  { path: '/dater/:id', name: 'Dater', component: Dater },
+  { path: '/cupid', name: 'Cupid', component: Cupid }
 ];
 
-const router = new VueRouter({
-  routes,
-  mode: 'history'
+const router = create web history({
+  history: web hash history,
+  routes
 });
 
 export default router;
 ```
+The ':' in "path: '/dater/:id'" symbolizes a parameter to be passed through the path. This will allow us to pass through necesary data for us to use when making calls to the backend.
 
+#### Implementing the router
+  Implementing the router into each file will be as follows:
+
+**main.js**
+
+  This will include the router into the building of the app itself.
+```javascript
+import { createApp } from 'vue';
+import './style.css';
+import App from './App.vue';
+import router from './router/index.js';
+
+
+createApp(App).use(router).mount('#app')
+```
+
+**App.vue**
+
+  This is what the template tag file will look like
+``` html
+<template>
+  <div id=app>
+    <router-link :to="{name: 'Path name', params: {param: given param}}">
+      Go here!
+    </router-link>
+    <router-link to="/path/name">
+      Or here!
+    </router-link>
+  </div>
+  <router-view></router-view>
+<template>
+```
+This will be in the script tag
+``` javascript
+const user_id = parseInt(window.location.hash.split('/')[3])
+```
+**More on :to**
+
+This syntax will allow us to specify the parameters in the path. Vue Router prefers to do it this way instead of doing something like `/path/name/${param}` that you would normally do in other frameworks or plain javascript. 
+
+In some cases we won't use this, like for the welcome page or signup pages. We will instead use to="/path". This is a good shorthand for any path that doesn't require a parameter.
+
+**Other files**
+
+  Any other file that needs to use the router can do so in a variety of ways. 
+  
+  They can import the router to use programmatic routing
+``` javascript
+import router from './router/router.js'
+
+router.go(1) // Forward 1
+router.forward() // ^
+router.go(-1) // Back 1
+router.back() // ^
+
+// Route the user to this path with the given params.
+router.push({name: "Path Name", params: {param: given param}})
+```
+
+And they can use the router-link tag in any component too
+```html
+  <nav>
+    <router-link :to="{name: 'Path name', params: {param: given param}}">
+      Go here!
+    </router-link>
+    <router-link :to="{name: 'Path name', params: {param: given param}}">
+      Or here!
+    </router-link>
+  </nav>
+  <div>
+    Other components from the page get displayed here.
+  </div>  
+<template>
+```
+
+### Vue URLs
 The Vue app will live at URL `/app/`. The following pages will be available through the Vue Router.
 
 | URL                | Notes                                |
 |--------------------|--------------------------------------|
-| /dater/home/       | dater homepage                       |
-| /dater/chat/       | dater chat page                      |
-| /dater/listen/     | dater listen page                    |
-| /dater/balance/    | dater cash page                      |
-| /dater/calendar/   | dater calendar page                  |
-| /dater/profile/    | dater profile page                   |
-| /cupid/home/       | cupid homepage                       |
+| /                  | Welcome page                         |
+| /login             | Login page                           |
+| /register          | Signup page                          |
+| /dater/home/:id    | dater homepage                       |
+| /dater/chat/:id    | dater chat page                      |
+| /dater/listen/:id  | dater listen page                    |
+| /dater/balance/:id | dater cash page                      |
+| /dater/calendar/:id| dater calendar page                  |
+| /dater/profile/:id | dater profile page                   |
+| /cupid/home/:id    | cupid homepage                       |
 | /cupid/gigs/       | cupid gigs                           |
-| /cupid/balance/    | cupid balance                        |
-| /cupid/profile/    | cupid profile                        |
-| /manager/home/     | manager homepage                     |
+| /cupid/balance/:id | cupid balance                        |
+| /cupid/profile/:id | cupid profile                        |
+| /manager/home/:id  | manager homepage                     |
 | /manager/cupids/   | manager reports                      |
 | /manager/daters/   | manager reports                      |
 
-
-#### How the Router works
-  This will all go into the App.vue file that is generated with the vue project.
-  There will be an async function to decide what the routes will be. Any other async calls should only be made in the components themselves. This is necessary for clean, readable code and security purposes so we don't have data living somewhere it isn't needed.
-``` javascript
-<script>
-  import ref and computed from vue;
-  import all components from ./components;
-
-  const routes = {
-    "/<link>": AssociatedComponent,
-    "/dater/home": DaterHome,
-    "/dater/chat": DaterChat,
-    etc...
-  }
-
-  const currPath = ref(windows location hash)
-
-  eventListener("hashchange", () => {
-    change currPaths value to windows location hash
-  }) // This will run everytime it's changed to ensure it's correct.
-
-  const currView = computed(() => {
-    return routes[currpaths values first slice or '/']
-  }) // Keeps track of what component to display
-
-</script>
-
-<template>
-  <a href "#/<link>"> Relavent Name </a> 
-  <a href "#/dater/home"> Home Page </a>
-  <a href "#/dater/chat"> Chat with the AI! </a>
-  etc..
-  <component :is="currView" />
-</template>
-
-```
+The :id syntax is using the params syntax from the Vue Router. These are the URLs that are going to need an id of some sort.
 
 ### Testing
 These are some easy to implement methods to test our product before release:

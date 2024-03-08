@@ -31,39 +31,45 @@ const routes = [
         component: SignUp
     },
     {
-        path: '/dater/home',
-        name: 'Dater Home',
-        component: DaterHome
+        path: '/dater/home/:id',
+        name: 'DaterHome',
+        component: DaterHome,
     },
     {
-        path: '/dater/chat',
-        name: 'AI Chat',
+        path: '/dater/chat/:id',
+        name: 'AiChat',
         component: AiChat
     },
     {
-        path: '/dater/listen',
-        name: 'AI Listen',
+        path: '/dater/listen/:id',
+        name: 'AiListen',
         component: AiListen
     },
     {
-        path: '/dater/balance',
-        name: 'Cupid Cash',
+        path: '/dater/balance/:id',
+        name: 'CupidCash',
         component: CupidCash
     },
     {
-        path: '/dater/profile',
-        name: 'Dater Profile',
+        path: '/dater/profile/:id',
+        name: 'DaterProfile',
         component: DaterProfile
     },
     {
         path: '/cupid/home',
-        name: 'Cupid Home',
-        component: CupidHome
+        name: 'CupidHome',
+        component: CupidHome,
+        children: [
+
+        ]
     },
     {
         path: '/manager/home',
-        name: 'Manager Home',
-        component: ManagerHome
+        name: 'ManagerHome',
+        component: ManagerHome,
+        children: [
+
+        ]
     },
 ]
 
