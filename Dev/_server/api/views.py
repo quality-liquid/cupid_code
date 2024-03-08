@@ -162,8 +162,7 @@ def get_user(request, pk):
         Response:
             Dater, Cupid, or Manager serialized
     """
-    if pk != request.user.id:
-        # TODO: Different users should see different things
+    if pk != request.user.id and request.user.is_staff is False:
         return Response(status=status.HTTP_403_FORBIDDEN)
 
     data = request.data
@@ -207,8 +206,7 @@ def delete_user(request, pk):
         Response:
             OK
     """
-    if pk != request.user.id:
-        # TODO: Managers and owners should delete users
+    if pk != request.user.id and request.user.is_staff is False:
         return Response(status=status.HTTP_403_FORBIDDEN)
     user = get_object_or_404(User, id=pk)
     user.delete()
@@ -362,12 +360,14 @@ def rate_dater(request):
             Saved Feedback serialized
     """
     data = request.data
-    # TODO: This doesn't make sense as is, should update user's location instead
+    # TODO: This doesn't do much as is, should update user's location instead
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     owner = request.user.id
     target = data['dater_id']
-    # TODO: Ensure the gig and cupid actually match.
     gig = data['gig_id']
+    # TODO: Once dummy feedback has proper targets and owners, test that this portion actually works
+    if Gig.objects.get(id=gig).dater.user_id != target:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     serializer = FeedbackSerializer(
         data={'owner': owner, 'target': target, 'gig': gig, 'message': data['message'], 'star_rating': data['rating'], 'date_time': make_aware(datetime.now())})
     if serializer.is_valid():
@@ -543,12 +543,13 @@ def rate_cupid(request):
             Saved Feedback serialized
     """
     data = request.data
-    # TODO: This doesn't make sense as is, should update user's location instead
+    # TODO: This doesn't do much as is, should update user's location instead
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     owner = request.user.id
     target = data['cupid_id']
-    # TODO: Ensure the gig and cupid actually match.
     gig = data['gig_id']
+    if Gig.objects.get(id=gig).cupid.user_id != target:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     serializer = FeedbackSerializer(
         data={'owner': owner, 'target': target, 'gig': gig, 'message': data['message'], 'star_rating': data['rating'], 'date_time': make_aware(datetime.now())})
     if serializer.is_valid():
@@ -631,7 +632,7 @@ def cupid_transfer(request):
             If the transfer failed, return a corresponding error status code (400 if on our end, 500 if on bank's end)
     """
     data = request.data
-    # TODO: Properly update location, current fails to do anything
+    # TODO: This doesn't do much as is, should update the cupid's location instead.
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     cupid = get_object_or_404(Cupid, user_id=request.user.id)
     bank_account = get_object_or_404(BankAccount, user=cupid.user)
@@ -728,7 +729,7 @@ def create_gig(request):
             If the gig was failed to be created, return a 400 status code.
     """
     data = request.data
-    # TODO: Fails to update location
+    # TODO: This doesn't do much, should update the dater's location instead
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, user_id=request.user.id)
     serializer = QuestSerializer(data=data['quest'])
@@ -763,8 +764,7 @@ def accept_gig(request):
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
-    # TODO: Update datetime of claim
-    serializer = GigSerializer(gig, data={'is_accepted': True, 'cupid': request.user.id, 'accepted_count': gig.accepted_count + 1}, partial=True)
+    serializer = GigSerializer(gig, data={'is_accepted': True, 'cupid': request.user.id, 'accepted_count': gig.accepted_count + 1, 'date_time_of_claim': make_aware(datetime.now())}, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -791,8 +791,7 @@ def complete_gig(request):
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
-    # TODO: Update datetime of completion
-    serializer = GigSerializer(gig, data={'status': Gig.Status.COMPLETE}, partial=True)
+    serializer = GigSerializer(gig, data={'status': Gig.Status.COMPLETE, 'date_time_of_completion': make_aware(datetime.now())}, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -816,10 +815,12 @@ def drop_gig(request):
             If the gig was successfully dropped, return a 200 status code.
             If the gig could not be dropped, was already dropped, or does not have a Cupid assigned, return a 400 status code.
     """
-    # TODO: Make sure cupid is the one dropping it
     data = request.data
+    # This doesn't do much, should update the cupid's location instead
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
+    if gig.cupid != request.user.cupid:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     serializer = GigSerializer(gig, data={'is_accepted': False, 'status': Gig.Status.UNCLAIMED, 'cupid': None, 'dropped_count': gig.dropped_count + 1}, partial=True)
     if serializer.is_valid():
         serializer.save()

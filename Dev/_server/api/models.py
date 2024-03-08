@@ -69,10 +69,12 @@ class Message(models.Model):
     text = models.TextField()
     from_ai = models.BooleanField()
 
+
 class Quest(models.Model):
     budget = models.DecimalField(max_digits=10, decimal_places=2)
     items_requested = models.TextField()
     pickup_location = models.TextField()
+
 
 class Gig(models.Model):
     class Status(models.IntegerChoices):
@@ -90,6 +92,7 @@ class Gig(models.Model):
     dropped_count = models.IntegerField()
     accepted_count = models.IntegerField()
 
+
 class Date(models.Model):
     class Status(models.TextChoices):
         PLANNED = 'planned'
@@ -105,7 +108,7 @@ class Date(models.Model):
     budget = models.DecimalField(max_digits=10, decimal_places=2)
 
 
-#TODO: Dummy data does not add owners, and makes target always Bob. Should be more interesting than that.
+# TODO: Dummy data does not add owners, and makes target always Bob. Should be more interesting than that.
 class Feedback(models.Model):
     owner = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='owner')
     target = models.ForeignKey(User, on_delete=models.CASCADE, related_name='target')
