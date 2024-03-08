@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from twilio.rest import Client
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
@@ -1083,7 +1083,7 @@ def get_user_location(request, pk):
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_cupids(request):
     """
     A manager can get all the cupid profiles.
@@ -1105,7 +1105,7 @@ def get_cupids(request):
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_daters(request):
     """
     A manager can get all the dater profiles.
@@ -1127,7 +1127,7 @@ def get_daters(request):
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_dater_count(request):
     """
     A manager can get the number of total daters.
@@ -1145,7 +1145,7 @@ def get_dater_count(request):
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_cupid_count(request):
     """
     A manager can get the number of total cupids.
@@ -1163,7 +1163,7 @@ def get_cupid_count(request):
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_active_cupids(request):
     """
     A manager can get the number of active cupids.
@@ -1187,7 +1187,7 @@ def get_active_cupids(request):
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_active_daters(request):
     """
     A manager can get the number of active daters.
@@ -1212,7 +1212,7 @@ def get_active_daters(request):
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_gig_rate(request):
     """
     A manager can get the rate of gigs per hour.
@@ -1236,7 +1236,7 @@ def get_gig_rate(request):
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_gig_count(request):
     """
     A manager can get the number of gigs that are currently active.
@@ -1254,7 +1254,7 @@ def get_gig_count(request):
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_gig_drop_rate(request):
     """
     A manager can get the rate of gigs that are dropped.
@@ -1283,7 +1283,7 @@ def get_gig_drop_rate(request):
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_gig_complete_rate(request):
     """
     A manager can get the rate of gigs that are completed.
@@ -1307,7 +1307,7 @@ def get_gig_complete_rate(request):
 
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def suspend(request):
     """
     Manager can suspend a user.
@@ -1337,7 +1337,7 @@ def suspend(request):
 
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def unsuspend(request):
     """
     Manager can unsuspend a user.
