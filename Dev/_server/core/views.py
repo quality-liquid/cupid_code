@@ -60,6 +60,12 @@ def get_chat(req: HttpRequest):
     path = os.path.join(VAULT_PATH, 'chat_icon' + '.' + FILE_EXTENSION)
     return FileResponse(open(path, "rb"))
 
+def get_emergency(req: HttpRequest):
+    FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
+    VAULT_PATH = os.environ.get('VAULT_PATH', '')
+    path = os.path.join(VAULT_PATH, 'emergency_icon' + '.' + FILE_EXTENSION)
+    return FileResponse(open(path, "rb"))
+
 #TODO: Is this the way we want to logout?
 @login_required
 def logout_view(request):

@@ -45,7 +45,7 @@
 |----------------|-------------------------------------------------|-----------|
 | Name           | Job                                             | Time(hrs) | 
 | Nate Stott     | Unit tests / debugging, implement gemini ai api | 1         |   
-| Emma Wright    |                                                 |           |   
+| Emma Wright    | Routing and Dater Vues  | 3.5         |   
 | Daniel Barfuss |                                                 |           |   
 | Brighton Ellis |                                                 |           |   
 | Nate McKenzie  | Implement api authorization, update backend docs| 4         |   

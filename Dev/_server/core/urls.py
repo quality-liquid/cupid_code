@@ -8,5 +8,6 @@ urlpatterns = [
     path('get_mic/', view=views.get_mic, name='get_icon'),
     path('get_chat/', view=views.get_chat, name='get_icon'),
     path('get_money/', view=views.get_money, name='get_icon'),
+    path('get_emergency/', view=views.get_emergency, name='get_icon'),
     path('logout/', view=views.logout_view, name='logout')
 ]
