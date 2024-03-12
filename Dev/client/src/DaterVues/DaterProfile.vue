@@ -1,10 +1,9 @@
 <script setup>
-    import {ref} from 'vue';
-    import router from '../router';
+    import {ref, onMounted} from 'vue';
+    import router from '../router/index';
     import { makeRequest } from '../utils/make_request';
 
     const email = ref('')
-    const password = ref('')
     const phone = ref()
     const addr = ref('')
     const fname = ref('')
@@ -18,7 +17,13 @@
     const interests = ref('')
     const goals = ref('')
     const past = ref('')
+    const degree = ref('')
 
+    // Allow user to change password
+    const oldPassword = ref('')
+    const newPassword = ref('')
+    const newPassword2 = ref('')
+    
     const user_id  = parseInt(window.location.hash.split('/')[3])
 
     function openDrawer() {
@@ -55,13 +60,10 @@
     }
 
     async function getData() {
-        const results = await makeRequest(`api/dater/profile/${user_id}`);
-        email.value = results.email
-        username.value = results.username
-        phone.value = results.phone_number
+        // dater results
+        const results = await makeRequest(`api/user/${user_id}`)
+        degree.value = results.ai_degree
         addr.value = results.location
-        fname.value = results.first_name
-        lname.value = results.last_name
         desc.value = results.description
         str.value = results.dating_strengths
         weak.value = results.dating_weaknesses
@@ -69,11 +71,18 @@
         interests.value = results.interests
         goals.value = results.relationship_goals
         past.value = results.past
+
+        // user results
+        email.value = results.user['email']
+        fname.value = results.user['first_name']
+        lname.value = results.user['last_name']
+        phone.value = results.user['phone_number']
+        username.value = results.user['username']
     }
 
     async function update() {
         // Validate data
-        const checkData = [email, password, accType, phone, addr, desc]
+        const checkData = [email, phone, addr, desc]
 
         let check = 0;
         for (let i = 0; i < checkData.length; i++) {
@@ -88,7 +97,6 @@
             first_name: fname.value,
             last_name: lname.value,
             email: email.value,
-            password: password.value,
             phone_number: phone.value,
             location: addr.value,
             description: desc.value,
@@ -100,8 +108,15 @@
             relationship_goals: goals.value,
             past: past.value,
         })
-        router.push({name: DaterProfile, params: {id: user_id}});
-    }    
+        router.push({name: 'DaterProfile', params: {id: user_id}});
+    }
+    
+    async function updatePassword() {
+        if (newPassword.value === newPassword2.value) console.log("Still not a feature")
+        console.log("Not a feature currently")
+    }
+
+    onMounted(getData)
 
 </script>
 
@@ -120,13 +135,9 @@
             <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
             <button class="logout" @click="logout"> Logout </button>
         </div>
-    </nav>      
-    <div class="container">
-        <label class="update-content" for="image">
-            Profile Picture
-            <input type="file" id="image" name="image" @change="previewFile"/>
-            <img name="pfp" src="" height="200" alt="Image preview...">
-        </label>
+    </nav>
+    <form class="container" @submit.prevent="update">
+        <h2 class="top">Personal Information</h2>      
         <div class="personal">
             <label class="update-content" for="fname">
                 First Name
@@ -138,13 +149,23 @@
             </label>
             <label class="update-content" for="phone">
                 Phone Number
-                <input type="number" id="phone" :value="phone" @change="(e) => phone = e.target.value"/>
+                <input type="number" id="phone" :placeholder="phone" :value="phone" @change="(e) => phone = e.target.value"/>
             </label>
             <label class="update-content" for="address">
                 Address
                 <input type="text" id="address" :value="addr" @change="(e) => addr = e.target.value"/>
             </label>
+            <label class="update-content" for="degree">
+                AI Degree
+                <select id="degree" :value="degree" class="update-select">
+                    <option value="I don't want any help">I don't want any help</option>
+                    <option value="I would like a little help">I would like a little help</option>
+                    <option value="I need a good amount of help">I need a good amount of help</option>
+                    <option value="I need all the help">I need all the help</option>
+                </select>
+            </label>
         </div>
+        <h2>User Information</h2>
         <div class="userinfo">
             <label class="update-content" for="username">
                 Username
@@ -154,11 +175,8 @@
                 Email
                 <input type="email" id="email" :value="email" @change="(e) => email = e.target.value"/>
             </label>
-            <label class="update-content" for="password">
-                Password
-                <input type="password" id="password" :value="password" @change="(e) => password = e.target.value"/>
-            </label>
         </div>
+        <h2> Details about you! </h2>
         <div class="details">
             <label class="update-text" for="desc">
                 Physical Description
@@ -189,22 +207,57 @@
                 <textarea :value="weak" id="weaknesses" @change="(e) => weak = e.target.value"></textarea>
             </label>
         </div>
-    </div>
-    <button class="button" @click="update"> Update/Save changes </button>
+        <label class="update-content" for="image">
+            Profile Picture
+            <input type="file" id="image" name="image" @change="previewFile"/>
+            <img name="pfp" src="" height="200" alt="Image preview...">
+        </label>
+        <button class="button"> Update/Save changes </button>
+    </form>
+    <form class="container" @submit.prevent="updatePassword">
+        <h2> Update Password </h2>
+        <!-- Make it so they have to update the password w/ old, new, repeated new. -->
+        <label class="update-content" for="old-password">
+            Old Password
+            <input type="password" id="old-password" :value="oldPassword" @change="(e) => oldPassword = e.target.value"/>
+        </label>
+        <label class="update-content" for="new-password">
+            New Password
+            <input type="password" id="new-password" :value="newPassword" @change="(e) => newPassword = e.target.value"/>
+        </label>
+        <label class="update-content" for="new-password-2">
+            Repeat New password
+            <input type="password" id="new-password-2" :value="newPassword2" @change="(e) => newPassword2 = e.target.value"/>
+        </label>
+        <button class="button"> Update Password </button>
+    </form>
 </template>
 
 <style scoped>
 
+h2 {
+    margin: 5px;
+    color: var(--secondary-blue);
+}
+
+.top {
+    margin-top: 50px;
+}
+
 .container {
-    margin-top: 40px;
+    color: var(--primary-blue);
+    text-decoration: bold;
+    margin-bottom: 10px;
 }
 
 .personal {
     display: flex;
+    flex-direction: column;
 }
 
 .details {
     display: flex;
+    flex-direction: column;
 }
 
 .update-content {
@@ -238,10 +291,18 @@ input[type="file"] {
 
 textarea {
     padding: 16px;
+    margin: 10px;
     width: auto;
     height: 100px;
     border: 3px rgba(128, 128, 128, 0.5) solid;
     border-radius: 16px;
+}
+
+.update-select {
+    padding: 8px;
+    border: 3px rgba(128, 128, 128, 0.5) solid;
+    border-radius: 8px;
+    margin: 10px;
 }
 
 .button {
@@ -253,5 +314,10 @@ textarea {
     border-radius: 4px;
     box-shadow: 5px 5px 2px rgba(128, 128, 128, 0.5);
     text-decoration: solid;
+    padding: 16px;
+    margin: 10px;
+    display: flex;
+    justify-self: center;
+    align-self: center;
 }
 </style>
