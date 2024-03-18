@@ -37,7 +37,9 @@ class Dater(models.Model):
     location = models.TextField()
     average_rating = models.DecimalField(default=0,max_digits=10, decimal_places=2)
     is_suspended = models.BooleanField(default=False)
-    profile_picture = models.ImageField(null=True)
+    profile_picture = models.ImageField(
+        upload_to='api/images', height_field=24, width_field=24, max_length=100, null=True
+    )
 
 
 class Cupid(models.Model):
