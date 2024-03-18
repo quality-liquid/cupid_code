@@ -30,40 +30,30 @@
         </div>
     </nav>
 
-    <!-- If a gig is active, background is blue. If inactive, background is red -->
-    <div :class="{'active': gig.active, 'inactive': !gig.active}">
-        <!-- gig.location is just the City and state -->
-        <h1>Gig Details | gig.location</h1>
-        <p>Pickup: gig.pickup</p>
+    <h1>Gig Complete! </h1>
+    <form action="">
+        <h3>Would you like to rate your dater? </h3>
+        <div class="radios">
+            <input type="radio">
+            <label for="yes">Yes</label>
 
-        <!-- If a gig is active, show user info. If not active, don't show user info -->
-        <div :class="{'show': gig.active, 'hidden': !gig.active}">
-            <img src="" alt=""> <!-- Put picture of dater that submitted the gig here -->
-            <label>
-                <input type="checkbox" v-model="pickupComplete"> Pickup Complete
-            </label>
+            <input type="radio">
+            <label for="no">No</label>
+        </div>        
 
-            <p>Deliver: gig.deliver </p>
-            <p>Address:  gig.address </p>
-
-            <!-- If pickup is complete, show complete gig button -->
-            <!-- If complete gig is clicked, reroute to GigComplete Page-->
-            <button v-if="pickupComplete" @click="">Complete Gig</button> 
+        <div>
+            <label for="daterRating"> How would you rate the dater you serviced? (between 0 and 5):</label>
+            <input type="range" id="daterRating" name="daterRating" min="0" max="5">
         </div>
-    </div>
+
+        <div>
+            <label for="comments">Any issues or complements you would like to include? </label>
+            <input type="text">
+        </div>
+
+        <button>Submit</button>
+    </form>
 </template>
 
 <style scoped>
-    .show {
-        display: block;
-    }
-    .hidden {
-        display: none;
-    }
-    .active {
-      background-color: blue;
-    }
-    .inactive {
-      background-color: red;
-    }
 </style>
