@@ -360,8 +360,7 @@ def rate_dater(request):
             Saved Feedback serialized
     """
     data = request.data
-    # TODO: This doesn't do much as is, should update user's location instead
-    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
+    __update_user_location(request.user, request.META['REMOTE_ADDR'])
     owner = request.user.id
     target = data['dater_id']
     gig = data['gig_id']
@@ -543,8 +542,7 @@ def rate_cupid(request):
             Saved Feedback serialized
     """
     data = request.data
-    # TODO: This doesn't do much as is, should update user's location instead
-    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
+    __update_user_location(request.user, request.META['REMOTE_ADDR'])
     owner = request.user.id
     target = data['cupid_id']
     gig = data['gig_id']
@@ -632,8 +630,7 @@ def cupid_transfer(request):
             If the transfer failed, return a corresponding error status code (400 if on our end, 500 if on bank's end)
     """
     data = request.data
-    # TODO: This doesn't do much as is, should update the cupid's location instead.
-    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
+    __update_user_location(request.user, request.META['REMOTE_ADDR'])
     cupid = get_object_or_404(Cupid, user_id=request.user.id)
     bank_account = get_object_or_404(BankAccount, user=cupid.user)
     return Response({f"Transfering {cupid.cupid_cash_balance} to {bank_account.routing_number}"},status=status.HTTP_200_OK)
@@ -729,8 +726,7 @@ def create_gig(request):
             If the gig was failed to be created, return a 400 status code.
     """
     data = request.data
-    # TODO: This doesn't do much, should update the dater's location instead
-    data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
+    __update_user_location(request.user, request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, user_id=request.user.id)
     serializer = QuestSerializer(data=data['quest'])
     if serializer.is_valid():
@@ -1510,3 +1506,8 @@ def notify(request):
         return Response(message.sid, status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+def __update_user_location(user, addr):
+    user.location = __get_location_string(addr)
+    user.save()
