@@ -364,7 +364,6 @@ def rate_dater(request):
     owner = request.user.id
     target = data['dater_id']
     gig = data['gig_id']
-    # TODO: Once dummy feedback has proper targets and owners, test that this portion actually works
     if Gig.objects.get(id=gig).dater.user_id != target:
         return Response(status=status.HTTP_403_FORBIDDEN)
     serializer = FeedbackSerializer(

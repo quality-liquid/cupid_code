@@ -108,7 +108,6 @@ class Date(models.Model):
     budget = models.DecimalField(max_digits=10, decimal_places=2)
 
 
-# TODO: Dummy data does not add owners, and makes target always Bob. Should be more interesting than that.
 class Feedback(models.Model):
     owner = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='owner')
     target = models.ForeignKey(User, on_delete=models.CASCADE, related_name='target')
