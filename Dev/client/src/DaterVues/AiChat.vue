@@ -1,6 +1,6 @@
 <script setup>
 import { makeRequest } from '../utils/make_request';
-import {ref} from 'vue';
+import {onMounted, ref, watch} from 'vue';
 
 const chatArr = ref([])
 const message = ref('')
@@ -32,6 +32,8 @@ async function getResponse() {
     const results = await makeRequest();
     // Put response on screen
 }
+
+onMounted(() => getChats())
 </script>
 
 <template>  

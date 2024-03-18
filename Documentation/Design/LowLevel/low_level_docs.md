@@ -723,20 +723,27 @@ Mapping what endpoints the frontend needs is helpful for the backend to know wha
 
 This is what our project structure will look like:
 
-* cupid_code/
-  * cupid_code/ - Main project directory.
+* _server/
+  * _server/ - Main project settings.
     * settings.py - Main settings file.
     * urls.py - Main url file.
     * wsgi.py - Web server gateway interface.
   * api/ - App for the api.
-    * migrations/ - Migrations for the api app.
     * admin.py - Admin configuration.
     * apps.py - App configuration.
+    * geodata/ - Used by GeoLite to look up location by IP
+    * migrations/ - Migrations for the api app.
     * models.py - Define the models.
     * serializers.py - Define the serializers.
     * tests.py - Write unit tests.
     * urls.py - Map the urls to the views.
     * views.py - Define and implement the views.
+  * core/
+    * admin.py - Admin configuration.
+    * apps.py - App configuration.
+    * middleware.py - Captures requests for static files and redirects to Vue server
+    * static/ - Contains some images
+    * templates/ - Contains the base template
   * manage.py - Command line utility for managing the project.
   * db.sqlite3 - The database. We can change this to another database if we want.
 
@@ -752,6 +759,7 @@ The following endpoints do not need any user data to be used.
 | /login/  | GET, POST | login         | Login page, Send form                                                                          |
 | /signup/ | GET, POST | signup        | Signup page, Send form                                                                         |
 | /app/    | GET       | NA            | Vue Router takes over from here. Only if they are authenticated will they be able to call this |
+| /get_*/  | GET       | get_*         | Variours icon images for the front end                                                         |
 
 Additional pages offered by [Vue Router](#vue-router)
 
@@ -759,51 +767,53 @@ Additional pages offered by [Vue Router](#vue-router)
 
 The following endpoints will need user data to be used. Authentication will be required for all of these endpoints.
 
-| URL                             | Method    | View Function         | Notes                                               |
-|---------------------------------|-----------|-----------------------|-----------------------------------------------------|
-| /api/user/create/               | POST      | create_user           | Create user (use corresponding API)                 |
-| /api/user/<int:id>/             | GET       | get_user              | Get user data                                       |
-| /api/chat/                      | POST      | send_chat_message     | Send message                                        |
-| /api/chat/<int:id>/             | GET       | get_five_messages     | Return the last five chat messages                  |
-| /api/dater/calendar/<int:id>/   | GET, POST | calendar              | Get the dater's calendar (date list), create a date |
-| /api/dater/rate/                | POST      | rate_dater            | Cupid rate Dater                                    |
-| /api/dater/ratings/<int:id>/    | GET       | get_dater_ratings     | Get list of dater's ratings                         |
-| /api/dater/avg_rating/<int:id>/ | GET       | get_dater_avg_rating  | Get dater's average rating                          |
-| /api/dater/transfer/            | POST      | dater_transfer        | Initiate transfer in                                |
-| /api/dater/balance/<int:id>/    | GET       | get_dater_balance     | Get account balance                                 |
-| /api/dater/profile/<int:id>/    | GET       | get_dater_profile     | Get dater's profile                                 |
-| /api/dater/profile/             | POST      | set_dater_profile     | Set dater's profile                                 |
-| /api/cupid/rate/                | POST      | rate_cupid            | Dater rating a Cupid                                |
-| /api/cupid/ratings/<int:id>/    | GET       | get_cupid_ratings     | Get list of cupid's ratings                         |
-| /api/cupid/avg_rating/<int:id>/ | GET       | get_cupid_avg_rating  | Get cupid's average rating                          |
-| /api/cupid/transfer/            | POST      | cupid_transfer        | Initiate transfer out                               |
-| /api/cupid/balance/<int:id>/    | GET       | get_cupid_balance     | Get account balance                                 |
-| /api/cupid/profile/<int:id>/    | GET       | get_cupid_profile     | Get cupid's profile                                 |
-| /api/cupid/profile/             | POST      | set_cupid_profile     | Set cupid's profile                                 |
-| /api/gig/create/                | POST      | create_gig            | Create gig                                          |
-| /api/gig/accept/                | POST      | accept_gig            | Accept gig                                          |
-| /api/gig/complete/              | POST      | complete_gig          | Complete gig                                        |
-| /api/gig/drop/                  | POST      | drop_gig              | Drop gig                                            |
-| /api/gig/<int:count>/           | GET       | get_gigs              | Return number of gigs around cupid                  |
-| /api/geo/stores/                | GET       | get_stores            | List of nearby stores                               |
-| /api/geo/activities/            | GET       | get_activities        | Nearby activities                                   |
-| /api/geo/events/                | GET       | get_events            | Nearby events                                       |
-| /api/geo/attractions/           | GET       | get_attractions       | Nearby attractions                                  |
-| /api/geo/user/<int:id>/         | GET       | get_user_location     | Get a user's location                               |
-| /api/manager/cupids/            | GET       | get_cupids            | Get a list of cupids                                |
-| /api/manager/daters/            | GET       | get_daters            | Get a list of daters                                |
-| /api/manager/dater_count/       | GET       | get_dater_count       | Manager reports                                     |
-| /api/manager/cupid_count/       | GET       | get_cupid_count       | Manager reports                                     |
-| /api/manager/active_cupids/     | GET       | get_active_cupids     | Manager reports                                     |
-| /api/manager/active_daters/     | GET       | get_active_daters     | Manager reports                                     |
-| /api/manager/gig_rate/          | GET       | get_gig_rate          | Manager reports                                     |
-| /api/manager/gig_count/         | GET       | get_gig_count         | Manager reports                                     |
-| /api/manager/gig_drop_rate/     | GET       | get_gig_drop_rate     | Manager reports                                     |
-| /api/manager/gig_complete_rate/ | GET       | get_gig_complete_rate | Manager reports                                     |
-| /api/manager/suspend/           | POST      | suspend               | suspend cupid / dater                               |
-| /api/manager/unsuspend/         | POST      | unsuspend             | unsuspend cupid / dater                             |
-| /api/stt/                       | POST      | speech_to_text        | Convert speech to text                              |
-| /api/notify/                    | POST      | notify                | Send a message according to pref.                   |
+| URL                              | Method    | View Function         | Notes                                               |
+|----------------------------------|-----------|-----------------------|-----------------------------------------------------|
+| /api/user/create/                | POST      | create_user           | Create user and cupid/dater if necessary            |
+| /api/user/sign_in/               | POST      | sign_in               | Signs in a user and returns their data              |
+| /api/user/<int:pk>/              | GET       | get_user              | Get user data                                       |
+| /api/chat/                       | POST      | send_chat_message     | Send message, return the AI's response              |
+| /api/chat/<int:pk>/              | GET       | get_five_messages     | Return the last five chat messages                  |
+| /api/dater/calendar/<int:pk>/    | GET, POST | calendar              | Get the dater's calendar (date list), create a date |
+| /api/dater/rate/                 | POST      | rate_dater            | Cupid rate Dater                                    |
+| /api/dater/ratings/<int:pk>/     | GET       | get_dater_ratings     | Get list of dater's ratings                         |
+| /api/dater/avg_rating/<int:pk>/  | GET       | get_dater_avg_rating  | Get dater's average rating                          |
+| /api/dater/transfer/             | POST      | dater_transfer        | Initiate transfer in                                |
+| /api/dater/balance/<int:pk>/     | GET       | get_dater_balance     | Get account balance                                 |
+| /api/dater/profile/<int:pk>/     | GET       | get_dater_profile     | Get dater's profile                                 |
+| /api/dater/profile/              | POST      | set_dater_profile     | Set dater's profile                                 |
+| /api/cupid/rate/                 | POST      | rate_cupid            | Dater rating a Cupid                                |
+| /api/cupid/ratings/<int:pk>/     | GET       | get_cupid_ratings     | Get list of cupid's ratings                         |
+| /api/cupid/avg_rating/<int:pk>/  | GET       | get_cupid_avg_rating  | Get cupid's average rating                          |
+| /api/cupid/transfer/             | POST      | cupid_transfer        | Initiate transfer out                               |
+| /api/cupid/balance/<int:pk>/     | GET       | get_cupid_balance     | Get account balance                                 |
+| /api/cupid/profile/<int:pk>/     | GET       | get_cupid_profile     | Get cupid's profile                                 |
+| /api/cupid/profile/              | POST      | set_cupid_profile     | Set cupid's profile                                 |
+| /api/gig/create/                 | POST      | create_gig            | Create gig                                          |
+| /api/gig/accept/                 | POST      | accept_gig            | Accept gig                                          |
+| /api/gig/complete/               | POST      | complete_gig          | Complete gig                                        |
+| /api/gig/drop/                   | POST      | drop_gig              | Drop gig                                            |
+| /api/gig/<int:count>/            | GET       | get_gigs              | Return number of gigs around cupid                  |
+| /api/geo/stores/<int:pk>/        | GET       | get_stores            | List of nearby stores                               |
+| /api/geo/activities/<int:pk>/    | GET       | get_activities        | Nearby activities                                   |
+| /api/geo/events/<int:pk>/        | GET       | get_events            | Nearby events                                       |
+| /api/geo/attractions/<int:pk>/   | GET       | get_attractions       | Nearby attractions                                  |
+| /api/geo/user/<int:pk>/          | GET       | get_user_location     | Get a user's location                               |
+| /api/manager/cupids/             | GET       | get_cupids            | Get a list of cupids                                |
+| /api/manager/daters/             | GET       | get_daters            | Get a list of daters                                |
+| /api/manager/dater_count/        | GET       | get_dater_count       | Manager reports                                     |
+| /api/manager/cupid_count/        | GET       | get_cupid_count       | Manager reports                                     |
+| /api/manager/active_cupids/      | GET       | get_active_cupids     | Manager reports                                     |
+| /api/manager/active_daters/      | GET       | get_active_daters     | Manager reports                                     |
+| /api/manager/gig_rate/           | GET       | get_gig_rate          | Manager reports                                     |
+| /api/manager/gig_count/          | GET       | get_gig_count         | Manager reports                                     |
+| /api/manager/gig_drop_rate/      | GET       | get_gig_drop_rate     | Manager reports                                     |
+| /api/manager/gig_complete_rate/  | GET       | get_gig_complete_rate | Manager reports                                     |
+| /api/manager/suspend/            | POST      | suspend               | suspend cupid / dater                               |
+| /api/manager/unsuspend/          | POST      | unsuspend             | unsuspend cupid / dater                             |
+| /api/manager/delete_user/<int:pk>| POST      | delete_user           | Delete specified user                               |
+| /api/stt/                        | POST      | speech_to_text        | Convert speech to text                              |
+| /api/notify/                     | POST      | notify                | Send a message according to pref.                   |
 
 ### Django Models
 
@@ -813,6 +823,7 @@ We will use the Django built-in User model, but add roles to it by extending `Ab
 * User
   * **id**
   * *role added by us {Dater, Cupid, Manager}*
+  * *phone_number added by us*
   * username
   * first_name
   * last_name
@@ -832,9 +843,8 @@ relationship as their primary key.
 
 * Dater
     * **User : OneToOne Field (As provided by Django)**
-    * Phone Number : Text Field (validate user input)
     * Budget : Decimal Field
-    * Communication preferences : IntegerChoices
+    * Communication preferences : IntegerChoices(EMAIL,TEXT)
     * Profile Picture : Image Field 
     * Text available to AI
         * Description of self : Text Field
@@ -855,8 +865,8 @@ relationship as their primary key.
     * Accepting Gigs : Boolean Field (Is cupid accepting gigs)
     * Total gigs completed : Integer Field
     * Total gigs failed : Integer Field
-    * Payment : Text Field with payment info (encrypted) 
-    * Status : Text Choices
+    * Status : Text Choices (OFFLINE, GIGGING, AVAILABLE)
+    * Gig Range : Integer Field
     * Common with Dater
         * Cupid Cash Balance : Decimal Field
         * Location : Text Field (Containing geo coordinates) 
@@ -873,10 +883,12 @@ relationship as their primary key.
     * Dater : Foreign Key
     * Cupid : Foreign Key
     * Quest : OneToOne Field
-    * Status : Text Choices
+    * Status : Text Choices (UNCLAIMED, CLAIMED, COMPLETE)
     * DateTime of request : DateTime Field
     * DateTime of claim : DateTime Field
     * DateTime of completion : DateTime Field
+    * Dropped Count : Integer Field
+    * Accepted Count : Integer Field
 * Quest (separate for modularity)
     * **Gig : *Established by OneToOne Field on Gig***
     * Budget : Decimal Field
@@ -888,17 +900,19 @@ relationship as their primary key.
     * Date & Time : DateTime Field
     * Location : Text Field (Containing geo coordinates) 
     * Description : Text Field
-    * Status : Text Choices
+    * Status : Text Choices (PLANNED, OCCURRING, PAST, CANCELED)
     * Budget : Decimal Field
 * Feedback
     * **id : Auto Field**
-    * User : Foreign Key (can be a cupid or dater as both have a OneToOne user)
+    * Owner : Foreign Key (User)
+    * Target : Foreign Key (User)
     * Gig : Foreign Key
     * Message : Text Field
     * Star Rating : Integer Field (bound to 1-5)
     * DateTime : DateTime Field 
 * Payment Card
     * **User : Foreign Key**
+    * Name On Card : Text Field
     * Card Number : Text Field
     * CVV : Text Field
     * Expiration : Text Field
@@ -910,13 +924,13 @@ relationship as their primary key.
 ### Django Migrations
 
 * Dummy Daters
-  * username:dater1, password:password, 200 cupid coin balance, budget of 50
-  * username:dater2, password:password, 20 cupid coin balance, budget of 50
+  * username:dater1, email:bob@cupidcode.com, password:password, 200 cupid coin balance, budget of 50
+  * username:dater2, email:Manny@cupidcode.com, password:password, 20 cupid coin balance, budget of 50
 * Dummy Cupids
-  * username:cupid1, password:password, 54 completed gigs, 12 failed
-  * username:cupid2, password:password, 4 completed gigs, 16 failed
+  * username:cupid1, email:joe@mail.com, password:password, 54 completed gigs, 12 failed
+  * username:cupid2, email:really@me.com, password:password, 4 completed gigs, 16 failed
 * Dummy Manager
-  * username:manager, password:password
+  * username:manager, email:manager@cupidcode.com, password:password
 * Dummy messages
   * Create a few dummy conversation for each dater.
 * Dummy Gigs

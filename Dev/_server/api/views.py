@@ -843,6 +843,7 @@ def get_gigs(request, count):
         Response:
             A list of gigs (JSON)
     """
+    # TODO: Does not match documentation's description of functionality
     gigs = Gig.objects.all()
     near_gigs = []
     for gig in gigs:
