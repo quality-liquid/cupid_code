@@ -25,8 +25,9 @@ const past = ref('')
 
 async function register() {
     // Validate data
-
     const checkData = [email, password, accType, phone, addr, desc]
+
+    console.log(image)
 
     let check = 0;
     for (let i = 0; i < checkData.length; i++) {
@@ -48,7 +49,7 @@ async function register() {
             phone_number: phone.value,
             location: addr.value,
             description: desc.value,
-            profile_picture: image,
+            profile_picture: image, // Crashing here
             dating_strengths: str.value,
             dating_weaknesses: weak.value,
             nerd_type: ntype.value,
@@ -92,6 +93,9 @@ function previewFile() {
   let reader = new FileReader();
   
   image = file
+  console.log(file)
+  
+  console.log(image)
 
   reader.onloadend = function () {
     preview.src = reader.result;
