@@ -26,11 +26,25 @@ async function getChats() {
     const results = await makeRequest(`/api/chat/${user_id}`);
     // May need to split results chat to fit into array
     chatArr.value = results.chat
+    console.log(chatArr.value)
 }
 
 async function getResponse() {
     const results = await makeRequest();
     // Put response on screen
+}
+
+async function send() {
+    // Display on screen
+    /*
+    chatArr.value.push({
+        owner: ,
+        text: message,
+        from_ai: ,
+    })
+    */
+    // Send to server to save & get response from server
+    getResponse()
 }
 
 onMounted(() => getChats())
@@ -54,14 +68,21 @@ onMounted(() => getChats())
     </nav>  
 
     <div class="chatbox">
-        <div class="chat response">Example Chat for Styling Purposes</div> 
-        <div class="chat sent">Example Chat for Styling Purposes</div> 
+        <div v-if="chatArr.value === undefined">
+            <h1>Start your chat with Cupid AI here!</h1>
+        </div>
+        <div v-else>
+            <div v-for="chat of chatArr.value">
+                <div :class="chat.from_ai ? 'chat response' : 'chat sent'">{{ chat.text }}</div>
+            </div>
+        </div>
     </div>
     <div class="textbox">
         <label for="message" class="message">
             <h4>Enter Message Here</h4>
             <input id="message" placeholder="Type your message to the AI!" :value="message" @change="(e) =>  message = e.target.value">
         </label>
+        <button class="button">Send</button>
     </div>
 </template>
 
@@ -130,6 +151,14 @@ onMounted(() => getChats())
     border-radius: 4px;
     padding: 8px;
     margin: 4px;
+}
+
+.button {
+    border: none;
+    border-radius: 4px;
+    background-color: white;
+    padding: 8px;
+    margin: 4px 100px;
 }
 
 </style>

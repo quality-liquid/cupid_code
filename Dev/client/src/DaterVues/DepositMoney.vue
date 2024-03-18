@@ -53,7 +53,6 @@
         <form class="input-container" @submit.prevent="addFunds">
             <label class="details" for="saved-cards">
                 <select name="saved-cards" id="saved-cards" v-for="card of savedCards">
-                    <option value="card">Example</option>
                     <option :value="card">{{ card.name }}</option>
                 </select>
             </label>

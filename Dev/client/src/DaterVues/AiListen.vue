@@ -33,10 +33,6 @@ function listen() {
 
 }
 
-function emergency() {
-
-}
-
 </script>
 
 <template>
@@ -61,13 +57,14 @@ function emergency() {
             <button class="listen button" @click="listen">
                 <img :src="'/get_mic/'" class="icon">
             </button>
-            <button class="emergency button" @click="emergency">
+            <button class="emergency button" @click="sendEmergency">
                 <img :src="'/get_emergency/'" class="icon">
             </button>
         </div>
         <div class="text">
             Chatbox
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi dolorum laborum totam iusto modi non, velit blanditiis nam obcaecati repellendus similique consequuntur, voluptatum commodi adipisci dolorem doloremque rerum soluta cumque quis illo porro necessitatibus quaerat nobis ipsam. Maiores, dolorem non.
+            Add listening functionality here
+            
         </div>
     </div>
 </template>
