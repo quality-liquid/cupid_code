@@ -21,8 +21,6 @@ async function login() {
     else {
         doc.className = 'error'
     }
-    console.log(results.user)
-    console.log(results.user['id'])
     
     // Redirect to dashboard if good
     if (results.user['role'].toLowerCase() === 'dater') {

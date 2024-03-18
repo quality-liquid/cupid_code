@@ -41,13 +41,13 @@
 | Eric DeBloois  | Creation of Vue pages for Login, Create Account, and Cupid pages | 7.5       |   
 | Brandon Herrin | Starting Dater Vue pages and Calendar work (work in progress)    | 6.0       |
 
-| Sprint 4       |                                                 |           |   
-|----------------|-------------------------------------------------|-----------|
-| Name           | Job                                             | Time(hrs) | 
-| Nate Stott     | Unit tests / debugging, implement gemini ai api | 1         |   
-| Emma Wright    | Routing and Dater Vues  | 3.5         |   
-| Daniel Barfuss |                                                 |           |   
-| Brighton Ellis |                                                 |           |   
-| Nate McKenzie  |                                                 |           |   
-| Eric DeBloois  |                                                 |           |   
-| Brandon Herrin |                                                 |           | 
+| Sprint 4       |                         |           |   
+|----------------|-------------------------|-----------|
+| Name           | Job                     | Time(hrs) | 
+| Nate Stott     | Unit tests / debugging  | 1         |   
+| Emma Wright    | Routing and Dater Vues  | 3.5       |   
+| Daniel Barfuss |                         |           |   
+| Brighton Ellis |                         |           |   
+| Nate McKenzie  | Implement api authorization, update backend docs| 7         |   
+| Eric DeBloois  |                         |           |   
+| Brandon Herrin |                         |           |

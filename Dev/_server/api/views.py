@@ -1,8 +1,10 @@
 import base64
 from operator import contains
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from twilio.rest import Client
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
@@ -13,12 +15,13 @@ from .models import User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, Pay
 from django.contrib.sessions.models import Session
 from django.contrib.auth import login, logout, authenticate
 from django.utils import timezone
+from django.utils.timezone import make_aware
 from django.shortcuts import get_object_or_404
 from geopy.geocoders import Nominatim
 import geoip2.database
 from math import radians, sin, cos, sqrt, atan2
 from yelpapi import YelpAPI
-import datetime
+from datetime import datetime
 import speech_recognition
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
@@ -84,25 +87,21 @@ def create_user(request):
         serializer = DaterSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            login(request, User.objects.get(id=userSerializer.data['id']))
+            user = User.objects.get(id=userSerializer.data['id'])
+            login(request, user)
 
-            #Prepare return data for front-end use
-            returnData = serializer.data
-            returnData['user'] = userSerializer.data
-            del returnData['user']['password']
-            return Response(returnData, status=status.HTTP_201_CREATED)
+            return_data = user_expand(user, serializer)
+            return Response(return_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif data['role'] == User.Role.CUPID:
         serializer = CupidSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            login(request, User.objects.get(id=userSerializer.data['id']))
+            user = User.objects.get(id=userSerializer.data['id'])
+            login(request, user)
 
-            #Prepare return data for front-end use
-            returnData = serializer.data
-            returnData['user'] = userSerializer.data
-            del returnData['user']['password']
-            return Response(returnData, status=status.HTTP_201_CREATED)
+            return_data = user_expand(user, serializer)
+            return Response(return_data, status=status.HTTP_201_CREATED)
         User.objects.get(id=data['user']).delete()
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif data['role'] == User.Role.MANAGER:
@@ -140,12 +139,8 @@ def sign_in(request):
         elif user.role == User.Role.MANAGER:
             serializer = ManagerSerializer(user)
 
-        #Prepare return data for front-end use
-        userSerializer = UserSerializer(user)
-        returnData = serializer.data
-        returnData['user'] = userSerializer.data
-        del returnData['user']['password']
-        return Response(returnData, status=status.HTTP_200_OK)
+        return_data = user_expand(user, serializer)
+        return Response(return_data, status=status.HTTP_200_OK)
     else:
         if User.objects.filter(email=data['email']):
             reason = 'Incorrect password'
@@ -155,56 +150,78 @@ def sign_in(request):
 
 
 @api_view(['GET'])
-def get_user(request):
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def get_user(request, pk):
     """
     Get a user's information
 
-    Args (request.post):
-        user_id(int): The id of the user
-    
+    Args (URL query string):
+        pk(int): The id of the user
     Returns:
         Response:
             Dater, Cupid, or Manager serialized
     """
+    if pk != request.user.id and request.user.is_staff is False:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
     data = request.data
-    user = get_object_or_404(User, id=data['user_id'])
+    user = get_object_or_404(User, id=pk)
+
     if user.role == User.Role.DATER:
-        serializer = DaterSerializer(user)
+        dater = Dater.objects.get(user=user)
+        serializer = DaterSerializer(dater)
     elif user.role == User.Role.CUPID:
-        serializer = CupidSerializer(user)
+        cupid = Cupid.objects.get(user=user)
+        serializer = CupidSerializer(cupid)
     elif user.role == User.Role.MANAGER:
         serializer = ManagerSerializer(user)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+
+    return_data = user_expand(user, serializer)
+    return Response(return_data, status=status.HTTP_200_OK)
+
+
+def user_expand(user, serializer):
+    userSerializer = UserSerializer(user)
+    return_data = serializer.data
+    return_data['user'] = userSerializer.data
+    del return_data['user']['password']
+    return return_data
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def delete_user(request, pk):
     """
     For a manager.
     Delete a user
 
-    Args (request.post):
-        user_id(int): The id of the user
+    Args:
+        pk(int): The id of the user
 
     Returns:
         Response:
             OK
     """
+    if pk != request.user.id and request.user.is_staff is False:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     user = get_object_or_404(User, id=pk)
     user.delete()
     return Response(status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def send_chat_message(request):
     """
     For a dater.
     Stores the given message in the database, sends it to the AI, and returns the AI's response.
 
     Args (request.post):
-        user_id(int): The id of the dater
         message(str): The message
 
     Returns:
@@ -213,7 +230,7 @@ def send_chat_message(request):
     """
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    user_id = data['user_id']
+    user_id = request.user.id
     message = data['message']
     # save a message to database
     serializer = MessageSerializer(data={'owner': user_id, 'text': message, 'from_ai': False})
@@ -251,6 +268,8 @@ def __get_ai_response(message: str):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_five_messages(request, pk):
     """
     Returns the five most recent messages between user and AI.
@@ -262,6 +281,8 @@ def get_five_messages(request, pk):
         Response:
             The five messages serialized
     """
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     user = get_object_or_404(User, id=pk)
     try:
         messages = Message.objects.filter(owner=user).order_by('-id')[:5]
@@ -272,19 +293,35 @@ def get_five_messages(request, pk):
 
 
 @api_view(['GET', 'POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def calendar(request, pk):
     """
     For a dater.
     Returns the dater's scheduled dates.
 
-    Args (request.post):
-        user_id(int): The id of the dater
+    GET
+    Args:
+        pk(int): the user_id as included in the URL
     Returns:
         Response:
-            The planned dates
+            The user's saved dates
+
+    POST
+    Args (request.post):
+        date_time(str): ISO 8601 timestamp (I fed output back into API, and GPT said that was the date format)
+        location(str): Location of date
+        description(str): Arbitrary description
+        status(str): Date.Status (PLANNED, OCCURING, PAST, or CANCELED)
+        budget(decimal): The max budget for the date
+    Returns:
+        Response:
+            The saved date serialized
     """
     if request.method == 'GET':
-        dater = get_object_or_404(Dater, id=pk)
+        if pk != request.user.id:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        dater = get_object_or_404(Dater, user_id=pk)
         try:
             dates = Date.objects.filter(dater=dater)
         except Date.DoesNotExist:
@@ -293,7 +330,9 @@ def calendar(request, pk):
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'POST':
         data = request.data
+        # TODO: Either us or the frontend needs to determine a planned location, and then we save that, not an ip lookup
         data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
+        data['dater'] = request.user.id
         serializer = DateSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -304,13 +343,15 @@ def calendar(request, pk):
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def rate_dater(request):
     """
     For a cupid.
     Saves a rating of a dater to the database.
 
     Args (request.post):
-        user_id(int): The id of the dater
+        dater_id(int): The id of the dater
         gig_id(int): The id of the gig
         message(str): Message of feedback
         rating(int): 1-5 stars(hearts)
@@ -319,11 +360,16 @@ def rate_dater(request):
             Saved Feedback serialized
     """
     data = request.data
+    # TODO: This doesn't do much as is, should update user's location instead
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    cupid = get_object_or_404(Cupid, id=data['user_id'])
-    gig = get_object_or_404(Gig, id=data['gig_id'])
+    owner = request.user.id
+    target = data['dater_id']
+    gig = data['gig_id']
+    # TODO: Once dummy feedback has proper targets and owners, test that this portion actually works
+    if Gig.objects.get(id=gig).dater.user_id != target:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     serializer = FeedbackSerializer(
-        data={'user': cupid, 'gig': gig, 'message': data['message'], 'star_rating': data['rating']})
+        data={'owner': owner, 'target': target, 'gig': gig, 'message': data['message'], 'star_rating': data['rating'], 'date_time': make_aware(datetime.now())})
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -331,6 +377,8 @@ def rate_dater(request):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_dater_ratings(request, pk):
     """
     For all users.
@@ -343,9 +391,11 @@ def get_dater_ratings(request, pk):
         Response:
             Sequence of Feedback objects
     """
-    dater = get_object_or_404(Dater, id=pk)
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    dater = get_object_or_404(Dater, user_id=pk)
     try:
-        ratings = Feedback.objects.filter(user=dater)
+        ratings = Feedback.objects.filter(target=dater.user)
     except Feedback.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
     serializer = FeedbackSerializer(ratings, many=True)
@@ -353,6 +403,8 @@ def get_dater_ratings(request, pk):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_dater_avg_rating(request, pk):
     """
     For all users.
@@ -365,11 +417,14 @@ def get_dater_avg_rating(request, pk):
         Response:
             rating(int): The dater's rating
     """
-    dater = get_object_or_404(Dater, id=pk)
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    dater = get_object_or_404(Dater, user_id=pk)
     try:
-        ratings = Feedback.objects.filter(user=dater)
+        ratings = Feedback.objects.filter(target=dater.user)
     except Feedback.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    # TODO: Database has field to store this instead of recalculating all
     total = 0
     for rating in ratings:
         total += rating.star_rating
@@ -378,13 +433,14 @@ def get_dater_avg_rating(request, pk):
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def dater_transfer(request):
     """
     For a dater.
     Charges the dater's card and updates their balance.
 
     Args (request.post):
-        user_id(int): The id of the dater
         card_id(int): The id of the card to charge
         amount(float): The amount to transfer
     Returns:
@@ -393,21 +449,16 @@ def dater_transfer(request):
     """
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    dater = get_object_or_404(Dater, id=data['user_id'])
+    dater = get_object_or_404(Dater, user=request.user)
     card = get_object_or_404(PaymentCard, id=data['card_id'])
     if card.user != dater.user:
-        return Response({"error: that card doesnt belong to you"}, status=status.HTTP_400_BAD_REQUEST)
-    if card.balance < data['amount']:
-        return Response({"error: you dont have that much money"}, status=status.HTTP_400_BAD_REQUEST)
-    serializer = PaymentCardSerializer(card)
-    if serializer.is_valid():
-        serializer.validated_data['balance'] -= data['amount']
-        serializer.save()
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error: you don't have a card with that id"}, status=status.HTTP_403_FORBIDDEN)
+    return Response({f'Card charged {data["amount"]}'}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_dater_balance(request, pk):
     """
     For daters.
@@ -420,12 +471,15 @@ def get_dater_balance(request, pk):
         Response:
             balance(int): The balance of the dater
     """
-    dater = get_object_or_404(Dater, id=pk)
-    card = get_object_or_404(PaymentCard, user=dater.user)
-    return Response({'balance': card.balance}, status=status.HTTP_200_OK)
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    dater = get_object_or_404(Dater, user_id=pk)
+    return Response({'balance': dater.cupid_cash_balance}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_dater_profile(request, pk):
     """
     For daters.
@@ -439,27 +493,31 @@ def get_dater_profile(request, pk):
             The dater serialized
     """
 
-    dater = get_object_or_404(Dater, id=pk)
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    dater = get_object_or_404(Dater, user_id=pk)
     serializer = DaterSerializer(dater)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def set_dater_profile(request):
     """
     For a dater.
     Saves the profile data of a dater.
 
     Args (request.post):
-        user_id(int): The id of the dater
         serialized dater
     Returns:
         Response:
             Saved dater serialized
     """
     data = request.data
+    data['user'] = request.user.id
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    dater = get_object_or_404(Dater, id=data['user_id'])
+    dater = get_object_or_404(Dater, user_id=request.user.id)
     serializer = DaterSerializer(dater, data=data)
     if serializer.is_valid():
         serializer.save()
@@ -468,33 +526,40 @@ def set_dater_profile(request):
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def rate_cupid(request):
     """
     For a dater.
-    Save a rating of a cupid.
+    Saves a rating of a cupid to the database.
 
     Args (request.post):
-        user_id(int): The id of the cupid
+        cupid_id(int): The id of the cupid
         gig_id(int): The id of the gig
         message(str): Message of feedback
         rating(int): 1-5 stars(hearts)
     Returns:
         Response:
-            Saved dater serialized
+            Saved Feedback serialized
     """
     data = request.data
+    # TODO: This doesn't do much as is, should update user's location instead
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    dater = get_object_or_404(Dater, id=data['user_id'])
-    gig = get_object_or_404(Gig, id=data['gig_id'])
+    owner = request.user.id
+    target = data['cupid_id']
+    gig = data['gig_id']
+    if Gig.objects.get(id=gig).cupid.user_id != target:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     serializer = FeedbackSerializer(
-        data={'user': dater, 'gig': gig, 'message': data['message'], 'star_rating': data['rating']})
+        data={'owner': owner, 'target': target, 'gig': gig, 'message': data['message'], 'star_rating': data['rating'], 'date_time': make_aware(datetime.now())})
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_cupid_ratings(request, pk):
     """
     For all users.
@@ -507,7 +572,9 @@ def get_cupid_ratings(request, pk):
         Response:
             Sequence of Feedback objects
     """
-    cupid = get_object_or_404(Cupid, id=pk)
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    cupid = get_object_or_404(Cupid, user_id=pk)
     try:
         ratings = Feedback.objects.filter(user=cupid)
     except Feedback.DoesNotExist:
@@ -517,6 +584,8 @@ def get_cupid_ratings(request, pk):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_cupid_avg_rating(request, pk):
     """
     Return the average rating for the requested Cupid.
@@ -530,11 +599,16 @@ def get_cupid_avg_rating(request, pk):
             Average rating from the user's record (int).
             If the account could not be found, return a 400 status code.
     """
-    cupid = get_object_or_404(Cupid, id=pk)
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    cupid = get_object_or_404(Cupid, user_id=pk)
     try:
-        ratings = Feedback.objects.filter(user=cupid)
+        ratings = Feedback.objects.filter(target=cupid.user)
     except Feedback.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    # TODO: should not have to be calculated from scratch every time
+    if len(ratings) == 0:
+        return Response({'rating': 0}, status=status.HTTP_200_OK)
     total = 0
     for rating in ratings:
         total += rating.star_rating
@@ -543,6 +617,8 @@ def get_cupid_avg_rating(request, pk):
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def cupid_transfer(request):
     """
     Performs financial transfer from a Cupid's balance to their bank account.
@@ -550,28 +626,22 @@ def cupid_transfer(request):
     Args:
         request: Information about the request.
             request.post: The json data sent to the server.
-                cupid_id (int): The id of the Cupid to transfer from.
     Returns:
         Response:
             If the transfer went through successfully, return a 200 status code.
             If the transfer failed, return a corresponding error status code (400 if on our end, 500 if on bank's end)
     """
     data = request.data
+    # TODO: This doesn't do much as is, should update the cupid's location instead.
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    cupid = get_object_or_404(Cupid, id=data['user_id'])
+    cupid = get_object_or_404(Cupid, user_id=request.user.id)
     bank_account = get_object_or_404(BankAccount, user=cupid.user)
-    if bank_account.balance < cupid.cupid_cash_balance:
-        return Response({"error: you dont have that much money"}, status=status.HTTP_400_BAD_REQUEST)
-    serializer = BankAccountSerializer(bank_account)
-    if serializer.is_valid():
-        serializer.validated_data['balance'] -= cupid.cupid_cash_balance
-        serializer.save()
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    return Response(status=status.HTTP_200_OK)
+    return Response({f"Transfering {cupid.cupid_cash_balance} to {bank_account.routing_number}"},status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_cupid_balance(request, pk):
     """
     Returns a number representing the Cupid's balance on their account.
@@ -584,11 +654,15 @@ def get_cupid_balance(request, pk):
             Balance on the Cupid's account (int).
             If the account could not be found, return a 400 status code.
     """
-    cupid = get_object_or_404(Cupid, id=pk)
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    cupid = get_object_or_404(Cupid, user_id=pk)
     return Response({'balance': cupid.cupid_cash_balance}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_cupid_profile(request, pk):
     """
     Returns all details on a Cupid's profile (details from Cupid record).
@@ -600,12 +674,16 @@ def get_cupid_profile(request, pk):
         Response:
             Requested details from Cupid's record (JSON)
     """
-    cupid = get_object_or_404(Cupid, id=pk)
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    cupid = get_object_or_404(Cupid, user_id=pk)
     serializer = CupidSerializer(cupid)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def set_cupid_profile(request):
     """
     Creates or changes data in a Cupid's profile.
@@ -613,7 +691,6 @@ def set_cupid_profile(request):
     Args:
         request: Information about the request.
             request.post: The json data sent to the server.
-                cupid_id (int): The id of the Cupid to create or change.
                 data (json): The data to create or change in the Cupid's profile.
     Returns:
         Response:
@@ -622,7 +699,8 @@ def set_cupid_profile(request):
     """
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    cupid = get_object_or_404(Cupid, id=data['user_id'])
+    data['user'] = request.user.id
+    cupid = get_object_or_404(Cupid, user_id=request.user.id)
     serializer = CupidSerializer(cupid, data=data)
     if serializer.is_valid():
         serializer.save()
@@ -631,6 +709,8 @@ def set_cupid_profile(request):
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def create_gig(request):
     """
     Creates a gig.
@@ -638,7 +718,6 @@ def create_gig(request):
     Args:
         request: Information about the request.
             request.post: The json data sent to the server.
-                dater_id (int): The id of the dater who is requesting the gig.
                 quest (json): The quest that the gig is for.
                     quest['budget'] (float): The budget for the gig.
                     quest['items_requested'] (str): The items requested for the gig.
@@ -650,15 +729,16 @@ def create_gig(request):
             If the gig was failed to be created, return a 400 status code.
     """
     data = request.data
+    # TODO: This doesn't do much, should update the dater's location instead
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    dater = get_object_or_404(Dater, id=data['dater_id'])
+    dater = get_object_or_404(Dater, user_id=request.user.id)
     serializer = QuestSerializer(data=data['quest'])
     if serializer.is_valid():
         serializer.save()
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     quest = get_object_or_404(Quest, id=serializer.data['id'])
-    serializer = GigSerializer(data={'dater': dater, 'quest': quest})
+    serializer = GigSerializer(data={'dater': dater, 'quest': quest.id, 'status': Gig.Status.UNCLAIMED, 'dropped_count': 0, 'accepted_count': 0})
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -666,6 +746,8 @@ def create_gig(request):
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def accept_gig(request):
     """
     Modifies the gig to show that it has been accepted by a Cupid.
@@ -682,15 +764,17 @@ def accept_gig(request):
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
-    serializer = GigSerializer(gig)
+    serializer = GigSerializer(gig, data={'is_accepted': True, 'cupid': request.user.id, 'accepted_count': gig.accepted_count + 1, 'date_time_of_claim': make_aware(datetime.now())}, partial=True)
     if serializer.is_valid():
-        serializer.validated_data['is_accepted'] = True
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def complete_gig(request):
     """
     Modifies the gig to show that it has been completed.
@@ -707,15 +791,17 @@ def complete_gig(request):
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
-    serializer = GigSerializer(gig)
+    serializer = GigSerializer(gig, data={'status': Gig.Status.COMPLETE, 'date_time_of_completion': make_aware(datetime.now())}, partial=True)
     if serializer.is_valid():
-        serializer.validated_data['is_completed'] = True
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def drop_gig(request):
     """
     Modifies the gig to show that it is no longer claimed by a Cupid. Cupid is no longer in charge of the gig.
@@ -730,17 +816,22 @@ def drop_gig(request):
             If the gig could not be dropped, was already dropped, or does not have a Cupid assigned, return a 400 status code.
     """
     data = request.data
+    # This doesn't do much, should update the cupid's location instead
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
-    serializer = GigSerializer(gig)
+    if gig.cupid != request.user.cupid:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    serializer = GigSerializer(gig, data={'is_accepted': False, 'status': Gig.Status.UNCLAIMED, 'cupid': None, 'dropped_count': gig.dropped_count + 1}, partial=True)
     if serializer.is_valid():
-        serializer.validated_data['is_accepted'] = False
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_gigs(request, count):
     """
     Returns a list of gigs, up to the number of `count`.
@@ -752,6 +843,7 @@ def get_gigs(request, count):
         Response:
             A list of gigs (JSON)
     """
+    # TODO: Does not match documentation's description of functionality
     gigs = Gig.objects.all()
     near_gigs = []
     for gig in gigs:
@@ -833,6 +925,8 @@ def __within_distance(lat1, lon1, lat2, lon2, max_distance_miles):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_stores(request, pk):
     """
     Reaches out to an API with an address to get stores near that address location.
@@ -843,6 +937,8 @@ def get_stores(request, pk):
         Response:
             A list of nearby stores, including their specific location (JSON)
     """
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     response = __call_yelp_api(pk, "stores")
     if response:
         return Response(response, status=status.HTTP_200_OK)
@@ -850,6 +946,8 @@ def get_stores(request, pk):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_activities(request, pk):
     """
     Reaches out to an API with an address to get possible activities near that address location.
@@ -860,6 +958,8 @@ def get_activities(request, pk):
         Response:
             A list of nearby activities, including their specific location (JSON)
     """
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     response = __call_yelp_api(pk, "activities")
     if response:
         return Response(response, status=status.HTTP_200_OK)
@@ -867,6 +967,8 @@ def get_activities(request, pk):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_events(request, pk):
     """
     Reaches out to an API with an address to get current entertainment events near that address location.
@@ -877,6 +979,8 @@ def get_events(request, pk):
         Response:
             A list of nearby events, including their specific location (JSON)
     """
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     response = __call_yelp_api(pk, "events")
     if response:
         return Response(response, status=status.HTTP_200_OK)
@@ -884,6 +988,8 @@ def get_events(request, pk):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_attractions(request, pk):
     """
     Reaches out to an API with an address to get attractions near that address location.
@@ -895,6 +1001,8 @@ def get_attractions(request, pk):
             If the attractions were retrieved successfully, return a list of nearby attractions, including their specific location amd a 200 status code.
             If the attractions were not retrieved successfully, return an error message and a 400 status code.
     """
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     response = __call_yelp_api(pk, "attractions")
     if response:
         return Response(response, status=status.HTTP_200_OK)
@@ -902,6 +1010,8 @@ def get_attractions(request, pk):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_restaurants(request, pk):
     """
     Reaches out to an API with an address to get restaurants near that address location.
@@ -913,6 +1023,8 @@ def get_restaurants(request, pk):
             If the restaurants were retrieved successfully, return a list of nearby restaurants, including their specific location and a 200 status code.
             If the restaurants were not retrieved successfully, return an error message and a 400 status code.
     """
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     response = __call_yelp_api(pk, "restaurants")
     if response:
         return Response(response, status=status.HTTP_200_OK)
@@ -920,7 +1032,7 @@ def get_restaurants(request, pk):
 
 
 def __call_yelp_api(pk, search):
-    dater = get_object_or_404(Dater, id=pk)
+    dater = get_object_or_404(Dater, user_id=pk)
     latitude, longitude = dater.location.split(" ")
     api_key = __get_yelp_api_key()
     with YelpAPI(api_key, timeout_s=5.0) as yelp_api:
@@ -939,6 +1051,8 @@ def __get_yelp_api_key():
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_user_location(request, pk):
     """
     For gigs, the location of the user is needed to determine the delivery location of the gig.
@@ -952,12 +1066,14 @@ def get_user_location(request, pk):
             If the location of the user was not retrieved successfully, return an error message and a 400 status code.
 
     """
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     user = get_object_or_404(User, id=pk)
     if user.role == User.Role.DATER:
-        user_data = get_object_or_404(Dater, id=pk)
+        user_data = get_object_or_404(Dater, user_id=pk)
         serializer = DaterSerializer(data=user_data)
     elif user.role == User.Role.CUPID:
-        user_data = get_object_or_404(Cupid, id=pk)
+        user_data = get_object_or_404(Cupid, user_id=pk)
         serializer = CupidSerializer(data=user_data)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -968,6 +1084,8 @@ def get_user_location(request, pk):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_cupids(request):
     """
     A manager can get all the cupid profiles.
@@ -988,6 +1106,8 @@ def get_cupids(request):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_daters(request):
     """
     A manager can get all the dater profiles.
@@ -1008,6 +1128,8 @@ def get_daters(request):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_dater_count(request):
     """
     A manager can get the number of total daters.
@@ -1024,6 +1146,8 @@ def get_dater_count(request):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_cupid_count(request):
     """
     A manager can get the number of total cupids.
@@ -1040,6 +1164,8 @@ def get_cupid_count(request):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_active_cupids(request):
     """
     A manager can get the number of active cupids.
@@ -1062,6 +1188,8 @@ def get_active_cupids(request):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_active_daters(request):
     """
     A manager can get the number of active daters.
@@ -1085,6 +1213,8 @@ def get_active_daters(request):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_gig_rate(request):
     """
     A manager can get the rate of gigs per hour.
@@ -1097,8 +1227,8 @@ def get_gig_rate(request):
             If the rate of gigs per hour was not retrieved successfully, return an error message and a 400 status code.
     """
     try:
-        yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
-        gigs_from_past_day = Gig.objects.filter(date_time_of_request_range=(yesterday, datetime.datetime.now()))
+        yesterday = datetime.now() - datetime.timedelta(days=1)
+        gigs_from_past_day = Gig.objects.filter(date_time_of_request_range=(yesterday, datetime.now()))
         gig_rate = gigs_from_past_day.count() / 24
         response = gig_rate.json()
         return Response(response, status=status.HTTP_200_OK)
@@ -1107,6 +1237,8 @@ def get_gig_rate(request):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_gig_count(request):
     """
     A manager can get the number of gigs that are currently active.
@@ -1123,6 +1255,8 @@ def get_gig_count(request):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_gig_drop_rate(request):
     """
     A manager can get the rate of gigs that are dropped.
@@ -1136,8 +1270,8 @@ def get_gig_drop_rate(request):
     """
     try:
         number_of_drops = 0
-        yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
-        gigs_from_past_day = Gig.objects.filter(date_time_of_request_range=(yesterday, datetime.datetime.now()))
+        yesterday = datetime.now() - datetime.timedelta(days=1)
+        gigs_from_past_day = Gig.objects.filter(date_time_of_request_range=(yesterday, datetime.now()))
         for gig in gigs_from_past_day:
             number_of_drops += gig.dropped_count
 
@@ -1150,6 +1284,8 @@ def get_gig_drop_rate(request):
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def get_gig_complete_rate(request):
     """
     A manager can get the rate of gigs that are completed.
@@ -1172,6 +1308,8 @@ def get_gig_complete_rate(request):
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def suspend(request):
     """
     Manager can suspend a user.
@@ -1200,6 +1338,8 @@ def suspend(request):
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def unsuspend(request):
     """
     Manager can unsuspend a user.
@@ -1228,6 +1368,8 @@ def unsuspend(request):
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def speech_to_text(request):
     """
     For a Dater.
@@ -1237,7 +1379,6 @@ def speech_to_text(request):
     Args:
         request: Information about the request.
             request.post: The json data sent to the server.
-                dater_id (int): The id of the dater who is requesting
                 audio (json): The audio to convert to text.
                     audio['type'] (str): The type of audio file.
                     audio['data'] (str): The audio file in base64 format.
@@ -1248,7 +1389,7 @@ def speech_to_text(request):
     """
     data = request.data
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
-    dater = get_object_or_404(Dater, id=data['user_id'])
+    dater = get_object_or_404(Dater, user_id=request.user.id)
     audio = data['audio']
     audio_type = audio['type']
     audio_data = audio['data']
@@ -1322,6 +1463,8 @@ def speech_to_text(request):
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def notify(request):
     """
     Notify a user (any type) of something via a text or email depending on their communication preference.
@@ -1337,7 +1480,7 @@ def notify(request):
             If the message was not sent successfully, return an error message and a 400 status code.
     """
     data = request.data
-    dater = get_object_or_404(Dater, id=data['user_id'])
+    dater = get_object_or_404(Dater, user_id=data['user_id'])
     account_sid = 'AC9b5808bbd03ee994e26fc36e9a59aeef'
     auth_token = '584fb19de19ec92bacf218df367efb4c'
     message = data['message']

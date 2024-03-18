@@ -1,4 +1,6 @@
 <script setup>
+    import {ref} from 'vue';
+    import router from '../router/index'
 
     const user_id  = parseInt(window.location.hash.split('/')[3])
 
@@ -16,6 +18,11 @@
         const result = await makeRequest(`/logout/`)
         router.push('/')
     }
+
+    function addFunds(amount) {
+        
+        router.push({name: 'AddMoney', params: {id: user_id, amt: amount}})
+    }
 </script>
 
 <template>  
@@ -24,7 +31,7 @@
             <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
         </button>
         <!-- This will be the profile picture when setup -->
-        <img :src="'/get_menu/'" alt="Profile Picture" class="icon">
+        <span>Current Balance</span>
         <div id="navbar" class="navbar">
             <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
             <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
@@ -34,13 +41,43 @@
             <button class="logout" @click="logout"> Logout </button>
         </div>
     </nav>
-    <div>Check balance</div>
-    <h1>Cupid Cash</h1>
-    <div>
-        Payment Options
+
+    <div class="container">
+        <h1>Cupid Cash</h1>
+        <div class="money-container">
+            <button id="5" class="money-widget" @click="() => addFunds(5)">
+                Add 5!! 
+            </button>
+            <button id="10" class="money-widget" @click="() => addFunds(10)">
+                Add 10!
+            </button>
+            <button id="30" class="money-widget" @click="() => addFunds(30)">
+                Add 30!
+            </button>
+            <button id="50" class="money-widget" @click="() => addFunds(50)">
+                Add 50!
+            </button>
+        </div>
     </div>
 </template>
 
 <style scoped>
+.container {
+    margin: 40px;
+}
+.money-container {
+    display: flex;
+    flex-flow: row wrap;
+}
 
+.money-widget {
+    background-color: var(--secondary-blue);
+    padding: 50px;
+    margin: 10px;
+    border: none;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+    gap: 10px;
+}
 </style>
