@@ -19,10 +19,8 @@ class TestCreateUser(APITestCase):
     @patch('UserSerializer')
     @patch('DaterSerializer')
     @patch('CupidSerializer')
-    def test_create_user_good(
-            self, mock_user_objects, mock_user_serializer,
-            mock_dater_serializer, mock_cupid_serializer
-    ):
+    def test_create_user_good(self, mock_user_objects, mock_user_serializer,
+                              mock_dater_serializer, mock_cupid_serializer):
         # Test 1: create dater
         # set up mocks
         mock_user_objects.get.return_value = MagicMock()
@@ -85,63 +83,152 @@ class TestCreateUser(APITestCase):
     @patch('UserSerializer')
     @patch('DaterSerializer')
     @patch('CupidSerializer')
-    def test_create_user_bad(self):
-        # Test 1: missing username
-        data = {
-            'password': 'test',
-            'email': 'test@test.com',
-            'first_name': 'test',
-            'last_name': 'test'
-        }
-        request = self.factory.post(self.url, data)
-        response = self.view(request)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
-        # Test 2: missing password
+    def test_create_user_bad(self, mock_user_objects, mock_user_serializer,
+                             mock_dater_serializer, mock_cupid_serializer):
+        # Test 1: create dater with missing password
+        # set up mocks
+        mock_user_objects.get.return_value = MagicMock()
+        mock_user_objects.delete.return_value = None
+        mock_user_serializer.is_valid.return_value = False
+        mock_user_serializer.save.return_value = None
+        mock_dater_serializer.is_valid.return_value = False
+        mock_dater_serializer.save.return_value = None
+        # set up request
         data = {
             'username': 'test',
             'email': 'test@test.com',
             'first_name': 'test',
-            'last_name': 'test'
+            'last_name': 'test',
+            'role': 'Dater',
         }
         request = self.factory.post(self.url, data)
+        request.META['REMOTE_ADDR'] = '1.1.1.1'
+        # make request
         response = self.view(request)
+        # test response and mocks
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        assert mock_user_serializer.called
+        assert mock_dater_serializer.called
+        assert not mock_cupid_serializer.called
+        assert not mock_user_serializer.save.called
+        assert not mock_dater_serializer.save.called
 
-        # Test 3: missing email
-        data = {
-            'username': 'test',
-            'password': 'test',
-            'first_name': 'test',
-            'last_name': 'test'
-        }
-        request = self.factory.post(self.url, data)
-        response = self.view(request)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
-        # Test 4: not unique username
-        data = {
-            'username': 'test',
-            'password': 'test',
-            'email': 'test@test.com',
-            'first_name': 'test',
-            'last_name': 'test'
-        }
-        request = self.factory.post(self.url, data)
-        response = self.view(request)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
-        # Test 5: not unique email
+        # Test 2: create dater with missing role
+        # set up mocks
+        mock_user_objects.get.return_value = MagicMock()
+        mock_user_objects.delete.return_value = None
+        mock_user_serializer.is_valid.return_value = False
+        mock_user_serializer.save.return_value = None
+        mock_dater_serializer.is_valid.return_value = False
+        mock_dater_serializer.save.return_value = None
+        # set up request
         data = {
             'username': 'test',
             'password': 'test',
             'email': 'test@test.com',
             'first_name': 'test',
-            'last_name': 'test'
+            'last_name': 'test',
         }
         request = self.factory.post(self.url, data)
+        request.META['REMOTE_ADDR'] = '1.1.1.1'
+        # make request
         response = self.view(request)
+        # test response and mocks
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        assert mock_user_serializer.called
+        assert mock_dater_serializer.called
+        assert not mock_cupid_serializer.called
+        assert not mock_user_serializer.save.called
+        assert not mock_dater_serializer.save.called
+
+        # Test 3: create dater with invalid role
+        # set up mocks
+        mock_user_objects.get.return_value = MagicMock()
+        mock_user_objects.delete.return_value = None
+        mock_user_serializer.is_valid.return_value = False
+        mock_user_serializer.save.return_value = None
+        mock_dater_serializer.is_valid.return_value = False
+        mock_dater_serializer.save.return_value = None
+        # set up request
+        data = {
+            'username': 'test',
+            'password': 'test',
+            'email': 'test@test.com',
+            'first_name': 'test',
+            'last_name': 'test',
+            'role': 'test',
+        }
+        request = self.factory.post(self.url, data)
+        request.META['REMOTE_ADDR'] = '1.1.1.1'
+        # make request
+        response = self.view(request)
+        # test response and mocks
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        assert mock_user_serializer.called
+        assert mock_dater_serializer.called
+        assert not mock_cupid_serializer.called
+        assert not mock_user_serializer.save.called
+        assert not mock_dater_serializer.save.called
+
+        # Test 4: create dater with invalid email
+        # set up mocks
+        mock_user_objects.get.return_value = MagicMock()
+        mock_user_objects.delete.return_value = None
+        mock_user_serializer.is_valid.return_value = False
+        mock_user_serializer.save.return_value = None
+        mock_dater_serializer.is_valid.return_value = False
+        mock_dater_serializer.save.return_value = None
+        # set up request
+        data = {
+            'username': 'test',
+            'password': 'test',
+            'email': 'test',
+            'first_name': 'test',
+            'last_name': 'test',
+            'role': 'Dater',
+        }
+        request = self.factory.post(self.url, data)
+        request.META['REMOTE_ADDR'] = '1.1.1.1'
+        # make request
+        response = self.view(request)
+        # test response and mocks
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        assert mock_user_serializer.called
+        assert mock_dater_serializer.called
+        assert not mock_cupid_serializer.called
+        assert not mock_user_serializer.save.called
+        assert not mock_dater_serializer.save.called
+
+        # Test 5: create dater with invalid username
+        # set up mocks
+        mock_user_objects.get.return_value = MagicMock()
+        mock_user_objects.delete.return_value = None
+        mock_user_serializer.is_valid.return_value = False
+        mock_user_serializer.save.return_value = None
+        mock_dater_serializer.is_valid.return_value = False
+        mock_dater_serializer.save.return_value = None
+        # set up request
+        data = {
+            'username': '',
+            'password': 'test',
+            'email': 'test@test.com',
+            'first_name': 'test',
+            'last_name': 'test',
+            'role': 'Dater',
+        }
+        request = self.factory.post(self.url, data)
+        request.META['REMOTE_ADDR'] = '1.1.1.1'
+        # make request
+        response = self.view(request)
+        # test response and mocks
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        assert mock_user_serializer.called
+        assert mock_dater_serializer.called
+        assert not mock_cupid_serializer.called
+        assert not mock_user_serializer.save.called
+        assert not mock_dater_serializer.save.called
+
+        # Test 6: create cupid with missing password
 
 
 class TestSignIn(APITestCase):
