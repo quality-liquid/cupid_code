@@ -91,3 +91,34 @@ body {
   margin: 8px;
   margin-top: 300px;
 }
+
+
+/* These are for AiChat.vue - These must be global so I can programmatically add chats to the screen */
+.chat {
+  padding: 8px;
+  margin: 8px;
+  border: none;
+  border-radius: 4px;
+}
+
+.sent {
+  display: flex;
+  justify-content: flex-end;
+  background-color: var(--primary-red);
+  color: white;
+  position: relative;
+  margin-bottom: 10px;
+  margin-left: calc(100% - 240px);
+  padding: 10px;
+}
+
+.response {
+  display: flex;
+  justify-content: flex-start;
+  background-color: var(--secondary-blue);
+  color: white;
+  position: relative;
+  margin-bottom: 10px;
+  margin-right: calc(100% - 240px);
+  padding: 10px;
+}
