@@ -1,3 +1,4 @@
+from django.test import TestCase
 from rest_framework.test import APIRequestFactory, force_authenticate
 from unittest.mock import patch, MagicMock
 from django.urls import reverse
@@ -584,4 +585,88 @@ class TestNotify(APITestCase):
 
 
 class TestUpdateUserLocation(APITestCase):
+    pass
+
+
+class TestUserSerializer(TestCase):
+    pass
+
+
+class TestDaterSerializer(TestCase):
+    pass
+
+
+class TestCupidSerializer(TestCase):
+    pass
+
+
+class TestManagerSerializer(TestCase):
+    pass
+
+
+class TestMessageSerializer(TestCase):
+    pass
+
+
+class TestGigSerializer(TestCase):
+    pass
+
+
+class TestQueueSerializer(TestCase):
+    pass
+
+
+class TestDateSerializer(TestCase):
+    pass
+
+
+class TestFeedbackSerializer(TestCase):
+    pass
+
+
+class TestPaymentSerializer(TestCase):
+    pass
+
+
+class TestBankAccountSerializer(TestCase):
+    pass
+
+
+class TestUser(TestCase):
+    pass
+
+
+class TestDater(TestCase):
+    pass
+
+
+class TestCupid(TestCase):
+    pass
+
+
+class TestMessage(TestCase):
+    pass
+
+
+class TestQuest(TestCase):
+    pass
+
+
+class TestGig(TestCase):
+    pass
+
+
+class TestDate(TestCase):
+    pass
+
+
+class TestFeedback(TestCase):
+    pass
+
+
+class TestPaymentCard(TestCase):
+    pass
+
+
+class TestBankAccount(TestCase):
     pass
