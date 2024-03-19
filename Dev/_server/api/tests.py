@@ -1,6 +1,5 @@
 from rest_framework.test import APIRequestFactory, force_authenticate
 from unittest.mock import patch, MagicMock
-from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.response import Response
@@ -229,6 +228,147 @@ class TestCreateUser(APITestCase):
         assert not mock_dater_serializer.save.called
 
         # Test 6: create cupid with missing password
+        # set up mocks
+        mock_user_objects.get.return_value = MagicMock()
+        mock_user_objects.delete.return_value = None
+        mock_user_serializer.is_valid.return_value = False
+        mock_user_serializer.save.return_value = None
+        mock_cupid_serializer.is_valid.return_value = False
+        mock_cupid_serializer.save.return_value = None
+        # set up request
+        data = {
+            'username': 'test',
+            'email': 'test@test.com',
+            'first_name': 'test',
+            'last_name': 'test',
+            'role': 'Cupid',
+        }
+        request = self.factory.post(self.url, data)
+        request.META['REMOTE_ADDR'] = '1.1.1.1'
+        # make request
+        response = self.view(request)
+        # test response and mocks
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        assert mock_user_serializer.called
+        assert mock_cupid_serializer.called
+        assert not mock_dater_serializer.called
+        assert not mock_user_serializer.save.called
+        assert not mock_cupid_serializer.save.called
+
+        # Test 7: create cupid with missing role
+        # set up mocks
+        mock_user_objects.get.return_value = MagicMock()
+        mock_user_objects.delete.return_value = None
+        mock_user_serializer.is_valid.return_value = False
+        mock_user_serializer.save.return_value = None
+        mock_cupid_serializer.is_valid.return_value = False
+        mock_cupid_serializer.save.return_value = None
+        # set up request
+        data = {
+            'username': 'test',
+            'password': 'test',
+            'email': 'test@test.com',
+            'first_name': 'test',
+            'last_name': 'test',
+        }
+        request = self.factory.post(self.url, data)
+        request.META['REMOTE_ADDR'] = '1.1.1.1'
+        # make request
+        response = self.view(request)
+        # test response and mocks
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        assert mock_user_serializer.called
+        assert mock_cupid_serializer.called
+        assert not mock_dater_serializer.called
+        assert not mock_user_serializer.save.called
+        assert not mock_cupid_serializer.save.called
+
+        # Test 8: create cupid with invalid role
+        # set up mocks
+        mock_user_objects.get.return_value = MagicMock()
+        mock_user_objects.delete.return_value = None
+        mock_user_serializer.is_valid.return_value = False
+        mock_user_serializer.save.return_value = None
+        mock_cupid_serializer.is_valid.return_value = False
+        mock_cupid_serializer.save.return_value = None
+        # set up request
+        data = {
+            'username': 'test',
+            'password': 'test',
+            'email': 'test@test.com',
+            'first_name': 'test',
+            'last_name': 'test',
+            'role': 'test',
+        }
+        request = self.factory.post(self.url, data)
+        request.META['REMOTE_ADDR'] = '1.1.1.1'
+        # make request
+        response = self.view(request)
+        # test response and mocks
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        assert mock_user_serializer.called
+        assert mock_cupid_serializer.called
+        assert not mock_dater_serializer.called
+        assert not mock_user_serializer.save.called
+        assert not mock_cupid_serializer.save.called
+
+        # Test 9: create cupid with invalid email
+        # set up mocks
+        mock_user_objects.get.return_value = MagicMock()
+        mock_user_objects.delete.return_value = None
+        mock_user_serializer.is_valid.return_value = False
+        mock_user_serializer.save.return_value = None
+        mock_cupid_serializer.is_valid.return_value = False
+        mock_cupid_serializer.save.return_value = None
+        # set up request
+        data = {
+            'username': 'test',
+            'password': 'test',
+            'email': 'test',
+            'first_name': 'test',
+            'last_name': 'test',
+            'role': 'Cupid',
+        }
+        request = self.factory.post(self.url, data)
+        request.META['REMOTE_ADDR'] = '1.1.1.1'
+        # make request
+        response = self.view(request)
+        # test response and mocks
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        assert mock_user_serializer.called
+        assert mock_cupid_serializer.called
+        assert not mock_dater_serializer.called
+        assert not mock_user_serializer.save.called
+        assert not mock_cupid_serializer.save.called
+
+        # Test 10: create cupid with invalid username
+        # set up mocks
+        mock_user_objects.get.return_value = MagicMock()
+        mock_user_objects.delete.return_value = None
+        mock_user_serializer.is_valid.return_value = False
+        mock_user_serializer.save.return_value = None
+        mock_cupid_serializer.is_valid.return_value = False
+        mock_cupid_serializer.save.return_value = None
+        # set up request
+        data = {
+            'username': '',
+            'password': 'test',
+            'email': 'test@test.com',
+            'first_name': 'test',
+            'last_name': 'test',
+            'role': 'Cupid',
+        }
+        request = self.factory.post(self.url, data)
+        request.META['REMOTE_ADDR'] = '1.1.1.1'
+        # make request
+        response = self.view(request)
+        # test response and mocks
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        assert mock_user_serializer.called
+        assert mock_cupid_serializer.called
+        assert not mock_dater_serializer.called
+        assert not mock_user_serializer.save.called
+        assert not mock_cupid_serializer.save.called
 
 
 class TestSignIn(APITestCase):
