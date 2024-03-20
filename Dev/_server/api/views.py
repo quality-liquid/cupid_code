@@ -441,6 +441,26 @@ def dater_transfer(request):
         return Response({"error: you don't have a card with that id"}, status=status.HTTP_403_FORBIDDEN)
     return Response({f'Card charged {data["amount"]}'}, status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def save_card(request):
+    """
+    For a dater.
+    Creates a new payment card and saves it.
+
+    Args (request.post):
+       name(str): The name on the card
+       number(str): The card number
+       cvv(str): The 3 digits on the back
+       expiration(str): MM/YY expiration date
+
+    Returns:
+        Response:
+            serialized card.
+    """
+    #TODO: Implement
+    raise NotImplementedError('We need to implement this')
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
@@ -618,6 +638,25 @@ def cupid_transfer(request):
     bank_account = get_object_or_404(BankAccount, user=cupid.user)
     return Response({f"Transfering {cupid.cupid_cash_balance} to {bank_account.routing_number}"},status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def save_bank_account(request):
+    """
+    For a cupid.
+    Creates a new bank account and saves it.
+
+    Args (request.post):
+       routing_number(str): The routing number
+       account_number(str): The account number
+
+    Returns:
+        Response:
+            serialized card.
+
+    """
+    #TODO: Implement
+    raise NotImplementedError('We need to implement this')
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
