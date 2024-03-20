@@ -324,7 +324,7 @@ def calendar(request, pk):
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'POST':
         data = request.data
-        # TODO: Either us or the frontend needs to determine a planned location, and then we save that, not an ip lookup
+        # TODO: Either us or the frontend needs to determine a planned location, then save the geo coords
         data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
         data['dater'] = request.user.id
         serializer = DateSerializer(data=data)
@@ -800,7 +800,7 @@ def drop_gig(request):
     gig = get_object_or_404(Gig, id=data['gig_id'])
     if gig.cupid != request.user.cupid:
         return Response(status=status.HTTP_403_FORBIDDEN)
-    serializer = GigSerializer(gig, data={'is_accepted': False, 'status': Gig.Status.UNCLAIMED, 'cupid': None, 'dropped_count': gig.dropped_count + 1}, partial=True)
+    serializer = GigSerializer(gig, data={'status': Gig.Status.UNCLAIMED, 'cupid': None, 'dropped_count': gig.dropped_count + 1}, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -880,6 +880,7 @@ def __locations_are_near(location1, location2, max_distance_miles):
     latitude2, longitude2 = location2.split(" ")
     latitude2 = latitude2.strip(',')
     #TODO: safer float conversion? Or do we protect bad data from being saved in the first place.
+    #TODO: Expand quest or give frontend an api for getting quests.
     return __within_distance(float(latitude1), float(longitude1), float(latitude2), float(longitude2), float(max_distance_miles))
 
 
