@@ -782,6 +782,7 @@ The following endpoints will need user data to be used. Authentication will be r
 | /api/dater/balance/<int:pk>/     | GET       | get_dater_balance     | Get account balance                                 |
 | /api/dater/profile/<int:pk>/     | GET       | get_dater_profile     | Get dater's profile                                 |
 | /api/dater/profile/              | POST      | set_dater_profile     | Set dater's profile                                 |
+| /api/dater/save_card/            | POST      | save_card             | Save a new card for the dater                       |
 | /api/cupid/rate/                 | POST      | rate_cupid            | Dater rating a Cupid                                |
 | /api/cupid/ratings/<int:pk>/     | GET       | get_cupid_ratings     | Get list of cupid's ratings                         |
 | /api/cupid/avg_rating/<int:pk>/  | GET       | get_cupid_avg_rating  | Get cupid's average rating                          |
@@ -789,6 +790,7 @@ The following endpoints will need user data to be used. Authentication will be r
 | /api/cupid/balance/<int:pk>/     | GET       | get_cupid_balance     | Get account balance                                 |
 | /api/cupid/profile/<int:pk>/     | GET       | get_cupid_profile     | Get cupid's profile                                 |
 | /api/cupid/profile/              | POST      | set_cupid_profile     | Set cupid's profile                                 |
+| /api/cupid/save_bank_account/    | POST      | save_bank_account     | Save a new bank account for the cupid               |
 | /api/gig/create/                 | POST      | create_gig            | Create gig                                          |
 | /api/gig/accept/                 | POST      | accept_gig            | Accept gig                                          |
 | /api/gig/complete/               | POST      | complete_gig          | Complete gig                                        |
