@@ -48,6 +48,6 @@
 | Emma Wright    | Routing and Dater Vues  | 3.5       |   
 | Daniel Barfuss |                         |           |   
 | Brighton Ellis |                         |           |   
-| Nate McKenzie  | Implement api authorization, update backend docs | 7         |   
+| Nate McKenzie  | Implement api authorization, update backend docs | 10        |   
 | Eric DeBloois  | Cupid Vues              | 5         |   
 | Brandon Herrin |                         |           |
