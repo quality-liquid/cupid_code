@@ -40,7 +40,7 @@ from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
 
 @api_view(['POST'])
-def create_user(request):
+def create_user(request):   
     """
     Request the server to create an appropriate dater, cupid, or manager from info given.
 
@@ -104,7 +104,17 @@ def __create_user(data, request, user_serializer, serializer):
     User.objects.get(id=data['user']).delete()
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+# TODO Make a "initialize_serializer" or "determine_user_type" method, which handles the following logic. It's used in many functions
+"""
+if user.role == User.Role.DATER:
+    dater = Dater.objects.get(user=user)
+    serializer = DaterSerializer(dater)
+elif user.role == User.Role.CUPID:
+    cupid = Cupid.objects.get(user=user)
+    serializer = CupidSerializer(cupid)
+elif user.role == User.Role.MANAGER:
+    serializer = ManagerSerializer(user)
+"""
 @api_view(['POST'])
 def sign_in(request):
     """
@@ -397,6 +407,7 @@ def get_dater_ratings(request, pk):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+# TODO The first part of this method, up until calculating the total, is the same as the "get_dater_ratings". Potential save?
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
