@@ -74,9 +74,10 @@ class FeedbackSerializer(serializers.ModelSerializer):
 
 
 class PaymentCardSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = PaymentCard
-        fields = ['card_number']
+        fields = '__all__'
 
 
 class BankAccountSerializer(serializers.ModelSerializer):

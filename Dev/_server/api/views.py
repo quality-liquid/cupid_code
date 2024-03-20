@@ -441,6 +441,7 @@ def dater_transfer(request):
         return Response({"error: you don't have a card with that id"}, status=status.HTTP_403_FORBIDDEN)
     return Response({f'Card charged {data["amount"]}'}, status=status.HTTP_200_OK)
 
+
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
@@ -450,8 +451,8 @@ def save_card(request):
     Creates a new payment card and saves it.
 
     Args (request.post):
-       name(str): The name on the card
-       number(str): The card number
+       name_on_card(str): The name on the card
+       card_number(str): The card number
        cvv(str): The 3 digits on the back
        expiration(str): MM/YY expiration date
 
@@ -459,8 +460,16 @@ def save_card(request):
         Response:
             serialized card.
     """
-    #TODO: Implement
-    raise NotImplementedError('We need to implement this')
+
+    data = request.data
+    __update_user_location(request.user, request.META['REMOTE_ADDR'])
+    data['user'] = request.user.id
+    serializer = PaymentCardSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
