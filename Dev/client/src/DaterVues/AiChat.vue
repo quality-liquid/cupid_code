@@ -25,14 +25,16 @@ async function logout() {
 
 async function getChats() {
     const results = await makeRequest(`/api/chat/${user_id}`);
+    console.log(results)
     // May need to split results chat to fit into array
-    if (results.chat === undefined) {
+    if (results === undefined) {
         chatArr.value = []
         noChats = true
     }
     else {
-        chatArr.value = results.chat
+        chatArr.value = results.reverse()
     }
+    console.log(chatArr.value)
 }
 
 async function send() {
@@ -42,7 +44,7 @@ async function send() {
         text: message.value,
         from_ai: false,
     })
-    if (chatArr.value.length >= 1) {
+    if (chatArr.length >= 1 && document.getElementById('header')) {
         document.getElementById("header").style.display = 'none';
         
     }
@@ -62,7 +64,7 @@ async function send() {
         },
         message: message.value
     });
-    chatArr.value.push(results.message)
+    chatArr.push(results.message)
 
     const ai_child = document.createElement('div')
     ai_child.setAttribute('class', 'chat response')
@@ -100,8 +102,8 @@ onMounted(getChats)
             <div id="chat-container"></div>
         </div>
         <div v-else>
-            <div v-for="chat of chatArr.value" id="chat-container">
-                <div :key="chatArr.value[chat].indexOf()" :class="chat.from_ai ? 'chat response' : 'chat sent'">{{ chat.text }}</div>
+            <div v-for="(chat, index) of chatArr" id="chat-container">
+                <div :key="index" :class="chat.from_ai ? 'chat response' : 'chat sent'">{{ chat.text }}</div>
             </div>
         </div>
     </div>
