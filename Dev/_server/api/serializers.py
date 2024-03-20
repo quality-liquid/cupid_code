@@ -83,4 +83,4 @@ class PaymentCardSerializer(serializers.ModelSerializer):
 class BankAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = BankAccount
-        fields = ['account_number']
+        fields = '__all__'

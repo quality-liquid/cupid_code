@@ -647,6 +647,7 @@ def cupid_transfer(request):
     bank_account = get_object_or_404(BankAccount, user=cupid.user)
     return Response({f"Transfering {cupid.cupid_cash_balance} to {bank_account.routing_number}"},status=status.HTTP_200_OK)
 
+
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
@@ -664,8 +665,15 @@ def save_bank_account(request):
             serialized card.
 
     """
-    #TODO: Implement
-    raise NotImplementedError('We need to implement this')
+    data = request.data
+    __update_user_location(request.user, request.META['REMOTE_ADDR'])
+    data['user'] = request.user.id
+    serializer = BankAccountSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
