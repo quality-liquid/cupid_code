@@ -828,13 +828,12 @@ def get_gigs(request, count):
         Response:
             A list of gigs (JSON)
     """
-    # TODO: Does not match documentation's description of functionality
+    cupid = Cupid.objects.get(user_id = request.user.id)
     gigs = Gig.objects.all()
     near_gigs = []
     for gig in gigs:
-        cupid = gig.cupid
         quest = gig.quest
-        if not gig.is_accepted and __locations_are_near(quest.pickup_location, cupid.location, cupid.gig_range):
+        if gig.status == Gig.Status.UNCLAIMED and __locations_are_near(quest.pickup_location, cupid.location, cupid.gig_range):
             near_gigs.append(gig)
     near_gigs = near_gigs[:count]
     serializer = GigSerializer(near_gigs, many=True)
@@ -883,8 +882,11 @@ def __locations_are_near(location1, location2, max_distance_miles):
     Returns whether two locations are near each other.
     """
     latitude1, longitude1 = location1.split(" ")
+    latitude1 = latitude1.strip(',')
     latitude2, longitude2 = location2.split(" ")
-    return __within_distance(latitude1, longitude1, latitude2, longitude2, max_distance_miles)
+    latitude2 = latitude2.strip(',')
+    #TODO: safer float conversion? Or do we protect bad data from being saved in the first place.
+    return __within_distance(float(latitude1), float(longitude1), float(latitude2), float(longitude2), float(max_distance_miles))
 
 
 def __haversine_distance(lat1, lon1, lat2, lon2):

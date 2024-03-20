@@ -38,7 +38,7 @@ def dummy_dater1(User, Dater):
         relationship_goals='Find the one',
         ai_degree='I need all the help',
         cupid_cash_balance=200,
-        location='Logan, UT',
+        location='41.74291256257548, -111.83084429426646',
         rating_count=3,
         rating_sum=10,
         is_suspended=False,
@@ -80,7 +80,7 @@ def dummy_dater2(User, Dater):
         relationship_goals='Find a girlfriend and see how it goes',
         ai_degree="I don't need your help",
         cupid_cash_balance=20,
-        location='Logan, UT',
+        location='41.74453108955928, -111.82701405688191',
         is_suspended=False,
     )
 
@@ -157,12 +157,12 @@ def dummy_unclaimed(dater, Gig, Quest):
     quest1 = Quest(
         budget=20,
         items_requested='Flowers',
-        pickup_location='Smiths'
+        pickup_location='41.739507611117155, -111.8343427735806'
     )
     quest2 = Quest(
         budget=10,
         items_requested='Chocolate',
-        pickup_location='Smiths'
+        pickup_location='41.73963710162388, -111.83640044155392'
     )
 
     quest1.save()
@@ -206,7 +206,7 @@ def dummy_claimed(dater, cupid, Gig, Quest):
     quest = Quest(
         budget=200,
         items_requested='Concert tickets',
-        pickup_location='Not Smiths'
+        pickup_location='41.734549777275916, -111.83545837669841'
     )
 
     quest.save()
@@ -255,7 +255,7 @@ def dummy_cupid1(User, Cupid):
         status=1,
         cupid_cash_balance=1100,
         gig_range=20,
-        location='Logan, UT',
+        location='41.73054438207508, -111.82852924173842',
         is_suspended=False,
     )
 
@@ -291,7 +291,7 @@ def dummy_cupid2(User, Cupid):
         gigs_failed=16,
         status=0,
         cupid_cash_balance=12,
-        location='Logan, UT',
+        location='41.741838400663134, -111.82224467747055',
         gig_range=20,
         rating_count=1,
         rating_sum=3,
@@ -332,7 +332,7 @@ def dummy_dates(dater1, dater2, Date):
     date1 = Date(
         dater=dater1,
         date_time=make_aware(datetime.now() + timedelta(days = 45)),
-        location='McDonalds',
+        location='41.74695417948688, -111.82684051860782',
         description='Gonna get some chicken nuggets',
         status='planned',
         budget=12.5,
@@ -341,7 +341,7 @@ def dummy_dates(dater1, dater2, Date):
     date2 = Date(
         dater=dater1,
         date_time=make_aware(datetime.now() + timedelta(days = 40)),
-        location='Wendys',
+        location='41.745714900677406, -111.83287717106674',
         description='I love me some chicken nuggets',
         status='planned',
         budget=27.5,
@@ -350,7 +350,7 @@ def dummy_dates(dater1, dater2, Date):
     date3 = Date(
         dater=dater2,
         date_time=make_aware(datetime.now() + timedelta(days = 48)),
-        location='Park',
+        location='41.747768021236034, -111.83691813349206',
         description='Gonna go for a walk',
         status='planned',
         budget=1.5,
