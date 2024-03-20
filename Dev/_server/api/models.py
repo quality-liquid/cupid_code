@@ -38,7 +38,9 @@ class Dater(models.Model):
     rating_sum = models.IntegerField(default=0)
     rating_count = models.IntegerField(default=0)
     is_suspended = models.BooleanField(default=False)
-    profile_picture = models.ImageField(null=True)
+    profile_picture = models.ImageField(
+        upload_to='api/images', height_field=24, width_field=24, max_length=100, null=True
+    )
 
 
 class Cupid(models.Model):
