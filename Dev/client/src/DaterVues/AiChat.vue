@@ -48,7 +48,7 @@ async function send() {
     }
     let container = document.getElementById("chat-container")
     
-    const child = document.createElement('div');
+    const child = document.createElement('div')
     child.setAttribute('class', 'chat sent')
     child.innerText = message.value
     child.setAttribute('key', chatArr.value.length)
@@ -56,16 +56,25 @@ async function send() {
     container.appendChild(child)
 
     // Send to server to save & get response from server
-    /*
-        Make request to backend. Send latest message for AI to consider.
-        Add AI's response to chatArr.
-        Do the same steps to programmatically create a new child node. 
-        Append to screen.
-    */
+    const results = await makeRequest('/api/chat/', 'post', {
+        user: {
+            id: user_id
+        },
+        message: message.value
+    });
+    chatArr.value.push(results.message)
 
+    const ai_child = document.createElement('div')
+    ai_child.setAttribute('class', 'chat response')
+    ai_child.innerText = results.message
+    ai_child.setAttribute('key', chatArr.value.length)
+
+    container.appendChild(ai_child)
+
+    message.value = ''
 }
 
-onMounted(() => getChats())
+onMounted(getChats)
 
 </script>
 

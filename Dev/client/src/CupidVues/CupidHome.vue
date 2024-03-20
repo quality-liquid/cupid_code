@@ -66,7 +66,7 @@
             
             <p>Pickup: {{ gig.quest.items_requested }}</p>
             <p>Status: {{ gig.status ? 'Active' : 'Inactive' }}</p>
-            <button :class="{'active': !gig.status, 'inactive': gig.status}" @click="{{ gig.status ? dropgig(gig.id) : acceptgig(gig.id) }}">
+            <button :class="{'active': !gig.status, 'inactive': gig.status}" @click="gig.status ? dropgig(gig.id) : acceptgig(gig.id)">
                 {{ gig.status ? 'Drop Gig' : 'Accept' }}
             </button>
         </div>
