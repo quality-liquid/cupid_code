@@ -1,16 +1,8 @@
 <script setup>
-    import { watch } from 'vue';
+    import { onMounted } from 'vue';
     import { makeRequest } from '../utils/make_request';
     let Gigs = [];
-
-    async function getGigs() {
-        const results = await makeRequest(`/api/${numOfGigs}`); 
-        Gigs = results.gigs; 
-    }
-
-    onMounted(() => {
-        getGigs()
-    });
+    const numOfGigs = 10;
 
     const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
     // Open and closes drawer w/ shorthand
@@ -27,6 +19,27 @@
     async function logout() {
         const result = await makeRequest(`/logout/`)
         router.push('/')
+    }
+
+    // Get gigs function
+    async function getGigs() {
+        const results = await makeRequest(`/api/cupid/getgigs/${numOfGigs}`); 
+        Gigs = results.gigs; 
+    }
+    onMounted(getGigs());
+
+    // Accept gig function 
+    async function acceptgig(gigId) {
+        await makeRequest(`/api/gig/accept/`, 'post', {
+            id: gigId
+        });
+    }
+
+    // Drop gig function
+    async function dropgig(gigId) {
+        await makeRequest(`/api/gig/drop/`, 'post', {
+            id: gigId
+        })
     }
 
 </script>
@@ -46,15 +59,14 @@
 
     <div class="body">
         <!-- Clicking on this gig item, reroute to GigDetails page -->
-        <div v-for="gig in Gigs" :key="gig.id" 
-        @click="">
+        <div v-for="gig in Gigs" :key="gig.id">
             <div :class="{ 'active': gig.status, 'inactive': !gig.status }" >
-                <h3>{{ gig.quest.pickup_location }}</h3>
+                <router-link class="link" :to="{name: 'GigDetails', params: {id: gig.id}}">{{ gig.quest.pickup_location }}</router-link>
             </div>
             
             <p>Pickup: {{ gig.quest.items_requested }}</p>
             <p>Status: {{ gig.status ? 'Active' : 'Inactive' }}</p>
-            <button :class="{'active': !gig.status, 'inactive': gig.status}">
+            <button :class="{'active': !gig.status, 'inactive': gig.status}" @click="{{ gig.status ? dropgig(gig.id) : acceptgig(gig.id) }}">
                 {{ gig.status ? 'Drop Gig' : 'Accept' }}
             </button>
         </div>
