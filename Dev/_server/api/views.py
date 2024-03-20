@@ -370,6 +370,9 @@ def rate_dater(request):
         data={'owner': owner, 'target': target, 'gig': gig, 'message': data['message'], 'star_rating': data['rating'], 'date_time': make_aware(datetime.now())})
     if serializer.is_valid():
         serializer.save()
+        target.rating_count += 1
+        target.rating_sum += data['rating']
+        target.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -418,16 +421,7 @@ def get_dater_avg_rating(request, pk):
     if pk != request.user.id:
         return Response(status=status.HTTP_403_FORBIDDEN)
     dater = get_object_or_404(Dater, user_id=pk)
-    try:
-        ratings = Feedback.objects.filter(target=dater.user)
-    except Feedback.DoesNotExist:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-    # TODO: Database has field to store this instead of recalculating all
-    total = 0
-    for rating in ratings:
-        total += rating.star_rating
-    avg = total / len(ratings)
-    return Response({'rating': avg}, status=status.HTTP_200_OK)
+    return Response({'rating:': dater.rating_sum / dater.rating_count}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -551,6 +545,9 @@ def rate_cupid(request):
         data={'owner': owner, 'target': target, 'gig': gig, 'message': data['message'], 'star_rating': data['rating'], 'date_time': make_aware(datetime.now())})
     if serializer.is_valid():
         serializer.save()
+        target.rating_count += 1
+        target.rating_sum += data['rating']
+        target.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -603,14 +600,7 @@ def get_cupid_avg_rating(request, pk):
         ratings = Feedback.objects.filter(target=cupid.user)
     except Feedback.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-    # TODO: should not have to be calculated from scratch every time
-    if len(ratings) == 0:
-        return Response({'rating': 0}, status=status.HTTP_200_OK)
-    total = 0
-    for rating in ratings:
-        total += rating.star_rating
-    avg = total / len(ratings)
-    return Response({'rating': avg}, status=status.HTTP_200_OK)
+    return Response({'rating:': cupid.rating_sum / cupid.rating_count}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])

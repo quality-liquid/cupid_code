@@ -35,7 +35,8 @@ class Dater(models.Model):
     ai_degree = models.TextField(default="max")
     cupid_cash_balance = models.DecimalField(default=0,max_digits=10, decimal_places=2)
     location = models.TextField()
-    average_rating = models.DecimalField(default=0,max_digits=10, decimal_places=2)
+    rating_sum = models.IntegerField(default=0)
+    rating_count = models.IntegerField(default=0)
     is_suspended = models.BooleanField(default=False)
     profile_picture = models.ImageField(null=True)
 
@@ -60,7 +61,8 @@ class Cupid(models.Model):
     cupid_cash_balance = models.DecimalField(default=0,max_digits=10, decimal_places=2)
     location = models.TextField(default="")
     gig_range = models.IntegerField(default=20)
-    average_rating = models.DecimalField(default=0,max_digits=10, decimal_places=2)
+    rating_sum = models.IntegerField(default=0)
+    rating_count = models.IntegerField(default=0)
     is_suspended = models.BooleanField(default=False)
 
 

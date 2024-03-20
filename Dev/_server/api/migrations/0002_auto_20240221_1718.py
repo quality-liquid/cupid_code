@@ -39,7 +39,8 @@ def dummy_dater1(User, Dater):
         ai_degree='I need all the help',
         cupid_cash_balance=200,
         location='Logan, UT',
-        average_rating=4.3,
+        rating_count=3,
+        rating_sum=10,
         is_suspended=False,
     )
 
@@ -80,7 +81,6 @@ def dummy_dater2(User, Dater):
         ai_degree="I don't need your help",
         cupid_cash_balance=20,
         location='Logan, UT',
-        average_rating=3.3,
         is_suspended=False,
     )
 
@@ -256,7 +256,6 @@ def dummy_cupid1(User, Cupid):
         cupid_cash_balance=1100,
         gig_range=20,
         location='Logan, UT',
-        average_rating=4.1,
         is_suspended=False,
     )
 
@@ -294,7 +293,8 @@ def dummy_cupid2(User, Cupid):
         cupid_cash_balance=12,
         location='Logan, UT',
         gig_range=20,
-        average_rating=1.2,
+        rating_count=1,
+        rating_sum=3,
         is_suspended=False,
     )
 
