@@ -76,39 +76,33 @@ def create_user(request):
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     data['role'] = data['role'].lower()
     # Create user
-    userSerializer = UserSerializer(data=data)
-    if userSerializer.is_valid():
-        userSerializer.save()
-        data['user'] = userSerializer.data['id']
+    user_serializer = UserSerializer(data=data)
+    if user_serializer.is_valid():
+        user_serializer.save()
+        data['user'] = user_serializer.data['id']
     else:
-        return Response(userSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     # Create dater or cupid as appropriate
     if data['role'] == User.Role.DATER:
         serializer = DaterSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            user = User.objects.get(id=userSerializer.data['id'])
-            login(request, user)
-
-            return_data = user_expand(user, serializer)
-            return Response(return_data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return __create_user(data, request, user_serializer, serializer)
     elif data['role'] == User.Role.CUPID:
         serializer = CupidSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            user = User.objects.get(id=userSerializer.data['id'])
-            login(request, user)
+        return __create_user(data, request, user_serializer, serializer)
+    User.objects.get(id=data['user']).delete()
+    return Response({"error": "invalid user type"}, status=status.HTTP_400_BAD_REQUEST)
 
-            return_data = user_expand(user, serializer)
-            return Response(return_data, status=status.HTTP_201_CREATED)
-        User.objects.get(id=data['user']).delete()
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif data['role'] == User.Role.MANAGER:
-        return Response(userSerializer.data, status=status.HTTP_201_CREATED)
-    else:
-        User.objects.get(id=data['user']).delete()
-        return Response({"error": "invalid user type"}, status=status.HTTP_400_BAD_REQUEST)
+
+def __create_user(data, request, user_serializer, serializer):
+    if serializer.is_valid():
+        serializer.save()
+        user = User.objects.get(id=user_serializer.data['id'])
+        login(request, user)
+
+        return_data = user_expand(user, serializer)
+        return Response(return_data, status=status.HTTP_201_CREATED)
+    User.objects.get(id=data['user']).delete()
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
