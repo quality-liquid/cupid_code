@@ -4,6 +4,7 @@ import {onMounted, ref, watch} from 'vue';
 
 const chatArr = ref([])
 const message = ref('')
+let noChats = false
 
 const user_id  = parseInt(window.location.hash.split('/')[3])
 
@@ -25,29 +26,47 @@ async function logout() {
 async function getChats() {
     const results = await makeRequest(`/api/chat/${user_id}`);
     // May need to split results chat to fit into array
-    chatArr.value = results.chat
-    console.log(chatArr.value)
-}
-
-async function getResponse() {
-    const results = await makeRequest();
-    // Put response on screen
+    if (results.chat === undefined) {
+        chatArr.value = []
+        noChats = true
+    }
+    else {
+        chatArr.value = results.chat
+    }
 }
 
 async function send() {
     // Display on screen
-    /*
     chatArr.value.push({
-        owner: ,
-        text: message,
-        from_ai: ,
+        owner: user_id,
+        text: message.value,
+        from_ai: false,
     })
-    */
+    if (chatArr.value.length >= 1) {
+        document.getElementById("header").style.display = 'none';
+        
+    }
+    let container = document.getElementById("chat-container")
+    
+    const child = document.createElement('div');
+    child.setAttribute('class', 'chat sent')
+    child.innerText = message.value
+    child.setAttribute('key', chatArr.value.length)
+    
+    container.appendChild(child)
+
     // Send to server to save & get response from server
-    getResponse()
+    /*
+        Make request to backend. Send latest message for AI to consider.
+        Add AI's response to chatArr.
+        Do the same steps to programmatically create a new child node. 
+        Append to screen.
+    */
+
 }
 
 onMounted(() => getChats())
+
 </script>
 
 <template>  
@@ -66,14 +85,14 @@ onMounted(() => getChats())
         <button class="logout" @click="logout"> Logout </button>
     </div>
     </nav>  
-
     <div class="chatbox">
-        <div v-if="chatArr.value === undefined">
-            <h1>Start your chat with Cupid AI here!</h1>
+        <div v-if="noChats">
+            <h3 id="header">Start your chat with Cupid AI here!</h3>
+            <div id="chat-container"></div>
         </div>
         <div v-else>
-            <div v-for="chat of chatArr.value">
-                <div :class="chat.from_ai ? 'chat response' : 'chat sent'">{{ chat.text }}</div>
+            <div v-for="chat of chatArr.value" id="chat-container">
+                <div :key="chatArr.value[chat].indexOf()" :class="chat.from_ai ? 'chat response' : 'chat sent'">{{ chat.text }}</div>
             </div>
         </div>
     </div>
@@ -82,7 +101,7 @@ onMounted(() => getChats())
             <h4>Enter Message Here</h4>
             <input id="message" placeholder="Type your message to the AI!" :value="message" @change="(e) =>  message = e.target.value">
         </label>
-        <button class="button">Send</button>
+        <button class="button" @click="send">Send</button>
     </div>
 </template>
 
@@ -92,8 +111,13 @@ onMounted(() => getChats())
     flex-flow: column nowrap;
     margin: 10px;
     margin-top: 40px;
-    height: 450px;
+    height: 79vh;
     overflow-y: scroll;
+}
+
+h3 {
+    color: rgb(99, 99, 99);
+    text-align: center;
 }
 
 .chat {
@@ -132,7 +156,9 @@ onMounted(() => getChats())
     flex-direction: column;
     background-color: var(--secondary-red);
     padding: 24px;
+    bottom: 0;
 }
+
 
 .message {
     text-align: center;
