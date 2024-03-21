@@ -44,7 +44,7 @@
 | Sprint 4       |                         |           |   
 |----------------|-------------------------|-----------|
 | Name           | Job                     | Time(hrs) | 
-| Nate Stott     | Unit tests / debugging  | 3         |   
+| Nate Stott     | Unit tests / debugging  | 3.5       |   
 | Emma Wright    | Routing and Dater Vues  | 3.5       |   
 | Daniel Barfuss |                         |           |   
 | Brighton Ellis |                         |           |   
