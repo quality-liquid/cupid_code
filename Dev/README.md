@@ -23,7 +23,7 @@ After the setup is complete, you can
 - `tmux ls` to see what sessions are running
 - `tmux kill-session -t my_session` to kill the session
 - `tmux a -t my_session` to attach to the session
-- `Ctrl+ b d or Ctrl+ b :detach` Detach from currently attached session 
+- `Ctrl b d` or `Ctrl b :detach` Detach from currently attached session 
 
 -------------
 
