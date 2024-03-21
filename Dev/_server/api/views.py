@@ -108,14 +108,12 @@ def __create_user(data, request, user_serializer, serializer):
 def __initialize_serializer(user):
     # Checks which type of serializer we are making, based off of what type of user is being requested
     if user.role == User.Role.DATER:
-        user_data = get_object_or_404(Dater, user_id=pk)
-        serializer = DaterSerializer(data=user_data)
+        dater = Dater.objects.get(user=user)
+        return DaterSerializer(dater)
     elif user.role == User.Role.CUPID:
-        user_data = get_object_or_404(Cupid, user_id=pk)
-        serializer = CupidSerializer(data=user_data)
-    else:
-        serializer = None
-    return serializer
+        cupid = Cupid.objects.get(user=user)
+        return CupidSerializer(cupid)
+    return None
 
 
 def __response_serializer_validate_information_retrieval(serializer):
