@@ -104,17 +104,41 @@ def __create_user(data, request, user_serializer, serializer):
     User.objects.get(id=data['user']).delete()
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# TODO Make a "initialize_serializer" or "determine_user_type" method, which handles the following logic. It's used in many functions
-"""
-if user.role == User.Role.DATER:
-    dater = Dater.objects.get(user=user)
-    serializer = DaterSerializer(dater)
-elif user.role == User.Role.CUPID:
-    cupid = Cupid.objects.get(user=user)
-    serializer = CupidSerializer(cupid)
-elif user.role == User.Role.MANAGER:
-    serializer = ManagerSerializer(user)
-"""
+
+def __initialize_serializer(user):
+    # Checks which type of serializer we are making, based off of what type of user is being requested
+    if user.role == User.Role.DATER:
+        user_data = get_object_or_404(Dater, user_id=pk)
+        serializer = DaterSerializer(data=user_data)
+    elif user.role == User.Role.CUPID:
+        user_data = get_object_or_404(Cupid, user_id=pk)
+        serializer = CupidSerializer(data=user_data)
+    else:
+        serializer = None
+    return serializer
+
+def __response_serializer_validate_information_retrieval(serializer):
+    """
+    This method is to make validating information is retrieved correctly and return a 200.
+    Returns 400 if it failed.
+    """
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def __response_serializer_validate_information_changed(serializer):
+    """
+    This method is to make validating information is changed and saved correctly, and it returns a 201.
+    Returns 400 if it failed.
+    """
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 @api_view(['POST'])
 def sign_in(request):
     """
@@ -134,14 +158,7 @@ def sign_in(request):
     user = authenticate(request, username=username, password=data['password'])
     if user is not None:
         login(request, user)
-        if user.role == User.Role.DATER:
-            dater = Dater.objects.get(user=user)
-            serializer = DaterSerializer(dater)
-        elif user.role == User.Role.CUPID:
-            cupid = Cupid.objects.get(user=user)
-            serializer = CupidSerializer(cupid)
-        elif user.role == User.Role.MANAGER:
-            serializer = ManagerSerializer(user)
+        serializer = __initialize_serializer(user)
 
         return_data = user_expand(user, serializer)
         return Response(return_data, status=status.HTTP_200_OK)
@@ -172,15 +189,8 @@ def get_user(request, pk):
     data = request.data
     user = get_object_or_404(User, id=pk)
 
-    if user.role == User.Role.DATER:
-        dater = Dater.objects.get(user=user)
-        serializer = DaterSerializer(dater)
-    elif user.role == User.Role.CUPID:
-        cupid = Cupid.objects.get(user=user)
-        serializer = CupidSerializer(cupid)
-    elif user.role == User.Role.MANAGER:
-        serializer = ManagerSerializer(user)
-    else:
+    serializer = __initialize_serializer(user)
+    if serializer == None:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     return_data = user_expand(user, serializer)
@@ -248,10 +258,9 @@ def send_chat_message(request):
     serializer = MessageSerializer(data={'owner': user_id, 'text': ai_response, 'from_ai': True})
     if serializer.is_valid():
         serializer.save()
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': ai_response}, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     # return AI's response
-    return Response({'message': ai_response}, status=status.HTTP_200_OK)
 
 
 def __get_ai_response(message: str):
@@ -338,10 +347,7 @@ def calendar(request, pk):
         data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
         data['dater'] = request.user.id
         serializer = DateSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return __response_serializer_validate_information_changed(serializer)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -476,10 +482,7 @@ def save_card(request):
     __update_user_location(request.user, request.META['REMOTE_ADDR'])
     data['user'] = request.user.id
     serializer = PaymentCardSerializer(data=data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return __response_serializer_validate_information_changed(serializer)
 
 
 @api_view(['GET'])
@@ -684,10 +687,7 @@ def save_bank_account(request):
     __update_user_location(request.user, request.META['REMOTE_ADDR'])
     data['user'] = request.user.id
     serializer = BankAccountSerializer(data=data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return __response_serializer_validate_information_changed(serializer)
 
 
 @api_view(['GET'])
@@ -793,10 +793,7 @@ def create_gig(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     quest = get_object_or_404(Quest, id=serializer.data['id'])
     serializer = GigSerializer(data={'dater': dater, 'quest': quest.id, 'status': Gig.Status.UNCLAIMED, 'dropped_count': 0, 'accepted_count': 0})
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return __response_serializer_validate_information_changed(serializer)
 
 
 @api_view(['POST'])
@@ -819,11 +816,7 @@ def accept_gig(request):
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = GigSerializer(gig, data={'is_accepted': True, 'cupid': request.user.id, 'accepted_count': gig.accepted_count + 1, 'date_time_of_claim': make_aware(datetime.now())}, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return __response_serializer_validate_information_retrieval(serializer)
 
 
 @api_view(['POST'])
@@ -846,11 +839,7 @@ def complete_gig(request):
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = GigSerializer(gig, data={'status': Gig.Status.COMPLETE, 'date_time_of_completion': make_aware(datetime.now())}, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return __response_serializer_validate_information_changed(serializer)
 
 
 @api_view(['POST'])
@@ -876,11 +865,7 @@ def drop_gig(request):
     if gig.cupid != request.user.cupid:
         return Response(status=status.HTTP_403_FORBIDDEN)
     serializer = GigSerializer(gig, data={'status': Gig.Status.UNCLAIMED, 'cupid': None, 'dropped_count': gig.dropped_count + 1}, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return __response_serializer_validate_information_retrieval(serializer)
 
 
 @api_view(['GET'])
@@ -1126,13 +1111,8 @@ def get_user_location(request, pk):
     if pk != request.user.id:
         return Response(status=status.HTTP_403_FORBIDDEN)
     user = get_object_or_404(User, id=pk)
-    if user.role == User.Role.DATER:
-        user_data = get_object_or_404(Dater, user_id=pk)
-        serializer = DaterSerializer(data=user_data)
-    elif user.role == User.Role.CUPID:
-        user_data = get_object_or_404(Cupid, user_id=pk)
-        serializer = CupidSerializer(data=user_data)
-    else:
+    serializer = __initialize_serializer(user)
+    if serializer is None:
         return Response(status=status.HTTP_400_BAD_REQUEST)
     if serializer.is_valid():
         serializer.save()
@@ -1156,10 +1136,7 @@ def get_cupids(request):
     """
     cupids = Cupid.objects.all()
     serializer = CupidSerializer(data=cupids, many=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return __response_serializer_validate_information_retrieval(serializer)
 
 
 @api_view(['GET'])
@@ -1178,10 +1155,7 @@ def get_daters(request):
     """
     daters = Dater.objects.all()
     serializer = DaterSerializer(data=daters, many=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return __response_serializer_validate_information_retrieval(serializer)
 
 
 @api_view(['GET'])
