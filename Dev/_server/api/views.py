@@ -545,9 +545,13 @@ def set_dater_profile(request):
     data['location'] = __get_location_string(request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, user_id=request.user.id)
     serializer = DaterSerializer(dater, data=data)
-    if serializer.is_valid():
+    user_serializer = UserSerializer(request.user, data=data,partial=True)
+    if serializer.is_valid() and user_serializer.is_valid():
         serializer.save()
+        user_serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+    if serializer.is_valid():
+        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -749,9 +753,13 @@ def set_cupid_profile(request):
     data['user'] = request.user.id
     cupid = get_object_or_404(Cupid, user_id=request.user.id)
     serializer = CupidSerializer(cupid, data=data)
-    if serializer.is_valid():
+    user_serializer = UserSerializer(request.user, data=data,partial=True)
+    if serializer.is_valid() and user_serializer.is_valid():
         serializer.save()
+        user_serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+    if serializer.is_valid():
+        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

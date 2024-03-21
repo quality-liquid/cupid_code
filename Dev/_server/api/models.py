@@ -38,8 +38,11 @@ class Dater(models.Model):
     rating_sum = models.IntegerField(default=0)
     rating_count = models.IntegerField(default=0)
     is_suspended = models.BooleanField(default=False)
+    # TODO: height_field and width_field were removed as they were not
+    # implemented correctly. These should indicate what field to store
+    # that data on, not a hard-coded integer
     profile_picture = models.ImageField(
-        upload_to='api/images', height_field=24, width_field=24, max_length=100, null=True
+        upload_to='api/images', max_length=100, null=True
     )
 
 
