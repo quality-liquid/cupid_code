@@ -83,9 +83,10 @@ def locations_are_near(location1, location2, max_distance_miles):
     latitude1 = latitude1.strip(',')
     latitude2, longitude2 = location2.split(" ")
     latitude2 = latitude2.strip(',')
-    #TODO: safer float conversion? Or do we protect bad data from being saved in the first place.
-    #TODO: Expand quest or give frontend an api for getting quests.
-    return within_distance(float(latitude1), float(longitude1), float(latitude2), float(longitude2), float(max_distance_miles))
+    # TODO: Expand quest or give frontend an api for getting quests.
+    return within_distance(
+        float(latitude1), float(longitude1), float(latitude2), float(longitude2), float(max_distance_miles)
+    )
 
 
 def haversine_distance(lat1, lon1, lat2, lon2):

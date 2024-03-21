@@ -6,8 +6,8 @@ from datetime import datetime
 # Django
 from django.contrib.sessions.models import Session
 from django.contrib.auth import login, authenticate
-from django.utils import timezone
-from django.utils.timezone import make_aware
+from django.helper.import timezone
+from django.helper.timezone import make_aware
 from django.shortcuts import get_object_or_404
 
 # REST Framework
@@ -42,7 +42,7 @@ from .serializers import (
     QuestSerializer,
 )
 from .models import User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, PaymentCard, BankAccount
-from . import utils
+from . import helper
 
 # 3. agree on how the serializers should be used and write the code to use them
 # 4. agree on what external APIs we will use
@@ -91,7 +91,7 @@ def create_user(request):
     """
     # Prepare data input
     data = request.data
-    data['location'] = utils.get_location_string(request.META['REMOTE_ADDR'])
+    data['location'] = helper.get_location_string(request.META['REMOTE_ADDR'])
     data['role'] = data['role'].lower()
     # Create user
     user_serializer = UserSerializer(data=data)
@@ -103,10 +103,10 @@ def create_user(request):
     # Create dater or cupid as appropriate
     if data['role'] == User.Role.DATER:
         serializer = DaterSerializer(data=data)
-        return utils.save_profile(data, request, user_serializer, serializer)
+        return helper.save_profile(data, request, user_serializer, serializer)
     elif data['role'] == User.Role.CUPID:
         serializer = CupidSerializer(data=data)
-        return utils.save_profile(data, request, user_serializer, serializer)
+        return helper.save_profile(data, request, user_serializer, serializer)
     User.objects.get(id=data['user']).delete()
     return Response({'error': 'invalid user type'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -138,7 +138,7 @@ def sign_in(request):
             Dater, Cupid, or Manager serialized
     """
     data = request.data
-    data['location'] = utils.get_location_string(request.META['REMOTE_ADDR'])
+    data['location'] = helper.get_location_string(request.META['REMOTE_ADDR'])
     username = User.objects.get(email=data['email']).username
     user = authenticate(request, username=username, password=data['password'])
     if user is not None:
@@ -242,7 +242,7 @@ def send_chat_message(request):
             message(str): The AI's response
     """
     data = request.data
-    data['location'] = utils.get_location_string(request.META['REMOTE_ADDR'])
+    data['location'] = helper.get_location_string(request.META['REMOTE_ADDR'])
     user_id = request.user.id
     message = data['message']
     # save a message to database
@@ -252,7 +252,7 @@ def send_chat_message(request):
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     # send a message to AI
-    ai_response = utils.get_ai_response(message)
+    ai_response = helper.get_ai_response(message)
     # save AI's response to database
     serializer = MessageSerializer(data={'owner': user_id, 'text': ai_response, 'from_ai': True})
     if serializer.is_valid():
@@ -327,7 +327,7 @@ def calendar(request, pk):
     elif request.method == 'POST':
         data = request.data
         # TODO: Either us or the frontend needs to determine a planned location, then save the geo coords
-        data['location'] = utils.get_location_string(request.META['REMOTE_ADDR'])
+        data['location'] = helper.get_location_string(request.META['REMOTE_ADDR'])
         data['dater'] = request.user.id
         serializer = DateSerializer(data=data)
         if serializer.is_valid():
@@ -356,7 +356,7 @@ def rate_dater(request):
             Saved Feedback serialized
     """
     data = request.data
-    utils.update_user_location(request.user, request.META['REMOTE_ADDR'])
+    helper.update_user_location(request.user, request.META['REMOTE_ADDR'])
     owner = request.user.id
     target = data['dater_id']
     gig = data['gig_id']
@@ -445,7 +445,7 @@ def dater_transfer(request):
             OK
     """
     data = request.data
-    data['location'] = utils.get_location_string(request.META['REMOTE_ADDR'])
+    data['location'] = helper.get_location_string(request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, user=request.user)
     card = get_object_or_404(PaymentCard, id=data['card_id'])
     if card.user != dater.user:
@@ -476,7 +476,7 @@ def save_card(request):
     """
 
     data = request.data
-    utils.update_user_location(request.user, request.META['REMOTE_ADDR'])
+    helper.update_user_location(request.user, request.META['REMOTE_ADDR'])
     data['user'] = request.user.id
     serializer = PaymentCardSerializer(data=data)
     if serializer.is_valid():
@@ -545,7 +545,7 @@ def set_dater_profile(request):
     """
     data = request.data
     data['user'] = request.user.id
-    data['location'] = utils.get_location_string(request.META['REMOTE_ADDR'])
+    data['location'] = helper.get_location_string(request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, user_id=request.user.id)
     serializer = DaterSerializer(dater, data=data)
     user_serializer = UserSerializer(request.user, data=data, partial=True)
@@ -576,7 +576,7 @@ def rate_cupid(request):
             Saved Feedback serialized
     """
     data = request.data
-    utils.update_user_location(request.user, request.META['REMOTE_ADDR'])
+    helper.update_user_location(request.user, request.META['REMOTE_ADDR'])
     owner = request.user.id
     target = data['cupid_id']
     gig = data['gig_id']
@@ -669,7 +669,7 @@ def cupid_transfer(request):
             If the transfer failed, return a corresponding error status code (400 if on our end, 500 if on bank's end)
     """
     data = request.data
-    utils.update_user_location(request.user, request.META['REMOTE_ADDR'])
+    helper.update_user_location(request.user, request.META['REMOTE_ADDR'])
     cupid = get_object_or_404(Cupid, user_id=request.user.id)
     bank_account = get_object_or_404(BankAccount, user=cupid.user)
     return Response(
@@ -696,7 +696,7 @@ def save_bank_account(request):
 
     """
     data = request.data
-    utils.update_user_location(request.user, request.META['REMOTE_ADDR'])
+    helper.update_user_location(request.user, request.META['REMOTE_ADDR'])
     data['user'] = request.user.id
     serializer = BankAccountSerializer(data=data)
     if serializer.is_valid():
@@ -764,7 +764,7 @@ def set_cupid_profile(request):
             If the profile failed to be created or changed (insufficent permissions, bad data, or error), return a 400 status code.
     """
     data = request.data
-    data['location'] = utils.get_location_string(request.META['REMOTE_ADDR'])
+    data['location'] = helper.get_location_string(request.META['REMOTE_ADDR'])
     data['user'] = request.user.id
     cupid = get_object_or_404(Cupid, user_id=request.user.id)
     serializer = CupidSerializer(cupid, data=data)
@@ -799,7 +799,7 @@ def create_gig(request):
             If the gig was failed to be created, return a 400 status code.
     """
     data = request.data
-    utils.update_user_location(request.user, request.META['REMOTE_ADDR'])
+    helper.update_user_location(request.user, request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, user_id=request.user.id)
     serializer = QuestSerializer(data=data['quest'])
     if serializer.is_valid():
@@ -839,7 +839,7 @@ def accept_gig(request):
             If the gig could not be accepted or was already accepted, return a 400 status code.
     """
     data = request.data
-    data['location'] = utils.get_location_string(request.META['REMOTE_ADDR'])
+    data['location'] = helper.get_location_string(request.META['REMOTE_ADDR'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = GigSerializer(
         gig,
@@ -875,7 +875,7 @@ def complete_gig(request):
             If the gig could not be completed or was already completed, return a 400 status code.
     """
     data = request.data
-    data['location'] = utils.get_location_string(request.META['REMOTE_ADDR'])
+    data['location'] = helper.get_location_string(request.META['REMOTE_ADDR'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
     serializer = GigSerializer(
         gig,
@@ -910,7 +910,7 @@ def drop_gig(request):
     """
     data = request.data
     # This doesn't do much, should update the cupid's location instead
-    data['location'] = utils.get_location_string(request.META['REMOTE_ADDR'])
+    data['location'] = helper.get_location_string(request.META['REMOTE_ADDR'])
     gig = get_object_or_404(Gig, id=data['gig_id'])
     if gig.cupid != request.user.cupid:
         return Response(status=status.HTTP_403_FORBIDDEN)
@@ -949,7 +949,7 @@ def get_gigs(request, count):
     near_gigs = []
     for gig in gigs:
         quest = gig.quest
-        if gig.status == Gig.Status.UNCLAIMED and utils.locations_are_near(
+        if gig.status == Gig.Status.UNCLAIMED and helper.locations_are_near(
             quest.pickup_location, cupid.location, cupid.gig_range
         ):
             near_gigs.append(gig)
@@ -973,7 +973,7 @@ def get_stores(request, pk):
     """
     if pk != request.user.id:
         return Response(status=status.HTTP_403_FORBIDDEN)
-    response = utils.call_yelp_api(pk, 'stores')
+    response = helper.call_yelp_api(pk, 'stores')
     if response:
         return Response(response, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -994,7 +994,7 @@ def get_activities(request, pk):
     """
     if pk != request.user.id:
         return Response(status=status.HTTP_403_FORBIDDEN)
-    response = utils.call_yelp_api(pk, 'activities')
+    response = helper.call_yelp_api(pk, 'activities')
     if response:
         return Response(response, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -1015,7 +1015,7 @@ def get_events(request, pk):
     """
     if pk != request.user.id:
         return Response(status=status.HTTP_403_FORBIDDEN)
-    response = utils.call_yelp_api(pk, 'events')
+    response = helper.call_yelp_api(pk, 'events')
     if response:
         return Response(response, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -1037,7 +1037,7 @@ def get_attractions(request, pk):
     """
     if pk != request.user.id:
         return Response(status=status.HTTP_403_FORBIDDEN)
-    response = utils.call_yelp_api(pk, 'attractions')
+    response = helper.call_yelp_api(pk, 'attractions')
     if response:
         return Response(response, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -1059,7 +1059,7 @@ def get_restaurants(request, pk):
     """
     if pk != request.user.id:
         return Response(status=status.HTTP_403_FORBIDDEN)
-    response = utils.call_yelp_api(pk, 'restaurants')
+    response = helper.call_yelp_api(pk, 'restaurants')
     if response:
         return Response(response, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -1406,7 +1406,7 @@ def speech_to_text(request):
             If the audio was not converted to text successfully or a gig could not be created, return an error message and a 400 status code.
     """
     data = request.data
-    data['location'] = utils.get_location_string(request.META['REMOTE_ADDR'])
+    data['location'] = helper.get_location_string(request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, user_id=request.user.id)
     audio = data['audio']
     audio_type = audio['type']
@@ -1438,7 +1438,7 @@ def speech_to_text(request):
                   
                   """
         message = prompt + text
-        response = utils.get_ai_response(message)
+        response = helper.get_ai_response(message)
         if contains('Create gig: True', response):
             requested_items = 'NA'
             for line in response.split('\n'):
@@ -1452,7 +1452,7 @@ def speech_to_text(request):
                     },
                     status=status.HTTP_200_OK,
                 )
-            locations = utils.call_yelp_api(dater.location, requested_items)
+            locations = helper.call_yelp_api(dater.location, requested_items)
             quest_data = {
                 'budget': dater.budget,
                 'items_requested': requested_items,
