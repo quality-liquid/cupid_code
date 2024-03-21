@@ -1,24 +1,64 @@
+# Standard Library
 from math import radians, sin, cos, sqrt, atan2
 
+# Django
+from django.contrib.auth import login
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404
+
+# Rest Framework
+from rest_framework.response import Response
+from rest_framework import status
+
+# Miscellaneous Utils
 from geopy.geocoders import Nominatim
 import geoip2.database
 from yelpapi import YelpAPI
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
-from .models import User, Dater
-from django.contrib.auth import login
+# Local
+from .models import User, Dater, Cupid
+from .serializers import UserSerializer, DaterSerializer, CupidSerializer
 
 
-def save_profile(data, request, user_serializer, serializer):
-    if serializer.is_valid():
-        serializer.save()
-        user = User.objects.get(id=user_serializer.data['id'])
+def profile_serializer_factory(user):
+    if user.role == User.Role.DATER:
+        dater = Dater.objects.get(user=user)
+        return DaterSerializer(dater)
+    elif user.role == User.Role.CUPID:
+        cupid = Cupid.objects.get(user=user)
+        return CupidSerializer(cupid)
+
+
+def authenticated_dater(pk, user):
+    if pk != user.id:
+        raise PermissionDenied()
+    return get_object_or_404(Dater, user_id=pk)
+
+
+def authenticated_cupid(pk, user):
+    if pk != user.id:
+        raise PermissionDenied()
+    return get_object_or_404(Cupid, user_id=pk)
+
+
+def save_profile(request, user, profile_serializer):
+    if profile_serializer.is_valid():
+        profile_serializer.save()
         login(request, user)
 
-        return_data = user_expand(user, serializer)
+        return_data = user_expand(user, profile_serializer)
         return Response(return_data, status=status.HTTP_201_CREATED)
-    User.objects.get(id=data['user']).delete()
+    user.delete()
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def user_expand(user, serializer):
+    userSerializer = UserSerializer(user)
+    return_data = serializer.data
+    return_data['user'] = userSerializer.data
+    del return_data['user']['password']
+    return return_data
 
 
 def get_ai_response(message: str):

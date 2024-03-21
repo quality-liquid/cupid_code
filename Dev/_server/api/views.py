@@ -6,9 +6,9 @@ from datetime import datetime
 # Django
 from django.contrib.sessions.models import Session
 from django.contrib.auth import login, authenticate
-from django.helper.import timezone
-from django.helper.timezone import make_aware
-from django.shortcuts import get_object_or_404
+from django.utils import timezone
+from django.utils.timezone import make_aware
+from django.shortcuts import get_object_or_404, get_list_or_404
 
 # REST Framework
 from rest_framework import status
@@ -103,25 +103,12 @@ def create_user(request):
     # Create dater or cupid as appropriate
     if data['role'] == User.Role.DATER:
         serializer = DaterSerializer(data=data)
-        return helper.save_profile(data, request, user_serializer, serializer)
+        return helper.save_profile(request, user_serializer.instance, serializer)
     elif data['role'] == User.Role.CUPID:
         serializer = CupidSerializer(data=data)
-        return helper.save_profile(data, request, user_serializer, serializer)
-    User.objects.get(id=data['user']).delete()
+        return helper.save_profile(request, user_serializer.instance, serializer)
+    user_serializer.delete()
     return Response({'error': 'invalid user type'}, status=status.HTTP_400_BAD_REQUEST)
-
-
-# TODO Make a "initialize_serializer" or "determine_user_type" method, which handles the following logic. It's used in many functions
-"""
-if user.role == User.Role.DATER:
-    dater = Dater.objects.get(user=user)
-    serializer = DaterSerializer(dater)
-elif user.role == User.Role.CUPID:
-    cupid = Cupid.objects.get(user=user)
-    serializer = CupidSerializer(cupid)
-elif user.role == User.Role.MANAGER:
-    serializer = ManagerSerializer(user)
-"""
 
 
 @api_view(['POST'])
@@ -143,16 +130,9 @@ def sign_in(request):
     user = authenticate(request, username=username, password=data['password'])
     if user is not None:
         login(request, user)
-        if user.role == User.Role.DATER:
-            dater = Dater.objects.get(user=user)
-            serializer = DaterSerializer(dater)
-        elif user.role == User.Role.CUPID:
-            cupid = Cupid.objects.get(user=user)
-            serializer = CupidSerializer(cupid)
-        elif user.role == User.Role.MANAGER:
-            serializer = ManagerSerializer(user)
+        profile_serializer = helper.profile_serializer_factory(user)
 
-        return_data = user_expand(user, serializer)
+        return_data = helper.user_expand(user, profile_serializer)
         return Response(return_data, status=status.HTTP_200_OK)
     else:
         if User.objects.filter(email=data['email']):
@@ -181,27 +161,12 @@ def get_user(request, pk):
     data = request.data
     user = get_object_or_404(User, id=pk)
 
-    if user.role == User.Role.DATER:
-        dater = Dater.objects.get(user=user)
-        serializer = DaterSerializer(dater)
-    elif user.role == User.Role.CUPID:
-        cupid = Cupid.objects.get(user=user)
-        serializer = CupidSerializer(cupid)
-    elif user.role == User.Role.MANAGER:
-        serializer = ManagerSerializer(user)
-    else:
+    profile_serializer = helper.profile_serializer_factory(user)
+    if profile_serializer is None:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    return_data = user_expand(user, serializer)
+    return_data = helper.user_expand(user, profile_serializer)
     return Response(return_data, status=status.HTTP_200_OK)
-
-
-def user_expand(user, serializer):
-    userSerializer = UserSerializer(user)
-    return_data = serializer.data
-    return_data['user'] = userSerializer.data
-    del return_data['user']['password']
-    return return_data
 
 
 @api_view(['GET'])
@@ -315,13 +280,8 @@ def calendar(request, pk):
             The saved date serialized
     """
     if request.method == 'GET':
-        if pk != request.user.id:
-            return Response(status=status.HTTP_403_FORBIDDEN)
-        dater = get_object_or_404(Dater, user_id=pk)
-        try:
-            dates = Date.objects.filter(dater=dater)
-        except Date.DoesNotExist:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        dater = helper.authenticated_dater(pk, request.user)
+        dates = get_list_or_404(Date, dater=dater)
         serializer = DateSerializer(dates, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'POST':
@@ -396,13 +356,8 @@ def get_dater_ratings(request, pk):
         Response:
             Sequence of Feedback objects
     """
-    if pk != request.user.id:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    dater = get_object_or_404(Dater, user_id=pk)
-    try:
-        ratings = Feedback.objects.filter(target=dater.user)
-    except Feedback.DoesNotExist:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+    dater = helper.authenticated_dater(pk, request.user)
+    ratings = get_list_or_404(Feedback, target=dater.user)
     serializer = FeedbackSerializer(ratings, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -414,7 +369,7 @@ def get_dater_ratings(request, pk):
 def get_dater_avg_rating(request, pk):
     """
     For all users.
-    Returns the average rating of a specific user.
+    Returns the average rating of a specific dater.
 
     Args:
         request: information about the request
@@ -423,9 +378,7 @@ def get_dater_avg_rating(request, pk):
         Response:
             rating(int): The dater's rating
     """
-    if pk != request.user.id:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    dater = get_object_or_404(Dater, user_id=pk)
+    dater = helper.authenticated_dater(pk, request.user)
     return Response({'rating:': dater.rating_sum / dater.rating_count}, status=status.HTTP_200_OK)
 
 
@@ -453,7 +406,7 @@ def dater_transfer(request):
             {"error: you don't have a card with that id"},
             status=status.HTTP_403_FORBIDDEN,
         )
-    return Response({f'Card charged {data['amount']}'}, status=status.HTTP_200_OK)
+    return Response({f'Card charged {data["amount"]}'}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -500,9 +453,7 @@ def get_dater_balance(request, pk):
         Response:
             balance(int): The balance of the dater
     """
-    if pk != request.user.id:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    dater = get_object_or_404(Dater, user_id=pk)
+    dater = helper.authenticated_dater(pk, request.user)
     return Response({'balance': dater.cupid_cash_balance}, status=status.HTTP_200_OK)
 
 
@@ -522,9 +473,7 @@ def get_dater_profile(request, pk):
             The dater serialized
     """
 
-    if pk != request.user.id:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    dater = get_object_or_404(Dater, user_id=pk)
+    dater = helper.authenticated_dater(pk, request.user)
     serializer = DaterSerializer(dater)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -616,13 +565,8 @@ def get_cupid_ratings(request, pk):
         Response:
             Sequence of Feedback objects
     """
-    if pk != request.user.id:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    cupid = get_object_or_404(Cupid, user_id=pk)
-    try:
-        ratings = Feedback.objects.filter(user=cupid)
-    except Feedback.DoesNotExist:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+    cupid = helper.authenticated_cupid(pk, request.user)
+    ratings = get_list_or_404(Feedback, target=request.user)
     serializer = FeedbackSerializer(ratings, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -643,13 +587,8 @@ def get_cupid_avg_rating(request, pk):
             Average rating from the user's record (int).
             If the account could not be found, return a 400 status code.
     """
-    if pk != request.user.id:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    cupid = get_object_or_404(Cupid, user_id=pk)
-    try:
-        ratings = Feedback.objects.filter(target=cupid.user)
-    except Feedback.DoesNotExist:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+    cupid = helper.authenticated_cupid(pk, request.user)
+    ratings = get_list_or_404(Feedback, target=cupid.user)
     return Response({'rating:': cupid.rating_sum / cupid.rating_count}, status=status.HTTP_200_OK)
 
 
@@ -720,9 +659,7 @@ def get_cupid_balance(request, pk):
             Balance on the Cupid's account (int).
             If the account could not be found, return a 400 status code.
     """
-    if pk != request.user.id:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    cupid = get_object_or_404(Cupid, user_id=pk)
+    cupid = helper.authenticated_cupid(pk, request.user)
     return Response({'balance': cupid.cupid_cash_balance}, status=status.HTTP_200_OK)
 
 
@@ -740,9 +677,7 @@ def get_cupid_profile(request, pk):
         Response:
             Requested details from Cupid's record (JSON)
     """
-    if pk != request.user.id:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    cupid = get_object_or_404(Cupid, user_id=pk)
+    cupid = helper.authenticated_cupid(pk, request.user)
     serializer = CupidSerializer(cupid)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -1083,19 +1018,16 @@ def get_user_location(request, pk):
     """
     if pk != request.user.id:
         return Response(status=status.HTTP_403_FORBIDDEN)
+
     user = get_object_or_404(User, id=pk)
-    if user.role == User.Role.DATER:
-        user_data = get_object_or_404(Dater, user_id=pk)
-        serializer = DaterSerializer(data=user_data)
-    elif user.role == User.Role.CUPID:
-        user_data = get_object_or_404(Cupid, user_id=pk)
-        serializer = CupidSerializer(data=user_data)
-    else:
+    profile_serializer = helper.profile_serializer_factory(user)
+    if profile_serializer is None:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-    if serializer.is_valid():
-        serializer.save()
+
+    if profile_serializer.is_valid():
+        profile_serializer.save()
         return Response(
-            {'location': serializer.validated_data['location']},
+            {'location': profile_serializer.validated_data['location']},
             status=status.HTTP_200_OK,
         )
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
