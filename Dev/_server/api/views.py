@@ -871,18 +871,20 @@ def drop_gig(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_gigs(request, count):
+def get_gigs(request, pk, count):
     """
     Returns a list of gigs, up to the number of `count`.
 
     Args:
         request: Information about the request.
+        pk (int): The user_id as included in the URL
         count (int): The number of gigs to return and display.
     Returns:
         Response:
             A list of gigs (JSON)
     """
-    cupid = Cupid.objects.get(user_id = request.user.id)
+    cupid = Cupid.objects.get(user_id=pk)
+    __update_user_location(cupid.user, request.META['REMOTE_ADDR'])
     gigs = Gig.objects.all()
     near_gigs = []
     for gig in gigs:
