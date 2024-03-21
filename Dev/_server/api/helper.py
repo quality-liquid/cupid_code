@@ -21,7 +21,7 @@ from .models import User, Dater, Cupid
 from .serializers import UserSerializer, DaterSerializer, CupidSerializer
 
 
-def profile_serializer_factory(user):
+def initialize_serializer(user):
     if user.role == User.Role.DATER:
         dater = Dater.objects.get(user=user)
         return DaterSerializer(dater)

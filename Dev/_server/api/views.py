@@ -130,7 +130,7 @@ def sign_in(request):
     user = authenticate(request, username=username, password=data['password'])
     if user is not None:
         login(request, user)
-        profile_serializer = helper.profile_serializer_factory(user)
+        profile_serializer = helper.initialize_serializer(user)
 
         return_data = helper.user_expand(user, profile_serializer)
         return Response(return_data, status=status.HTTP_200_OK)
@@ -161,7 +161,7 @@ def get_user(request, pk):
     data = request.data
     user = get_object_or_404(User, id=pk)
 
-    profile_serializer = helper.profile_serializer_factory(user)
+    profile_serializer = helper.initialize_serializer(user)
     if profile_serializer is None:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -1020,7 +1020,7 @@ def get_user_location(request, pk):
         return Response(status=status.HTTP_403_FORBIDDEN)
 
     user = get_object_or_404(User, id=pk)
-    profile_serializer = helper.profile_serializer_factory(user)
+    profile_serializer = helper.initialize_serializer(user)
     if profile_serializer is None:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
