@@ -50,7 +50,7 @@
             <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
         </button>
         <!-- This will be the profile picture when setup -->
-        <img :src="'/get_menu/'" alt="Profile Picture" class="icon">
+        <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">
         <div id="navbar" class="navbar">
             <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
             <button class="logout" @click="logout"> Logout </button>

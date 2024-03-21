@@ -42,6 +42,12 @@ def get_menu(req: HttpRequest):
     path = os.path.join(VAULT_PATH, 'menu_icon' + '.' + FILE_EXTENSION)
     return FileResponse(open(path, "rb"))
 
+def get_temp_pfp(req: HttpRequest):
+    FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
+    VAULT_PATH = os.environ.get('VAULT_PATH', '')
+    path = os.path.join(VAULT_PATH, 'default_pfp' + '.' + FILE_EXTENSION)
+    return FileResponse(open(path, "rb"))
+
 
 def get_money(req: HttpRequest):
     FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
