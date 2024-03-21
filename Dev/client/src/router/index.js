@@ -62,12 +62,12 @@ const routes = [
         component: DaterProfile
     },
     {
-        path: '/cupid/home',
+        path: '/cupid/home/:id',
         name: 'CupidHome',
         component: CupidHome,
     },
     {
-        path: '/manager/home',
+        path: '/manager/home/:id',
         name: 'ManagerHome',
         component: ManagerHome,
     },

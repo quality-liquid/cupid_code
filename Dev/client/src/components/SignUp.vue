@@ -49,7 +49,7 @@ async function register() {
             phone_number: phone.value,
             location: addr.value,
             description: desc.value,
-            profile_picture: image, // Crashing here
+            //profile_picture: image, // Crashing here
             dating_strengths: str.value,
             dating_weaknesses: weak.value,
             nerd_type: ntype.value,
@@ -59,12 +59,10 @@ async function register() {
 
         })
         
-        window.addEventListener('hashchange', () => {
-            router.push('/dater/home')
-        })
+        router.push({name: 'DaterHome', params: {id: results.user['id']}})
     }
     else if (accType.value === 'Cupid' && check === checkData.length) {
-        await makeRequest('/api/user/create/', 'post', {
+        const results = await makeRequest('/api/user/create/', 'post', {
             username: username.value,
             first_name: fname.value,
             last_name: lname.value,
@@ -74,11 +72,9 @@ async function register() {
             phone_number: phone.value,
             location: addr.value,
             description: desc.value,
-            profile_picture: image
+            //profile_picture: image
         })
-        window.addEventListener('hashchange', () => {
-            router.push('/cupid/home')
-        })
+        router.push({name: 'CupidHome', params: {id: results.user['id']}})
     }
     else {
         // Handle Error
