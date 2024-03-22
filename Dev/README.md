@@ -6,9 +6,9 @@
 
 1. Make sure you have installed poetry, npm, python, and tmux
 2. make sure you are in the Dev directory
-3. Run 'poetry install' in the Dev directory to make sure the poetry.lock file exists/is up to date.
-4. Run 'npm install' in the client directory to make sure current npm packages are installed
-5. Run 'chmod +x setup.sh start.sh stop.sh restart.sh' to make the shell scripts executable
+3. Run `poetry install` in the Dev directory to make sure the poetry.lock file exists/is up to date.
+4. Run `npm install` in the client directory to make sure current npm packages are installed
+5. Run `chmod +x setup.sh start.sh stop.sh restart.sh` to make the shell scripts executable
 6. run `./setup.sh` to install poetry, install npm_modules, create the .env file, install python dependencies, and create the database
 
 ### Running the server
@@ -20,9 +20,10 @@ After the setup is complete, you can
 - run `./setup.sh` to reinstall the project if changes are made to the .env file or the poetry.lock file
 
 ### Tmux Commands
-- tmux ls to see what sessions are running
-- tmux kill-session -t my_session to kill the session
-- tmux a -t my_session to attach to the session
+- `tmux ls` to see what sessions are running
+- `tmux kill-session -t my_session` to kill the session
+- `tmux a -t my_session` to attach to the session
+- `Ctrl b d` or `Ctrl b :detach` Detach from currently attached session 
 
 -------------
 
