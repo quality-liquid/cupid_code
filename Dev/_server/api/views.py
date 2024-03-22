@@ -111,28 +111,6 @@ def create_user(request):
     return Response({'error': 'invalid user type'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-def __response_serializer_validate_information_retrieval(serializer):
-    """
-    This method is to make validating information is retrieved correctly and return a 200.
-    Returns 400 if it failed.
-    """
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-def __response_serializer_validate_information_changed(serializer):
-    """
-    This method is to make validating information is changed and saved correctly, and it returns a 201.
-    Returns 400 if it failed.
-    """
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 @api_view(['POST'])
 def sign_in(request):
     """
@@ -310,7 +288,7 @@ def calendar(request, pk):
         data['location'] = helper.get_location_string(request.META['REMOTE_ADDR'])
         data['dater'] = request.user.id
         serializer = DateSerializer(data=data)
-        return __response_serializer_validate_information_changed(serializer)
+        return helper.changed_response(serializer)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -448,7 +426,7 @@ def save_card(request):
     helper.update_user_location(request.user, request.META['REMOTE_ADDR'])
     data['user'] = request.user.id
     serializer = PaymentCardSerializer(data=data)
-    return __response_serializer_validate_information_changed(serializer)
+    return helper.changed_response(serializer)
 
 
 @api_view(['GET'])
@@ -649,7 +627,7 @@ def save_bank_account(request):
     helper.update_user_location(request.user, request.META['REMOTE_ADDR'])
     data['user'] = request.user.id
     serializer = BankAccountSerializer(data=data)
-    return __response_serializer_validate_information_changed(serializer)
+    return helper.changed_response(serializer)
 
 
 @api_view(['GET'])
@@ -758,7 +736,7 @@ def create_gig(request):
             'dropped_count': 0,
             'accepted_count': 0,
         })
-    return __response_serializer_validate_information_changed(serializer)
+    return helper.changed_response(serializer)
 
 
 @api_view(['POST'])
@@ -790,7 +768,7 @@ def accept_gig(request):
         },
         partial=True,
     )
-    return __response_serializer_validate_information_retrieval(serializer)
+    return helper.retrieved_response(serializer)
 
 
 @api_view(['POST'])
@@ -820,7 +798,7 @@ def complete_gig(request):
         },
         partial=True,
     )
-    return __response_serializer_validate_information_changed(serializer)
+    return helper.changed_response(serializer)
 
 
 @api_view(['POST'])
@@ -854,7 +832,7 @@ def drop_gig(request):
         },
         partial=True,
     )
-    return __response_serializer_validate_information_retrieval(serializer)
+    return helper.retrieved_response(serializer)
 
 
 @api_view(['GET'])
@@ -1042,7 +1020,7 @@ def get_cupids(request):
     """
     cupids = Cupid.objects.all()
     serializer = CupidSerializer(data=cupids, many=True)
-    return __response_serializer_validate_information_retrieval(serializer)
+    return helper.retrieved_response(serializer)
 
 
 @api_view(['GET'])
@@ -1061,7 +1039,7 @@ def get_daters(request):
     """
     daters = Dater.objects.all()
     serializer = DaterSerializer(data=daters, many=True)
-    return __response_serializer_validate_information_retrieval(serializer)
+    return helper.retrieved_response(serializer)
 
 
 @api_view(['GET'])

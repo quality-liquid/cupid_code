@@ -61,6 +61,28 @@ def user_expand(user, serializer):
     return return_data
 
 
+def retrieved_response(serializer):
+    """
+    This method is to make validating information is retrieved correctly and return a 200.
+    Returns 400 if it failed.
+    """
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def changed_response(serializer):
+    """
+    This method is to make validating information is changed and saved correctly, and it returns a 201.
+    Returns 400 if it failed.
+    """
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 def get_ai_response(message: str):
     """
     Send the message to the AI and return the response.
