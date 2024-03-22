@@ -11,10 +11,11 @@ export async function makeRequest(uri, method = "get", body = {}) {
     },
     credentials: "include", // includes cookies in the request
   }
-
   if (method === "post") {
     options.body = JSON.stringify(body)
   }
+  console.log(uri)
+  console.log(options)
 
   const result = await fetch(uri, options);
   const json = await result.json()

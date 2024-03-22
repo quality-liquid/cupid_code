@@ -237,6 +237,7 @@ Subsections
 - [UX](#ux)
 - [Templates](#templates)
 - [Vue Router](#vue-router)
+  - [Implementation](#implementing-the-router)
 - [Testing](#testing)
 
 ### Security
@@ -381,86 +382,129 @@ This won't deal with many of the external links since it will be an isolated app
 
 We will be using the Vue Router to route the user to the correct page. Using information about the user from the backend and reusable components, we can direct the user to the correct page based upon user type.
 
+We will be using hash routing since the frontend and backend will be using different URLs. This will keep the frontend lighter and not be as tied into the backend for rendering every page. 
+
   Example Vue Router (simple example):
 ```javascript
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import create web history, web hash history from 'vue-router';
 
 import Home from './components/Home.vue';
 import About from './components/Dater.vue';
 import Contact from './components/Cupid.vue';
 
-Vue.use(VueRouter);
-
 const routes = [
-  { path: '/', component: Home },
-  { path: '/dater', component: Dater },
-  { path: '/cupid', component: Cupid }
+  { path: '/', name: 'Home', component: Home },
+  { path: '/dater/:id', name: 'Dater', component: Dater },
+  { path: '/cupid', name: 'Cupid', component: Cupid }
 ];
 
-const router = new VueRouter({
-  routes,
-  mode: 'history'
+const router = create web history({
+  history: web hash history,
+  routes
 });
 
 export default router;
 ```
+The ':' in "path: '/dater/:id'" symbolizes a parameter to be passed through the path. This will allow us to pass through necesary data for us to use when making calls to the backend.
 
+#### Implementing the router
+  Implementing the router into each file will be as follows:
+
+**main.js**
+
+  This will include the router into the building of the app itself.
+```javascript
+import { createApp } from 'vue';
+import './style.css';
+import App from './App.vue';
+import router from './router/index.js';
+
+
+createApp(App).use(router).mount('#app')
+```
+
+**App.vue**
+
+  This is what the template tag file will look like
+``` html
+<template>
+  <div id=app>
+    <router-link :to="{name: 'Path name', params: {param: given param}}">
+      Go here!
+    </router-link>
+    <router-link to="/path/name">
+      Or here!
+    </router-link>
+  </div>
+  <router-view></router-view>
+<template>
+```
+This will be in the script tag
+``` javascript
+const user_id = parseInt(window.location.hash.split('/')[3])
+```
+**More on :to**
+
+This syntax will allow us to specify the parameters in the path. Vue Router prefers to do it this way instead of doing something like `/path/name/${param}` that you would normally do in other frameworks or plain javascript. 
+
+In some cases we won't use this, like for the welcome page or signup pages. We will instead use to="/path". This is a good shorthand for any path that doesn't require a parameter.
+
+**Other files**
+
+  Any other file that needs to use the router can do so in a variety of ways. 
+  
+  They can import the router to use programmatic routing
+``` javascript
+import router from './router/router.js'
+
+router.go(1) // Forward 1
+router.forward() // ^
+router.go(-1) // Back 1
+router.back() // ^
+
+// Route the user to this path with the given params.
+router.push({name: "Path Name", params: {param: given param}})
+```
+
+And they can use the router-link tag in any component too
+```html
+  <nav>
+    <router-link :to="{name: 'Path name', params: {param: given param}}">
+      Go here!
+    </router-link>
+    <router-link :to="{name: 'Path name', params: {param: given param}}">
+      Or here!
+    </router-link>
+  </nav>
+  <div>
+    Other components from the page get displayed here.
+  </div>  
+<template>
+```
+
+### Vue URLs
 The Vue app will live at URL `/app/`. The following pages will be available through the Vue Router.
 
 | URL                | Notes                                |
 |--------------------|--------------------------------------|
-| /dater/home/       | dater homepage                       |
-| /dater/chat/       | dater chat page                      |
-| /dater/listen/     | dater listen page                    |
-| /dater/balance/    | dater cash page                      |
-| /dater/calendar/   | dater calendar page                  |
-| /dater/profile/    | dater profile page                   |
-| /cupid/home/       | cupid homepage                       |
+| /                  | Welcome page                         |
+| /login             | Login page                           |
+| /register          | Signup page                          |
+| /dater/home/:id    | dater homepage                       |
+| /dater/chat/:id    | dater chat page                      |
+| /dater/listen/:id  | dater listen page                    |
+| /dater/balance/:id | dater cash page                      |
+| /dater/calendar/:id| dater calendar page                  |
+| /dater/profile/:id | dater profile page                   |
+| /cupid/home/:id    | cupid homepage                       |
 | /cupid/gigs/       | cupid gigs                           |
-| /cupid/balance/    | cupid balance                        |
-| /cupid/profile/    | cupid profile                        |
-| /manager/home/     | manager homepage                     |
+| /cupid/balance/:id | cupid balance                        |
+| /cupid/profile/:id | cupid profile                        |
+| /manager/home/:id  | manager homepage                     |
 | /manager/cupids/   | manager reports                      |
 | /manager/daters/   | manager reports                      |
 
-
-#### How the Router works
-  This will all go into the App.vue file that is generated with the vue project.
-  There will be an async function to decide what the routes will be. Any other async calls should only be made in the components themselves. This is necessary for clean, readable code and security purposes so we don't have data living somewhere it isn't needed.
-``` javascript
-<script>
-  import ref and computed from vue;
-  import all components from ./components;
-
-  const routes = {
-    "/<link>": AssociatedComponent,
-    "/dater/home": DaterHome,
-    "/dater/chat": DaterChat,
-    etc...
-  }
-
-  const currPath = ref(windows location hash)
-
-  eventListener("hashchange", () => {
-    change currPaths value to windows location hash
-  }) // This will run everytime it's changed to ensure it's correct.
-
-  const currView = computed(() => {
-    return routes[currpaths values first slice or '/']
-  }) // Keeps track of what component to display
-
-</script>
-
-<template>
-  <a href "#/<link>"> Relavent Name </a> 
-  <a href "#/dater/home"> Home Page </a>
-  <a href "#/dater/chat"> Chat with the AI! </a>
-  etc..
-  <component :is="currView" />
-</template>
-
-```
+The :id syntax is using the params syntax from the Vue Router. These are the URLs that are going to need an id of some sort.
 
 ### Testing
 These are some easy to implement methods to test our product before release:
@@ -679,20 +723,27 @@ Mapping what endpoints the frontend needs is helpful for the backend to know wha
 
 This is what our project structure will look like:
 
-* cupid_code/
-  * cupid_code/ - Main project directory.
+* _server/
+  * _server/ - Main project settings.
     * settings.py - Main settings file.
     * urls.py - Main url file.
     * wsgi.py - Web server gateway interface.
   * api/ - App for the api.
-    * migrations/ - Migrations for the api app.
     * admin.py - Admin configuration.
     * apps.py - App configuration.
+    * geodata/ - Used by GeoLite to look up location by IP
+    * migrations/ - Migrations for the api app.
     * models.py - Define the models.
     * serializers.py - Define the serializers.
     * tests.py - Write unit tests.
     * urls.py - Map the urls to the views.
     * views.py - Define and implement the views.
+  * core/
+    * admin.py - Admin configuration.
+    * apps.py - App configuration.
+    * middleware.py - Captures requests for static files and redirects to Vue server
+    * static/ - Contains some images
+    * templates/ - Contains the base template
   * manage.py - Command line utility for managing the project.
   * db.sqlite3 - The database. We can change this to another database if we want.
 
@@ -708,6 +759,7 @@ The following endpoints do not need any user data to be used.
 | /login/  | GET, POST | login         | Login page, Send form                                                                          |
 | /signup/ | GET, POST | signup        | Signup page, Send form                                                                         |
 | /app/    | GET       | NA            | Vue Router takes over from here. Only if they are authenticated will they be able to call this |
+| /get_*/  | GET       | get_*         | Variours icon images for the front end                                                         |
 
 Additional pages offered by [Vue Router](#vue-router)
 
@@ -715,51 +767,55 @@ Additional pages offered by [Vue Router](#vue-router)
 
 The following endpoints will need user data to be used. Authentication will be required for all of these endpoints.
 
-| URL                             | Method    | View Function         | Notes                                               |
-|---------------------------------|-----------|-----------------------|-----------------------------------------------------|
-| /api/user/create/               | POST      | create_user           | Create user (use corresponding API)                 |
-| /api/user/<int:id>/             | GET       | get_user              | Get user data                                       |
-| /api/chat/                      | POST      | send_chat_message     | Send message                                        |
-| /api/chat/<int:id>/             | GET       | get_five_messages     | Return the last five chat messages                  |
-| /api/dater/calendar/<int:id>/   | GET, POST | calendar              | Get the dater's calendar (date list), create a date |
-| /api/dater/rate/                | POST      | rate_dater            | Cupid rate Dater                                    |
-| /api/dater/ratings/<int:id>/    | GET       | get_dater_ratings     | Get list of dater's ratings                         |
-| /api/dater/avg_rating/<int:id>/ | GET       | get_dater_avg_rating  | Get dater's average rating                          |
-| /api/dater/transfer/            | POST      | dater_transfer        | Initiate transfer in                                |
-| /api/dater/balance/<int:id>/    | GET       | get_dater_balance     | Get account balance                                 |
-| /api/dater/profile/<int:id>/    | GET       | get_dater_profile     | Get dater's profile                                 |
-| /api/dater/profile/             | POST      | set_dater_profile     | Set dater's profile                                 |
-| /api/cupid/rate/                | POST      | rate_cupid            | Dater rating a Cupid                                |
-| /api/cupid/ratings/<int:id>/    | GET       | get_cupid_ratings     | Get list of cupid's ratings                         |
-| /api/cupid/avg_rating/<int:id>/ | GET       | get_cupid_avg_rating  | Get cupid's average rating                          |
-| /api/cupid/transfer/            | POST      | cupid_transfer        | Initiate transfer out                               |
-| /api/cupid/balance/<int:id>/    | GET       | get_cupid_balance     | Get account balance                                 |
-| /api/cupid/profile/<int:id>/    | GET       | get_cupid_profile     | Get cupid's profile                                 |
-| /api/cupid/profile/             | POST      | set_cupid_profile     | Set cupid's profile                                 |
-| /api/gig/create/                | POST      | create_gig            | Create gig                                          |
-| /api/gig/accept/                | POST      | accept_gig            | Accept gig                                          |
-| /api/gig/complete/              | POST      | complete_gig          | Complete gig                                        |
-| /api/gig/drop/                  | POST      | drop_gig              | Drop gig                                            |
-| /api/gig/<int:count>/           | GET       | get_gigs              | Return number of gigs around cupid                  |
-| /api/geo/stores/                | GET       | get_stores            | List of nearby stores                               |
-| /api/geo/activities/            | GET       | get_activities        | Nearby activities                                   |
-| /api/geo/events/                | GET       | get_events            | Nearby events                                       |
-| /api/geo/attractions/           | GET       | get_attractions       | Nearby attractions                                  |
-| /api/geo/user/<int:id>/         | GET       | get_user_location     | Get a user's location                               |
-| /api/manager/cupids/            | GET       | get_cupids            | Get a list of cupids                                |
-| /api/manager/daters/            | GET       | get_daters            | Get a list of daters                                |
-| /api/manager/dater_count/       | GET       | get_dater_count       | Manager reports                                     |
-| /api/manager/cupid_count/       | GET       | get_cupid_count       | Manager reports                                     |
-| /api/manager/active_cupids/     | GET       | get_active_cupids     | Manager reports                                     |
-| /api/manager/active_daters/     | GET       | get_active_daters     | Manager reports                                     |
-| /api/manager/gig_rate/          | GET       | get_gig_rate          | Manager reports                                     |
-| /api/manager/gig_count/         | GET       | get_gig_count         | Manager reports                                     |
-| /api/manager/gig_drop_rate/     | GET       | get_gig_drop_rate     | Manager reports                                     |
-| /api/manager/gig_complete_rate/ | GET       | get_gig_complete_rate | Manager reports                                     |
-| /api/manager/suspend/           | POST      | suspend               | suspend cupid / dater                               |
-| /api/manager/unsuspend/         | POST      | unsuspend             | unsuspend cupid / dater                             |
-| /api/stt/                       | POST      | speech_to_text        | Convert speech to text                              |
-| /api/notify/                    | POST      | notify                | Send a message according to pref.                   |
+| URL                              | Method    | View Function         | Notes                                               |
+|----------------------------------|-----------|-----------------------|-----------------------------------------------------|
+| /api/user/create/                | POST      | create_user           | Create user and cupid/dater if necessary            |
+| /api/user/sign_in/               | POST      | sign_in               | Signs in a user and returns their data              |
+| /api/user/<int:pk>/              | GET       | get_user              | Get user data                                       |
+| /api/chat/                       | POST      | send_chat_message     | Send message, return the AI's response              |
+| /api/chat/<int:pk>/              | GET       | get_five_messages     | Return the last five chat messages                  |
+| /api/dater/calendar/<int:pk>/    | GET, POST | calendar              | Get the dater's calendar (date list), create a date |
+| /api/dater/rate/                 | POST      | rate_dater            | Cupid rate Dater                                    |
+| /api/dater/ratings/<int:pk>/     | GET       | get_dater_ratings     | Get list of dater's ratings                         |
+| /api/dater/avg_rating/<int:pk>/  | GET       | get_dater_avg_rating  | Get dater's average rating                          |
+| /api/dater/transfer/             | POST      | dater_transfer        | Initiate transfer in                                |
+| /api/dater/balance/<int:pk>/     | GET       | get_dater_balance     | Get account balance                                 |
+| /api/dater/profile/<int:pk>/     | GET       | get_dater_profile     | Get dater's profile                                 |
+| /api/dater/profile/              | POST      | set_dater_profile     | Set dater's profile                                 |
+| /api/dater/save_card/            | POST      | save_card             | Save a new card for the dater                       |
+| /api/cupid/rate/                 | POST      | rate_cupid            | Dater rating a Cupid                                |
+| /api/cupid/ratings/<int:pk>/     | GET       | get_cupid_ratings     | Get list of cupid's ratings                         |
+| /api/cupid/avg_rating/<int:pk>/  | GET       | get_cupid_avg_rating  | Get cupid's average rating                          |
+| /api/cupid/transfer/             | POST      | cupid_transfer        | Initiate transfer out                               |
+| /api/cupid/balance/<int:pk>/     | GET       | get_cupid_balance     | Get account balance                                 |
+| /api/cupid/profile/<int:pk>/     | GET       | get_cupid_profile     | Get cupid's profile                                 |
+| /api/cupid/profile/              | POST      | set_cupid_profile     | Set cupid's profile                                 |
+| /api/cupid/save_bank_account/    | POST      | save_bank_account     | Save a new bank account for the cupid               |
+| /api/gig/create/                 | POST      | create_gig            | Create gig                                          |
+| /api/gig/accept/                 | POST      | accept_gig            | Accept gig                                          |
+| /api/gig/complete/               | POST      | complete_gig          | Complete gig                                        |
+| /api/gig/drop/                   | POST      | drop_gig              | Drop gig                                            |
+| /api/gig/<int:count>/            | GET       | get_gigs              | Return number of gigs around cupid                  |
+| /api/geo/stores/<int:pk>/        | GET       | get_stores            | List of nearby stores                               |
+| /api/geo/activities/<int:pk>/    | GET       | get_activities        | Nearby activities                                   |
+| /api/geo/events/<int:pk>/        | GET       | get_events            | Nearby events                                       |
+| /api/geo/attractions/<int:pk>/   | GET       | get_attractions       | Nearby attractions                                  |
+| /api/geo/user/<int:pk>/          | GET       | get_user_location     | Get a user's location                               |
+| /api/manager/cupids/             | GET       | get_cupids            | Get a list of cupids                                |
+| /api/manager/daters/             | GET       | get_daters            | Get a list of daters                                |
+| /api/manager/dater_count/        | GET       | get_dater_count       | Manager reports                                     |
+| /api/manager/cupid_count/        | GET       | get_cupid_count       | Manager reports                                     |
+| /api/manager/active_cupids/      | GET       | get_active_cupids     | Manager reports                                     |
+| /api/manager/active_daters/      | GET       | get_active_daters     | Manager reports                                     |
+| /api/manager/gig_rate/           | GET       | get_gig_rate          | Manager reports                                     |
+| /api/manager/gig_count/          | GET       | get_gig_count         | Manager reports                                     |
+| /api/manager/gig_drop_rate/      | GET       | get_gig_drop_rate     | Manager reports                                     |
+| /api/manager/gig_complete_rate/  | GET       | get_gig_complete_rate | Manager reports                                     |
+| /api/manager/suspend/            | POST      | suspend               | suspend cupid / dater                               |
+| /api/manager/unsuspend/          | POST      | unsuspend             | unsuspend cupid / dater                             |
+| /api/manager/delete_user/<int:pk>| POST      | delete_user           | Delete specified user                               |
+| /api/stt/                        | POST      | speech_to_text        | Convert speech to text                              |
+| /api/notify/                     | POST      | notify                | Send a message according to pref.                   |
 
 ### Django Models
 
@@ -769,6 +825,7 @@ We will use the Django built-in User model, but add roles to it by extending `Ab
 * User
   * **id**
   * *role added by us {Dater, Cupid, Manager}*
+  * *phone_number added by us*
   * username
   * first_name
   * last_name
@@ -788,9 +845,8 @@ relationship as their primary key.
 
 * Dater
     * **User : OneToOne Field (As provided by Django)**
-    * Phone Number : Text Field (validate user input)
     * Budget : Decimal Field
-    * Communication preferences : IntegerChoices
+    * Communication preferences : IntegerChoices(EMAIL,TEXT)
     * Profile Picture : Image Field 
     * Text available to AI
         * Description of self : Text Field
@@ -811,8 +867,8 @@ relationship as their primary key.
     * Accepting Gigs : Boolean Field (Is cupid accepting gigs)
     * Total gigs completed : Integer Field
     * Total gigs failed : Integer Field
-    * Payment : Text Field with payment info (encrypted) 
-    * Status : Text Choices
+    * Status : Text Choices (OFFLINE, GIGGING, AVAILABLE)
+    * Gig Range : Integer Field
     * Common with Dater
         * Cupid Cash Balance : Decimal Field
         * Location : Text Field (Containing geo coordinates) 
@@ -829,10 +885,12 @@ relationship as their primary key.
     * Dater : Foreign Key
     * Cupid : Foreign Key
     * Quest : OneToOne Field
-    * Status : Text Choices
+    * Status : Text Choices (UNCLAIMED, CLAIMED, COMPLETE)
     * DateTime of request : DateTime Field
     * DateTime of claim : DateTime Field
     * DateTime of completion : DateTime Field
+    * Dropped Count : Integer Field
+    * Accepted Count : Integer Field
 * Quest (separate for modularity)
     * **Gig : *Established by OneToOne Field on Gig***
     * Budget : Decimal Field
@@ -844,17 +902,19 @@ relationship as their primary key.
     * Date & Time : DateTime Field
     * Location : Text Field (Containing geo coordinates) 
     * Description : Text Field
-    * Status : Text Choices
+    * Status : Text Choices (PLANNED, OCCURRING, PAST, CANCELED)
     * Budget : Decimal Field
 * Feedback
     * **id : Auto Field**
-    * User : Foreign Key (can be a cupid or dater as both have a OneToOne user)
+    * Owner : Foreign Key (User)
+    * Target : Foreign Key (User)
     * Gig : Foreign Key
     * Message : Text Field
     * Star Rating : Integer Field (bound to 1-5)
     * DateTime : DateTime Field 
 * Payment Card
     * **User : Foreign Key**
+    * Name On Card : Text Field
     * Card Number : Text Field
     * CVV : Text Field
     * Expiration : Text Field
@@ -866,13 +926,13 @@ relationship as their primary key.
 ### Django Migrations
 
 * Dummy Daters
-  * username:dater1, password:password, 200 cupid coin balance, budget of 50
-  * username:dater2, password:password, 20 cupid coin balance, budget of 50
+  * username:dater1, email:bob@cupidcode.com, password:password, 200 cupid coin balance, budget of 50
+  * username:dater2, email:Manny@cupidcode.com, password:password, 20 cupid coin balance, budget of 50
 * Dummy Cupids
-  * username:cupid1, password:password, 54 completed gigs, 12 failed
-  * username:cupid2, password:password, 4 completed gigs, 16 failed
+  * username:cupid1, email:joe@mail.com, password:password, 54 completed gigs, 12 failed
+  * username:cupid2, email:really@me.com, password:password, 4 completed gigs, 16 failed
 * Dummy Manager
-  * username:manager, password:password
+  * username:manager, email:manager@cupidcode.com, password:password
 * Dummy messages
   * Create a few dummy conversation for each dater.
 * Dummy Gigs
@@ -969,7 +1029,7 @@ class User(models.Model):
     email = models.EmailField()
     password = models.CharField(max_length=100)
     is_suspended = models.BooleanField()
-
+    is_cupid = models.BooleanField()
 ```
 
 * In the `example/serializers.py` file, create the serializers that will be used by the API (serializers are used to convert model instances to JSON and vice versa)
@@ -979,16 +1039,28 @@ class User(models.Model):
 from rest_framework import serializers
 from .models import User
 
-class ReaderUserSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    username = serializers.CharField(max_length=100)
-    email = serializers.EmailField()
-
-class WriterUserSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=100)
-    email = serializers.EmailField()
-    password = serializers.CharField(max_length=100)
-    is_suspended = serializers.BooleanField()
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'password']
+    
+    def validate(self, data):
+        if data['password'] == data['confirm_password']:
+            return serializers.ValidationError('Password cannot be "password"')
+        return data
+    
+    def create(self, validated_data):
+        user = User(**validated_data)
+        user.is_suspended = False
+        user.save()
+        return user
+        
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+        instance.password = validated_data.get('password', instance.password)
+        instance.save()
+        return instance
 ```
 
 * In the `example/views.py` file, create the views that will be used by the API
@@ -1002,7 +1074,7 @@ from .serializers import UserSerializer
 @api_view(['GET'])
 def user_list(request):
     users = User.objects.all()
-    serializer = ReaderUserSerializer(users, many=True)
+    serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
     
 @api_view(['GET'])
@@ -1011,16 +1083,35 @@ def user_detail(request, pk):
         user = User.objects.get(pk=pk)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = ReaderUserSerializer(user)
+    serializer = UserSerializer(user)
     return Response(serializer.data)
     
 @api_view(['POST'])
 def user_create(request):
-    serializer = WriterUserSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer = UserSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True):
+    serializer.save()
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+@api_view(['PUT'])
+def user_update(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = UserSerializer(user, data=request.data)
+    serializer.is_valid(raise_exception=True):
+    serializer.save()
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+def user_delete(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    user.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
 ```
 
 * In the `example/urls.py` file, create the URLs that will be used by the API
@@ -1080,9 +1171,9 @@ urlpatterns = [
     path("/login/"), views.login, name="login"),
     path("/signup/"), views.signup, name="signup"),
     path("/app/"), views.app, name="app"),
-    path("/api/user/create/"), views.create_user, name="create_user"),
-    path("/api/user/<int:id>/"), views.get_user, name="get_user"),
-    path("/api/chat/"), views.send_chat_message, name="send_chat_message"),
+    path("/api/user/create/", views.create_user, name="create_user"),
+    path("/api/user/<int:id>/", views.get_user, name="get_user"),
+    path("/api/chat/", views.send_chat_message, name="send_chat_message"),
     path("/api/chat/<int:id>/"), views.get_five_messages, name="get_five_messages"),
     path("/api/dater/calendar/<int:id>/"), views.calendar, name="calendar"),
     path("/api/dater/rate/"), views.rate_dater, name="rate_dater"),

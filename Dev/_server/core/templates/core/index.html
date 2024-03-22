@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vite + Django</title>
   {% if debug %}
-
     <script type="module" src="{{asset_url}}/static/@vite/client"></script>
     <script type="module" src="{{asset_url}}/static/src/main.js"></script>
   {% else %}
@@ -14,6 +13,7 @@
   {% endif %}
 </head>
 <body>
+  {% csrf_token %}
   <div id="app"></div>
 </body>
 </html>

@@ -2,12 +2,15 @@ import requests
 import os
 from django.http import StreamingHttpResponse
 
+
 def asset_proxy_middleware(next):
     def middleware(request):
         # checking for .
-        if "." in request.path:
+        if '.' in request.path:
             # Proxy request to asset server
-            response = requests.get(f"{os.environ.get('ASSET_URL')}{request.path.replace('/static', '')}", stream=True)
+            asset_url = os.environ.get('ASSET_URL')
+            request_path = request.path.replace('/static', '')
+            response = requests.get(f'{asset_url}{request_path}', stream=True)
 
             # Stream response
             return StreamingHttpResponse(

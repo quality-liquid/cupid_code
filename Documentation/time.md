@@ -30,13 +30,24 @@
 | Eric DeBloois  | Frontend - Figma, general editing                                       | 6.5       |   
 | Brandon Herrin | Frontend - Vue.js testing, Vue.js routing, Editing/Proofread            | 10        |   
 
-| Sprint 3       |     |           |   
-|----------------|-----|-----------|
-| Name           | Job | Time(hrs) | 
-| Nate Stott     |     |           |   
-| Emma Wright    |     |           |   
-| Daniel Barfuss |     |           |   
-| Brighton Ellis |     |           |   
-| Nate McKenzie  |     |           |   
-| Eric DeBloois  |     |           |   
-| Brandon Herrin |     |           |   
+| Sprint 3       |                                                                  |           |   
+|----------------|------------------------------------------------------------------|-----------|
+| Name           | Job                                                              | Time(hrs) | 
+| Nate Stott     | Views, django routing, apis                                      | 13        |   
+| Emma Wright    | Connecting Front & Back                                          | 8         |   
+| Daniel Barfuss | Last 15 views                                                    | 6         |   
+| Brighton Ellis | Manager Page Skeletons + Dater Page Skeletons                    | 8         |   
+| Nate McKenzie  |                                                                  | 15        |   
+| Eric DeBloois  | Creation of Vue pages for Login, Create Account, and Cupid pages | 7.5       |   
+| Brandon Herrin | Starting Dater Vue pages and Calendar work (work in progress)    | 6.0       |
+
+| Sprint 4       |                         |           |   
+|----------------|-------------------------|-----------|
+| Name           | Job                     | Time(hrs) | 
+| Nate Stott     | Unit tests / debugging  | 3.5       |   
+| Emma Wright    | Routing and Dater Vues  | 3.5       |   
+| Daniel Barfuss |                         |           |   
+| Brighton Ellis |                         |           |   
+| Nate McKenzie  | Implement api authorization, update backend docs | 10        |   
+| Eric DeBloois  | Cupid Vues              | 5         |   
+| Brandon Herrin |                         |           |
