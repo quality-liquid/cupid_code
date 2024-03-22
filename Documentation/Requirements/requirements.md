@@ -1,4 +1,4 @@
-
+ 
 # CS3450 Team 2
 
 
@@ -34,7 +34,7 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 4. **Budget Management:**
     * Daters will be able to set budget limits for each date, and the AI must operate within those limits.
 5. **Communication:**
-    * Daters and Cupids will be able to communicate quickly and effectively within the platform through instant messaging.
+    * Daters and Cupids will be able to communicate and within the platform through instant messaging.
 6. **Scheduling:**
     * Daters will have the ability to schedule dates, and will be able to manage their dating calendar.
 7. **Payment System:**
@@ -74,7 +74,7 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 4. **Technology Infrastructure:**
     * Invest in a robust and scalable technology infrastructure to support the growing user base and ensure a seamless user experience.
 5. **Quality of Service:**
-    * Prioritize the delivery of high-quality service to Daters and Cupids, ensuring that the AI provides valuable advice and Cupids offer effective assistance during dates.
+    * Prioritize the delivery of high-quality service to Daters and Cupids, ensuring that the AI provides dating advice and Cupids offer assistance during dates.
 6. **Financial Management:**
     * Establish sound financial management practices to handle revenue collection, financial reporting, and fund disbursement to Cupids.
 7. **Compliance and Legal Considerations:**
@@ -212,6 +212,7 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 * Chat between Daters and Cupids
 
 
+
 ## User Stories 
 
 
@@ -233,19 +234,19 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 5. Have the option to activate the AI to listen in on my dates for emergency advice so that I can navigate challenging situations more effectively.
 
 
-6. Set a budget for the AI to “buy and deliver” items during my date to prevent it from crashing and burning.
+6. Set a budget for the AI to “buy and deliver” items during my date so that it doesn't crash and burn and the Cupid doesn't spend too much money.
 
 
 7. Have the ability to provide feedback and ratings for the App services so that I can contribute to the improvement of the overall service quality.
 
 
-8. Have privacy and security features in place to ensure the protection of my personal information.
+8. Have privacy and security features in place so that protection of my personal information is ensured.
 
 
 9. Be able to customize my preferences for AI advice and services so that I can tailor the experience to my specific needs and preferences.
 
 
-10. Have access to a Dater support system to get assistance with any issues or concerns I may have while using the Cupid app.
+10. Have access to a Dater support system so that I can get assistance with any issues or concerns I may have while using the Cupid app.
 
 
 11. Prioritize my privacy and allow me to control the level of AI involvement in my dates so that I can feel comfortable using the service.
@@ -257,13 +258,13 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 1. Receive notifications for available jobs in my area so that I can offer my assistance and earn money.
 
 
-2. Accept and complete jobs on the Cupid Code app in a straightforward and simple process that enables me to efficiently provide quality service.
+2. Accept and complete jobs on the Cupid Code app in a straightforward and simple process so that I can efficiently provide quality service.
 
 
 3. Receive feedback and ratings from Daters after completing a job so that I can improve my service and build a positive reputation.
 
 
-4. Have access to a support system to address any issues or concerns that may arise while fulfilling jobs for Daters.
+4. Have access to a support system so that any issues or concerns that may arise may be addressed while fulfilling jobs for Daters.
 
 
 5. Prioritize Daters’ privacy and protect sensitive information to ensure a secure and trustworthy service.
@@ -278,7 +279,7 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 8. Have the ability to set my availability and preferences for the types of jobs I am willing to take on so that I can manage my workload effectively.
 
 
-9. Be recognized and rewarded for providing exceptional service through incentives or recognition programs on the Cupid Code app.
+9. Be recognized and rewarded for providing exceptional service through incentives or recognition programs on the Cupid Code app so that I can justify continuing to be a Cupid.
 
 
 10. Be able to rate and give feedback on daters I delivered to so that the app is not being used maliciously by fake daters.
@@ -287,37 +288,37 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 ### **As a manager, I want to…**
 
 
-1. Have quick access to a panel to review complaints and feedback related to Cupids to address issues promptly and improve service quality.
+1. Have quick access to a panel to review complaints and feedback related to Cupids so that I can address issues promptly and improve service quality.
 
 
-2. Receive notifications for high-priority or urgent complaints to prioritize and resolve critical issues efficiently.
+2. Receive notifications for high-priority or urgent complaints so that I can prioritize and resolve critical issues efficiently.
 
 
-3. View Daters feedback and ratings for both AI advice and Cupids' services to identify areas for improvement.
+3. View Daters feedback and ratings for both AI advice and Cupids' services so that I can identify areas for improvement.
 
 
-4. Have the ability to take appropriate actions based on user feedback, such as providing additional training to Cupids or implementing system improvements.
+4. Have the ability to take appropriate actions based on user feedback, such as providing additional training to Cupids or implementing system improvements, so that I can improve the service.
 
 
-5. Ensure the Cupid Code app has a secure and confidential system for handling user complaints and feedback to ensure privacy and compliance.
+5. Ensure the Cupid Code app has a secure and confidential system for handling user complaints and feedback so that I can ensure privacy and compliance.
 
 
-6. Track and analyze trends in user feedback to identify patterns and make informed decisions for overall service enhancements.
+6. Track and analyze trends in user feedback so that I can identify patterns and make informed decisions for overall service enhancements.
 
 
-7. Receive regular reports on Cupids' performance, including job completion rates, Dater satisfaction scores, and any notable achievements.
+7. Receive regular reports on Cupids' performance, including job completion rates, Dater satisfaction scores, and any notable achievements so that I can make sure to handle Cupids who may be causing issues.
 
 
-8. Have access to tools that allow effective communication with Cupids and Daters to facilitate conflict resolution or gather additional information.
+8. Have access to tools that allow effective communication with Cupids and Daters so that I can facilitate conflict resolution or gather additional information.
 
 
-9. Be notified about any changes or updates in the Cupid Code app's policies or features that may impact the management of Dater feedback and service quality.
+9. Be notified about any changes or updates in the Cupid Code app's policies or features that may impact the management of Dater feedback and service quality so that I can handle the impact.
 
 
-10. Support a seamless workflow for handling complaints, ensuring that the resolution process is efficient and user-friendly.
+10. Support a seamless workflow for handling complaints so that I can ensure that the resolution process is efficient and user-friendly.
 
 
-11. Have the flexibility to customize the feedback and complaint management system to align with the evolving needs of the Cupid Code app.
+11. Have the flexibility to customize the feedback and complaint management system so that I can align features with the evolving needs of the Cupid Code app.
 
 
 

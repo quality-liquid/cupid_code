@@ -9,5 +9,6 @@ urlpatterns = [
     path('get_chat/', view=views.get_chat, name='get_icon'),
     path('get_money/', view=views.get_money, name='get_icon'),
     path('get_emergency/', view=views.get_emergency, name='get_icon'),
+    path('get_temp_pfp/', view=views.get_temp_pfp, name='get_icon'),
     path('logout/', view=views.logout_view, name='logout')
 ]
