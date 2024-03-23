@@ -1,9 +1,9 @@
 :root {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   --primary-blue: #46ADF0;
-  --secondary-blue: #38448a;
+  --secondary-blue: #4c589c;
   --primary-red: #F02A69;
-  --secondary-red: #9b375c;
+  --secondary-red: #a55271;
   --content-background: #FCEBFF;
 }
 
@@ -87,6 +87,7 @@ body {
   color: white;
   background-color: var(--secondary-red);
   border: none;
+  padding: 8px;
   border-radius: 4px;
   margin: 8px;
   margin-top: 300px;
