@@ -1,11 +1,18 @@
 <script setup>
     import { makeRequest } from '../utils/make_request';
-    import {ref} from 'vue';
+    import {onMounted, ref} from 'vue';
 
     const user_id  = parseInt(window.location.hash.split('/')[3])
     const amount = parseInt(window.location.hash.split('/')[4])
 
     const savedCards = ref([])
+
+    const name = ref('')
+    const num = ref('')
+    const mon = ref('')
+    const year = ref('')
+    const cvv = ref('')
+    const type = ref('')
 
     function openDrawer() {
         const element = document.getElementById('navbar')
@@ -27,8 +34,27 @@
     }
 
     async function addFunds() {
-        const results = await makeRequest()
+        console.log(
+            "Name:", name.value,
+            "Num: ", num.value,
+            "Mon: ", mon.value,
+            "Year: ", year.value,
+            "CVV: ", cvv.value,
+            "Type: ", type.value,
+
+        )
+
+        const res = await makeRequest('dater/transfer/', 'post', {
+            
+        })
     }
+
+    async function saveCard() {
+        // Save card to db
+
+        // Send to backend using
+    }
+
 </script>
 
 <template>  
@@ -57,23 +83,37 @@
                 </select>
             </label>
             <label class="details" for="card-name">  
-                <input type="text" name="card-name" id="card-name" placeholder="Name on Card">
+                <input type="text" name="card-name" id="card-name" placeholder="Name on Card"
+                :value="name" @change="e => name = e.target.value"
+                >
+            </label>
+            <label class="details" for="card-num">  
+                <input type="text" name="card-num" id="card-num" placeholder="0000 0000 0000 0000"
+                :value="num" @change="e => num = e.target.value"
+                >
             </label>
             <div class="date">
                 <label class="details" for="month">  
-                    <input type="text" size="5" name="month" id="month" placeholder="MM">
+                    <input type="text" size="5" name="month" id="month" placeholder="MM"
+                    :value="mon" @change="e => mon = e.target.value"
+                    >
                 </label>
                 <label class="details" for="year">  
-                    <input type="text" size="5" name="year" id="year" placeholder="YY">
+                    <input type="text" size="5" name="year" id="year" placeholder="YY"
+                    :value="year" @change="e => year = e.target.value"
+                    >
                 </label>
                 <label class="details" for="security-code">  
-                    <input type="text" size="5" name="security-code" id="security-code" placeholder="CVV">
+                    <input type="text" size="5" name="security-code" id="security-code" placeholder="CVV"
+                    :value="cvv" @change="e => cvv = e.target.value">
                 </label>
             </div>
             <label class="details" for="card-type">  
-                <input type="text" name="card-type" id="card-type" placeholder="Card Type">
+                <input type="text" name="card-type" id="card-type" placeholder="Card Type"
+                :value="type" @change="e => type = e.target.value"
+                >
             </label>
-            <button class="button">Save</button>
+            <button class="button">Add Funds</button>
         </form>
     </div>
 </template>

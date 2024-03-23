@@ -15,11 +15,11 @@ async function login() {
     // Add error class to which one is invalid
     const doc = document.getElementById('error')
     if (results.method === '400' || results.method === 400) {
-        doc.className = 'error shown'
+        doc.setAttribute('class', 'error shown')
         return;
     }
     else {
-        doc.className = 'error'
+        doc.setAttribute('class', 'error')
     }
     
     // Redirect to dashboard if good
