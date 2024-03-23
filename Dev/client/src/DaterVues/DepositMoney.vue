@@ -10,6 +10,8 @@
 
     const balance = ref(0)
 
+    const chosenCard = ref(0)
+
     const name = ref('')
     const num = ref('')
     const mon = ref('')
@@ -43,7 +45,7 @@
 
     async function addFunds() {
         const res = await makeRequest('/api/dater/transfer/', 'post', {
-            card_id,
+            card_id: chosenCard.value,
             amount
         })
     }
@@ -56,9 +58,9 @@
             user: {
                 id: user_id
             },
-            name_on_card: name,
-            card_number: num,
-            cvv,
+            name_on_card: name.value,
+            card_number: num.value,
+            cvv: cvv.value,
             expiration: exp
         })
         const card_id = res.card.id
@@ -96,8 +98,8 @@
         <h1>Payment Information</h1>
         <form class="input-container" @submit.prevent="addFunds">
             <label class="details" for="saved-cards">
-                <select name="saved-cards" id="saved-cards" v-for="card of savedCards">
-                    <option :value="card">{{ card.name }}</option>
+                <select name="saved-cards" id="saved-cards" v-for="card of savedCards" @change="e => chosenCard = e.target.value">
+                    <option :value="card.id">{{ card.name }}</option>
                 </select>
             </label>
             <label class="details" for="card-name">  
