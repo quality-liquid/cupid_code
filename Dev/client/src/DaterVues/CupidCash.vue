@@ -4,6 +4,8 @@
 
     const user_id  = parseInt(window.location.hash.split('/')[3])
 
+    const balance = ref(0)
+
     function openDrawer() {
         const element = document.getElementById('navbar')
         if (element.className === 'navbar') {
@@ -20,9 +22,15 @@
     }
 
     function addFunds(amount) {
-        
         router.push({name: 'AddMoney', params: {id: user_id, amt: amount}})
     }
+
+    async function getMoney() {
+        const results = await makeRequest(`/api/dater/balance/${user_id}`)
+        balance.value = results.balance
+    }
+
+    onMounted(getMoney)   
 </script>
 
 <template>  
@@ -31,7 +39,7 @@
             <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
         </button>
         <!-- This will be the profile picture when setup -->
-        <span>Current Balance</span>
+        <span>{{'$'balance}}</span>
         <div id="navbar" class="navbar">
             <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
             <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>

@@ -1,11 +1,14 @@
 <script setup>
     import { makeRequest } from '../utils/make_request';
     import {onMounted, ref} from 'vue';
+    import router from '../router';
 
     const user_id  = parseInt(window.location.hash.split('/')[3])
     const amount = parseInt(window.location.hash.split('/')[4])
 
     const savedCards = ref([])
+
+    const balance = ref(0)
 
     const name = ref('')
     const num = ref('')
@@ -29,31 +32,46 @@
         router.push('/')
     }
 
+    async function getMoney() {
+        const results = await makeRequest(`/api/dater/balance/${user_id}`)
+        balance.value = results.balance
+    }
+
     async function getSaved() {
         const results = await makeRequest()
     }
 
     async function addFunds() {
-        console.log(
-            "Name:", name.value,
-            "Num: ", num.value,
-            "Mon: ", mon.value,
-            "Year: ", year.value,
-            "CVV: ", cvv.value,
-            "Type: ", type.value,
-
-        )
-
-        const res = await makeRequest('dater/transfer/', 'post', {
-            
+        const res = await makeRequest('/api/dater/transfer/', 'post', {
+            card_id,
+            amount
         })
     }
 
     async function saveCard() {
         // Save card to db
+        const exp = `${mon}/${year}`
 
-        // Send to backend using
+        const res = await makeRequest('/api/dater/save_card/', 'post', {
+            user: {
+                id: user_id
+            },
+            name_on_card: name,
+            card_number: num,
+            cvv,
+            expiration: exp
+        })
+        const card_id = res.card.id
+        // Send to backend using addFunds
+        const new_res = await makeRequest('/api/dater/transfer/', 'post', {
+            card_id,
+            amount
+        })
+
+        router.push({name: 'CupidCash', params: {id: user_id}})
     }
+
+    onMounted(getMoney)
 
 </script>
 
@@ -63,13 +81,13 @@
             <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
         </button>
         <!-- This will be the profile picture when setup -->
-        <span>Current Balance</span>
+        <span>{{ '$'balance }}</span>
         <div id="navbar" class="navbar">
             <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
             <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
             <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
             <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
-            <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
+            <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance </router-link>
             <button class="logout" @click="logout"> Logout </button>
         </div>
     </nav>
