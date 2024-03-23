@@ -1,7 +1,7 @@
 <script setup>
-    import { onMounted } from 'vue';
+    import { ref, onMounted } from 'vue';
     import { makeRequest } from '../utils/make_request';
-    let Gigs = [];
+    const gigs = ref([]);
     const numOfGigs = 10;
 
     const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
@@ -24,9 +24,9 @@
     // Get gigs function
     async function getGigs() {
         const results = await makeRequest(`/api/cupid/getgigs/${numOfGigs}`); 
-        Gigs = results.gigs; 
+        gigs.value = results.gigs; 
     }
-    onMounted(getGigs());
+    onMounted(getGigs);
 
     // Accept gig function 
     async function acceptgig(gigId) {
@@ -59,7 +59,7 @@
 
     <div class="body">
         <!-- Clicking on this gig item, reroute to GigDetails page -->
-        <div v-for="gig in Gigs" :key="gig.id">
+        <div v-for="gig of gigs" :key="gig.id">
             <div :class="{ 'active': gig.status, 'inactive': !gig.status }" >
                 <router-link class="link" :to="{name: 'GigDetails', params: {id: gig.id}}">{{ gig.quest.pickup_location }}</router-link>
             </div>
@@ -76,9 +76,9 @@
 
 <style scoped>
     .active {
-      background-color: blue;
+      background-color: var(--secondary-blue);
     }
     .inactive {
-      background-color: red;
+      background-color: var(--secondary-red);
     }
 </style>
