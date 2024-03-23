@@ -92,7 +92,7 @@
                 error.class = error.class + 'error';
             }
         }
-        const results = await makeRequest('/api/dater/profile/', 'post', {
+        const results = await makeRequest(`/api/dater/profile/`, 'post', {
             username: username.value,
             first_name: fname.value,
             last_name: lname.value,
@@ -100,7 +100,7 @@
             phone_number: phone.value,
             location: addr.value,
             description: desc.value,
-            profile_picture: image,
+            //profile_picture: image,
             dating_strengths: str.value,
             dating_weaknesses: weak.value,
             nerd_type: ntype.value,

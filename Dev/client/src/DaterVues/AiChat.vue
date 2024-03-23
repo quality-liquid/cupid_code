@@ -1,6 +1,7 @@
 <script setup>
 import { makeRequest } from '../utils/make_request';
 import {onMounted, ref, watch} from 'vue';
+import router from '../router';
 
 const chatArr = ref([])
 const message = ref('')
@@ -64,16 +65,18 @@ async function send() {
         },
         message: message.value
     });
-    chatArr.push(results.message)
+    chatArr.value.push(results.message)
 
     const ai_child = document.createElement('div')
     ai_child.setAttribute('class', 'chat response')
-    ai_child.innerText = results.message
+    ai_child.innerText = results.message.text
     ai_child.setAttribute('key', chatArr.value.length)
 
     container.appendChild(ai_child)
 
     message.value = ''
+
+    router.push({ name: 'AiChat', params: {id: user_id} })
 }
 
 onMounted(getChats)
