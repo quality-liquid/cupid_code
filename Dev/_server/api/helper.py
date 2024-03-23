@@ -42,12 +42,12 @@ def authenticated_cupid(pk, user):
     return get_object_or_404(Cupid, user_id=pk)
 
 
-def save_profile(request, user, profile_serializer):
-    if profile_serializer.is_valid():
-        profile_serializer.save()
+def save_profile(request, user, serializer):
+    if serializer.is_valid():
+        serializer.save()
         login(request, user)
 
-        return_data = user_expand(user, profile_serializer)
+        return_data = user_expand(user, serializer)
         return Response(return_data, status=status.HTTP_201_CREATED)
     user.delete()
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
