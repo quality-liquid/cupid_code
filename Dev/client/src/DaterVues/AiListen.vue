@@ -2,7 +2,16 @@
 import {ref} from 'vue'
 import { makeRequest } from '../utils/make_request';
 
-const textFile = ref()
+const audioFile = ref({
+    'type': '',
+    'data': ''
+})
+
+const quest = ref({
+    'budget': 0.0,
+    'items_requested': '',
+    'pickup_location': ''
+})
 
 const user_id  = parseInt(window.location.hash.split('/')[3])
 
@@ -22,11 +31,18 @@ async function logout() {
 }
 
 async function sendFile() {
-    const result = await makeRequest()
+    const result = await makeRequest('/api/stt', 'post', {
+        audio: audioFile
+    })
 }
 
 async function sendEmergency() {
-    const result = await makeRequest()
+    quest.value = {
+        // Get the data from the popup 
+    }
+    const result = await makeRequest('/api/gig/create', 'post', {
+        quest
+    })
 }
 
 function listen() {
@@ -48,6 +64,7 @@ function listen() {
             <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
             <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
             <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
+            <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
             <button class="logout" @click="logout"> Logout </button>
         </div>
     </nav>
