@@ -78,6 +78,10 @@
 .container {
     margin: 40px;
 }
+
+.container h1 {
+    margin-top: 50px;
+}
 .money-container {
     display: flex;
     flex-flow: row wrap;

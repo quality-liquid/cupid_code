@@ -51,3 +51,14 @@
 | Nate McKenzie  | Implement api authorization, update backend docs | 12        |   
 | Eric DeBloois  | Cupid Vues              | 5         |   
 | Brandon Herrin |                         |           |
+
+| Sprint 5       |                         |           |   
+|----------------|-------------------------|-----------|
+| Name           | Job                     | Time(hrs) | 
+| Nate Stott     | Unit tests / debugging  |           |   
+| Emma Wright    | Dater Vues              |           |   
+| Daniel Barfuss |                         |           |   
+| Brighton Ellis |                         |           |   
+| Nate McKenzie  |                         |           |   
+| Eric DeBloois  | Cupid Vues              |           |   
+| Brandon Herrin |                         |           |
