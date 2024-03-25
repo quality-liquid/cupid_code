@@ -30,6 +30,10 @@ async function logout() {
   router.push('/')
 }
 
+function naviProf() {
+    router.push({ name: 'DaterProfile', params: {id: user_id} })
+}
+
 async function sendFile() {
     const result = await makeRequest('/api/stt', 'post', {
         audio: audioFile
@@ -61,7 +65,9 @@ function stopListen() {
             <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
         </button>
         <!-- This will be the profile picture when setup -->
-        <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">
+        <button class="icon-button" @click="naviProf">
+            <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">
+        </button>
         <div id="navbar" class="navbar">
             <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
             <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>

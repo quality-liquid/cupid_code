@@ -24,6 +24,10 @@ async function logout() {
   router.push('/')
 }
 
+function naviProf() {
+    router.push({ name: 'DaterProfile', params: {id: user_id} })
+}
+
 async function getChats() {
     const results = await makeRequest(`/api/chat/${user_id}`);
     console.log(results)
