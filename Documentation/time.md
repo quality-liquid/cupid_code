@@ -47,7 +47,7 @@
 | Nate Stott     | Unit tests / debugging  | 3.5       |   
 | Emma Wright    | Routing and Dater Vues  | 8         |   s
 | Daniel Barfuss |                         |           |   
-| Brighton Ellis |                         |           |   
-| Nate McKenzie  | Implement api authorization, update backend docs | 10        |   
+| Brighton Ellis | Dater + Manager Vues help     |    5.5    |   
+| Nate McKenzie  | Implement api authorization, update backend docs | 12        |   
 | Eric DeBloois  | Cupid Vues              | 5         |   
 | Brandon Herrin |                         |           |

@@ -4,6 +4,8 @@
 
     const user_id  = parseInt(window.location.hash.split('/')[3])
 
+    const balance = ref(0)
+
     function openDrawer() {
         const element = document.getElementById('navbar')
         if (element.className === 'navbar') {
@@ -20,9 +22,15 @@
     }
 
     function addFunds(amount) {
-        
         router.push({name: 'AddMoney', params: {id: user_id, amt: amount}})
     }
+
+    async function getMoney() {
+        const results = await makeRequest(`/api/dater/balance/${user_id}`)
+        balance.value = results.balance
+    }
+
+    onMounted(getMoney)   
 </script>
 
 <template>  
@@ -31,7 +39,7 @@
             <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
         </button>
         <!-- This will be the profile picture when setup -->
-        <span>Current Balance</span>
+        <span>{{'$'balance}}</span>
         <div id="navbar" class="navbar">
             <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
             <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
@@ -46,16 +54,19 @@
         <h1>Cupid Cash</h1>
         <div class="money-container">
             <button id="5" class="money-widget" @click="() => addFunds(5)">
-                Add 5!! 
+                Add 5!!!
             </button>
             <button id="10" class="money-widget" @click="() => addFunds(10)">
-                Add 10!
+                Add 10!!
             </button>
             <button id="30" class="money-widget" @click="() => addFunds(30)">
-                Add 30!
+                Add 30!!
             </button>
             <button id="50" class="money-widget" @click="() => addFunds(50)">
-                Add 50!
+                Add 50!!
+            </button>
+            <button id="50" class="money-widget" @click="() => addFunds(100)">
+                Add 100!
             </button>
         </div>
     </div>

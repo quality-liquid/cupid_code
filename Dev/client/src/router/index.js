@@ -9,11 +9,20 @@ import CupidHome from '../CupidVues/CupidHome.vue'
 import ManagerHome from '../ManagerVues/ManagerHome.vue'
 
 // Dater specific
-import AiChat from '../DaterVues/AiChat.vue';
-import AiListen from '../DaterVues/AiListen.vue';
-import CupidCash from '../DaterVues/CupidCash.vue';
-import DaterProfile from '../DaterVues/DaterProfile.vue';
-import DepositMoney from '../DaterVues/DepositMoney.vue';
+import AiChat from '../DaterVues/AiChat.vue'
+import AiListen from '../DaterVues/AiListen.vue'
+import CupidCash from '../DaterVues/CupidCash.vue'
+import DaterProfile from '../DaterVues/DaterProfile.vue'
+import DepositMoney from '../DaterVues/DepositMoney.vue'
+
+// Cupid Specific
+import GigDetails from '../CupidVues/GigDetails.vue'
+import CupidDetails from '../CupidVues/CupidDetails.vue'
+import GigComplete from '../CupidVues/GigComplete.vue'
+
+// Manager Specific
+import Cupid from '../ManagerVues/Cupid.vue'
+import Daters from '../ManagerVues/Daters.vue'
 
 const routes = [
     {
@@ -67,9 +76,34 @@ const routes = [
         component: CupidHome,
     },
     {
+        path: '/cupid/gig/:id',
+        name: 'GigDetails',
+        component: GigDetails,
+    },
+    {
+        path: '/cupid/profile/:id',
+        name: 'CupidDetails',
+        component: CupidDetails,
+    },
+    {
+        path: '/cupid/gig/completed/:id',
+        name: 'GigComplete',
+        component: GigComplete,
+    },
+    {
         path: '/manager/home/:id',
         name: 'ManagerHome',
         component: ManagerHome,
+    },
+    {
+        path: '/manager/cupids/:id',
+        name: 'ManageCupids',
+        component: Cupid
+    },
+    {
+        path: '/manager/daters/:id',
+        name: 'ManageDaters',
+        component: Daters,
     },
 ]
 

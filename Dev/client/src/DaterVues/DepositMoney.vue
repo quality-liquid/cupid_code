@@ -1,11 +1,23 @@
 <script setup>
     import { makeRequest } from '../utils/make_request';
-    import {ref} from 'vue';
+    import {onMounted, ref} from 'vue';
+    import router from '../router';
 
     const user_id  = parseInt(window.location.hash.split('/')[3])
     const amount = parseInt(window.location.hash.split('/')[4])
 
     const savedCards = ref([])
+
+    const balance = ref(0)
+
+    const chosenCard = ref(0)
+
+    const name = ref('')
+    const num = ref('')
+    const mon = ref('')
+    const year = ref('')
+    const cvv = ref('')
+    const type = ref('')
 
     function openDrawer() {
         const element = document.getElementById('navbar')
@@ -22,13 +34,47 @@
         router.push('/')
     }
 
+    async function getMoney() {
+        const results = await makeRequest(`/api/dater/balance/${user_id}`)
+        balance.value = results.balance
+    }
+
     async function getSaved() {
         const results = await makeRequest()
     }
 
     async function addFunds() {
-        const results = await makeRequest()
+        const res = await makeRequest('/api/dater/transfer/', 'post', {
+            card_id: chosenCard.value,
+            amount
+        })
     }
+
+    async function saveCard() {
+        // Save card to db
+        const exp = `${mon}/${year}`
+
+        const res = await makeRequest('/api/dater/save_card/', 'post', {
+            user: {
+                id: user_id
+            },
+            name_on_card: name.value,
+            card_number: num.value,
+            cvv: cvv.value,
+            expiration: exp
+        })
+        const card_id = res.card.id
+        // Send to backend using addFunds
+        const new_res = await makeRequest('/api/dater/transfer/', 'post', {
+            card_id,
+            amount
+        })
+
+        router.push({name: 'CupidCash', params: {id: user_id}})
+    }
+
+    onMounted(getMoney)
+
 </script>
 
 <template>  
@@ -37,13 +83,13 @@
             <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
         </button>
         <!-- This will be the profile picture when setup -->
-        <span>Current Balance</span>
+        <span>{{ '$'balance }}</span>
         <div id="navbar" class="navbar">
             <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
             <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
             <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
             <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
-            <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
+            <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance </router-link>
             <button class="logout" @click="logout"> Logout </button>
         </div>
     </nav>
@@ -52,28 +98,42 @@
         <h1>Payment Information</h1>
         <form class="input-container" @submit.prevent="addFunds">
             <label class="details" for="saved-cards">
-                <select name="saved-cards" id="saved-cards" v-for="card of savedCards">
-                    <option :value="card">{{ card.name }}</option>
+                <select name="saved-cards" id="saved-cards" v-for="card of savedCards" @change="e => chosenCard = e.target.value">
+                    <option :value="card.id">{{ card.name }}</option>
                 </select>
             </label>
             <label class="details" for="card-name">  
-                <input type="text" name="card-name" id="card-name" placeholder="Name on Card">
+                <input type="text" name="card-name" id="card-name" placeholder="Name on Card"
+                :value="name" @change="e => name = e.target.value"
+                >
+            </label>
+            <label class="details" for="card-num">  
+                <input type="text" name="card-num" id="card-num" placeholder="0000 0000 0000 0000"
+                :value="num" @change="e => num = e.target.value"
+                >
             </label>
             <div class="date">
                 <label class="details" for="month">  
-                    <input type="text" size="5" name="month" id="month" placeholder="MM">
+                    <input type="text" size="5" name="month" id="month" placeholder="MM"
+                    :value="mon" @change="e => mon = e.target.value"
+                    >
                 </label>
                 <label class="details" for="year">  
-                    <input type="text" size="5" name="year" id="year" placeholder="YY">
+                    <input type="text" size="5" name="year" id="year" placeholder="YY"
+                    :value="year" @change="e => year = e.target.value"
+                    >
                 </label>
                 <label class="details" for="security-code">  
-                    <input type="text" size="5" name="security-code" id="security-code" placeholder="CVV">
+                    <input type="text" size="5" name="security-code" id="security-code" placeholder="CVV"
+                    :value="cvv" @change="e => cvv = e.target.value">
                 </label>
             </div>
             <label class="details" for="card-type">  
-                <input type="text" name="card-type" id="card-type" placeholder="Card Type">
+                <input type="text" name="card-type" id="card-type" placeholder="Card Type"
+                :value="type" @change="e => type = e.target.value"
+                >
             </label>
-            <button class="button">Save</button>
+            <button class="button">Add Funds</button>
         </form>
     </div>
 </template>
