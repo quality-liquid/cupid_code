@@ -42,9 +42,8 @@ from .serializers import (
     QuestSerializer,
 )
 from .models import (User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, PaymentCard, BankAccount)
-
 from . import helpers
-    
+
 # 3. agree on how the serializers should be used and write the code to use them
 # 4. agree on what external APIs we will use
 # 5. write the code for the views
