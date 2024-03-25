@@ -401,6 +401,9 @@ def dater_transfer(request):
             {"error: you don't have a card with that id"},
             status=status.HTTP_403_FORBIDDEN,
         )
+    dater.cupid_cash_balance += data['amount']
+    # Card would be charged amount if it were real.
+    dater.save()
     return Response({f'Card charged {data["amount"]}'}, status=status.HTTP_200_OK)
 
 
@@ -603,7 +606,10 @@ def cupid_transfer(request):
     helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
     cupid = get_object_or_404(Cupid, user_id=request.user.id)
     bank_account = get_object_or_404(BankAccount, user=cupid.user)
-    return Response({f"Transfering {cupid.cupid_cash_balance} to {bank_account.routing_number}"},
+    amount = cupid.cupid_cash_balance
+    cupid.cupid_cash_balance = 0
+    cupid.save()
+    return Response({f"Transfering {amount} to {bank_account.routing_number}"},
                     status=status.HTTP_200_OK)
 
 
