@@ -49,6 +49,10 @@ function listen() {
 
 }
 
+function stopListen() {
+
+}
+
 </script>
 
 <template>
@@ -73,6 +77,9 @@ function listen() {
         <div class="buttons">
             <button class="listen button" @click="listen">
                 <img :src="'/get_mic/'" class="icon">
+            </button>
+            <button class="listen button" @click="stopListen">
+                <img :src="'/get_mic_off/'" class="icon">
             </button>
             <button class="emergency button" @click="sendEmergency">
                 <img :src="'/get_emergency/'" class="icon">
