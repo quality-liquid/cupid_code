@@ -189,7 +189,62 @@ def get_yelp_api_key():
     Returns the Yelp API key.
     """
     with open('yelp_api_key.txt', 'r') as file:
-        return file.read().split(" ")[-1]
+        lines = file.readlines()
+        return lines[0].split(" ")[2].strip()
+
+
+def get_twilio_account_sid():
+    """
+    Returns the Twilio account SID.
+    """
+    with open('yelp_api_key.txt', 'r') as file:
+        lines = file.readlines()
+        return lines[1].split(" ")[2].strip()
+
+
+def get_twilio_auth_token():
+    """
+    Returns the Twilio authentication token.
+    """
+    with open('yelp_api_key.txt', 'r') as file:
+        lines = file.readlines()
+        return lines[1].split(" ")[4].strip()
+
+
+def get_twilio_authenticated_sender_email():
+    """
+    Returns the Twilio authenticated sender email.
+    """
+    with open('yelp_api_key.txt', 'r') as file:
+        lines = file.readlines()
+        return lines[5].split(" ")[1].strip()
+
+
+def get_grid_api_key():
+    """
+    Returns the Grid API key.
+    """
+    with open('yelp_api_key.txt', 'r') as file:
+        lines = file.readlines()
+        return lines[2].split(" ")[2].strip()
+
+
+def get_twilio_authenticated_reserve_phone_number():
+    """
+    Returns the Twilio authenticated reserve phone number.
+    """
+    with open('yelp_api_key.txt', 'r') as file:
+        lines = file.readlines()
+        return lines[4].split(" ")[1].strip()
+
+
+def get_twilio_authenticated_sender_phone_number():
+    """
+    Returns the Twilio authenticated sender phone number.
+    """
+    with open('yelp_api_key.txt', 'r') as file:
+        lines = file.readlines()
+        return lines[5].split(" ")[1].strip()
 
 
 def update_user_location(user, addr):
