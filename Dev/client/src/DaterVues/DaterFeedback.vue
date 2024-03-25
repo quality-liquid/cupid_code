@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-
+function naviProf() {
+    router.push({ name: 'DaterProfile', params: {id: user_id} })
+}
 </script>
 
 <template>

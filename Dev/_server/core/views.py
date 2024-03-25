@@ -62,6 +62,12 @@ def get_mic(req: HttpRequest):
     path = os.path.join(VAULT_PATH, 'mic_icon' + '.' + FILE_EXTENSION)
     return FileResponse(open(path, "rb"))
 
+def get_mic_off(req: HttpRequest):
+    FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
+    VAULT_PATH = os.environ.get('VAULT_PATH', '')
+    path = os.path.join(VAULT_PATH, 'mic_off' + '.' + FILE_EXTENSION)
+    return FileResponse(open(path, "rb"))
+
 
 def get_chat(req: HttpRequest):
     FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
