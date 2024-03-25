@@ -20,12 +20,6 @@ class TestCreateUser(APITestCase):
     def test_create_user_bad(self):
         pass
 
-    def test__create_user_good(self):
-        pass
-
-    def test__create_user_bad(self):
-        pass
-
 
 class TestSignIn(APITestCase):
     pass
