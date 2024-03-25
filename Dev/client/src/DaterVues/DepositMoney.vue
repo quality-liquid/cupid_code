@@ -6,7 +6,7 @@
     const user_id  = parseInt(window.location.hash.split('/')[3])
     const amount = parseInt(window.location.hash.split('/')[4])
 
-    const savedCards = ref([])
+    //const savedCards = ref([])
 
     const balance = ref(0)
 
@@ -17,7 +17,6 @@
     const mon = ref('')
     const year = ref('')
     const cvv = ref('')
-    const type = ref('')
 
     function openDrawer() {
         const element = document.getElementById('navbar')
@@ -39,20 +38,17 @@
         balance.value = results.balance
     }
 
-    async function getSaved() {
-        const results = await makeRequest()
-    }
-
     async function addFunds() {
         const res = await makeRequest('/api/dater/transfer/', 'post', {
+            user: user_id,
             card_id: chosenCard.value,
-            amount
+            amount: amount
         })
     }
 
     async function saveCard() {
         // Save card to db
-        const exp = `${mon}/${year}`
+        const exp = `${mon.value}/${year.value}`
 
         const res = await makeRequest('/api/dater/save_card/', 'post', {
             user: {
@@ -63,12 +59,16 @@
             cvv: cvv.value,
             expiration: exp
         })
-        const card_id = res.card.id
-        // Send to backend using addFunds
+        console.log(res)
+        const card_id = res.id
+        console.log(amount)
         const new_res = await makeRequest('/api/dater/transfer/', 'post', {
-            card_id,
-            amount
+            user: user_id,
+            card_id: card_id,
+            amount: amount
         })
+
+        console.log(new_res)
 
         router.push({name: 'CupidCash', params: {id: user_id}})
     }
@@ -97,12 +97,15 @@
 
     <div class="container">
         <h1>Payment Information</h1>
-        <form class="input-container" @submit.prevent="addFunds">
-            <label class="details" for="saved-cards">
-                <select name="saved-cards" id="saved-cards" v-for="card of savedCards" @change="e => chosenCard = e.target.value">
-                    <option :value="card.id">{{ card.name }}</option>
-                </select>
-            </label>
+        <!-- Currently no function to support this
+        <div class="saved-container" v-if="savedCards">
+            <select v-for="card of saveCards" class="select">
+                <option :value={card}>{{ `Card Ending in ${card.card_number.split(" ")[3]}` }}</option>
+            </select>
+            <button class="button" @click="addFunds">Add Funds</button>
+        </div>
+        -->
+        <form class="input-container" @submit.prevent="saveCard">
             <label class="details" for="card-name">  
                 <input type="text" name="card-name" id="card-name" placeholder="Name on Card"
                 :value="name" @change="e => name = e.target.value"
@@ -129,11 +132,6 @@
                     :value="cvv" @change="e => cvv = e.target.value">
                 </label>
             </div>
-            <label class="details" for="card-type">  
-                <input type="text" name="card-type" id="card-type" placeholder="Card Type"
-                :value="type" @change="e => type = e.target.value"
-                >
-            </label>
             <button class="button">Add Funds</button>
         </form>
     </div>

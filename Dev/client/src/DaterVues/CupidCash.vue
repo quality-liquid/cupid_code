@@ -1,6 +1,7 @@
 <script setup>
-    import {ref} from 'vue';
-    import router from '../router/index'
+    import {ref, onMounted} from 'vue';
+    import router from '../router/index';
+    import { makeRequest } from '../utils/make_request';
 
     const user_id  = parseInt(window.location.hash.split('/')[3])
 
