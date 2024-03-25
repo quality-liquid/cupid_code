@@ -100,8 +100,16 @@ def get_ai_response(message: str):
     return response
 
 
+def update_user_location(user, addr):
+    user.location = get_location_string(addr)
+    if user.location is not None:
+        user.save()
+
+
 def get_location_string(ip_address):
     latitude, longitude = get_location_from_ip_address(ip_address)
+    if latitude is None or longitude is None:
+        return None
     return f"{latitude} {longitude}"
 
 
@@ -245,8 +253,3 @@ def get_twilio_authenticated_sender_phone_number():
     with open('yelp_api_key.txt', 'r') as file:
         lines = file.readlines()
         return lines[5].split(" ")[1].strip()
-
-
-def update_user_location(user, addr):
-    user.location = get_location_string(addr)
-    user.save()
