@@ -39,7 +39,7 @@
             <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
         </button>
         <!-- This will be the profile picture when setup -->
-        <span>{{'$'balance}}</span>
+        <span>{{'$' + balance}}</span>
         <div id="navbar" class="navbar">
             <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
             <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
