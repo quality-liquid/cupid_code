@@ -1,10 +1,7 @@
 from rest_framework.test import APIRequestFactory, force_authenticate
 from unittest.mock import patch, MagicMock
 from django.urls import reverse
-from rest_framework import status
-from rest_framework.response import Response
 from rest_framework.test import APITestCase
-from Dev._server.api.models import *
 from Dev._server.api.views import *
 
 from Dev._server.api.helpers import *
@@ -264,6 +261,36 @@ class TestNotify(APITestCase):
         self.factory = APIRequestFactory()
         self.urls = "api/notify"
         self.views = notify
+
+    @patch("send_email")
+    @patch("send_text")
+    @patch("get_object_or_404")
+    def good_test(self, mock_send_email, mock_send_text, mock_get_object_or_404):
+        mock_get_object_or_404.return_value = MagicMock()
+        mock_send_email.return_value = MagicMock()
+        mock_send_text.return_value = MagicMock()
+        request = self.factory.get(reverse(self.urls))
+        force_authenticate(request, user=User.objects.create())
+        response = self.views(request)
+        assert response.status_code == status.HTTP_200_OK
+        mock_get_object_or_404.assert_called_once()
+        mock_send_email.assert_called_once()
+        mock_send_text.assert_called_once()
+
+    @patch("send_email")
+    @patch("send_text")
+    @patch("get_object_or_404")
+    def bad_test(self, mock_send_email, mock_send_text, mock_get_object_or_404):
+        mock_get_object_or_404.return_value = None
+        mock_send_email.return_value = MagicMock()
+        mock_send_text.return_value = MagicMock()
+        request = self.factory.get(reverse(self.urls))
+        force_authenticate(request, user=User.objects.create())
+        response = self.views(request)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        mock_get_object_or_404.assert_called_once()
+        mock_send_email.assert_not_called()
+        mock_send_text.assert_not_called()
 
 
 class TestCreateNewGig(APITestCase):

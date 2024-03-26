@@ -9,10 +9,10 @@ class TestCreateUser(APITestCase):
         self.url = reverse('api/create_user')
         self.view = create_user
 
-    def test_create_user_good(self):
+    def good_test(self):
         pass
 
-    def test_create_user_bad(self):
+    def bad_test(self):
         pass
 
 
