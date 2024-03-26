@@ -3,7 +3,6 @@ from unittest.mock import patch, MagicMock
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from Dev._server.api.views import *
-
 from Dev._server.api.helpers import *
 
 
