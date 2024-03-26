@@ -221,6 +221,7 @@ function stopListen() {
     text-decoration: solid;
     padding: 16px;
     margin: 10px;
+    user-select: none;
 }
 
 .popup button:hover {
@@ -229,6 +230,7 @@ function stopListen() {
 
 .popup button:active {
     filter: brightness(0.7);
+    transform: translate(3px,3px);
     box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.4);
 }
 
