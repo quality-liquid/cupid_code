@@ -173,7 +173,7 @@ function stopListen() {
 .popup {
     position: absolute;
     width: 60%;
-    height: 30%;
+    height: 40%;
     margin:auto;
     left:0;
     right:0;
@@ -239,5 +239,20 @@ function stopListen() {
 .active {
     transform: scale(1);
     transition: transform 0.2s cubic-bezier(0,1.4,1,1);
+}
+
+.update-content {
+    text-align: center;
+    margin-bottom: 4px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.update-content input{
+    border: none;
+    border-radius: 4px;
+    padding: 8px;
 }
 </style>
