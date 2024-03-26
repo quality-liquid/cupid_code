@@ -547,7 +547,6 @@ def get_cupid_ratings(request, pk):
         Response:
             Sequence of Feedback objects
     """
-    cupid = helpers.authenticated_cupid(pk, request.user)
     ratings = get_list_or_404(Feedback, target=request.user)
     serializer = FeedbackSerializer(ratings, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
@@ -570,7 +569,6 @@ def get_cupid_avg_rating(request, pk):
             If the account could not be found, return a 400 status code.
     """
     cupid = helpers.authenticated_cupid(pk, request.user)
-    ratings = get_list_or_404(Feedback, target=cupid.user)
     return Response({'rating:': cupid.rating_sum / cupid.rating_count}, status=status.HTTP_200_OK)
 
 
@@ -589,7 +587,6 @@ def cupid_transfer(request):
             If the transfer went through successfully, return a 200 status code.
             If the transfer failed, return a corresponding error status code (400 if on our end, 500 if on bank's end)
     """
-    data = request.data
     helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
     cupid = get_object_or_404(Cupid, user_id=request.user.id)
     bank_account = get_object_or_404(BankAccount, user=cupid.user)
@@ -716,7 +713,7 @@ def create_gig(request):
     data = request.data
     helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, user_id=request.user.id)
-    serializer = QuestSerializer(data=data['quest'])
+    serializer = QuestSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
     else:
@@ -844,7 +841,7 @@ def get_gigs(request, pk, count):
         Response:
             A list of gigs (JSON)
     """
-    cupid = Cupid.objects.get(user_id=pk)
+    cupid = get_object_or_404(Cupid, id=pk)
     helpers.update_user_location(cupid.user, request.META['REMOTE_ADDR'])
     gigs = Gig.objects.all()
     near_gigs = []
