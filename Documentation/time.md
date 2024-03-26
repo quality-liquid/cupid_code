@@ -41,21 +41,21 @@
 | Eric DeBloois  | Creation of Vue pages for Login, Create Account, and Cupid pages | 7.5       |   
 | Brandon Herrin | Starting Dater Vue pages and Calendar work (work in progress)    | 6.0       |
 
-| Sprint 4       |                         |           |   
-|----------------|-------------------------|-----------|
-| Name           | Job                     | Time(hrs) | 
-| Nate Stott     | Unit tests / debugging  | 3.5       |   
-| Emma Wright    | Routing and Dater Vues  | 3.5       |   
-| Daniel Barfuss |                         |           |   
-| Brighton Ellis | Dater + Manager Vues help     |    5.5    |   
+| Sprint 4       |                                                  |           |   
+|----------------|--------------------------------------------------|-----------|
+| Name           | Job                                              | Time(hrs) | 
+| Nate Stott     | Unit tests / debugging                           | 5.5       |   
+| Emma Wright    | Routing and Dater Vues                           | 3.5       |   
+| Daniel Barfuss |                                                  |           |   
+| Brighton Ellis | Dater + Manager Vues help                        | 5.5       |   
 | Nate McKenzie  | Implement api authorization, update backend docs | 12        |   
-| Eric DeBloois  | Cupid Vues              | 5         |   
-| Brandon Herrin |                         |           |
+| Eric DeBloois  | Cupid Vues                                       | 5         |   
+| Brandon Herrin |                                                  |           |
 
 | Sprint 5       |                         |           |   
 |----------------|-------------------------|-----------|
 | Name           | Job                     | Time(hrs) | 
-| Nate Stott     | Unit tests / debugging  |           |   
+| Nate Stott     | Unit tests / debugging  | 2         |   
 | Emma Wright    | Dater Vues              |           |   
 | Daniel Barfuss |                         |           |   
 | Brighton Ellis |                         |           |   
