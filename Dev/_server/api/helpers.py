@@ -1,5 +1,6 @@
 # Standard Library
 from math import radians, sin, cos, sqrt, atan2
+import base64
 
 # Django
 from django.contrib.auth import login
@@ -15,10 +16,15 @@ from geopy.geocoders import Nominatim
 import geoip2.database
 from yelpapi import YelpAPI
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
+from operator import contains
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+from twilio.rest import Client
+import speech_recognition
 
 # Local
 from .models import User, Dater, Cupid
-from .serializers import UserSerializer, DaterSerializer, CupidSerializer
+from .serializers import UserSerializer, DaterSerializer, CupidSerializer, QuestSerializer, GigSerializer
 
 
 def initialize_serializer(user):
@@ -253,3 +259,116 @@ def get_twilio_authenticated_sender_phone_number():
     with open('yelp_api_key.txt', 'r') as file:
         lines = file.readlines()
         return lines[5].split(" ")[1].strip()
+
+
+def process_ai_response(dater, response):
+    if contains('Create gig: True', response):
+        return create_new_gig(dater, response)
+    else:
+        return Response(
+            {'message': 'gig creation not needed', 'gig_created': False},
+            status=status.HTTP_200_OK,
+        )
+
+
+def create_new_gig(dater, response):
+    requested_items = 'NA'
+    for line in response.split('\n'):
+        if contains('Items requested:', line):
+            requested_items = line.split(':')[1].strip()
+    if requested_items == 'NA':
+        return Response(
+            {
+                'error': 'gig creation failed. no specified pickup items',
+                'gig_created': False,
+            },
+            status=status.HTTP_200_OK,
+        )
+    locations = call_yelp_api(dater.location, requested_items)
+    quest_data = {
+        'budget': dater.budget,
+        'items_requested': requested_items,
+        'pickup_location': locations[0]['address'],
+    }
+    serializer = QuestSerializer(data=quest_data)
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        return Response(
+            {'error': 'gig creation failed. could not serialize quest.'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    gig_data = {'dater': dater, 'quest': serializer.data}
+    serializer = GigSerializer(data=gig_data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(
+            {'message': 'gig was created', 'gig_created': True},
+            status=status.HTTP_200_OK,
+        )
+    else:
+        return Response(
+            {'error': 'gig creation failed. could not serialize.'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+def send_text(account_sid, auth_token, message):
+    # We are hard-coding the number since only verified numbers can be used
+    to_phone_number = get_twilio_authenticated_reserve_phone_number()
+    from_phone_number = get_twilio_authenticated_sender_phone_number()
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+        from_=from_phone_number,
+        body=message,
+        to=to_phone_number
+    )
+    return Response(message.sid, status=status.HTTP_200_OK)
+
+
+def send_email(dater, message):
+    dater_email = dater.email
+    from_email = get_twilio_authenticated_sender_email()
+    mail = Mail(
+        from_email=from_email,
+        to_emails=dater_email,
+        subject='Notification from Cupid Code',
+        html_content=message,
+    )
+    try:
+        grid_api_key = get_grid_api_key()
+        sg = SendGridAPIClient(grid_api_key)
+        response = sg.send(mail)
+    except Exception as e:
+        return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
+    return Response(response, status=status.HTTP_200_OK)
+
+
+def get_response_from_audio(audio_data, audio_type, dater):
+    recognizer = speech_recognition.Recognizer()
+    # Convert base64 audio data to bytes
+    audio_bytes = base64.b64decode(audio_data)
+    # Convert bytes to audio file
+    with open('audio_file.' + audio_type, 'wb') as f:
+        f.write(audio_bytes)
+    # Transcribe audio
+    with speech_recognition.AudioFile('audio_file.' + audio_type) as source:
+        audio_data = recognizer.record(source)
+        text = recognizer.recognize_sphinx(audio_data)
+    prompt = f"""
+                  The following text is transcribed from an audio file. 
+                  Analyze the text to determine if a gig should be created. 
+                  A gig can be created by saying 'create gig'. 
+                  The purpose of a gig is to tell a Cupid what to do to save the date. 
+                  If a gig is created, the Cupid will be able to see the gig and accept it. 
+                  A gig will need to know what items are requested for the date. 
+                  The budget for the gig will be the amount of money the Dater is willing to spend on the date.
+                  Budget: {dater.budget}
+                  Please give your response in the following form:
+                      Create gig: True or False
+                      Items requested: Flowers, Chocolate, etc. or NA if no items are requested
+                  The text is: 
+
+                  """
+    message = prompt + text
+    response = get_ai_response(message)
+    return response

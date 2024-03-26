@@ -1,6 +1,4 @@
 # Standard Library
-import base64
-from operator import contains
 from datetime import datetime
 
 # Django
@@ -22,9 +20,6 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 # Miscellaneous utils
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
-from twilio.rest import Client
 import speech_recognition
 
 # Local
@@ -148,10 +143,9 @@ def get_user(request, pk):
         Response:
             Dater, Cupid, or Manager serialized
     """
-    if pk != request.user.id and request.user.is_staff is False:
+    if pk != request.user.id and not request.user.is_staff:
         return Response(status=status.HTTP_403_FORBIDDEN)
 
-    data = request.data
     user = get_object_or_404(User, id=pk)
 
     profile_serializer = helpers.initialize_serializer(user)
@@ -1308,79 +1302,9 @@ def speech_to_text(request):
     audio = data['audio']
     audio_type = audio['type']
     audio_data = audio['data']
-    recognizer = speech_recognition.Recognizer()
     try:
-        # Convert base64 audio data to bytes
-        audio_bytes = base64.b64decode(audio_data)
-        # Convert bytes to audio file
-        with open('audio_file.' + audio_type, 'wb') as f:
-            f.write(audio_bytes)
-        # Transcribe audio
-        with speech_recognition.AudioFile('audio_file.' + audio_type) as source:
-            audio_data = recognizer.record(source)
-            text = recognizer.recognize_sphinx(audio_data)
-        prompt = f"""
-                  The following text is transcribed from an audio file. 
-                  Analyze the text to determine if a gig should be created. 
-                  A gig can be created by saying 'create gig'. 
-                  The purpose of a gig is to tell a Cupid what to do to save the date. 
-                  If a gig is created, the Cupid will be able to see the gig and accept it. 
-                  A gig will need to know what items are requested for the date. 
-                  The budget for the gig will be the amount of money the Dater is willing to spend on the date.
-                  Budget: {dater.budget}
-                  Please give your response in the following form:
-                      Create gig: True or False
-                      Items requested: Flowers, Chocolate, etc. or NA if no items are requested
-                  The text is: 
-                  
-                  """
-        message = prompt + text
-        response = helpers.get_ai_response(message)
-        if contains('Create gig: True', response):
-            requested_items = 'NA'
-            for line in response.split('\n'):
-                if contains('Items requested:', line):
-                    requested_items = line.split(':')[1].strip()
-            if requested_items == 'NA':
-                return Response(
-                    {
-                        'error': 'gig creation failed. no specified pickup items',
-                        'gig_created': False,
-                    },
-                    status=status.HTTP_200_OK,
-                )
-            locations = helpers.call_yelp_api(dater.location, requested_items)
-            quest_data = {
-                'budget': dater.budget,
-                'items_requested': requested_items,
-                'pickup_location': locations[0]['address'],
-            }
-            serializer = QuestSerializer(data=quest_data)
-            if serializer.is_valid():
-                serializer.save()
-            else:
-                return Response(
-                    {'error': 'gig creation failed. could not serialize quest.'},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-            gig_data = {'dater': dater, 'quest': serializer.data}
-            serializer = GigSerializer(data=gig_data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(
-                    {'message': 'gig was created', 'gig_created': True},
-                    status=status.HTTP_200_OK,
-                )
-            else:
-                return Response(
-                    {'error': 'gig creation failed. could not serialize.'},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-        else:
-            return Response(
-                {'message': 'gig creation not needed', 'gig_created': False},
-                status=status.HTTP_200_OK,
-            )
+        response = helpers.get_response_from_audio(audio_data, audio_type, dater)
+        return helpers.process_ai_response(dater, response)
     except speech_recognition.UnknownValueError:
         return Response(
             {'error': 'Could not understand the audio.'},
@@ -1418,31 +1342,8 @@ def notify(request):
     auth_token = helpers.get_twilio_auth_token()
     message = data['message']
     if dater.communication_preference == 0:
-        dater_email = dater.email
-        from_email = helpers.get_twilio_authenticated_sender_email()
-        mail = Mail(
-            from_email=from_email,
-            to_emails=dater_email,
-            subject='Notification from Cupid Code',
-            html_content=message,
-        )
-        try:
-            grid_api_key = helpers.get_grid_api_key()
-            sg = SendGridAPIClient(grid_api_key)
-            response = sg.send(mail)
-        except Exception as e:
-            return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
-        return Response(response, status=status.HTTP_200_OK)
+        return helpers.send_email(dater, message)
     elif dater.communication_preference == 1:
-        # We are hard-coding the number since only verified numbers can be used
-        to_phone_number = helpers.get_twilio_authenticated_reserve_phone_number()
-        from_phone_number = helpers.get_twilio_authenticated_sender_phone_number()
-        client = Client(account_sid, auth_token)
-        message = client.messages.create(
-            from_=from_phone_number,
-            body=message,
-            to=to_phone_number
-        )
-        return Response(message.sid, status=status.HTTP_200_OK)
+        return helpers.send_text(account_sid, auth_token, message)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
