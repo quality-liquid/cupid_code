@@ -175,7 +175,36 @@ class TestWithinDistance(APITestCase):
 
 
 class TestGetStores(APITestCase):
-    pass
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.url = reverse("get_stores")
+        self.view = get_stores
+
+    @patch("helpers.call_yelp_api")
+    def good_test(self, mock_call_yelp_api):
+        mock_call_yelp_api.return_value = MagicMock()
+        request = self.factory.get(self.url)
+        request.user.id = 1
+        pk = 1
+        response = self.view(request, pk)
+        assert response.status_code == status.HTTP_200_OK
+        mock_call_yelp_api.assert_called_once()
+
+    @patch("helpers.call_yelp_api")
+    def bad_test(self, mock_call_yelp_api):
+        # Test 1
+        mock_call_yelp_api.return_value = None
+        request = self.factory.get(self.url)
+        request.user.id = 1
+        pk = 1
+        response = self.view(request, pk)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        mock_call_yelp_api.assert_called_once()
+
+        # Test 2
+        request.user.id = 2
+        response = self.view(request, pk)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
 class TestGetActivities(APITestCase):
