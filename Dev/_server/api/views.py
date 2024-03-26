@@ -716,7 +716,7 @@ def create_gig(request):
     data = request.data
     helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, user_id=request.user.id)
-    serializer = QuestSerializer(data=data['quest'])
+    serializer = QuestSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
     else:

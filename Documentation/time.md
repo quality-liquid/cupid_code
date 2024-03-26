@@ -59,6 +59,6 @@
 | Emma Wright    | Dater Vues              |           |   
 | Daniel Barfuss |                         |           |   
 | Brighton Ellis |                         |           |   
-| Nate McKenzie  |                         |           |   
+| Nate McKenzie  | Assist Frontend         | 3         |   
 | Eric DeBloois  | Cupid Vues              |           |   
 | Brandon Herrin |                         |           |
