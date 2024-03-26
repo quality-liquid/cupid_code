@@ -174,57 +174,88 @@ class TestWithinDistance(APITestCase):
         assert b is False
 
 
-class TestGetStores(APITestCase):
+class TestRequestYelpAPI(APITestCase):
+
     def setUp(self):
         self.factory = APIRequestFactory()
-        self.url = reverse("get_stores")
-        self.view = get_stores
+        self.urls = ['get_stores', 'get_activities', 'get_events', 'get_restaurants', 'get_attractions']
+        self.views = [get_stores, get_activities, get_events, get_restaurants, get_attractions]
 
-    @patch("helpers.call_yelp_api")
+    @patch("helpers.get_response_from_yelp_api")
+    def good_test(self, mock_get_response_from_yelp_api):
+        for url, view in zip(self.urls, self.views):
+            mock_get_response_from_yelp_api.return_value = MagicMock()
+            request = self.factory.get(reverse(url))
+            force_authenticate(request, user=User.objects.create())
+            response = view(request)
+            assert response.status_code == status.HTTP_200_OK
+            mock_get_response_from_yelp_api.assert_called_once()
+
+    @patch("helpers.get_response_from_yelp_api")
+    def bad_test(self, mock_get_response_from_yelp_api):
+        for url, view in zip(self.urls, self.views):
+            mock_get_response_from_yelp_api.return_value = None
+            request = self.factory.get(reverse(url))
+            force_authenticate(request, user=User.objects.create())
+            response = view(request)
+            assert response.status_code == status.HTTP_400_BAD_REQUEST
+            mock_get_response_from_yelp_api.assert_called_once()
+
+
+class TestGetResponseFromYelpAPI(APITestCase):
+    @patch("call_yelp_api")
     def good_test(self, mock_call_yelp_api):
         mock_call_yelp_api.return_value = MagicMock()
-        request = self.factory.get(self.url)
-        request.user.id = 1
         pk = 1
-        response = self.view(request, pk)
+        request = MagicMock()
+        search = MagicMock()
+        response = get_response_from_yelp_api(pk, request, search)
+        assert response == mock_call_yelp_api.return_value
+        mock_call_yelp_api.assert_called_once()
         assert response.status_code == status.HTTP_200_OK
-        mock_call_yelp_api.assert_called_once()
 
-    @patch("helpers.call_yelp_api")
+    @patch("call_yelp_api")
     def bad_test(self, mock_call_yelp_api):
-        # Test 1
         mock_call_yelp_api.return_value = None
-        request = self.factory.get(self.url)
-        request.user.id = 1
         pk = 1
-        response = self.view(request, pk)
-        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        request = MagicMock()
+        search = MagicMock()
+        response = get_response_from_yelp_api(pk, request, search)
+        assert response is None
         mock_call_yelp_api.assert_called_once()
-
-        # Test 2
-        request.user.id = 2
-        response = self.view(request, pk)
-        assert response.status_code == status.HTTP_403_FORBIDDEN
-
-
-class TestGetActivities(APITestCase):
-    pass
-
-
-class TestGetEvents(APITestCase):
-    pass
-
-
-class TestGetAttractions(APITestCase):
-    pass
-
-
-class TestGetRestaurants(APITestCase):
-    pass
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
 class TestCallYelpAPI(APITestCase):
-    pass
+    @patch("get_object_or_404")
+    @patch("get_yelp_api_key")
+    @patch("YelpAPI")
+    def good_test(self, mock_get_object_or_404, mock_get_yelp_api_key, mock_YelpAPI):
+        mock_get_object_or_404.return_value = MagicMock()
+        mock_get_yelp_api_key.return_value = "key"
+        mock_YelpAPI.return_value = MagicMock()
+        pk = 1
+        search = MagicMock()
+        data = call_yelp_api(pk, search)
+        assert data is not None
+        mock_get_object_or_404.assert_called_once()
+        mock_get_yelp_api_key.assert_called_once()
+        mock_YelpAPI.assert_called_once()
+
+    @patch("get_object_or_404")
+    @patch("get_yelp_api_key")
+    @patch("YelpAPI")
+    def bad_test(self, mock_get_object_or_404, mock_get_yelp_api_key, mock_YelpAPI):
+        mock_get_object_or_404.return_value = None
+        mock_get_yelp_api_key.return_value = "key"
+        mock_YelpAPI.return_value = MagicMock()
+        pk = 1
+        search = MagicMock()
+        data = call_yelp_api(pk, search)
+        assert data is None
+        mock_get_object_or_404.assert_called_once()
+        mock_get_yelp_api_key.assert_called_once()
+        mock_YelpAPI.assert_called_once()
 
 
 class TestNotify(APITestCase):

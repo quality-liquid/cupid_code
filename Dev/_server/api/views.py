@@ -871,12 +871,7 @@ def get_stores(request, pk):
         Response:
             A list of nearby stores, including their specific location (JSON)
     """
-    if pk != request.user.id:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    response = helpers.call_yelp_api(pk, 'stores')
-    if response:
-        return Response(response, status=status.HTTP_200_OK)
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+    return helpers.get_response_from_yelp_api(pk, request, 'stores')
 
 
 @api_view(['GET'])
@@ -892,12 +887,7 @@ def get_activities(request, pk):
         Response:
             A list of nearby activities, including their specific location (JSON)
     """
-    if pk != request.user.id:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    response = helpers.call_yelp_api(pk, 'activities')
-    if response:
-        return Response(response, status=status.HTTP_200_OK)
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+    return helpers.get_response_from_yelp_api(pk, request, 'activities')
 
 
 @api_view(['GET'])
@@ -913,12 +903,7 @@ def get_events(request, pk):
         Response:
             A list of nearby events, including their specific location (JSON)
     """
-    if pk != request.user.id:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    response = helpers.call_yelp_api(pk, 'events')
-    if response:
-        return Response(response, status=status.HTTP_200_OK)
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+    return helpers.get_response_from_yelp_api(pk, request, 'events')
 
 
 @api_view(['GET'])
@@ -935,12 +920,7 @@ def get_attractions(request, pk):
             If the attractions were retrieved successfully, return a list of nearby attractions, including their specific location amd a 200 status code.
             If the attractions were not retrieved successfully, return an error message and a 400 status code.
     """
-    if pk != request.user.id:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    response = helpers.call_yelp_api(pk, 'attractions')
-    if response:
-        return Response(response, status=status.HTTP_200_OK)
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+    return helpers.get_response_from_yelp_api(pk, request, 'attractions')
 
 
 @api_view(['GET'])
@@ -957,12 +937,7 @@ def get_restaurants(request, pk):
             If the restaurants were retrieved successfully, return a list of nearby restaurants, including their specific location and a 200 status code.
             If the restaurants were not retrieved successfully, return an error message and a 400 status code.
     """
-    if pk != request.user.id:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    response = helpers.call_yelp_api(pk, 'restaurants')
-    if response:
-        return Response(response, status=status.HTTP_200_OK)
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+    return helpers.get_response_from_yelp_api(pk, request, 'restaurants')
 
 
 @api_view(['GET'])

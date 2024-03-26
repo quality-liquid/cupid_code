@@ -372,3 +372,12 @@ def get_response_from_audio(audio_data, audio_type, dater):
     message = prompt + text
     response = get_ai_response(message)
     return response
+
+
+def get_response_from_yelp_api(pk, request, search):
+    if pk != request.user.id:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    response = call_yelp_api(pk, search)
+    if response:
+        return Response(response, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
