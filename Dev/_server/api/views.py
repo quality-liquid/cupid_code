@@ -44,12 +44,6 @@ from .serializers import (
 from .models import (User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, PaymentCard, BankAccount)
 from . import helpers
 
-# 3. agree on how the serializers should be used and write the code to use them
-# 4. agree on what external APIs we will use
-# 5. write the code for the views
-# TODO 6. write the tests for the views
-# TODO 7. debug
-
 # AI API (pytensor) https://pytensor.readthedocs.io/en/latest/
 # Location API (Geolocation) https://pypi.org/project/geolocation-python/
 # Speech To Text API (pyttsx3) https://pypi.org/project/pyttsx3/

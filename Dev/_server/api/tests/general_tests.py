@@ -10,35 +10,6 @@ from Dev._server.api.views import *
 from Dev._server.api.helpers import *
 
 
-class TestCreateUser(APITestCase):
-    def setUp(self):
-        self.factory = APIRequestFactory()
-        self.url = reverse('api/create_user')
-        self.view = create_user
-
-    def test_create_user_good(self):
-        pass
-
-    def test_create_user_bad(self):
-        pass
-
-
-class TestSignIn(APITestCase):
-    pass
-
-
-class TestGetUser(APITestCase):
-    pass
-
-
-class TestUserExpand(APITestCase):
-    pass
-
-
-class TestDeleteUser(APITestCase):
-    pass
-
-
 class TestUpdateUserLocation(APITestCase):
 
     @patch("get_location_string")
@@ -137,15 +108,70 @@ class TestGetLocationFromIPAddress(APITestCase):
 
 
 class TestLocationsAreNear(APITestCase):
-    pass
+
+    @patch("within_distance")
+    def good_test(self, mock_within_distance):
+        mock_within_distance.return_value = True
+        location1 = "1,2"
+        location2 = "3,4"
+        max_distance_miles = 5
+        b = locations_are_near(location1, location2, max_distance_miles)
+        assert b is True
+        mock_within_distance.assert_called_once()
+
+    @patch("within_distance")
+    def bad_test(self, mock_within_distance):
+        mock_within_distance.return_value = False
+        location1 = "1,2"
+        location2 = "3,4"
+        max_distance_miles = 5
+        b = locations_are_near(location1, location2, max_distance_miles)
+        assert b is False
+        mock_within_distance.assert_called_once()
 
 
 class TestHaversineDistance(APITestCase):
-    pass
+
+    def good_test(self):
+        lat1 = 1
+        lon1 = 2
+        lat2 = 3
+        lon2 = 4
+        d = haversine_distance(lat1, lon1, lat2, lon2)
+        assert d == 314.404
+
+    def bad_test(self):
+        lat1 = 1
+        lon1 = 2
+        lat2 = 3
+        lon2 = 4
+        d = haversine_distance(lat1, lon1, lat2, lon2)
+        assert d != 314.404
 
 
 class TestWithinDistance(APITestCase):
-    pass
+
+    @patch("haversine_distance")
+    def good_test(self, mock_haversine_distance):
+        mock_haversine_distance.return_value = 5
+        lat1 = 1
+        lon1 = 2
+        lat2 = 3
+        lon2 = 4
+        max_distance_miles = 5
+        b = within_distance(lat1, lon1, lat2, lon2, max_distance_miles)
+        assert b is True
+
+    @patch("haversine_distance")
+    def bad_test(self, mock_haversine_distance):
+        mock_haversine_distance.return_value = 6
+        lat1 = 1
+        lon1 = 2
+        lat2 = 3
+        lon2 = 4
+        max_distance_miles = 5
+        b = within_distance(lat1, lon1, lat2, lon2, max_distance_miles)
+        assert b is False
 
 
 class TestGetStores(APITestCase):

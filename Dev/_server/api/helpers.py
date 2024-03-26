@@ -161,7 +161,7 @@ def locations_are_near(location1, location2, max_distance_miles):
 
 def haversine_distance(lat1, lon1, lat2, lon2):
     # Radius of the Earth in miles
-    R = 3958.8  # miles
+    r = 3958.8  # miles
 
     # Convert latitude and longitude from degrees to radians
     lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
@@ -171,7 +171,7 @@ def haversine_distance(lat1, lon1, lat2, lon2):
     dlon = lon2 - lon1
     a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
-    distance = R * c
+    distance = r * c
 
     return distance
 
