@@ -266,15 +266,25 @@ class TestNotify(APITestCase):
     @patch("send_text")
     @patch("get_object_or_404")
     def good_test(self, mock_send_email, mock_send_text, mock_get_object_or_404):
-        mock_get_object_or_404.return_value = MagicMock()
+        dater = MagicMock()
+        dater.communication_preference = 0
+        mock_get_object_or_404.return_value = dater
         mock_send_email.return_value = MagicMock()
         mock_send_text.return_value = MagicMock()
         request = self.factory.get(reverse(self.urls))
         force_authenticate(request, user=User.objects.create())
+
+        # Test 1: Email
         response = self.views(request)
         assert response.status_code == status.HTTP_200_OK
         mock_get_object_or_404.assert_called_once()
         mock_send_email.assert_called_once()
+
+        # Test 2: Text
+        dater.communication_preference = 1
+        response = self.views(request)
+        assert response.statuc_code == status.HTTP_200_OK
+        mock_get_object_or_404.assert_called_once()
         mock_send_text.assert_called_once()
 
     @patch("send_email")
@@ -294,16 +304,185 @@ class TestNotify(APITestCase):
 
 
 class TestCreateNewGig(APITestCase):
-    pass
+    @patch("call_yelp_api")
+    @patch("QuestSerializer")
+    @patch("GigSerializer")
+    def good_test(self, mock_yelp_api, mock_quest_serializer, mock_gig_serializer):
+        dater = MagicMock()
+        request = "Test"
+        mock_yelp_api.return_value = MagicMock()
+        mock_quest_serializer.return_value = MagicMock()
+        mock_gig_serializer.return_value = MagicMock()
+
+        response = create_new_gig(dater, request)
+        assert response.status_code == status.HTTP_200_OK
+        mock_yelp_api.assert_called_once()
+        mock_quest_serializer.assert_called_once()
+        mock_gig_serializer.assert_called_once()
+
+    @patch("call_yelp_api")
+    @patch("QuestSerializer")
+    @patch("GigSerializer")
+    def bad_test(self, mock_yelp_api, mock_quest_serializer, mock_gig_serializer):
+        dater = MagicMock()
+        request = None
+        mock_yelp_api.return_value = MagicMock()
+        mock_quest_serializer.return_value = MagicMock()
+        mock_gig_serializer.return_value = MagicMock()
+
+        response = create_new_gig(dater, request)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        mock_yelp_api.assert_called_once()
+        mock_quest_serializer.assert_called_once()
+        mock_gig_serializer.assert_called_once()
+    
 
 
 class TestSendEmail(APITestCase):
-    pass
+    @patch("get_twilio_authenticated_sender_email")
+    @patch("Mail")
+    @patch("get_grid_api_key")
+    @patch("SendGridAPIClient")
+    def good_test(self, mock_get_twilio, mock_mail, mock_get_grid_api_key, mock_send_grid):
+        dater = MagicMock()
+        message = "Test"
+        dater.email = "Dater email"
+        mock_get_twilio.return_value = "from email"
+        mock_mail.return_value = MagicMock()
+        mock_get_grid_api_key.return_value = "key"
+        mock_send_grid.return_value = MagicMock()
+
+        response = send_email(dater, message)
+        assert response.status_code == status.HTTP_200_OK
+        mock_get_twilio.assert_called_once()
+        mock_mail.assert_called_once()
+        mock_get_grid_api_key.assert_called_once()
+        mock_send_grid.assert_called_once()
+
+    @patch("get_twilio_authenticated_sender_email")
+    @patch("Mail")
+    @patch("get_grid_api_key")
+    @patch("SendGridAPIClient")
+    def bad_test(self, mock_get_twilio, mock_mail, mock_get_grid_api_key, mock_send_grid):
+        dater = MagicMock()
+        message = "Test"
+        dater.email = None
+        mock_get_twilio.return_value = "from email"
+        mock_mail.return_value = MagicMock()
+        mock_get_grid_api_key.return_value = "key"
+        mock_send_grid.return_value = MagicMock()       
+
+        response = send_email(dater, message)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        mock_get_twilio.assert_called_once()
+        mock_mail.assert_called_once()
+        mock_get_grid_api_key.assert_called_once()
+        mock_send_grid.assert_called_once()
+
 
 
 class TestSendText(APITestCase):
-    pass
+    @patch("get_twilio_authenticated_reserve_phone_number")
+    @patch("get_twilio_authenticated_sender_phone_number")
+    @patch("Client")
+    @patch("Client.messages.create")
+    def good_test(self, mock_reserve_number, mock_sender_number, mock_client, mock_message_create):
+        account_sid = "sid"
+        auth_token = "token"
+        message = "Test"
+        mock_reserve_number.return_value = "1234567890"
+        mock_sender_number.return_value = "0987654321"
+        mock_client.return_value = MagicMock()
+        mock_message_create.return_value = MagicMock()
+
+        response = send_text(account_sid, auth_token, message)
+        assert response.status_code == status.HTTP_200_OK
+        mock_reserve_number.assert_called_once()
+        mock_sender_number.assert_called_once()
+        mock_client.assert_called_once()
+        mock_message_create.assert_called_once()
+
+    @patch("get_twilio_authenticated_reserve_phone_number")
+    @patch("get_twilio_authenticated_sender_phone_number")
+    @patch("Client")
+    @patch("Client.messages.create")
+    def bad_test(self, mock_reserve_number, mock_sender_number, mock_client, mock_message_create):
+        account_sid = "sid"
+        auth_token = None
+        message = "Test"
+        mock_reserve_number.return_value = "1234567890"
+        mock_sender_number.return_value = "0987654321"
+        mock_client.return_value = MagicMock()
+        mock_message_create.return_value = MagicMock()
+
+        response = send_text(account_sid, auth_token, message)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        mock_reserve_number.assert_called_once()
+        mock_sender_number.assert_called_once()
+        mock_client.assert_called_once()
+        mock_message_create.assert_not_called()
 
 
 class TestGetResponseFromAudio(APITestCase):
-    pass
+    @patch("speech_recognition.Recognizer")
+    @patch("base64.b64decode")
+    @patch("open")
+    @patch("speech_recognition.AudioFile")
+    @patch("recognizer.record")
+    @patch("recognizer.recognize_sphinx")
+    @patch("get_ai_response")
+    def good_test(self, mock_recognizer, mock_base64, mock_open, mock_audiofile, mock_record, mock_recognize_sphinx, mock_ai_response)
+        audio_data = "audio data test"
+        audio_type = "audio type test"
+        dater = MagicMock()
+        mock_recognizer.return_value = MagicMock()
+        mock_base64.return_value = MagicMock()
+        mock_open.return_value = MagicMock()
+        mock_audiofile.return_value = MagicMock()
+        mock_record.return_value = MagicMock()
+        mock_recognize_sphinx.return_value = MagicMock()
+        mock_ai_response.return_value = MagicMock()
+
+        response = get_response_from_audio(audio_data, audio_type, dater)
+        assert response.status_code == status.HTTP_200_OK
+        mock_recognizer.assert_called_once()
+        mock_base64.assert_called_once()
+        mock_open.assert_called_once()
+        mock_audiofile.assert_called_once()
+        mock_record.assert_called_once()
+        mock_recognize_sphinx.assert_called_once()
+        mock_ai_response.assert_called_once()
+
+    @patch("speech_recognition.Recognizer")
+    @patch("base64.b64decode")
+    @patch("open")
+    @patch("speech_recognition.AudioFile")
+    @patch("recognizer.record")
+    @patch("recognizer.recognize_sphinx")
+    @patch("get_ai_response")
+    def bad_test(self, mock_recognizer, mock_base64, mock_open, mock_audiofile, mock_record, mock_recognize_sphinx, mock_ai_response)
+        # Testing with no audio data
+        audio_data = None
+        audio_type = "audio type test"
+        dater = MagicMock()
+        mock_recognizer.return_value = MagicMock()
+        mock_base64.return_value = MagicMock()
+        mock_open.return_value = MagicMock()
+        mock_audiofile.return_value = MagicMock()
+        mock_record.return_value = MagicMock()
+        mock_recognize_sphinx.return_value = MagicMock()
+        mock_ai_response.return_value = MagicMock()
+
+        response = get_response_from_audio(audio_data, audio_type, dater)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        mock_recognizer.assert_called_once()
+        mock_base64.assert_called_once()
+        # With no audio data, rest shouldn't be called, right?
+        mock_open.assert_not_called()
+        mock_audiofile.assert_not_called()
+        mock_record.assert_not_called()
+        mock_recognize_sphinx.assert_not_called()
+        mock_ai_response.assert_not_called()
+    
+
+
