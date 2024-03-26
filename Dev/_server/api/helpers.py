@@ -312,6 +312,7 @@ def create_new_gig(dater, response):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
+
 def send_text(account_sid, auth_token, message):
     # We are hard-coding the number since only verified numbers can be used
     to_phone_number = get_twilio_authenticated_reserve_phone_number()

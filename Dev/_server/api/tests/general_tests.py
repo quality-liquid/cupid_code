@@ -259,4 +259,24 @@ class TestCallYelpAPI(APITestCase):
 
 
 class TestNotify(APITestCase):
+
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.urls = "api/notify"
+        self.views = notify
+
+
+class TestCreateNewGig(APITestCase):
+    pass
+
+
+class TestSendEmail(APITestCase):
+    pass
+
+
+class TestSendText(APITestCase):
+    pass
+
+
+class TestGetResponseFromAudio(APITestCase):
     pass
