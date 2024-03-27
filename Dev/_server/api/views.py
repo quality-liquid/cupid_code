@@ -829,6 +829,32 @@ def drop_gig(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
+def get_cupid_gigs(request, pk):
+    """
+    For a cupid.
+    Returns all gigs that the cupid has been assigned.
+
+    Args:
+        request: Information about the request.
+        pk (int): The id of the cupid
+    Returns:
+        Response:
+            A list of gigs (JSON)
+    """
+    cupid = get_object_or_404(Cupid, user_id=pk)
+    helpers.update_user_location(cupid.user, request.META['REMOTE_ADDR'])
+    gigs = get_list_or_404(Gig, cupid=cupid)
+    current_gigs = []
+    for gig in gigs:
+        if gig.status == Gig.Status.CLAIMED:
+            current_gigs.append(gig)
+    serializer = GigSerializer(current_gigs, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_gigs(request, pk, count):
     """
     Returns a list of gigs, up to the number of `count`.
