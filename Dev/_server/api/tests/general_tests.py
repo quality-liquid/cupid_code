@@ -436,7 +436,7 @@ class TestGetResponseFromAudio(APITestCase):
     @patch("recognizer.record")
     @patch("recognizer.recognize_sphinx")
     @patch("get_ai_response")
-    def good_test(self, mock_recognizer, mock_base64, mock_open, mock_audiofile, mock_record, mock_recognize_sphinx, mock_ai_response)
+    def good_test(self, mock_recognizer, mock_base64, mock_open, mock_audiofile, mock_record, mock_recognize_sphinx, mock_ai_response):
         audio_data = "audio data test"
         audio_type = "audio type test"
         dater = MagicMock()
@@ -465,7 +465,7 @@ class TestGetResponseFromAudio(APITestCase):
     @patch("recognizer.record")
     @patch("recognizer.recognize_sphinx")
     @patch("get_ai_response")
-    def bad_test(self, mock_recognizer, mock_base64, mock_open, mock_audiofile, mock_record, mock_recognize_sphinx, mock_ai_response)
+    def bad_test(self, mock_recognizer, mock_base64, mock_open, mock_audiofile, mock_record, mock_recognize_sphinx, mock_ai_response):
         # Testing with no audio data
         audio_data = None
         audio_type = "audio type test"
