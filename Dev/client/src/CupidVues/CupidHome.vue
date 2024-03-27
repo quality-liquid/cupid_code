@@ -4,6 +4,8 @@
     const gigs = ref([]);
     const numOfGigs = 10;
 
+    onMounted(getGigs);
+
     const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
     // Open and closes drawer w/ shorthand
     function openDrawer() {
@@ -23,10 +25,9 @@
 
     // Get gigs function
     async function getGigs() {
-        const results = await makeRequest(`/api/cupid/getgigs/${numOfGigs}`); 
+        const results = await makeRequest(`/api/gig/${10}/${numOfGigs}`); 
         gigs.value = results.gigs; 
     }
-    onMounted(getGigs);
 
     // Accept gig function 
     async function acceptgig(gigId) {
