@@ -67,11 +67,11 @@ async function listen() {
     recorder.value.addEventListener("stop", () => {
         audio.value = new Blob(recordedChunks);
         console.log(audio.value);
-        console.log(audio.value.type);
-
+        const data = audio.value.text()
+        console.log(data)
         audioFile.value = {
-            'type': '',
-            'data': audio.value.type
+            'type': audio.value.type,
+            'data': audio.value.text()
         }
     });
 
@@ -171,6 +171,11 @@ async function stopListen() {
     padding: 30px;
     margin: 2px 4px;
     color: white;
+    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.2);
+}
+
+.button button:hover {
+    filter: brightness(0.9);
 }
 
 .listen {
@@ -195,7 +200,7 @@ async function stopListen() {
     position: absolute;
     width: 60%;
     height: 40%;
-    margin:auto;
+    margin: auto;
     left:0;
     right:0;
     top: 0;
