@@ -144,6 +144,10 @@ def get_location_from_ip_address(ip_address):
     """
     Returns the location of an IP address.
     """
+    if ip_address is None:
+        return None
+    if ip_address == "127.0.0.1" or ip_address == "localhost":
+        return "430909.36611535 4621007.2874155"
     geoip_database_path = "api/geodata/GeoLite2-City_20240227/GeoLite2-City.mmdb"
     with geoip2.database.Reader(geoip_database_path) as reader:
         try:
