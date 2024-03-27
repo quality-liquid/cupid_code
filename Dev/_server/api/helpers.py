@@ -113,6 +113,10 @@ def update_user_location(user, addr):
 
 
 def get_location_string(ip_address):
+    if ip_address is None:
+        return None
+    if ip_address == "127.0.0.1" or ip_address == "localhost":
+        return "430909.36611535 4621007.2874155"
     latitude, longitude = get_location_from_ip_address(ip_address)
     if latitude is None or longitude is None:
         return None
