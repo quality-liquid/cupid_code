@@ -308,16 +308,24 @@ class TestCreateNewGig(APITestCase):
     @patch("GigSerializer")
     def good_test(self, mock_yelp_api, mock_quest_serializer, mock_gig_serializer):
         dater = MagicMock()
-        request = "Test"
-        mock_yelp_api.return_value = MagicMock()
+        dater.budget = 1
+        ai_response = """
+        Create gig: True
+        Items requested: Flowers
+        """
+        mock_locations = [{
+            'address' : 'test address'
+        }]
+        mock_yelp_api.return_value = mock_locations
         mock_quest_serializer.return_value = MagicMock()
         mock_gig_serializer.return_value = MagicMock()
 
-        response = create_new_gig(dater, request)
+        response = create_new_gig(dater, ai_response)
         assert response.status_code == status.HTTP_200_OK
         mock_yelp_api.assert_called_once()
         mock_quest_serializer.assert_called_once()
         mock_gig_serializer.assert_called_once()
+        assert response.data['message'] == 'gig was created'
 
     @patch("call_yelp_api")
     @patch("QuestSerializer")
@@ -334,9 +342,8 @@ class TestCreateNewGig(APITestCase):
         mock_yelp_api.assert_called_once()
         mock_quest_serializer.assert_called_once()
         mock_gig_serializer.assert_called_once()
-    
 
-
+                   
 class TestSendEmail(APITestCase):
     @patch("get_twilio_authenticated_sender_email")
     @patch("Mail")
@@ -377,7 +384,6 @@ class TestSendEmail(APITestCase):
         mock_mail.assert_called_once()
         mock_get_grid_api_key.assert_called_once()
         mock_send_grid.assert_called_once()
-
 
 
 class TestSendText(APITestCase):
@@ -483,5 +489,3 @@ class TestGetResponseFromAudio(APITestCase):
         mock_recognize_sphinx.assert_not_called()
         mock_ai_response.assert_not_called()
     
-
-
