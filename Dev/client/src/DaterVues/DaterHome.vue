@@ -59,6 +59,7 @@ async function logout() {
     <router-link class="header" :to="{name: 'CupidCash', params: {id: user_id}}">Add Cash</router-link>
   </div>
   <div class="widget red"> <!-- This will become Calendar when it's made -->
+    <img :src="'/get_temp_pfp/'" alt="Menu Open icon" class="wid_icon">
     <router-link class="header" :to="{name: 'DaterProfile', params: {id: user_id}}">Edit Profile</router-link>
   </div>
 </div>

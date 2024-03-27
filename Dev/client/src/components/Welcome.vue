@@ -1,5 +1,5 @@
 <script setup>
-
+import router from '../router';
 </script>
 
 <template>
@@ -22,7 +22,7 @@
         let us help you crack the code to finding love in the digital age. Welcome to your new favorite wingman!
   </div>
   <div class="container">
-    <a href="#/register">Get Started Now!</a>
+    <router-link to="#/register">Get Started Now!</router-link>
   </div>
 
 </template>
