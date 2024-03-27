@@ -23,7 +23,7 @@
 
     // Get gigs function
     async function getGigs() {
-        const results = await makeRequest(`/api/cupid/getgigs/${numOfGigs}`); 
+        const results = await makeRequest(`/api/gig/${user_id}/${numOfGigs}`); 
         gigs.value = results.gigs; 
     }
     onMounted(getGigs);
@@ -61,6 +61,7 @@
     </nav>
 
     <div class="body">
+        <h1><br/>You are in CupidHome.vue</h1>
         <!-- Clicking on this gig item, reroute to GigDetails page -->
         <div v-for="gig of gigs" :key="gig.id">
             <div :class="{ 'active': gig.status, 'inactive': !gig.status }" >
