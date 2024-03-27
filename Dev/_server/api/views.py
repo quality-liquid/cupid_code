@@ -841,7 +841,7 @@ def get_gigs(request, pk, count):
         Response:
             A list of gigs (JSON)
     """
-    cupid = get_object_or_404(Cupid, id=pk)
+    cupid = get_object_or_404(Cupid, user_id=pk)
     helpers.update_user_location(cupid.user, request.META['REMOTE_ADDR'])
     gigs = Gig.objects.all()
     near_gigs = []

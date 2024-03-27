@@ -30,6 +30,7 @@
         </div>
     </nav>
 
+    <h1><br/>You are in GigDetails.vue</h1>
     <!-- If a gig is active, background is blue. If inactive, background is red -->
     <div :class="{'active': gig.active, 'inactive': !gig.active}">
         <!-- gig.location is just the City and state -->

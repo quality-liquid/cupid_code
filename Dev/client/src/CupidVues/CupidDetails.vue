@@ -29,6 +29,7 @@
             <button class="logout" @click="logout"> Logout </button>
         </div>
     </nav>
+        <h1><br/>You are in CupidDetails.vue</h1>
     
     <div>
         <h2>Total Earned</h2>
