@@ -35,12 +35,6 @@ function naviProf() {
     router.push({ name: 'DaterProfile', params: {id: user_id} })
 }
 
-async function sendFile() {
-    const result = await makeRequest('/api/stt', 'post', {
-        audio: audioFile
-    })
-}
-
 function toggleEmergency() {
     popupActive.value = !popupActive.value;
 }
@@ -64,23 +58,33 @@ async function listen() {
     const recordedChunks = [];
     recorder.value = new MediaRecorder(stream, options);
 
-    recorder.addEventListener("dataavailable", e => {
-    if (e.data.size > 0) {
-        recordedChunks.push(e.data);
-    }
+    recorder.value.addEventListener("dataavailable", e => {
+        if (e.data.size > 0) {
+            recordedChunks.push(e.data);
+        }
     });
 
-    recorder.addEventListener("stop", () => {
-    audio.value = new Blob(recordedChunks);
-    console.log(audio);
+    recorder.value.addEventListener("stop", () => {
+        audio.value = new Blob(recordedChunks);
+        console.log(audio.value);
+        console.log(audio.value.type);
+
+        audioFile.value = {
+            'type': '',
+            'data': audio.value.type
+        }
     });
 
-    recorder.start();
+    recorder.value.start();
 }
 
 async function stopListen() {
-    recorder.stop();
-    recorder = null;
+    recorder.value.stop();
+    recorder.value = null;
+
+    const result = await makeRequest('/api/stt', 'post', {
+        audio: audioFile
+    })
 }
 
 </script>
@@ -139,7 +143,7 @@ async function stopListen() {
         <div class="text">
             Chatbox
             Add listening functionality here
-            
+            <audio> </audio>
         </div>
     </div>
 </template>
