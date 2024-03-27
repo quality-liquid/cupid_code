@@ -6,12 +6,8 @@ const audioFile = ref({
     'type': '',
     'data': ''
 })
-
-const quest = ref({
-    'budget': 0.0,
-    'items_requested': '',
-    'pickup_location': ''
-})
+const audio = ref(null)
+const recorder = ref(null)
 
 const popupActive = ref(false)
 const budget = ref('')
@@ -58,12 +54,33 @@ async function sendEmergency() {
     popupActive.value = false
 }
 
-function listen() {
+async function listen() {
+    const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: false
+    });
 
+    const options = { mimeType: "audio/webm" };
+    const recordedChunks = [];
+    recorder.value = new MediaRecorder(stream, options);
+
+    recorder.addEventListener("dataavailable", e => {
+    if (e.data.size > 0) {
+        recordedChunks.push(e.data);
+    }
+    });
+
+    recorder.addEventListener("stop", () => {
+    audio.value = new Blob(recordedChunks);
+    console.log(audio);
+    });
+
+    recorder.start();
 }
 
-function stopListen() {
-
+async function stopListen() {
+    recorder.stop();
+    recorder = null;
 }
 
 </script>
