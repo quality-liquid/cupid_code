@@ -270,7 +270,35 @@ class TestGetDaterAverageRating(APITestCase):
 
 
 class TestDaterTransfer(APITestCase):
-    pass
+
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.url = reverse('api/dater_transfer')
+        self.view = dater_transfer
+
+    @patch('helpers.get_location_string')
+    @patch('get_object_or_404')
+    def good_test(self, mock_get_location_string, mock_get_object_or_404):
+        request = self.factory.post(self.url)
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_get_location_string.return_value = "Location"
+        mock_get_object_or_404.return_value = MagicMock()
+        response = self.view(request)
+        assert response.status_code == status.HTTP_200_OK
+        mock_get_location_string.assert_called_once()
+        mock_get_object_or_404.assert_called_once()
+
+    @patch('helpers.get_location_string')
+    @patch('get_object_or_404')
+    def bad_test(self, mock_get_location_string, mock_get_object_or_404):
+        request = self.factory.post(self.url)
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_get_location_string.return_value = "Location"
+        mock_get_object_or_404.return_value = None
+        response = self.view(request)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        mock_get_location_string.assert_called_once()
+        mock_get_object_or_404.assert_called_once()
 
 
 class TestGetDaterBalance(APITestCase):

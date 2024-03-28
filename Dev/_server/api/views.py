@@ -403,6 +403,8 @@ def dater_transfer(request):
     data['location'] = helpers.get_location_string(request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, user=request.user)
     card = get_object_or_404(PaymentCard, id=data['card_id'])
+    if dater is None or card is None:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
     if card.user != dater.user:
         return Response(
             {"error: you don't have a card with that id"},
