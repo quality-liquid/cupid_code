@@ -144,7 +144,36 @@ class TestGetMessages(APITestCase):
 
 
 class TestCalendar(APITestCase):
-    pass
+
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.url = reverse('api/calendar')
+        self.view = calendar
+
+    @patch('helpers.get_calendar')
+    @patch('helpers.save_calendar')
+    def good_test(self, mock_get_calendar, mock_save_calendar):
+        request = self.factory.get(self.url)
+        request.method = 'GET'
+        pk = 1
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_get_calendar.return_value = Response("Get Calendar", status=status.HTTP_200_OK)
+        response = self.view(request, pk)
+        assert response.data == "Get Calendar"
+        assert response.status_code == status.HTTP_200_OK
+        mock_get_calendar.assert_called_once()
+        mock_save_calendar.assert_not_called()
+
+        request = self.factory.post(self.url)
+        request.method = 'POST'
+        pk = 1
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_save_calendar.return_value = Response("Save Calendar", status=status.HTTP_200_OK)
+        response = self.view(request, pk)
+        assert response.data == "Save Calendar"
+        assert response.status_code == status.HTTP_200_OK
+        mock_get_calendar.assert_not_called()
+        mock_save_calendar.assert_called_once()
 
 
 class TestGetDaterRating(APITestCase):

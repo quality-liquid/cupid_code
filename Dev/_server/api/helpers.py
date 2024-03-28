@@ -5,7 +5,7 @@ import base64
 # Django
 from django.contrib.auth import login
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 
 # Rest Framework
 from rest_framework.response import Response
@@ -23,8 +23,9 @@ from twilio.rest import Client
 import speech_recognition
 
 # Local
-from .models import User, Dater, Cupid
-from .serializers import UserSerializer, DaterSerializer, CupidSerializer, QuestSerializer, GigSerializer
+from .models import User, Dater, Cupid, Date
+from .serializers import UserSerializer, DaterSerializer, CupidSerializer, QuestSerializer, GigSerializer, \
+    DateSerializer
 
 
 def initialize_serializer(user):
@@ -110,6 +111,28 @@ def get_ai_response(message: str):
         return response
     except Exception as e:
         return str(e)
+
+
+def save_calendar(request):
+    try:
+        data = request.data
+        # TODO: Either us or the frontend needs to determine a planned location, then save the geo coords
+        data['location'] = get_location_string(request.META['REMOTE_ADDR'])
+        data['dater'] = request.user.id
+        serializer = DateSerializer(data=data)
+        return changed_response(serializer)
+    except Dater.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+def get_calendar(pk, request):
+    try:
+        dater = authenticated_dater(pk, request.user)
+        dates = get_list_or_404(Date, dater=dater)
+        serializer = DateSerializer(dates, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Dater.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 def update_user_location(user, addr):

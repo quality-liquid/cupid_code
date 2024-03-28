@@ -287,17 +287,9 @@ def calendar(request, pk):
             The saved date serialized
     """
     if request.method == 'GET':
-        dater = helpers.authenticated_dater(pk, request.user)
-        dates = get_list_or_404(Date, dater=dater)
-        serializer = DateSerializer(dates, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return helpers.get_calendar(pk, request)
     elif request.method == 'POST':
-        data = request.data
-        # TODO: Either us or the frontend needs to determine a planned location, then save the geo coords
-        data['location'] = helpers.get_location_string(request.META['REMOTE_ADDR'])
-        data['dater'] = request.user.id
-        serializer = DateSerializer(data=data)
-        return helpers.changed_response(serializer)
+        return helpers.save_calendar(request)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
