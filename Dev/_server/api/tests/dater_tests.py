@@ -302,7 +302,34 @@ class TestDaterTransfer(APITestCase):
 
 
 class TestGetDaterBalance(APITestCase):
-    pass
+
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.url = reverse('api/get_dater_balance')
+        self.view = get_dater_balance
+
+    @patch('helpers.authenticated_dater')
+    def good_test(self, mock_authenticated_dater):
+        request = self.factory.get(self.url)
+        request.user.id = 1
+        force_authenticate(request, user=User.objects.get(username='test'))
+        dater = MagicMock()
+        dater.balance = 10
+        mock_authenticated_dater.return_value = dater
+        response = self.view(request)
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data == 10
+        mock_authenticated_dater.assert_called_once()
+
+    @patch('helpers.authenticated_dater')
+    def bad_test(self, mock_authenticated_dater):
+        request = self.factory.get(self.url)
+        request.user.id = 1
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_authenticated_dater.side_effect = PermissionDenied("Test Exception")
+        response = self.view(request)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+        mock_authenticated_dater.assert_called_once()
 
 
 class TestGetDaterProfile(APITestCase):
