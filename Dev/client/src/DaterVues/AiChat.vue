@@ -118,7 +118,7 @@ onMounted(getChats)
     <div class="textbox">
         <label for="message" class="message">
             <h4>Enter Message Here</h4>
-            <input id="message" placeholder="Type your message to the AI!" :value="message" @change="(e) =>  message = e.target.value">
+            <input id="message" placeholder="Type your message to the AI!" v-model="message">
         </label>
         <button class="button" @click="send">Send</button>
     </div>
