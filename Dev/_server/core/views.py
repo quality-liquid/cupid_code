@@ -35,6 +35,11 @@ def get_image(req: HttpRequest):
     path = os.path.join(VAULT_PATH, 'cupid_logo' + '.' + FILE_EXTENSION)
     return FileResponse(open(path, "rb"))
 
+def get_graph(req: HttpRequest):
+    FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
+    VAULT_PATH = os.environ.get('VAULT_PATH', '')
+    path = os.path.join(VAULT_PATH, 'graph' + '.' + FILE_EXTENSION)
+    return FileResponse(open(path, "rb"))
 
 def get_menu(req: HttpRequest):
     FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
