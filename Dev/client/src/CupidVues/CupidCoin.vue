@@ -15,7 +15,7 @@
 </template>
 <style>
     .coin {
-        background-color: var(--content-background);
+        background-color: var(--secondary-blue);
         margin: auto;
         width: 120px;
         height: 120px;
@@ -23,17 +23,25 @@
         display:flex;
         justify-content: center;
         align-content: center;
-        border: 5px solid gold;
-    }
-
-    .coin[data-active=true]{
-        background-color: black;
+        border: 5px solid black;
+        transition: all 0.8s ease;
     }
 
     .coin > svg {
         margin: auto;
         height: 80px;
         width: 80px;
-        fill: #f04b7f;
+        fill: var(--secondary-red);
+        transition: all 0.8s ease;
+    }
+
+    .coin[data-active=true]{
+        border-color: gold;
+        background-color: var(--content-background);
+        transform: scale(-1,1);
+    }
+
+    .coin[data-active=true] > svg{
+        fill: var(--primary-red);
     }
 </style>

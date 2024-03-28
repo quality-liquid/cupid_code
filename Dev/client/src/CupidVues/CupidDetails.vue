@@ -57,6 +57,12 @@
         router.push({name: 'CupidDetails', params: {id: user_id}});
     }
 
+    function toggleAccept() {
+        console.log("We toggling")
+        //TODO: Tell the server?
+        accepting_gigs.value = !accepting_gigs.value
+    }
+
     async function getData() {
         const cupid = await makeRequest(`api/user/${user_id}`)
         email.value = cupid.user.email
@@ -91,11 +97,7 @@
         </div>
     </nav>
     <main> 
-        <label for="accepting_gigs">
-            Accepting Gigs
-            <input type="checkbox" v-model="accepting_gigs"/>
-        </label>
-        <CupidCoin :active="accepting_gigs"/>
+        <CupidCoin :active="accepting_gigs" @click="toggleAccept"/>
         <div class="card">
             <p>${{ balance }}</p>
             <hr></hr>
@@ -132,6 +134,7 @@ main {
     top: 42px;
     left: 0px;
     right: 0px;
+    padding: 8px;
 }
 
 hr {
