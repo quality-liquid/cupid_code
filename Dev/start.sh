@@ -37,6 +37,7 @@ tmux send-keys -t vue_session "npm run dev" Enter
 echo "Vue development server started."
 
 # Open the app in default browser (in the current terminal)
+echo "Visit the website at http://localhost:8000"
 echo "Visit the backend at http://localhost:8000/api/user/create/"
 echo "Visit the frontend at http://localhost:5173/static"
 echo "Tmux sessions created:"

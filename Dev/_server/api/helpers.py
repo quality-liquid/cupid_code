@@ -34,9 +34,6 @@ def initialize_serializer(user):
     elif user.role == User.Role.CUPID:
         cupid = Cupid.objects.get(user=user)
         return CupidSerializer(cupid)
-    elif user.role == User.Role.MANAGER:
-        manager = User.objects.get(user=user)
-        return UserSerializer(manager)
 
 
 def authenticated_dater(pk, user):
