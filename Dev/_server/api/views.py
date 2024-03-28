@@ -15,6 +15,7 @@ from rest_framework.decorators import (
     authentication_classes,
     permission_classes,
 )
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -352,7 +353,10 @@ def get_dater_ratings(request, pk):
         Response:
             Sequence of Feedback objects
     """
-    dater = helpers.authenticated_dater(pk, request.user)
+    try:
+        dater = helpers.authenticated_dater(pk, request.user)
+    except PermissionDenied:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     ratings = get_list_or_404(Feedback, target=dater.user)
     serializer = FeedbackSerializer(ratings, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
@@ -373,7 +377,10 @@ def get_dater_avg_rating(request, pk):
         Response:
             rating(int): The dater's rating
     """
-    dater = helpers.authenticated_dater(pk, request.user)
+    try:
+        dater = helpers.authenticated_dater(pk, request.user)
+    except PermissionDenied:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     return Response({'rating:': dater.rating_sum / dater.rating_count}, status=status.HTTP_200_OK)
 
 
@@ -448,7 +455,10 @@ def get_dater_balance(request, pk):
         Response:
             balance(int): The balance of the dater
     """
-    dater = helpers.authenticated_dater(pk, request.user)
+    try:
+        dater = helpers.authenticated_dater(pk, request.user)
+    except PermissionDenied:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     return Response({'balance': dater.cupid_cash_balance}, status=status.HTTP_200_OK)
 
 
@@ -467,8 +477,10 @@ def get_dater_profile(request, pk):
         Response:
             The dater serialized
     """
-
-    dater = helpers.authenticated_dater(pk, request.user)
+    try:
+        dater = helpers.authenticated_dater(pk, request.user)
+    except PermissionDenied:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     serializer = DaterSerializer(dater)
     return Response(serializer.data, status=status.HTTP_200_OK)
 

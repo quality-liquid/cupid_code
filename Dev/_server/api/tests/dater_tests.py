@@ -199,12 +199,74 @@ class TestCalendar(APITestCase):
         mock_save_calendar.assert_called_once()
 
 
-class TestGetDaterRating(APITestCase):
-    pass
+class TestGetDaterRatings(APITestCase):
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.url = reverse('api/get_dater_ratings')
+        self.view = get_dater_ratings
+
+    @patch('helpers.authenticated_dater')
+    @patch('get_list_or_404')
+    @patch('FeedbackSerializer')
+    def good_test(self, mock_authenticated_dater, mock_get_list_or_404, mock_feedback_serializer):
+        request = self.factory.get(self.url)
+        request.user.id = 1
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_authenticated_dater.return_value = MagicMock()
+        mock_get_list_or_404.return_value = ["t1", "t2", "t3"]
+        mock_feedback_serializer.return_value = MagicMock()
+        response = self.view(request)
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data == ["t1", "t2", "t3"]
+        mock_authenticated_dater.assert_called_once()
+        mock_get_list_or_404.assert_called_once()
+        mock_feedback_serializer.assert_called_once()
+
+    @patch('helpers.authenticated_dater')
+    @patch('get_list_or_404')
+    @patch('FeedbackSerializer')
+    def bad_test(self, mock_authenticated_dater, mock_get_list_or_404, mock_feedback_serializer):
+        request = self.factory.get(self.url)
+        request.user.id = 1
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_authenticated_dater.side_effect = PermissionDenied("Test Exception")
+        response = self.view(request)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+        mock_authenticated_dater.assert_called_once()
+        mock_get_list_or_404.assert_not_called()
+        mock_feedback_serializer.assert_not_called()
 
 
 class TestGetDaterAverageRating(APITestCase):
-    pass
+
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.url = reverse('api/get_dater_average_rating')
+        self.view = get_dater_avg_rating
+
+    @patch('helpers.authenticated_dater')
+    def good_test(self, mock_authenticated_dater):
+        request = self.factory.get(self.url)
+        request.user.id = 1
+        force_authenticate(request, user=User.objects.get(username='test'))
+        dater = MagicMock()
+        dater.rating_sum = 10
+        dater.rating_count = 2
+        mock_authenticated_dater.return_value = dater
+        response = self.view(request)
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data == 5.0
+        mock_authenticated_dater.assert_called_once()
+
+    @patch('helpers.authenticated_dater')
+    def bad_test(self, mock_authenticated_dater):
+        request = self.factory.get(self.url)
+        request.user.id = 1
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_authenticated_dater.side_effect = PermissionDenied("Test Exception")
+        response = self.view(request)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+        mock_authenticated_dater.assert_called_once()
 
 
 class TestDaterTransfer(APITestCase):
