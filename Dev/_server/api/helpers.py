@@ -98,15 +98,18 @@ def get_ai_response(message: str):
     https://pytensor.readthedocs.io/en/latest/
     https://huggingface.co/
     """
-    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-    model = GPT2LMHeadModel.from_pretrained("gpt2")
-    # Tokenize input text
-    input_ids = tokenizer.encode(message, return_tensors='pt')
-    # Generate response
-    output = model.generate(input_ids, max_length=100, num_return_sequences=1, early_stopping=True)
-    # Decode and return response
-    response = tokenizer.decode(output[0], skip_special_tokens=True)
-    return response
+    try:
+        tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+        model = GPT2LMHeadModel.from_pretrained("gpt2")
+        # Tokenize input text
+        input_ids = tokenizer.encode(message, return_tensors='pt')
+        # Generate response
+        output = model.generate(input_ids, max_length=100, num_return_sequences=1, early_stopping=True)
+        # Decode and return response
+        response = tokenizer.decode(output[0], skip_special_tokens=True)
+        return response
+    except Exception as e:
+        return str(e)
 
 
 def update_user_location(user, addr):
