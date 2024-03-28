@@ -125,15 +125,15 @@ async function stopListen() {
             <h1>Create Gig</h1>
             <label class="update-content" for="budget">
                 Budget
-                <input type="text" id="budget" :value="budget" @change="(e) => budget = e.target.value"/>
+                <input type="text" id="budget" v-model="budget"/>
             </label>
             <label class="update-content" for="items_requested">
                 Items Requested
-                <input type="text" id="items_requested" :value="items_requested" @change="(e) => items_requested = e.target.value"/>
+                <input type="text" id="items_requested" v-model="items_requested"/>
             </label>
             <label class="update-content" for="pickup_location">
                 Pickup Location
-                <input type="text" id="pickup_location" :value="pickup_location" @change="(e) => pickup_location = e.target.value"/>
+                <input type="text" id="pickup_location" v-model="pickup_location"/>
             </label>
             <div>
                 <button @click="sendEmergency">Send</button>
@@ -174,7 +174,7 @@ async function stopListen() {
     box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.2);
 }
 
-.button button:hover {
+.button:hover {
     filter: brightness(0.9);
 }
 
