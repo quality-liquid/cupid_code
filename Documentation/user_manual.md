@@ -83,3 +83,24 @@ http://localhost:5173/static
 
 I'm thinking we take pictures and add them here with descriptions.
 To be done this week.
+
+#### Dater
+
+##### Sign up
+
+##### Sign in
+
+
+
+#### Cupid
+
+##### Sign up
+
+##### Sign in
+
+
+
+
+#### Manager
+
+##### Sign in

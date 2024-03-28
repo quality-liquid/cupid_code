@@ -224,13 +224,14 @@ def send_chat_message(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_five_messages(request, pk):
+def get_messages(request, pk, count):
     """
     Returns the five most recent messages between user and AI.
 
     Args:
         request: information about the request
         pk(int): the user_id as included in the URL
+        count(int): the number of messages to return. if count is 0, return all messages. if count is greater than the number of messages, return all messages. if count is less than the number of messages, that number of messages will be returned.
     Returns:
         Response:
             The five messages serialized
@@ -238,12 +239,25 @@ def get_five_messages(request, pk):
     if pk != request.user.id:
         return Response(status=status.HTTP_403_FORBIDDEN)
     user = get_object_or_404(User, id=pk)
+    if user is None:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
     try:
-        messages = Message.objects.filter(owner=user).order_by('-id')[:5]
+        messages = Message.objects.filter(owner=user).order_by('-id')
+        new_messages = []
+        if count == 0:
+            new_messages = messages
+        else:
+            for i in range(len(messages)):
+                m = messages[i]
+                new_messages.append(m)
+                if i == count - 1:
+                    break
     except Message.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-    serializer = MessageSerializer(messages, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    serializer = MessageSerializer(new_messages, many=True)
+    if serializer.is_valid():
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'POST'])

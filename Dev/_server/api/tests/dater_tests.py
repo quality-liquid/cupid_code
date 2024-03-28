@@ -58,7 +58,7 @@ class TestSendChatMessage(APITestCase):
     @patch('helpers.get_location_string')
     @patch('MessageSerializer')
     @patch('helpers.get_ai_response')
-    def test_good(self, mock_get_location_string, mock_message_serializer, mock_get_ai_response):
+    def good_test(self, mock_get_location_string, mock_message_serializer, mock_get_ai_response):
         request = self.factory.post(self.url)
         force_authenticate(request, user=User.objects.get(username='test'))
         mock_get_location_string.return_value = "Location"
@@ -74,7 +74,7 @@ class TestSendChatMessage(APITestCase):
     @patch('helpers.get_location_string')
     @patch('MessageSerializer')
     @patch('helpers.get_ai_response')
-    def test_bad(self, mock_get_location_string, mock_message_serializer, mock_get_ai_response):
+    def bad_test(self, mock_get_location_string, mock_message_serializer, mock_get_ai_response):
         request = self.factory.post(self.url)
         force_authenticate(request, user=User.objects.get(username='test'))
         mock_get_location_string.return_value = "Location"
@@ -88,16 +88,64 @@ class TestSendChatMessage(APITestCase):
         mock_get_ai_response.assert_not_called()
 
 
-class TestGetFiveMessages(APITestCase):
-        
-        def setUp(self):
-            self.factory = APIRequestFactory()
-            self.url = reverse('api/get_five_messages')
-            self.view = get_five_messages
+class TestGetMessages(APITestCase):
+
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.url = reverse('api/get_five_messages')
+        self.view = get_messages
+
+    @patch('get_object_or_404')
+    @patch('Message.objects.filter')
+    @patch('MessageSerializer')
+    def good_test(self, mock_get_object_or_404, mock_message_filter, mock_message_serializer):
+        request = self.factory.get(self.url)
+        request.user.id = 1
+        pk = 1
+        count = 5
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_get_object_or_404.return_value = MagicMock()
+        mock_message_filter.return_value = ["t1", "t2", "t3", "t4", "t5"]
+        mock_message_serializer.return_value = MagicMock()
+        response = self.view(request, pk, count)
+        assert response.status_code == status.HTTP_200_OK
+        mock_get_object_or_404.assert_called_once()
+        mock_message_filter.assert_called_once()
+        mock_message_serializer.assert_called_once()
+
+        request = self.factory.get(self.url)
+        request.user.id = 1
+        pk = 1
+        count = 4
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_get_object_or_404.return_value = MagicMock()
+        mock_message_filter.return_value = ["t1", "t2", "t3"]
+        mock_message_serializer.return_value = MagicMock()
+        response = self.view(request, pk, count)
+        assert response.status_code == status.HTTP_200_OK
+        mock_get_object_or_404.assert_called_once()
+        mock_message_filter.assert_called_once()
+
+    @patch('get_object_or_404')
+    @patch('Message.objects.filter')
+    @patch('MessageSerializer')
+    def bad_test(self, mock_get_object_or_404, mock_message_filter, mock_message_serializer):
+        request = self.factory.get(self.url)
+        request.user.id = 1
+        pk = 1
+        count = 4
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_get_object_or_404.return_value = None
+        response = self.view(request, pk, count)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        mock_get_object_or_404.assert_called_once()
+        mock_message_filter.assert_not_called()
+        mock_message_serializer.assert_not_called()
 
 
 class TestCalendar(APITestCase):
     pass
+
 
 class TestGetDaterRating(APITestCase):
     pass
