@@ -439,7 +439,7 @@ def save_card(request):
     helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
     data['user'] = request.user.id
     serializer = PaymentCardSerializer(data=data)
-    return helpers.changed_response(serializer)
+    return helpers.save_serializer(serializer)
 
 
 @api_view(['GET'])
@@ -537,8 +537,8 @@ def rate_cupid(request):
     helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
     owner = request.user.id
     target = data['cupid_id']
-    gig = data['gig_id']
-    if Gig.objects.get(id=gig).cupid.user_id != target:
+    gig = get_object_or_404(Gig, id=data['gig_id'])
+    if gig.cupid.user_id != target:
         return Response(status=status.HTTP_403_FORBIDDEN)
     serializer = FeedbackSerializer(
         data={
@@ -645,7 +645,7 @@ def save_bank_account(request):
     helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
     data['user'] = request.user.id
     serializer = BankAccountSerializer(data=data)
-    return helpers.changed_response(serializer)
+    return helpers.save_serializer(serializer)
 
 
 @api_view(['GET'])
@@ -754,7 +754,7 @@ def create_gig(request):
             'dropped_count': 0,
             'accepted_count': 0,
         })
-    return helpers.changed_response(serializer)
+    return helpers.save_serializer(serializer)
 
 
 @api_view(['POST'])
@@ -816,7 +816,7 @@ def complete_gig(request):
         },
         partial=True,
     )
-    return helpers.changed_response(serializer)
+    return helpers.save_serializer(serializer)
 
 
 @api_view(['POST'])
@@ -1324,6 +1324,8 @@ def speech_to_text(request):
     data = request.data
     data['location'] = helpers.get_location_string(request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, user_id=request.user.id)
+    if dater is None:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
     audio = data['audio']
     audio_type = audio['type']
     audio_data = audio['data']

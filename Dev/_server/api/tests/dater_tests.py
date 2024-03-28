@@ -333,20 +333,215 @@ class TestGetDaterBalance(APITestCase):
 
 
 class TestGetDaterProfile(APITestCase):
-    pass
+
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.url = reverse('api/get_dater_profile')
+        self.view = get_dater_profile
+
+    @patch('helpers.authenticated_dater')
+    def good_test(self, mock_authenticated_dater):
+        request = self.factory.get(self.url)
+        request.user.id = 1
+        force_authenticate(request, user=User.objects.get(username='test'))
+        dater = MagicMock()
+        dater.profile = "Profile"
+        mock_authenticated_dater.return_value = dater
+        response = self.view(request)
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data == "Profile"
+        mock_authenticated_dater.assert_called_once()
+
+    @patch('helpers.authenticated_dater')
+    def bad_test(self, mock_authenticated_dater):
+        request = self.factory.get(self.url)
+        request.user.id = 1
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_authenticated_dater.side_effect = PermissionDenied("Test Exception")
+        response = self.view(request)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+        mock_authenticated_dater.assert_called_once()
 
 
 class TestSetDaterProfile(APITestCase):
-    pass
+
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.url = reverse('api/set_dater_profile')
+        self.view = set_dater_profile
+
+    @patch('helpers.get_location_string')
+    @patch('get_object_or_404')
+    @patch('DaterSerializer')
+    @patch('UserSerializer')
+    def good_test(self, mock_get_location_string, mock_get_object_or_404, mock_dater_serializer, mock_user_serializer):
+        request = self.factory.post(self.url)
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_get_location_string.return_value = "Location"
+        mock_get_object_or_404.return_value = MagicMock()
+        mock_dater_serializer.return_value = MagicMock()
+        mock_user_serializer.return_value = MagicMock()
+        response = self.view(request)
+        assert response.status_code == status.HTTP_200_OK
+        mock_get_location_string.assert_called_once()
+        mock_get_object_or_404.assert_called_once()
+        mock_dater_serializer.assert_called_once()
+        mock_user_serializer.assert_called_once()
+
+    @patch('helpers.get_location_string')
+    @patch('get_object_or_404')
+    @patch('DaterSerializer')
+    @patch('UserSerializer')
+    def bad_test(self, mock_get_location_string, mock_get_object_or_404, mock_dater_serializer, mock_user_serializer):
+        request = self.factory.post(self.url)
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_get_location_string.return_value = "Location"
+        mock_get_object_or_404.return_value = None
+        mock_dater_serializer.return_value = MagicMock()
+        mock_user_serializer.return_value = MagicMock()
+        response = self.view(request)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        mock_get_location_string.assert_called_once()
+        mock_get_object_or_404.assert_called_once()
+        mock_dater_serializer.assert_called_once()
+        mock_user_serializer.assert_called_once()
 
 
 class TestRateCupid(APITestCase):
-    pass
+
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.url = reverse('api/rate_cupid')
+        self.view = rate_cupid
+
+    @patch('helpers.update_user_location')
+    @patch('Gig.objects.get')
+    @patch('FeedbackSerializer')
+    @patch('make_aware')
+    def good_test(self, mock_update_user_location, mock_gig_get, mock_feedback_serializer, mock_make_aware):
+        request = self.factory.post(self.url)
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_update_user_location.return_value = MagicMock()
+        mock_gig_get.return_value = MagicMock()
+        mock_feedback_serializer.return_value = MagicMock()
+        mock_make_aware.return_value = MagicMock()
+        response = self.view(request)
+        assert response.status_code == status.HTTP_200_OK
+        mock_update_user_location.assert_called_once()
+        mock_gig_get.assert_called_once()
+        mock_feedback_serializer.assert_called_once()
+        mock_make_aware.assert_called_once()
+
+    @patch('helpers.update_user_location')
+    @patch('Gig.objects.get')
+    @patch('FeedbackSerializer')
+    @patch('make_aware')
+    def bad_test(self, mock_update_user_location, mock_gig_get, mock_feedback_serializer, mock_make_aware):
+        request = self.factory.post(self.url)
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_update_user_location.return_value = MagicMock()
+        mock_gig_get.return_value = None
+        mock_feedback_serializer.return_value = MagicMock()
+        mock_make_aware.return_value = MagicMock()
+        response = self.view(request)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        mock_update_user_location.assert_called_once()
+        mock_gig_get.assert_called_once()
+        mock_feedback_serializer.assert_not_called()
+        mock_make_aware.assert_not_called()
 
 
 class TestCreateGig(APITestCase):
-    pass
+
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.url = reverse('api/create_gig')
+        self.view = create_gig
+
+    @patch('helpers.update_user_location')
+    @patch('get_object_or_404')
+    @patch('QuestSerializer')
+    @patch('GigSerializer')
+    @patch('helpers.save_serializer')
+    def good_test(self, mock_update_user_location, mock_get_object_or_404, mock_quest_serializer, mock_gig_serializer,
+                  mock_save_serializer):
+        request = self.factory.post(self.url)
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_update_user_location.return_value = MagicMock()
+        mock_get_object_or_404.return_value = MagicMock()
+        mock_quest_serializer.return_value = MagicMock()
+        mock_gig_serializer.return_value = MagicMock()
+        response = self.view(request)
+        assert response.status_code == status.HTTP_200_OK
+        mock_update_user_location.assert_called_once()
+        mock_get_object_or_404.assert_called_once()
+        mock_quest_serializer.assert_called_once()
+        mock_gig_serializer.assert_called_once()
+        mock_save_serializer.assert_called_once()
+
+    @patch('helpers.update_user_location')
+    @patch('get_object_or_404')
+    @patch('QuestSerializer')
+    @patch('GigSerializer')
+    @patch('helpers.save_serializer')
+    def bad_test(self, mock_update_user_location, mock_get_object_or_404, mock_quest_serializer, mock_gig_serializer,
+                 mock_save_serializer):
+        request = self.factory.post(self.url)
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_update_user_location.return_value = MagicMock()
+        mock_get_object_or_404.return_value = None
+        mock_quest_serializer.return_value = MagicMock()
+        mock_gig_serializer.return_value = MagicMock()
+        response = self.view(request)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        mock_update_user_location.assert_called_once()
+        mock_get_object_or_404.assert_called_once()
+        mock_quest_serializer.assert_not_called()
+        mock_gig_serializer.assert_not_called()
+        mock_save_serializer.assert_not_called()
 
 
 class TestSpeechToText(APITestCase):
-    pass
+
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.url = reverse('api/speech_to_text')
+        self.view = speech_to_text
+
+    @patch('helpers.get_location_string')
+    @patch('get_object_or_404')
+    @patch('helpers.get_response_from_audio')
+    @patch('helpers.process_ai_response')
+    def good_test(self, mock_get_location_string, mock_get_object_or_404, mock_get_response_from_audio,
+                  mock_process_ai_response):
+        request = self.factory.post(self.url)
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_get_location_string.return_value = "Location"
+        mock_get_object_or_404.return_value = MagicMock()
+        mock_get_response_from_audio.return_value = "Response"
+        mock_process_ai_response.return_value = "Processed Response"
+        response = self.view(request)
+        assert response.status_code == status.HTTP_200_OK
+        mock_get_location_string.assert_called_once()
+        mock_get_object_or_404.assert_called_once()
+        mock_get_response_from_audio.assert_called_once()
+        mock_process_ai_response.assert_called_once()
+
+    @patch('helpers.get_location_string')
+    @patch('get_object_or_404')
+    @patch('helpers.get_response_from_audio')
+    @patch('helpers.process_ai_response')
+    def bad_test(self, mock_get_location_string, mock_get_object_or_404, mock_get_response_from_audio,
+                 mock_process_ai_response):
+        request = self.factory.post(self.url)
+        force_authenticate(request, user=User.objects.get(username='test'))
+        mock_get_location_string.return_value = "Location"
+        mock_get_object_or_404.return_value = None
+        mock_get_response_from_audio.return_value = "Response"
+        mock_process_ai_response.return_value = "Processed Response"
+        response = self.view(request)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        mock_get_location_string.assert_called_once()
+        mock_get_object_or_404.assert_called_once()
+        mock_get_response_from_audio.assert_not_called()
+        mock_process_ai_response.assert_not_called()

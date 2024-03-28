@@ -82,7 +82,7 @@ def retrieved_response(serializer):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def changed_response(serializer):
+def save_serializer(serializer):
     """
     This method is to make validating information is changed and saved correctly, and it returns a 201.
     Returns 400 if it failed.
@@ -120,7 +120,7 @@ def save_calendar(request):
         data['location'] = get_location_string(request.META['REMOTE_ADDR'])
         data['dater'] = request.user.id
         serializer = DateSerializer(data=data)
-        return changed_response(serializer)
+        return save_serializer(serializer)
     except Dater.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
