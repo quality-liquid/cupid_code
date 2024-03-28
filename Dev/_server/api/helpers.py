@@ -34,6 +34,9 @@ def initialize_serializer(user):
     elif user.role == User.Role.CUPID:
         cupid = Cupid.objects.get(user=user)
         return CupidSerializer(cupid)
+    elif user.role == User.Role.MANAGER:
+        manager = User.objects.get(user=user)
+        return UserSerializer(manager)
 
 
 def authenticated_dater(pk, user):
@@ -59,10 +62,13 @@ def save_profile(request, user, serializer):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def user_expand(user, serializer):
-    userSerializer = UserSerializer(user)
-    return_data = serializer.data
-    return_data['user'] = userSerializer.data
+def user_expand(user, other_serializer):
+    return_data = other_serializer.data
+    if user.role == User.Role.MANAGER:
+        return_data['user'] = other_serializer.data
+    else:
+        user_serializer = UserSerializer(user)
+        return_data['user'] = user_serializer.data
     del return_data['user']['password']
     return return_data
 

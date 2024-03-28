@@ -119,9 +119,12 @@ def sign_in(request):
     user = authenticate(request, username=username, password=data['password'])
     if user is not None:
         login(request, user)
-        profile_serializer = helpers.initialize_serializer(user)
-        return_data = helpers.user_expand(user, profile_serializer)
-        return Response(return_data, status=status.HTTP_200_OK)
+        serializer = helpers.initialize_serializer(user)
+        if serializer is not None:
+            return_data = helpers.user_expand(user, serializer)
+            return Response(return_data, status=status.HTTP_200_OK)
+        else:
+            return Response({'Reason': 'Invalid User Type'}, status=status.HTTP_400_BAD_REQUEST)
     else:
         if User.objects.filter(email=data['email']):
             reason = 'Incorrect password'
