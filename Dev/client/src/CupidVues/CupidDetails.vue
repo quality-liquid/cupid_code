@@ -1,7 +1,9 @@
 <script setup>
-    import router from '../router/index';
+    import router from '../router/index'
     import { makeRequest } from '../utils/make_request'
-    import {ref, onMounted} from 'vue';
+    import {ref, onMounted} from 'vue'
+
+    import CupidCoin from './CupidCoin.vue'
 
     //User info
     const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
@@ -89,33 +91,34 @@
         </div>
     </nav>
     <main> 
+        <label for="accepting_gigs">
+            Accepting Gigs
+            <input type="checkbox" v-model="accepting_gigs"/>
+        </label>
+        <CupidCoin :active="accepting_gigs"/>
         <div class="card">
-            <label for="accepting_gigs">
-                Accepting Gigs
-                <input type="checkbox" v-model="accepting_gigs"/>
-            </label>
-            <p>Balance: {{ balance }}</p>
-            <p>Completed Gigs: {{ gigs_completed }}</p>
-            <p>Failed Gigs: {{ gigs_failed }}</p>
+            <p>${{ balance }}</p>
+            <hr></hr>
+            <p>{{ gigs_completed }} / {{ gigs_failed + gigs_completed}} succesful gigs</p>
         </div>
         <h1>Update Details</h1>
         <hr>
         <form class="container" @submit.prevent="update">
             <label class="update-content" for="fname">
                 First Name
-                <input type="text" id="fname" :value="fname" @change="(e) => fname = e.target.value"/>
+                <input type="text" id="fname" v-model="fname"/>
             </label>
             <label class="update-content" for="lname">
                 Last Name
-                <input type="text" id="lname" :value="lname" @change="(e) => lname = e.target.value"/>
+                <input type="text" id="lname" v-model="lname"/>
             </label>
             <label class="update-content" for="phone">
                 Phone Number
-                <input type="number" id="phone" :placeholder="phone" :value="phone" @change="(e) => phone = e.target.value"/>
+                <input type="number" id="phone" :placeholder="phone" v-model="phone"/>
             </label>
             <label class="update-content" for="range">
                 Range
-                <input type="text" id="range" :value="range" @change="(e) => range = e.target.value"/>
+                <input type="text" id="range" v-model="range"/>
             </label>
             <button class="button">Save</button>
         </form>
@@ -169,4 +172,25 @@ input {
     align-self: center;
 }
 
+.card {
+    border: 4px solid var(--secondary-blue);
+    border-radius: 16px;
+    margin: 16px;
+    padding: 8px;
+    background-color: var(--primary-blue);
+    color: white;
+    font-size: 1.3em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.card > hr {
+    border-color: var(--secondary-red);
+}
+.card > p {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: auto;
+    margin-right: auto;
+}
 </style>
