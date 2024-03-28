@@ -1,43 +1,4 @@
-<template>
-  <!-- nav banner component -->
-  <!--  -->
-
-  <article>Daters</article>
-  <article>Cupids</article>
-
-  <figure>Graph</figure>
-
-  <figure>{{ daters }} Users</figure>
-  <figure>{{ cupids }} Cupids stats</figure>
-  <figure>{{ active_cupids }} Active Cupids</figure>
-  <figure>{{ active_daters }} Active Daters</figure>
-  <figure>Other Info</figure>
-
-</template>
-
 <script setup>
-/*
-  Not valid Vue 3 syntax
-  const managerComponent = new VueElement({
-    el: "#managerPage",
-    data: {
-
-    },
-    methods: {
-      getDatersTotal(){
-        daters.total
-      },
-      getCupidsTotal(){
-        cupids.total
-      },
-      getCurrActiveTotal(){
-        cupids.currActive
-      }
-    }
-  })
-*/
-
-
 // NOTE: I tried matching the results names to what I can see in the views.py and helper.py 
 //If things are reading null or undefined, just console.log(results) to see what the names are and then change `results.data` to `results.<foundName>`
 import {ref, onMounted} from 'vue'
@@ -70,11 +31,24 @@ onMounted(getDatersTotal)
 onMounted(getCurrActiveTotal)
 </script>
 
+<template>
+  <!-- nav banner component -->
+  <!--  -->
 
+  <article>Daters</article>
+  <article>Cupids</article>
 
+  <figure>Graph</figure>
 
+  <figure>{{ daters }} Users</figure>
+  <figure>{{ cupids }} Cupids stats</figure>
+  <figure>{{ active_cupids }} Active Cupids</figure>
+  <figure>{{ active_daters }} Active Daters</figure>
+  <figure>Other Info</figure>
 
-<style>
+</template>
+
+<style scoped>
 
 </style>
   

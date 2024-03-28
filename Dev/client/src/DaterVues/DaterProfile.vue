@@ -148,23 +148,23 @@
         <div class="personal">
             <label class="update-content" for="fname">
                 First Name
-                <input type="text" id="fname" :value="fname" @change="(e) => fname = e.target.value"/>
+                <input type="text" id="fname" v-model="fname"/>
             </label>
             <label class="update-content" for="lname">
                 Last Name
-                <input type="text" id="lname" :value="lname" @change="(e) => lname = e.target.value"/>
+                <input type="text" id="lname" v-model="lname"/>
             </label>
             <label class="update-content" for="phone">
                 Phone Number
-                <input type="number" id="phone" :placeholder="phone" :value="phone" @change="(e) => phone = e.target.value"/>
+                <input type="number" id="phone" v-model="phone"/>
             </label>
             <label class="update-content" for="address">
                 Address
-                <input type="text" id="address" :value="addr" @change="(e) => addr = e.target.value"/>
+                <input type="text" id="address" v-model="addr"/>
             </label>
             <label class="update-content" for="degree">
                 AI Degree
-                <select id="degree" :value="degree" class="update-select">
+                <select id="degree" v-model="degree" class="update-select">
                     <option value="I don't want any help">I don't want any help</option>
                     <option value="I would like a little help">I would like a little help</option>
                     <option value="I need a good amount of help">I need a good amount of help</option>
@@ -176,42 +176,42 @@
         <div class="userinfo">
             <label class="update-content" for="username">
                 Username
-                <input type="text" id="username" :value="username" @change="(e) => username = e.target.value"/>
+                <input type="text" id="username" v-model="username"/>
             </label>
             <label class="update-content" for="email">
                 Email
-                <input type="email" id="email" :value="email" @change="(e) => email = e.target.value"/>
+                <input type="email" id="email" v-model="email"/>
             </label>
         </div>
         <h2> Details about you! </h2>
         <div class="details">
             <label class="update-text" for="desc">
                 Physical Description
-                <textarea :value="desc" id="desc" @change="(e) => desc = e.target.value"></textarea>
+                <textarea id="desc" v-model="desc"></textarea>
             </label>
             <label class="update-content" for="nerd_type">
                 Nerd Type
-                <input type="text" id="nerd_type" :value="ntype" @change="(e) => ntype = e.target.value"/>
+                <input type="text" id="nerd_type" v-model="ntype"/>
             </label>
             <label class="update-text" for="goals">
                 Relationship Goals
-                <textarea :value="goals" id="goals" @change="(e) => goals = e.target.value"></textarea>
+                <textarea id="goals" v-model="goals"></textarea>
             </label>
             <label class="update-text" for="interests">
                 Interests
-                <textarea :value="interests" id="interests" @change="(e) => interests = e.target.value"></textarea>
+                <textarea id="interests" v-model="interests"></textarea>
             </label>
             <label class="update-text" for="past">
                 Past Dating History
-                <textarea :value="past" id="past" @change="(e) => past = e.target.value"></textarea>
+                <textarea id="past" v-model="past"></textarea>
             </label>
             <label class="update-text" for="strengths">
                 Dating Strengths
-                <textarea :value="str" id="strengths" @change="(e) => str = e.target.value"></textarea>
+                <textarea id="strengths" v-model="str"></textarea>
             </label>
             <label class="update-text" for="weaknesses">
                 Dating Weaknesses
-                <textarea :value="weak" id="weaknesses" @change="(e) => weak = e.target.value"></textarea>
+                <textarea id="weaknesses" v-model="weak"></textarea>
             </label>
         </div>
         <label class="update-content" for="image">
@@ -226,15 +226,15 @@
         <!-- Make it so they have to update the password w/ old, new, repeated new. -->
         <label class="update-content" for="old-password">
             Old Password
-            <input type="password" id="old-password" :value="oldPassword" @change="(e) => oldPassword = e.target.value"/>
+            <input type="password" id="old-password" v-model="oldPassword"/>
         </label>
         <label class="update-content" for="new-password">
             New Password
-            <input type="password" id="new-password" :value="newPassword" @change="(e) => newPassword = e.target.value"/>
+            <input type="password" id="new-password" v-model="newPassword">
         </label>
         <label class="update-content" for="new-password-2">
             Repeat New password
-            <input type="password" id="new-password-2" :value="newPassword2" @change="(e) => newPassword2 = e.target.value"/>
+            <input type="password" id="new-password-2" v-model="newPassword2"/>
         </label>
         <button class="button"> Update Password </button>
     </form>
