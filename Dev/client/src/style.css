@@ -50,6 +50,11 @@ body {
   transition: 0.5s; 
 }
 
+.navbar a {
+    display:block;
+    text-wrap: nowrap;
+}
+
 .opened {
   display: flex;
   padding-left: 16px; 
