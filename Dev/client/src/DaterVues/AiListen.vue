@@ -94,7 +94,7 @@ async function stopListen() {
         <button @click="openDrawer" class="icon-button">
             <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
         </button>
-        <!-- This will be the profile picture when setup -->
+        <span>Let the AI Listen in!</span>
         <button class="icon-button" @click="naviProf">
             <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">
         </button>
@@ -175,7 +175,7 @@ async function stopListen() {
 }
 
 .button:hover {
-    filter: brightness(0.9);
+    filter: brightness(0.6);
 }
 
 .listen {

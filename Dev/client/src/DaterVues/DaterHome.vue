@@ -31,6 +31,7 @@ async function logout() {
   <button @click="openDrawer" class="icon-button">
     <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
   </button>
+  <span>Home</span>
   <!-- This will be the profile picture when setup & will be functioning button -->
   <button class="icon-button" @click="naviProf">
     <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">

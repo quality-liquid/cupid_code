@@ -53,6 +53,17 @@ def get_temp_pfp(req: HttpRequest):
     path = os.path.join(VAULT_PATH, 'default_pfp' + '.' + FILE_EXTENSION)
     return FileResponse(open(path, "rb"))
 
+def get_person(req: HttpRequest):
+    FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
+    VAULT_PATH = os.environ.get('VAULT_PATH', '')
+    path = os.path.join(VAULT_PATH, 'person' + '.' + FILE_EXTENSION)
+    return FileResponse(open(path, "rb"))
+
+def get_heart(req: HttpRequest):
+    FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
+    VAULT_PATH = os.environ.get('VAULT_PATH', '')
+    path = os.path.join(VAULT_PATH, 'heart' + '.' + FILE_EXTENSION)
+    return FileResponse(open(path, "rb"))
 
 def get_money(req: HttpRequest):
     FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')

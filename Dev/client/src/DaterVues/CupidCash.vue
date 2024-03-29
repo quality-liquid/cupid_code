@@ -39,7 +39,7 @@
         <button @click="openDrawer" class="icon-button">
             <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
         </button>
-        <!-- This will be the profile picture when setup -->
+        <span>Add Cash</span>
         <span>{{'$' + balance}}</span>
         <div id="navbar" class="navbar">
             <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
@@ -82,6 +82,7 @@
 .container h1 {
     margin-top: 50px;
 }
+
 .money-container {
     display: flex;
     flex-flow: row wrap;

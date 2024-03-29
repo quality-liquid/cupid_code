@@ -94,7 +94,7 @@ onMounted(getChats)
         <button @click="openDrawer" class="icon-button">
             <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
         </button>
-        <!-- This will be the profile picture when setup -->
+        <span>Chat Room</span>
         <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">
         <div id="navbar" class="navbar">
             <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
