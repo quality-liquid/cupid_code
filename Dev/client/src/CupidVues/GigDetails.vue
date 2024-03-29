@@ -1,4 +1,11 @@
 <script setup>
+    import router from '../router/index'
+    import { makeRequest } from '../utils/make_request'
+    import {ref, onMounted} from 'vue'
+
+    const gigCount = 0
+    const gigs = ref([])
+
     const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
     // Open and closes drawer w/ shorthand
     function openDrawer() {
@@ -15,6 +22,13 @@
         const result = await makeRequest(`/logout/`)
         router.push('/')
     }
+
+    async function getData() {
+        gigs.value = await makeRequest(`api/gig/${user_id}/${gigCount}`)
+        console.log(gigs)
+    }
+
+    onMounted(getData)
 </script>
 
 <template>
@@ -34,29 +48,35 @@
 
     <h1><br/>You are in GigDetails.vue</h1>
     <!-- If a gig is active, background is blue. If inactive, background is red -->
-    <div :class="{'active': gig.active, 'inactive': !gig.active}">
-        <!-- gig.location is just the City and state -->
-        <h1>Gig Details | gig.location</h1>
-        <p>Pickup: gig.pickup</p>
+    <ul v-for="(gig, index) in gigs">
+        <div class="gig">
+            <p>{{ gig }}</p>
+            <!-- gig.location is just the City and state -->
+            <h1>Gig Details | {{gig.location}}</h1>
+            <p>Pickup: gig.pickup</p>
 
-        <!-- If a gig is active, show user info. If not active, don't show user info -->
-        <div :class="{'show': gig.active, 'hidden': !gig.active}">
-            <img src="" alt=""> <!-- Put picture of dater that submitted the gig here -->
-            <label>
-                <input type="checkbox" v-model="pickupComplete"> Pickup Complete
-            </label>
+            <!-- If a gig is active, show user info. If not active, don't show user info -->
+            <div>
+                <img src="" alt=""> <!-- Put picture of dater that submitted the gig here -->
+                <label>
+                    <input type="checkbox" v-model="pickupComplete"> Pickup Complete
+                </label>
 
-            <p>Deliver: gig.deliver </p>
-            <p>Address:  gig.address </p>
+                <p>Deliver: gig.deliver </p>
+                <p>Address:  gig.address </p>
 
-            <!-- If pickup is complete, show complete gig button -->
-            <!-- If complete gig is clicked, reroute to GigComplete Page-->
-            <button v-if="pickupComplete" @click="">Complete Gig</button> 
+                <!-- If pickup is complete, show complete gig button -->
+                <!-- If complete gig is clicked, reroute to GigComplete Page-->
+                <button v-if="pickupComplete" @click="">Complete Gig</button> 
+            </div>
         </div>
-    </div>
+    </ul>
 </template>
 
 <style scoped>
+    .gig {
+
+    }
     .show {
         display: block;
     }

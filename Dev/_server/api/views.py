@@ -898,11 +898,13 @@ def get_gigs(request, pk, count):
     near_gigs = []
     for gig in gigs:
         quest = gig.quest
-        if gig.status == Gig.Status.UNCLAIMED and helpers.locations_are_near(
-            quest.pickup_location, cupid.location, cupid.gig_range):
+        if gig.status == Gig.Status.UNCLAIMED and (helpers.locations_are_near(
+            quest.pickup_location, cupid.location, cupid.gig_range) or count == 0):
             near_gigs.append(gig)
-    near_gigs = near_gigs[:count]
+    if count != 0:
+        near_gigs = near_gigs[:count]
     serializer = GigSerializer(near_gigs, many=True)
+    print(serializer)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 

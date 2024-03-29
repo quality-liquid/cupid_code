@@ -50,16 +50,19 @@ class MessageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class GigSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Gig
-        fields = '__all__'
-
-
 class QuestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
         fields = '__all__'
+
+
+class GigSerializer(serializers.ModelSerializer):
+    quest = QuestSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = Gig
+        fields = '__all__'
+
 
 class DateSerializer(serializers.ModelSerializer):
     class Meta:
