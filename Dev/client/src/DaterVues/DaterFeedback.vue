@@ -40,6 +40,7 @@ onMounted(getFeedback)
         <button @click="openDrawer" class="icon-button">
             <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
         </button>
+        <span>Feedback</span>
         <!-- This will be the profile picture when setup -->
         <button class="icon-button" @click="naviProf">
             <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">

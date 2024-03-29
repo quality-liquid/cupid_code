@@ -46,7 +46,7 @@ async function logout() {
 onMounted(() => {
   getCupidsTotal()
   getDatersTotal()
-  //getCurrActiveTotal()
+  getCurrActiveTotal()
 })
 </script>
 
@@ -55,6 +55,7 @@ onMounted(() => {
       <button @click="openDrawer" class="icon-button">
           <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
       </button>
+      <span>Home</span>
       <!-- This will be the profile picture when setup -->
       <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">
       <div id="navbar" class="navbar">
@@ -65,18 +66,40 @@ onMounted(() => {
       </div>
   </nav>
   <main class="container">
+    <div class="widget-container">
+      <div class="widget blue">
+        <img :src="'/get_person/'" alt="Menu Open icon" class="wid_icon">
+        <router-link class="header" :to="{name: 'ManageCupids', params: {id: user_id}}">Cupids</router-link>
+      </div>
+      <div class="widget red"> <!-- This will become Calendar when it's made -->
+        <img :src="'/get_heart/'" alt="Menu Open icon" class="wid_icon">
+        <router-link class="header" :to="{name: 'ManageDaters', params: {id: user_id}}">Daters</router-link>
+      </div>
+    </div>
     <h3>Revenue Graph (Very Real)</h3>
-    <figure>
+    <figure class="graph-container">
       <img :src="'/get_graph/'" alt="Graph" class="graph" width="300px">
       <figcaption>Graph of Overall Revenue</figcaption>
     </figure>
   
     <h3>General Stats</h3>
-    <div>
-      <span>{{ daters }} Total Daters</span>
-      <span>{{ cupids }} Total Cupids</span>
-      <span>{{ active_cupids }} Active Cupids</span>
-      <span>{{ active_daters }} Active Daters</span>
+    <div class="stat-container">
+      <div class="stat-widget">
+        <h4 class="stat">{{ daters }}</h4> 
+        <span>Total Daters</span>
+      </div>
+      <div class="stat-widget">
+        <h4 class="stat">{{ cupids }}</h4>
+        <span>Total Cupids</span>
+      </div>
+      <div class="stat-widget">
+        <h4 class="stat">{{ active_cupids }}</h4> 
+        <span>Active Cupids</span>
+      </div>
+      <div class="stat-widget">
+        <h4 class="stat">{{ active_daters }}</h4>
+        <span>Active Daters</span>
+      </div>
     </div>
   </main>
 
@@ -84,7 +107,76 @@ onMounted(() => {
 
 <style scoped>
 .container {
+  margin: 10px;
   margin-top: 50px;
+}
+
+h3 {
+  margin: 4px;
+  text-align: center;
+}
+
+.graph-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.stat-container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.stat-widget {
+  border: 2px solid var(--primary-blue);
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  color: grey;
+}
+
+.stat {
+  color: black;
+  margin: 0;
+
+}
+
+.widget-container {
+  margin: 10px;
+  margin-top: 50px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  gap: 10px;
+}
+
+.widget {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  border: none;
+  border-radius: 16px;
+}
+
+.header {
+  color: white;
+}
+
+.blue {
+  background-color: var(--primary-blue);
+}
+
+.red {
+  background-color: var(--primary-red);
 }
 </style>
   
