@@ -4,6 +4,8 @@ import base64
 
 # Django
 from django.contrib.auth import login
+from django.contrib.sessions.models import Session
+from django.utils import timezone
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, get_list_or_404
 
@@ -419,3 +421,15 @@ def get_response_from_yelp_api(pk, request, search):
     if response:
         return Response(response, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
+
+def get_sessions(role):
+    active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
+    if active_sessions is None:
+        return Response({'error': 'No active sessions'}, status=status.HTTP_400_BAD_REQUEST)
+    number_dater_sessions = 0
+    for session in active_sessions:
+        session_data = session.get_decoded()
+        user_id = session_data.get('_auth_user_id')
+        if User.objects.get(id=user_id).role == role:
+            number_dater_sessions += 1
+    return Response({'active_sessions': number_dater_sessions}, status=status.HTTP_200_OK)
