@@ -25,6 +25,7 @@ urlpatterns = [
     path('cupid/profile/', views.set_cupid_profile, name='set_cupid_profile'),
     path('cupid/save_bank_account/', views.save_bank_account, name='save_bank_account'),
     path('cupid/gigs/<int:pk>/', views.get_cupid_gigs, name='get_cupid_gigs'),
+    path('cupid/accepting/', views.cupid_accepting, name='cupid_accepting'),
     path('gig/create/', views.create_gig, name='create_gig'),
     path('gig/accept/', views.accept_gig, name='accept_gig'),
     path('gig/complete/', views.complete_gig, name='complete_gig'),

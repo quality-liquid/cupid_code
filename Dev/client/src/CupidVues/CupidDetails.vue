@@ -57,10 +57,11 @@
         router.push({name: 'CupidDetails', params: {id: user_id}});
     }
 
-    function toggleAccept() {
-        console.log("We toggling")
-        //TODO: Tell the server?
+    async function toggleAccept() {
         accepting_gigs.value = !accepting_gigs.value
+        await makeRequest(`/api/cupid/accepting/`, `post`, {
+            'choice': accepting_gigs.value
+        })
     }
 
     async function getData() {

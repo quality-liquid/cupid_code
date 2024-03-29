@@ -598,6 +598,21 @@ def get_cupid_avg_rating(request, pk):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
+def cupid_accepting(request):
+    cupid = get_object_or_404(Cupid, user=request.user)
+    print(request.data['choice'])
+    if request.data['choice']:
+        cupid.status = Cupid.Status.AVAILABLE
+        cupid.accepting_gigs = True
+    else:
+        cupid.accepting_gigs = False
+    cupid.save()
+    return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def cupid_transfer(request):
     """
     Performs financial transfer from a Cupid's balance to their bank account.
