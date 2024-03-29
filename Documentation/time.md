@@ -55,7 +55,7 @@
 | Sprint 5       |                         |           |   
 |----------------|-------------------------|-----------|
 | Name           | Job                     | Time(hrs) | 
-| Nate Stott     | Unit tests / debugging  | 2         |   
+| Nate Stott     | Unit tests / debugging  | 5         |   
 | Emma Wright    | Dater Vues              |           |   
 | Daniel Barfuss |                         |           |   
 | Brighton Ellis |                         |           |   

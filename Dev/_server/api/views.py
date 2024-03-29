@@ -1036,8 +1036,12 @@ def get_cupids(request):
             If the cupid profiles were not retrieved successfully, return an error message and a 400 status code.
     """
     cupids = Cupid.objects.all()
+    if cupids is None:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
     serializer = CupidSerializer(data=cupids, many=True)
-    return helpers.retrieved_response(serializer)
+    if serializer is None:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -1055,8 +1059,12 @@ def get_daters(request):
             If the dater profiles were not retrieved successfully, return an error message and a 400 status code.
     """
     daters = Dater.objects.all()
+    if daters is None:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
     serializer = DaterSerializer(data=daters, many=True)
-    return helpers.retrieved_response(serializer)
+    if serializer is None:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
