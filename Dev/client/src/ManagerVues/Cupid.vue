@@ -27,7 +27,7 @@ async function getCupids() {
   cupids.value = res.cupids
 }
   
-//onMounted(getCupids)
+onMounted(getCupids)
 </script>
 
 <template>

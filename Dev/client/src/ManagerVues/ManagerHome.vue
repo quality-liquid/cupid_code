@@ -93,11 +93,11 @@ onMounted(() => {
         <span>Total Cupids</span>
       </div>
       <div class="stat-widget">
-        <h4 class="stat">{{ active_cupids }}</h4> 
+        <h4 class="stat">{{ active_cupids || 0}}</h4> 
         <span>Active Cupids</span>
       </div>
       <div class="stat-widget">
-        <h4 class="stat">{{ active_daters }}</h4>
+        <h4 class="stat">{{ active_daters || 0 }}</h4>
         <span>Active Daters</span>
       </div>
     </div>
