@@ -9,6 +9,8 @@ let noChats = false
 
 const user_id  = parseInt(window.location.hash.split('/')[3])
 
+const chatCount = 10;
+
 function openDrawer() {
   const element = document.getElementById('navbar')
   if (element.className === 'navbar') {
@@ -29,7 +31,7 @@ function naviProf() {
 }
 
 async function getChats() {
-    const results = await makeRequest(`/api/chat/${user_id}`);
+    const results = await makeRequest(`/api/chat/${user_id}/${chatCount}`);
     console.log(results)
     // May need to split results chat to fit into array
     if (results === undefined) {

@@ -256,9 +256,7 @@ def get_messages(request, pk, count):
     except Message.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
     serializer = MessageSerializer(new_messages, many=True)
-    if serializer.is_valid():
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET', 'POST'])
