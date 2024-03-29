@@ -791,6 +791,7 @@ The following endpoints will need user data to be used. Authentication will be r
 | /api/cupid/profile/<int:pk>/     | GET       | get_cupid_profile     | Get cupid's profile                                 |
 | /api/cupid/profile/              | POST      | set_cupid_profile     | Set cupid's profile                                 |
 | /api/cupid/save_bank_account/    | POST      | save_bank_account     | Save a new bank account for the cupid               |
+| /api/cupid/accepting             | POST      | cupid_accepting       | Updates whether the cupid is accepting gigs         |
 | /api/gig/create/                 | POST      | create_gig            | Create gig                                          |
 | /api/gig/accept/                 | POST      | accept_gig            | Accept gig                                          |
 | /api/gig/complete/               | POST      | complete_gig          | Complete gig                                        |
