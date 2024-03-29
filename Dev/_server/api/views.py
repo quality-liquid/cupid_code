@@ -2,9 +2,7 @@
 from datetime import datetime
 
 # Django
-from django.contrib.sessions.models import Session
 from django.contrib.auth import login, authenticate
-from django.utils import timezone
 from django.utils.timezone import make_aware
 from django.shortcuts import get_object_or_404, get_list_or_404
 
@@ -1111,14 +1109,7 @@ def get_active_cupids(request):
             If the number of active cupids was retrieved successfully, return the number of active cupids and a 200 status code.
             If the number of active cupids was not retrieved successfully, return an error message and a 400 status code.
     """
-    active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
-    number_cupid_sessions = 0
-    for session in active_sessions:
-        session_data = session.get_decoded()
-        user_id = session_data.get('_auth_user_id')
-        if User.objects.get(id=user_id).role == User.Role.CUPID:
-            number_cupid_sessions += 1
-    return Response({'active_cupid_sessions': number_cupid_sessions}, status=status.HTTP_200_OK)
+    return helpers.get_sessions(User.Role.CUPID)
 
 
 @api_view(['GET'])
@@ -1135,15 +1126,7 @@ def get_active_daters(request):
             If the number of active daters was retrieved successfully, return the number of active daters and a 200 status code.
             If the number of active daters was not retrieved successfully, return an error message and a 400 status code.
     """
-    active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
-    number_dater_sessions = 0
-    for session in active_sessions:
-        session_data = session.get_decoded()
-        user_id = session_data.get('_auth_user_id')
-        if User.objects.get(id=user_id).role == User.Role.DATER:
-            number_dater_sessions += 1
-
-    return Response({'active_dater_sessions': number_dater_sessions}, status=status.HTTP_200_OK)
+    return helpers.get_sessions(User.Role.DATER)
 
 
 @api_view(['GET'])
