@@ -101,7 +101,7 @@
         <div class="card">
             <p>${{ balance }}</p>
             <hr></hr>
-            <p>{{ gigs_completed }} / {{ gigs_failed + gigs_completed}} succesful gigs</p>
+            <p>{{ gigs_completed }} gigs succesful of {{ gigs_failed + gigs_completed}}</p>
         </div>
         <h1>Update Details</h1>
         <hr>
