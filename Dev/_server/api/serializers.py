@@ -30,7 +30,7 @@ class DaterSerializer(serializers.ModelSerializer):
 class CupidSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cupid
-        fields='__all__'
+        fields = '__all__'
 
     def create(self, validated_data):
         cupid = Cupid(**validated_data)

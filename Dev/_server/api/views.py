@@ -1053,11 +1053,11 @@ def get_cupids(request):
     cupids = Cupid.objects.all()
     if cupids is None:
         return Response(data={"error": "database query failed"}, status=status.HTTP_400_BAD_REQUEST)
-    serializer = CupidSerializer(cupids, many=True)
+    serializer = CupidSerializer(data=cupids, many=True)
     if serializer is None:
         return Response(data={"error": "serializer failed"}, status=status.HTTP_400_BAD_REQUEST)
     if serializer.is_valid():
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -1078,11 +1078,11 @@ def get_daters(request):
     daters = Dater.objects.all()
     if daters is None:
         return Response(data={"error": "database query failed"}, status=status.HTTP_400_BAD_REQUEST)
-    serializer = DaterSerializer(daters, many=True)
+    serializer = DaterSerializer(data=daters, many=True)
     if serializer is None:
         return Response(data={"error": "serializer failed"}, status=status.HTTP_400_BAD_REQUEST)
     if serializer.is_valid():
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
