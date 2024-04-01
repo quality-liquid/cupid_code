@@ -24,9 +24,15 @@ async function logout() {
 
 async function getDaters() {
   const res = await makeRequest('/api/manager/daters/')
-  daters.value = res.daters
+  daters.value = res
 }
   
+async function suspend() {
+  const header = document.getElementById('header')
+  if (header.attributes[2].value.includes('suspended')) header.setAttribute('class', 'header')
+  else header.setAttribute('class', 'header suspended')
+}
+
 onMounted(getDaters)
 </script>
 
@@ -50,15 +56,14 @@ onMounted(getDaters)
 
   <!-- header & button need turnary stuff to swap between suspend/unsuspend -->
   <div v-for="dater of daters" class="container">
-    <div class="header">
+    <div class="header" id="header">
       <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">
       <h4>Name</h4>
     </div>
-    <article class="user-data">
-      <span>Rating: </span>
-      <span>Location: </span>
-      <span>Completed Gigs: </span>
-      <button class="button">Suspend/Unsuspend</button>
+    <article class="user-data" id="user-data">
+      <span>Rating: {{ dater.rating_sum }}</span>
+      <span>Location: {{ dater.location }}</span>
+      <button class="button" @click="suspend">Suspend/Unsuspend</button>
     </article> 
   </div>
 

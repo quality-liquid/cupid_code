@@ -24,7 +24,12 @@ async function logout() {
 
 async function getCupids() {
   const res = await makeRequest('/api/manager/cupids/')
-  cupids.value = res.cupids
+  cupids.value = res
+  console.log(res[0].user)
+}
+
+async function suspend() {
+
 }
   
 onMounted(getCupids)
@@ -50,13 +55,13 @@ onMounted(getCupids)
   <div v-for="cupid of cupids" class="container">
     <div class="header">
       <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">
-      <h4>Name</h4>
+      <h4>{{ cupid.user}}</h4>
     </div>
     <article class="user-data">
-      <span>Rating: </span>
-      <span>Location: </span>
-      <span>Completed Gigs: </span>
-      <button class="button">Suspend/Unsuspend</button>
+      <span>Rating: {{ cupid.rating_sum }}</span>
+      <span>Location: {{ cupid.location }}</span>
+      <span>Completed Gigs: {{ cupid.gigs_completed }}</span>
+      <button class="button" @click="suspend">Suspend/Unsuspend</button>
     </article> 
   </div>
 
