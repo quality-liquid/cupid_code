@@ -752,21 +752,11 @@ def create_gig(request):
     data = request.data
     helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, user_id=request.user.id)
-    serializer = QuestSerializer(data=data)
-    if serializer.is_valid():
-        serializer.save()
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    quest = get_object_or_404(Quest, id=serializer.data['id'])
-    serializer = GigSerializer(
-        data={
-            'dater': dater,
-            'quest': quest.id,
-            'status': Gig.Status.UNCLAIMED,
-            'dropped_count': 0,
-            'accepted_count': 0,
-        })
-    return helpers.save_serializer(serializer)
+    quest = Quest(budget=data['budget'], pickup_location=data['pickup_location'], items_requested=data['items_requested'])
+    quest.save()
+    gig = Gig(dater=dater, quest=quest, status=Gig.Status.UNCLAIMED, dropped_count=0, accepted_count=0)
+    gig.save()
+    return Response(status=status.HTTP_201_CREATED)
 
 
 @api_view(['POST'])
