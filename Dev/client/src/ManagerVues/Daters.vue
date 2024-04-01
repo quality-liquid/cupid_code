@@ -27,7 +27,7 @@ async function getDaters() {
   daters.value = res.daters
 }
   
-//onMounted(getDaters)
+onMounted(getDaters)
 </script>
 
 <template>
