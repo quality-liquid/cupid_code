@@ -27,8 +27,6 @@ async function register() {
     // Validate data
     const checkData = [email, password, accType, phone, addr, desc]
 
-    console.log(image)
-
     let check = 0;
     for (let i = 0; i < checkData.length; i++) {
         if (checkData[i] !== '') check++;
@@ -38,7 +36,7 @@ async function register() {
         }
     }
 
-    if (accType.value === 'Dater' && check === checkData.length) {
+    if (accType.value === 'dater' && check === checkData.length) {
         const results = await makeRequest('/api/user/create/', 'post', {
             username: username.value,
             first_name: fname.value,
@@ -61,7 +59,7 @@ async function register() {
         
         router.push({name: 'DaterHome', params: {id: results.user['id']}})
     }
-    else if (accType.value === 'Cupid' && check === checkData.length) {
+    else if (accType.value === 'cupid' && check === checkData.length) {
         const results = await makeRequest('/api/user/create/', 'post', {
             username: username.value,
             first_name: fname.value,
@@ -79,6 +77,10 @@ async function register() {
     else {
         // Handle Error
         console.log("Something went wrong")
+        console.log(check)
+        console.log(checkData.length)
+        console.log(accType.value)
+        console.log(email, email.value)
     }
 
 }
@@ -117,12 +119,12 @@ function previewFile() {
             <div class="radios">
                 <label class="radio_detail" for="cupid">
                     Cupid 
+                    <input type="radio" id="cupid" name="accountType" :value="accType" @change="(e) => accType = 'cupid'"/>
                 </label>
-                <input type="radio" id="cupid" name="accountType" v-model="accType"/>
                 <label class="radio_detail" for="dater">
                     Dater
+                    <input type="radio" id="dater" name="accountType" :value="accType" @change="(e) => accType = 'dater'"/>
                 </label>
-                <input type="radio" id="dater" name="accountType" v-model="accType"/>
             </div>
             <label class="input_detail" for="fname">
                 First Name
