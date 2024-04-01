@@ -1056,7 +1056,9 @@ def get_cupids(request):
     serializer = CupidSerializer(data=cupids, many=True)
     if serializer is None:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    if serializer.is_valid():
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1079,7 +1081,9 @@ def get_daters(request):
     serializer = DaterSerializer(data=daters, many=True)
     if serializer is None:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    if serializer.is_valid():
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
