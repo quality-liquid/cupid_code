@@ -70,37 +70,11 @@ cd cupid_code
 
 4. Read the README.md file for instructions on how to set up the Cupid Code server.
 
-#### How to connect to the Cupid Code server and use the application:
+-------------
+
+## Usage
 
 1. Open a web browser and navigate to the following URL:
 ```
 http://localhost:5173/static
 ```
-
----------------
-
-## Usage
-
-I'm thinking we take pictures and add them here with descriptions.
-To be done this week.
-
-#### Dater
-
-##### Sign up
-
-##### Sign in
-
-
-
-#### Cupid
-
-##### Sign up
-
-##### Sign in
-
-
-
-
-#### Manager
-
-##### Sign in

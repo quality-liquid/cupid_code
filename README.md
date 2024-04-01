@@ -43,7 +43,7 @@ Cupid Code is distributed in the hope that it will be useful, but WITHOUT ANY WA
 You should have received a copy of the GNU General Public License along with Cupid Code. If not, see <https://www.gnu.org/licenses/>. 
 
 ## User Manual
-Go to Documentation/user_manual.md for instructions on how to use the app.
+Go to Documentation/README.md for information on how to use Cupid Code.
 
 
 ## Project status

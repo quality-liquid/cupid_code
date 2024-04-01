@@ -325,4 +325,4 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 
 ## Use Case Diagram
 
-![UML diagram](./images/UML_diagram.png "image_tooltip")
+![UML diagram](images/UML_diagram.png "image_tooltip")
