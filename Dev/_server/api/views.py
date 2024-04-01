@@ -3,6 +3,7 @@ from datetime import datetime
 
 # Django
 from django.contrib.auth import login, authenticate
+from django.http import JsonResponse
 from django.utils.timezone import make_aware
 from django.shortcuts import get_object_or_404, get_list_or_404
 
@@ -1056,10 +1057,7 @@ def get_cupids(request):
     serializer = CupidSerializer(data=cupids, many=True)
     if serializer is None:
         return Response(data={"error": "serializer failed"}, status=status.HTTP_400_BAD_REQUEST)
-    if serializer.is_valid():
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    return JsonResponse(serializer.data, safe=False)
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
@@ -1081,9 +1079,7 @@ def get_daters(request):
     serializer = DaterSerializer(data=daters, many=True)
     if serializer is None:
         return Response(data={"error": "serializer failed"}, status=status.HTTP_400_BAD_REQUEST)
-    if serializer.is_valid():
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return JsonResponse(serializer.data, safe=False)
 
 
 @api_view(['GET'])
