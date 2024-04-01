@@ -32,12 +32,11 @@ async function getCurrActiveTotal() {
 }
 
 async function getGigData() {
-  /*
-    'manager/gig_rate/'  
-    'manager/gig_count/'    
-    'manager/gig_drop_rate/'
-    'manager/gig_complete_rate/'
-  */
+ //const rate_res = await makeRequest('/api/manager/gig_rate/')
+ const count_res = await makeRequest('/api/manager/gig_count/')
+ gigs.value = count_res.count
+ //const completed_res = await makeRequest('/api/manager/gig_complete_rate/')
+ //const dropped_res = await makeRequest('/api/manager/gig_drop_rate/')
 }
 
 const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
@@ -61,6 +60,7 @@ onMounted(() => {
   getCupidsTotal()
   getDatersTotal()
   getCurrActiveTotal()
+  getGigData()
 })
 </script>
 
