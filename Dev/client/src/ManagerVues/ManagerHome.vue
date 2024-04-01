@@ -39,6 +39,10 @@ async function getGigData() {
  //const dropped_res = await makeRequest('/api/manager/gig_drop_rate/')
 }
 
+function toPDF() {
+  
+}
+
 const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
 // Open and closes drawer w/ shorthand
 function openDrawer() {
