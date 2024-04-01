@@ -115,10 +115,23 @@ onMounted(() => {
         <span>Active Daters</span>
       </div>
     </div>
-    <div class="gig-container">
-      <div class="stat-widget">
-        <h4 class="stat">{{ active_daters || 0 }}</h4>
-        <span>Active Daters</span>
+    <h3>Gig Stats</h3>
+    <div class="stat-container">
+      <div class="stat-widget gigs">
+        <h4 class="stat">{{ gigs || 0 }}</h4>
+        <span>Total Gigs</span>
+      </div>
+      <div class="stat-widget gigs">
+        <h4 class="stat">{{ rate || 0 }}</h4>
+        <span>Gig Rate</span>
+      </div>
+      <div class="stat-widget gigs">
+        <h4 class="stat">{{ completed || 0 }}</h4>
+        <span>Completed</span>
+      </div>
+      <div class="stat-widget gigs">
+        <h4 class="stat">{{ dropped || 0 }}</h4>
+        <span>Dropped</span>
       </div>
     </div>
   </main>
