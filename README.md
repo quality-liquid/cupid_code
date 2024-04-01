@@ -17,7 +17,7 @@ Cupid Code is a web app that uses Vue.js for the front end and Django for the ba
 Go to the Dev directory and look at the README.md file for instructions on how to run the app.
 
 ## Support
-If you have any questions or need help with the project, please contact the project owner.
+If you have any questions or need help with the project, please contact the project owner on GitLab.
 
 ## Roadmap
 The Cupid Code Project has a lot of potential for growth. The team has many ideas for future features and improvements.
@@ -41,6 +41,8 @@ Cupid Code is free software: you can redistribute it and/or modify it under the 
 Cupid Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with Cupid Code. If not, see <https://www.gnu.org/licenses/>. 
+
+See Documentation/License/gpl-3.0.txt for more information.
 
 ## User Manual
 Go to Documentation/README.md for information on how to use Cupid Code.
