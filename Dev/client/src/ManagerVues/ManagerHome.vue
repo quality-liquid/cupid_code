@@ -9,6 +9,11 @@ const cupids = ref(0)
 const active_cupids = ref(0)
 const active_daters = ref(0)
 
+const gigs = ref(0)
+const rate = ref(0)
+const dropped = ref(0)
+const completed = ref(0)
+
 async function getDatersTotal() {
   const results = await makeRequest('/api/manager/dater_count/')
   daters.value = results.count
@@ -24,6 +29,15 @@ async function getCurrActiveTotal() {
   active_cupids.value = cupid_res.data 
   const dater_res= await makeRequest('/api/manager/active_daters/')
   active_daters.value = dater_res.data
+}
+
+async function getGigData() {
+  /*
+    'manager/gig_rate/'  
+    'manager/gig_count/'    
+    'manager/gig_drop_rate/'
+    'manager/gig_complete_rate/'
+  */
 }
 
 const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
@@ -96,6 +110,12 @@ onMounted(() => {
         <h4 class="stat">{{ active_cupids || 0}}</h4> 
         <span>Active Cupids</span>
       </div>
+      <div class="stat-widget">
+        <h4 class="stat">{{ active_daters || 0 }}</h4>
+        <span>Active Daters</span>
+      </div>
+    </div>
+    <div class="gig-container">
       <div class="stat-widget">
         <h4 class="stat">{{ active_daters || 0 }}</h4>
         <span>Active Daters</span>
