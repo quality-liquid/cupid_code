@@ -25,6 +25,29 @@
 
     async function getData() {
         gigs.value = await makeRequest(`api/gig/${user_id}/${gigCount}`)
+    }
+
+    function statusConvert(statusNum){
+        switch (statusNum) {
+            case 0:
+                return 'Unclaimed'
+            case 1:
+                return 'Claimed'
+            case 2:
+                return 'Complete'
+        }
+    }
+
+    async function claim(id) {
+        let gig = await makeRequest('/api/gig/accept/','post',{
+            'gig_id':id
+        })
+        for (let i = 0; i < gigs.lenth; i++){
+            console.log(gigs)
+            if(gigs[i].id == gig.id){
+                gigs[i] = gig
+            }
+        }
         console.log(gigs)
     }
 
@@ -50,25 +73,13 @@
     <!-- If a gig is active, background is blue. If inactive, background is red -->
     <ul v-for="(gig, index) in gigs">
         <div class="gig">
-            <p>{{ gig }}</p>
             <!-- gig.location is just the City and state -->
-            <h1>Gig Details | {{gig.location}}</h1>
-            <p>Pickup: gig.pickup</p>
-
-            <!-- If a gig is active, show user info. If not active, don't show user info -->
-            <div>
-                <img src="" alt=""> <!-- Put picture of dater that submitted the gig here -->
-                <label>
-                    <input type="checkbox" v-model="pickupComplete"> Pickup Complete
-                </label>
-
-                <p>Deliver: gig.deliver </p>
-                <p>Address:  gig.address </p>
-
-                <!-- If pickup is complete, show complete gig button -->
-                <!-- If complete gig is clicked, reroute to GigComplete Page-->
-                <button v-if="pickupComplete" @click="">Complete Gig</button> 
-            </div>
+            <h1>Gig Details | Dater: {{ gig.dater }}</h1>
+            <p>Items requested: {{ gig.quest.items_requested }}</p>
+            <p>Budget: {{ gig.quest.budget }}</p>
+            <p>Pickup Location: {{ gig.quest.pickup_location }}</p>
+            <p>Status: {{ statusConvert(gig.status) }}</p>
+            <button @click="claim(gig.id)">Claim</button>
         </div>
     </ul>
 </template>
