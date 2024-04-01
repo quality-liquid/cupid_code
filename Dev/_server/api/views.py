@@ -1050,10 +1050,10 @@ def get_cupids(request):
             If the cupid profiles were retrieved successfully, return the serialized cupids and a 200 status code.
             If the cupid profiles were not retrieved successfully, return an error message and a 400 status code.
     """
-    cupids = list(Cupid.objects.all())
+    cupids = Cupid.objects.all()
     if cupids is None:
         return Response(data={"error": "database query failed"}, status=status.HTTP_400_BAD_REQUEST)
-    serializer = CupidSerializer(data=cupids, many=True)
+    serializer = CupidSerializer(cupids, many=True)
     if serializer is None:
         return Response(data={"error": "serializer failed"}, status=status.HTTP_400_BAD_REQUEST)
     if serializer.is_valid():
@@ -1075,10 +1075,10 @@ def get_daters(request):
             If the dater profiles were retrieved successfully, return the serialized daters and a 200 status code.
             If the dater profiles were not retrieved successfully, return an error message and a 400 status code.
     """
-    daters = list(Dater.objects.all())
+    daters = Dater.objects.all()
     if daters is None:
         return Response(data={"error": "database query failed"}, status=status.HTTP_400_BAD_REQUEST)
-    serializer = DaterSerializer(data=daters, many=True)
+    serializer = DaterSerializer(daters, many=True)
     if serializer is None:
         return Response(data={"error": "serializer failed"}, status=status.HTTP_400_BAD_REQUEST)
     if serializer.is_valid():
