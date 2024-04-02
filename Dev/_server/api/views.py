@@ -755,8 +755,7 @@ def create_gig(request):
     quest.save()
     gig = Gig(dater=dater, quest=quest, status=Gig.Status.UNCLAIMED, dropped_count=0, accepted_count=0)
     gig.save()
-    return Response(status=status.HTTP_201_CREATED)
-
+    return Response(GigSerializer(gig).data, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
