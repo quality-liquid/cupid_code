@@ -780,7 +780,7 @@ def accept_gig(request):
     serializer = GigSerializer(
         gig,
         data={
-            'is_accepted': True,
+            'status': Gig.Status.CLAIMED,
             'cupid': request.user.id,
             'accepted_count': gig.accepted_count + 1,
             'date_time_of_claim': make_aware(datetime.now()),
