@@ -5,6 +5,7 @@
 
     const gigCount = 0
     const gigs = ref([])
+    const activeGig = ref({})
 
     const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
     // Open and closes drawer w/ shorthand
@@ -39,16 +40,9 @@
     }
 
     async function claim(id) {
-        let gig = await makeRequest('/api/gig/accept/','post',{
+        activeGig.value = await makeRequest('/api/gig/accept/','post',{
             'gig_id':id
         })
-        for (let i = 0; i < gigs.lenth; i++){
-            console.log(gigs)
-            if(gigs[i].id == gig.id){
-                gigs[i] = gig
-            }
-        }
-        console.log(gigs)
     }
 
     onMounted(getData)
@@ -69,11 +63,16 @@
         </div>
     </nav>
 
-    <h1><br/>You are in GigDetails.vue</h1>
-    <!-- If a gig is active, background is blue. If inactive, background is red -->
+    <div class="gig blue" v-if="activeGig.value">
+        <h1>Gig Details | Dater: {{ activeGig.dater }}</h1>
+        <p>Items requested: {{ activeGig.quest.items_requested }}</p>
+        <p>Budget: {{ activeGig.quest.budget }}</p>
+        <p>Pickup Location: {{ activeGig.quest.pickup_location }}</p>
+        <p>Status: {{ statusConvert(activeGig.status) }}</p>
+        <button @click="claim(activeGig.id)">Claim</button>
+    </div>
     <ul v-for="(gig, index) in gigs">
         <div class="gig">
-            <!-- gig.location is just the City and state -->
             <h1>Gig Details | Dater: {{ gig.dater }}</h1>
             <p>Items requested: {{ gig.quest.items_requested }}</p>
             <p>Budget: {{ gig.quest.budget }}</p>
@@ -86,7 +85,10 @@
 
 <style scoped>
     .gig {
-
+        background-color: red;
+    }
+    .blue {
+        background-color: blue;
     }
     .show {
         display: block;

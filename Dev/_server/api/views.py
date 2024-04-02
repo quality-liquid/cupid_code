@@ -601,7 +601,6 @@ def get_cupid_avg_rating(request, pk):
 @permission_classes([IsAuthenticated])
 def cupid_accepting(request):
     cupid = get_object_or_404(Cupid, user=request.user)
-    print(request.data['choice'])
     if request.data['choice']:
         cupid.status = Cupid.Status.AVAILABLE
         cupid.accepting_gigs = True
@@ -908,7 +907,6 @@ def get_gigs(request, pk, count):
     if count != 0:
         near_gigs = near_gigs[:count]
     serializer = GigSerializer(near_gigs, many=True)
-    print(serializer)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
