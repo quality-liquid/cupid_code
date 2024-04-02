@@ -170,10 +170,14 @@ class TestUserExpand(APITestCase):
     @patch("UserSerializer")
     def bad_test(self, mock_serializer):
         mock_serializer.return_value = MagicMock
-        user = MagicMock()
-        serializer = MagicMock()
-        
+        user = 3
+        other_serializer = MagicMock()
+        response = user_expand(user, other_serializer)
 
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        mock_serializer.assert_called_once()
+
+        
 class TestDeleteUser(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory()

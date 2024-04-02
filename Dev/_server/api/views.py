@@ -1,5 +1,6 @@
 # Standard Library
 from datetime import datetime
+import json
 
 # Django
 from django.contrib.auth import login, authenticate
@@ -1086,8 +1087,13 @@ def get_dater_count(request):
             If the number of daters that are currently active was retrieved successfully, return the number of daters and a 200 status code.
             If the number of daters that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
-    number_of_daters = Dater.objects.all().count()
-    return Response({'count': number_of_daters}, status=status.HTTP_200_OK)
+    try:
+        number_of_daters = Dater.objects.all().count()
+        if number_of_daters == None:
+            return Response({'count': None}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'count': number_of_daters}, status=status.HTTP_200_OK)
+    except:
+        return Response({'count': None}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1104,8 +1110,13 @@ def get_cupid_count(request):
             If the number of cupids that are currently active was retrieved successfully, return the cupid count and a 200 status code.
             If the number of cupids that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
-    number_of_cupids = Cupid.objects.all().count()
-    return Response({'count': number_of_cupids}, status=status.HTTP_200_OK)
+    try:
+        number_of_cupids = Cupid.objects.all().count()
+        if number_of_cupids == None:
+            return Response({'count': None}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'count': number_of_cupids}, status=status.HTTP_200_OK)
+    except:
+        return Response({'count': None}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1122,7 +1133,13 @@ def get_active_cupids(request):
             If the number of active cupids was retrieved successfully, return the number of active cupids and a 200 status code.
             If the number of active cupids was not retrieved successfully, return an error message and a 400 status code.
     """
-    return helpers.get_sessions(User.Role.CUPID)
+    try:
+        active_cupids = helpers.get_sessions(User.Role.DATER)
+        if active_cupids == None:
+            return Response(status.HTTP_400_BAD_REQUEST)
+        return Response(active_cupids.json(), status.HTTP_200_OK)
+    except:    
+        return Response(status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1139,7 +1156,13 @@ def get_active_daters(request):
             If the number of active daters was retrieved successfully, return the number of active daters and a 200 status code.
             If the number of active daters was not retrieved successfully, return an error message and a 400 status code.
     """
-    return helpers.get_sessions(User.Role.DATER)
+    try:
+        active_daters = helpers.get_sessions(User.Role.DATER)
+        if active_daters == None:
+            return Response(status.HTTP_400_BAD_REQUEST)
+        return Response(active_daters.json(), status.HTTP_200_OK)
+    except:
+        return Response(status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1158,9 +1181,11 @@ def get_gig_rate(request):
     """
     try:
         yesterday = datetime.now() - datetime.timedelta(days=1)
-        gigs_from_past_day = Gig.objects.filter(date_time_of_request_range=(yesterday, datetime.now()))
+        gigs_from_past_day = Gig.objects.filter(date_time_of_request__range=(yesterday, datetime.now()))
+        if gigs_from_past_day == None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
         gig_rate = gigs_from_past_day.count() / 24
-        response = gig_rate.json()
+        response = json.dumps(gig_rate)
         return Response(response, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
@@ -1180,8 +1205,13 @@ def get_gig_count(request):
             If the number of gigs that are currently active was retrieved successfully, return the gig count and a 200 status code.
             If the number of gigs that are currently active was not retrieved successfully, return an error message and a 400 status code.
     """
-    number_of_gigs = Gig.objects.all().count()
-    return Response({'count': number_of_gigs}, status=status.HTTP_200_OK)
+    try:
+        number_of_gigs = Gig.objects.all().count()
+        if number_of_gigs == None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response({'count': number_of_gigs}, status=status.HTTP_200_OK)
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1201,12 +1231,14 @@ def get_gig_drop_rate(request):
     try:
         number_of_drops = 0
         yesterday = datetime.now() - datetime.timedelta(days=1)
-        gigs_from_past_day = Gig.objects.filter(date_time_of_request_range=(yesterday, datetime.now()))
+        gigs_from_past_day = Gig.objects.filter(date_time_of_request__range=(yesterday, datetime.now()))
+        if gigs_from_past_day == None:
+            return Response(status.HTTP_400_BAD_REQUEST)
         for gig in gigs_from_past_day:
             number_of_drops += gig.dropped_count
 
         drop_rate = number_of_drops / 24
-        response = drop_rate.json()
+        response = json.dumps(drop_rate)
         return Response(response, status=status.HTTP_200_OK)
 
     except Exception as e:
@@ -1228,7 +1260,11 @@ def get_gig_complete_rate(request):
             If the rate of gigs that are completed was not retrieved successfully, return an error message and a 400 status code.
     """
     try:
-        number_of_completed_gigs = Gig.objects.filter(status=2).count()
+        yesterday = datetime.now() - datetime.timedelta(days=1)
+        gigs_from_past_day = Gig.objects.filter(date_time_of_request__range=(yesterday, datetime.now()))
+        if gigs_from_past_day == None:
+            return Response(status.HTTP_400_BAD_REQUEST)
+        number_of_completed_gigs = gigs_from_past_day.filter(status=2).count()
         number_of_gigs = Gig.objects.all().count()
         gig_complete_rate = number_of_completed_gigs / number_of_gigs
         response = gig_complete_rate.json()
