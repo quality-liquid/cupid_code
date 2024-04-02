@@ -1256,17 +1256,13 @@ def suspend(request):
     user_data = request.data
     if user_data['role'] == 'Dater':
         dater = get_object_or_404(Dater, user_id=user_data['user_id'])
-        serializer = DaterSerializer(data=dater)
+        serializer = DaterSerializer(dater, data={'is_suspended': True}, partial=True)
     elif user_data['role'] == 'Cupid':
         cupid = get_object_or_404(Cupid, user_id=user_data['user_id'])
-        serializer = CupidSerializer(data=cupid)
+        serializer = CupidSerializer(cupid, data={'is_suspended': True}, partial=True)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-    if serializer.is_valid():
-        serializer.validated_data['is_suspended'] = True
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return helpers.retrieved_response(serializer)
 
 
 @api_view(['POST'])
@@ -1288,17 +1284,13 @@ def unsuspend(request):
     user_data = request.data
     if user_data['role'] == 'Dater':
         dater = get_object_or_404(Dater, user_id=user_data['user_id'])
-        serializer = DaterSerializer(data=dater)
+        serializer = DaterSerializer(dater, data={'is_suspended': False}, partial=True)
     elif user_data['role'] == 'Cupid':
         cupid = get_object_or_404(Cupid, user_id=user_data['user_id'])
-        serializer = CupidSerializer(data=cupid)
+        serializer = CupidSerializer(cupid, data={'is_suspended': False}, partial=True)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-    if serializer.is_valid():
-        serializer.validated_data['is_suspended'] = False
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return helpers.retrieved_response(serializer)
 
 
 @api_view(['POST'])
