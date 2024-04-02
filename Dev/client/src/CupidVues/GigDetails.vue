@@ -102,7 +102,7 @@
                 </div>
             </div>
         </ul>
-        <p v-if="gigs.length == 0">You are not currently on any gigs.</p>
+        <p v-if="activeGigs.length == 0">You are not currently on any gigs.</p>
         <h1>Available</h1>
         <hr/>
         <ul v-for="(gig, index) in gigs">
@@ -169,7 +169,8 @@
         flex-direction: column;
         align-content: center;
     }
-    h1 {
+    h1,
+    p {
         margin: auto;
     }
 </style>
