@@ -1255,9 +1255,11 @@ def suspend(request):
     """
     user_data = request.data
     if user_data['role'] == 'Dater':
-        serializer = DaterSerializer(data=user_data)
+        dater = get_object_or_404(Dater, user_id=user_data['user_id'])
+        serializer = DaterSerializer(data=dater)
     elif user_data['role'] == 'Cupid':
-        serializer = CupidSerializer(data=user_data)
+        cupid = get_object_or_404(Cupid, user_id=user_data['user_id'])
+        serializer = CupidSerializer(data=cupid)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
     if serializer.is_valid():
@@ -1285,9 +1287,11 @@ def unsuspend(request):
     """
     user_data = request.data
     if user_data['role'] == 'Dater':
-        serializer = DaterSerializer(data=user_data)
+        dater = get_object_or_404(Dater, user_id=user_data['user_id'])
+        serializer = DaterSerializer(data=dater)
     elif user_data['role'] == 'Cupid':
-        serializer = CupidSerializer(data=user_data)
+        cupid = get_object_or_404(Cupid, user_id=user_data['user_id'])
+        serializer = CupidSerializer(data=cupid)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
     if serializer.is_valid():

@@ -24,13 +24,31 @@ async function logout() {
 
 async function getDaters() {
   const res = await makeRequest('/api/manager/daters/')
+  
   daters.value = res
 }
   
 async function suspend() {
   const header = document.getElementById('header')
-  if (header.attributes[2].value.includes('suspended')) header.setAttribute('class', 'header')
-  else header.setAttribute('class', 'header suspended')
+  const button = document.getElementById('button')
+  const id = parseInt(document.getElementById('id').innerText)
+  
+  if (header.attributes.class.value.includes('suspended')) {
+    header.setAttribute('class', 'header')
+    button.innerText = 'Suspend'
+
+    const res = await makeRequest('/api/manager/unsuspend/', {
+      user_id: id
+    })
+    
+  }
+  else {
+    header.setAttribute('class', 'header suspended')
+    button.innerText = 'Unsuspend'
+    const res = await makeRequest('/api/manager/suspend/', {
+      user_id: id
+    })
+  }
 }
 
 onMounted(getDaters)
@@ -54,16 +72,17 @@ onMounted(getDaters)
   </nav>
   <figure>{{ daterCount }} Daters</figure>
 
-  <!-- header & button need turnary stuff to swap between suspend/unsuspend -->
+  <!-- h4 id needs to relate the suspended/unsuspended user's ID -->
   <div v-for="dater of daters" class="container">
-    <div class="header" id="header">
+    <div class="header" id="header" >
       <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">
       <h4>Name</h4>
+      <h4 id="id">{{ dater.user }}</h4>
     </div>
     <article class="user-data" id="user-data">
       <span>Rating: {{ dater.rating_sum }}</span>
       <span>Location: {{ dater.location }}</span>
-      <button class="button" @click="suspend">Suspend/Unsuspend</button>
+      <button id="button" class="button" @click="suspend">Suspend</button>
     </article> 
   </div>
 
@@ -106,7 +125,7 @@ onMounted(getDaters)
 }
 
 .suspended {
-  background-color: var(--primary-red);
+  background-color: var(--secondary-red);
 }
 
 .header h4 {
