@@ -1137,7 +1137,7 @@ def get_active_cupids(request):
         active_cupids = helpers.get_sessions(User.Role.DATER)
         if active_cupids == None:
             return Response(status.HTTP_400_BAD_REQUEST)
-        return Response(active_cupids.json(), status.HTTP_200_OK)
+        return Response(active_cupids, status.HTTP_200_OK)
     except:    
         return Response(status.HTTP_400_BAD_REQUEST)
 
@@ -1160,7 +1160,7 @@ def get_active_daters(request):
         active_daters = helpers.get_sessions(User.Role.DATER)
         if active_daters == None:
             return Response(status.HTTP_400_BAD_REQUEST)
-        return Response(active_daters.json(), status.HTTP_200_OK)
+        return Response(active_daters, status.HTTP_200_OK)
     except:
         return Response(status.HTTP_400_BAD_REQUEST)
 
@@ -1326,6 +1326,7 @@ def unsuspend(request):
         serializer = CupidSerializer(cupid, data={'is_suspended': False}, partial=True)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    
     return helpers.retrieved_response(serializer)
 
 
