@@ -63,14 +63,17 @@ def save_profile(request, user, serializer):
 
 
 def user_expand(user, other_serializer):
-    return_data = other_serializer.data
-    if user.role == User.Role.MANAGER:
-        return_data['user'] = other_serializer.data
-    else:
-        user_serializer = UserSerializer(user)
-        return_data['user'] = user_serializer.data
-    del return_data['user']['password']
-    return return_data
+    try:
+        return_data = other_serializer.data
+        if user.role == User.Role.MANAGER:
+            return_data['user'] = other_serializer.data
+        else:
+            user_serializer = UserSerializer(user)
+            return_data['user'] = user_serializer.data
+        del return_data['user']['password']
+        return return_data
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 def retrieved_response(serializer):
