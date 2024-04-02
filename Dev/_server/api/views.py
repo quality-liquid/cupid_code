@@ -602,7 +602,6 @@ def get_cupid_avg_rating(request, pk):
 @permission_classes([IsAuthenticated])
 def cupid_accepting(request):
     cupid = get_object_or_404(Cupid, user=request.user)
-    print(request.data['choice'])
     if request.data['choice']:
         cupid.status = Cupid.Status.AVAILABLE
         cupid.accepting_gigs = True
@@ -757,8 +756,7 @@ def create_gig(request):
     quest.save()
     gig = Gig(dater=dater, quest=quest, status=Gig.Status.UNCLAIMED, dropped_count=0, accepted_count=0)
     gig.save()
-    return Response(status=status.HTTP_201_CREATED)
-
+    return Response(GigSerializer(gig).data, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
@@ -782,7 +780,7 @@ def accept_gig(request):
     serializer = GigSerializer(
         gig,
         data={
-            'is_accepted': True,
+            'status': Gig.Status.CLAIMED,
             'cupid': request.user.id,
             'accepted_count': gig.accepted_count + 1,
             'date_time_of_claim': make_aware(datetime.now()),
@@ -909,7 +907,6 @@ def get_gigs(request, pk, count):
     if count != 0:
         near_gigs = near_gigs[:count]
     serializer = GigSerializer(near_gigs, many=True)
-    print(serializer)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
