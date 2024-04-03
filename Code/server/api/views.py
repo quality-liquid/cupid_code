@@ -865,6 +865,8 @@ def get_cupid_gigs(request, pk):
     Args:
         request: Information about the request.
         pk (int): The id of the cupid
+        query string:
+            complete(bool): Should return cupid's completed or cupid's claimed
     Returns:
         Response:
             A list of gigs (JSON)
@@ -872,9 +874,12 @@ def get_cupid_gigs(request, pk):
     cupid = get_object_or_404(Cupid, user_id=pk)
     helpers.update_user_location(cupid.user, request.META['REMOTE_ADDR'])
     gigs = get_list_or_404(Gig, cupid=cupid)
+    target = Gig.Status.COMPLETE if request.GET['complete'] == 'true' else Gig.Status.CLAIMED
+    print(target)
     current_gigs = []
     for gig in gigs:
-        if gig.status == Gig.Status.CLAIMED:
+        print(gig.status)
+        if gig.status == target:
             current_gigs.append(gig)
     serializer = GigSerializer(current_gigs, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)

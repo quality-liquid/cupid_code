@@ -26,7 +26,7 @@
 
     async function getData() {
         gigs.value = await makeRequest(`api/gig/${user_id}/${gigCount}`)
-        activeGigs.value = await makeRequest(`api/cupid/gigs/${user_id}/`)
+        activeGigs.value = await makeRequest(`api/cupid/gigs/${user_id}?complete=false`)
         //Django returns a 404 if there none of either of these. We have to tell Vue it is ok.
         if (gigs.value.detail === 'Not found.'){
             gigs.value = []
