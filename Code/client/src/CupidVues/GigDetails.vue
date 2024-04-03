@@ -70,15 +70,21 @@
     }
 
     onMounted(getData)
+
+    function naviProf() {
+        router.push({ name: 'CupidDetails', params: {id: user_id} })
+    }
 </script>
 
 <template>
     <nav class="nav homenav">
         <button @click="openDrawer" class="icon-button">
-            <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
+            <span class="material-symbols-outlined icon">menu</span>
         </button>
         <!-- This will be the profile picture when setup -->
-        <img :src="'/get_menu/'" alt="Profile Picture" class="icon">
+        <button class="icon-button" @click="naviProf">
+            <span class="material-symbols-outlined icon">account_circle</span>
+        </button>
         <div id="navbar" class="navbar">
             <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
             <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
@@ -130,7 +136,7 @@
     .space-evenly {
         display: flex;
         flex-direction: row;
-        align-contents: space-evenly;
+        align-content: space-evenly;
     }
     .active {
         background-color: var(--secondary-red);

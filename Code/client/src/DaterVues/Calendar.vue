@@ -38,16 +38,20 @@ onMounted(() => getCalendar())
 <template>  
     <nav class="nav homenav">
       <button @click="openDrawer" class="icon-button">
-          <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
-      </button>
+            <span class="material-symbols-outlined icon">menu</span>   
+        </button>
       <!-- This will be the profile picture when setup -->
-      <img :src="'/get_menu/'" alt="Profile Picture" class="icon">
+      <button class="icon-button" @click="naviProf">
+          <span class="material-symbols-outlined icon">account_circle</span>
+      </button>
       <div id="navbar" class="navbar">
         <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
         <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
+        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
         <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
         <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
         <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
+        <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
         <button class="logout" @click="logout"> Logout </button>
       </div>
     </nav>  

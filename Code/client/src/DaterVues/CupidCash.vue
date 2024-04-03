@@ -37,13 +37,14 @@
 <template>  
     <nav class="nav homenav">
         <button @click="openDrawer" class="icon-button">
-            <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
+            <span class="material-symbols-outlined icon">menu</span>   
         </button>
         <span>Add Cash</span>
         <span>{{'$' + balance}}</span>
         <div id="navbar" class="navbar">
             <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
             <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
+            <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
             <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
             <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
             <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
