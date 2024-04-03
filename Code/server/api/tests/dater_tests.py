@@ -4,9 +4,9 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.test import APITestCase
-from Code._server.api.models import *
-from Code._server.api.views import *
-from Code._server.api.helpers import *
+from Code.server.api.models import *
+from Code.server.api.views import *
+from Code.server.api.helpers import *
 
 
 class TestGetAIResponse(APITestCase):

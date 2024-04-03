@@ -7,14 +7,14 @@ source "$VIRTUAL_ENV/bin/activate"
 poetry install
 
 # Create Django .env file
-cp _server/.env.example _server/.env
-echo "VAULT_PATH=$PWD/_server/core/static/" >> _server/.env
+cp server/.env.example server/.env
+echo "VAULT_PATH=$PWD/_server/core/static/" >> server/.env
 
 # Activate poetry shell
 poetry shell
 
 # Apply Django migrations
-cd _server || exit
+cd server || exit
 # Check if python3 command is available
 if command -v python3 &>/dev/null; then
     python3 manage.py makemigrations
