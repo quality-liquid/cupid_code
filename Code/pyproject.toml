@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "dev"
+version = "0.1.0"
+description = ""
+authors = ["Emma <a02324881@usu.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^5.0.2"
+requests = "^2.31.0"
+python-dotenv = "^1.0.1"
+djangorestframework = "^3.14.0"
+django-debug-toolbar = "^4.3.0"
+pillow = "^10.2.0"
+geopy = "^2.4.1"
+geoip2 = "^4.8.0"
+yelpapi = "^2.5.1"
+speechrecognition = "^3.10.1"
+pocketsphinx = "^5.0.3"
+torch = "^2.2.1"
+transformers = "^4.38.2"
+twilio = "^9.0.0"
+sendgrid = "^6.11.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
