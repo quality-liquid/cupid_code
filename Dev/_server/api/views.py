@@ -1042,10 +1042,11 @@ def get_cupids(request):
     cupids = Cupid.objects.all()
     if cupids is None:
         return Response(data={"error": "database query failed"}, status=status.HTTP_400_BAD_REQUEST)
-    serializer = CupidSerializer(cupids, many=True)
-    if serializer is None:
-        return Response(data={"error": "serializer failed"}, status=status.HTTP_400_BAD_REQUEST)
-    return JsonResponse(serializer.data, safe=False)
+    data = {}
+    for cupid in cupids:
+        return_data = helpers.user_expand(cupid.user, CupidSerializer(cupid))
+        data[cupid.id] = return_data
+    return JsonResponse(data, safe=False)
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
@@ -1064,10 +1065,11 @@ def get_daters(request):
     daters = Dater.objects.all()
     if daters is None:
         return Response(data={"error": "database query failed"}, status=status.HTTP_400_BAD_REQUEST)
-    serializer = DaterSerializer(daters, many=True)
-    if serializer is None:
-        return Response(data={"error": "serializer failed"}, status=status.HTTP_400_BAD_REQUEST)
-    return JsonResponse(serializer.data, safe=False)
+    data = {}
+    for dater in daters:
+        return_data = helpers.user_expand(dater.user, DaterSerializer(dater))
+        data[dater.id] = return_data
+    return JsonResponse(data, safe=False)
 
 
 @api_view(['GET'])
