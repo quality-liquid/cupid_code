@@ -34,5 +34,5 @@ cd ../client || exit
 # Install npm dependencies
 npm install
 
-# Go back to Dev directory
+# Go back to Code directory
 cd .. || exit

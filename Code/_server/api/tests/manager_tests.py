@@ -5,8 +5,8 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.test import APITestCase
-from Dev._server.api.models import *
-from Dev._server.api.views import *
+from Code._server.api.models import *
+from Code._server.api.views import *
 
 import views
 from serializers import (

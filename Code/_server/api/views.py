@@ -1048,6 +1048,7 @@ def get_cupids(request):
         data[cupid.id] = return_data
     return JsonResponse(data, safe=False)
 
+
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated, IsAdminUser])
@@ -1088,11 +1089,11 @@ def get_dater_count(request):
     """
     try:
         number_of_daters = Dater.objects.all().count()
-        if number_of_daters == None:
-            return Response({'count': None}, status=status.HTTP_400_BAD_REQUEST)
+        if number_of_daters is None:
+            return Response({'error': 'no response'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'count': number_of_daters}, status=status.HTTP_200_OK)
-    except:
-        return Response({'count': None}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1111,11 +1112,11 @@ def get_cupid_count(request):
     """
     try:
         number_of_cupids = Cupid.objects.all().count()
-        if number_of_cupids == None:
+        if number_of_cupids is None:
             return Response({'count': None}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'count': number_of_cupids}, status=status.HTTP_200_OK)
-    except:
-        return Response({'count': None}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1134,11 +1135,11 @@ def get_active_cupids(request):
     """
     try:
         active_cupids = helpers.get_sessions(User.Role.DATER)
-        if active_cupids == None:
+        if active_cupids is None:
             return Response(status.HTTP_400_BAD_REQUEST)
         return Response(active_cupids, status.HTTP_200_OK)
-    except:    
-        return Response(status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1157,11 +1158,11 @@ def get_active_daters(request):
     """
     try:
         active_daters = helpers.get_sessions(User.Role.DATER)
-        if active_daters == None:
+        if active_daters is None:
             return Response(status.HTTP_400_BAD_REQUEST)
         return Response(active_daters, status.HTTP_200_OK)
-    except:
-        return Response(status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1181,7 +1182,7 @@ def get_gig_rate(request):
     try:
         yesterday = datetime.now() - datetime.timedelta(days=1)
         gigs_from_past_day = Gig.objects.filter(date_time_of_request__range=(yesterday, datetime.now()))
-        if gigs_from_past_day == None:
+        if gigs_from_past_day is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         gig_rate = gigs_from_past_day.count() / 24
         response = json.dumps(gig_rate)
@@ -1206,11 +1207,11 @@ def get_gig_count(request):
     """
     try:
         number_of_gigs = Gig.objects.all().count()
-        if number_of_gigs == None:
+        if number_of_gigs is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response({'count': number_of_gigs}, status=status.HTTP_200_OK)
-    except:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -1231,7 +1232,7 @@ def get_gig_drop_rate(request):
         number_of_drops = 0
         yesterday = datetime.now() - datetime.timedelta(days=1)
         gigs_from_past_day = Gig.objects.filter(date_time_of_request__range=(yesterday, datetime.now()))
-        if gigs_from_past_day == None:
+        if gigs_from_past_day is None:
             return Response(status.HTTP_400_BAD_REQUEST)
         for gig in gigs_from_past_day:
             number_of_drops += gig.dropped_count
@@ -1261,7 +1262,7 @@ def get_gig_complete_rate(request):
     try:
         yesterday = datetime.now() - datetime.timedelta(days=1)
         gigs_from_past_day = Gig.objects.filter(date_time_of_request__range=(yesterday, datetime.now()))
-        if gigs_from_past_day == None:
+        if gigs_from_past_day is None:
             return Response(status.HTTP_400_BAD_REQUEST)
         number_of_completed_gigs = gigs_from_past_day.filter(status=2).count()
         number_of_gigs = Gig.objects.all().count()

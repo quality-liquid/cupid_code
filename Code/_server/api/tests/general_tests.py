@@ -2,8 +2,8 @@ from rest_framework.test import APIRequestFactory, force_authenticate
 from unittest.mock import patch, MagicMock
 from django.urls import reverse
 from rest_framework.test import APITestCase
-from Dev._server.api.views import *
-from Dev._server.api.helpers import *
+from Code._server.api.views import *
+from Code._server.api.helpers import *
 
 
 class TestUpdateUserLocation(APITestCase):
