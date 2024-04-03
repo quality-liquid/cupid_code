@@ -18,8 +18,9 @@ import DaterFeedback from '../DaterVues/DaterFeedback.vue'
 import Calendar from '../DaterVues/Calendar.vue'
 
 // Cupid Specific
-import GigDetails from '../CupidVues/GigDetails.vue'
 import CupidDetails from '../CupidVues/CupidDetails.vue'
+import CupidFeedback from '../CupidVues/CupidFeedback.vue'
+import GigDetails from '../CupidVues/GigDetails.vue'
 import GigComplete from '../CupidVues/GigComplete.vue'
 
 // Manager Specific
@@ -103,6 +104,11 @@ const routes = [
         path: '/cupid/gig/completed/:id',
         name: 'GigComplete',
         component: GigComplete,
+    },
+    {
+        path: '/cupid/feedback/:id',
+        name: 'CupidFeedback',
+        component: CupidFeedback
     },
     {
         path: '/manager/home/:id',

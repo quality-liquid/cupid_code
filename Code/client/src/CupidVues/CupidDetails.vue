@@ -98,6 +98,7 @@
         </button>
         <div id="navbar" class="navbar">
             <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
+            <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
             <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gig Details </router-link>
             <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Check Completed </router-link>
         <button class="logout" @click="logout"> Logout </button>
