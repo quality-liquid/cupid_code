@@ -3,6 +3,8 @@
     import { makeRequest } from '../utils/make_request'
     import {ref, onMounted} from 'vue'
 
+    import GigData from './GigData.vue'
+
     const gigCount = 0
     const gigs = ref([])
     const activeGigs = ref([])
@@ -90,30 +92,20 @@
     <main>
         <h1>Active</h1>
         <hr/>
-        <ul v-for="(gig, index) in activeGigs">
-            <div class="gig active">
-                <h1>Dater: {{ gig.dater }}</h1>
-                <p>Items requested: {{ gig.quest.items_requested }}</p>
-                <p>Budget: ${{ gig.quest.budget }}</p>
-                <p>Pickup Location: {{ gig.quest.pickup_location }}</p>
-                <div class="space-evenly">
-                    <button class="button" @click="complete(gig.id)">Complete</button>
-                    <button class="button" @click="drop(gig.id)">Drop</button>
-                </div>
+        <div class="gig active" v-for="(gig, index) in activeGigs">
+            <GigData :gig="gig"/>
+            <div class="space-evenly">
+                <button class="button" @click="complete(gig.id)">Complete</button>
+                <button class="button" @click="drop(gig.id)">Drop</button>
             </div>
-        </ul>
+        </div>
         <p v-if="activeGigs.length == 0">You are not currently on any gigs.</p>
         <h1>Available</h1>
         <hr/>
-        <ul v-for="(gig, index) in gigs">
-            <div class="gig inactive">
-                <h1>Dater: {{ gig.dater }}</h1>
-                <p>Items requested: {{ gig.quest.items_requested }}</p>
-                <p>Budget: ${{ gig.quest.budget }}</p>
-                <p>Pickup Location: {{ gig.quest.pickup_location }}</p>
-                <button class="button" @click="claim(gig.id)">Claim</button>
-            </div>
-        </ul>
+        <div class="gig inactive" v-for="(gig, index) in gigs">
+            <GigData :gig="gig"/>
+            <button class="button" @click="claim(gig.id)">Claim</button>
+        </div>
         <p v-if="gigs.length == 0">There are no gigs available.</p>
     </main>
 </template>
@@ -123,6 +115,7 @@
         border-radius: 12px;
         padding: 12px;
         color: white;
+        margin: 6px;
     }
     .gig h1 {
         margin: 0;

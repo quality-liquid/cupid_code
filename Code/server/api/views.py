@@ -329,9 +329,10 @@ def rate_dater(request):
     )
     if serializer.is_valid():
         serializer.save()
-        target.rating_count += 1
-        target.rating_sum += data['rating']
-        target.save()
+        dater = Dater.objects.get(user_id=target)
+        dater.rating_count += 1
+        dater.rating_sum += data['rating']
+        dater.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -875,10 +876,8 @@ def get_cupid_gigs(request, pk):
     helpers.update_user_location(cupid.user, request.META['REMOTE_ADDR'])
     gigs = get_list_or_404(Gig, cupid=cupid)
     target = Gig.Status.COMPLETE if request.GET['complete'] == 'true' else Gig.Status.CLAIMED
-    print(target)
     current_gigs = []
     for gig in gigs:
-        print(gig.status)
         if gig.status == target:
             current_gigs.append(gig)
     serializer = GigSerializer(current_gigs, many=True)

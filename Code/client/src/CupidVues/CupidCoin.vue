@@ -1,10 +1,5 @@
 <script setup>
     const props = defineProps(['active'])
-  //--primary-blue: #46ADF0;
-  //--secondary-blue: #4c589c;
-  //--primary-red: #f04b7f;
-  //--secondary-red: #a55271;
-  //--content-background: #FCEBFF;
 </script>
 <template>
     <div class="coin" :data-active="active">
