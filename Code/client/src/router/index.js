@@ -15,6 +15,7 @@ import CupidCash from '../DaterVues/CupidCash.vue'
 import DaterProfile from '../DaterVues/DaterProfile.vue'
 import DepositMoney from '../DaterVues/DepositMoney.vue'
 import DaterFeedback from '../DaterVues/DaterFeedback.vue'
+import Calendar from '../DaterVues/Calendar.vue'
 
 // Cupid Specific
 import GigDetails from '../CupidVues/GigDetails.vue'
@@ -76,6 +77,13 @@ const routes = [
         name: 'DaterFeedback',
         component: DaterFeedback
     },
+
+    {
+        path: '/dater/calendar/:id',
+        name: 'Calendar',
+        component: Calendar
+    },
+
     {
         path: '/cupid/home/:id',
         name: 'CupidHome',

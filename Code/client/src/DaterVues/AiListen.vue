@@ -92,15 +92,16 @@ async function stopListen() {
 <template>
     <nav class="nav homenav">
         <button @click="openDrawer" class="icon-button">
-            <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
+            <span class="material-symbols-outlined icon">menu</span>   
         </button>
         <span>Let the AI Listen in!</span>
         <button class="icon-button" @click="naviProf">
-            <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">
+            <span class="material-symbols-outlined icon">account_circle</span>
         </button>
         <div id="navbar" class="navbar">
             <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
             <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
+            <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
             <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
             <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
             <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
@@ -112,13 +113,13 @@ async function stopListen() {
     <div class="container">
         <div class="buttons">
             <button class="listen button" @click="listen">
-                <img :src="'/get_mic/'" class="icon">
+                <span class="material-symbols-outlined">mic</span>
             </button>
             <button class="listen button" @click="stopListen">
-                <img :src="'/get_mic_off/'" class="icon">
+                <span class="material-symbols-outlined">mic_off</span>
             </button>
             <button class="emergency button" @click="toggleEmergency">
-                <img :src="'/get_emergency/'" class="icon">
+                <span class="material-symbols-outlined">priority_high</span>
             </button>
         </div>
         <div class="popup" :class="{ active: popupActive }">

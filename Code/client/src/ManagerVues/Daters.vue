@@ -59,10 +59,10 @@ onMounted(getDaters)
   <!-- end nav bar -->
   <nav class="nav homenav">
       <button @click="openDrawer" class="icon-button">
-          <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
+          <span class="material-symbols-outlined icon">menu</span>   
       </button>
       <span>Dater Information</span>
-      <img :src="'/get_heart/'" alt="Heart" class="icon">
+      <span class="material-symbols-outlined icon">favorite</span>
       <div id="navbar" class="navbar">
           <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}"> Home </router-link>
           <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}"> See Dater Info </router-link>
@@ -75,7 +75,7 @@ onMounted(getDaters)
   <!-- h4 id needs to relate the suspended/unsuspended user's ID -->
   <div v-for="dater of daters" class="container">
     <div class="header" id="header" >
-      <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">
+      <span class="material-symbols-outlined icon">person</span>
       <h4>Name</h4>
       <h4 id="id">{{ dater.user }}</h4>
     </div>

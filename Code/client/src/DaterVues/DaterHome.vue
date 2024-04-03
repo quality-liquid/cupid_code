@@ -29,16 +29,17 @@ async function logout() {
 <template>
 <nav class="nav homenav">
   <button @click="openDrawer" class="icon-button">
-    <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
+      <span class="material-symbols-outlined icon">menu</span>   
   </button>
   <span>Home</span>
   <!-- This will be the profile picture when setup & will be functioning button -->
   <button class="icon-button" @click="naviProf">
-    <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">
+      <span class="material-symbols-outlined icon">account_circle</span>
   </button>
   <div id="navbar" class="navbar">
     <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
     <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
+    <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
     <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
     <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
     <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
@@ -49,20 +50,20 @@ async function logout() {
 
 <div class="container">
   <div class="widget blue">
-    <img :src="'/get_chat/'" alt="Menu Open icon" class="wid_icon">
+    <span class="material-symbols-outlined icon">forum</span>
     <router-link class="header" :to="{name: 'AiChat', params: {id: user_id}}">AI Chat</router-link>
   </div>
   <div class="widget red">
-    <img :src="'/get_mic/'" alt="Menu Open icon" class="wid_icon">
+    <span class="material-symbols-outlined icon">mic</span>
     <router-link class="header" :to="{name: 'AiListen', params: {id: user_id}}">AI Listen</router-link>
   </div>
   <div class="widget blue">
-    <img :src="'/get_money/'" alt="Menu Open icon" class="wid_icon">
+    <span class="material-symbols-outlined icon">attach_money</span>
     <router-link class="header" :to="{name: 'CupidCash', params: {id: user_id}}">Add Cash</router-link>
   </div>
   <div class="widget red"> <!-- This will become Calendar when it's made -->
-    <img :src="'/get_temp_pfp/'" alt="Menu Open icon" class="wid_icon">
-    <router-link class="header" :to="{name: 'DaterProfile', params: {id: user_id}}">Edit Profile</router-link>
+    <span class="material-symbols-outlined icon">calendar_month</span>
+    <router-link class="header" :to="{name: 'Calendar', params: {id: user_id}}">Calendar</router-link>
   </div>
 </div>
 </template>
