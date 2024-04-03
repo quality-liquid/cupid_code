@@ -37,7 +37,7 @@ async function suspend() {
     header.setAttribute('class', 'header')
     button.innerText = 'Suspend'
 
-    const res = await makeRequest('/api/manager/unsuspend/', 'post', {
+    const res = await makeRequest('/api/manager/unsuspend/', {
       user_id: id
     })
     
@@ -45,7 +45,7 @@ async function suspend() {
   else {
     header.setAttribute('class', 'header suspended')
     button.innerText = 'Unsuspend'
-    const res = await makeRequest('/api/manager/suspend/', 'post', {
+    const res = await makeRequest('/api/manager/suspend/', {
       user_id: id
     })
   }
