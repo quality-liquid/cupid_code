@@ -7,6 +7,7 @@
 out
 gen
 .vscode
+
 .env
 
 # Python artifacts
@@ -15,7 +16,6 @@ gen
 node_modules
 npm-debug.log
 package-lock.json
-package.json
 
 db.sqlite3
 
