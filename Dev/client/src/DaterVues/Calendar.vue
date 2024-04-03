@@ -1,7 +1,6 @@
 <script setup>
 import { makeRequest } from '../utils/make_request';
-import {onMounted, ref, watch} from 'vue';
-
+import {VueElement, onMounted, ref, watch} from 'vue';
 
 
 const user_id  = parseInt(window.location.hash.split('/')[3])
@@ -24,24 +23,11 @@ async function logout() {
 async function getCalendar() {
   const results = await makeRequest(`/api/dater/calendar/${user_id}`);
   // put calendar to screen
-
 }
 
-// calendar stuffs
-const selectedColor = ref('blue');
-const attrs = ref([
-  {
-    key: 'test',
-    highlight: true,
-    dates: { start: new Date(2019, 3, 15), end: new Date(2019, 3, 19) },
-  }
-]);
-// end calendar stuffs
 
 
-
-
-onMounted(() => getChats())
+onMounted(() => getCalendar())
 </script>
 
 
@@ -66,13 +52,12 @@ onMounted(() => getChats())
       </div>
     </nav>  
 
-    <h2>Calendar</h2>
-    <div class="calendar"> 
-      <VCalendar borderless expanded title-position="left"
-        :color="blue"
-        :attributes="attrs"
-      />
-      <VDatePicker v-model="date" />
+    <div class="container">
+      <h1>Schedule your next date!</h1>
+      <span class="datepicker-toggle">
+        <span class="datepicker-toggle-button"></span>
+        <input type="date" class="datepicker-input">
+      </span>
     </div>
 </template>
 
@@ -86,70 +71,60 @@ onMounted(() => getChats())
 
 
 <style scoped>
-.chatbox {
-    display: flex;
-    flex-flow: column nowrap;
-    margin: 10px;
-    margin-top: 40px;
-    height: 450px;
-    overflow-y: scroll;
+.container {
+    margin: 40px;
 }
-
-.chat {
-    padding: 8px;
-    margin: 8px;
-    border: none;
-    border-radius: 4px;
+.container h1 {
+    margin-top: 50px;
 }
-
-.sent {
-    display: flex;
-    justify-content: flex-end;
-    background-color: var(--primary-red);
-    color: white;
-    position: relative;
-    margin-bottom: 10px;
-    margin-left: calc(100% - 240px);
-    padding: 10px;
-}
-
-.response {
-    display: flex;
-    justify-content: flex-start;
-    background-color: var(--secondary-blue);
-    color: white;
-    position: relative;
-    margin-bottom: 10px;
-    margin-right: calc(100% - 240px);
-    padding: 10px;
-}
-
-.textbox {
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    flex-direction: column;
-    background-color: var(--secondary-red);
-    padding: 24px;
-}
-
 .message {
     text-align: center;
     color: white;
     display: flex;
     flex-direction: column;
 }
-
 .message h4 {
     margin: 4px;
     margin-top: 0px;
 }
 
-.message input {
-    border: none;
-    border-radius: 4px;
-    padding: 8px;
-    margin: 4px;
+/* date input css */
+/* .datepicker-toggle {
+  display: inline-block;
+  position: relative;
+  width: 18px;
+  height: 19px;
 }
+.datepicker-toggle-button {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/svg+xml;base64,...');
+} */
 
+
+
+/*  */
+/* .input-container input {
+    border: none;
+    box-sizing: border-box;
+    outline: 0;
+    padding: .75rem;
+    position: relative;
+    width: 100%;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+} */
 </style>
