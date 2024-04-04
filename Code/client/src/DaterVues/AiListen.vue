@@ -3,8 +3,8 @@ import {ref} from 'vue'
 import { makeRequest } from '../utils/make_request';
 
 const audioFile = ref({
-    'type': '',
-    'data': ''
+    type: '',
+    data: ''
 })
 const audio = ref(null)
 const recorder = ref(null)
@@ -64,15 +64,16 @@ async function listen() {
         }
     });
 
-    recorder.value.addEventListener("stop", () => {
+    recorder.value.addEventListener("stop", async () => {
         audio.value = new Blob(recordedChunks);
-        console.log(audio.value);
-        const data = audio.value.text()
-        console.log(data)
+        const data = await audio.value.text()
         audioFile.value = {
-            'type': audio.value.type,
-            'data': audio.value.text()
+            type: audio.value.type ? audio.value.type : 'WAV',
+            data: data
         }
+        const result = await makeRequest('/api/stt/', 'post', {
+        audio: audioFile
+    })
     });
 
     recorder.value.start();
@@ -82,9 +83,6 @@ async function stopListen() {
     recorder.value.stop();
     recorder.value = null;
 
-    const result = await makeRequest('/api/stt', 'post', {
-        audio: audioFile
-    })
 }
 
 </script>
