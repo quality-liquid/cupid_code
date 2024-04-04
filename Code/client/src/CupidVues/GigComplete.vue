@@ -137,7 +137,7 @@
     .space-evenly {
         display: flex;
         flex-direction: row;
-        align-contents: space-evenly;
+        align-content: space-evenly;
     }
     .button {
         width: auto;
