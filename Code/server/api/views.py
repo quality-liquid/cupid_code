@@ -1189,8 +1189,7 @@ def get_gig_rate(request):
         if gigs_from_past_day is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         gig_rate = gigs_from_past_day.count() / 24
-        response = json.dumps(gig_rate)
-        return Response(response, status=status.HTTP_200_OK)
+        return Response(data={"gig_rate": gig_rate}, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -1240,10 +1239,8 @@ def get_gig_drop_rate(request):
             return Response(status.HTTP_400_BAD_REQUEST)
         for gig in gigs_from_past_day:
             number_of_drops += gig.dropped_count
-
         drop_rate = number_of_drops / 24
-        response = json.dumps(drop_rate)
-        return Response(response, status=status.HTTP_200_OK)
+        return Response(data={"drop_rate": drop_rate}, status=status.HTTP_200_OK)
 
     except Exception as e:
         return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
