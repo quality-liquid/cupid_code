@@ -1,6 +1,6 @@
 <script setup>
 import { makeRequest } from '../utils/make_request';
-import {VueElement, onMounted, ref, watch} from 'vue';
+import {onMounted, ref, watch} from 'vue';
 
 
 const user_id  = parseInt(window.location.hash.split('/')[3])
@@ -29,11 +29,6 @@ async function getCalendar() {
 
 onMounted(() => getCalendar())
 </script>
-
-
-
-
-
 
 <template>  
     <nav class="nav homenav">
@@ -64,15 +59,6 @@ onMounted(() => getCalendar())
       </span>
     </div>
 </template>
-
-
-
-
-
-
-
-
-
 
 <style scoped>
 .container {

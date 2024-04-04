@@ -26,10 +26,8 @@ async function logout() {
 }
 
 async function getFeedback() {
-    const res = await makeRequest(`/api/dater/ratings/${user_id}`)
-    console.log(res)   
+    const res = await makeRequest(`/api/dater/ratings/${user_id}`) 
     feedback.value = res
-    console.log(feedback.value)
 }
 
 onMounted(getFeedback)
