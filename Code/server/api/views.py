@@ -633,7 +633,7 @@ def cupid_transfer(request):
     amount = cupid.cupid_cash_balance
     cupid.cupid_cash_balance = 0
     cupid.save()
-    return Response({f"Transfering {amount} to {bank_account.routing_number}"},
+    return Response({f"Transferring {amount} to {bank_account.routing_number}"},
                     status=status.HTTP_200_OK)
 
 
@@ -1049,7 +1049,7 @@ def get_cupids(request):
     data = {}
     for cupid in cupids:
         return_data = helpers.user_expand(cupid.user, CupidSerializer(cupid))
-        data[cupid.id] = return_data
+        data[cupid.user_id] = return_data
     return JsonResponse(data, safe=False)
 
 
@@ -1073,7 +1073,7 @@ def get_daters(request):
     data = {}
     for dater in daters:
         return_data = helpers.user_expand(dater.user, DaterSerializer(dater))
-        data[dater.id] = return_data
+        data[dater.user_id] = return_data
     return JsonResponse(data, safe=False)
 
 
@@ -1271,8 +1271,7 @@ def get_gig_complete_rate(request):
         number_of_completed_gigs = gigs_from_past_day.filter(status=2).count()
         number_of_gigs = Gig.objects.all().count()
         gig_complete_rate = number_of_completed_gigs / number_of_gigs
-        response = gig_complete_rate.json()
-        return Response(response, status=status.HTTP_200_OK)
+        return Response(data={"gig_complete_rate": gig_complete_rate}, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
 
