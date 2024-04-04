@@ -3,6 +3,7 @@
 //If things are reading null or undefined, just console.log(results) to see what the names are and then change `results.data` to `results.<foundName>`
 import {ref, onMounted} from 'vue'
 import { makeRequest } from '../utils/make_request';
+import {to_pdf} from '../utils/to_PDF';
 
 const daters = ref(0) //Fill with a setter type for whatever the backend returns to you 
 const cupids = ref(0)
@@ -40,7 +41,8 @@ async function getGigData() {
 }
 
 function toPDF() {
-  
+  const content = document.querySelector('#content')
+  to_pdf(content)
 }
 
 const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
@@ -85,62 +87,64 @@ onMounted(() => {
       </div>
   </nav>
   <main class="container">
-    <div class="widget-container">
-      <div class="widget blue">
-        <span class="material-symbols-outlined icon">person</span>
-        <router-link class="header" :to="{name: 'ManageCupids', params: {id: user_id}}">Cupids</router-link>
+      <div class="widget-container">
+        <div class="widget blue">
+          <span class="material-symbols-outlined icon">person</span>
+          <router-link class="header" :to="{name: 'ManageCupids', params: {id: user_id}}">Cupids</router-link>
+        </div>
+        <div class="widget red"> 
+          <span class="material-symbols-outlined icon">favorite</span>
+          <router-link class="header" :to="{name: 'ManageDaters', params: {id: user_id}}">Daters</router-link>
+        </div>
       </div>
-      <div class="widget red"> 
-        <span class="material-symbols-outlined icon">favorite</span>
-        <router-link class="header" :to="{name: 'ManageDaters', params: {id: user_id}}">Daters</router-link>
+
+    <div id="content">
+      <h3>Revenue Graph (Very Real)</h3>
+      <figure class="graph-container" name="toPDF">
+        <img :src="'/get_graph/'" alt="Graph" class="graph" width="300px">
+        <figcaption>Graph of Overall Revenue</figcaption>
+      </figure>
+      <h3>General Stats</h3>
+      <div class="stat-container" name="toPDF">
+        <div class="stat-widget">
+          <h4 class="stat">250k</h4> 
+          <span>Total Daters</span>
+        </div>
+        <div class="stat-widget">
+          <h4 class="stat">60k</h4>
+          <span>Total Cupids</span>
+        </div>
+        <div class="stat-widget">
+          <h4 class="stat">40k</h4> 
+          <span>Active Cupids</span>
+        </div>
+        <div class="stat-widget">
+          <h4 class="stat">15k</h4>
+          <span>Active Daters</span>
+        </div>
       </div>
-    </div>
-    <h3>Revenue Graph (Very Real)</h3>
-    <figure class="graph-container" name="toPDF">
-      <img :src="'/get_graph/'" alt="Graph" class="graph" width="300px">
-      <figcaption>Graph of Overall Revenue</figcaption>
-    </figure>
-  
-    <h3>General Stats</h3>
-    <div class="stat-container" name="toPDF">
-      <div class="stat-widget">
-        <h4 class="stat">250k</h4> 
-        <span>Total Daters</span>
-      </div>
-      <div class="stat-widget">
-        <h4 class="stat">60k</h4>
-        <span>Total Cupids</span>
-      </div>
-      <div class="stat-widget">
-        <h4 class="stat">40k</h4> 
-        <span>Active Cupids</span>
-      </div>
-      <div class="stat-widget">
-        <h4 class="stat">15k</h4>
-        <span>Active Daters</span>
-      </div>
-    </div>
-    <h3>Gig Stats</h3>
-    <div class="stat-container" name="toPDF">
-      <div class="stat-widget gigs">
-        <h4 class="stat">500k</h4>
-        <span>Total Gigs</span>
-      </div>
-      <div class="stat-widget gigs">
-        <h4 class="stat">40k</h4>
-        <span>Gigs per Day</span>
-      </div>
-      <div class="stat-widget gigs">
-        <h4 class="stat">400k</h4>
-        <span>Gigs Completed</span>
-      </div>
-      <div class="stat-widget gigs">
-        <h4 class="stat">100k</h4>
-        <span>Gigs Dropped</span>
+      <h3>Gig Stats</h3>
+      <div class="stat-container" name="toPDF">
+        <div class="stat-widget gigs">
+          <h4 class="stat">500k</h4>
+          <span>Total Gigs</span>
+        </div>
+        <div class="stat-widget gigs">
+          <h4 class="stat">40k</h4>
+          <span>Gigs per Day</span>
+        </div>
+        <div class="stat-widget gigs">
+          <h4 class="stat">400k</h4>
+          <span>Gigs Completed</span>
+        </div>
+        <div class="stat-widget gigs">
+          <h4 class="stat">100k</h4>
+          <span>Gigs Dropped</span>
+        </div>
       </div>
     </div>
     <button @click="toPDF" class="button">Convert to PDF</button>
-  </main>
+    </main>
 
 </template>
 
@@ -148,6 +152,9 @@ onMounted(() => {
 .container {
   margin: 10px;
   margin-top: 50px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
 }
 
 h3 {
@@ -216,6 +223,15 @@ h3 {
 
 .red {
   background-color: var(--primary-red);
+}
+
+.button {
+  margin: 10px 250px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--primary-blue);
+  color: white;
+  padding: 16px;
 }
 </style>
   
