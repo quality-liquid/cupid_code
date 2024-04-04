@@ -90,7 +90,7 @@ onMounted(() => {
         <span class="material-symbols-outlined icon">person</span>
         <router-link class="header" :to="{name: 'ManageCupids', params: {id: user_id}}">Cupids</router-link>
       </div>
-      <div class="widget red"> <!-- This will become Calendar when it's made -->
+      <div class="widget red"> 
         <span class="material-symbols-outlined icon">favorite</span>
         <router-link class="header" :to="{name: 'ManageDaters', params: {id: user_id}}">Daters</router-link>
       </div>
@@ -104,38 +104,38 @@ onMounted(() => {
     <h3>General Stats</h3>
     <div class="stat-container" name="toPDF">
       <div class="stat-widget">
-        <h4 class="stat">{{ daters || '250k' }}</h4> 
+        <h4 class="stat">250k</h4> 
         <span>Total Daters</span>
       </div>
       <div class="stat-widget">
-        <h4 class="stat">{{ cupids || '60k' }}</h4>
+        <h4 class="stat">60k</h4>
         <span>Total Cupids</span>
       </div>
       <div class="stat-widget">
-        <h4 class="stat">{{ active_cupids || '40k' }}</h4> 
+        <h4 class="stat">40k</h4> 
         <span>Active Cupids</span>
       </div>
       <div class="stat-widget">
-        <h4 class="stat">{{ active_daters || '15k' }}</h4>
+        <h4 class="stat">15k</h4>
         <span>Active Daters</span>
       </div>
     </div>
     <h3>Gig Stats</h3>
     <div class="stat-container" name="toPDF">
       <div class="stat-widget gigs">
-        <h4 class="stat">{{ gigs || '500k' }}</h4>
+        <h4 class="stat">500k</h4>
         <span>Total Gigs</span>
       </div>
       <div class="stat-widget gigs">
-        <h4 class="stat">{{ rate || '40k' }}</h4>
+        <h4 class="stat">40k</h4>
         <span>Gigs per Day</span>
       </div>
       <div class="stat-widget gigs">
-        <h4 class="stat">{{ completed || '400k' }}</h4>
+        <h4 class="stat">400k</h4>
         <span>Gigs Completed</span>
       </div>
       <div class="stat-widget gigs">
-        <h4 class="stat">{{ dropped || '100k' }}</h4>
+        <h4 class="stat">100k</h4>
         <span>Gigs Dropped</span>
       </div>
     </div>
