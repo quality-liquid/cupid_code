@@ -1,37 +1,12 @@
 <script setup>
-    import { ref, onMounted } from 'vue';
-    import { makeRequest } from '../utils/make_request';
+import {ref, computed} from 'vue';
+import router from '../router/index.js'
+import { makeRequest } from '../utils/make_request';
 
-    import NavSuite from '../components/NavSuite.vue';
-    
-    const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
-    let gigs = ref('');
-    const gigCount = 10;
-    
-    // Get gigs function
-    async function getGigs() {
-        gigs.value = await makeRequest(`api/gig/${user_id}/${gigCount}`)
-        console.log(gigs.value);
-        gigs.value.forEach(element => {
-            console.log(element.id)
-        });
-    }
-    
-    // Accept gig function 
-    async function acceptgig(gigId) {
-        await makeRequest(`/api/gig/accept/`, 'post', {
-            id: gigId
-        });
-    }
-    
-    // Drop gig function
-    async function dropgig(gigId) {
-        await makeRequest(`/api/gig/drop/`, 'post', {
-            id: gigId
-        })
-    }
-    
-    onMounted(getGigs);
+import NavSuite from '../components/NavSuite.vue';
+
+const user_id  = parseInt(window.location.hash.split('/')[3])
+
 </script>
 
 <template>
@@ -39,33 +14,53 @@
         <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
         <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gigs Available </router-link>
         <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Gigs Completed </router-link>
-        <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
     </NavSuite>
 
-    <div class="body">
-        <h1><br/>You are in CupidHome.vue</h1>
-        <!-- Clicking on this gig item, reroute to GigDetails page -->
-        <div v-for="gig of gigs" :key="gig.id">
-            <h1>YEET!!!!!!!!!!!!!</h1>
-            <div :class="{ 'active': gig.status, 'inactive': !gig.status }" >
-                <router-link class="link" :to="{name: 'GigDetails', params: {id: gig.id}}">{{ gig.quest.pickup_location }}</router-link>
-            </div>
-            
-            <p>Pickup: {{ gig.quest.items_requested }}</p>
-            <p>Status: {{ gig.status ? 'Active' : 'Inactive' }}</p>
-            <button :class="{'active': !gig.status, 'inactive': gig.status}" @click="gig.status ? dropgig(gig.id) : acceptgig(gig.id)">
-                {{ gig.status ? 'Drop Gig' : 'Accept' }}
-            </button>
-        </div>
-    </div>
 
+    <div class="container">
+      <div class="widget red">
+        <span class="material-symbols-outlined icon">person</span>
+        <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
+      </div>
+      <div class="widget blue">
+        <span class="material-symbols-outlined icon">receipt_long</span>
+        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gigs Available </router-link>
+      </div>
+      <div class="widget red"> <!-- This will become Calendar when it's made -->
+        <span class="material-symbols-outlined icon">checklist</span>
+        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Gigs Completed </router-link>
+      </div>
+    </div>
 </template>
 
 <style scoped>
-    .active {
-      background-color: var(--secondary-blue);
-    }
-    .inactive {
-      background-color: var(--secondary-red);
-    }
+  .container {
+    margin: 10px;
+    margin-top: 50px;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 10px;
+  }
+
+  .widget {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    border: none;
+    border-radius: 16px;
+  }
+
+  .header {
+    color: white;
+  }
+
+  .blue {
+    background-color: var(--secondary-blue);
+  }
+
+  .red {
+    background-color: var(--secondary-red);
+  }
 </style>
