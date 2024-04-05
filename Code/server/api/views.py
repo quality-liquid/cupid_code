@@ -1399,14 +1399,11 @@ def speech_to_text(request):
     data = request.data
     data['location'] = helpers.get_location_string(request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, user_id=request.user.id)
-    if dater is None:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
     audio = data['audio']
     audio_type = audio['type']
     audio_data = audio['data']
     try:
-        response = helpers.get_response_from_audio(audio_data, audio_type, dater)
-        return helpers.process_ai_response(dater, response)
+        message = helpers.get_message_from_audio(audio_data, audio_type, dater)
     except speech_recognition.UnknownValueError:
         return Response(
             {'error': 'Could not understand the audio.'},
@@ -1419,6 +1416,8 @@ def speech_to_text(request):
         )
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    response = helpers.get_ai_response(message)
+    return helpers.process_ai_response(dater, response)
 
 
 @api_view(['POST'])

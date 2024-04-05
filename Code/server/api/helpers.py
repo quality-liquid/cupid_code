@@ -386,7 +386,7 @@ def send_email(dater, message):
     return Response(response, status=status.HTTP_200_OK)
 
 
-def get_response_from_audio(audio_data, audio_type, dater):
+def get_message_from_audio(audio_data, audio_type, dater):
     recognizer = speech_recognition.Recognizer()
     # Convert base64 audio data to bytes
     audio_bytes = base64.b64decode(audio_data)
@@ -413,8 +413,7 @@ def get_response_from_audio(audio_data, audio_type, dater):
 
                   """
     message = prompt + text
-    response = get_ai_response(message)
-    return response
+    return message
 
 
 def get_response_from_yelp_api(pk, request, search):
