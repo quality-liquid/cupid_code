@@ -107,10 +107,10 @@ onMounted(getChats)
 .chatbox {
     display: flex;
     flex-flow: column nowrap;
-    margin: 10px;
-    margin-top: 40px;
-    height: 79vh;
     overflow-y: scroll;
+    height: 100%;
+    margin-top: 42px;
+    margin-bottom: 158px;
 }
 
 h3 {
@@ -149,12 +149,15 @@ h3 {
 
 .textbox {
     display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     justify-content: center;
     align-content: center;
     flex-direction: column;
     background-color: var(--secondary-red);
     padding: 24px;
-    bottom: 0;
 }
 
 
