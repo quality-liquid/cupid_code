@@ -25,6 +25,14 @@ async function getCalendar() {
   // put calendar to screen
 }
 
+async function saveDate() {
+  // code to save specified date into database
+  const results = await makeRequest('/api/dater/', 'post', {
+    user: user_id,
+    savedDate: date,
+  }) 
+}
+
 
 
 onMounted(() => getCalendar())
@@ -54,10 +62,14 @@ onMounted(() => getCalendar())
 
     <div class="container">
       <h1>Schedule your next date!</h1>
-      <span class="datepicker-toggle">
+      <p>Only one date can be scheduled at a time. New dates scheduled will overwrite previously scheduled date.</p>
+      <!-- This was intended to make it look prettier, but the css doesn't quite work how I inteded it to
+        <span class="datepicker-toggle">
         <span class="datepicker-toggle-button"></span>
         <input type="date" class="datepicker-input">
-      </span>
+      </span> -->
+      <input type="date" name="calendar" class="calendar">
+      <button>Submit</button>
     </div>
 </template>
 
@@ -106,7 +118,7 @@ onMounted(() => getCalendar())
 
 
 
-/*  */
+/* supposedly makes it pretty in chrome */
 /* .input-container input {
     border: none;
     box-sizing: border-box;
