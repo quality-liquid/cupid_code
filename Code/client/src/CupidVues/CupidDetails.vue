@@ -3,6 +3,7 @@
     import { makeRequest } from '../utils/make_request'
     import {ref, onMounted} from 'vue'
 
+    import NavSuite from '../components/NavSuite.vue';
     import CupidCoin from './components/CupidCoin.vue'
     import PinkButton from '../components/PinkButton.vue'
 
@@ -20,22 +21,6 @@
     const range = ref(20)
     const gigs_completed = ref(0)
     const gigs_failed = ref(0)
-
-    // Open and closes drawer w/ shorthand
-    function openDrawer() {
-        const element = document.getElementById('navbar')
-        if (element.className === 'navbar') {
-            element.className = 'navbar opened'
-        }
-        else {
-            element.className = 'navbar'
-        }
-    }
-    // Logout function
-    async function logout() {
-        const result = await makeRequest(`/logout/`)
-        router.push('/')
-    }
 
     async function update() {
         // Validate data
@@ -82,29 +67,16 @@
 
     onMounted(getData)
 
-    function naviProf() {
-        router.push({ name: 'CupidDetails', params: {id: user_id} })
-    }
-
 </script>
 
 <template>
-    <nav class="nav homenav">
-        <button @click="openDrawer" class="icon-button">
-            <span class="material-symbols-outlined icon">menu</span>
-        </button>
-        <!-- This will be the profile picture when setup -->
-        <button class="icon-button" @click="naviProf">
-            <span class="material-symbols-outlined icon">account_circle</span>
-        </button>
-        <div id="navbar" class="navbar">
-            <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
-            <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
-            <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gig Details </router-link>
-            <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Check Completed </router-link>
-        <button class="logout" @click="logout"> Logout </button>
-        </div>
-    </nav>
+    <NavSuite title='Profile' profile='CupidDetails'>
+        <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
+        <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
+        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gig Details </router-link>
+        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Check Completed </router-link>
+    </NavSuite>
+
     <main> 
         <CupidCoin :active="accepting_gigs" @click="toggleAccept"/>
         <div class="card">

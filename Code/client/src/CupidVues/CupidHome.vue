@@ -3,22 +3,6 @@
     import { makeRequest } from '../utils/make_request';
     
     const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
-    // Open and closes drawer w/ shorthand
-    function openDrawer() {
-        const element = document.getElementById('navbar')
-        if (element.className === 'navbar') {
-            element.className = 'navbar opened'
-        }
-        else {
-            element.className = 'navbar'
-        }
-    }
-    // Logout function
-    async function logout() {
-        const result = await makeRequest(`/logout/`)
-        router.push('/')
-    }
-
     let gigs = ref('');
     const gigCount = 10;
     
@@ -49,20 +33,12 @@
 </script>
 
 <template>
-    <nav class="nav homenav">
-        <button @click="openDrawer" class="icon-button">
-            <span class="material-symbols-outlined icon">menu</span> 
-        </button>
-        <!-- This will be the profile picture when setup -->
-        <span class="material-symbols-outlined icon">account_circle</span>
-        <div id="navbar" class="navbar">
-            <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
-            <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
-            <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gig Details </router-link>
-            <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Check Completed </router-link>
-            <button class="logout" @click="logout"> Logout </button>
-        </div>
-    </nav>
+    <NavSuite title='Home' profile='CupidDetails'>
+        <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
+        <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
+        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gig Details </router-link>
+        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Check Completed </router-link>
+    </NavSuite>
 
     <div class="body">
         <h1><br/>You are in CupidHome.vue</h1>

@@ -2,28 +2,11 @@
 import { ref, onMounted } from 'vue';
 import { makeRequest } from '../utils/make_request';
 
+import NavSuite from '../components/NavSuite.vue';
+
 const user_id  = parseInt(window.location.hash.split('/')[3])
 
 const feedback = ref([])
-
-function openDrawer() {
-  const element = document.getElementById('navbar')
-  if (element.className === 'navbar') {
-    element.className = 'navbar opened'
-  }
-  else {
-    element.className = 'navbar'
-  }
-}
-
-function naviProf() {
-  router.push({ name: 'CupidProfile', params: {id: user_id} })
-}
-
-async function logout() {
-  const result = await makeRequest(`/logout/`)
-  router.push('/')
-}
 
 async function getFeedback() {
     const res = await makeRequest(`/api/cupid/ratings/${user_id}`)
@@ -34,23 +17,13 @@ onMounted(getFeedback)
 </script>
 
 <template>
-    <nav class="nav homenav">
-        <button @click="openDrawer" class="icon-button">
-            <span class="material-symbols-outlined icon">menu</span>   
-        </button>
-        <span>Feedback</span>
-        <!-- This will be the profile picture when setup -->
-        <button class="icon-button" @click="naviProf">
-            <span class="material-symbols-outlined icon">account_circle</span>
-        </button>
-        <div id="navbar" class="navbar">
-            <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
-            <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
-            <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gig Details </router-link>
-            <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Check Completed </router-link>
-            <button class="logout" @click="logout"> Logout </button>
-        </div>
-    </nav>
+    <NavSuite title='Feedback' profile='CupidDetails'>
+        <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
+        <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
+        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gig Details </router-link>
+        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Check Completed </router-link>
+    </NavSuite>
+
     <div class="container">
         <div v-for="item, index of feedback">
             <div :class="index % 2 === 0 ? 'feedback even' : 'feedback odd'">

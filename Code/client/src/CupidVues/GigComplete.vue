@@ -1,8 +1,8 @@
 <script setup>
-    import router from '../router/index'
     import { makeRequest } from '../utils/make_request'
     import {ref, onMounted} from 'vue'
 
+    import NavSuite from '../components/NavSuite.vue';
     import GigData from './components/GigData.vue'
     import Heart from '../components/Heart.vue'
     import PinkButton from '../components/PinkButton.vue'
@@ -15,25 +15,6 @@
     const rating = ref(0)
 
     const user_id  = parseInt(window.location.hash.split('/')[4]) //Gets the id from the router
-    // Open and closes drawer w/ shorthand
-    function openDrawer() {
-        const element = document.getElementById('navbar')
-        if (element.className === 'navbar') {
-            element.className = 'navbar opened'
-        }
-        else {
-            element.className = 'navbar'
-        }
-    }
-    // Logout function
-    async function logout() {
-        const result = await makeRequest(`/logout/`)
-        router.push('/')
-    }
-
-    function naviProf() {
-        router.push({ name: 'CupidDetails', params: {id: user_id} })
-    }
 
     async function getData() {
         gigs.value = await makeRequest(`api/cupid/gigs/${user_id}?complete=true`)
@@ -80,22 +61,12 @@
 </script>
 
 <template>
-    <nav class="nav homenav">
-        <button @click="openDrawer" class="icon-button">
-            <span class="material-symbols-outlined icon">menu</span>
-        </button>
-        <!-- This will be the profile picture when setup -->
-        <button class="icon-button" @click="naviProf">
-            <span class="material-symbols-outlined icon">account_circle</span>
-        </button>
-        <div id="navbar" class="navbar">
-            <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
-            <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
-            <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
-            <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gig Details </router-link>
-            <button class="logout" @click="logout"> Logout </button>
-        </div>
-    </nav>
+    <NavSuite title='Completed Gigs' profile='CupidDetails'>
+        <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
+        <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
+        <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
+        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gig Details </router-link>
+    </NavSuite>
 
     <main>
         <h1>Completed Gigs</h1>
