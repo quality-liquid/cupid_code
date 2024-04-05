@@ -3,6 +3,8 @@ import { makeRequest } from '../utils/make_request';
 import {onMounted, ref, watch} from 'vue';
 import router from '../router';
 
+import NavSuite from '../components/NavSuite.vue';
+
 const chatArr = ref([])
 const message = ref('')
 let noChats = false
@@ -10,25 +12,6 @@ let noChats = false
 const user_id  = parseInt(window.location.hash.split('/')[3])
 
 const chatCount = 10;
-
-function openDrawer() {
-  const element = document.getElementById('navbar')
-  if (element.className === 'navbar') {
-    element.className = 'navbar opened'
-  }
-  else {
-    element.className = 'navbar'
-  }
-}
-
-async function logout() {
-  const result = await makeRequest(`/logout/`)
-  router.push('/')
-}
-
-function naviProf() {
-    router.push({ name: 'DaterProfile', params: {id: user_id} })
-}
 
 async function getChats() {
     const results = await makeRequest(`/api/chat/${user_id}/${chatCount}`);
@@ -90,15 +73,7 @@ onMounted(getChats)
 </script>
 
 <template>  
-    <nav class="nav homenav">
-        <button @click="openDrawer" class="icon-button">
-            <span class="material-symbols-outlined icon">menu</span>   
-        </button>
-        <span>Chat Room</span>
-        <button class="icon-button" @click="naviProf">
-            <span class="material-symbols-outlined icon">account_circle</span>
-        </button>
-        <div id="navbar" class="navbar">
+    <NavSuite title='Chat Room' profile='DaterProfile'>
             <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
             <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
             <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
@@ -106,9 +81,7 @@ onMounted(getChats)
             <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
             <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
             <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
-            <button class="logout" @click="logout"> Logout </button>
-        </div>
-    </nav>  
+    </NavSuite>
     <div class="chatbox">
         <div v-if="noChats">
             <h3 id="header">Start your chat with Cupid AI here!</h3>
