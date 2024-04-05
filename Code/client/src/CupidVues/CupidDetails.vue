@@ -4,6 +4,7 @@
     import {ref, onMounted} from 'vue'
 
     import CupidCoin from './components/CupidCoin.vue'
+    import PinkButton from '../components/PinkButton.vue'
 
     //User info
     const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
@@ -130,7 +131,7 @@
                 Range
                 <input type="text" id="range" v-model="range"/>
             </label>
-            <button class="button">Save</button>
+            <PinkButton>Save</PinkButton>
         </form>
     </main>
 </template>
@@ -165,22 +166,6 @@ input {
     width: auto;
     padding: 8px;
     margin: 10px;
-}
-
-.button {
-    width: auto;
-    background-color: var(--primary-red);
-    border-radius: 10px;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    box-shadow: 5px 5px 2px rgba(128, 128, 128, 0.5);
-    text-decoration: solid;
-    padding: 16px;
-    margin: auto;
-    display: flex;
-    justify-self: center;
-    align-self: center;
 }
 
 .card {

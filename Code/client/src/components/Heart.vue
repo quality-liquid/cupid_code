@@ -8,7 +8,7 @@
         </path>
     </svg>
 </template>
-<style>
+<style scoped>
     .heart {
         background-color: #0000;
         margin: auto;

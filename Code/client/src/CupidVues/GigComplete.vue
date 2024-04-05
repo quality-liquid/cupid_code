@@ -5,7 +5,7 @@
 
     import GigData from './components/GigData.vue'
     import Heart from '../components/Heart.vue'
-    import Button from '../components/Button.vue'
+    import PinkButton from '../components/PinkButton.vue'
 
     const gigs = ref([])
     const popupActive = ref(false)
@@ -101,9 +101,7 @@
         <h1>Completed Gigs</h1>
         <div class="gig" v-for="(gig, index) in gigs">
             <GigData :gig="gig"/>
-            <div class="space-evenly">
-                <Button class="Button" @click-forward="toggleActiveGig(gig)">Rate Dater</Button>
-            </div>
+            <PinkButton @click-forward="toggleActiveGig(gig)">Rate Dater</PinkButton>
         </div>
         <div class="popup" :class="{ active: popupActive }">
             <h1>Rate</h1>
@@ -115,9 +113,9 @@
                     <Heart v-for="i in 5" :data-index="i - 1" :data-active="heartState[i - 1]"/>
                 </div>
             </label>
-            <div>
-                <Button @click-forward="sendReview">Send</Button>
-                <Button @click-forward="toggleActiveGig">Cancel</Button>
+            <div class="space-evenly">
+                <PinkButton @click-forward="sendReview">Send</PinkButton>
+                <PinkButton @click-forward="toggleActiveGig">Cancel</PinkButton>
             </div>
         </div>
     </main>
@@ -139,6 +137,9 @@
         display: flex;
         flex-direction: row;
         align-content: space-evenly;
+    }
+    .space-evenly > * {
+        margin: 16px;
     }
     .popup {
         position: fixed;

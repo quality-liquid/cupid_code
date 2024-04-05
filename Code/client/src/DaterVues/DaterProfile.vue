@@ -3,6 +3,8 @@
     import router from '../router/index';
     import { makeRequest } from '../utils/make_request';
 
+    import PinkButton from '../components/PinkButton.vue';
+
     const email = ref('')
     const phone = ref()
     const addr = ref('')
@@ -220,7 +222,7 @@
             <input type="file" id="image" name="image" @change="previewFile"/>
             <img name="pfp" src="" height="200" alt="Image preview...">
         </label>
-        <button class="button"> Update/Save changes </button>
+        <PinkButton> Update/Save changes </PinkButton>
     </form>
     <form class="container" @submit.prevent="updatePassword">
         <h2> Update Password </h2>
@@ -237,7 +239,7 @@
             Repeat New password
             <input type="password" id="new-password-2" v-model="newPassword2"/>
         </label>
-        <button class="button"> Update Password </button>
+        <PinkButton> Update Password </PinkButton>
     </form>
 </template>
 

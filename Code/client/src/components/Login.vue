@@ -3,6 +3,8 @@ import { makeRequest } from '../utils/make_request.js';
 import { ref } from 'vue';
 import router from '../router/index.js';
 
+import PinkButton from '../components/PinkButton.vue'
+
 const email = ref('')
 const password = ref('')
 
@@ -54,7 +56,7 @@ async function login() {
                 Password
                 <input type="password" placeholder="Password" id="password" name="password" v-model="password">
             </label>
-            <button class="button">Sign In</button>
+            <PinkButton>Sign In</PinkButton>
         </form>
     </div>
     <div class="atag">

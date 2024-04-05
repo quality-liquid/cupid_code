@@ -2,6 +2,8 @@
 import {ref} from 'vue'
 import { makeRequest } from '../utils/make_request';
 
+import PinkButton from '../components/PinkButton.vue';
+
 const audioFile = ref({
     type: '',
     data: ''
@@ -135,8 +137,8 @@ async function stopListen() {
                 <input type="text" id="pickup_location" v-model="pickup_location"/>
             </label>
             <div>
-                <button @click="sendEmergency">Send</button>
-                <button @click="toggleEmergency">Cancel</button>
+                <PinkButton @click-forward="sendEmergency">Send</PinkButton>
+                <PinkButton @click-forward="toggleEmergency">Cancel</PinkButton>
             </div>
         </div>
         <div class="text">
@@ -232,31 +234,6 @@ async function stopListen() {
     margin-top: 12px;
     margin-bottom: 4px;
     width: fit-content;
-}
-
-.popup button {
-    margin-left: 3px;
-    margin-right: 3px;
-    background-color: var(--primary-red);
-    border-radius: 10px;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.2);
-    text-decoration: solid;
-    padding: 16px;
-    margin: 10px;
-    user-select: none;
-}
-
-.popup button:hover {
-    filter: brightness(0.9);
-}
-
-.popup button:active {
-    filter: brightness(0.7);
-    transform: translate(3px,3px);
-    box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.4);
 }
 
 .popup div {

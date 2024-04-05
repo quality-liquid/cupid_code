@@ -4,6 +4,7 @@
     import {ref, onMounted} from 'vue'
 
     import GigData from './components/GigData.vue'
+    import PinkButton from '../components/PinkButton.vue'
 
     const gigCount = 0
     const gigs = ref([])
@@ -91,8 +92,8 @@
         <div class="gig active" v-for="(gig, index) in activeGigs">
             <GigData :gig="gig"/>
             <div class="space-evenly">
-                <button class="button" @click="complete(gig.id)">Complete</button>
-                <button class="button" @click="drop(gig.id)">Drop</button>
+                <PinkButton @click-forward="complete(gig.id)">Complete</PinkButton>
+                <PinkButton @click-forward="drop(gig.id)">Drop</PinkButton>
             </div>
         </div>
         <p v-if="activeGigs.length == 0">You are not currently on any gigs.</p>
@@ -100,7 +101,7 @@
         <hr/>
         <div class="gig inactive" v-for="(gig, index) in gigs">
             <GigData :gig="gig"/>
-            <button class="button" @click="claim(gig.id)">Claim</button>
+            <PinkButton @click-forward="claim(gig.id)">Claim</PinkButton>
         </div>
         <p v-if="gigs.length == 0">There are no gigs available.</p>
     </main>
@@ -127,21 +128,6 @@
     }
     .inactive {
         background-color: var(--secondary-blue);
-    }
-    .button {
-        width: auto;
-        background-color: var(--primary-red);
-        border-radius: 10px;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        box-shadow: 3px 3px 2px rgba(128, 128, 128, 0.5);
-        text-decoration: solid;
-        padding: 16px;
-        margin: auto;
-        display: flex;
-        justify-self: center;
-        align-self: center;
     }
     hr {
         border: 1px solid #F0F0F0;

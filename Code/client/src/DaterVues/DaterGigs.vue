@@ -5,6 +5,7 @@
 
     import GigData from './components/GigData.vue'
     import Heart from '../components/Heart.vue'
+    import PinkButton from '../components/PinkButton.vue'
 
     // Gig lists
     const claimedGigs = ref([])
@@ -89,7 +90,7 @@
     }
 
     function checkHeart(e) {
-        const target = e.target.parentNode.parentNode
+        const target = e.target.parentNode
         rating.value = Number(target.dataset.index) + 1
         for (let i = 0; i <= rating.value; i++){
             heartState.value[i] = true
@@ -130,7 +131,7 @@
         <div class="gig claimed" v-for="(gig, index) in claimedGigs">
             <GigData :gig="gig"/>
             <div class="space-evenly">
-                <button class="button" @click="cancel(gig.id)">Cancel</button>
+                <PinkButton @click-forward="cancel(gig.id)">Cancel</PinkButton>
             </div>
         </div>
         <p v-if="claimedGigs.length == 0">You have no active gigs.</p>
@@ -139,7 +140,7 @@
         <div class="gig unclaimed" v-for="(gig, index) in unclaimedGigs">
             <GigData :gig="gig"/>
             <div class="space-evenly">
-                <button class="button" @click="cancel(gig.id)">Cancel</button>
+                <PinkButton @click-forward="cancel(gig.id)">Cancel</PinkButton>
             </div>
         </div>
         <p v-if="unclaimedGigs.length == 0">You do not have any pending gigs.</p>
@@ -147,7 +148,9 @@
         <hr/>
         <div class="gig complete" v-for="(gig, index) in completeGigs">
             <GigData :gig="gig"/>
-            <button class="button" @click="toggleActiveGig(gig)">Rate Cupid</button>
+            <div class="space-evenly">
+            <PinkButton @click-forward="toggleActiveGig(gig)">Rate Cupid</PinkButton>
+            </div>
         </div>
         <p v-if="completeGigs.length == 0">You have no complete gigs.</p>
         <div class="popup" :class="{ active: popupActive }">
@@ -161,8 +164,8 @@
                 </div>
             </label>
             <div>
-                <button @click="sendReview">Send</button>
-                <button @click="toggleActiveGig">Cancel</button>
+                <PinkButton @click-forward="sendReview">Send</PinkButton>
+                <PinkButton @click-forward="toggleActiveGig">Cancel</PinkButton>
             </div>
         </div>
     </main>
@@ -181,7 +184,7 @@
     .space-evenly {
         display: flex;
         flex-direction: row;
-        align-content: space-evenly;
+        align-content: center;
     }
     .claimed {
         background-color: var(--secondary-red);
@@ -192,21 +195,6 @@
     }
     .complete {
         background-color: var(--primary-blue);
-    }
-    .button {
-        width: auto;
-        background-color: var(--primary-red);
-        border-radius: 10px;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        box-shadow: 3px 3px 2px rgba(128, 128, 128, 0.5);
-        text-decoration: solid;
-        padding: 16px;
-        margin: auto;
-        display: flex;
-        justify-self: center;
-        align-self: center;
     }
     .popup {
         position: fixed;
@@ -245,31 +233,6 @@
         margin-top: 12px;
         margin-bottom: 4px;
         width: fit-content;
-    }
-
-    .popup button {
-        margin-left: 3px;
-        margin-right: 3px;
-        background-color: var(--primary-red);
-        border-radius: 10px;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.2);
-        text-decoration: solid;
-        padding: 16px;
-        margin: 10px;
-        user-select: none;
-    }
-
-    .popup button:hover {
-        filter: brightness(0.9);
-    }
-
-    .popup button:active {
-        filter: brightness(0.7);
-        transform: translate(3px,3px);
-        box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.4);
     }
 
     .popup div {

@@ -8,7 +8,7 @@
         </svg>
     </div>
 </template>
-<style>
+<style scoped>
     .coin {
         background-color: var(--secondary-blue);
         margin: auto;
