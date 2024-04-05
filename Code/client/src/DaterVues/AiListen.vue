@@ -45,6 +45,7 @@ async function listen() {
 
     recorder.value.addEventListener("dataavailable", e => {
         if (e.data.size > 0) {
+            console.log(e.data)
             recordedChunks.push(e.data);
         }
     });
@@ -52,13 +53,26 @@ async function listen() {
     recorder.value.addEventListener("stop", async () => {
         audio.value = new Blob(recordedChunks);
         const data = await audio.value.text()
-        audioFile.value = {
-            type: audio.value.type ? audio.value.type : 'WAV',
-            data: data
-        }
+        
         const result = await makeRequest('/api/stt/', 'post', {
-        audio: audioFile
-    })
+            user: {
+                id: user_id
+            },
+            audio: {
+                type: audio.value.type ? audio.value.type : 'WAV',
+                data: data 
+            }
+        })
+        if (result.error) {
+            const doc = document.getElementById('chatbox')
+            const error = document.createElement('div')
+            error.setAttribute('class', '')
+            error.innerText = result.error
+            doc.appendChild(error)
+        } else {
+            console.log('holy crap lois')
+        }
+
     });
 
     recorder.value.start();
@@ -114,10 +128,7 @@ async function stopListen() {
                 <PinkButton @click-forward="toggleEmergency">Cancel</PinkButton>
             </div>
         </Popup>
-        <div class="text">
-            Chatbox
-            Add listening functionality here
-            <audio> </audio>
+        <div class="text" id="chatbox">
         </div>
     </div>
 </template>
@@ -168,6 +179,10 @@ async function stopListen() {
     justify-content: center;
     align-content: center;
     text-align: center;
+}
+
+.message {
+    display: flex;
 }
 
 .space-evenly {
