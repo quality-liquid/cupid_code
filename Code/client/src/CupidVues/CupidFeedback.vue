@@ -9,7 +9,7 @@ const user_id  = parseInt(window.location.hash.split('/')[3])
 const feedback = ref([])
 
 async function getFeedback() {
-    const res = await makeRequest(`/api/dater/ratings/${user_id}`) 
+    const res = await makeRequest(`/api/cupid/ratings/${user_id}`)
     feedback.value = res
 }
 
@@ -17,15 +17,11 @@ onMounted(getFeedback)
 </script>
 
 <template>
-    <NavSuite title='Feedback' profile='DaterProfile'>
-        <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
-        <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
-        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
-        <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
-        <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
-        <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
-        <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
-        <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
+    <NavSuite title='Feedback' profile='CupidDetails'>
+        <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
+        <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
+        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gigs Available </router-link>
+        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Gigs Completed </router-link>
     </NavSuite>
 
     <div class="container">

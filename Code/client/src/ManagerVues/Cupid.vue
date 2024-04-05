@@ -25,11 +25,28 @@ async function logout() {
 async function getCupids() {
   const res = await makeRequest('/api/manager/cupids/')
   cupids.value = res
-  console.log(res[0].user)
 }
 
-async function suspend() {
-
+async function suspend(id) {
+  const header = document.getElementById(`header-${id}`)
+  const button = document.getElementById(`button-${id}`)
+  
+  if (header.attributes.class.value.includes('suspended')) {
+    header.setAttribute('class', 'header')
+    button.innerText = 'Suspend'
+    const res = await makeRequest('/api/manager/unsuspend/', 'post', {
+      user_id: id,
+      role: 'Cupid'
+    })
+  }
+  else {
+    header.setAttribute('class', 'header suspended')
+    button.innerText = 'Unsuspend'
+    const res = await makeRequest('/api/manager/suspend/', 'post', {
+      user_id: id,
+      role: 'Cupid'
+    })
+  }
 }
   
 onMounted(getCupids)
@@ -37,31 +54,32 @@ onMounted(getCupids)
 
 <template>
   <nav class="nav homenav">
-      <button @click="openDrawer" class="icon-button">
-          <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
-      </button>
-      <span>Cupid Information</span>
-      <img :src="'/get_person/'" alt="Person" class="icon">
-      <div id="navbar" class="navbar">
-          <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}"> Home </router-link>
-          <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}"> See Dater Info </router-link>
-          <router-link class="link" :to="{name: 'ManageCupids', params: {id: user_id}}"> See Cupid Info </router-link>
-          <button class="logout" @click="logout"> Logout </button>
-      </div>
+    <button @click="openDrawer" class="icon-button">
+        <span class="material-symbols-outlined icon">menu</span>   
+    </button>
+    <span>Cupid Information</span>
+    <span class="material-symbols-outlined icon">account_circle</span>
+    <div id="navbar" class="navbar">
+        <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}"> Home </router-link>
+        <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}"> See Dater Info </router-link>
+        <router-link class="link" :to="{name: 'ManageCupids', params: {id: user_id}}"> See Cupid Info </router-link>
+        <button class="logout" @click="logout"> Logout </button>
+    </div>
   </nav>
   <figure>{{ cupidCount }} Cupids</figure>
 
   <!-- header & button need turnary stuff to swap between suspend/unsuspend -->
   <div v-for="cupid of cupids" class="container">
-    <div class="header">
-      <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">
-      <h4>{{ cupid.user}}</h4>
+    <div class="header" :id="`header-${cupid.user ? cupid.user['id'] : ''}`">
+      <span class="material-symbols-outlined icon">person</span>
+      <h4>{{ cupid.user ? (cupid.user['first_name'] + " " + cupid.user['last_name']) : ''}}</h4>
+      <h4 :id="`id-${cupid.user ? cupid.user['id'] : ''}`">{{ cupid.user ? cupid.user['id'] : '' }}</h4>
     </div>
     <article class="user-data">
       <span>Rating: {{ cupid.rating_sum }}</span>
       <span>Location: {{ cupid.location }}</span>
       <span>Completed Gigs: {{ cupid.gigs_completed }}</span>
-      <button class="button" @click="suspend">Suspend/Unsuspend</button>
+      <button :id="`button-${cupid.user ? cupid.user['id'] : ''}`" class="button" @click="() => suspend(cupid.user ? cupid.user['id'] : '')">Suspend</button>
     </article> 
   </div>
 

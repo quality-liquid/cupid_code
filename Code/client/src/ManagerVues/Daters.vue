@@ -28,25 +28,24 @@ async function getDaters() {
   daters.value = res
 }
   
-async function suspend() {
-  const header = document.getElementById('header')
-  const button = document.getElementById('button')
-  const id = parseInt(document.getElementById('id').innerText)
+async function suspend(id) {
+  const header = document.getElementById(`header-${id}`)
+  const button = document.getElementById(`button-${id}`)
   
   if (header.attributes.class.value.includes('suspended')) {
     header.setAttribute('class', 'header')
     button.innerText = 'Suspend'
-
-    const res = await makeRequest('/api/manager/unsuspend/', {
-      user_id: id
+    const res = await makeRequest('/api/manager/unsuspend/', 'post', {
+      user_id: id,
+      role: 'Dater'
     })
-    
   }
   else {
     header.setAttribute('class', 'header suspended')
     button.innerText = 'Unsuspend'
-    const res = await makeRequest('/api/manager/suspend/', {
-      user_id: id
+    const res = await makeRequest('/api/manager/suspend/', 'post', {
+      user_id: id,
+      role: 'Dater'
     })
   }
 }
@@ -59,10 +58,10 @@ onMounted(getDaters)
   <!-- end nav bar -->
   <nav class="nav homenav">
       <button @click="openDrawer" class="icon-button">
-          <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
+          <span class="material-symbols-outlined icon">menu</span>   
       </button>
       <span>Dater Information</span>
-      <img :src="'/get_heart/'" alt="Heart" class="icon">
+      <span class="material-symbols-outlined icon">favorite</span>
       <div id="navbar" class="navbar">
           <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}"> Home </router-link>
           <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}"> See Dater Info </router-link>
@@ -74,15 +73,16 @@ onMounted(getDaters)
 
   <!-- h4 id needs to relate the suspended/unsuspended user's ID -->
   <div v-for="dater of daters" class="container">
-    <div class="header" id="header" >
-      <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">
-      <h4>Name</h4>
-      <h4 id="id">{{ dater.user }}</h4>
+    <div class="header" :id="`header-${dater.user ? dater.user['id'] : ''}`">
+      <span class="material-symbols-outlined icon">person</span>
+      <h4>{{ dater.user ? (dater.user['first_name'] + " " + dater.user['last_name']) : ''}}</h4>
+      <h4 :id="`id-${dater.user ? dater.user['id'] : ''}`">{{ dater.user ? dater.user['id'] : '' }}</h4>
     </div>
-    <article class="user-data" id="user-data">
+    <article class="user-data">
       <span>Rating: {{ dater.rating_sum }}</span>
       <span>Location: {{ dater.location }}</span>
-      <button id="button" class="button" @click="suspend">Suspend</button>
+      <span>Completed Gigs: {{ dater.gigs_completed }}</span>
+      <button :id="`button-${dater.user ? dater.user['id'] : ''}`" class="button" @click="() => suspend(dater.user ? dater.user['id'] : '')">Suspend</button>
     </article> 
   </div>
 
@@ -125,7 +125,7 @@ onMounted(getDaters)
 }
 
 .suspended {
-  background-color: var(--secondary-red);
+  background-color: var(--primary-red);
 }
 
 .header h4 {

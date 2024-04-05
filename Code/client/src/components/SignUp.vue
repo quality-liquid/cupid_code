@@ -3,6 +3,8 @@ import { makeRequest } from '../utils/make_request.js';
 import { ref, computed } from 'vue';
 import router from '../router/index.js';
 
+import PinkButton from '../components/PinkButton.vue'
+
 // For both accounts
 const email = ref('')
 const password = ref('')
@@ -189,7 +191,7 @@ function previewFile() {
                     <textarea id="weaknesses" v-model="weak"></textarea>
                 </label>
             </div>
-            <button class="button">Create Account</button>
+            <PinkButton>Create Account</PinkButton>
         </form>
     </div>
 </template>
@@ -212,17 +214,6 @@ function previewFile() {
         display: flex;
         justify-content: center;
         margin-top: 30px;
-    }
-
-    .button {
-        width: auto;
-        background-color: var(--primary-red);
-        border-radius: 10px;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        box-shadow: 5px 5px 2px rgba(128, 128, 128, 0.5);
-        text-decoration: solid;
     }
 
     .radios {
@@ -275,12 +266,6 @@ function previewFile() {
         height: 100px;
         border: 3px rgba(128, 128, 128, 0.5) solid;
         border-radius: 16px;
-    }
-    .button {
-        margin: 10px;
-        padding: 16px;
-        border: none;
-        border-radius: 8px;
     }
     .error {
         border: 2px var(--secondary-red) solid;

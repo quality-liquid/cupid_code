@@ -3,6 +3,8 @@ import { makeRequest } from '../utils/make_request.js';
 import { ref } from 'vue';
 import router from '../router/index.js';
 
+import PinkButton from '../components/PinkButton.vue'
+
 const email = ref('')
 const password = ref('')
 
@@ -22,10 +24,12 @@ async function login() {
         doc.setAttribute('class', 'error')
     }
     
+    console.log(results.user)
     // Redirect to dashboard if good
     if (results.user['role'].toLowerCase() === 'dater') {
         router.push({name: 'DaterHome', params: {id: results.user['id']}})
     } else if (results.user['role'].toLowerCase() === 'cupid') {
+        console.log(results.user['id'])
         router.push({name: 'CupidHome', params: {id: results.user['id']}})
     } else if (results.user['role'].toLowerCase() === 'manager') {
         router.push({name: 'ManagerHome', params: {id: results.user['id']}})
@@ -52,7 +56,7 @@ async function login() {
                 Password
                 <input type="password" placeholder="Password" id="password" name="password" v-model="password">
             </label>
-            <button class="button">Sign In</button>
+            <PinkButton>Sign In</PinkButton>
         </form>
     </div>
     <div class="atag">

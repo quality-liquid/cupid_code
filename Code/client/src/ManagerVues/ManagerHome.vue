@@ -3,6 +3,7 @@
 //If things are reading null or undefined, just console.log(results) to see what the names are and then change `results.data` to `results.<foundName>`
 import {ref, onMounted} from 'vue'
 import { makeRequest } from '../utils/make_request';
+import {to_pdf} from '../utils/to_PDF';
 
 const daters = ref(0) //Fill with a setter type for whatever the backend returns to you 
 const cupids = ref(0)
@@ -32,15 +33,16 @@ async function getCurrActiveTotal() {
 }
 
 async function getGigData() {
- //const rate_res = await makeRequest('/api/manager/gig_rate/')
+ const rate_res = await makeRequest('/api/manager/gig_rate/')
  const count_res = await makeRequest('/api/manager/gig_count/')
  gigs.value = count_res.count
- //const completed_res = await makeRequest('/api/manager/gig_complete_rate/')
- //const dropped_res = await makeRequest('/api/manager/gig_drop_rate/')
+ const completed_res = await makeRequest('/api/manager/gig_complete_rate/')
+ const dropped_res = await makeRequest('/api/manager/gig_drop_rate/')
 }
 
 function toPDF() {
-  
+  const content = document.querySelector('#content')
+  to_pdf(content)
 }
 
 const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
@@ -60,22 +62,23 @@ async function logout() {
   router.push('/')
 }
 
+
 onMounted(() => {
-  getCupidsTotal()
-  getDatersTotal()
-  getCurrActiveTotal()
-  getGigData()
+  //getCupidsTotal()
+  //getDatersTotal()
+  //getCurrActiveTotal()
+  //getGigData()
 })
 </script>
 
 <template>
   <nav class="nav homenav">
       <button @click="openDrawer" class="icon-button">
-          <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
+        <span class="material-symbols-outlined icon">menu</span>   
       </button>
       <span>Home</span>
       <!-- This will be the profile picture when setup -->
-      <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">
+      <span class="material-symbols-outlined icon">account_circle</span>
       <div id="navbar" class="navbar">
           <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}"> Home </router-link>
           <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}"> See Dater Info </router-link>
@@ -84,61 +87,64 @@ onMounted(() => {
       </div>
   </nav>
   <main class="container">
-    <div class="widget-container">
-      <div class="widget blue">
-        <img :src="'/get_person/'" alt="Menu Open icon" class="wid_icon">
-        <router-link class="header" :to="{name: 'ManageCupids', params: {id: user_id}}">Cupids</router-link>
+      <div class="widget-container">
+        <div class="widget blue">
+          <span class="material-symbols-outlined icon">person</span>
+          <router-link class="header" :to="{name: 'ManageCupids', params: {id: user_id}}">Cupids</router-link>
+        </div>
+        <div class="widget red"> 
+          <span class="material-symbols-outlined icon">favorite</span>
+          <router-link class="header" :to="{name: 'ManageDaters', params: {id: user_id}}">Daters</router-link>
+        </div>
       </div>
-      <div class="widget red"> <!-- This will become Calendar when it's made -->
-        <img :src="'/get_heart/'" alt="Menu Open icon" class="wid_icon">
-        <router-link class="header" :to="{name: 'ManageDaters', params: {id: user_id}}">Daters</router-link>
+
+    <div id="content">
+      <h3>Revenue Graph (Very Real)</h3>
+      <figure class="graph-container" name="toPDF">
+        <img :src="'/get_graph/'" alt="Graph" class="graph" width="300px">
+        <figcaption>Graph of Overall Revenue</figcaption>
+      </figure>
+      <h3>General Stats</h3>
+      <div class="stat-container" name="toPDF">
+        <div class="stat-widget">
+          <h4 class="stat">250k</h4> 
+          <span>Total Daters</span>
+        </div>
+        <div class="stat-widget">
+          <h4 class="stat">60k</h4>
+          <span>Total Cupids</span>
+        </div>
+        <div class="stat-widget">
+          <h4 class="stat">40k</h4> 
+          <span>Active Cupids</span>
+        </div>
+        <div class="stat-widget">
+          <h4 class="stat">15k</h4>
+          <span>Active Daters</span>
+        </div>
+      </div>
+      <h3>Gig Stats</h3>
+      <div class="stat-container" name="toPDF">
+        <div class="stat-widget gigs">
+          <h4 class="stat">500k</h4>
+          <span>Total Gigs</span>
+        </div>
+        <div class="stat-widget gigs">
+          <h4 class="stat">40k</h4>
+          <span>Gigs per Day</span>
+        </div>
+        <div class="stat-widget gigs">
+          <h4 class="stat">400k</h4>
+          <span>Gigs Completed</span>
+        </div>
+        <div class="stat-widget gigs">
+          <h4 class="stat">100k</h4>
+          <span>Gigs Dropped</span>
+        </div>
       </div>
     </div>
-    <h3>Revenue Graph (Very Real)</h3>
-    <figure class="graph-container">
-      <img :src="'/get_graph/'" alt="Graph" class="graph" width="300px">
-      <figcaption>Graph of Overall Revenue</figcaption>
-    </figure>
-  
-    <h3>General Stats</h3>
-    <div class="stat-container">
-      <div class="stat-widget">
-        <h4 class="stat">{{ daters }}</h4> 
-        <span>Total Daters</span>
-      </div>
-      <div class="stat-widget">
-        <h4 class="stat">{{ cupids }}</h4>
-        <span>Total Cupids</span>
-      </div>
-      <div class="stat-widget">
-        <h4 class="stat">{{ active_cupids || 0}}</h4> 
-        <span>Active Cupids</span>
-      </div>
-      <div class="stat-widget">
-        <h4 class="stat">{{ active_daters || 0 }}</h4>
-        <span>Active Daters</span>
-      </div>
-    </div>
-    <h3>Gig Stats</h3>
-    <div class="stat-container">
-      <div class="stat-widget gigs">
-        <h4 class="stat">{{ gigs || 0 }}</h4>
-        <span>Total Gigs</span>
-      </div>
-      <div class="stat-widget gigs">
-        <h4 class="stat">{{ rate || 0 }}</h4>
-        <span>Gig Rate</span>
-      </div>
-      <div class="stat-widget gigs">
-        <h4 class="stat">{{ completed || 0 }}</h4>
-        <span>Completed</span>
-      </div>
-      <div class="stat-widget gigs">
-        <h4 class="stat">{{ dropped || 0 }}</h4>
-        <span>Dropped</span>
-      </div>
-    </div>
-  </main>
+    <button @click="toPDF" class="button">Convert to PDF</button>
+    </main>
 
 </template>
 
@@ -146,6 +152,9 @@ onMounted(() => {
 .container {
   margin: 10px;
   margin-top: 50px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
 }
 
 h3 {
@@ -214,6 +223,15 @@ h3 {
 
 .red {
   background-color: var(--primary-red);
+}
+
+.button {
+  margin: 10px 250px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--primary-blue);
+  color: white;
+  padding: 16px;
 }
 </style>
   

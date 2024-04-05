@@ -329,9 +329,10 @@ def rate_dater(request):
     )
     if serializer.is_valid():
         serializer.save()
-        target.rating_count += 1
-        target.rating_sum += data['rating']
-        target.save()
+        dater = Dater.objects.get(user_id=target)
+        dater.rating_count += 1
+        dater.rating_sum += data['rating']
+        dater.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -632,7 +633,7 @@ def cupid_transfer(request):
     amount = cupid.cupid_cash_balance
     cupid.cupid_cash_balance = 0
     cupid.save()
-    return Response({f"Transfering {amount} to {bank_account.routing_number}"},
+    return Response({f"Transferring {amount} to {bank_account.routing_number}"},
                     status=status.HTTP_200_OK)
 
 
@@ -854,6 +855,30 @@ def drop_gig(request):
     return helpers.retrieved_response(serializer)
 
 
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def cancel_gig(request):
+    """
+    Deletes the gig.
+
+    Args:
+        request: Information about the request.
+            request.post: The json data sent to the server.
+                gig_id (int): The id of the gig to drop.
+    Returns:
+        Response:
+            If the gig was successfully dropped, return a 200 status code.
+            If the gig could not be dropped, was already dropped, or does not have a Cupid assigned, return a 400 status code.
+    """
+    data = request.data
+    gig = get_object_or_404(Gig, id=data['gig_id'])
+    if gig.dater != request.user.dater:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    gig.delete()
+    return Response(status=status.HTTP_200_OK)
+
+
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
@@ -865,6 +890,8 @@ def get_cupid_gigs(request, pk):
     Args:
         request: Information about the request.
         pk (int): The id of the cupid
+        query string:
+            complete(bool): Should return cupid's completed or cupid's claimed
     Returns:
         Response:
             A list of gigs (JSON)
@@ -872,11 +899,34 @@ def get_cupid_gigs(request, pk):
     cupid = get_object_or_404(Cupid, user_id=pk)
     helpers.update_user_location(cupid.user, request.META['REMOTE_ADDR'])
     gigs = get_list_or_404(Gig, cupid=cupid)
+    target = Gig.Status.COMPLETE if request.GET['complete'] == 'true' else Gig.Status.CLAIMED
     current_gigs = []
     for gig in gigs:
-        if gig.status == Gig.Status.CLAIMED:
+        if gig.status == target:
             current_gigs.append(gig)
     serializer = GigSerializer(current_gigs, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def get_dater_gigs(request, pk):
+    """
+    For a dater.
+    Returns all gigs that the dater has created.
+
+    Args:
+        request: Information about the request.
+        pk (int): The id of the cupid
+    Returns:
+        Response:
+            A list of gigs (JSON)
+    """
+    dater = get_object_or_404(Dater, user_id=pk)
+    helpers.update_user_location(dater.user, request.META['REMOTE_ADDR'])
+    gigs = get_list_or_404(Gig, dater=dater)
+    serializer = GigSerializer(gigs, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -1045,7 +1095,7 @@ def get_cupids(request):
     data = {}
     for cupid in cupids:
         return_data = helpers.user_expand(cupid.user, CupidSerializer(cupid))
-        data[cupid.id] = return_data
+        data[cupid.user_id] = return_data
     return JsonResponse(data, safe=False)
 
 
@@ -1069,7 +1119,7 @@ def get_daters(request):
     data = {}
     for dater in daters:
         return_data = helpers.user_expand(dater.user, DaterSerializer(dater))
-        data[dater.id] = return_data
+        data[dater.user_id] = return_data
     return JsonResponse(data, safe=False)
 
 
@@ -1185,8 +1235,7 @@ def get_gig_rate(request):
         if gigs_from_past_day is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         gig_rate = gigs_from_past_day.count() / 24
-        response = json.dumps(gig_rate)
-        return Response(response, status=status.HTTP_200_OK)
+        return Response(data={"gig_rate": gig_rate}, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -1236,10 +1285,8 @@ def get_gig_drop_rate(request):
             return Response(status.HTTP_400_BAD_REQUEST)
         for gig in gigs_from_past_day:
             number_of_drops += gig.dropped_count
-
         drop_rate = number_of_drops / 24
-        response = json.dumps(drop_rate)
-        return Response(response, status=status.HTTP_200_OK)
+        return Response(data={"drop_rate": drop_rate}, status=status.HTTP_200_OK)
 
     except Exception as e:
         return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
@@ -1267,8 +1314,7 @@ def get_gig_complete_rate(request):
         number_of_completed_gigs = gigs_from_past_day.filter(status=2).count()
         number_of_gigs = Gig.objects.all().count()
         gig_complete_rate = number_of_completed_gigs / number_of_gigs
-        response = gig_complete_rate.json()
-        return Response(response, status=status.HTTP_200_OK)
+        return Response(data={"gig_complete_rate": gig_complete_rate}, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
 

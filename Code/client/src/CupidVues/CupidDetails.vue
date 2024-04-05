@@ -3,7 +3,9 @@
     import { makeRequest } from '../utils/make_request'
     import {ref, onMounted} from 'vue'
 
-    import CupidCoin from './CupidCoin.vue'
+    import NavSuite from '../components/NavSuite.vue';
+    import CupidCoin from './components/CupidCoin.vue'
+    import PinkButton from '../components/PinkButton.vue'
 
     //User info
     const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
@@ -19,22 +21,6 @@
     const range = ref(20)
     const gigs_completed = ref(0)
     const gigs_failed = ref(0)
-
-    // Open and closes drawer w/ shorthand
-    function openDrawer() {
-        const element = document.getElementById('navbar')
-        if (element.className === 'navbar') {
-            element.className = 'navbar opened'
-        }
-        else {
-            element.className = 'navbar'
-        }
-    }
-    // Logout function
-    async function logout() {
-        const result = await makeRequest(`/logout/`)
-        router.push('/')
-    }
 
     async function update() {
         // Validate data
@@ -84,19 +70,13 @@
 </script>
 
 <template>
-    <nav class="nav homenav">
-        <button @click="openDrawer" class="icon-button">
-            <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
-        </button>
-        <!-- This will be the profile picture when setup -->
-        <img :src="'/get_menu/'" alt="Profile Picture" class="icon">
-        <div id="navbar" class="navbar">
-            <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
-            <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gig Details </router-link>
-            <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Check Completed </router-link>
- 11           <button class="logout" @click="logout"> Logout </button>
-        </div>
-    </nav>
+    <NavSuite title='Profile' profile='CupidDetails'>
+        <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
+        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gigs Available </router-link>
+        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Gigs Completed </router-link>
+        <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
+    </NavSuite>
+
     <main> 
         <CupidCoin :active="accepting_gigs" @click="toggleAccept"/>
         <div class="card">
@@ -123,7 +103,7 @@
                 Range
                 <input type="text" id="range" v-model="range"/>
             </label>
-            <button class="button">Save</button>
+            <PinkButton>Save</PinkButton>
         </form>
     </main>
 </template>
@@ -158,22 +138,6 @@ input {
     width: auto;
     padding: 8px;
     margin: 10px;
-}
-
-.button {
-    width: auto;
-    background-color: var(--primary-red);
-    border-radius: 10px;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    box-shadow: 5px 5px 2px rgba(128, 128, 128, 0.5);
-    text-decoration: solid;
-    padding: 16px;
-    margin: auto;
-    display: flex;
-    justify-self: center;
-    align-self: center;
 }
 
 .card {

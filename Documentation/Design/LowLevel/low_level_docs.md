@@ -783,6 +783,7 @@ The following endpoints will need user data to be used. Authentication will be r
 | /api/dater/profile/<int:pk>/     | GET       | get_dater_profile     | Get dater's profile                                 |
 | /api/dater/profile/              | POST      | set_dater_profile     | Set dater's profile                                 |
 | /api/dater/save_card/            | POST      | save_card             | Save a new card for the dater                       |
+| /api/dater/gigs/<int:pk>         | GET       | get_dater_gigs        | Returns all gigs the dater has created.             |
 | /api/cupid/rate/                 | POST      | rate_cupid            | Dater rating a Cupid                                |
 | /api/cupid/ratings/<int:pk>/     | GET       | get_cupid_ratings     | Get list of cupid's ratings                         |
 | /api/cupid/avg_rating/<int:pk>/  | GET       | get_cupid_avg_rating  | Get cupid's average rating                          |
@@ -796,6 +797,7 @@ The following endpoints will need user data to be used. Authentication will be r
 | /api/gig/accept/                 | POST      | accept_gig            | Accept gig                                          |
 | /api/gig/complete/               | POST      | complete_gig          | Complete gig                                        |
 | /api/gig/drop/                   | POST      | drop_gig              | Drop gig                                            |
+| /api/gig/cancel/                 | POST      | cancel_gig            | Cancel (delete) gig                                 |
 | /api/gig/<int:count>/            | GET       | get_gigs              | Return number of gigs around cupid                  |
 | /api/geo/stores/<int:pk>/        | GET       | get_stores            | List of nearby stores                               |
 | /api/geo/activities/<int:pk>/    | GET       | get_activities        | Nearby activities                                   |

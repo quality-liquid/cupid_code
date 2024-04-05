@@ -3,6 +3,9 @@
     import router from '../router/index';
     import { makeRequest } from '../utils/make_request';
 
+    import NavSuite from '../components/NavSuite.vue';
+    import PinkButton from '../components/PinkButton.vue';
+
     const email = ref('')
     const phone = ref()
     const addr = ref('')
@@ -26,21 +29,6 @@
     
     const user_id  = parseInt(window.location.hash.split('/')[3])
 
-    function openDrawer() {
-        const element = document.getElementById('navbar')
-        if (element.className === 'navbar') {
-            element.className = 'navbar opened'
-        }
-        else {
-            element.className = 'navbar'
-        }
-    }
-
-    async function logout() {
-        const result = await makeRequest(`/logout/`)
-        router.push('/')
-    }
-
     function previewFile() {
         let preview = document.querySelector('img[name=pfp]');
         let file = document.querySelector('input[type=file]').files[0];
@@ -57,10 +45,6 @@
         } else {
             preview.src = "";
         }
-    }
-
-    function naviProf() {
-        router.push({ name: 'DaterProfile', params: {id: user_id} })
     }
 
     async function getData() {
@@ -125,24 +109,16 @@
 </script>
 
 <template>
-    <nav class="nav homenav">
-        <button @click="openDrawer" class="icon-button">
-            <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
-        </button>
-        <span>Profile</span>
-        <button class="icon-button" @click="naviProf">
-            <img :src="'/get_temp_pfp/'" alt="Profile Picture" class="icon">
-        </button>
-        <div id="navbar" class="navbar">
-            <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
-            <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
-            <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
-            <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
-            <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
-            <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
-            <button class="logout" @click="logout"> Logout </button>
-        </div>
-    </nav>
+    <NavSuite title='Profile' profile='DaterProfile'>
+        <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
+        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
+        <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
+        <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
+        <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
+        <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
+        <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
+    </NavSuite>
+
     <form class="container" @submit.prevent="update">
         <h2 class="top">Personal Information</h2>      
         <div class="personal">
@@ -219,7 +195,7 @@
             <input type="file" id="image" name="image" @change="previewFile"/>
             <img name="pfp" src="" height="200" alt="Image preview...">
         </label>
-        <button class="button"> Update/Save changes </button>
+        <PinkButton> Update/Save changes </PinkButton>
     </form>
     <form class="container" @submit.prevent="updatePassword">
         <h2> Update Password </h2>
@@ -236,7 +212,7 @@
             Repeat New password
             <input type="password" id="new-password-2" v-model="newPassword2"/>
         </label>
-        <button class="button"> Update Password </button>
+        <PinkButton> Update Password </PinkButton>
     </form>
 </template>
 

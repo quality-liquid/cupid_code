@@ -3,47 +3,25 @@
     import { makeRequest } from '../utils/make_request'
     import {ref, onMounted} from 'vue'
 
+    import NavSuite from '../components/NavSuite.vue';
+    import GigData from './components/GigData.vue'
+    import PinkButton from '../components/PinkButton.vue'
+
     const gigCount = 0
     const gigs = ref([])
     const activeGigs = ref([])
 
     const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
-    // Open and closes drawer w/ shorthand
-    function openDrawer() {
-        const element = document.getElementById('navbar')
-        if (element.className === 'navbar') {
-            element.className = 'navbar opened'
-        }
-        else {
-            element.className = 'navbar'
-        }
-    }
-    // Logout function
-    async function logout() {
-        const result = await makeRequest(`/logout/`)
-        router.push('/')
-    }
 
     async function getData() {
         gigs.value = await makeRequest(`api/gig/${user_id}/${gigCount}`)
-        activeGigs.value = await makeRequest(`api/cupid/gigs/${user_id}/`)
+        activeGigs.value = await makeRequest(`api/cupid/gigs/${user_id}?complete=false`)
         //Django returns a 404 if there none of either of these. We have to tell Vue it is ok.
         if (gigs.value.detail === 'Not found.'){
             gigs.value = []
         }
         if (activeGigs.value.detail === 'Not found.'){
             activeGigs.value = []
-        }
-    }
-
-    function statusConvert(statusNum){
-        switch (statusNum) {
-            case 0:
-                return 'Unclaimed'
-            case 1:
-                return 'Claimed'
-            case 2:
-                return 'Complete'
         }
     }
 
@@ -73,47 +51,30 @@
 </script>
 
 <template>
-    <nav class="nav homenav">
-        <button @click="openDrawer" class="icon-button">
-            <img :src="'/get_menu/'" alt="Menu Open icon" class="icon">
-        </button>
-        <!-- This will be the profile picture when setup -->
-        <img :src="'/get_menu/'" alt="Profile Picture" class="icon">
-        <div id="navbar" class="navbar">
-            <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
-            <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
-            <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Check Completed </router-link>
-            <button class="logout" @click="logout"> Logout </button>
-        </div>
-    </nav>
+    <NavSuite title='Gigs' profile='CupidDetails'>
+        <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
+        <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
+        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Gigs Completed </router-link>
+        <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
+    </NavSuite>
 
     <main>
         <h1>Active</h1>
         <hr/>
-        <ul v-for="(gig, index) in activeGigs">
-            <div class="gig active">
-                <h1>Dater: {{ gig.dater }}</h1>
-                <p>Items requested: {{ gig.quest.items_requested }}</p>
-                <p>Budget: ${{ gig.quest.budget }}</p>
-                <p>Pickup Location: {{ gig.quest.pickup_location }}</p>
-                <div class="space-evenly">
-                    <button class="button" @click="complete(gig.id)">Complete</button>
-                    <button class="button" @click="drop(gig.id)">Drop</button>
-                </div>
+        <div class="gig active" v-for="(gig, index) in activeGigs">
+            <GigData :gig="gig"/>
+            <div class="space-evenly">
+                <PinkButton @click-forward="complete(gig.id)">Complete</PinkButton>
+                <PinkButton @click-forward="drop(gig.id)">Drop</PinkButton>
             </div>
-        </ul>
+        </div>
         <p v-if="activeGigs.length == 0">You are not currently on any gigs.</p>
         <h1>Available</h1>
         <hr/>
-        <ul v-for="(gig, index) in gigs">
-            <div class="gig inactive">
-                <h1>Dater: {{ gig.dater }}</h1>
-                <p>Items requested: {{ gig.quest.items_requested }}</p>
-                <p>Budget: ${{ gig.quest.budget }}</p>
-                <p>Pickup Location: {{ gig.quest.pickup_location }}</p>
-                <button class="button" @click="claim(gig.id)">Claim</button>
-            </div>
-        </ul>
+        <div class="gig inactive" v-for="(gig, index) in gigs">
+            <GigData :gig="gig"/>
+            <PinkButton @click-forward="claim(gig.id)">Claim</PinkButton>
+        </div>
         <p v-if="gigs.length == 0">There are no gigs available.</p>
     </main>
 </template>
@@ -123,6 +84,7 @@
         border-radius: 12px;
         padding: 12px;
         color: white;
+        margin: 6px;
     }
     .gig h1 {
         margin: 0;
@@ -130,7 +92,7 @@
     .space-evenly {
         display: flex;
         flex-direction: row;
-        align-contents: space-evenly;
+        align-content: space-evenly;
     }
     .active {
         background-color: var(--secondary-red);
@@ -138,21 +100,6 @@
     }
     .inactive {
         background-color: var(--secondary-blue);
-    }
-    .button {
-        width: auto;
-        background-color: var(--primary-red);
-        border-radius: 10px;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        box-shadow: 3px 3px 2px rgba(128, 128, 128, 0.5);
-        text-decoration: solid;
-        padding: 16px;
-        margin: auto;
-        display: flex;
-        justify-self: center;
-        align-self: center;
     }
     hr {
         border: 1px solid #F0F0F0;
