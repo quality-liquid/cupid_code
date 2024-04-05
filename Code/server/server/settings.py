@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
+
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -26,7 +28,10 @@ SECRET_KEY = 'django-insecure-x_e(m+z0-supl3g7n5zi1es0zwecn#_ipb920xxec)%v6^ah5=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    os.environ.get("ADDRESS", "")
+]
 
 VITE_APP_DIR = BASE_DIR / "src"
 
