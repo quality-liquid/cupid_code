@@ -1,6 +1,8 @@
 <script setup>
     import { ref, onMounted } from 'vue';
     import { makeRequest } from '../utils/make_request';
+
+    import NavSuite from '../components/NavSuite.vue';
     
     const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
     let gigs = ref('');
