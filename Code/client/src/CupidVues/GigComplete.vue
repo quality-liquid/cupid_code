@@ -5,6 +5,7 @@
 
     import GigData from './components/GigData.vue'
     import Heart from '../components/Heart.vue'
+    import Button from '../components/Button.vue'
 
     const gigs = ref([])
     const popupActive = ref(false)
@@ -64,7 +65,7 @@
     }
 
     function checkHeart(e) {
-        const target = e.target.parentNode.parentNode
+        const target = e.target.parentNode
         rating.value = Number(target.dataset.index) + 1
         for (let i = 0; i <= rating.value; i++){
             heartState.value[i] = true
@@ -101,7 +102,7 @@
         <div class="gig" v-for="(gig, index) in gigs">
             <GigData :gig="gig"/>
             <div class="space-evenly">
-                <button class="button" @click="toggleActiveGig(gig)">Rate Dater</button>
+                <Button class="Button" @click-forward="toggleActiveGig(gig)">Rate Dater</Button>
             </div>
         </div>
         <div class="popup" :class="{ active: popupActive }">
@@ -115,8 +116,8 @@
                 </div>
             </label>
             <div>
-                <button @click="sendReview">Send</button>
-                <button @click="toggleActiveGig">Cancel</button>
+                <Button @click-forward="sendReview">Send</Button>
+                <Button @click-forward="toggleActiveGig">Cancel</Button>
             </div>
         </div>
     </main>
@@ -139,21 +140,6 @@
         flex-direction: row;
         align-content: space-evenly;
     }
-    .button {
-        width: auto;
-        background-color: var(--primary-red);
-        border-radius: 10px;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        box-shadow: 3px 3px 2px rgba(128, 128, 128, 0.5);
-        text-decoration: solid;
-        padding: 16px;
-        margin: auto;
-        display: flex;
-        justify-self: center;
-        align-self: center;
-    }
     .popup {
         position: fixed;
         width: 60%;
@@ -173,7 +159,6 @@
         background-color: var(--secondary-blue);
         border: 3px solid var(--primary-red);
         color: white;
-
     }
 
     .popup label {
@@ -191,31 +176,6 @@
         margin-top: 12px;
         margin-bottom: 4px;
         width: fit-content;
-    }
-
-    .popup button {
-        margin-left: 3px;
-        margin-right: 3px;
-        background-color: var(--primary-red);
-        border-radius: 10px;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.2);
-        text-decoration: solid;
-        padding: 16px;
-        margin: 10px;
-        user-select: none;
-    }
-
-    .popup button:hover {
-        filter: brightness(0.9);
-    }
-
-    .popup button:active {
-        filter: brightness(0.7);
-        transform: translate(3px,3px);
-        box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.4);
     }
 
     .popup div {
