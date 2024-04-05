@@ -24,18 +24,22 @@ async function login() {
         doc.setAttribute('class', 'error')
     }
     
-    console.log(results.user)
-    // Redirect to dashboard if good
-    if (results.user['role'].toLowerCase() === 'dater') {
-        router.push({name: 'DaterHome', params: {id: results.user['id']}})
-    } else if (results.user['role'].toLowerCase() === 'cupid') {
-        console.log(results.user['id'])
-        router.push({name: 'CupidHome', params: {id: results.user['id']}})
-    } else if (results.user['role'].toLowerCase() === 'manager') {
-        router.push({name: 'ManagerHome', params: {id: results.user['id']}})
+    console.log(results)
+    if (results.is_suspended) {
+        router.push('/suspended')
     }
     else {
-        router.push('/login')
+        if (results.user['role'].toLowerCase() === 'dater') {
+            router.push({name: 'DaterHome', params: {id: results.user['id']}})
+        } else if (results.user['role'].toLowerCase() === 'cupid') {
+            console.log(results.user['id'])
+            router.push({name: 'CupidHome', params: {id: results.user['id']}})
+        } else if (results.user['role'].toLowerCase() === 'manager') {
+            router.push({name: 'ManagerHome', params: {id: results.user['id']}})
+        }
+        else {
+            router.push('/login')
+        }
     }
 }
 
