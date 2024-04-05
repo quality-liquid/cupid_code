@@ -5,6 +5,7 @@
     import NavSuite from '../components/NavSuite.vue';
     import GigData from './components/GigData.vue'
     import Heart from '../components/Heart.vue'
+    import Popup from '../components/Popup.vue'
     import PinkButton from '../components/PinkButton.vue'
 
     const gigs = ref([])
@@ -74,7 +75,7 @@
             <GigData :gig="gig"/>
             <PinkButton @click-forward="toggleActiveGig(gig)">Rate Dater</PinkButton>
         </div>
-        <div class="popup" :class="{ active: popupActive }">
+        <Popup :data-active="popupActive">
             <h1>Rate</h1>
             <label class="update-content" for="message">
                 <textarea id="message" v-model="message"/>
@@ -88,7 +89,7 @@
                 <PinkButton @click-forward="sendReview">Send</PinkButton>
                 <PinkButton @click-forward="toggleActiveGig">Cancel</PinkButton>
             </div>
-        </div>
+        </Popup>
     </main>
 </template>
 
@@ -112,36 +113,6 @@
     .space-evenly > * {
         margin: 16px;
     }
-    .popup {
-        position: fixed;
-        width: 60%;
-        height: 40%;
-        max-height: 300px;
-        margin: auto;
-        left:0;
-        right:0;
-        top: 30%;
-
-        transform: scale(0);
-        transition: transform 0.2s cubic-bezier(0,1,1,1);
-
-        display: flex;
-        flex-direction: column;
-        align-content: flex-end;
-        background-color: var(--secondary-blue);
-        border: 3px solid var(--primary-red);
-        color: white;
-    }
-
-    .popup label {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 24px;
-    }
-
-    .popup input {
-        margin-left: 6px;
-    }
 
     .popup h1 {
         margin: auto;
@@ -153,15 +124,9 @@
     .popup div {
         margin: auto;
     }
-
     .row {
         display: flex;
         flex-direction: row;
-    }
-
-    .active {
-        transform: scale(1);
-        transition: transform 0.2s cubic-bezier(0,1.4,1,1);
     }
 
     .update-content {
