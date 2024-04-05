@@ -54,8 +54,8 @@
     <NavSuite title='Gigs' profile='CupidDetails'>
         <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
         <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
+        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Gigs Completed </router-link>
         <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
-        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Check Completed </router-link>
     </NavSuite>
 
     <main>

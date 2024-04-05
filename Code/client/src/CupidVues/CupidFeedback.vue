@@ -20,8 +20,8 @@ onMounted(getFeedback)
     <NavSuite title='Feedback' profile='CupidDetails'>
         <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
         <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
-        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gig Details </router-link>
-        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Check Completed </router-link>
+        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gigs Available </router-link>
+        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Gigs Completed </router-link>
     </NavSuite>
 
     <div class="container">
