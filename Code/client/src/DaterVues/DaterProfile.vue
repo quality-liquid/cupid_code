@@ -3,6 +3,7 @@
     import router from '../router/index';
     import { makeRequest } from '../utils/make_request';
 
+    import NavSuite from '../components/NavSuite.vue';
     import PinkButton from '../components/PinkButton.vue';
 
     const email = ref('')
@@ -28,21 +29,6 @@
     
     const user_id  = parseInt(window.location.hash.split('/')[3])
 
-    function openDrawer() {
-        const element = document.getElementById('navbar')
-        if (element.className === 'navbar') {
-            element.className = 'navbar opened'
-        }
-        else {
-            element.className = 'navbar'
-        }
-    }
-
-    async function logout() {
-        const result = await makeRequest(`/logout/`)
-        router.push('/')
-    }
-
     function previewFile() {
         let preview = document.querySelector('img[name=pfp]');
         let file = document.querySelector('input[type=file]').files[0];
@@ -59,10 +45,6 @@
         } else {
             preview.src = "";
         }
-    }
-
-    function naviProf() {
-        router.push({ name: 'DaterProfile', params: {id: user_id} })
     }
 
     async function getData() {
@@ -127,25 +109,15 @@
 </script>
 
 <template>
-    <nav class="nav homenav">
-        <button @click="openDrawer" class="icon-button">
-            <span class="material-symbols-outlined icon">menu</span>   
-        </button>
-        <span>Profile</span>
-        <button class="icon-button" @click="naviProf">
-            <span class="material-symbols-outlined icon">account_circle</span>
-        </button>
-        <div id="navbar" class="navbar">
-            <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
-            <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
-            <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
-            <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
-            <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
-            <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
-            <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
-            <button class="logout" @click="logout"> Logout </button>
-        </div>
-    </nav>
+    <NavSuite title='Profile' profile='DaterProfile'>
+        <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
+        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
+        <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
+        <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
+        <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
+        <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
+    </NavSuite>
+
     <form class="container" @submit.prevent="update">
         <h2 class="top">Personal Information</h2>      
         <div class="personal">
