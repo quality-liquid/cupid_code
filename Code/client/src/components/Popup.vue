@@ -12,7 +12,7 @@
     .popup {
         position: fixed;
         width: 60%;
-        height: 40%;
+        height: 70%;
         max-height: 300px;
         margin: auto;
         left:0;

@@ -18,6 +18,7 @@ const user_id  = parseInt(window.location.hash.split('/')[3])
         <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
         <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
         <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
+        <a to="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Need Help?</a>
     </NavSuite>
 
     <div class="container">
