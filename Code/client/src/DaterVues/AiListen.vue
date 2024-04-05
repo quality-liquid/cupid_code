@@ -3,6 +3,7 @@ import {ref} from 'vue'
 import { makeRequest } from '../utils/make_request';
 
 import PinkButton from '../components/PinkButton.vue';
+import Popup from '../components/Popup.vue';
 import NavSuite from '../components/NavSuite.vue';
 
 const audioFile = ref({
@@ -94,7 +95,7 @@ async function stopListen() {
                 <span class="material-symbols-outlined">priority_high</span>
             </button>
         </div>
-        <div class="popup" :class="{ active: popupActive }">
+        <Popup :data-active="popupActive">
             <h1>Create Gig</h1>
             <label class="update-content" for="budget">
                 Budget
@@ -108,11 +109,11 @@ async function stopListen() {
                 Pickup Location
                 <input type="text" id="pickup_location" v-model="pickup_location"/>
             </label>
-            <div>
+            <div class="space-evenly">
                 <PinkButton @click-forward="sendEmergency">Send</PinkButton>
                 <PinkButton @click-forward="toggleEmergency">Cancel</PinkButton>
             </div>
-        </div>
+        </Popup>
         <div class="text">
             Chatbox
             Add listening functionality here
@@ -169,36 +170,14 @@ async function stopListen() {
     text-align: center;
 }
 
-.popup {
-    position: absolute;
-    width: 60%;
-    height: 40%;
-    margin: auto;
-    left:0;
-    right:0;
-    top: 0;
-    bottom: 0;
-
-    transform: scale(0);
-    transition: transform 0.2s cubic-bezier(0,1,1,1);
-
+.space-evenly {
     display: flex;
-    flex-direction: column;
-    align-content: flex-end;
-    background-color: var(--secondary-blue);
-    border: 3px solid var(--primary-red);
-    color: white;
-
+    flex-direction: row;
+    align-content: space-evenly;
 }
 
-.popup label {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 24px;
-}
-
-.popup input {
-    margin-left: 6px;
+.space-evenly > * {
+    margin: 16px;
 }
 
 .popup h1 {

@@ -5,6 +5,7 @@
     import NavSuite from '../components/NavSuite.vue';
     import GigData from './components/GigData.vue'
     import Heart from '../components/Heart.vue'
+    import Popup from '../components/Popup.vue'
     import PinkButton from '../components/PinkButton.vue'
 
     // Gig lists
@@ -122,7 +123,7 @@
             </div>
         </div>
         <p v-if="completeGigs.length == 0">You have no complete gigs.</p>
-        <div class="popup" :class="{ active: popupActive }">
+        <Popup :data-active="popupActive">
             <h1>Rate</h1>
             <label class="update-content" for="message">
                 <textarea id="message" v-model="message"/>
@@ -132,11 +133,11 @@
                     <Heart v-for="i in 5" :data-index="i - 1" :data-active="heartState[i - 1]"/>
                 </div>
             </label>
-            <div>
-                <PinkButton @click-forward="sendReview">Send</PinkButton>
-                <PinkButton @click-forward="toggleActiveGig">Cancel</PinkButton>
+            <div class="space-evenly">
+                <PinkButton class = "margin-sixteen" @click-forward="sendReview">Send</PinkButton>
+                <PinkButton class = "margin-sixteen" @click-forward="toggleActiveGig">Cancel</PinkButton>
             </div>
-        </div>
+        </Popup>
     </main>
 </template>
 
@@ -147,54 +148,32 @@
         color: white;
         margin: 6px;
     }
+
     .gig h1 {
         margin: 0;
     }
+
     .space-evenly {
         display: flex;
         flex-direction: row;
         align-content: center;
     }
+
+    .margin-sixteen{
+        margin: 16px;
+    }
+
     .claimed {
         background-color: var(--secondary-red);
         border-color: var(--primary-red);
     }
+
     .unclaimed {
         background-color: var(--secondary-blue);
     }
+
     .complete {
         background-color: var(--primary-blue);
-    }
-    .popup {
-        position: fixed;
-        width: 60%;
-        height: 40%;
-        max-height: 300px;
-        margin: auto;
-        left:0;
-        right:0;
-        top: 30%;
-
-        transform: scale(0);
-        transition: transform 0.2s cubic-bezier(0,1,1,1);
-
-        display: flex;
-        flex-direction: column;
-        align-content: flex-end;
-        background-color: var(--secondary-blue);
-        border: 3px solid var(--primary-red);
-        color: white;
-
-    }
-
-    .popup label {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 24px;
-    }
-
-    .popup input {
-        margin-left: 6px;
     }
 
     .popup h1 {
