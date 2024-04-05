@@ -6,14 +6,20 @@
     import GigData from './components/GigData.vue'
     import Heart from '../components/Heart.vue'
 
-    const gigs = ref([])
+    // Gig lists
+    const claimedGigs = ref([])
+    const unclaimedGigs = ref([])
+    const completeGigs = ref([])
+
+    //Review popup
     const popupActive = ref(false)
     const activeGig = ref({})
     const message = ref("")
     const heartState = ref([false,false,false,false,false])
     const rating = ref(0)
 
-    const user_id  = parseInt(window.location.hash.split('/')[4]) //Gets the id from the router
+
+    const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
     // Open and closes drawer w/ shorthand
     function openDrawer() {
         const element = document.getElementById('navbar')
@@ -31,15 +37,34 @@
     }
 
     function naviProf() {
-        router.push({ name: 'CupidDetails', params: {id: user_id} })
+        router.push({ name: 'DaterProfile', params: {id: user_id} })
     }
 
     async function getData() {
-        gigs.value = await makeRequest(`api/cupid/gigs/${user_id}?complete=true`)
-        //Django returns a 404 if there are none. We have to tell Vue it is ok.
-        if (gigs.value.detail === 'Not found.'){
-            gigs.value = []
+        const gigs = await makeRequest(`api/dater/gigs/${user_id}`)
+        //Django returns a 404 if there none of either of these. We have to tell Vue it is ok.
+        if (gigs.detail === 'Not found.'){
+            gigs= []
         }
+        unclaimedGigs.value = []
+        claimedGigs.value = []
+        completeGigs.value = []
+        gigs.forEach( gig => {
+            if (gig.status == 0){
+                unclaimedGigs.value.push(gig)
+            } else if (gig.status == 1) {
+                claimedGigs.value.push(gig)
+            } else if (gig.status == 2) {
+                completeGigs.value.push(gig)
+            }
+        })
+    }
+
+    async function cancel(id) {
+        await makeRequest('/api/gig/cancel/','post',{
+            'gig_id':id
+        })
+        getData()
     }
 
     function toggleActiveGig(gig) {
@@ -73,37 +98,58 @@
             heartState.value[i] = false
         }
     }
-
     onMounted(getData)
-
 </script>
 
 <template>
     <nav class="nav homenav">
         <button @click="openDrawer" class="icon-button">
-            <span class="material-symbols-outlined icon">menu</span>
+            <span class="material-symbols-outlined icon">menu</span>   
         </button>
+        <span>Feedback</span>
         <!-- This will be the profile picture when setup -->
         <button class="icon-button" @click="naviProf">
             <span class="material-symbols-outlined icon">account_circle</span>
         </button>
         <div id="navbar" class="navbar">
-            <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
-            <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
-            <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
-            <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gig Details </router-link>
+            <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
+            <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
+            <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
+            <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
+            <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
+            <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
+            <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
+            <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
             <button class="logout" @click="logout"> Logout </button>
         </div>
     </nav>
 
     <main>
-        <h1>Completed Gigs</h1>
-        <div class="gig" v-for="(gig, index) in gigs">
+        <h1>Claimed</h1>
+        <hr/>
+        <div class="gig claimed" v-for="(gig, index) in claimedGigs">
             <GigData :gig="gig"/>
             <div class="space-evenly">
-                <button class="button" @click="toggleActiveGig(gig)">Rate Dater</button>
+                <button class="button" @click="cancel(gig.id)">Cancel</button>
             </div>
         </div>
+        <p v-if="claimedGigs.length == 0">You have no active gigs.</p>
+        <h1>Unclaimed</h1>
+        <hr/>
+        <div class="gig unclaimed" v-for="(gig, index) in unclaimedGigs">
+            <GigData :gig="gig"/>
+            <div class="space-evenly">
+                <button class="button" @click="cancel(gig.id)">Cancel</button>
+            </div>
+        </div>
+        <p v-if="unclaimedGigs.length == 0">You do not have any pending gigs.</p>
+        <h1>Complete</h1>
+        <hr/>
+        <div class="gig complete" v-for="(gig, index) in completeGigs">
+            <GigData :gig="gig"/>
+            <button class="button" @click="toggleActiveGig(gig)">Rate Cupid</button>
+        </div>
+        <p v-if="completeGigs.length == 0">You have no complete gigs.</p>
         <div class="popup" :class="{ active: popupActive }">
             <h1>Rate</h1>
             <label class="update-content" for="message">
@@ -126,9 +172,7 @@
     .gig {
         border-radius: 12px;
         padding: 12px;
-        color: black;
-        background-color: var(--content-background);
-        border-color: var(--primary-red);
+        color: white;
         margin: 6px;
     }
     .gig h1 {
@@ -138,6 +182,16 @@
         display: flex;
         flex-direction: row;
         align-content: space-evenly;
+    }
+    .claimed {
+        background-color: var(--secondary-red);
+        border-color: var(--primary-red);
+    }
+    .unclaimed {
+        background-color: var(--secondary-blue);
+    }
+    .complete {
+        background-color: var(--primary-blue);
     }
     .button {
         width: auto;
@@ -247,6 +301,11 @@
         padding: 8px;
     }
 
+    hr {
+        border: 1px solid #F0F0F0;
+        border-radius: 30%;
+        margin: 6px;
+    }
     main {
         position: absolute;
         top: 42px;
@@ -257,4 +316,10 @@
         flex-direction: column;
         align-content: center;
     }
+    h1,
+    p {
+        margin: auto;
+    }
 </style>
+
+

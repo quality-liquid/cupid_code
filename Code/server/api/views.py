@@ -855,6 +855,30 @@ def drop_gig(request):
     return helpers.retrieved_response(serializer)
 
 
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def cancel_gig(request):
+    """
+    Deletes the gig.
+
+    Args:
+        request: Information about the request.
+            request.post: The json data sent to the server.
+                gig_id (int): The id of the gig to drop.
+    Returns:
+        Response:
+            If the gig was successfully dropped, return a 200 status code.
+            If the gig could not be dropped, was already dropped, or does not have a Cupid assigned, return a 400 status code.
+    """
+    data = request.data
+    gig = get_object_or_404(Gig, id=data['gig_id'])
+    if gig.dater != request.user.dater:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    gig.delete()
+    return Response(status=status.HTTP_200_OK)
+
+
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
@@ -881,6 +905,28 @@ def get_cupid_gigs(request, pk):
         if gig.status == target:
             current_gigs.append(gig)
     serializer = GigSerializer(current_gigs, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def get_dater_gigs(request, pk):
+    """
+    For a dater.
+    Returns all gigs that the dater has created.
+
+    Args:
+        request: Information about the request.
+        pk (int): The id of the cupid
+    Returns:
+        Response:
+            A list of gigs (JSON)
+    """
+    dater = get_object_or_404(Dater, user_id=pk)
+    helpers.update_user_location(dater.user, request.META['REMOTE_ADDR'])
+    gigs = get_list_or_404(Gig, dater=dater)
+    serializer = GigSerializer(gigs, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 

@@ -15,6 +15,7 @@ import CupidCash from '../DaterVues/CupidCash.vue'
 import DaterProfile from '../DaterVues/DaterProfile.vue'
 import DepositMoney from '../DaterVues/DepositMoney.vue'
 import DaterFeedback from '../DaterVues/DaterFeedback.vue'
+import DaterGigs from '../DaterVues/DaterGigs.vue'
 import Calendar from '../DaterVues/Calendar.vue'
 
 // Cupid Specific
@@ -72,6 +73,11 @@ const routes = [
         path: '/dater/profile/:id',
         name: 'DaterProfile',
         component: DaterProfile
+    },
+    {
+        path: '/dater/gigs/:id',
+        name: 'DaterGigs',
+        component: DaterGigs,
     },
     {
         path: '/dater/feedback/:id',

@@ -51,6 +51,7 @@ onMounted(getFeedback)
             <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
             <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
             <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
+            <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
             <button class="logout" @click="logout"> Logout </button>
         </div>
     </nav>

@@ -3,7 +3,7 @@
     import { makeRequest } from '../utils/make_request'
     import {ref, onMounted} from 'vue'
 
-    import GigData from './GigData.vue'
+    import GigData from './components/GigData.vue'
 
     const gigCount = 0
     const gigs = ref([])
@@ -35,17 +35,6 @@
         }
         if (activeGigs.value.detail === 'Not found.'){
             activeGigs.value = []
-        }
-    }
-
-    function statusConvert(statusNum){
-        switch (statusNum) {
-            case 0:
-                return 'Unclaimed'
-            case 1:
-                return 'Claimed'
-            case 2:
-                return 'Complete'
         }
     }
 

@@ -3,7 +3,7 @@
     import { makeRequest } from '../utils/make_request'
     import {ref, onMounted} from 'vue'
 
-    import CupidCoin from './CupidCoin.vue'
+    import CupidCoin from './components/CupidCoin.vue'
 
     //User info
     const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
