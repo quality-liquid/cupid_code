@@ -7,6 +7,7 @@ import NotFound from '../components/NotFound.vue'
 import DaterHome from '../DaterVues/DaterHome.vue'
 import CupidHome from '../CupidVues/CupidHome.vue'
 import ManagerHome from '../ManagerVues/ManagerHome.vue'
+import Suspended from '../components/Suspended.vue'
 
 // Dater specific
 import AiChat from '../DaterVues/AiChat.vue'
@@ -43,6 +44,11 @@ const routes = [
         path: '/register',
         name: 'Register',
         component: SignUp
+    },
+    {
+        path: '/suspended',
+        name: 'SuspendHome',
+        component: Suspended
     },
     {
         path: '/dater/home/:id',
