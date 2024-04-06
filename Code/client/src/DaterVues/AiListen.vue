@@ -70,7 +70,11 @@ async function listen() {
             error.innerText = result.error
             doc.appendChild(error)
         } else {
-            console.log('holy crap lois')
+            const doc = document.getElementById('chatbox')
+            const text = document.createElement('div')
+            text.setAttribute('class', '')
+            text.innerText = result.data
+            doc.appendChild(text)
         }
 
     });
