@@ -129,7 +129,7 @@
                 <textarea id="message" v-model="message"/>
             </label>
             <label class="update-content" for="rating">
-                <div class="row" @click="checkHeart">
+                <div class="heart-row" @click="checkHeart">
                     <Heart v-for="i in 5" :data-index="i - 1" :data-active="heartState[i - 1]"/>
                 </div>
             </label>
@@ -187,9 +187,10 @@
         margin: auto;
     }
 
-    .row {
+    .heart-row {
         display: flex;
         flex-direction: row;
+        width: 100%;
     }
 
     .active {
@@ -210,6 +211,11 @@
         border: none;
         border-radius: 4px;
         padding: 8px;
+    }
+
+    textarea {
+        width: 100%;
+        min-height: 5em;
     }
 
     hr {
