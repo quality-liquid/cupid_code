@@ -395,11 +395,11 @@ def get_message_from_audio(audio_data, dater):
     file_path = "temp_audio_storage/file.wav"
     try:
         # Convert bytes to audio file
-        with wave.open(file_path, 'wb') as wav_file:
-            wav_file.setnchannels(1)  # Mono audio
-            wav_file.setsampwidth(2)  # 2 bytes per sample (16-bit audio)
-            wav_file.setframerate(44100)  # Sample rate (adjust as needed)
-            wav_file.writeframes(audio_bytes)
+        with wave.open(file_path, 'wb') as file:
+            file.setnchannels(1)  # Mono audio
+            file.setsampwidth(2)  # 2 bytes per sample (16-bit audio)
+            file.setframerate(44100)  # Sample rate (adjust as needed)
+            file.writeframes(audio_bytes)
 
         # Transcribe audio
         with sr.AudioFile(file_path) as source:
