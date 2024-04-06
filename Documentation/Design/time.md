@@ -56,7 +56,7 @@
 |----------------|-------------------------|-----------|
 | Name           | Job                     | Time(hrs) | 
 | Nate Stott     | Unit tests / debugging  | 5         |   
-| Emma Wright    | Dater Vues              |           |   
+| Emma Wright    | Dater & Manager Vues    | 7         |   
 | Daniel Barfuss |                         |           |   
 | Brighton Ellis |                         |           |   
 | Nate McKenzie  | Assist Frontend         | 12        |   

@@ -15,7 +15,6 @@ gen
 
 node_modules
 npm-debug.log
-package-lock.json
 
 db.sqlite3
 
