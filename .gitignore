@@ -10,6 +10,9 @@ gen
 
 .env
 
+*.wav
+*.webm
+
 # Python artifacts
 **/__pycache__/
 
