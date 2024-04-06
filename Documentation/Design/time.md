@@ -57,8 +57,8 @@
 | Name           | Job                     | Time(hrs) | 
 | Nate Stott     | Unit tests / debugging  | 5         |   
 | Emma Wright    | Dater Vues              |           |   
-| Daniel Barfuss |                         |           |   
+| Daniel Barfuss | Unit tests / debugging  | 7         |   
 | Brighton Ellis |                         |           |   
-| Nate McKenzie  | Assist Frontend         | 12        |   
+| Nate McKenzie  | Assist Frontend         | 14        |   
 | Eric DeBloois  | Cupid Vues              |           |   
 | Brandon Herrin |                         |           |
