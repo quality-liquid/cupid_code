@@ -1420,8 +1420,7 @@ def speech_to_text(request):
     print("You called stt")
     data = request.data
     print(data)
-    data['location'] = helpers.get_location_string(request.META['REMOTE_ADDR'])
-    dater = get_object_or_404(Dater, user_id=request.user.id)
+    dater = get_object_or_404(Dater, user_id=data['user_id'])
     audio_data = data['audio']
     try:
         message = helpers.get_message_from_audio(audio_data, dater)
