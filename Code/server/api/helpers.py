@@ -402,28 +402,28 @@ def get_message_from_audio(audio_data, dater):
     with speech_recognition.AudioFile(file_path) as source:
         audio_data = recognizer.record(source)
         text = recognizer.recognize_sphinx(audio_data)
-    prompt = f"""
-              The following text is transcribed from an audio file. 
-              Analyze the text to determine if a gig should be created. 
-              A gig can be created by saying 'create gig'. 
-              The purpose of a gig is to tell a Cupid what to do to save the date. 
-              If a gig is created, the Cupid will be able to see the gig and accept it. 
-              A gig will need to know what items are requested for the date. 
-              The budget for the gig will be the amount of money the Dater is willing to spend on the date.
-              Budget: {dater.budget}
-              Please give your response in the following form:
-                  Create gig: True or False
-                  Items requested: Flowers, Chocolate, etc. or NA if no items are requested
-              The text is: 
-
-              """
-    clear_file(file_path)
-    message = prompt + text
-    return message
+        prompt = f"""
+                  The following text is transcribed from an audio file. 
+                  Analyze the text to determine if a gig should be created. 
+                  A gig can be created by saying 'create gig'. 
+                  The purpose of a gig is to tell a Cupid what to do to save the date. 
+                  If a gig is created, the Cupid will be able to see the gig and accept it. 
+                  A gig will need to know what items are requested for the date. 
+                  The budget for the gig will be the amount of money the Dater is willing to spend on the date.
+                  Budget: {dater.budget}
+                  Please give your response in the following form:
+                      Create gig: True or False
+                      Items requested: Flowers, Chocolate, etc. or NA if no items are requested
+                  The text is: 
+    
+                  """
+        clear_file(file_path)
+        message = prompt + text
+        return message
 
 
 def clear_file(file_path):
-    with open(file_path, 'w') as file:
+    with wave.open(file_path, 'w') as file:
         pass  # Using pass to do nothing, which effectively truncates the file
 
 
