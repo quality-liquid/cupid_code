@@ -15,7 +15,7 @@ const budget = ref('')
 const items_requested = ref('')
 const pickup_location = ref('')
 
-const user_id  = parseInt(window.location.hash.split('/')[3])
+const user_id = parseInt(window.location.hash.split('/')[3])
 
 function toggleEmergency() {
     popupActive.value = !popupActive.value;
@@ -50,6 +50,7 @@ async function listen() {
             reader.readAsDataURL(audioBlob);
             reader.onloadend = function() {
                 const base64Data = reader.result.split(',')[1];
+                console.log(base64Data)
                 // Send base64-encoded audio data to the backend for processing
                 sendToBackend(base64Data);
             };
@@ -65,7 +66,8 @@ async function listen() {
 // Function to send base64-encoded audio data to the backend
 async function sendToBackend(base64Data) {
     // Example: Use fetch to send data to backend
-    const res = await makeRequest('/api/stt/', 'post', { 
+    const res = await makeRequest('/api/stt/', 'post', {
+        user_id, 
         audio: base64Data
     });
     console.log(res)
