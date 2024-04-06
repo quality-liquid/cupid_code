@@ -73,9 +73,9 @@
         <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
         <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
     </NavSuite>
-    <div class="container">
+    <div class="container center">
         <h1>{{ 'Current balance: $' + balance }}</h1>
-        <form class="container" @submit.prevent="addFunds">
+        <form class="container clamped" @submit.prevent="addFunds">
             <select v-model="cardIndex">
                 <option disabled selected>Saved cards</option>
                 <option v-for="(card, i) in cards" :value="i">***{{ card.card_number.slice(card.card_number.length-4) }}</option>
@@ -86,7 +86,7 @@
             </div>
         </form>
         <h1>Add Card</h1>
-        <form class="input-container" @submit.prevent="saveCard">
+        <form class="input-container clamped" @submit.prevent="saveCard">
             <label class="details" for="card-name">  
                 <input type="text" name="card-name" id="card-name" placeholder="Name on Card"
                 :value="name" @change="e => name = e.target.value"
@@ -151,15 +151,28 @@ select,
     margin: auto;
     display: flex;
     border: 1px solid rgb(139, 139, 139);
-    gap: 8px;
     border-radius: 4px;
-    padding: 16px;
+    padding: 12px;
     color: rgb(139, 139, 139);
     width: 100%;
 }
 
 select {
     color: black;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.center > * {
+    margin: auto;
+}
+
+.clamped {
+    width: clamp(230px, 50%, 400px);
 }
 
 .details input{

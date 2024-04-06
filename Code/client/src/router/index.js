@@ -14,7 +14,6 @@ import AiChat from '../DaterVues/AiChat.vue'
 import AiListen from '../DaterVues/AiListen.vue'
 import CupidCash from '../DaterVues/CupidCash.vue'
 import DaterProfile from '../DaterVues/DaterProfile.vue'
-import DepositMoney from '../DaterVues/DepositMoney.vue'
 import DaterFeedback from '../DaterVues/DaterFeedback.vue'
 import DaterGigs from '../DaterVues/DaterGigs.vue'
 import Calendar from '../DaterVues/Calendar.vue'
@@ -69,11 +68,6 @@ const routes = [
         path: '/dater/balance/:id',
         name: 'CupidCash',
         component: CupidCash
-    },
-    {
-        path: '/dater/add-money/:id/:amt',
-        name: 'AddMoney',
-        component: DepositMoney
     },
     {
         path: '/dater/profile/:id',
