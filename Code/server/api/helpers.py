@@ -1,6 +1,7 @@
 # Standard Library
 from math import radians, sin, cos, sqrt, atan2
 import base64
+import wave
 
 # Django
 from django.contrib.auth import login
@@ -386,32 +387,35 @@ def send_email(dater, message):
     return Response(response, status=status.HTTP_200_OK)
 
 
-def get_message_from_audio(audio_data, audio_type, dater):
+def get_message_from_audio(audio_data, dater):
     recognizer = speech_recognition.Recognizer()
     # Convert base64 audio data to bytes
     audio_bytes = base64.b64decode(audio_data)
     # Convert bytes to audio file
-    with open('audio_file.' + audio_type, 'wb') as f:
-        f.write(audio_bytes)
+    with wave.open("temp_audio_storage/file.wav", 'wb') as wav_file:
+        wav_file.setnchannels(1)  # Mono audio
+        wav_file.setsampwidth(2)  # 2 bytes per sample (16-bit audio)
+        wav_file.setframerate(44100)  # Sample rate (adjust as needed)
+        wav_file.writeframes(audio_bytes)
     # Transcribe audio
-    with speech_recognition.AudioFile('audio_file.' + audio_type) as source:
+    with speech_recognition.AudioFile("temp_audio_storage/file.wav") as source:
         audio_data = recognizer.record(source)
         text = recognizer.recognize_sphinx(audio_data)
     prompt = f"""
-                  The following text is transcribed from an audio file. 
-                  Analyze the text to determine if a gig should be created. 
-                  A gig can be created by saying 'create gig'. 
-                  The purpose of a gig is to tell a Cupid what to do to save the date. 
-                  If a gig is created, the Cupid will be able to see the gig and accept it. 
-                  A gig will need to know what items are requested for the date. 
-                  The budget for the gig will be the amount of money the Dater is willing to spend on the date.
-                  Budget: {dater.budget}
-                  Please give your response in the following form:
-                      Create gig: True or False
-                      Items requested: Flowers, Chocolate, etc. or NA if no items are requested
-                  The text is: 
+              The following text is transcribed from an audio file. 
+              Analyze the text to determine if a gig should be created. 
+              A gig can be created by saying 'create gig'. 
+              The purpose of a gig is to tell a Cupid what to do to save the date. 
+              If a gig is created, the Cupid will be able to see the gig and accept it. 
+              A gig will need to know what items are requested for the date. 
+              The budget for the gig will be the amount of money the Dater is willing to spend on the date.
+              Budget: {dater.budget}
+              Please give your response in the following form:
+                  Create gig: True or False
+                  Items requested: Flowers, Chocolate, etc. or NA if no items are requested
+              The text is: 
 
-                  """
+              """
     message = prompt + text
     return message
 
