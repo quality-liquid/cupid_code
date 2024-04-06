@@ -831,7 +831,15 @@ def complete_gig(request):
         },
         partial=True,
     )
-    return helpers.save_serializer(serializer)
+    if serializer.is_valid():
+        serializer.save()
+        reward = gig.quest.budget / 10
+        gig.cupid.cupid_cash_balance += reward
+        gig.cupid.save()
+        return_data = serializer.data
+        return_data['reward'] = reward
+        return Response(return_data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
