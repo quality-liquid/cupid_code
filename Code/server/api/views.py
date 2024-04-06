@@ -1424,6 +1424,13 @@ def speech_to_text(request):
     audio_data = data['audio']
     try:
         message = helpers.get_message_from_audio(audio_data, dater)
+        if message == "Error processing audio":
+            return Response(
+                {'error': message},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        response = helpers.get_ai_response(message)
+        return helpers.process_ai_response(dater, response)
     except speech_recognition.UnknownValueError:
         return Response(
             {'error': 'Could not understand the audio.'},
@@ -1436,8 +1443,6 @@ def speech_to_text(request):
         )
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    response = helpers.get_ai_response(message)
-    return helpers.process_ai_response(dater, response)
 
 
 @api_view(['POST'])
