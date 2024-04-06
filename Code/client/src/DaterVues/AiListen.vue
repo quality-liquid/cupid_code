@@ -6,10 +6,7 @@ import PinkButton from '../components/PinkButton.vue';
 import Popup from '../components/Popup.vue';
 import NavSuite from '../components/NavSuite.vue';
 
-const audioFile = ref({
-    type: '',
-    data: ''
-})
+
 let audio = null
 let recorder = null
 
@@ -34,77 +31,51 @@ async function sendEmergency() {
 }
 
 async function listen() {
-    const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: false
+    // Request access to the user's microphone
+    navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(function(stream) {
+        // Create an instance of MediaRecorder to record audio
+        recorder = new MediaRecorder(stream)
+        let chunks = []
+        // Start recording when the recorder is ready
+        recorder.onstart = function() {console.log('Recording started')}
+        // Collect recorded audio data in chunks
+        recorder.ondataavailable = function(event) {chunks.push(event.data)}
+        // Stop recording and process the recorded audio
+        recorder.onstop = function() {
+            // Combine all recorded chunks into a single Blob
+            const audioBlob = new Blob(chunks, { type: 'audio/wav' });
+            // Convert Blob to base64-encoded string
+            const reader = new FileReader();
+            reader.readAsDataURL(audioBlob);
+            reader.onloadend = function() {
+                const base64Data = reader.result.split(',')[1];
+                // Send base64-encoded audio data to the backend for processing
+                sendToBackend(base64Data);
+            };
+        };
+        // Start recording
+        recorder.start()
+    })
+    .catch(function(err) {
+        console.error('Error accessing microphone:', err);
+    })
+}
+
+// Function to send base64-encoded audio data to the backend
+async function sendToBackend(base64Data) {
+    // Example: Use fetch to send data to backend
+    const res = await makeRequest('/api/stt/', 'post', { 
+        audio: base64Data
     });
-
-    const options = { mimeType: "audio/wav" };
-    const recordedChunks = [];
-    recorder = new MediaRecorder(stream, options);
-    
-    recorder.addEventListener("dataavailable", e => {
-        if (e.data.size > 0) {
-            console.log(e.data)
-            recordedChunks.push(e.data);
-        }
-    });
-
-    recorder.addEventListener("stop", async () => {
-        console.log(recordedChunks)
-        audio = new Blob(recordedChunks);
-        const data = await audio.text()
-
-        const reader = new FileReader()
-        reader.readAsDataURL(audio); 
-        reader.onloadend = async () => {
-            const base64data = reader.result;                
-            const result = await makeRequest('/api/stt/', 'post', {
-                user: {
-                    id: user_id
-                },
-                audio: {
-                    type: audio.type ? audio.type : 'wav',
-                    data: base64data 
-                }
-            })
-            console.log(result)
-        }
-        /*
-        const result = await makeRequest('/api/stt/', 'post', {
-            user: {
-                id: user_id
-            },
-            audio: {
-                type: audio.value.type ? audio.value.type : 'webm',
-                data: data 
-            }
-        })
-        if (result.error) {
-            const doc = document.getElementById('chatbox')
-            const error = document.createElement('div')
-            error.setAttribute('class', '')
-            error.innerText = result.error
-            doc.appendChild(error)
-        } else {
-            const doc = document.getElementById('chatbox')
-            const text = document.createElement('div')
-            text.setAttribute('class', '')
-            text.innerText = result.data
-            doc.appendChild(text)
-        }
-        */
-    });
-
-    recorder.start();
+    console.log(res)
+    // Put result on the screen
 }
 
 async function stopListen() {
     recorder.stop();
     recorder = null;
-
 }
-
 </script>
 
 <template>
