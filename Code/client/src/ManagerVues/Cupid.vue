@@ -1,26 +1,12 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { makeRequest } from '../utils/make_request';
+import NavSuite from '../components/NavSuite.vue';
 
 const cupids = ref([{ }])
 const cupidCount = ref(0)
 
 const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
-// Open and closes drawer w/ shorthand
-function openDrawer() {
-  const element = document.getElementById('navbar')
-  if (element.className === 'navbar') {
-    element.className = 'navbar opened'
-  }
-  else {
-    element.className = 'navbar'
-  }
-}
-// Logout function
-async function logout() {
-  const result = await makeRequest(`/logout/`)
-  router.push('/')
-}
 
 async function getCupids() {
   const res = await makeRequest('/api/manager/cupids/')
@@ -53,19 +39,11 @@ onMounted(getCupids)
 </script>
 
 <template>
-  <nav class="nav homenav">
-    <button @click="openDrawer" class="icon-button">
-        <span class="material-symbols-outlined icon">menu</span>   
-    </button>
-    <span>Cupid Information</span>
-    <span class="material-symbols-outlined icon">account_circle</span>
-    <div id="navbar" class="navbar">
+    <NavSuite title='Cupid Information'>
         <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}"> Home </router-link>
         <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}"> See Dater Info </router-link>
         <router-link class="link" :to="{name: 'ManageCupids', params: {id: user_id}}"> See Cupid Info </router-link>
-        <button class="logout" @click="logout"> Logout </button>
-    </div>
-  </nav>
+    </NavSuite>
   <figure>{{ cupidCount }} Cupids</figure>
 
   <!-- header & button need turnary stuff to swap between suspend/unsuspend -->
