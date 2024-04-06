@@ -17,6 +17,7 @@ urlpatterns = [
     path('dater/profile/', views.set_dater_profile, name='set_dater_profile'),
     path('dater/gigs/<int:pk>', views.get_dater_gigs, name='get_dater_gigs'),
     path('dater/save_card/', views.save_card, name='save_card'),
+    path('dater/get_cards/<int:pk>', views.get_cards, name='get_cards'),
     path('cupid/rate/', views.rate_cupid, name='rate_cupid'),
     path('cupid/ratings/<int:pk>/', views.get_cupid_ratings, name='get_cupid_ratings'),
     path('cupid/avg_rating/<int:pk>/', views.get_cupid_avg_rating, name='get_cupid_avg_rating'),

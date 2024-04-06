@@ -444,6 +444,19 @@ def save_card(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
+def get_cards(request, pk):
+    try:
+        dater = helpers.authenticated_dater(pk, request.user)
+    except PermissionDenied:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    cards = get_list_or_404(PaymentCard, user=request.user)
+    serializer = PaymentCardSerializer(cards, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_dater_balance(request, pk):
     """
     For daters.
