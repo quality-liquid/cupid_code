@@ -24,10 +24,10 @@
     const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
 
     async function getData() {
-        const gigs = await makeRequest(`api/dater/gigs/${user_id}`)
+        let gigs = await makeRequest(`api/dater/gigs/${user_id}`)
         //Django returns a 404 if there none of either of these. We have to tell Vue it is ok.
         if (gigs.detail === 'Not found.'){
-            gigs= []
+            gigs = []
         }
         unclaimedGigs.value = []
         claimedGigs.value = []
@@ -86,7 +86,7 @@
 </script>
 
 <template>
-    <NavSuite title='Feedback' profile='DaterProfile'>
+    <NavSuite title='Gigs' profile='DaterProfile'>
         <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
         <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
         <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>

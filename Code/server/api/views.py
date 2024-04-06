@@ -876,7 +876,7 @@ def cancel_gig(request):
     if gig.dater != request.user.dater:
         return Response(status=status.HTTP_403_FORBIDDEN)
     gig.delete()
-    return Response(status=status.HTTP_200_OK)
+    return Response(GigSerializer(gig).data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
