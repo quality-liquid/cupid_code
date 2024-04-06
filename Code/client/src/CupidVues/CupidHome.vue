@@ -23,12 +23,12 @@ const user_id  = parseInt(window.location.hash.split('/')[3])
         <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
       </div>
       <div class="widget blue">
-        <span class="material-symbols-outlined icon">receipt_long</span>
-        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gigs Available </router-link>
+        <span class="material-symbols-outlined icon">explore</span>
+        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Find Gigs </router-link>
       </div>
       <div class="widget red"> <!-- This will become Calendar when it's made -->
-        <span class="material-symbols-outlined icon">checklist</span>
-        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Gigs Completed </router-link>
+        <span class="material-symbols-outlined icon">playlist_add_check</span>
+        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Past Gigs </router-link>
       </div>
     </div>
 </template>
