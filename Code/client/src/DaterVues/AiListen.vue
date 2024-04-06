@@ -10,8 +10,8 @@ const audioFile = ref({
     type: '',
     data: ''
 })
-const audio = ref(null)
-const recorder = ref(null)
+let audio = null
+let recorder = null
 
 const popupActive = ref(false)
 const budget = ref('')
@@ -39,27 +39,44 @@ async function listen() {
         video: false
     });
 
-    const options = { mimeType: "audio/webm" };
+    const options = { mimeType: "audio/wav" };
     const recordedChunks = [];
-    recorder.value = new MediaRecorder(stream, options);
-
-    recorder.value.addEventListener("dataavailable", e => {
+    recorder = new MediaRecorder(stream, options);
+    
+    recorder.addEventListener("dataavailable", e => {
         if (e.data.size > 0) {
             console.log(e.data)
             recordedChunks.push(e.data);
         }
     });
 
-    recorder.value.addEventListener("stop", async () => {
-        audio.value = new Blob(recordedChunks);
-        const data = await audio.value.text()
-        
+    recorder.addEventListener("stop", async () => {
+        console.log(recordedChunks)
+        audio = new Blob(recordedChunks);
+        const data = await audio.text()
+
+        const reader = new FileReader()
+        reader.readAsDataURL(audio); 
+        reader.onloadend = async () => {
+            const base64data = reader.result;                
+            const result = await makeRequest('/api/stt/', 'post', {
+                user: {
+                    id: user_id
+                },
+                audio: {
+                    type: audio.type ? audio.type : 'wav',
+                    data: base64data 
+                }
+            })
+            console.log(result)
+        }
+        /*
         const result = await makeRequest('/api/stt/', 'post', {
             user: {
                 id: user_id
             },
             audio: {
-                type: audio.value.type ? audio.value.type : 'WAV',
+                type: audio.value.type ? audio.value.type : 'webm',
                 data: data 
             }
         })
@@ -76,15 +93,15 @@ async function listen() {
             text.innerText = result.data
             doc.appendChild(text)
         }
-
+        */
     });
 
-    recorder.value.start();
+    recorder.start();
 }
 
 async function stopListen() {
-    recorder.value.stop();
-    recorder.value = null;
+    recorder.stop();
+    recorder = null;
 
 }
 
