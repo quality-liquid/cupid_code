@@ -38,11 +38,11 @@ async function listen() {
         recorder = new MediaRecorder(stream)
         let chunks = []
         // Start recording when the recorder is ready
-        recorder.onstart = function() {console.log('Recording started')}
+        recorder.onstart = () => {console.log('Recording started')}
         // Collect recorded audio data in chunks
-        recorder.ondataavailable = function(event) {chunks.push(event.data)}
+        recorder.ondataavailable = (event) => {chunks.push(event.data)}
         // Stop recording and process the recorded audio
-        recorder.onstop = function() {
+        recorder.onstop = () => {
             // Combine all recorded chunks into a single Blob
             const audioBlob = new Blob(chunks, { type: 'audio/wav' });
             // Convert Blob to base64-encoded string
@@ -50,7 +50,6 @@ async function listen() {
             reader.readAsDataURL(audioBlob);
             reader.onloadend = function() {
                 const base64Data = reader.result.split(',')[1];
-                console.log(base64Data)
                 // Send base64-encoded audio data to the backend for processing
                 sendToBackend(base64Data);
             };
