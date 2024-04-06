@@ -391,14 +391,15 @@ def get_message_from_audio(audio_data, dater):
     recognizer = speech_recognition.Recognizer()
     # Convert base64 audio data to bytes
     audio_bytes = base64.b64decode(audio_data)
+    file_path = "temp_audio_storage/file.wav"
     # Convert bytes to audio file
-    with wave.open("temp_audio_storage/file.wav", 'wb') as wav_file:
+    with wave.open(file_path, 'wb') as wav_file:
         wav_file.setnchannels(1)  # Mono audio
         wav_file.setsampwidth(2)  # 2 bytes per sample (16-bit audio)
         wav_file.setframerate(44100)  # Sample rate (adjust as needed)
         wav_file.writeframes(audio_bytes)
     # Transcribe audio
-    with speech_recognition.AudioFile("temp_audio_storage/file.wav") as source:
+    with speech_recognition.AudioFile(file_path) as source:
         audio_data = recognizer.record(source)
         text = recognizer.recognize_sphinx(audio_data)
     prompt = f"""
@@ -416,8 +417,14 @@ def get_message_from_audio(audio_data, dater):
               The text is: 
 
               """
+    clear_file(file_path)
     message = prompt + text
     return message
+
+
+def clear_file(file_path):
+    with open(file_path, 'w') as file:
+        pass  # Using pass to do nothing, which effectively truncates the file
 
 
 def get_response_from_yelp_api(pk, request, search):
