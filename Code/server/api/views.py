@@ -1418,6 +1418,7 @@ def speech_to_text(request):
             If the audio was not converted to text successfully or a gig could not be created, return an error message and a 400 status code.
     """
     data = request.data
+    print(data)
     data['location'] = helpers.get_location_string(request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, user_id=request.user.id)
     audio = data['audio']
