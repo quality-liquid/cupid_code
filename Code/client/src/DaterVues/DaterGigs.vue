@@ -81,6 +81,7 @@
             heartState.value[i] = false
         }
     }
+
     onMounted(getData)
 </script>
 
