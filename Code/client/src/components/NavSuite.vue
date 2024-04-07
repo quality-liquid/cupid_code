@@ -1,5 +1,6 @@
 <script setup>
     import router from '../router';
+    import { makeRequest, logoutRequest } from '../utils/make_request';
 
     const props = defineProps(['title', 'profile'])
     const user_id  = parseInt(window.location.hash.split('/')[3])
@@ -15,8 +16,9 @@
     }
 
     async function logout() {
-      const result = await makeRequest(`/logout/`)
-      router.push('/')
+      await logoutRequest()
+      await router.push('/')
+      router.go()
     }
 
     function naviProf() {

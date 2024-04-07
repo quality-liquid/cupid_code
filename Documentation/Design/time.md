@@ -52,13 +52,13 @@
 | Eric DeBloois  | Cupid Vues                                       | 5         |   
 | Brandon Herrin |                                                  |           |
 
-| Sprint 5       |                         |           |   
-|----------------|-------------------------|-----------|
-| Name           | Job                     | Time(hrs) | 
-| Nate Stott     | Unit tests / debugging  | 5         |   
-| Emma Wright    | Dater Vues              |           |   
-| Daniel Barfuss |                         |           |   
-| Brighton Ellis | Calendar                | 7         |   
-| Nate McKenzie  | Assist Frontend         | 12        |   
-| Eric DeBloois  | Cupid Vues              |           |   
-| Brandon Herrin |                         |           |
+| Sprint 5       |                                           |           |   
+|----------------|-------------------------------------------|-----------|
+| Name           | Job                                       | Time(hrs) | 
+| Nate Stott     | Unit tests / debugging / document writing | 8         |   
+| Emma Wright    | Dater Vues                                | 8         |   
+| Daniel Barfuss | Unit tests / debugging                    | 7         |   
+| Brighton Ellis |                   Calendar                | 7         |   
+| Nate McKenzie  | Assist Frontend                           | 14        |   
+| Eric DeBloois  | Cupid Vues                                |           |   
+| Brandon Herrin |                                           |           |

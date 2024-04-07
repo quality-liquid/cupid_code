@@ -24,10 +24,10 @@
     const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
 
     async function getData() {
-        const gigs = await makeRequest(`api/dater/gigs/${user_id}`)
+        let gigs = await makeRequest(`api/dater/gigs/${user_id}`)
         //Django returns a 404 if there none of either of these. We have to tell Vue it is ok.
         if (gigs.detail === 'Not found.'){
-            gigs= []
+            gigs = []
         }
         unclaimedGigs.value = []
         claimedGigs.value = []
@@ -81,11 +81,12 @@
             heartState.value[i] = false
         }
     }
+
     onMounted(getData)
 </script>
 
 <template>
-    <NavSuite title='Feedback' profile='DaterProfile'>
+    <NavSuite title='Gigs' profile='DaterProfile'>
         <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
         <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
         <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
@@ -129,7 +130,7 @@
                 <textarea id="message" v-model="message"/>
             </label>
             <label class="update-content" for="rating">
-                <div class="row" @click="checkHeart">
+                <div class="heart-row" @click="checkHeart">
                     <Heart v-for="i in 5" :data-index="i - 1" :data-active="heartState[i - 1]"/>
                 </div>
             </label>
@@ -187,9 +188,10 @@
         margin: auto;
     }
 
-    .row {
+    .heart-row {
         display: flex;
         flex-direction: row;
+        width: 100%;
     }
 
     .active {
@@ -210,6 +212,11 @@
         border: none;
         border-radius: 4px;
         padding: 8px;
+    }
+
+    textarea {
+        width: 100%;
+        min-height: 5em;
     }
 
     hr {

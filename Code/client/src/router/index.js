@@ -7,13 +7,13 @@ import NotFound from '../components/NotFound.vue'
 import DaterHome from '../DaterVues/DaterHome.vue'
 import CupidHome from '../CupidVues/CupidHome.vue'
 import ManagerHome from '../ManagerVues/ManagerHome.vue'
+import Suspended from '../components/Suspended.vue'
 
 // Dater specific
 import AiChat from '../DaterVues/AiChat.vue'
 import AiListen from '../DaterVues/AiListen.vue'
 import CupidCash from '../DaterVues/CupidCash.vue'
 import DaterProfile from '../DaterVues/DaterProfile.vue'
-import DepositMoney from '../DaterVues/DepositMoney.vue'
 import DaterFeedback from '../DaterVues/DaterFeedback.vue'
 import DaterGigs from '../DaterVues/DaterGigs.vue'
 import Calendar from '../DaterVues/Calendar.vue'
@@ -45,6 +45,11 @@ const routes = [
         component: SignUp
     },
     {
+        path: '/suspended',
+        name: 'SuspendHome',
+        component: Suspended
+    },
+    {
         path: '/dater/home/:id',
         name: 'DaterHome',
         component: DaterHome,
@@ -63,11 +68,6 @@ const routes = [
         path: '/dater/balance/:id',
         name: 'CupidCash',
         component: CupidCash
-    },
-    {
-        path: '/dater/add-money/:id/:amt',
-        name: 'AddMoney',
-        component: DepositMoney
     },
     {
         path: '/dater/profile/:id',

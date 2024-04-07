@@ -4,6 +4,7 @@
 import {ref, onMounted} from 'vue'
 import { makeRequest } from '../utils/make_request';
 import {to_pdf} from '../utils/to_PDF';
+import NavSuite from '../components/NavSuite.vue';
 
 const daters = ref(0) //Fill with a setter type for whatever the backend returns to you 
 const cupids = ref(0)
@@ -56,12 +57,6 @@ function openDrawer() {
     element.className = 'navbar'
   }
 }
-// Logout function
-async function logout() {
-  const result = await makeRequest(`/logout/`)
-  router.push('/')
-}
-
 
 onMounted(() => {
   //getCupidsTotal()
@@ -72,20 +67,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <nav class="nav homenav">
-      <button @click="openDrawer" class="icon-button">
-        <span class="material-symbols-outlined icon">menu</span>   
-      </button>
-      <span>Home</span>
-      <!-- This will be the profile picture when setup -->
-      <span class="material-symbols-outlined icon">account_circle</span>
-      <div id="navbar" class="navbar">
+    <NavSuite title='Home'>
           <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}"> Home </router-link>
           <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}"> See Dater Info </router-link>
           <router-link class="link" :to="{name: 'ManageCupids', params: {id: user_id}}"> See Cupid Info </router-link>
-          <button class="logout" @click="logout"> Logout </button>
-      </div>
-  </nav>
+    </NavSuite>
   <main class="container">
       <div class="widget-container">
         <div class="widget blue">

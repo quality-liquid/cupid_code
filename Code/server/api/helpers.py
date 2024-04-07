@@ -1,6 +1,8 @@
 # Standard Library
 from math import radians, sin, cos, sqrt, atan2
 import base64
+import wave
+import os
 
 # Django
 from django.contrib.auth import login
@@ -22,7 +24,7 @@ from operator import contains
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from twilio.rest import Client
-import speech_recognition
+import speech_recognition as sr
 
 # Local
 from .models import User, Dater, Cupid, Date
@@ -386,35 +388,47 @@ def send_email(dater, message):
     return Response(response, status=status.HTTP_200_OK)
 
 
-def get_response_from_audio(audio_data, audio_type, dater):
-    recognizer = speech_recognition.Recognizer()
+def get_message_from_audio(audio_data, dater):
+    recognizer = sr.Recognizer()
     # Convert base64 audio data to bytes
     audio_bytes = base64.b64decode(audio_data)
-    # Convert bytes to audio file
-    with open('audio_file.' + audio_type, 'wb') as f:
-        f.write(audio_bytes)
-    # Transcribe audio
-    with speech_recognition.AudioFile('audio_file.' + audio_type) as source:
-        audio_data = recognizer.record(source)
-        text = recognizer.recognize_sphinx(audio_data)
-    prompt = f"""
-                  The following text is transcribed from an audio file. 
-                  Analyze the text to determine if a gig should be created. 
-                  A gig can be created by saying 'create gig'. 
-                  The purpose of a gig is to tell a Cupid what to do to save the date. 
-                  If a gig is created, the Cupid will be able to see the gig and accept it. 
-                  A gig will need to know what items are requested for the date. 
-                  The budget for the gig will be the amount of money the Dater is willing to spend on the date.
-                  Budget: {dater.budget}
-                  Please give your response in the following form:
-                      Create gig: True or False
-                      Items requested: Flowers, Chocolate, etc. or NA if no items are requested
-                  The text is: 
+    file_path = "temp_audio_storage/file.wav"
+    try:
+        # Convert bytes to audio file
+        with wave.open(file_path, 'wb') as file:
+            file.setnchannels(1)  # Mono audio
+            file.setsampwidth(2)  # 2 bytes per sample (16-bit audio)
+            file.setframerate(44100)  # Sample rate (adjust as needed)
+            file.writeframes(audio_bytes)
 
-                  """
-    message = prompt + text
-    response = get_ai_response(message)
-    return response
+        # Transcribe audio
+        with sr.AudioFile(file_path) as source:
+            audio_data = recognizer.record(source)
+            text = recognizer.recognize_sphinx(audio_data)
+            prompt = f"""
+                          The following text is transcribed from an audio file. 
+                          Analyze the text to determine if a gig should be created. 
+                          A gig can be created by saying 'create gig'. 
+                          The purpose of a gig is to tell a Cupid what to do to save the date. 
+                          If a gig is created, the Cupid will be able to see the gig and accept it. 
+                          A gig will need to know what items are requested for the date. 
+                          The budget for the gig will be the amount of money the Dater is willing to spend on the date.
+                          Budget: {dater.budget}
+                          Please give your response in the following form:
+                              Create gig: True or False
+                              Items requested: Flowers, Chocolate, etc. or NA if no items are requested
+                          The text is: 
+
+                          """
+            message = prompt + text
+            return message
+    except Exception as e:
+        print("Error processing audio:", e)
+        return "Error processing audio"
+    finally:
+        # Delete the temporary WAV file
+        if os.path.exists(file_path):
+            os.remove(file_path)
 
 
 def get_response_from_yelp_api(pk, request, search):

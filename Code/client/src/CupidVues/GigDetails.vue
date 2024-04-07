@@ -10,6 +10,8 @@
     const gigCount = 0
     const gigs = ref([])
     const activeGigs = ref([])
+    const reward = ref(0)
+    const rewardShow = ref(false)
 
     const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
 
@@ -25,6 +27,12 @@
         }
     }
 
+    function displayReward(amount) {
+        reward.value = amount
+        rewardShow.value = true
+        setTimeout(() => {rewardShow.value = false},1500)
+    }
+
     async function claim(id) {
         await makeRequest('/api/gig/accept/','post',{
             'gig_id':id
@@ -33,10 +41,11 @@
     }
 
     async function complete(id) {
-        await makeRequest('/api/gig/complete/','post',{
+        const response = await makeRequest('/api/gig/complete/','post',{
             'gig_id':id
         })
         getData()
+        displayReward(response.reward)
     }
 
 
@@ -76,6 +85,7 @@
             <PinkButton @click-forward="claim(gig.id)">Claim</PinkButton>
         </div>
         <p v-if="gigs.length == 0">There are no gigs available.</p>
+        <p class="bottom" :data-active="rewardShow">+ ${{ reward.toFixed(2) }}</p>
     </main>
 </template>
 
@@ -100,6 +110,33 @@
     }
     .inactive {
         background-color: var(--secondary-blue);
+    }
+    @keyframes reward {
+        from {
+            bottom: 0;
+            color: #00FF00FF;
+        }
+        to {
+            bottom: 2em;
+            color: #00FF0000;
+        }
+    }
+    .bottom {
+        position: fixed;
+        height: 2em;
+        width: 200px;
+        bottom: -2em;
+        left: 50%;
+        margin-left: -100px;
+        color: #00FF00FF;
+        font-size: 3em;
+        text-align: center;
+    }
+    .bottom[data-active="true"] {
+        bottom: 2em;
+        animation-name: reward;
+        animation-duration: 1.5s;
+        animation-timing-function: linear;
     }
     hr {
         border: 1px solid #F0F0F0;

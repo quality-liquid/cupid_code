@@ -444,6 +444,19 @@ def save_card(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
+def get_cards(request, pk):
+    try:
+        dater = helpers.authenticated_dater(pk, request.user)
+    except PermissionDenied:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    cards = get_list_or_404(PaymentCard, user=request.user)
+    serializer = PaymentCardSerializer(cards, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_dater_balance(request, pk):
     """
     For daters.
@@ -818,7 +831,15 @@ def complete_gig(request):
         },
         partial=True,
     )
-    return helpers.save_serializer(serializer)
+    if serializer.is_valid():
+        serializer.save()
+        reward = gig.quest.budget / 10
+        gig.cupid.cupid_cash_balance += reward
+        gig.cupid.save()
+        return_data = serializer.data
+        return_data['reward'] = reward
+        return Response(return_data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -876,7 +897,7 @@ def cancel_gig(request):
     if gig.dater != request.user.dater:
         return Response(status=status.HTTP_403_FORBIDDEN)
     gig.delete()
-    return Response(status=status.HTTP_200_OK)
+    return Response(GigSerializer(gig).data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -1397,15 +1418,16 @@ def speech_to_text(request):
             If the audio was not converted to text successfully or a gig could not be created, return an error message and a 400 status code.
     """
     data = request.data
-    data['location'] = helpers.get_location_string(request.META['REMOTE_ADDR'])
-    dater = get_object_or_404(Dater, user_id=request.user.id)
-    if dater is None:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-    audio = data['audio']
-    audio_type = audio['type']
-    audio_data = audio['data']
+    dater = get_object_or_404(Dater, user_id=data['user_id'])
+    audio_data = data['audio']
     try:
-        response = helpers.get_response_from_audio(audio_data, audio_type, dater)
+        message = helpers.get_message_from_audio(audio_data, dater)
+        if message == "Error processing audio":
+            return Response(
+                {'error': message},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        response = helpers.get_ai_response(message)
         return helpers.process_ai_response(dater, response)
     except speech_recognition.UnknownValueError:
         return Response(

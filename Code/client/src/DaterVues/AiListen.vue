@@ -6,19 +6,16 @@ import PinkButton from '../components/PinkButton.vue';
 import Popup from '../components/Popup.vue';
 import NavSuite from '../components/NavSuite.vue';
 
-const audioFile = ref({
-    type: '',
-    data: ''
-})
-const audio = ref(null)
-const recorder = ref(null)
+
+let audio = null
+let recorder = null
 
 const popupActive = ref(false)
 const budget = ref('')
 const items_requested = ref('')
 const pickup_location = ref('')
 
-const user_id  = parseInt(window.location.hash.split('/')[3])
+const user_id = parseInt(window.location.hash.split('/')[3])
 
 function toggleEmergency() {
     popupActive.value = !popupActive.value;
@@ -34,42 +31,52 @@ async function sendEmergency() {
 }
 
 async function listen() {
-    const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: false
-    });
-
-    const options = { mimeType: "audio/webm" };
-    const recordedChunks = [];
-    recorder.value = new MediaRecorder(stream, options);
-
-    recorder.value.addEventListener("dataavailable", e => {
-        if (e.data.size > 0) {
-            recordedChunks.push(e.data);
-        }
-    });
-
-    recorder.value.addEventListener("stop", async () => {
-        audio.value = new Blob(recordedChunks);
-        const data = await audio.value.text()
-        audioFile.value = {
-            type: audio.value.type ? audio.value.type : 'WAV',
-            data: data
-        }
-        const result = await makeRequest('/api/stt/', 'post', {
-        audio: audioFile
+    // Request access to the user's microphone
+    navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(function(stream) {
+        // Create an instance of MediaRecorder to record audio
+        recorder = new MediaRecorder(stream)
+        let chunks = []
+        // Start recording when the recorder is ready
+        recorder.onstart = () => {console.log('Recording started')}
+        // Collect recorded audio data in chunks
+        recorder.ondataavailable = (event) => {chunks.push(event.data)}
+        // Stop recording and process the recorded audio
+        recorder.onstop = () => {
+            // Combine all recorded chunks into a single Blob
+            const audioBlob = new Blob(chunks, { type: 'audio/wav' });
+            // Convert Blob to base64-encoded string
+            const reader = new FileReader();
+            reader.readAsDataURL(audioBlob);
+            reader.onloadend = function() {
+                const base64Data = reader.result.split(',')[1];
+                // Send base64-encoded audio data to the backend for processing
+                sendToBackend(base64Data);
+            };
+        };
+        // Start recording
+        recorder.start()
     })
-    });
+    .catch(function(err) {
+        console.error('Error accessing microphone:', err);
+    })
+}
 
-    recorder.value.start();
+// Function to send base64-encoded audio data to the backend
+async function sendToBackend(base64Data) {
+    // Example: Use fetch to send data to backend
+    const res = await makeRequest('/api/stt/', 'post', {
+        user_id, 
+        audio: base64Data
+    });
+    console.log(res)
+    // Put result on the screen
 }
 
 async function stopListen() {
-    recorder.value.stop();
-    recorder.value = null;
-
+    recorder.stop();
+    recorder = null;
 }
-
 </script>
 
 <template>
@@ -114,10 +121,7 @@ async function stopListen() {
                 <PinkButton @click-forward="toggleEmergency">Cancel</PinkButton>
             </div>
         </Popup>
-        <div class="text">
-            Chatbox
-            Add listening functionality here
-            <audio> </audio>
+        <div class="text" id="chatbox">
         </div>
     </div>
 </template>
@@ -168,6 +172,10 @@ async function stopListen() {
     justify-content: center;
     align-content: center;
     text-align: center;
+}
+
+.message {
+    display: flex;
 }
 
 .space-evenly {

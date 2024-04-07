@@ -2,6 +2,8 @@
 import { ref, onMounted } from 'vue';
 import { makeRequest } from '../utils/make_request';
 
+import NavSuite from '../components/NavSuite.vue';
+
 const daters = ref([{ }])
 const daterCount = ref(0)
 
@@ -56,19 +58,11 @@ onMounted(getDaters)
 <template>
   <!-- nav banner component -->
   <!-- end nav bar -->
-  <nav class="nav homenav">
-      <button @click="openDrawer" class="icon-button">
-          <span class="material-symbols-outlined icon">menu</span>   
-      </button>
-      <span>Dater Information</span>
-      <span class="material-symbols-outlined icon">favorite</span>
-      <div id="navbar" class="navbar">
-          <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}"> Home </router-link>
-          <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}"> See Dater Info </router-link>
-          <router-link class="link" :to="{name: 'ManageCupids', params: {id: user_id}}"> See Cupid Info </router-link>
-          <button class="logout" @click="logout"> Logout </button>
-      </div>
-  </nav>
+  <NavSuite title='Dater Information'>
+      <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}"> Home </router-link>
+      <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}"> See Dater Info </router-link>
+      <router-link class="link" :to="{name: 'ManageCupids', params: {id: user_id}}"> See Cupid Info </router-link>
+  </NavSuite>
   <figure>{{ daterCount }} Daters</figure>
 
   <!-- h4 id needs to relate the suspended/unsuspended user's ID -->

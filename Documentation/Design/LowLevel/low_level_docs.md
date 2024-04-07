@@ -783,6 +783,7 @@ The following endpoints will need user data to be used. Authentication will be r
 | /api/dater/profile/<int:pk>/     | GET       | get_dater_profile     | Get dater's profile                                 |
 | /api/dater/profile/              | POST      | set_dater_profile     | Set dater's profile                                 |
 | /api/dater/save_card/            | POST      | save_card             | Save a new card for the dater                       |
+| /api/dater/get_cards/<int:pk>/   | GET       | get_cards             | Return the cards ther dater has saved.              |
 | /api/dater/gigs/<int:pk>         | GET       | get_dater_gigs        | Returns all gigs the dater has created.             |
 | /api/cupid/rate/                 | POST      | rate_cupid            | Dater rating a Cupid                                |
 | /api/cupid/ratings/<int:pk>/     | GET       | get_cupid_ratings     | Get list of cupid's ratings                         |

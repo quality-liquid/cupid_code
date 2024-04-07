@@ -10,12 +10,14 @@ gen
 
 .env
 
+*.wav
+*.webm
+
 # Python artifacts
 **/__pycache__/
 
 node_modules
 npm-debug.log
-package-lock.json
 
 db.sqlite3
 

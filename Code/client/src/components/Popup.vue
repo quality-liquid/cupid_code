@@ -11,10 +11,11 @@
 <style scoped>
     .popup {
         position: fixed;
-        width: 60%;
-        height: 40%;
-        max-height: 300px;
+        width: clamp(220px, 50%, 400px);
+        height: fit-content;
         margin: auto;
+        padding-left: 16px;
+        padding-right: 16px;
         left:0;
         right:0;
         top: 30%;
