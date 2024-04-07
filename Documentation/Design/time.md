@@ -60,5 +60,5 @@
 | Daniel Barfuss | Unit tests / debugging                    | 7         |   
 | Brighton Ellis |                   Calendar                | 7         |   
 | Nate McKenzie  | Assist Frontend                           | 14        |   
-| Eric DeBloois  | Cupid Vues                                |           |   
+| Eric DeBloois  | Cupid Home                                | 6         |   
 | Brandon Herrin |                                           |           |
