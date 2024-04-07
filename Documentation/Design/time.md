@@ -58,7 +58,7 @@
 | Nate Stott     | Unit tests / debugging  | 5         |   
 | Emma Wright    | Dater Vues              |           |   
 | Daniel Barfuss |                         |           |   
-| Brighton Ellis |                         |           |   
+| Brighton Ellis | Calendar                | 7         |   
 | Nate McKenzie  | Assist Frontend         | 12        |   
 | Eric DeBloois  | Cupid Vues              |           |   
 | Brandon Herrin |                         |           |
