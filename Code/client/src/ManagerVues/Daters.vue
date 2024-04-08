@@ -75,7 +75,6 @@ onMounted(getDaters)
     <article class="user-data">
       <span>Rating: {{ dater.rating_sum }}</span>
       <span>Location: {{ dater.location }}</span>
-      <span>Completed Gigs: {{ dater.gigs_completed }}</span>
       <button :id="`button-${dater.user ? dater.user['id'] : ''}`" class="button" @click="() => suspend(dater.user ? dater.user['id'] : '')">Suspend</button>
     </article> 
   </div>
