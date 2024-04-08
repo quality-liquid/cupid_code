@@ -926,6 +926,9 @@ def get_cupid_gigs(request, pk):
         if gig.status == target:
             current_gigs.append(gig)
     serializer = GigSerializer(current_gigs, many=True)
+    for gig in serializer.data:
+        user = User.objects.get(id=gig['dater'])
+        gig['dater'] = f'{user.first_name} {user.last_name}'
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -948,6 +951,12 @@ def get_dater_gigs(request, pk):
     helpers.update_user_location(dater.user, request.META['REMOTE_ADDR'])
     gigs = get_list_or_404(Gig, dater=dater)
     serializer = GigSerializer(gigs, many=True)
+    for gig in serializer.data:
+        try:
+            user = User.objects.get(id=gig['cupid'])
+            gig['cupid'] = f'{user.first_name} {user.last_name}'
+        except User.DoesNotExist:
+            gig['cupid'] = ''  # Leave blank for frontend code
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
