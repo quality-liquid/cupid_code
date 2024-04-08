@@ -62,3 +62,14 @@
 | Nate McKenzie  | Assist Frontend                           | 14        |   
 | Eric DeBloois  | Cupid Home                                | 6         |   
 | Brandon Herrin |                                           |           |
+
+| Sprint 6       |                                           |           |   
+|----------------|-------------------------------------------|-----------|
+| Name           | Job                                       | Time(hrs) | 
+| Nate Stott     | Unit tests / debugging / document writing |           |   
+| Emma Wright    | Dater Vues                                |           |   
+| Daniel Barfuss | Unit tests / debugging                    |           |   
+| Brighton Ellis |                   Calendar                |           |   
+| Nate McKenzie  | Assist Frontend                           |           |   
+| Eric DeBloois  | Cupid Home                                |           |   
+| Brandon Herrin |                                           |           |
