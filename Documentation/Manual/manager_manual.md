@@ -33,6 +33,8 @@ As a Manager you will have access to the following features:
 For Managers there is no signing up process. You will need to work with the system administrator to get your account created.
 
 ## Logging In
+This is the Login Page. Here you will login to your Manager Account
+![alt_text](manager_imgs/login.png "Login")
 Enter the email given by the System Adminstrator
 ![alt_text](manager_imgs/typeemail.png "Type_Email")
 Enter the password given by the System Administrator
