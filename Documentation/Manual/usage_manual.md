@@ -5,6 +5,8 @@
 2. [Dater](#dater)
 3. [Cupid](#cupid)
 4. [Manager](#manager)
+5. [Common Issues](#common-issues)
+6. [FAQ](#faq)
 
 ## Overview
 
@@ -35,3 +37,11 @@ The cupid will also be able to rate the dater.
 Managers are a special type of user that can see all the data in the system.
 They can see all the users, all the gigs, and all the ratings.
 They are able to ban users and delete gigs if they are inappropriate.
+
+
+## Common Issues
+
+
+## FAQ
+
+

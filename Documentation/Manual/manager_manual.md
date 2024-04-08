@@ -6,6 +6,8 @@
 3. [Signing Up](#signing-up)
 4. [Logging In](#logging-in)
 5. [Navigating the Site](#navigating-the-site)
+6. [Common Issues](#common-issues)
+7. [FAQ](#faq)
 
 ## Introduction
 
@@ -35,3 +37,7 @@ For Managers there is no signing up process. You will need to work with the syst
 
 ## Navigating the Site
 
+## Common Issues
+
+
+## FAQ

@@ -3,6 +3,8 @@
 ## Table of Contents
 1. [Installation](#installation)
 2. [Using](#using)
+3. [Common Issues](#common-issues)
+4. [FAQ](#faq)
 
 ## Installation
 
@@ -48,3 +50,10 @@ cd cupid_code
 ```
 http://localhost:5173/static
 ```
+
+
+## Common Issues
+
+
+
+## FAQ
