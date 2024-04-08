@@ -33,9 +33,21 @@ As a Manager you will have access to the following features:
 For Managers there is no signing up process. You will need to work with the system administrator to get your account created.
 
 ## Logging In
+Go to Login Page
 
+Put in credentials (Email and Password given by Sys Admin)
 
+Yippee you're in
 ## Navigating the Site
+Home page
+    PDF
+Daters
+    Suspend
+    Data of daters
+Cupids
+    Suspend
+    Data of cupids
+
 
 ## Common Issues
 
