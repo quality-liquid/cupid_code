@@ -57,7 +57,9 @@ cd cupid_code
 
 ## Using
 
-1. Open a web browser and navigate to the following URL:
+1. Follow the instructions in the README.md file to set up the Server.
+
+2. Open a web browser and navigate to the following URL:
 ```
 http://localhost:8000
 ```
