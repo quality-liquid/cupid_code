@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    os.environ.get("ADDRESS", "")
+    '127.0.0.1',
 ]
 
 VITE_APP_DIR = BASE_DIR / "src"
