@@ -1,7 +1,7 @@
 <script setup>
 </script>
 <template>
-    <button @click="$emit('click-forward')"><slot /></button>
+    <button :id="id" @click="$emit('click-forward')"><slot /></button>
 </template>
 <style scoped>
     button {

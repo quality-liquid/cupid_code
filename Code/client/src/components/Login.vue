@@ -60,7 +60,7 @@ async function login() {
                 Password
                 <input type="password" placeholder="Password" id="password" name="password" v-model="password">
             </label>
-            <PinkButton>Sign In</PinkButton>
+            <PinkButton id="sign_in">Sign In</PinkButton>
         </form>
     </div>
     <div class="atag">
