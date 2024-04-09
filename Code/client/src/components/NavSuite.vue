@@ -31,7 +31,7 @@
             <span class="material-symbols-outlined icon">menu</span>   
         </button>
         <span>{{ props.title }}</span>
-        <button class="icon-button" @click="naviProf">
+        <button id="profile" class="icon-button" @click="naviProf">
             <span class="material-symbols-outlined icon">account_circle</span>
         </button>
         <div id="navbar" class="navbar">
