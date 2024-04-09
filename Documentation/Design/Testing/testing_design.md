@@ -1,53 +1,43 @@
-Testing Philosphy
-    How thorough
-        Wanted to test a bunch, low on time. 
-        2-4 tests per function
-        Goal: have at least 1 good/1 bad per function to at least all functionality is tested
+# Test Design
 
-        With limited functionality, a few tests per function felt reasonable
-            Side note:     views broken down a lot to limited functionality. Carpentmentalize, easy to debug
-            Refactored to meet this criteria and make testing easier
+## Philosophy
+Our goal was to have good general coverage for the most frequent use cases. By writing unit tests and using tools and testers to go through our app we will have at least [percentage]% coverage. 
 
-            NOTE: Did not test serializers and models. Odd thing and difficult to test (declaration vs functionality)
+**Serverside and Database**
 
-    Integration testing
-        tests w/o MagicMock (aside from API calls)
-        running several functions together rather than separate
-        Could be done, will see depending on time
+Our backend views have been broken down to only do 1-2 things each. This allows the tests written for each view to be more in depth and detailed when testing the functionality.
 
-    Regression testing
-        If we have time, not a priority
+The database is not being tested directly but moreso ensuring when accessing it, it gives good input. This is done with the views as we had dedicated views for doing explicitly that. This design decision was for abstraction and security and our tests will abide that rule as well.
 
-    system testing
-        UI testing
+**Testing Types**
 
-        performance testing
-            Huge user load
-        
-        security testing
-            Just check for SQL injection, code injection
+*Unit Testing*
 
-            Plans for Black Box testing, White Box testing (already doing with unit tests), Gray Box testing, IF WE HAD TIME
+This will be the primary type of testing on the backend since most of what the server does is take input and return an expected output to be returned to the UI frontend. Unit Testing is great for testing components on their own and how they behave to controlled input. This is great for detecting potential bugs in the system at any point of the development or maintenance. 
 
-        accessibility testing
-            devices - phones, laptop, computer
+*Integration Testing*
 
-    acceptance testing
-        Plan: In front of class as final
+Not done yet. [Explain]
 
+*Regression Testing*
 
-    
+This is technically not writing any new tests but instead just rerunning the old ones. Since we have Unit Tests written, these will be rerun whenever a new feature is added or a bug is fixed to ensure nothing else is broken after the fixes and updates.
 
+For the UI, if any major changes occur we will run the tests written with Selenium and have testers run through the system to ensure that the UI is intuitive and every clickable component gives what is expected.
 
-Testing Tools    
-    MagicMock
-    built-in Django & Django REST testing frameworks
-    Unit tests (testing units)
+*System Testing*
 
+We will ensure the app can be used on phone and computer, ensure the UI doesn't break, and make sure there is proper security both in the Frontend and Backend when getting data. This will include testing input validation so no code or SQL injections can occur.
 
+*Acceptance Testing*
 
-Bug handling
-    Prioritization
-        Are there any bugs/possible bugs that we know of or could reasonably assume exist, and are we tackling them/not tackling them? Why?
+This will be done when we present the product to stakeholders and the customer when showing the MVP.
 
-    Stats for # of files, lines, and estimate how many bugs may be present
+## Tools Being Used
+-   MagicMock
+-   Django & Django REST testing frameworks
+-   Unit tests
+-   Selenium
+
+## Bug Handling
+Write about known bugs here & if any what our plan for handling them is
