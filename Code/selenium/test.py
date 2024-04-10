@@ -6,13 +6,33 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 
 
+def flagParse():
+    chrome = False
+    headless = False
+    with open('options.json', 'r') as options: 
+        for line in options:
+            if 'headless' in line:
+                headless = 'true' in line
+            if 'chrome' in line:
+                chrome = 'true' in line
+    return chrome, headless
+
+
 class LoginTestCases(unittest.TestCase):
 
     def setUp(self):
-        if len(sys.argv) != 2 or sys.argv[1] != '-c':
-            self.browser = webdriver.Firefox()
+        chrome, headless = flagParse()
+        if not chrome:
+            options = webdriver.FirefoxOptions()
+            if headless:
+                options.add_argument('-headless')
+            self.browser = webdriver.Firefox(options=options)
         else:
-            self.browser = webdriver.Chrome()
+            options = webdriver.ChromeOptions()
+            if headless:
+                options.add_argument('--headless')
+                options.add_argument('--disable-gpu')
+            self.browser = webdriver.Chrome(options=options)
 
         self.browser.get('http://localhost:8000')
         self.browser.find_element(By.ID, 'login').click()
