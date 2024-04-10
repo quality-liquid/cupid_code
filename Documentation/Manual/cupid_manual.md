@@ -32,6 +32,9 @@ To begin, you will need to sign up or login to your account. Once logged in, you
 
 ## Signing Up
 
+![alt_text](cupid_imgs/Home.png "Login")
+![alt_text](cupid_imgs/Login_Form.png "Login Form")
+
 
 ## Logging In
 
