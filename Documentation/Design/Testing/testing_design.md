@@ -34,10 +34,14 @@ We will ensure the app can be used on phone and computer, ensure the UI doesn't 
 This will be done when we present the product to stakeholders and the customer when showing the MVP.
 
 ## Tools Being Used
--   MagicMock
+-   MagicMock (used for testing backend views)
 -   Django & Django REST testing frameworks
 -   Unit tests
 -   Selenium
 
 ## Bug Handling
+Our philosophy with bug handling is to handle bugs found in development when they are discovered. When we found some serious bugs in the past, we made some changes, including large ones in some cases. While some may have been a little inconvenient to implement, it improved our code and made it better. This makes it a worthwhile change.
+
+However, when the application is deployed, we won't have that luxury. Bugs found after deployment would need to be handled with more care, so they will take time to fix (if it's demanding enough). There may be small bugs that don't impact the usability of the application. These bugs may be easy to fix, but they are low priority.
+
 Write about known bugs here & if any what our plan for handling them is
