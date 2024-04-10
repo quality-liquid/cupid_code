@@ -66,7 +66,7 @@ http://localhost:8000
 
 
 ## Common Issues
-Poetry Install saying no such file exists
+Poetry Install is saying no such file exists
   - Just run `poetry shell` first and then run `poetry install`.
 
 
