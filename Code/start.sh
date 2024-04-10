@@ -14,7 +14,7 @@ echo "Starting Django server..."
 tmux new-session -d -s django_session
 tmux send-keys -t django_session "source $VIRTUAL_ENV/bin/activate" Enter
 # Send Django server command to a new window in the tmux session
-tmux send-keys -t django_session "cd _server || exit" Enter
+tmux send-keys -t django_session "cd server || exit" Enter
 # Check if python3 command is available
 if command -v python3 &>/dev/null; then
     tmux send-keys -t django_session "python3 manage.py runserver" Enter
