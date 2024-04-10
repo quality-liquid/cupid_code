@@ -15,7 +15,7 @@ The Cupid Code Manager Manual is a guide for managers who are using the Cupid Co
 
 ## Usage
 
-So what can you do as a Manager of Cupid Code? Well you can Manager Cupid Code! 
+So what can you do as a Manager of Cupid Code? Well you can Manage Cupid Code! 
 
 As a Manager you will have access to the following features:
 - View all users
@@ -49,11 +49,9 @@ This will take you to the Home page and you should see this
 ### Home page
 This is the Home Page
 ![alt_text](manager_imgs/homepage.png "Home_Page")
-These are the Widgets that will take you to the Daters List
+These are the Widgets that will take you to the Daters List and Cupids List
+
 ![alt_text](manager_imgs/daterwidget.png "Dater_Widget")
-
-and the Cupids List
-
 ![alt_text](manager_imgs/cupidwidget.png "Cupid_Widet")
 
 Below are the statistics that are displayed on the page for your viewing
@@ -73,11 +71,13 @@ Suspending a Dater
 If their nametag is blue, they are unsuspended
 ![alt_text](manager_imgs/unsuspendeddater.png "Unsuspend")
 If you click the 'Suspend' button, it will suspend the user. They will no longer have access to the app on their end.
+
 ![alt_text](manager_imgs/suspendbuttond.png "Suspend")
 
 Their nametag will turn to red to show that they are suspended.
 ![alt_text](manager_imgs/suspendeddater.png "Suspended")
 You can do the same to unsuspend them by clicking the button again. It will return their privileges and change their nametag to blue
+
 ![alt_text](manager_imgs/unsuspendeddater.png)
 
 ### Cupids
@@ -87,6 +87,7 @@ Suspending a cupid
 If their nametag is blue, they are unsuspended
 ![alt_text](manager_imgs/unsuspendedcupid.png "Unsuspend")
 If you click the 'Suspend' button, it will suspend the user. They will no longer have access to the app on their end.
+
 ![alt_text](manager_imgs/suspendbuttond.png "Suspend")
 
 Their nametag will turn to red to show that they are suspended.
@@ -109,6 +110,12 @@ Clicking on the Home link will return you to the home page.
 ![alt_text](manager_imgs/homelink.png "HomeLink")
 ![alt_text](manager_imgs/homepage.png "Home_Page")
 
+You will also be able to logout using the menu drawer. At the bottom of the drawer will be a logout button
+
+![alt_text](manager_imgs/logout.png "Logout")
+
+And will return you to the login page that you first saw when going to the site.
+![alt_text](manager_imgs/login.png "Login")
 
 ### Navigation with the Widgets
 You can also get to both of those pages with the widgets at the top of the Home Page
@@ -123,12 +130,39 @@ For Daters, click on the pink box to the right's name.
 The only way to return to the Home Page is through the navigation drawer. Refer to the section above to see how.
 
 ## Common Issues
-Converting to PDF shows up blank or small
-    - The sizing for the page is wrong. Press ctrl + 0 to reset the website size and try again
-    - If it continues send an email to `support@cupidcode.com`
+**Converting to PDF shows up blank or small**
+- The sizing for the page is wrong. Press ctrl + 0 to reset the website size and try again
+- If it continues send an email to `support@cupidcode.com`
+
+**Suspending or Unsuspending doesn't go through**
+- The server might be having trouble recognizing the demand. Refreshing the page usually solves this and updates it.
+- If refreshing doesn't work change to the Homepage clear your cache, and then return to the page. 
+- If you cannot suspend or unsuspend at all after trying these please file a bug report with `support@cupidcode.com`. 
+    - Please include the word "bug" in the header. 
+
+**The graph isn't updating correctly**
+- Wait for an extra day or two for the graph to properly update. The data sometimes doesn't get processed immediately
+    - If you're still having problems and need the data soon, ask your system admin to get the necessary data you need and they should be able to provide it.
+
+**The Widgets won't take me to the page!!**
+- This is likely a bug caused by an update or fix from the developers. Use the navigation drawer until it's been fixed.
+    - Let us know about it at `support@cupidcode.com`. Don't forget to add "bug" in the header!
 
 ## FAQ
-Can System Admins change the level of permissions for Managers?
-    - Not in Version 1.0. All managers get the same permissions for Cupids, Daters, and Data.
+**Can System Admins change the level of permissions for Managers?**
+- Not in Version 1.0. All managers get the same permissions for Cupids, Daters, and Data.
 
+**Will managers see all data for the entire system?**
+- Yes, as of right now the managers can see all of the system data.
 
+**If I find a bug or have a complaint who can I tell?**
+- Email us at `support@cupidcode.com`. 
+    - If it's a bug please include that word in your header so we can fix it in a timely manner!
+
+**Will managers ever be able to sign up?**
+- No. Due to the nature of the account type Manager accounts can only be created and distributed by System Admins.
+    - If you have an account, you can work with your System Admin to see if it can get changed to a manager account. However, any of your cupid or dater information may be lost in the transition.
+
+**Can you customize the information for a Manager account?**
+- In version 1.0 you cannot. However, there are plans to add the option to change the email linked and update the password for security purposes.
+- Managers will not have the level of profile customization that is offered to Daters and Cupids.
