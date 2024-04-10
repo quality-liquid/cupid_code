@@ -30,13 +30,16 @@ async function register() {
     const checkData = [email, password, accType, phone, addr, desc]
 
     let check = 0;
-    for (let i = 0; i < checkData.length; i++) {
-        if (checkData[i] !== '') check++;
+    for (let data of checkData) {
+        console.log(data)
+        if (data !== '') check++;
         else {
             const error = document.querySelector(`input[name=${checkData[i]}]`);
-            error.class = error.class + 'error';
+            error.setAttribute('class', '');
         }
     }
+
+    console.log(check)
 
     if (accType.value === 'dater' && check === checkData.length) {
         const results = await makeRequest('/api/user/create/', 'post', {
@@ -79,10 +82,6 @@ async function register() {
     else {
         // Handle Error
         console.log("Something went wrong")
-        console.log(check)
-        console.log(checkData.length)
-        console.log(accType.value)
-        console.log(email, email.value)
     }
 
 }
@@ -130,31 +129,31 @@ function previewFile() {
             </div>
             <label class="input_detail" for="fname">
                 First Name
-                <input type="text" id="fname" placeholder="First Name" v-model="fname"/>
+                <input type="text" id="fname" placeholder="First Name" :value="fname" @change="(e) => fname = e.target.value"/>
             </label>
             <label class="input_detail" for="lname">
                 Last Name
-                <input type="text" id="lname" placeholder="Last Name" v-model="lname"/>
+                <input type="text" id="lname" placeholder="Last Name" :value="lname" @change="(e) => lname = e.target.value"/>
             </label>
             <label class="input_detail" for="username">
                 Username
-                <input type="text" id="username" placeholder="username01" v-model="username"/>
+                <input type="text" id="username" placeholder="username01" :value="username" @change="(e) => username = e.target.value"/>
             </label>
             <label class="input_detail" for="email">
                 Email
-                <input type="email" id="email" placeholder="example@email.com" v-model="email"/>
+                <input type="email" id="email" placeholder="example@email.com" :value="email" @change="(e) => email = e.target.value"/>
             </label>
             <label class="input_detail" for="password">
                 Password
-                <input type="password" id="password" placeholder="Password" v-model="password"/>
+                <input type="password" id="password" placeholder="Password" :value="password" @change="(e) => password = e.target.value"/>
             </label>
             <label class="input_detail" for="phone">
                 Phone Number
-                <input type="number" id="phone" placeholder="8889991111" v-model="phone"/>
+                <input type="number" id="phone" placeholder="8889991111" :value="phone" @change="(e) => phone = e.target.value"/>
             </label>
             <label class="input_detail" for="address">
                 Address
-                <input type="text" id="address" placeholder="1300 N 400 W Example Lane" v-model="addr"/>
+                <input type="text" id="address" placeholder="1300 N 400 W Example Lane" :value="addr" @change="(e) => addr = e.target.value"/>
             </label>
             <label class="input_detail" for="image">
                 Profile Picture
@@ -168,27 +167,27 @@ function previewFile() {
             <div v-if="accType === 'Dater'" class="form">
                 <label class="update-content" for="nerd_type">
                     Nerd Type
-                    <input type="text" id="nerd_type" v-model="ntype"/>
+                    <input type="text" id="nerd_type" :value="ntype" @change="(e) => ntype = e.target.value"/>
                 </label>
                 <label class="update-text" for="goals">
                     Relationship Goals
-                    <textarea id="goals" v-model="goals"></textarea>
+                    <textarea id="goals" :value="goals" @change="(e) => goals = e.target.value"></textarea>
                 </label>
                 <label class="update-text" for="interests">
                     Interests
-                    <textarea id="interests" v-model="interests"></textarea>
+                    <textarea id="interests" :value="interests" @change="(e) => interests = e.target.value"></textarea>
                 </label>
                 <label class="update-text" for="past">
                     Past Dating History
-                    <textarea id="past" v-model="past"></textarea>
+                    <textarea id="past" :value="past" @change="(e) => past = e.target.value"></textarea>
                 </label>
                 <label class="update-text" for="strengths">
                     Dating Strengths
-                    <textarea id="strengths" v-model="str"></textarea>
+                    <textarea id="strengths" :value="str" @change="(e) => str = e.target.value"></textarea>
                 </label>
                 <label class="update-text" for="weaknesses">
                     Dating Weaknesses
-                    <textarea id="weaknesses" v-model="weak"></textarea>
+                    <textarea id="weaknesses" :value="weak" @change="(e) => weak = e.target.value"></textarea>
                 </label>
             </div>
             <PinkButton>Create Account</PinkButton>

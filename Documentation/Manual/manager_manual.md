@@ -46,13 +46,16 @@ This will take you to the Home page and you should see this
 
 ## Navigating the Site
 
-### The different components
-#### Home page
+### Home page
 This is the Home Page
 ![alt_text](manager_imgs/homepage.png "Home_Page")
-These are the Widgets that will take you to the Daters List and Cupids List, respectively
+These are the Widgets that will take you to the Daters List
 ![alt_text](manager_imgs/daterwidget.png "Dater_Widget")
+
+and the Cupids List
+
 ![alt_text](manager_imgs/cupidwidget.png "Cupid_Widet")
+
 Below are the statistics that are displayed on the page for your viewing
 ![alt_text](manager_imgs/homepagestats.png "Home_Stats")
 There is a Revenue Graph to show and detail the lifeline of Cupid Code and general statistics about the app.
@@ -63,7 +66,7 @@ The Convert to PDF button will take these statistics and turn them to a PDF for 
 ![alt_text](manager_imgs/topdf.png) 
 Note that this will ONLY do the general statistics. No sensitive information about our users will be included.
 
-#### Daters
+### Daters
 This page has all of the Daters listed with the ability to suspend or unsuspend them.
 ![alt_text](manager_imgs/daterlist.png "Daters")
 Suspending a Dater
@@ -71,12 +74,13 @@ If their nametag is blue, they are unsuspended
 ![alt_text](manager_imgs/unsuspendeddater.png "Unsuspend")
 If you click the 'Suspend' button, it will suspend the user. They will no longer have access to the app on their end.
 ![alt_text](manager_imgs/suspendbuttond.png "Suspend")
+
 Their nametag will turn to red to show that they are suspended.
 ![alt_text](manager_imgs/suspendeddater.png "Suspended")
 You can do the same to unsuspend them by clicking the button again. It will return their privileges and change their nametag to blue
 ![alt_text](manager_imgs/unsuspendeddater.png)
 
-#### Cupids
+### Cupids
 This page has all of the Cupids listed with the ability to suspend or unsuspend them, and works the same as the Dater Information Page.
 ![alt_text](manager_imgs/cupidlist.png "Cupids")
 Suspending a cupid
@@ -84,6 +88,7 @@ If their nametag is blue, they are unsuspended
 ![alt_text](manager_imgs/unsuspendedcupid.png "Unsuspend")
 If you click the 'Suspend' button, it will suspend the user. They will no longer have access to the app on their end.
 ![alt_text](manager_imgs/suspendbuttond.png "Suspend")
+
 Their nametag will turn to red to show that they are suspended.
 ![alt_text](manager_imgs/suspendedcupid.png "Suspended")
 You can do the same to unsuspend them by clicking the button again. It will return their privileges and change their nametag to blue
@@ -97,6 +102,7 @@ Clicking the Cupid Info link takes you to the Cupid Information page
 ![alt_text](manager_imgs/cupidlink.png "CupidLink")
 ![alt_text](manager_imgs/cupidlist.png "Cupids")
 Doing this with the Dater Info link will take you to the Dater Information Page
+
 ![alt_text](manager_imgs/daterlink.png "DaterLink")
 ![alt_text](manager_imgs/daterlist.png "Daters")
 Clicking on the Home link will return you to the home page.
@@ -107,6 +113,7 @@ Clicking on the Home link will return you to the home page.
 ### Navigation with the Widgets
 You can also get to both of those pages with the widgets at the top of the Home Page
 For Cupids, click the blue widget to the left's name
+
 ![alt_text](manager_imgs/cupidlink2.png "CupidLink2")
 ![alt_text](manager_imgs/cupidlist.png "Cupids")
 For Daters, click on the pink box to the right's name.
@@ -116,6 +123,12 @@ For Daters, click on the pink box to the right's name.
 The only way to return to the Home Page is through the navigation drawer. Refer to the section above to see how.
 
 ## Common Issues
-
+Converting to PDF shows up blank or small
+    - The sizing for the page is wrong. Press ctrl + 0 to reset the website size and try again
+    - If it continues send an email to `support@cupidcode.com`
 
 ## FAQ
+Can System Admins change the level of permissions for Managers?
+    - Not in Version 1.0. All managers get the same permissions for Cupids, Daters, and Data.
+
+
