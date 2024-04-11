@@ -1,27 +1,16 @@
-import unittest
 import sys
-import time
+import unittest
 from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 
-
-def flagParse():
-    chrome = False
-    headless = False
-    with open('options.json', 'r') as options: 
-        for line in options:
-            if 'headless' in line:
-                headless = 'true' in line
-            if 'chrome' in line:
-                chrome = 'true' in line
-    return chrome, headless
+import utils
 
 
 class LoginTestCases(unittest.TestCase):
 
     def setUp(self):
-        chrome, headless = flagParse()
+        chrome, headless = utils.flagParse()
         if not chrome:
             options = webdriver.FirefoxOptions()
             if headless:
@@ -79,7 +68,3 @@ class LoginTestCases(unittest.TestCase):
 
         # auto_login implicitly tests that you successfully reach homepage,
         # which is all manager needs
-
-
-if __name__ == '__main__':
-    unittest.main(verbosity=2)
