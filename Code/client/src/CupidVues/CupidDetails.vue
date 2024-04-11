@@ -80,9 +80,9 @@
     <main> 
         <CupidCoin :active="accepting_gigs" @click="toggleAccept"/>
         <div class="card">
-            <p>${{ balance }}</p>
+            <p id="balance">${{ balance }}</p>
             <hr></hr>
-            <p>{{ gigs_completed }} gigs succesful of {{ gigs_failed + gigs_completed}}</p>
+            <p id="succesful">{{ gigs_completed }} gigs succesful of {{ gigs_failed + gigs_completed}}</p>
         </div>
         <h1>Update Details</h1>
         <hr>

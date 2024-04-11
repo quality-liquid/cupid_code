@@ -24,7 +24,7 @@ const user_id  = parseInt(window.location.hash.split('/')[3])
       </div>
       <div class="widget blue">
         <span class="material-symbols-outlined icon">explore</span>
-        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Find Gigs </router-link>
+        <router-link id="find" class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Find Gigs </router-link>
       </div>
       <div class="widget red"> <!-- This will become Calendar when it's made -->
         <span class="material-symbols-outlined icon">playlist_add_check</span>

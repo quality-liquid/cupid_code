@@ -28,7 +28,7 @@
 <template>
     <nav class="nav homenav">
         <button @click="openDrawer" class="icon-button">
-            <span class="material-symbols-outlined icon">menu</span>   
+            <span id="navMenu" class="material-symbols-outlined icon">menu</span>   
         </button>
         <span>{{ props.title }}</span>
         <button id="profile" class="icon-button" @click="naviProf">

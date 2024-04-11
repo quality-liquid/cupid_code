@@ -8,7 +8,7 @@ poetry install
 
 # Create Django .env file
 cp server/.env.example server/.env
-echo "VAULT_PATH=$PWD/_server/core/static/" >> server/.env
+echo "VAULT_PATH=$PWD/server/core/static/" >> server/.env
 
 # Activate poetry shell
 poetry shell
