@@ -24,7 +24,7 @@ class LoginTestCases(unittest.TestCase):
 
         self.browser.get('http://localhost:8000')
         self.browser.find_element(By.ID, 'login').click()
-        self.addCleanup(self.browser.quit)
+        self.addCleanup(lambda: (self.browser.quit(), utils.db_restore()))
 
     def test_dater(self):
         utils.auto_login(self.browser, 'bob@cupidcode.com', '#/dater/home/1')
@@ -58,6 +58,4 @@ class LoginTestCases(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    utils.db_restore()
     unittest.main(verbosity=2)
-    utils.db_restore()

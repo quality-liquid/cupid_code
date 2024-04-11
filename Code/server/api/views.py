@@ -835,6 +835,7 @@ def complete_gig(request):
         serializer.save()
         reward = gig.quest.budget / 10
         gig.cupid.cupid_cash_balance += reward
+        gig.cupid.gigs_completed += 1
         gig.cupid.save()
         return_data = serializer.data
         return_data['reward'] = reward
@@ -873,6 +874,8 @@ def drop_gig(request):
         },
         partial=True,
     )
+    gig.cupid.gigs_failed += 1
+    gig.cupid.save()
     return helpers.retrieved_response(serializer)
 
 

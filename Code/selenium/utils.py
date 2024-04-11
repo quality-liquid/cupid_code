@@ -27,7 +27,7 @@ def auto_login(browser, email, url):
 
 
 def db_restore():
-    print('restoring')
+    # print('restoring')
     shutil.copy('../server/db_backup.sqlite3', '../server/db.sqlite3')
 
 
