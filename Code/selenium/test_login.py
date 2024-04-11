@@ -58,6 +58,6 @@ class LoginTestCases(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    utils.db_backup()
+    utils.db_restore()
     unittest.main(verbosity=2)
     utils.db_restore()

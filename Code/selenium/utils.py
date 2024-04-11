@@ -26,9 +26,10 @@ def auto_login(browser, email, url):
     wait.until(lambda d: url in browser.current_url)
 
 
-def db_backup():
-    shutil.copy('../server/db.sqlite3', '../server/db_backup.sqlite3')
-
-
 def db_restore():
-    shutil.move('../server/db_backup.sqlite3', '../server/db.sqlite3')
+    print('restoring')
+    shutil.copy('../server/db_backup.sqlite3', '../server/db.sqlite3')
+
+
+if __name__ == '__main__':
+    db_restore()

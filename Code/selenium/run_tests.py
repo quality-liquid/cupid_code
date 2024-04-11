@@ -5,9 +5,8 @@ import test_login
 import test_cupid
 
 
-
 if __name__ == '__main__':
-    utils.db_backup()
+    utils.db_restore()
     suite = unittest.TestSuite()
     tests = [test_login.LoginTestCases, test_cupid.CupidTestCases, ]
 

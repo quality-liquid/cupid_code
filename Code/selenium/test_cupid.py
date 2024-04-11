@@ -27,18 +27,38 @@ class CupidTestCases(unittest.TestCase):
         self.browser.find_element(By.ID, 'login').click()
         self.addCleanup(self.browser.quit)
 
-    def test_find(self):
+    def test_gigs(self):
         utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
         self.browser.find_element(By.ID, 'find').click()
 
-        gigs = self.browser.find_elements(By.CLASS_NAME, 'gig')
+        # Claim
+        gigs = self.browser.find_elements(By.CLASS_NAME, 'inactive')
+        wait = WebDriverWait(self.browser, timeout=8)
+        for i in range(2):
+            gigs = self.browser.find_elements(By.CLASS_NAME, 'inactive')
+            gigs[0].find_elements(By.TAG_NAME, 'button')[0].click()
+        wait.until(lambda d: len(self.browser.find_elements(By.CLASS_NAME, 'active')) == 2)
+
+        # Drop
+        gigs = self.browser.find_elements(By.CLASS_NAME, 'active')
         self.assertEqual(len(gigs), 2)
-        for gig in gigs:
-            gig.find_elements(By.TAG_NAME, 'button')[0].click()
-            help(gig)
+        gigs[0].find_elements(By.TAG_NAME, 'button')[1].click()
+        wait.until(lambda d: len(self.browser.find_elements(By.CLASS_NAME, 'active')) == 1)
+        active = self.browser.find_elements(By.CLASS_NAME, 'active')
+        self.assertEqual(len(active), 1)
+        dropped = self.browser.find_elements(By.CLASS_NAME, 'inactive')
+        self.assertEqual(len(dropped), 1)
+
+        # Complete
+        active[0].find_elements(By.TAG_NAME, 'button')[0].click()
+        wait.until(lambda d: len(self.browser.find_elements(By.CLASS_NAME, 'active')) == 0)
+        active = self.browser.find_elements(By.CLASS_NAME, 'active')
+        self.assertEqual(len(active), 0)
+        dropped = self.browser.find_elements(By.CLASS_NAME, 'inactive')
+        self.assertEqual(len(dropped), 1)
 
 
 if __name__ == '__main__':
-    utils.db_backup()
+    utils.db_restore()
     unittest.main(verbosity=2)
     utils.db_restore()
