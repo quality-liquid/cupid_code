@@ -75,6 +75,40 @@ class CupidTestCases(unittest.TestCase):
         self.assertEqual(self.browser.find_element(By.ID, 'balance').text, "$15.00")
         self.assertEqual(self.browser.find_element(By.ID, 'succesful').text, "6 gigs succesful of 22")
 
+    def test_feedback(self):
+        utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
+        self.navigate('Feedback')
+        feedbacks = self.browser.find_elements(By.CLASS_NAME, 'feedback')
+        self.assertEqual(len(feedbacks), 1)
+        self.assertEqual(feedbacks[0].find_element(By.TAG_NAME, 'h1').text, 'Star Rating: 5')
+        self.assertEqual(feedbacks[0].find_element(By.TAG_NAME, 'span').text, 'Feedback: This cupid was great!')
+
+    def test_navigation(self):
+        routes = {'Home': 'Home',
+                  'Profile': 'Profile',
+                  'Gigs Available': 'Gigs',
+                  'Gigs Completed': 'Completed Gigs',
+                  'Feedback': 'Feedback'}
+
+        utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
+        current_page = "Home"
+        homeless_dict = {key: value for key, value in routes.items() if key != current_page}
+
+        for route, expected_title in homeless_dict.items():
+            if route == current_page:
+                self.navigate("Home")
+            current_page = route
+            self.navigate(route)
+            given_title = self.browser.find_element(By.ID, 'title').text
+            self.assertEqual(given_title, expected_title)
+            new_dict = {key: value for key, value in routes.items() if key != route}
+
+            for sub_route, sub_expected_title in routes.items():
+                current_page = sub_route
+                self.navigate(sub_route)
+                given_title = self.browser.find_element(By.ID, 'title').text
+                self.assertEqual(given_title, sub_expected_title)
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
