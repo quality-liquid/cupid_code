@@ -41,7 +41,7 @@ To sign up, first navigate to the sign up page by clicking the link "Sign up" at
 
 This will bring you to the following page. Make sure to select "Cupid" as the account type and then fill out the form as normal. Once everything has been filled out and you click "Create Account", your account will be created and you can now login. 
 
-![alt_text](cupid_imgs/Signup_form.png "Sign Up Form")
+![alt_text](cupid_imgs/Signup_Form.png "Sign Up Form")
 
 
 ## Logging In
