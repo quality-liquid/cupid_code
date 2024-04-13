@@ -71,3 +71,15 @@ Poetry Install is saying no such file exists
 
 
 ## FAQ
+- Do I need to have a server to run Cupid Code?
+  - Yes, you will need to have a server to run Cupid Code. You can host the server on your local machine or use a cloud service like AWS, Azure, or Google Cloud.
+  - If you would like to connect to a server that is already running, you can use the following URL:
+    ```
+    http://cupidcode.com
+    ```
+- Why is the server not running?
+  - There could be a few reasons why the server is not running. Check the following:
+    - Make sure you have installed all the required dependencies.
+    - Make sure you have followed the instructions in the README.md file.
+    - Make sure you have started the server.
+    - Make sure you are using the correct URL to access the server.
