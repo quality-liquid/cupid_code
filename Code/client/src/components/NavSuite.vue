@@ -30,7 +30,7 @@
         <button @click="openDrawer" class="icon-button">
             <span id="navMenu" class="material-symbols-outlined icon">menu</span>   
         </button>
-        <span>{{ props.title }}</span>
+        <span id="title">{{ props.title }}</span>
         <button id="profile" class="icon-button" @click="naviProf">
             <span class="material-symbols-outlined icon">account_circle</span>
         </button>
