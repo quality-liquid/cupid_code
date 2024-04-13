@@ -66,7 +66,7 @@
 | Sprint 6       |                                           |           |   
 |----------------|-------------------------------------------|-----------|
 | Name           | Job                                       | Time(hrs) | 
-| Nate Stott     | Unit tests / debugging / document writing |           |   
+| Nate Stott     | Unit tests / debugging / document writing | 4         |   
 | Emma Wright    | Dater Vues                                |           |   
 | Daniel Barfuss | Unit tests / debugging                    |           |   
 | Brighton Ellis |                   Calendar                |           |   
