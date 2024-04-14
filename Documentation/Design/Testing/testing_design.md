@@ -30,6 +30,7 @@ This is achieved through dedicated views and careful consideration of abstractio
 - **System Testing**
   - System testing encompasses a comprehensive evaluation of the entire application ecosystem, including its compatibility across different devices and platforms, UI consistency, and adherence to security standards. 
   - This includes rigorous validation of input data to mitigate the risk of code or SQL injections, ensuring robust data security measures are in place.
+  - Testing the system via Selenium allows us to automate some of this work.
 - **Acceptance Testing**
   - Acceptance testing serves as the final validation phase before presenting the Minimum Viable Product (MVP) to stakeholders and customers. 
   - It involves meticulously verifying whether the delivered product meets the predefined acceptance criteria and aligns with the stakeholders' expectations.
@@ -46,10 +47,9 @@ In our testing endeavors, we leverage a variety of tools and frameworks to strea
   - Employed extensively for unit testing backend components, facilitating isolated testing and validation of individual units of code.
 - Selenium: 
   - Utilized for UI testing, enabling automated testing of web applications across different browsers and platforms.
+  - As the interactions with the UI rely on a functioning backend and frontend, the use of Selenium also allows us to test our sytem as a whole.
 - Django Browsable API and Django Debug Toolbar:
   - Leveraged for API testing, allowing for interactive exploration of API endpoints and detailed debugging capabilities.
-- JIRA: 
-  - Utilized for bug tracking and project management, providing a centralized platform for efficient bug resolution and project coordination.
 
 ## Bug Handling Strategies
 
