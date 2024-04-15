@@ -13,6 +13,10 @@ We have meticulously structured our backend views to perform discrete tasks, ens
 While direct testing of the database is limited, we prioritize ensuring that accessing it yields valid input and maintains data integrity. 
 This is achieved through dedicated views and careful consideration of abstraction and security principles.
 
+**Clientside and the End User**
+
+The main approach is to ensure that every piece that should be clicked on does exactly what the user expects it to. We want our system to be usable and easy to navigate. By using tools and going through demonstrations with stakeholders, we are ensuring major coverage over our project so that any user can successfully navigate and use our website as expected. Making sure every press, link, and button does what it is assumed to do will prove that our UI is tested and properly works.
+
 **Testing Types**
 
 - **Unit Testing**
