@@ -23,6 +23,7 @@ The main approach is to ensure that every piece that should be clicked on does e
   - Unit testing forms the backbone of our testing strategy, particularly for the backend components of our application. 
   - Given the nature of our server-side operations, which primarily involve processing input and delivering expected output to the UI, unit tests are invaluable for isolating and validating individual components. 
   - By subjecting each component to controlled inputs and meticulously examining their responses, we can detect and address potential bugs early in the development lifecycle.
+  - We did not have time to fully implement this, as there are many use cases we'd undoubtably miss. We also didn't have much time to be thorough. We did talk about potential cases as a team, though.
 - **Integration Testing**
   - Integration testing plays a crucial role in validating the seamless interaction between different components of our application. 
   - While currently pending, our integration testing efforts will focus on testing the integration points between various modules and subsystems to ensure their cohesive operation.
@@ -39,6 +40,7 @@ The main approach is to ensure that every piece that should be clicked on does e
 - **Acceptance Testing**
   - Acceptance testing serves as the final validation phase before presenting the Minimum Viable Product (MVP) to stakeholders and customers. 
   - It involves meticulously verifying whether the delivered product meets the predefined acceptance criteria and aligns with the stakeholders' expectations.
+  - Our presentation in class will simulate acceptance testing.
 
 ## Journey to Testing
 
@@ -59,7 +61,11 @@ It was easier to write integration tests than unit tests because we had experien
 
 We thought about doing white box or black box testing, but we decided that there was no time.
 Our plan for black box testing was to pass in random inputs to our views and see if they returned the expected output.
-For most of the random inputs, we would expect a 404 error. But no matter the input we would expect a response with no errors being thrown on the server.
+For most of the random inputs, we would expect a 404 error. But no matter the input we would expect a response with no errors being thrown on the server. The random inputs would try to simulate someone trying to test our functionality without knowing how everything works. We could also get someone to test our program, similar to acceptance testing, to reduce bias on our part (even if we choose random inputs, we know how it works, so the "random" inputs may not be so random). 
+
+For white box testing, we would need to find someone knowledgeable with our framework and web application development and/or design to look at the system and test its functionality. These kind of people are a bit trickier to hunt down.
+
+If we wished to do grey box testing, we could find someone who is familiar with one of the frameworks we are using, restricting their clarity on our system. We'd also withhold sections, so then the "attacker" would only know part of our system.
 
 The part of our application that we did not test was the database, models, and serializers. 
 We are sure there are tools and methods out there for doing so but we did not have the time to research and implement them. 
