@@ -49,7 +49,7 @@ If we had more time, we would have written more tests for each view and helper f
 As the unit tests stand now, they cover most of the use cases that we could think of, but there are always more that could be added.
 Writing unit tests was tiresome and time-consuming, but it was a good learning experience for both of us.
 
-We then took time to write the user manuals and do manual testing of the application.
+Nate and Brighton moved on to writing the Selenium tests while Daniel and Nate took time to write the user manuals and do manual testing of the application.
 
 After that was done we moved to integration testing. 
 We tried our best to get as much testing done as we could.
@@ -60,6 +60,12 @@ It was easier to write integration tests than unit tests because we had experien
 We thought about doing white box or black box testing, but we decided that there was no time.
 Our plan for black box testing was to pass in random inputs to our views and see if they returned the expected output.
 For most of the random inputs, we would expect a 404 error. But no matter the input we would expect a response with no errors being thrown on the server.
+
+The part of our application that we did not test was the database, models, and serializers. 
+We are sure there are tools and methods out there for doing so but we did not have the time to research and implement them. 
+Though we did not test these components, we are confident that they work as expected because we have tested the views that interact with them.
+
+Overall our tests cover most of the use cases that we could think of. The users of the application should have little issues but there are always more tests that could be written.
 
 ## Tools and Frameworks
 
