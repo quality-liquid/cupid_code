@@ -26,6 +26,7 @@ The main approach is to ensure that every piece that should be clicked on does e
 - **Integration Testing**
   - Integration testing plays a crucial role in validating the seamless interaction between different components of our application. 
   - While currently pending, our integration testing efforts will focus on testing the integration points between various modules and subsystems to ensure their cohesive operation.
+  - We did not have time to fully implement this, but it is a crucial part of our testing strategy. Given more time, we would have provided further implementation to ensure that all of our components work together as expected.
 - **Regression Testing**
   - Regression testing forms an integral part of our ongoing maintenance and development efforts. 
   - Rather than solely focusing on crafting new tests, regression testing involves systematically rerunning existing tests whenever a new feature is added or a bug is resolved. 
@@ -38,6 +39,27 @@ The main approach is to ensure that every piece that should be clicked on does e
 - **Acceptance Testing**
   - Acceptance testing serves as the final validation phase before presenting the Minimum Viable Product (MVP) to stakeholders and customers. 
   - It involves meticulously verifying whether the delivered product meets the predefined acceptance criteria and aligns with the stakeholders' expectations.
+
+## Journey to Testing
+
+Daniel and Nate started writing unit tests for the backend components of the application during sprint five. 
+We tested every view and helper function with one good and one bad test case. 
+We did this in the interest of time and to ensure that we had a good amount of coverage over our backend components.
+If we had more time, we would have written more tests for each view and helper function to ensure that we had more coverage over our backend components.
+As the unit tests stand now, they cover most of the use cases that we could think of, but there are always more that could be added.
+Writing unit tests was tiresome and time-consuming, but it was a good learning experience for both of us.
+
+We then took time to write the user manuals and do manual testing of the application.
+
+After that was done we moved to integration testing. 
+We tried our best to get as much testing done as we could.
+But we were unable to write all the cases that we wanted to test.
+If our team continued to work on this project, we would have written more integration tests to ensure that all of our components work together as expected.
+It was easier to write integration tests than unit tests because we had experience writing tests and we had a better understanding of how our components worked together.
+
+We thought about doing white box or black box testing, but we decided that there was no time.
+Our plan for black box testing was to pass in random inputs to our views and see if they returned the expected output.
+For most of the random inputs, we would expect a 404 error. But no matter the input we would expect a response with no errors being thrown on the server.
 
 ## Tools and Frameworks
 

@@ -23,6 +23,7 @@ from models import (User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, Pay
 import helpers
 import views
 
+
 class TestCreateUser(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
@@ -33,17 +34,16 @@ class TestCreateUser(APITestCase):
     def good_test(self, mock_update_location):
         mock_update_location.return_value = None
         request = self.factory.post(self.url)
-        
+
         request.data = {'user_id': 1, 'location': 'Test', 'role': 'dater', 'phone_number': '1123456789'}
         response = self.view(request)
         assert response.status_code == status.HTTP_201_CREATED
-
 
     @patch('helpers.update_location')
     def bad_test(self, mock_update_location):
         mock_update_location.return_value = None
         request = self.factory.post(self.url)
-        
+
         request.data = {'user_id': 1, 'location': 'Test', 'role': None, 'phone_number': '1123456789'}
         response = self.view(request)
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -65,7 +65,8 @@ class TestSignIn(APITestCase):
         request = self.factory.post(self.url)
         force_authenticate(request, user=self.user)
 
-        request.data = {'user_id': 1, 'location': 'Test', 'role': 'dater', 'phone_number': '1123456789', 'username': 'Test'}
+        request.data = {'user_id': 1, 'location': 'Test', 'role': 'dater', 'phone_number': '1123456789',
+                        'username': 'Test'}
         response = self.view(request)
         assert response.status_code == status.HTTP_200_OK
         mock_update_location.assert_called_once()
@@ -79,7 +80,8 @@ class TestSignIn(APITestCase):
         request = self.factory.post(self.url)
         force_authenticate(request, user=self.user)
 
-        request.data = {'user_id': 1, 'location': 'Test', 'role': 'dater', 'phone_number': '1123456789', 'username': None}
+        request.data = {'user_id': 1, 'location': 'Test', 'role': 'dater', 'phone_number': '1123456789',
+                        'username': None}
         response = self.view(request)
         assert response.status_code == status.HTTP_400_BADD_REQUEST
         mock_update_location.assert_called_once()
