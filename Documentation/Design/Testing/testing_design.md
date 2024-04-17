@@ -124,3 +124,41 @@ An important factor is the lack of comprehension for the tests. There are many d
 We also calculated an estimate of how many bugs may be present in the code using the statistic that 15-50 bugs per 1,000 lines of code. In the backend, we have roughly 4,991 lines of code in the backend and 3,737 lines of code in the front end. This includes blank lines, opening/closing tags, and comments, so the calculations will be an upper estimate. 
 
 Being most critical and using 50 bugs per 1,000 lines of code, this means that the backend has roughly 250 bugs, and the front end has roughly 187 bugs. 
+
+## Running tests
+### Unit tests
+For Daniel and Nate S. once they figure out how to run the unit tests.
+### Automated system tests
+One-time setup:
+1. Follow the instructions in [Documentation/Manual/installation_manual.md](../../Manual/installation_manual.md) to get poetry set up.
+    - The only dependency you really need is selenium, but if you have the project as a whole set up, then you will have selenium
+2. Migrate the database (as described in [Code/README.md](../../../Code/README.md)) so you have a fresh database. The tests all rely on a fresh database, so each one restores a backup before running. To ensure there is a backup copy `Code/server/db.sqlite3` to `Code/server/db_backup.sqlite31
+3. Set up your options in `Code/selenium/options.conf`
+    - `chrome=true` will use chrome, otherwise firefox will be used
+    - `headless=true` will cause the tests to run headless(no browser window) otherwise you will see the browser
+
+Every-time:
+1. Ensure the server is up and running for the frontend and backend.[Code/README.md](../../../Code/README.md)
+2. Navigate to [Code/selenium](../../../Code/selenium)
+3. Ensure you have access to selenium, run `poetry shell` if using poetry.
+4. Run all tests with `python run_tests.py`, or run specific tests with `python test_*.py`
+
+### Manual system test
+Use-case: As a cupid, complete a gig and rate the dater.
+1. Sign in as a cupid
+    - username: really@me.com
+    - passowrd: password
+2. Click the "find gigs" link on the home page
+3. Claim a gig.
+4. Mark the gig as complete.
+5. Use the sidepanel to navigate to "Gigs Completed"
+6. Click "Rate Dater"
+7. Enter a message describing your rating, and select a heart count.
+8. Click "Send"
+Verify results:
+1. Login as the dater (use a new container/profile, incognito/private, or logout first)
+    - username: bob@cupidcode.com
+    - password: password
+2. Use the sidebar to navigate to "Feedback"
+3. You should see your new review in the list.
+
