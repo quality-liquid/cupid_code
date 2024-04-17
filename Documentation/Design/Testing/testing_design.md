@@ -73,6 +73,16 @@ Though we did not test these components, we are confident that they work as expe
 
 Overall our tests cover most of the use cases that we could think of. The users of the application should have little issues but there are always more tests that could be written.
 
+### Lessons Learned
+Unit tests are time consuming and surprisingly hard to write. Asher's walkthrough seemed relatively simple, but it's a bit more difficult to do by oneself, and even as a team. It didn't help that we did not write our code in the style of Test-Driven Development. We also didn't deploy our app until near the end of the Testing Sprint. We needed to deploy before testing, because we needed the `manifest.json` file, which would be created at deployment.
+
+
+
+### Encountered Bugs
+We were utilizing serializers to get data from the database. This would allow us to get data easily, and we can easily modify the data in the serializer. Then we can save the serializer to save chagnes to the database. During development, we were not getting all the information we needed from the serializer. Keys we were asking for were coming back as null. After refactoring our code and creating helper functions to reduce the work each view is doing, the issue resolved itself.
+
+
+
 ## Tools and Frameworks
 
 In our testing endeavors, we leverage a variety of tools and frameworks to streamline our processes and enhance efficiency:
@@ -111,4 +121,6 @@ Comparing the existing unit tests and integration tests to the views and helper 
 
 An important factor is the lack of comprehension for the tests. There are many different tests that could be written, but as stated previously, timme made it difficult to cover many cases, including edge cases. If these are factored in, then the code coverage could be considered to be roughly 60%.
 
-We also calculated an estimate of how many bugs may be present in the code using the statistic that 15-50 bugs per 1,000 lines of code. In the backend, we have roughly 4,991 lines of code in the backend and 3,737 lines of code in the front end.
+We also calculated an estimate of how many bugs may be present in the code using the statistic that 15-50 bugs per 1,000 lines of code. In the backend, we have roughly 4,991 lines of code in the backend and 3,737 lines of code in the front end. This includes blank lines, opening/closing tags, and comments, so the calculations will be an upper estimate. 
+
+Being most critical and using 50 bugs per 1,000 lines of code, this means that the backend has roughly 250 bugs, and the front end has roughly 187 bugs. 
