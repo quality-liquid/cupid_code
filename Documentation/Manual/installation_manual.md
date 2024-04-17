@@ -57,7 +57,7 @@ cd cupid_code
 
 ## Using
 
-1. Follow the instructions in the README.md file to set up the Server.
+1. Follow the instructions in this [README file](https://gitlab.cs.usu.edu/cs3450-team2/cupid_code/-/blob/development/Code/README.md?ref_type=heads) to set up the Server.
 
 2. Open a web browser and navigate to the following URL:
 ```
