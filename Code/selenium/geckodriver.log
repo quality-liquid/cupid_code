@@ -1,0 +1,155 @@
+1712938255472	geckodriver	INFO	Listening on 127.0.0.1:48947
+1712938255919	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/sna ... te" "--remote-debugging-port" "32829" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofilejxsv0d"
+Gtk-Message: 10:10:55.935: Not loading module "atk-bridge": The functionality is provided by GTK natively. Please try to not load it.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1712938256461	Marionette	INFO	Marionette enabled
+1712938256514	Marionette	INFO	Listening on port 42925
+Read port: 42925
+WebDriver BiDi listening on ws://127.0.0.1:32829
+1712938256740	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:32829/devtools/browser/da0ca4da-44e1-41cb-bb18-43202fd04aac
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+1712938260488	Marionette	INFO	Stopped listening on port 42925
+1712938261131	geckodriver	INFO	Listening on 127.0.0.1:52843
+1712938261543	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/sna ... te" "--remote-debugging-port" "33109" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileKsMS6b"
+Gtk-Message: 10:11:01.561: Not loading module "atk-bridge": The functionality is provided by GTK natively. Please try to not load it.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1712938262063	Marionette	INFO	Marionette enabled
+1712938262112	Marionette	INFO	Listening on port 46031
+WebDriver BiDi listening on ws://127.0.0.1:33109
+Read port: 46031
+1712938262360	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:33109/devtools/browser/7c2cfff7-1c96-4e1f-a0c2-f8553e5694ea
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+1712938265183	Marionette	INFO	Stopped listening on port 46031
+1712938265801	geckodriver	INFO	Listening on 127.0.0.1:41757
+1712938266243	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/sna ... te" "--remote-debugging-port" "56625" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileyDukdp"
+Gtk-Message: 10:11:06.259: Not loading module "atk-bridge": The functionality is provided by GTK natively. Please try to not load it.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1712938266748	Marionette	INFO	Marionette enabled
+1712938266800	Marionette	INFO	Listening on port 36055
+WebDriver BiDi listening on ws://127.0.0.1:56625
+Read port: 36055
+1712938267062	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:56625/devtools/browser/eb6bec4e-93a0-495b-9fb2-02e011d64051
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+1712938269480	Marionette	INFO	Stopped listening on port 36055
+1712938356987	geckodriver	INFO	Listening on 127.0.0.1:37395
+1712938357424	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/sna ... te" "--remote-debugging-port" "57971" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileH3zryT"
+Gtk-Message: 10:12:37.440: Not loading module "atk-bridge": The functionality is provided by GTK natively. Please try to not load it.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1712938357932	Marionette	INFO	Marionette enabled
+1712938357983	Marionette	INFO	Listening on port 45605
+WebDriver BiDi listening on ws://127.0.0.1:57971
+Read port: 45605
+1712938358261	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:57971/devtools/browser/00b6e655-b656-485e-9b8c-c9c650faf0c0
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+1712938361027	Marionette	INFO	Stopped listening on port 45605
+1712938361624	geckodriver	INFO	Listening on 127.0.0.1:60243
+1712938362083	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/sna ... te" "--remote-debugging-port" "52487" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileCR8fXp"
+Gtk-Message: 10:12:42.099: Not loading module "atk-bridge": The functionality is provided by GTK natively. Please try to not load it.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1712938362594	Marionette	INFO	Marionette enabled
+1712938362682	Marionette	INFO	Listening on port 44905
+WebDriver BiDi listening on ws://127.0.0.1:52487
+Read port: 44905
+1712938362926	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:52487/devtools/browser/07c87929-1e12-4835-bafb-782c78c6f8d7
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+1712938365764	Marionette	INFO	Stopped listening on port 44905
+1712938366395	geckodriver	INFO	Listening on 127.0.0.1:48721
+1712938366826	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/sna ... te" "--remote-debugging-port" "39397" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofile8TdTAs"
+Gtk-Message: 10:12:46.841: Not loading module "atk-bridge": The functionality is provided by GTK natively. Please try to not load it.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1712938367346	Marionette	INFO	Marionette enabled
+1712938367426	Marionette	INFO	Listening on port 46869
+WebDriver BiDi listening on ws://127.0.0.1:39397
+Read port: 46869
+1712938367688	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:39397/devtools/browser/9c2d3bd3-26fa-444c-95f4-60ff3edf053a
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+1712938370047	Marionette	INFO	Stopped listening on port 46869
+1712938602067	geckodriver	INFO	Listening on 127.0.0.1:43727
+1712938602523	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/sna ... te" "--remote-debugging-port" "40675" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofilef2HCMy"
+Gtk-Message: 10:16:42.539: Not loading module "atk-bridge": The functionality is provided by GTK natively. Please try to not load it.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1712938603040	Marionette	INFO	Marionette enabled
+1712938603117	Marionette	INFO	Listening on port 43733
+Read port: 43733
+WebDriver BiDi listening on ws://127.0.0.1:40675
+1712938603283	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:40675/devtools/browser/cd85de5b-b736-4885-bf4e-114ac589791c
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+1712938607526	Marionette	INFO	Stopped listening on port 43733
+JavaScript warning: http://localhost:8000/__UNUSED__/debug_toolbar/js/toolbar.js, line 313: Script terminated by timeout at:
+updateOnAjax/window.fetch@http://localhost:8000/__UNUSED__/debug_toolbar/js/toolbar.js:313:9
+ajax@http://localhost:8000/__UNUSED__/debug_toolbar/js/utils.js:75:12
+debounce/</timer<@http://localhost:8000/__UNUSED__/debug_toolbar/js/utils.js:129:32
+
+1712938608135	geckodriver	INFO	Listening on 127.0.0.1:57643
+1712938608564	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/sna ... te" "--remote-debugging-port" "56501" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileTuMisn"
+Gtk-Message: 10:16:48.579: Not loading module "atk-bridge": The functionality is provided by GTK natively. Please try to not load it.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1712938609058	Marionette	INFO	Marionette enabled
+1712938609111	Marionette	INFO	Listening on port 45979
+WebDriver BiDi listening on ws://127.0.0.1:56501
+Read port: 45979
+1712938609382	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:56501/devtools/browser/322beccc-d2d3-41e7-bd96-c3c525222a22
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+1712938614185	Marionette	INFO	Stopped listening on port 45979
+1712938614793	geckodriver	INFO	Listening on 127.0.0.1:60979
+1712938615229	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/sna ... te" "--remote-debugging-port" "47141" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofile63xW7h"
+Gtk-Message: 10:16:55.244: Not loading module "atk-bridge": The functionality is provided by GTK natively. Please try to not load it.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1712938615739	Marionette	INFO	Marionette enabled
+1712938615788	Marionette	INFO	Listening on port 45105
+WebDriver BiDi listening on ws://127.0.0.1:47141
+Read port: 45105
+1712938616042	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:47141/devtools/browser/3e0325d4-db98-4dcc-8517-130af2310ea0
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+1712938620496	Marionette	INFO	Stopped listening on port 45105
+1712938621110	geckodriver	INFO	Listening on 127.0.0.1:33039
+1712938621549	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/sna ... te" "--remote-debugging-port" "48381" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileOzOLQW"
+Gtk-Message: 10:17:01.565: Not loading module "atk-bridge": The functionality is provided by GTK natively. Please try to not load it.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1712938622048	Marionette	INFO	Marionette enabled
+1712938622098	Marionette	INFO	Listening on port 38455
+WebDriver BiDi listening on ws://127.0.0.1:48381
+Read port: 38455
+1712938622372	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:48381/devtools/browser/47cd9c2c-e405-42e2-95d7-05cd793a07bd
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost:8000."
+1712938636473	Marionette	INFO	Stopped listening on port 38455

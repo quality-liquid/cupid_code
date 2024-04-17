@@ -28,6 +28,7 @@ class DaterTestCases(unittest.TestCase):
         self.browser.find_element(By.ID, 'login').click()
         self.addCleanup(lambda: (self.browser.quit(), utils.db_restore()))
 
+
     
     # nav testing
     def navigate(self, link_text):
@@ -36,12 +37,15 @@ class DaterTestCases(unittest.TestCase):
 
     def test_navigation(self):
         routes = {'Home': 'Home',
-                  'Profile': 'Profile',
-                  'Gigs Available': 'Gigs',
-                  'Gigs Completed': 'Completed Gigs',
-                  'Feedback': 'Feedback'}
+                  'Chat Room': 'Chat Room',
+                  'Let the AI Listen in!': 'Let the AI Listen in!',
+                  'Add Cash': 'Add Cash',
+                  'Calendar': 'Calendar',
+                  'Feedback': 'Feedback',
+                  'Gigs': 'Gigs',
+                  'Profile': 'Profile'}
 
-        utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
+        utils.auto_login(self.browser, 'bob@cupidcode.com', '#/cupid/home/1')
         current_page = "Home"
         homeless_dict = {key: value for key, value in routes.items() if key != current_page}
 
@@ -60,7 +64,7 @@ class DaterTestCases(unittest.TestCase):
                 given_title = self.browser.find_element(By.ID, 'title').text
                 self.assertEqual(given_title, sub_expected_title)
 
-
+    # test url mapping 
 
 
 if __name__ == '__main__':
