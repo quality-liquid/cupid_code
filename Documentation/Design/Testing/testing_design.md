@@ -104,3 +104,11 @@ Conversely, lower-priority bugs, while acknowledged, may be deferred for resolut
 
 In all cases, known bugs are meticulously documented, and our bug handling plan is transparently communicated to all stakeholders. 
 This ensures accountability, fosters collaboration, and facilitates effective bug resolution within the established timelines and constraints.
+
+
+## Code Coverage
+Comparing the existing unit tests and integration tests to the views and helper functions, a rough estimate of code that is covered by these tests could be roughly 70%. Quite a few of the helper functions are not covered by the tests, and some of the views utilize those functions.
+
+An important factor is the lack of comprehension for the tests. There are many different tests that could be written, but as stated previously, timme made it difficult to cover many cases, including edge cases. If these are factored in, then the code coverage could be considered to be roughly 60%.
+
+We also calculated an estimate of how many bugs may be present in the code using the statistic that 15-50 bugs per 1,000 lines of code. In the backend, we have roughly 4,991 lines of code in the backend and 3,737 lines of code in the front end.
