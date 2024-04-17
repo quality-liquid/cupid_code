@@ -132,7 +132,7 @@ For Daniel and Nate S. once they figure out how to run the unit tests.
 One-time setup:
 1. Follow the instructions in [Documentation/Manual/installation_manual.md](../../Manual/installation_manual.md) to get poetry set up.
     - The only dependency you really need is selenium, but if you have the project as a whole set up, then you will have selenium
-2. Migrate the database (as described in [Code/README.md](../../../Code/README.md)) so you have a fresh database. The tests all rely on a fresh database, so each one restores a backup before running. To ensure there is a backup copy `Code/server/db.sqlite3` to `Code/server/db_backup.sqlite31
+2. Migrate the database (as described in [Code/README.md](../../../Code/README.md)) so you have a fresh database. The tests all rely on a fresh database, so each one restores a backup before running. To ensure there is a backup copy `Code/server/db.sqlite3` to `Code/server/db_backup.sqlite3`
 3. Set up your options in `Code/selenium/options.conf`
     - `chrome=true` will use chrome, otherwise firefox will be used
     - `headless=true` will cause the tests to run headless(no browser window) otherwise you will see the browser
