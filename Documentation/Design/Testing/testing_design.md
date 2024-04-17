@@ -51,7 +51,7 @@ If we had more time, we would have written more tests for each view and helper f
 As the unit tests stand now, they cover most of the use cases that we could think of, but there are always more that could be added.
 Writing unit tests was tiresome and time-consuming, but it was a good learning experience for both of us.
 
-We then took time to write the user manuals and do manual testing of the application.
+Nate and Brighton moved on to writing the Selenium tests while Daniel and Nate took time to write the user manuals and do manual testing of the application.
 
 After that was done we moved to integration testing. 
 We tried our best to get as much testing done as we could.
@@ -67,12 +67,11 @@ For white box testing, we would need to find someone knowledgeable with our fram
 
 If we wished to do grey box testing, we could find someone who is familiar with one of the frameworks we are using, restricting their clarity on our system. We'd also withhold sections, so then the "attacker" would only know part of our system.
 
-### Lessons Learned
+The part of our application that we did not test was the database, models, and serializers. 
+We are sure there are tools and methods out there for doing so but we did not have the time to research and implement them. 
+Though we did not test these components, we are confident that they work as expected because we have tested the views that interact with them.
 
-
-### Covered Bugs
-
-
+Overall our tests cover most of the use cases that we could think of. The users of the application should have little issues but there are always more tests that could be written.
 
 ## Tools and Frameworks
 

@@ -4,9 +4,8 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.test import APITestCase
-from Code.server.api.views import *
 
-from serializers import (
+from Code.server.api.serializers import (
     UserSerializer,
     DaterSerializer,
     CupidSerializer,
@@ -19,9 +18,9 @@ from serializers import (
     BankAccountSerializer,
     QuestSerializer,
 )
-from models import (User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, PaymentCard, BankAccount)
-import helpers
-import views
+from Code.server.api.models import (User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, PaymentCard, BankAccount)
+import Code.server.api.helpers as helpers
+import Code.server.api.views as views
 
 
 class TestCreateUser(APITestCase):
