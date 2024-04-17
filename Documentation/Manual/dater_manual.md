@@ -62,7 +62,7 @@ Use the logout button to log out of your account. We don't want anyone else usin
 
 This is the chat page where you can chat with the AI. You can ask for date ideas, advice, and feedback. You can also ask for help with creating gigs for Cupids. 
 
-The AI and Cupids are here to help you find love so don't be afraid to ask for help!
+The AI and Cupids are here to help you find love so don't be afraid to ask for help! 
 
 ### AI Listening Page
 
