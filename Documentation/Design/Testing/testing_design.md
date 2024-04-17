@@ -145,6 +145,7 @@ Every-time:
 
 ### Manual system test
 Use-case: As a cupid, complete a gig and rate the dater.
+0. Ensure the server is up and running for the frontend and backend.[Code/README.md](../../../Code/README.md)
 1. Sign in as a cupid
     - username: really@me.com
     - passowrd: password
@@ -155,10 +156,11 @@ Use-case: As a cupid, complete a gig and rate the dater.
 6. Click "Rate Dater"
 7. Enter a message describing your rating, and select a heart count.
 8. Click "Send"
+
 Verify results:
 1. Login as the dater (use a new container/profile, incognito/private, or logout first)
     - username: bob@cupidcode.com
     - password: password
 2. Use the sidebar to navigate to "Feedback"
-3. You should see your new review in the list.
+3. You should see your new review at the bottom of the list.
 

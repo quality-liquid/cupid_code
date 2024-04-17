@@ -70,6 +70,6 @@
 | Emma Wright    | Manuals & Test Design                     | 4         |   
 | Daniel Barfuss | Unit tests / debugging / test design      |           |   
 | Brighton Ellis | Selenium                                  |           |   
-| Nate McKenzie  | Selenium                                  |           |   
+| Nate McKenzie  | Selenium                                  | 4         |   
 | Eric DeBloois  | Manuals & Document writing                |           |   
 | Brandon Herrin |                                           |           |
