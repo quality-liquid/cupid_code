@@ -56,7 +56,7 @@ class CupidTestCases(unittest.TestCase):
         dropped = self.browser.find_elements(By.CLASS_NAME, 'inactive')
         self.assertEqual(len(dropped), 1)
 
-    def test_gig_completion(self):
+    def test_gigs_completion(self):
         utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
         # Starting Balance
         self.navigate('Profile')
@@ -108,6 +108,8 @@ class CupidTestCases(unittest.TestCase):
                 self.navigate(sub_route)
                 given_title = self.browser.find_element(By.ID, 'title').text
                 self.assertEqual(given_title, sub_expected_title)
+                current_page = route
+                self.navigate(route)
 
 
 if __name__ == '__main__':
