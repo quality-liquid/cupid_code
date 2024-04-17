@@ -381,7 +381,7 @@ class TestSuspend(APITestCase):
         mock_response.assert_not_called()
 
         # Test 2: Dater model is bad
-        mock_dater_serializer.return_value = Response(status=HTTP_404_NOT_FOUND)
+        mock_dater_serializer.return_value = Response(status=status.HTTP_404_NOT_FOUND)
 
         user_data = {'role': 'Dater'}
         request = self.factory.post(self.url)
@@ -393,7 +393,7 @@ class TestSuspend(APITestCase):
         mock_response.assert_not_called()
 
         # Test 3: Cupid model is bad
-        mock_cupid_serializer.return_value = Response(status=HTTP_404_NOT_FOUND)
+        mock_cupid_serializer.return_value = Response(status=status.HTTP_404_NOT_FOUND)
 
         user_data = {'role': 'Cupid'}
         request = self.factory.post(self.url)
@@ -450,7 +450,7 @@ class TestUnsuspend(APITestCase):
         mock_response.assert_not_called()
 
         # Test 2: Dater model is bad
-        mock_dater_serializer.return_value = Response(status=HTTP_404_NOT_FOUND)
+        mock_dater_serializer.return_value = Response(status=status.HTTP_404_NOT_FOUND)
 
         user_data = {'role': 'Dater'}
         request = self.factory.post(self.url)
@@ -462,7 +462,7 @@ class TestUnsuspend(APITestCase):
         mock_response.assert_not_called()
 
         # Test 3: Cupid model is bad
-        mock_cupid_serializer.return_value = Response(status=HTTP_404_NOT_FOUND)
+        mock_cupid_serializer.return_value = Response(status=status.HTTP_404_NOT_FOUND)
 
         user_data = {'role': 'Cupid'}
         request = self.factory.post(self.url)
