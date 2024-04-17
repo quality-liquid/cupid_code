@@ -67,7 +67,7 @@ http://localhost:8000
 
 ## Common Issues
 Poetry Install is saying no such file exists
-  - Just run `poetry shell` first and then run `poetry install`.
+  - Just run `poetry shell` first and then run `poetry install`
 
 
 ## FAQ
@@ -83,3 +83,4 @@ Poetry Install is saying no such file exists
     - Make sure you have followed the instructions in the README.md file.
     - Make sure you have started the server.
     - Make sure you are using the correct URL to access the server.
+    - Make sure you have migrated the server correctly.

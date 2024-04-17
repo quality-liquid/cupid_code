@@ -67,9 +67,9 @@
 |----------------|-------------------------------------------|-----------|
 | Name           | Job                                       | Time(hrs) | 
 | Nate Stott     | Unit tests / debugging / document writing | 4         |   
-| Emma Wright    | Dater Vues                                |           |   
-| Daniel Barfuss | Unit tests / debugging                    |           |   
-| Brighton Ellis |                   Calendar                |           |   
-| Nate McKenzie  | Assist Frontend                           |           |   
-| Eric DeBloois  | Cupid Home                                |           |   
+| Emma Wright    | Manuals & Test Design                     | 4         |   
+| Daniel Barfuss | Unit tests / debugging / test design      |           |   
+| Brighton Ellis | Selenium                                  |           |   
+| Nate McKenzie  | Selenium                                  |           |   
+| Eric DeBloois  | Manuals & Document writing                |           |   
 | Brandon Herrin |                                           |           |
