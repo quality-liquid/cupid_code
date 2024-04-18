@@ -556,7 +556,7 @@ def rate_cupid(request):
         data={
             'owner': owner,
             'target': target,
-            'gig': gig,
+            'gig': gig.id,
             'message': data['message'],
             'star_rating': data['rating'],
             'date_time': make_aware(datetime.now()),
@@ -564,9 +564,10 @@ def rate_cupid(request):
     )
     if serializer.is_valid():
         serializer.save()
-        target.rating_count += 1
-        target.rating_sum += data['rating']
-        target.save()
+        cupid = get_object_or_404(Cupid, user_id=data['cupid_id'])
+        cupid.rating_count += 1
+        cupid.rating_sum += data['rating']
+        cupid.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -932,6 +933,7 @@ def get_cupid_gigs(request, pk):
     for gig in serializer.data:
         user = User.objects.get(id=gig['dater'])
         gig['dater'] = f'{user.first_name} {user.last_name}'
+        gig['dater_id'] = user.id
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -958,6 +960,7 @@ def get_dater_gigs(request, pk):
         try:
             user = User.objects.get(id=gig['cupid'])
             gig['cupid'] = f'{user.first_name} {user.last_name}'
+            gig['cupid_id'] = user.id
         except User.DoesNotExist:
             gig['cupid'] = ''  # Leave blank for frontend code
     return Response(serializer.data, status=status.HTTP_200_OK)

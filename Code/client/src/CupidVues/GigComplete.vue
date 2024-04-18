@@ -38,7 +38,7 @@
 
     function sendReview() {
         makeRequest('api/dater/rate/', 'post', {
-            'dater_id':activeGig.value.dater,
+            'dater_id':activeGig.value.dater_id,
             'gig_id':activeGig.value.id,
             'message':message.value,
             'rating':rating.value

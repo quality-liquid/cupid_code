@@ -62,8 +62,8 @@
     }
 
     function sendReview() {
-        makeRequest('api/dater/rate/', 'post', {
-            'dater_id':activeGig.value.dater,
+        makeRequest('api/cupid/rate/', 'post', {
+            'cupid_id':activeGig.value.cupid_id,
             'gig_id':activeGig.value.id,
             'message':message.value,
             'rating':rating.value

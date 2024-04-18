@@ -57,7 +57,7 @@ cd cupid_code
 
 ## Using
 
-1. Follow the instructions in the README.md file to set up the Server.
+1. Follow the instructions in this [README file](https://gitlab.cs.usu.edu/cs3450-team2/cupid_code/-/blob/development/Code/README.md?ref_type=heads) to set up the Server.
 
 2. Open a web browser and navigate to the following URL:
 ```
@@ -67,7 +67,7 @@ http://localhost:8000
 
 ## Common Issues
 Poetry Install is saying no such file exists
-  - Just run `poetry shell` first and then run `poetry install`.
+  - Just run `poetry shell` first and then run `poetry install`
 
 
 ## FAQ
@@ -83,3 +83,4 @@ Poetry Install is saying no such file exists
     - Make sure you have followed the instructions in the README.md file.
     - Make sure you have started the server.
     - Make sure you are using the correct URL to access the server.
+    - Make sure you have migrated the server correctly.

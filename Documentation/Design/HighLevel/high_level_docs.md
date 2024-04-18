@@ -1,14 +1,10 @@
-# **Cupid Code**
+# **Cupid Code High Level Design Document**
 
-# **High Level Design Document**
-
-Team 2
+Team [Object object] 02/03/24
 
 Sprint Leader: Nate Stott
 
 Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Daniel Barfuss, Brandon Herrin
-
-02/03/24
 
 # **Security Considerations**
 

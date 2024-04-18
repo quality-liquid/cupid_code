@@ -37,15 +37,15 @@ class DaterTestCases(unittest.TestCase):
 
     def test_navigation(self):
         routes = {'Home': 'Home',
-                  'Chat Room': 'Chat Room',
-                  'Let the AI Listen in!': 'Let the AI Listen in!',
-                  'Add Cash': 'Add Cash',
+                  'AI Chat': 'Chat Room',
+                  'AI Listen': 'Let the AI Listen in!',
+                  'Balance': 'Add Cash',
                   'Calendar': 'Calendar',
                   'Feedback': 'Feedback',
                   'Gigs': 'Gigs',
                   'Profile': 'Profile'}
 
-        utils.auto_login(self.browser, 'bob@cupidcode.com', '#/cupid/home/1')
+        utils.auto_login(self.browser, 'bob@cupidcode.com', '#/dater/home/1')
         current_page = "Home"
         homeless_dict = {key: value for key, value in routes.items() if key != current_page}
 
@@ -58,13 +58,17 @@ class DaterTestCases(unittest.TestCase):
             self.assertEqual(given_title, expected_title)
             new_dict = {key: value for key, value in routes.items() if key != route}
 
-            for sub_route, sub_expected_title in routes.items():
+            for sub_route, sub_expected_title in new_dict.items():
+                # Go
                 current_page = sub_route
                 self.navigate(sub_route)
                 given_title = self.browser.find_element(By.ID, 'title').text
                 self.assertEqual(given_title, sub_expected_title)
-
-    # test url mapping 
+                # Return
+                current_page = route
+                self.navigate(route)
+                given_title = self.browser.find_element(By.ID, 'title').text
+                self.assertEqual(given_title, expected_title)
 
 
 if __name__ == '__main__':
