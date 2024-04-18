@@ -76,11 +76,19 @@ Overall our tests cover most of the use cases that we could think of. The users 
 ### Lessons Learned
 Unit tests are time consuming and surprisingly hard to write. Asher's walkthrough seemed relatively simple, but it's a bit more difficult to do by oneself, and even as a team. It didn't help that we did not write our code in the style of Test-Driven Development. We also didn't deploy our app until near the end of the Testing Sprint. We needed to deploy before testing, because we needed the `manifest.json` file, which would be created at deployment.
 
+We learned similarities and differences between unit tests and integration tests. We noticed that bad unput frequently caused our applicaiton to crash, so we added more `try... catch` blocks to help ensure the program didn't crash.
+
+It's important to follow the rules and schematics of a framework. "Shortcuts" should be called "longcuts", because it makes things more difficult for us. If a shortcut is made, extra patching is needed, and it gets convoluted and messy.
 
 
 ### Encountered Bugs
 We were utilizing serializers to get data from the database. This would allow us to get data easily, and we can easily modify the data in the serializer. Then we can save the serializer to save chagnes to the database. During development, we were not getting all the information we needed from the serializer. Keys we were asking for were coming back as null. After refactoring our code and creating helper functions to reduce the work each view is doing, the issue resolved itself.
 
+We had similar bugs with serializers. When creating the user, the serializer wasn't bring data to us in the way we wanted, so we had to make manual adjustments to it.
+
+Nate S. created scripts that would automatically create our environment and run/stop the servers. We ran into issues with them, because parts of our `.env` file would be slightly different. We adjsuted our pathing in the file, and it made the scripts work.
+
+There was a time we renamed some directories in our project, and they were pushed incorrectly. We had to make ajdustments for the code and ourselves to match the changes. This was an interesting 'unkown unkown' to run into.
 
 
 ## Tools and Frameworks
