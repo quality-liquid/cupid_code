@@ -134,8 +134,15 @@ We also calculated an estimate of how many bugs may be present in the code using
 Being most critical and using 50 bugs per 1,000 lines of code, this means that the backend has roughly 250 bugs, and the front end has roughly 187 bugs. 
 
 ## Running tests
-### Unit tests
-For Daniel and Nate S. once they figure out how to run the unit tests.
+### Unit tests  
+To set up the environment, navigate to the `Code/` directory and use `poetry` to install the dependencies situated in the `poetry.lock` file. Use the following command to do so:
+
+```poetry install```
+
+To run a unit test using Django's framework, navigate to the `Code/server/` directory, where `manage.py` resides. The tests we wrote are for the `api` application. Use the following command to run the tests:
+
+```python manage.py test api```
+
 ### Automated system tests
 One-time setup:
 1. Follow the instructions in [Documentation/Manual/installation_manual.md](../../Manual/installation_manual.md) to get poetry set up.
