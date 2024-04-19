@@ -339,6 +339,21 @@ Manage Cupids Page
 
 Manage Cupid Page
 
+**UML Use Case Diagrams**
+
+These will show how one user will interact with the system and what other users will be impacted by it.
+
+This shows how the dater will interact with the system. Cupids will be able to accept and complete any gigs requested. The dater can also rate the cupid's work and give feedback. If the dater has poor ratings or is proven to be misbehaving on the system, then they will be suspended when they login and cannot access the system. This is done by the manager. They can talk to the AI and have the AI listen in to conversations. They can also update any information about themselves on their profile and update their payment information and budgets. This interacts with the database.
+
+![alt_text](images/uml_use_1.png "image_tooltip")
+
+Cupids will be able to accept and complete or drop gigs reqeusted from daters. They can also rate and provide feedback to the daters. They can be suspended off of the platform from a manager and will lose access to the system. Cupids can update their profile and payment information and interact with the database.
+
+![alt_text](images/uml_use_2.png "image_tooltip")
+
+Managers can review Cupids and Daters, see their ratings and performances. They can also suspend and block any users of either type if they are too low of a rating or have reports of misbehavior. The manager can also get statistics and data from the database to create a report on how well the app is doing.
+
+![alt_text](images/uml_use_3.png "image_tooltip")
 
 
 # **External Interfaces**
@@ -451,7 +466,6 @@ By following these strategies, we can effectively manage the challenges of imple
    * This data is sensitive because it includes money information
    * Routing Number
    * Account Number
-
 12. Reports
    * Manager dashboard:
        * Revenue
@@ -471,3 +485,24 @@ By following these strategies, we can effectively manage the challenges of imple
        * Can see statistics on completed gigs, money earned, failed gigs
    * Text and Email notifications API (Twilio) 
    * Nearby Shops API (yelpapi)
+
+**UML Class Diagrams**
+
+These show the connections between different models that will be within the database.
+
+The User model will encompass data of the User that is shared through all types of users. 
+Then we'll split up into different models for each type of user to hold all the necessary data that will hold everything that pertains only to that type of user.
+
+![alt_text](images/uml_class_1.png "image_tooltip")
+
+The Manager model will have a Reports model that will pull the data needed for meetings about the system and other users to ensure if any need to get suspended or blocked. 
+
+![alt_text](images/uml_class_2.png "image_tooltip")
+
+The Cupid model will have access to the Gigs model. This will hold all of the gigs created by the AI or the user in emergency. The Gigs model will also extend a Quest model that will hold additional information related to the Gig created. The Cupid model will also have feebacks in the Feedback model. This will hold any ratings and feedback comments from Daters the Cupid has done a gig for.
+
+![alt_text](images/uml_class_3.png "image_tooltip")
+
+The Dater model will have access to the Date, Message, and Payment Cards models. The Date model will hold any dates the dater schedules to inform the app. It will help the AI to send appropriately timed notfications. The Message model will hold all of the information of each message sent to and from the AI and will be linked to the dater. The Payment Cards model will securely hold all of the data for the dater's payment method. It also extends the Banking Account information that will be held securely and separately to better protect it.
+
+![alt_text](images/uml_class_4.png "image_tooltip")
