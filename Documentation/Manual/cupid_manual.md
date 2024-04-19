@@ -15,9 +15,14 @@
 
 ## Introduction
 
-Welcome to Cupid Code! This manual is your guide to joining Cupid Code as a new Cupid. Here, you'll learn about your role, how to create and log into your account, and how to use the Cupid Code app to earn money by saving awkward daters.
+Welcome to Cupid Code! 
+This manual is your guide to joining Cupid Code as a new Cupid. 
+Here, you'll learn about your role, how to create and log into your account, and how to use the Cupid Code app to earn money by saving awkward daters.
 
-So, what is a Cupid? Just like the name implies, Cupids for Cupid Code are like little gods of love sent to help daters using our platform have successful dates. If a date is going south, a Gig is created for Cupids in the area. These Gigs are simple item pickup requests to help the date go more smoothly. You might be asked to pick up anything from flowers to movie tickets. Your job is to accept these Gigs, pick up the requested item, and deliver it to the date. Then, you can rate the dater you serviced and, most importantly, get paid for your efforts.
+So, what is a Cupid? Just like the name implies, Cupids for Cupid Code are like little gods of love sent to help daters using our platform have successful dates. 
+If a date is going south, a Gig is created for Cupids in the area. These Gigs are simple item pickup requests to help the date go more smoothly. You might be asked to pick up anything from flowers to movie tickets. 
+Your job is to accept these Gigs, pick up the requested item, and deliver it to the date. 
+Then, you can rate the dater you serviced and, most importantly, get paid for your efforts.
 
 ## Usage
 
@@ -87,7 +92,7 @@ Under the "Available" section, various Gigs in your area will be listed. To clai
 
 If you've claimed a Gig but can't complete it, click the "Drop" button on the active Gig to unassign it from yourself.
 
-#### Completeing a Gig
+#### Completing a Gig
 
 After picking up the requested items and delivering them, click the "Complete" button on the active Gig.
 

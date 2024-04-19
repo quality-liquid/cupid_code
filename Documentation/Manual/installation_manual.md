@@ -15,12 +15,10 @@
 ```
 git clone https://gitlab.cs.usu.edu/cs3450-team2/cupid_code.git
 ```
-
 2. Navigate to the Cupid Code directory:
 ```
 cd cupid_code
 ```
-
 3. Install the required dependencies:
 - Python
   - Download and install Python from the following URL: https://www.python.org/downloads/
@@ -58,24 +56,21 @@ cd cupid_code
 ## Using
 
 1. Follow the instructions in this [README file](https://gitlab.cs.usu.edu/cs3450-team2/cupid_code/-/blob/development/Code/README.md?ref_type=heads) to set up the Server.
-
 2. Open a web browser and navigate to the following URL:
 ```
 http://localhost:8000
 ```
 
-
 ## Common Issues
 Poetry Install is saying no such file exists
   - Just run `poetry shell` first and then run `poetry install`
-
 
 ## FAQ
 - Do I need to have a server to run Cupid Code?
   - Yes, you will need to have a server to run Cupid Code. You can host the server on your local machine or use a cloud service like AWS, Azure, or Google Cloud.
   - If you would like to connect to a server that is already running, you can use the following URL:
     ```
-    http://cupidcode.com
+    https://cupidcode.com
     ```
 - Why is the server not running?
   - There could be a few reasons why the server is not running. Check the following:

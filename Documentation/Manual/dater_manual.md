@@ -12,11 +12,13 @@
 
 ## Introduction
 
-The Cupid Code Dater Manual is a guide for Daters who are using the Cupid Code system. This manual will provide information on how to sign up, log in, and navigate the site as a Dater.
+The Cupid Code Dater Manual is a guide for Daters who are using the Cupid Code system. 
+This manual will provide information on how to sign up, log in, and navigate the site as a Dater.
 
 ## Usage
 
-So what can you do as a Dater of Cupid Code? Well you can find love with the help of AI and Cupids!
+So what can you do as a Dater of Cupid Code? 
+Well, you can find love with the help of AI and Cupids!
 
 As a Dater you will have access to the following features:
 - View Date Calendar
@@ -31,10 +33,13 @@ As a Dater you will have access to the following features:
 
 ## Signing Up
 
+Here is a demonstration of how to sign up for a Dater account:
+
 ![Signing up](dater_images/sign_up.png)
 
-
 ## Logging In
+
+Here is a demonstration of how to log in to your Dater account:
 
 ![Logging in](dater_images/login.png)
 
@@ -42,48 +47,59 @@ As a Dater you will have access to the following features:
 
 ### Home Page
 
+Here you can see the main features of the site. 
+You can Chat with AI, go into AI listening mode, view your Cupid Cash balance as well as add more funds, and view your Date Calendar.
+
 ![Home Page](dater_images/home.png)
 
-Here you can see the main features of the site. You can Chat with AI, go into AI listening mode, view your Cupid Cash balance as well as add more funds, and view your Date Calendar.
-
-You have a side menu that will allow you to navigate to the different pages of the site. You will always have access to this menu no matter what page you are on!
-
-Here is that menu:
+You have a side menu that will allow you to navigate to the different pages of the site. 
+You will always have access to this menu no matter what page you are on!
 
 ![Home Page with Menu](dater_images/home_menu.png)
 
-You can use the menu or the buttons on the home page to navigate to the different pages of the site. Whatever is easier for you!
+You can use the menu or the buttons on the home page to navigate to the different pages of the site. 
+Whatever is easier for you!
 
 Use the logout button to log out of your account. We don't want anyone else using your account!
 
 ### AI Chat Page
 
+This is the chat page where you can chat with the AI. 
+You can ask for date ideas, advice, and feedback. 
+You can also ask for help with creating gigs for Cupids. 
+
+The AI and Cupids are here to help you find love, so don't be afraid to ask for help! 
+
 ![Chat](dater_images/chat.png)
-
-This is the chat page where you can chat with the AI. You can ask for date ideas, advice, and feedback. You can also ask for help with creating gigs for Cupids. 
-
-The AI and Cupids are here to help you find love so don't be afraid to ask for help! 
 
 ### AI Listening Page
 
-![Listen](dater_images/listen.png)
+This is the AI listening page. 
+Here you can turn on and off the AI listening mode. 
+When the AI is listening, it will listen to your conversations and call for help from Cupids when needed. 
+That way you can focus on your date and let the AI and Cupids handle the rest!
 
-This is the AI listening page. Here you can turn on and off the AI listening mode. When the AI is listening, it will listen to your conversations and call for help from Cupids when needed. That way you can focus on your date and let the AI and Cupids handle the rest!
+![Listen](dater_images/listen.png)
 
 ### Cupid Cash Page
 
-![Cash](dater_images/cash.png)
+This is the Cupid Cash page. 
+Here you can view your Cupid Cash balance and add more funds if needed. 
+If you run out of Cupid Cash, you won't be able to create gigs for Cupids so make sure you have enough!
 
-This is the Cupid Cash page. Here you can view your Cupid Cash balance and add more funds if needed. If you run out of Cupid Cash, you won't be able to create gigs for Cupids so make sure you have enough!
+![Cash](dater_images/cash.png)
 
 ### Date Calendar Page
 
+This is the Date Calendar page. 
+Here you can view your Date Calendar and see all the dates you have planned. 
+You can also view the details of each date and see the status of the date.
+
 ![Calendar](dater_images/calendar.png)
 
-This is the Date Calendar page. Here you can view your Date Calendar and see all the dates you have planned. You can also view the details of each date and see the status of the date.
-
 ## Common Issues
-- Chatbot not working
+
+- Chatbot is not working
   - If the chatbot is not working, give it a moment to load. If it still does not work, try refreshing the page.
 - Unable to view Date Calendar
   - If you are unable to view the Date Calendar, make sure you are logged in and have created a profile.
@@ -92,6 +108,7 @@ This is the Date Calendar page. Here you can view your Date Calendar and see all
 
 
 ## FAQ
+
 - Q: How do I get a Date?
   - A: You are on your own when it comes to finding dates. Cupid Code is here to help you with the rest of the process.
 - Q: How do I get a Cupid?
