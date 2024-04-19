@@ -759,7 +759,7 @@ The following endpoints do not need any user data to be used.
 | /login/  | GET, POST | login         | Login page, Send form                                                                          |
 | /signup/ | GET, POST | signup        | Signup page, Send form                                                                         |
 | /app/    | GET       | NA            | Vue Router takes over from here. Only if they are authenticated will they be able to call this |
-| /get_*/  | GET       | get_*         | Variours icon images for the front end                                                         |
+| /get_*/  | GET       | get_*         | Various icon images for the front end                                                          |
 
 Additional pages offered by [Vue Router](#vue-router)
 
@@ -767,59 +767,59 @@ Additional pages offered by [Vue Router](#vue-router)
 
 The following endpoints will need user data to be used. Authentication will be required for all of these endpoints.
 
-| URL                              | Method    | View Function         | Notes                                               |
-|----------------------------------|-----------|-----------------------|-----------------------------------------------------|
-| /api/user/create/                | POST      | create_user           | Create user and cupid/dater if necessary            |
-| /api/user/sign_in/               | POST      | sign_in               | Signs in a user and returns their data              |
-| /api/user/<int:pk>/              | GET       | get_user              | Get user data                                       |
-| /api/chat/                       | POST      | send_chat_message     | Send message, return the AI's response              |
-| /api/chat/<int:pk>/              | GET       | get_five_messages     | Return the last five chat messages                  |
-| /api/dater/calendar/<int:pk>/    | GET, POST | calendar              | Get the dater's calendar (date list), create a date |
-| /api/dater/rate/                 | POST      | rate_dater            | Cupid rate Dater                                    |
-| /api/dater/ratings/<int:pk>/     | GET       | get_dater_ratings     | Get list of dater's ratings                         |
-| /api/dater/avg_rating/<int:pk>/  | GET       | get_dater_avg_rating  | Get dater's average rating                          |
-| /api/dater/transfer/             | POST      | dater_transfer        | Initiate transfer in                                |
-| /api/dater/balance/<int:pk>/     | GET       | get_dater_balance     | Get account balance                                 |
-| /api/dater/profile/<int:pk>/     | GET       | get_dater_profile     | Get dater's profile                                 |
-| /api/dater/profile/              | POST      | set_dater_profile     | Set dater's profile                                 |
-| /api/dater/save_card/            | POST      | save_card             | Save a new card for the dater                       |
-| /api/dater/get_cards/<int:pk>/   | GET       | get_cards             | Return the cards ther dater has saved.              |
-| /api/dater/gigs/<int:pk>         | GET       | get_dater_gigs        | Returns all gigs the dater has created.             |
-| /api/cupid/rate/                 | POST      | rate_cupid            | Dater rating a Cupid                                |
-| /api/cupid/ratings/<int:pk>/     | GET       | get_cupid_ratings     | Get list of cupid's ratings                         |
-| /api/cupid/avg_rating/<int:pk>/  | GET       | get_cupid_avg_rating  | Get cupid's average rating                          |
-| /api/cupid/transfer/             | POST      | cupid_transfer        | Initiate transfer out                               |
-| /api/cupid/balance/<int:pk>/     | GET       | get_cupid_balance     | Get account balance                                 |
-| /api/cupid/profile/<int:pk>/     | GET       | get_cupid_profile     | Get cupid's profile                                 |
-| /api/cupid/profile/              | POST      | set_cupid_profile     | Set cupid's profile                                 |
-| /api/cupid/save_bank_account/    | POST      | save_bank_account     | Save a new bank account for the cupid               |
-| /api/cupid/accepting             | POST      | cupid_accepting       | Updates whether the cupid is accepting gigs         |
-| /api/gig/create/                 | POST      | create_gig            | Create gig                                          |
-| /api/gig/accept/                 | POST      | accept_gig            | Accept gig                                          |
-| /api/gig/complete/               | POST      | complete_gig          | Complete gig                                        |
-| /api/gig/drop/                   | POST      | drop_gig              | Drop gig                                            |
-| /api/gig/cancel/                 | POST      | cancel_gig            | Cancel (delete) gig                                 |
-| /api/gig/<int:count>/            | GET       | get_gigs              | Return number of gigs around cupid                  |
-| /api/geo/stores/<int:pk>/        | GET       | get_stores            | List of nearby stores                               |
-| /api/geo/activities/<int:pk>/    | GET       | get_activities        | Nearby activities                                   |
-| /api/geo/events/<int:pk>/        | GET       | get_events            | Nearby events                                       |
-| /api/geo/attractions/<int:pk>/   | GET       | get_attractions       | Nearby attractions                                  |
-| /api/geo/user/<int:pk>/          | GET       | get_user_location     | Get a user's location                               |
-| /api/manager/cupids/             | GET       | get_cupids            | Get a list of cupids                                |
-| /api/manager/daters/             | GET       | get_daters            | Get a list of daters                                |
-| /api/manager/dater_count/        | GET       | get_dater_count       | Manager reports                                     |
-| /api/manager/cupid_count/        | GET       | get_cupid_count       | Manager reports                                     |
-| /api/manager/active_cupids/      | GET       | get_active_cupids     | Manager reports                                     |
-| /api/manager/active_daters/      | GET       | get_active_daters     | Manager reports                                     |
-| /api/manager/gig_rate/           | GET       | get_gig_rate          | Manager reports                                     |
-| /api/manager/gig_count/          | GET       | get_gig_count         | Manager reports                                     |
-| /api/manager/gig_drop_rate/      | GET       | get_gig_drop_rate     | Manager reports                                     |
-| /api/manager/gig_complete_rate/  | GET       | get_gig_complete_rate | Manager reports                                     |
-| /api/manager/suspend/            | POST      | suspend               | suspend cupid / dater                               |
-| /api/manager/unsuspend/          | POST      | unsuspend             | unsuspend cupid / dater                             |
-| /api/manager/delete_user/<int:pk>| POST      | delete_user           | Delete specified user                               |
-| /api/stt/                        | POST      | speech_to_text        | Convert speech to text                              |
-| /api/notify/                     | POST      | notify                | Send a message according to pref.                   |
+| URL                               | Method    | View Function         | Notes                                               |
+|-----------------------------------|-----------|-----------------------|-----------------------------------------------------|
+| /api/user/create/                 | POST      | create_user           | Create user and cupid/dater if necessary            |
+| /api/user/sign_in/                | POST      | sign_in               | Signs in a user and returns their data              |
+| /api/user/<int:pk>/               | GET       | get_user              | Get user data                                       |
+| /api/chat/                        | POST      | send_chat_message     | Send message, return the AI's response              |
+| /api/chat/<int:pk>/               | GET       | get_five_messages     | Return the last five chat messages                  |
+| /api/dater/calendar/<int:pk>/     | GET, POST | calendar              | Get the dater's calendar (date list), create a date |
+| /api/dater/rate/                  | POST      | rate_dater            | Cupid rate Dater                                    |
+| /api/dater/ratings/<int:pk>/      | GET       | get_dater_ratings     | Get list of dater's ratings                         |
+| /api/dater/avg_rating/<int:pk>/   | GET       | get_dater_avg_rating  | Get dater's average rating                          |
+| /api/dater/transfer/              | POST      | dater_transfer        | Initiate transfer in                                |
+| /api/dater/balance/<int:pk>/      | GET       | get_dater_balance     | Get account balance                                 |
+| /api/dater/profile/<int:pk>/      | GET       | get_dater_profile     | Get dater's profile                                 |
+| /api/dater/profile/               | POST      | set_dater_profile     | Set dater's profile                                 |
+| /api/dater/save_card/             | POST      | save_card             | Save a new card for the dater                       |
+| /api/dater/get_cards/<int:pk>/    | GET       | get_cards             | Return the cards ther dater has saved.              |
+| /api/dater/gigs/<int:pk>          | GET       | get_dater_gigs        | Returns all gigs the dater has created.             |
+| /api/cupid/rate/                  | POST      | rate_cupid            | Dater rating a Cupid                                |
+| /api/cupid/ratings/<int:pk>/      | GET       | get_cupid_ratings     | Get list of cupid's ratings                         |
+| /api/cupid/avg_rating/<int:pk>/   | GET       | get_cupid_avg_rating  | Get cupid's average rating                          |
+| /api/cupid/transfer/              | POST      | cupid_transfer        | Initiate transfer out                               |
+| /api/cupid/balance/<int:pk>/      | GET       | get_cupid_balance     | Get account balance                                 |
+| /api/cupid/profile/<int:pk>/      | GET       | get_cupid_profile     | Get cupid's profile                                 |
+| /api/cupid/profile/               | POST      | set_cupid_profile     | Set cupid's profile                                 |
+| /api/cupid/save_bank_account/     | POST      | save_bank_account     | Save a new bank account for the cupid               |
+| /api/cupid/accepting              | POST      | cupid_accepting       | Updates whether the cupid is accepting gigs         |
+| /api/gig/create/                  | POST      | create_gig            | Create gig                                          |
+| /api/gig/accept/                  | POST      | accept_gig            | Accept gig                                          |
+| /api/gig/complete/                | POST      | complete_gig          | Complete gig                                        |
+| /api/gig/drop/                    | POST      | drop_gig              | Drop gig                                            |
+| /api/gig/cancel/                  | POST      | cancel_gig            | Cancel (delete) gig                                 |
+| /api/gig/<int:count>/             | GET       | get_gigs              | Return number of gigs around cupid                  |
+| /api/geo/stores/<int:pk>/         | GET       | get_stores            | List of nearby stores                               |
+| /api/geo/activities/<int:pk>/     | GET       | get_activities        | Nearby activities                                   |
+| /api/geo/events/<int:pk>/         | GET       | get_events            | Nearby events                                       |
+| /api/geo/attractions/<int:pk>/    | GET       | get_attractions       | Nearby attractions                                  |
+| /api/geo/user/<int:pk>/           | GET       | get_user_location     | Get a user's location                               |
+| /api/manager/cupids/              | GET       | get_cupids            | Get a list of cupids                                |
+| /api/manager/daters/              | GET       | get_daters            | Get a list of daters                                |
+| /api/manager/dater_count/         | GET       | get_dater_count       | Manager reports                                     |
+| /api/manager/cupid_count/         | GET       | get_cupid_count       | Manager reports                                     |
+| /api/manager/active_cupids/       | GET       | get_active_cupids     | Manager reports                                     |
+| /api/manager/active_daters/       | GET       | get_active_daters     | Manager reports                                     |
+| /api/manager/gig_rate/            | GET       | get_gig_rate          | Manager reports                                     |
+| /api/manager/gig_count/           | GET       | get_gig_count         | Manager reports                                     |
+| /api/manager/gig_drop_rate/       | GET       | get_gig_drop_rate     | Manager reports                                     |
+| /api/manager/gig_complete_rate/   | GET       | get_gig_complete_rate | Manager reports                                     |
+| /api/manager/suspend/             | POST      | suspend               | suspend cupid / dater                               |
+| /api/manager/unsuspend/           | POST      | unsuspend             | unsuspend cupid / dater                             |
+| /api/manager/delete_user/<int:pk> | POST      | delete_user           | Delete specified user                               |
+| /api/stt/                         | POST      | speech_to_text        | Convert speech to text                              |
+| /api/notify/                      | POST      | notify                | Send a message according to pref.                   |
 
 ### Django Models
 
