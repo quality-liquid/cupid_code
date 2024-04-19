@@ -4,7 +4,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.test import APITestCase
-from Code.server.api.views import *
+from api.views import *
 
 
 class TestRateDater(APITestCase):
@@ -17,7 +17,7 @@ class TestRateDater(APITestCase):
     @patch('helpers.update_location')
     @patch('Gig.objects.get')
     @patch('FeedbackSerializer')
-    def good_test(self, mock_update_location, mock_get, mock_serializer):
+    def test_good_test(self, mock_update_location, mock_get, mock_serializer):
         mock_update_location.return_value = None
         mock = MagicMock()
         mock.dater.id = 1
@@ -35,7 +35,7 @@ class TestRateDater(APITestCase):
     @patch('helpers.update_location')
     @patch('Gig.objects.get')
     @patch('FeedbackSerializer')
-    def bad_test(self, mock_update_location, mock_get, mock_serializer):
+    def test_bad_test(self, mock_update_location, mock_get, mock_serializer):
         mock_update_location.return_value = None
         mock = MagicMock()
         mock.dater.id = 2
@@ -59,7 +59,7 @@ class TestGetCupidRating(APITestCase):
 
     @patch('get_list_or_404')
     @patch('FeedbackSerializer')
-    def good_test(self, mock_get_list, mock_serializer):
+    def test_good_test(self, mock_get_list, mock_serializer):
         mock_get_list.return_value = []
         mock_serializer.return_value = MagicMock()
         request = self.factory.get(self.url)
@@ -71,7 +71,7 @@ class TestGetCupidRating(APITestCase):
 
     @patch('get_list_or_404')
     @patch('FeedbackSerializer')
-    def bad_test(self, mock_get_list, mock_serializer):
+    def test_bad_test(self, mock_get_list, mock_serializer):
         mock_get_list.return_value = []
         mock_serializer.return_value = MagicMock()
         request = self.factory.get(self.url)
@@ -90,7 +90,7 @@ class TestGetCupidAverageRating(APITestCase):
         self.user = MagicMock()
 
     @patch('helpers.authenticated_cupid')
-    def good_test(self, mock_auth):
+    def test_good_test(self, mock_auth):
         mock_auth.return_value = self.user
         request = self.factory.get(self.url)
         force_authenticate(request, user=self.user)
@@ -99,7 +99,7 @@ class TestGetCupidAverageRating(APITestCase):
         mock_auth.assert_called_once()
 
     @patch('helpers.authenticated_cupid')
-    def bad_test(self, mock_auth):
+    def test_bad_test(self, mock_auth):
         mock_auth.return_value = None
         request = self.factory.get(self.url)
         force_authenticate(request, user=None)
@@ -116,7 +116,7 @@ class TestCupidTransfer(APITestCase):
 
     @patch('helpers.update_user_location')
     @patch('get_object_or_404')
-    def good_test(self, mock_update_location, mock_get):
+    def test_good_test(self, mock_update_location, mock_get):
         mock_update_location.return_value = None
         mock_get.return_value = MagicMock()
         request = self.factory.post(self.url)
@@ -128,7 +128,7 @@ class TestCupidTransfer(APITestCase):
 
     @patch('helpers.update_user_location')
     @patch('get_object_or_404')
-    def bad_test(self, mock_update_location, mock_get):
+    def test_bad_test(self, mock_update_location, mock_get):
         mock_update_location.return_value = None
         mock_get.return_value = None
         request = self.factory.post(self.url)
@@ -148,7 +148,7 @@ class TestSaveBankAccount(APITestCase):
     @patch('helpers.update_user_location')
     @patch('BankAccountSerializer')
     @patch('helpers.changed_response')
-    def good_test(self, mock_update_location, mock_serializer, mock_response):
+    def test_good_test(self, mock_update_location, mock_serializer, mock_response):
         mock_update_location.return_value = None
         mock_serializer.return_value = MagicMock()
         mock_response.return_value = Response(status=status.HTTP_200_OK)
@@ -163,7 +163,7 @@ class TestSaveBankAccount(APITestCase):
     @patch('helpers.update_user_location')
     @patch('BankAccountSerializer')
     @patch('helpers.changed_response')
-    def bad_test(self, mock_update_location, mock_serializer, mock_response):
+    def test_bad_test(self, mock_update_location, mock_serializer, mock_response):
         mock_update_location.return_value = None
         mock_serializer.return_value = MagicMock()
         mock_response.return_value = Response(status=status.HTTP_404_NOT_FOUND)
@@ -183,7 +183,7 @@ class TestGetCupidBalance(APITestCase):
         self.view = get_cupid_balance
 
     @patch('helpers.authenticated_cupid')
-    def good_test(self, mock_auth):
+    def test_good_test(self, mock_auth):
         cupid = MagicMock()
         cupid.balance = 0
         mock_auth.return_value = cupid
@@ -195,7 +195,7 @@ class TestGetCupidBalance(APITestCase):
         assert response.data['balance'] == 0
 
     @patch('helpers.authenticated_cupid')
-    def bad_test(self, mock_auth):
+    def test_bad_test(self, mock_auth):
         mock_auth.return_value = None
         request = self.factory.get(self.url)
         force_authenticate(request, user=None)
@@ -212,7 +212,7 @@ class TestGetCupidProfile(APITestCase):
 
     @patch('helpers.authenticated_cupid')
     @patch('CupidSerializer')
-    def good_test(self, mock_auth, mock_serializer):
+    def test_good_test(self, mock_auth, mock_serializer):
         cupid = MagicMock()
         mock_auth.return_value = cupid
         mock_serializer.return_value = MagicMock()
@@ -225,7 +225,7 @@ class TestGetCupidProfile(APITestCase):
 
     @patch('helpers.authenticated_cupid')
     @patch('CupidSerializer')
-    def bad_test(self, mock_auth, mock_serializer):
+    def test_bad_test(self, mock_auth, mock_serializer):
         mock_auth.return_value = None
         mock_serializer.return_value = MagicMock()
         request = self.factory.get(self.url)
@@ -246,7 +246,7 @@ class TestSetCupidProfile(APITestCase):
     @patch('get_object_or_404')
     @patch('CupidSerializer')
     @patch('UserSerializer')
-    def good_test(self, mock_location, mock_get, mock_cupid, mock_user):
+    def test_good_test(self, mock_location, mock_get, mock_cupid, mock_user):
         mock_location.return_value = 'test'
         mock_get.return_value = MagicMock()
         mock_cupid.return_value = MagicMock()
@@ -264,7 +264,7 @@ class TestSetCupidProfile(APITestCase):
     @patch('get_object_or_404')
     @patch('CupidSerializer')
     @patch('UserSerializer')
-    def bad_test(self, mock_location, mock_get, mock_cupid, mock_user):
+    def test_bad_test(self, mock_location, mock_get, mock_cupid, mock_user):
         mock_location.return_value = 'test'
         mock_get.return_value = None
         mock_cupid.return_value = MagicMock()
@@ -291,7 +291,7 @@ class TestAcceptGig(APITestCase):
     @patch('GigSerializer')
     @patch('make_aware')
     @patch('helpers.retrieved_response')
-    def good_test(self, mock_location, mock_get, mock_gig, mock_make_aware, mock_response):
+    def test_good_test(self, mock_location, mock_get, mock_gig, mock_make_aware, mock_response):
         mock_location.return_value = 'test'
         mock_get.return_value = MagicMock()
         mock_gig.return_value = MagicMock()
@@ -312,7 +312,7 @@ class TestAcceptGig(APITestCase):
     @patch('GigSerializer')
     @patch('make_aware')
     @patch('helpers.retrieved_response')
-    def bad_test(self, mock_location, mock_get, mock_gig, mock_make_aware, mock_response):
+    def test_bad_test(self, mock_location, mock_get, mock_gig, mock_make_aware, mock_response):
         mock_location.return_value = 'test'
         mock_get.return_value = None
         mock_gig.return_value = MagicMock()
@@ -340,7 +340,7 @@ class TestCompleteGig(APITestCase):
     @patch('GigSerializer')
     @patch('make_aware')
     @patch('helpers.changed_response')
-    def good_test(self, mock_location, mock_get, mock_gig, mock_make_aware, mock_response):
+    def test_good_test(self, mock_location, mock_get, mock_gig, mock_make_aware, mock_response):
         mock_location.return_value = 'test'
         mock_get.return_value = MagicMock()
         mock_gig.return_value = MagicMock()
@@ -361,7 +361,7 @@ class TestCompleteGig(APITestCase):
     @patch('GigSerializer')
     @patch('make_aware')
     @patch('helpers.changed_response')
-    def bad_test(self, mock_location, mock_get, mock_gig, mock_make_aware, mock_response):
+    def test_bad_test(self, mock_location, mock_get, mock_gig, mock_make_aware, mock_response):
         mock_location.return_value = 'test'
         mock_get.return_value = None
         mock_gig.return_value = MagicMock()
@@ -388,7 +388,7 @@ class TestDropGig(APITestCase):
     @patch('get_object_or_404')
     @patch('GigSerializer')
     @patch('helpers.retrieved_response')
-    def good_test(self, mock_location, mock_get, mock_gig, mock_response):
+    def test_good_test(self, mock_location, mock_get, mock_gig, mock_response):
         mock_location.return_value = 'test'
         mock_get.return_value = MagicMock()
         mock_gig.return_value = MagicMock()
@@ -406,7 +406,7 @@ class TestDropGig(APITestCase):
     @patch('get_object_or_404')
     @patch('GigSerializer')
     @patch('helpers.retrieved_response')
-    def bad_test(self, mock_location, mock_get, mock_gig, mock_response):
+    def test_bad_test(self, mock_location, mock_get, mock_gig, mock_response):
         mock_location.return_value = 'test'
         mock_get.return_value = None
         mock_gig.return_value = MagicMock()
@@ -432,7 +432,7 @@ class TestGetGig(APITestCase):
     @patch('Gig.objects.all')
     @patch('helpers.locations_are_near')
     @patch('GigSerializer')
-    def good_test(self, mock_get, mock_update, mock_all, mock_near, mock_serializer):
+    def test_good_test(self, mock_get, mock_update, mock_all, mock_near, mock_serializer):
         mock_get.return_value = MagicMock()
         mock_update.return_value = None
         mock_all.return_value = []
@@ -453,7 +453,7 @@ class TestGetGig(APITestCase):
     @patch('Gig.objects.all')
     @patch('helpers.locations_are_near')
     @patch('GigSerializer')
-    def bad_test(self, mock_get, mock_update, mock_all, mock_near, mock_serializer):
+    def test_bad_test(self, mock_get, mock_update, mock_all, mock_near, mock_serializer):
         mock_get.return_value = MagicMock()
         mock_update.return_value = None
         mock_all.return_value = []
