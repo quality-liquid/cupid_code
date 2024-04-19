@@ -66,7 +66,7 @@
 | Sprint 6       |                                           |           |   
 |----------------|-------------------------------------------|-----------|
 | Name           | Job                                       | Time(hrs) | 
-| Nate Stott     | Unit tests / debugging / document writing | 4         |   
+| Nate Stott     | Unit tests / debugging / document writing | 7         |   
 | Emma Wright    | Manuals & Test Design                     | 4         |   
 | Daniel Barfuss | Unit tests / debugging / test design      |           |   
 | Brighton Ellis | Selenium                                  |           |   
