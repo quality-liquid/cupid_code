@@ -100,15 +100,13 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 
 1. **User Registration & Profile Creation:**
 
-
-
     * All users can create an account on the Cupid Code app.
     * The registration process will be user-friendly and require basic information (email, password, full name, etc.).
     * Daters will be able to create a detailed profile with information about their interests, preferences, and past dating experiences.
 
 2. **Cupid Service:**
 
-    * The AI assistant will hire a "Cupid" to purchase and deliver items during a date.
+    * The dater will hire a "Cupid" to purchase and deliver items during a date.
     * Cupids can be available on-demand, and Daters can specify the items they need.
 
 3. **AI Chat for Dating Advice:**
@@ -116,44 +114,46 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
     * The app will feature an AI-powered chat where Daters can seek dating advice.
     * The AI chat can provide relevant and helpful advice based on Dater queries.
 
-4. **Notifications:**
+4. **Manager Panel:**
 
-    * Daters will have the option to receive notifications before, during, and after scheduled dates.
-    * Notifications may include reminders, suggestions, and post-date feedback.
+    * Managers will have the ability to see a cupid's stats.
+    * Managers will have the ability to take appropriate actions based on cupid stats.
 
-5. **Manager Panel:**
-
-    * A panel for managers to access and review complaints and feedback related to Cupids.
-    * Managers will have the ability to take appropriate actions based on feedback.
-
-6. **Privacy and Security:**
+5. **Privacy and Security:**
 
     * The app will prioritize user privacy, ensuring that personal information is secure.
 
-7. **Feedback and Ratings:**
+6. **Feedback and Ratings:**
 
-    * Daters will be able to provide feedback and ratings for both the AI advice and Cupids' services.
-    * The app will encourage users to share their experiences to improve the overall service quality.
+    * Daters will be able to provide feedback and ratings Cupids' services.
+    * Cupids will be able to provide feedback and ratings Daters' services.
+    * Cupids and Daters will be able to see feedback written about them.
 
-8. **User Support:**
-
-    * The app will have a user support system to assist users with any issues they encounter.
-    * Support channels will include chat, email, or an online help center.
-
-9. **User Preferences:**
+7. **User Preferences:**
 
     * Daters will be able to customize their preferences for AI advice and Cupid services.
-    * Preferences may include the level of AI involvement, preferred Cupids, and specific advice topics.
+    * These preferences will only be used once the corresponding systems are implemented.
 
-10. **Calendar:** 
+8. **Calendar:** 
 
-    * Daters can set up when dates are in an in-app calendar.
+    * Daters can set up when dates are, using an in-app calendar.
 
-11. **Emergency Advice during Dates:**
+9. **Emergency Advice during Dates:**
 
     * The app will have a feature to enable the AI to listen in on dates when activated by the Dater.
     * Emergency advice will be provided in real-time during dates to assist Daters in navigating challenging situations.
 
+4. **Notifications:**
+
+    * Daters will have the option to receive notifications before, during, and after scheduled dates.
+    * Notifications may include reminders, suggestions, and post-date feedback.
+    * A panel for managers to access and review complaints and feedback related to Cupids.
+    * Dater advice for both the AI advice and 
+
+7. **User Support:**
+
+    * The app will have a user support system to assist users with any issues they encounter.
+    * Support channels will include chat, email, or an online help center.
 
 ## Requirement Priority 
 
