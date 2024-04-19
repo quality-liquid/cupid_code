@@ -7,19 +7,20 @@
 out
 gen
 .vscode
+
 .env
+
+*.wav
+*.webm
+
+**.log
 
 # Python artifacts
 **/__pycache__/
 
 node_modules
 npm-debug.log
-package-lock.json
-package.json
 
-db.sqlite3
-
-poetry.lock
-pyproject.toml
+**.sqlite3
 
 .DS_Store
