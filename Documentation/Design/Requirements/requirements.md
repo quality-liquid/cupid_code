@@ -21,20 +21,18 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 
 ## Functional Requirements:
 
-
-
 1. **User Authentication:**
     * Daters, Cupids, and Managers must be able to authenticate using an email, and password.
 2. **User Roles and Interfaces:**
-    * Daters will have access to features like scheduling dates, adding funds, setting budget limits, talking with the AI.
-    * Cupids will be able to view available requests, accept requests, and transfer earned money.
+    * Daters will have access to features like scheduling dates, adding funds, setting budget limits, talking with the AI, and giving and receiving feedback.
+    * Cupids will be able to view available requests, accept requests, complete/drop requests, and transfer earned money. As well as give and receive feedback.
     * Managers will have the authority to monitor user activities, access real-time data, and remove Daters and Cupids for policy violations.
 3. **AI Integration:**
-    * The AI will be able to listen during dates, provide real-time advice to Daters, and summon Cupids for emergency date-saving assitance.
+    * The AI will be able to listen during dates, provide real-time advice to Daters, and summon Cupids for emergency date-saving assistance.
+    * The dater will be able to chat with the AI to get advice before, during, and after their date.
 4. **Budget Management:**
-    * Daters will be able to set budget limits for each date, and the AI must operate within those limits.
-5. **Communication:**
-    * Daters and Cupids will be able to communicate and within the platform through instant messaging.
+    * Daters will be able to set budget limits for each date, and the Cupid must operate within those limits.
+    * Daters will also be able set a default budget for all future dates.
 6. **Scheduling:**
     * Daters will have the ability to schedule dates, and will be able to manage their dating calendar.
 7. **Payment System:**
@@ -46,6 +44,7 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 
 1. **Security:**
     * The platform must create and adhere to rigorous security standards that ensure the confidentiality and integrity of user data. Such as encrypting data at rest and in transit, and only allow Daters, Cupids and Managers with a valid login to get into the system.
+    * User data will only be available to those who are authorized to view it.
 2. **Scalability:**
     * The system will be scalable to accommodate a growing user base.
 3. **Availability:**
@@ -217,6 +216,8 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 * Expenses tracking for individual Cupids (may be covered under manager analytics).
 * Chat between Daters and Cupids
 
+5. **Communication:**
+    * Daters and Cupids will be able to communicate and within the platform through instant messaging.
 
 
 ## User Stories 
