@@ -28,9 +28,9 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 2. **User Roles and Interfaces:**
     * Daters will have access to features like scheduling dates, adding funds, setting budget limits, talking with the AI.
     * Cupids will be able to view available requests, accept requests, and transfer earned money.
-    * Managers will have the authority to monitor user activities, access real-time data, and remove users for policy violations.
+    * Managers will have the authority to monitor user activities, access real-time data, and remove Daters and Cupids for policy violations.
 3. **AI Integration:**
-    * The AI will be able to listen during dates, provide real-time advice to Daters, and summon Cupids for assistance.
+    * The AI will be able to listen during dates, provide real-time advice to Daters, and summon Cupids for emergency date-saving assitance.
 4. **Budget Management:**
     * Daters will be able to set budget limits for each date, and the AI must operate within those limits.
 5. **Communication:**
@@ -38,14 +38,14 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 6. **Scheduling:**
     * Daters will have the ability to schedule dates, and will be able to manage their dating calendar.
 7. **Payment System:**
-    * Daters will be able to transfer funds to Cupid Code.
-    * Cupids will be able to view the amount of money earned.
+    * Daters will be able to transfer funds to Cupid Code for use in emergency date-saving assistance.
+    * Cupids will be able to view the amount of money they have earned.
 
 
 ## Non-Functional Requirements:
 
 1. **Security:**
-    * The platform must create and adhere to rigorous security standards that ensure the confidentiality and integrity of user data. Such as encrypting data at rest and in transit, and only allow users with a valid login to get into the system.
+    * The platform must create and adhere to rigorous security standards that ensure the confidentiality and integrity of user data. Such as encrypting data at rest and in transit, and only allow Daters, Cupids and Managers with a valid login to get into the system.
 2. **Scalability:**
     * The system will be scalable to accommodate a growing user base.
 3. **Availability:**
@@ -57,9 +57,9 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 6. **Compatibility:**
     * The application will be compatible with various devices and browsers. 
 7. **Compliance:**
-    * The system will comply with any relevant regulations and legal requirements.
+    * The system will comply with any relevant regulations and legal requirements. ACM codes of ethics are applied to keep confidentiallity of Daters and Cupids.
 8. **Documentation:**
-    * Comprehensive and clear documentation will be available for Daters, Cupids, and Managers.
+    * Comprehensive and clear documentation will be available for Daters, Cupids, and Managers via user manuals for each individual user type.
 
 
 ## Business Requirements:
@@ -85,7 +85,7 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
     * Be adaptable to changes in user preferences and technological advancements.
 9. **Brand Image and Marketing:**
     * Develop and maintain a positive brand image through effective marketing strategies that highlight the unique features and benefits of Cupid Code.
-    * Implement branding initiatives to create brand recognition and trust among users.
+    * Implement branding initiatives to create brand recognition and trust among Daters and Cupids.
 10. **Partnerships and Collaborations:**
     * Explore partnerships with other businesses, venues, or dating-related services to enhance the overall user experience and expand service offerings.
 11. **Customer Support and Conflict Resolution:**
@@ -101,6 +101,7 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 1. **User Registration & Profile Creation:**
 
     * All users can create an account on the Cupid Code app.
+    * All Daters and Cupids can create an account on the Cupid Code app.
     * The registration process will be user-friendly and require basic information (email, password, full name, etc.).
     * Daters will be able to create a detailed profile with information about their interests, preferences, and past dating experiences.
 
@@ -129,7 +130,12 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
     * Cupids will be able to provide feedback and ratings Daters' services.
     * Cupids and Daters will be able to see feedback written about them.
 
-7. **User Preferences:**
+8. **User Support:**
+
+    * The app will have a user support system to assist users with any issues they encounter.
+    * Support channels will include chat, email, or an online help center.
+
+9. **User Preferences:**
 
     * Daters will be able to customize their preferences for AI advice and Cupid services.
     * These preferences will only be used once the corresponding systems are implemented.
@@ -165,7 +171,7 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 * Browser (web page that looks well on the phone)/App for Cupid Code.
 * Username/Password for user authentication.
 * Notifications within the app for real-time updates and communication.
-* Users can ask for tips using AI API (cheap/free).
+* Daters can ask for tips using AI API (cheap/free).
 * Profile for the Dater with details like type of nerd, relationship goals, and communication preferences.
 * AI can be prompted to provide intervention or tips(listening in is a should-have)
 * Automated interventions (e.g., handling situations like sold-out concerts).
