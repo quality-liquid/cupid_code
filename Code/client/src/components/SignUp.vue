@@ -164,8 +164,8 @@ function previewFile() {
                 Physical Description
                 <textarea v-model="desc"></textarea>
             </label>
-            <div v-if="accType === 'Dater'" class="form">
-                <label class="update-content" for="nerd_type">
+            <div v-if="accType === 'dater'" class="form">
+                <label class="update-text" for="nerd_type">
                     Nerd Type
                     <input type="text" id="nerd_type" :value="ntype" @change="(e) => ntype = e.target.value"/>
                 </label>
@@ -257,6 +257,12 @@ function previewFile() {
         padding: 8px;
         margin: 10px;
         font-weight: bold;
+    }
+
+    .update-text {
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
     }
     
     textarea {
