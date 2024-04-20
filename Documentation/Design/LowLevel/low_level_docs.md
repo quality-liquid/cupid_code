@@ -24,6 +24,7 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
       - [Testing Standards](#testing-standards)
   - [Frontend Design](#frontend-design)
     - [Security](#security)
+    - [Performance](#performance)
     - [UI](#ui)
       - [User flow:](#user-flow)
       - [Screen designs:](#screen-designs)
@@ -59,6 +60,7 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
   - [Backend Design](#backend-design)
     - [Backend Summary](#backend-summary)
       - [Resources for the Backend](#resources-for-the-backend)
+    - [Performance](#performance)
     - [Django Project Structure](#django-project-structure)
     - [URL Mapping](#url-mapping)
       - [static endpoints](#static-endpoints)
@@ -68,6 +70,7 @@ Sprint Followers: Emma Wright, Brighton Ellis, Nate McKenzie, Eric DeBloois, Dan
     - [Django Settings](#django-settings)
     - [Django Admin](#django-admin)
     - [Unit Tests](#unit-tests)
+    - [External APIs](#external-apis)
     - [Quick Tutorial on how to use the Django Rest Framework](#quick-tutorial-on-how-to-use-the-django-rest-framework)
     - [Backend Pseudocode](#backend-pseudocode)
 <!--toc:end-->
@@ -287,6 +290,21 @@ async function updateUser() {
 ```
 Note that this will be the ONLY time there will be any calls made to the backend's APIs. The calls will use the URLs written and described in the backend section of the document. We are building it like this so that data is only called in a few secure places. This will help narrow any data leaks or exploits that may come from these calls and help in the debugging process and maintain good, safe code.
 
+### Performance
+
+The backend will primarily determine the performance of the app. 
+The frontend will be designed to be as lightweight as possible. 
+This will be done by using Vue.js and Vite. 
+Vue.js is a lightweight framework designed to be fast and efficient. 
+Vite is a build tool designed to be fast and efficient. 
+By using these tools, we can ensure that the frontend of the app is as performant as possible.
+
+The performance will also be determined by the user's network connection and what device they are using.
+For example, if a user is on a slow network connection, the app may take longer to load.
+
+Ideally, the app will be designed to be as performant as possible on all devices and network connections.
+But we recommend that the app be used on a modern device with a fast network connection for the best experience.
+
 ### UI
 This application is intended to be used as a dating aid for individuals with above average difficulty levels interacting in social environments, specifically romantic encounters. For this purpose we have developed the application to allow for smooth transition between elements and pages, soft visual appearances to be ease on eye-fatigue, and clear usage instructions so that anybody could pick up the app and understand how to use it. 
 
@@ -398,7 +416,7 @@ const routes = [
   { path: '/cupid', name: 'Cupid', component: Cupid }
 ];
 
-const router = create web history({
+const router = create_web_history({
   history: web hash history,
   routes
 });
@@ -447,7 +465,7 @@ const user_id = parseInt(window.location.hash.split('/')[3])
 
 This syntax will allow us to specify the parameters in the path. Vue Router prefers to do it this way instead of doing something like `/path/name/${param}` that you would normally do in other frameworks or plain javascript. 
 
-In some cases we won't use this, like for the welcome page or signup pages. We will instead use to="/path". This is a good shorthand for any path that doesn't require a parameter.
+In some cases, we won't use this, like for the welcome page or signup pages. We will instead use to="/path". This is a good shorthand for any path that doesn't require a parameter.
 
 **Other files**
 
@@ -485,24 +503,24 @@ And they can use the router-link tag in any component too
 ### Vue URLs
 The Vue app will live at URL `/app/`. The following pages will be available through the Vue Router.
 
-| URL                | Notes                                |
-|--------------------|--------------------------------------|
-| /                  | Welcome page                         |
-| /login             | Login page                           |
-| /register          | Signup page                          |
-| /dater/home/:id    | dater homepage                       |
-| /dater/chat/:id    | dater chat page                      |
-| /dater/listen/:id  | dater listen page                    |
-| /dater/balance/:id | dater cash page                      |
-| /dater/calendar/:id| dater calendar page                  |
-| /dater/profile/:id | dater profile page                   |
-| /cupid/home/:id    | cupid homepage                       |
-| /cupid/gigs/       | cupid gigs                           |
-| /cupid/balance/:id | cupid balance                        |
-| /cupid/profile/:id | cupid profile                        |
-| /manager/home/:id  | manager homepage                     |
-| /manager/cupids/   | manager reports                      |
-| /manager/daters/   | manager reports                      |
+| URL                 | Notes               |
+|---------------------|---------------------|
+| /                   | Welcome page        |
+| /login              | Login page          |
+| /register           | Signup page         |
+| /dater/home/:id     | dater homepage      |
+| /dater/chat/:id     | dater chat page     |
+| /dater/listen/:id   | dater listen page   |
+| /dater/balance/:id  | dater cash page     |
+| /dater/calendar/:id | dater calendar page |
+| /dater/profile/:id  | dater profile page  |
+| /cupid/home/:id     | cupid homepage      |
+| /cupid/gigs/        | cupid gigs          |
+| /cupid/balance/:id  | cupid balance       |
+| /cupid/profile/:id  | cupid profile       |
+| /manager/home/:id   | manager homepage    |
+| /manager/cupids/    | manager reports     |
+| /manager/daters/    | manager reports     |
 
 The :id syntax is using the params syntax from the Vue Router. These are the URLs that are going to need an id of some sort.
 
@@ -553,7 +571,7 @@ Subsections
 - [npm](#npm)
 - [Serverside](#serverside)
 - [Files to Add](#files-to-addy)
-- [Environemnt](#environment)
+- [Environment](#environment)
 - [Middleware](#middleware)
 - [In Server Settings](#in-server-settings)
 - [In core views](#in-core-viewspy)
@@ -567,7 +585,7 @@ We will be using these tools: Vite, NVM, NPM, and Poetry.
 The frontend will be setup using NVM & NPM for Vite and Vue. The backend will be using Poetry for Django. This section details what each version manager & configuration file needs to have as well as every additional file necessary and what each of those files needs to have in it. 
 
 #### Poetry
-These are all of the dependencies we'll install
+These are all the dependencies we'll install
 * Python 3.11+
 * Django 5.0.2+
 * Requests 2.31.0+
@@ -695,6 +713,8 @@ return middleware
 
 Subsections
 - [Backend Summary](#backend-summary)
+- [Resources for the Backend](#resources-for-the-backend)
+- [Performance](#performance)
 - [Django Project Structure](#django-project-structure)
 - [URL Mapping](#url-mapping)
 - [Django Models](#django-models)
@@ -702,6 +722,7 @@ Subsections
 - [Django Settings](#django-settings)
 - [Django Admin](#django-admin)
 - [Unit Tests](#unit-tests)
+- [External APIs](#external-apis)
 - [Backend Pseudocode](#backend-pseudocode)
 
 ### Backend Summary
@@ -718,6 +739,55 @@ Mapping what endpoints the frontend needs is helpful for the backend to know wha
 * [Django Rest Framework Views](https://www.django-rest-framework.org/api-guide/views/)
 * [Django Rest Framework Permissions](https://www.django-rest-framework.org/api-guide/permissions/)
 * [Django Rest Framework Authentication](https://www.django-rest-framework.org/api-guide/authentication/)
+
+### Performance
+
+The following will determine the performance of the backend:
+
+* Django
+  * Provides a lot of performance optimizations out of the box.
+  * Mature framework that has been optimized for performance over many years.
+  * Used by many large websites and can handle a lot of traffic.
+  * Synchronous framework, which means it can handle a lot of requests at once.
+  * Built-in caching system that can help improve performance.
+  * Built-in ORM that can help optimize database queries.
+  * Built-in middleware system that can help optimize requests.
+* Django Rest Framework
+  * Built on top of Django and inherits many of its performance optimizations.
+  * Designed to be fast and efficient.
+  * Used by many large websites and can handle a lot of traffic.
+  * Built-in caching and throttling systems that can help improve performance.
+  * Built-in serializers that can help optimize data serialization.
+  * Built-in viewsets and routers that can help optimize request handling.
+* Hardware
+  * We plan to run the backend on a company owned computer. This will allow us to have full control over the hardware and optimize it for performance.
+  * Ideally, we will use something like openstack to manage the hardware and ensure that it is running optimally.
+  * We will also need to be able to scale the hardware as needed to handle increased traffic.
+  * We will need to monitor the hardware to ensure that it is running optimally and make any necessary changes to improve performance.
+* Network
+  * The internet service provider will need to be able to handle the traffic that we are generating.
+  * We will need to monitor the network to ensure that it is running optimally and make any necessary changes to improve performance.
+  * Ideally, we will have servers in multiple locations to reduce latency and improve performance.
+* Database
+  * The default database is SQLite. This is good for development but not for production. We will need to change this to a more robust database like PostgreSQL.
+  * Little data is being stored about each user. This will help keep the database small and fast.
+* Code
+  * How we write the backend will also affect performance.
+  * We will need to write efficient code optimized for performance.
+  * We won't be using recursion to avoid stack overflow errors.
+  * We will make sure not to use nested loops to avoid performance issues.
+  * Luckily, this type of application is not very performance intensive. We are not doing any heavy calculations or processing large amounts of data.
+* Testing
+  * Our tests will help us identify performance issues. If testing a feature is slow, we will need to optimize it.
+  * We will use tools like Django Debug Toolbar to help identify performance issues.
+* Security
+  * Security is important, but sometimes it comes at a cost to performance.
+  * We will need to balance security with performance.
+* External APIs
+  * We will be using external APIs to get data. We will need to make sure that these APIs are fast and reliable.
+  * We will need to cache data from these APIs to improve performance.
+  * We should make a plan for what to do if these APIs are slow or go down.
+  * We will need to monitor these APIs to ensure that they are running optimally.
 
 ### Django Project Structure
 
@@ -929,22 +999,22 @@ relationship as their primary key.
 
 ### Django Migrations
 
-* Dummy Daters
+* Test Daters
   * username:dater1, email:bob@cupidcode.com, password:password, 200 cupid coin balance, budget of 50
   * username:dater2, email:Manny@cupidcode.com, password:password, 20 cupid coin balance, budget of 50
-* Dummy Cupids
+* Test Cupids
   * username:cupid1, email:joe@mail.com, password:password, 54 completed gigs, 12 failed
   * username:cupid2, email:really@me.com, password:password, 4 completed gigs, 16 failed
-* Dummy Manager
+* Test Manager
   * username:manager, email:manager@cupidcode.com, password:password
-* Dummy messages
-  * Create a few dummy conversation for each dater.
-* Dummy Gigs
+* Test messages
+  * Create a few test conversation for each dater.
+* Test Gigs
   * Unclaimed gig with a unique quest
   * Unclaimed gig with a unique quest
   * Claimed gig
-* Dummy Dates
-  * A dummy location, date is june 17th, so it will never come during this semester.
+* Test Dates
+  * A test location, date is june 17th, so it will never come during this semester.
 * Feedback
   * A couple positive reviews for each cupid
   * A couple negative reviews for each cupid
@@ -1003,6 +1073,31 @@ The following tools will be used to create unit tests for the software:
   * https://django-debug-toolbar.readthedocs.io/en/latest/
 
 Pseudocode can be found at the bottom of the [Pseudocode](#pseudocode) section.
+
+### External APIs
+
+We will be using the following external APIs:
+
+* [GeoLite2](https://www.maxmind.com/en/geoip2-databases)
+  * Used to look up location by IP address.
+  * Free to use.
+  * Provides accurate location data.
+  * Easy to integrate with Django.
+* [gpt2](https://huggingface.co/openai-community/gpt2)
+  * Used to generate responses for the chatbot.
+  * Free to use.
+  * Provides high-quality responses.
+  * Easy to integrate with Django.
+* [yelpapi](https://www.yelp.com/developers)
+  * Used to look up local businesses.
+  * Free to use.
+  * Provides accurate business data.
+  * Easy to integrate with Django.
+* [twilio](https://www.twilio.com/docs/usage/api)
+  * Used to send SMS messages.
+  * Paid service.
+  * Provides reliable SMS delivery.
+  * Easy to integrate with Django.
 
 ### Quick Tutorial on how to use the Django Rest Framework
 
