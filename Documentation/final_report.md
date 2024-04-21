@@ -223,7 +223,6 @@ Though this would have slowed down the project, it would have made the team stro
 ### Sprint 2 (Emma Wright)
 
 #### Summary
-
 Sprint 2 was our first development sprint.
 Because we set up the project repository and completed the design documents in the first sprint, we were able to start development right away.
 Creating a Django project and a Vue project was the first step.
@@ -232,8 +231,6 @@ The backend team worked on the database and the back-end components.
 The middleend team worked on connecting the front-end and back-end.
 
 #### Goals
-
-Get the project set up to the point where we could start hooking up the front-end and back-end in the next sprint.
 The goal for this sprint, being the first Development sprint, was to get all of our psuedocode and planning from the low level documentation into actual code. As well as do simple hookup with the server and frontend and get the signup, login, and welcome page looking pretty and successfully creating/logging in users. We also wanted a simple "homepage" for each kind of user to display that logging in had worked.
 
 #### Accomplishments
