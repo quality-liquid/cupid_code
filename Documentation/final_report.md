@@ -76,9 +76,9 @@ The team also used Discord to communicate with each other and to share files and
     - 
 - Emma Wright
   - Time
-      - 
+      - 3.5 hrs
   - Task
-      -
+      - User stories and Requirements
 - Nate Stott
   - Time
       - 3.5 hours
@@ -190,9 +190,9 @@ Though this would have slowed down the project, it would have made the team stro
     - 
 - Emma Wright
   - Time
-      - 
+      - 10.5
   - Task
-      -
+      - Internal interfaces, all UML, classes, and Middleend
 - Nate Stott
   - Time
       - 19 hours
@@ -234,15 +234,16 @@ The middleend team worked on connecting the front-end and back-end.
 #### Goals
 
 Get the project set up to the point where we could start hooking up the front-end and back-end in the next sprint.
+The goal for this sprint, being the first Development sprint, was to get all of our psuedocode and planning from the low level documentation into actual code. As well as do simple hookup with the server and frontend and get the signup, login, and welcome page looking pretty and successfully creating/logging in users. We also wanted a simple "homepage" for each kind of user to display that logging in had worked.
 
 #### Accomplishments
-
+The hookup was a success, we were able to run the project with both the front and backend hooked up from the start. This definitely helped streamline a lot of the work for the rest of the development sprints. A lot of the puesdocode written previously was also translated into code. This allowed backend to be able to help with debugging a lot faster as the frontend got built. A good example of this during this sprint was with signup and login. They didn't work fora bit but we were able to get both to succeed by the end of this sprint. It was one of our biggest hurdles and a great one to overcome.
 The backend team was able to create the database and most of the back-end components.
 The front-end team was learn how to use Vue and create some of the front-end components.
 It took time to learn how to use Vue, and get templates set up, but we were able to get a good start on the front-end.
 
 #### Setbacks
-
+Vue is a weird language, and relearning Django takes some time. Everyone spent a lot of the sprint learning and reading documentation to make sure their implementations were following the language properly and that it wouldn't crash the server. 
 Vue was new to most of the team, so it took time to learn how to use it.
 Learning what the different parts of Vue were and how they worked together was challenging.
 
@@ -251,11 +252,11 @@ It took time to learn how to use them together and how to set up the database.
 It also took us time to learn about serializers and how to use them.
 
 #### Lessons Learned
-
+We learned a lot about Vite, Vue and Django running through this. With connecting, making calls to the backend, how to return json to the frontend, and proper routing names so nothing got confused between different calls and routes. 
 The Django Rest framework has an awesome browsable API that makes it easy to test the back-end.
 
 #### Retrospective
-
+Overall I think the first development sprint went as smoothly as it did. We possibly could've prepared better with the frontend and connection if the low level design went better. But getting the frontend and backend connected from the start and figuring out signing up and logging in so quickly was a great way to start off development.
 We felt this sprint was a success, but it was challenging to get the front-end and back-end set up.
 It was confusing to figure out how to use Vue and Django together. 
 Emma Wright was able to get the front-end set up and working with the back-end.
@@ -264,36 +265,34 @@ Emma Wright was able to get the front-end set up and working with the back-end.
 
 - Nate McKenzie
   - Time
-    - 
+    - 15
   - Task
-    - 
+    - Backend - Views, logging in/ signing up, Database
 - Emma Wright
   - Time
-      - 
+      - 8
   - Task
-      -
+      - Connecting front & back, logging in/ signing up
 - Nate Stott
   - Time
-      - 13 hours
+      - 13 hours13
   - Task
-      - I wrote one third of the views.
-      - Figured out how serializers work, and how to use them.
-      - I set up the routing for the back-end.
+      - Views, django routing, apis
 - Brighton Ellis
   - Time
-      - 
+      - 8
   - Task
-      -
+      - Manager page skeletons
 - Daniel Barfuss
   - Time
-      - 
+      - 6
   - Task
-      -
+      - Backend views
 - Eric Deboolis
   - Time
-      - 
+      - 7.5
   - Task
-      -
+      - Cupid page skeletons
 
 ### Sprint 3 (Brighton Ellis)
 
@@ -324,9 +323,9 @@ Emma Wright was able to get the front-end set up and working with the back-end.
     - 
 - Emma Wright
   - Time
-      - 
+      - 8 hrs
   - Task
-      -
+      - Router & Dater views 
 - Nate Stott
   - Time
       - 5.5 hours
@@ -377,9 +376,9 @@ Emma Wright was able to get the front-end set up and working with the back-end.
     - 
 - Emma Wright
   - Time
-      - 
+      - 8
   - Task
-      - 
+      - Dater vues and manager vues
 - Nate Stott
   - Time
       - 8 hours
@@ -409,15 +408,16 @@ Emma Wright was able to get the front-end set up and working with the back-end.
 
 
 #### Goals
+Finish testing on the backend and do some level of testing on the frontend were the primary goals for this sprint. Backend had began writing unit tests during development and in between debugging the actual views they were writing tests for, so all that was left for them to do was to finalize all of those and potentially start some integration tests for better code coverage. Frontend wasn't able to start testing early so our team spent this sprint setting up Selenium. The goal was to get some core coverage with the tool.
 
 #### Accomplishments
-
+All of the tests got written and Selenium actually was able to be ran. We also got a fun presentation setup for our final showing of the project to the whole class.
 
 #### Setbacks
-
+Unit testing in Django is really weird and confusing. There's lots of great tools that make testing quick and easy but actually writing the code with those tools? The worst thing ever. Makes it even harder to figure out if the tests are failing because they're written wrong or because the views they're testing are wrong.
 
 #### Lessons Learned
-
+Don't write a bunch of unit tests with MagicMock without testing them first to make sure they're written right.
 
 #### Retrospective
 
@@ -426,36 +426,34 @@ Emma Wright was able to get the front-end set up and working with the back-end.
 
 - Nate McKenzie
   - Time
-    - 
+    - 7
   - Task
-    - 
+    - Selenium
 - Emma Wright
   - Time
-      - 
+      - 4
   - Task
-      -
+      - Manuals/ Test Design dooc
 - Nate Stott
   - Time
-      - 7 hours
+      - 8
   - Task
-      - Wrote Integration tests for the back-end.
-      - Debugged the back-end while front-end was getting hooked up and reported issues.
-      - Wrote testing documentation.
+      - Backend/ Debug/ Unit & Integration tests/ Docs
 - Brighton Ellis
   - Time
-      - 
+      - 5
   - Task
-      -
+      - Dater-side Selenium/ human demo tests
 - Daniel Barfuss
   - Time
-      - 
+      - 7
   - Task
-      -
+      - Unit & Integration tests/ Test design doc
 - Eric Deboolis
   - Time
-      - 
+      - 6
   - Task
-      -
+      - Manuals/ Editing of high & low level docs
 
 ### Sprint 6 (Eric Deboolis)
 
@@ -485,9 +483,9 @@ Emma Wright was able to get the front-end set up and working with the back-end.
     - 
 - Emma Wright
   - Time
-      - 
+      - 3
   - Task
-      -
+      - High level doc improvements/ Final Report segments
 - Nate Stott
   - Time
       - 4 hours
