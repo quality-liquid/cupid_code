@@ -73,9 +73,9 @@ The team also used Discord to communicate with each other and to share files and
     - 
 - Emma Wright
   - Time
-      - 
+      - 3.5 hrs
   - Task
-      -
+      - User stories and Requirements
 - Nate Stott
   - Time
       - 
@@ -122,9 +122,9 @@ The team also used Discord to communicate with each other and to share files and
     - 
 - Emma Wright
   - Time
-      - 
+      - 10.5
   - Task
-      -
+      - Internal interfaces, all UML, classes, and Middleend
 - Nate Stott
   - Time
       - 
@@ -150,51 +150,52 @@ The team also used Discord to communicate with each other and to share files and
 ### Sprint 2
 
 #### Goals
+The goal for this sprint, being the first Development sprint, was to get all of our psuedocode and planning from the low level documentation into actual code. As well as do simple hookup with the server and frontend and get the signup, login, and welcome page looking pretty and successfully creating/logging in users. We also wanted a simple "homepage" for each kind of user to display that logging in had worked.
 
 #### Accomplishments
-
+The hookup was a success, we were able to run the project with both the front and backend hooked up from the start. This definitely helped streamline a lot of the work for the rest of the development sprints. A lot of the puesdocode written previously was also translated into code. This allowed backend to be able to help with debugging a lot faster as the frontend got built. A good example of this during this sprint was with signup and login. They didn't work fora bit but we were able to get both to succeed by the end of this sprint. It was one of our biggest hurdles and a great one to overcome.
 
 #### Setbacks
-
+Vue is a weird language, and relearning Django takes some time. Everyone spent a lot of the sprint learning and reading documentation to make sure their implementations were following the language properly and that it wouldn't crash the server. 
 
 #### Lessons Learned
-
+We learned a lot about Vite, Vue and Django running through this. With connecting, making calls to the backend, how to return json to the frontend, and proper routing names so nothing got confused between different calls and routes. 
 
 #### Retrospective
-
+Overall I think the first development sprint went as smoothly as it did. We possibly could've prepared better with the frontend and connection if the low level design went better. But getting the frontend and backend connected from the start and figuring out signing up and logging in so quickly was a great way to start off development.
 
 #### Who worked on what
 
 - Nate McKenzie
   - Time
-    - 
+    - 15
   - Task
-    - 
+    - Backend - Views, logging in/ signing up, Database
 - Emma Wright
   - Time
-      - 
+      - 8
   - Task
-      -
+      - Connecting front & back, logging in/ signing up
 - Nate Stott
   - Time
-      - 
+      - 13
   - Task
-      -
+      - Views, django routing, apis
 - Brighton Ellis
   - Time
-      - 
+      - 8
   - Task
-      -
+      - Manager page skeletons
 - Daniel Barfuss
   - Time
-      - 
+      - 6
   - Task
-      -
+      - Backend views
 - Eric Deboolis
   - Time
-      - 
+      - 7.5
   - Task
-      -
+      - Cupid page skeletons
 
 ### Sprint 3
 
@@ -221,9 +222,9 @@ The team also used Discord to communicate with each other and to share files and
     - 
 - Emma Wright
   - Time
-      - 
+      - 8 hrs
   - Task
-      -
+      - Router & Dater views 
 - Nate Stott
   - Time
       - 
@@ -270,9 +271,9 @@ The team also used Discord to communicate with each other and to share files and
     - 
 - Emma Wright
   - Time
-      - 
+      - 8
   - Task
-      -
+      - Dater vues and manager vues
 - Nate Stott
   - Time
       - 
@@ -297,15 +298,16 @@ The team also used Discord to communicate with each other and to share files and
 ### Sprint 5
 
 #### Goals
+Finish testing on the backend and do some level of testing on the frontend were the primary goals for this sprint. Backend had began writing unit tests during development and in between debugging the actual views they were writing tests for, so all that was left for them to do was to finalize all of those and potentially start some integration tests for better code coverage. Frontend wasn't able to start testing early so our team spent this sprint setting up Selenium. The goal was to get some core coverage with the tool.
 
 #### Accomplishments
-
+All of the tests got written and Selenium actually was able to be ran. We also got a fun presentation setup for our final showing of the project to the whole class.
 
 #### Setbacks
-
+Unit testing in Django is really weird and confusing. There's lots of great tools that make testing quick and easy but actually writing the code with those tools? The worst thing ever. Makes it even harder to figure out if the tests are failing because they're written wrong or because the views they're testing are wrong.
 
 #### Lessons Learned
-
+Don't write a bunch of unit tests with MagicMock without testing them first to make sure they're written right.
 
 #### Retrospective
 
@@ -314,34 +316,34 @@ The team also used Discord to communicate with each other and to share files and
 
 - Nate McKenzie
   - Time
-    - 
+    - 7
   - Task
-    - 
+    - Selenium
 - Emma Wright
   - Time
-      - 
+      - 4
   - Task
-      -
+      - Manuals/ Test Design dooc
 - Nate Stott
   - Time
-      - 
+      - 8
   - Task
-      -
+      - Backend/ Debug/ Unit & Integration tests/ Docs
 - Brighton Ellis
   - Time
-      - 
+      - 5
   - Task
-      -
+      - Dater-side Selenium/ human demo tests
 - Daniel Barfuss
   - Time
-      - 
+      - 7
   - Task
-      -
+      - Unit & Integration tests/ Test design doc
 - Eric Deboolis
   - Time
-      - 
+      - 6
   - Task
-      -
+      - Manuals/ Editing of high & low level docs
 
 ### Sprint 6
 
@@ -368,9 +370,9 @@ The team also used Discord to communicate with each other and to share files and
     - 
 - Emma Wright
   - Time
-      - 
+      - 3
   - Task
-      -
+      - High level doc improvements/ Final Report segments
 - Nate Stott
   - Time
       - 
