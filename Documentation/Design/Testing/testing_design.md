@@ -133,13 +133,15 @@ Being most critical and using 50 bugs per 1,000 lines of code, this means that t
 
 ### Unit tests  
 
+**NOTE: There were complications using MagicMock, particularly with `@patch`, so tests currently won't run. Sorry for the inconvenience**
+
 To set up the environment, navigate to the `Code/` directory and use `poetry` to install the dependencies situated in the `poetry.lock` file. Use the following command to do so:
 
 ```poetry install```
 
 To run a unit test using Django's framework, navigate to the `Code/server/` directory, where `manage.py` resides. The tests we wrote are for the `api` application. Use the following command to run the tests:
 
-```python manage.py test api```
+```python manage.py test api.tests.unit_tests.cupid_tests```
 
 ### Automated system tests
 

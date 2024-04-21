@@ -13,7 +13,7 @@ class TestGetAIResponse(APITestCase):
 
     @patch('GPT2Tokenizer.from_pretrained')
     @patch('GPT2LMHeadModel.from_pretrained')
-    def good_test(self, mock_tokenizer, mock_model):
+    def test_good_test(self, mock_tokenizer, mock_model):
         tokenizer = MagicMock()
         mock_tokenizer.return_value = tokenizer
         model = MagicMock()
@@ -32,7 +32,7 @@ class TestGetAIResponse(APITestCase):
 
     @patch('GPT2Tokenizer.from_pretrained')
     @patch('GPT2LMHeadModel.from_pretrained')
-    def bad_test(self, mock_tokenizer, mock_model):
+    def test_bad_test(self, mock_tokenizer, mock_model):
         tokenizer = MagicMock()
         mock_tokenizer.return_value = tokenizer
         model = MagicMock()
@@ -58,7 +58,7 @@ class TestSendChatMessage(APITestCase):
     @patch('helpers.get_location_string')
     @patch('MessageSerializer')
     @patch('helpers.get_ai_response')
-    def good_test(self, mock_get_location_string, mock_message_serializer, mock_get_ai_response):
+    def test_good_test(self, mock_get_location_string, mock_message_serializer, mock_get_ai_response):
         request = self.factory.post(self.url)
         force_authenticate(request, user=User.objects.get(username='test'))
         mock_get_location_string.return_value = "Location"
@@ -74,7 +74,7 @@ class TestSendChatMessage(APITestCase):
     @patch('helpers.get_location_string')
     @patch('MessageSerializer')
     @patch('helpers.get_ai_response')
-    def bad_test(self, mock_get_location_string, mock_message_serializer, mock_get_ai_response):
+    def test_bad_test(self, mock_get_location_string, mock_message_serializer, mock_get_ai_response):
         request = self.factory.post(self.url)
         force_authenticate(request, user=User.objects.get(username='test'))
         mock_get_location_string.return_value = "Location"
@@ -98,7 +98,7 @@ class TestGetMessages(APITestCase):
     @patch('get_object_or_404')
     @patch('Message.objects.filter')
     @patch('MessageSerializer')
-    def good_test(self, mock_get_object_or_404, mock_message_filter, mock_message_serializer):
+    def test_good_test(self, mock_get_object_or_404, mock_message_filter, mock_message_serializer):
         request = self.factory.get(self.url)
         request.user.id = 1
         pk = 1
@@ -129,7 +129,7 @@ class TestGetMessages(APITestCase):
     @patch('get_object_or_404')
     @patch('Message.objects.filter')
     @patch('MessageSerializer')
-    def bad_test(self, mock_get_object_or_404, mock_message_filter, mock_message_serializer):
+    def test_bad_test(self, mock_get_object_or_404, mock_message_filter, mock_message_serializer):
         request = self.factory.get(self.url)
         request.user.id = 1
         pk = 1
@@ -152,7 +152,7 @@ class TestCalendar(APITestCase):
 
     @patch('helpers.get_calendar')
     @patch('helpers.save_calendar')
-    def good_test(self, mock_get_calendar, mock_save_calendar):
+    def test_good_test(self, mock_get_calendar, mock_save_calendar):
         request = self.factory.get(self.url)
         request.method = 'GET'
         pk = 1
@@ -177,7 +177,7 @@ class TestCalendar(APITestCase):
 
     @patch('helpers.get_calendar')
     @patch('helpers.save_calendar')
-    def bad_test(self, mock_get_calendar, mock_save_calendar):
+    def test_bad_test(self, mock_get_calendar, mock_save_calendar):
         request = self.factory.get(self.url)
         request.method = 'GET'
         pk = 1
@@ -208,7 +208,7 @@ class TestGetDaterRatings(APITestCase):
     @patch('helpers.authenticated_dater')
     @patch('get_list_or_404')
     @patch('FeedbackSerializer')
-    def good_test(self, mock_authenticated_dater, mock_get_list_or_404, mock_feedback_serializer):
+    def test_good_test(self, mock_authenticated_dater, mock_get_list_or_404, mock_feedback_serializer):
         request = self.factory.get(self.url)
         request.user.id = 1
         force_authenticate(request, user=User.objects.get(username='test'))
@@ -225,7 +225,7 @@ class TestGetDaterRatings(APITestCase):
     @patch('helpers.authenticated_dater')
     @patch('get_list_or_404')
     @patch('FeedbackSerializer')
-    def bad_test(self, mock_authenticated_dater, mock_get_list_or_404, mock_feedback_serializer):
+    def test_bad_test(self, mock_authenticated_dater, mock_get_list_or_404, mock_feedback_serializer):
         request = self.factory.get(self.url)
         request.user.id = 1
         force_authenticate(request, user=User.objects.get(username='test'))
@@ -245,7 +245,7 @@ class TestGetDaterAverageRating(APITestCase):
         self.view = get_dater_avg_rating
 
     @patch('helpers.authenticated_dater')
-    def good_test(self, mock_authenticated_dater):
+    def test_good_test(self, mock_authenticated_dater):
         request = self.factory.get(self.url)
         request.user.id = 1
         force_authenticate(request, user=User.objects.get(username='test'))
@@ -259,7 +259,7 @@ class TestGetDaterAverageRating(APITestCase):
         mock_authenticated_dater.assert_called_once()
 
     @patch('helpers.authenticated_dater')
-    def bad_test(self, mock_authenticated_dater):
+    def test_bad_test(self, mock_authenticated_dater):
         request = self.factory.get(self.url)
         request.user.id = 1
         force_authenticate(request, user=User.objects.get(username='test'))
@@ -278,7 +278,7 @@ class TestDaterTransfer(APITestCase):
 
     @patch('helpers.get_location_string')
     @patch('get_object_or_404')
-    def good_test(self, mock_get_location_string, mock_get_object_or_404):
+    def test_good_test(self, mock_get_location_string, mock_get_object_or_404):
         request = self.factory.post(self.url)
         force_authenticate(request, user=User.objects.get(username='test'))
         mock_get_location_string.return_value = "Location"
@@ -290,7 +290,7 @@ class TestDaterTransfer(APITestCase):
 
     @patch('helpers.get_location_string')
     @patch('get_object_or_404')
-    def bad_test(self, mock_get_location_string, mock_get_object_or_404):
+    def test_bad_test(self, mock_get_location_string, mock_get_object_or_404):
         request = self.factory.post(self.url)
         force_authenticate(request, user=User.objects.get(username='test'))
         mock_get_location_string.return_value = "Location"
@@ -309,7 +309,7 @@ class TestGetDaterBalance(APITestCase):
         self.view = get_dater_balance
 
     @patch('helpers.authenticated_dater')
-    def good_test(self, mock_authenticated_dater):
+    def test_good_test(self, mock_authenticated_dater):
         request = self.factory.get(self.url)
         request.user.id = 1
         force_authenticate(request, user=User.objects.get(username='test'))
@@ -322,7 +322,7 @@ class TestGetDaterBalance(APITestCase):
         mock_authenticated_dater.assert_called_once()
 
     @patch('helpers.authenticated_dater')
-    def bad_test(self, mock_authenticated_dater):
+    def test_bad_test(self, mock_authenticated_dater):
         request = self.factory.get(self.url)
         request.user.id = 1
         force_authenticate(request, user=User.objects.get(username='test'))
@@ -340,7 +340,7 @@ class TestGetDaterProfile(APITestCase):
         self.view = get_dater_profile
 
     @patch('helpers.authenticated_dater')
-    def good_test(self, mock_authenticated_dater):
+    def test_good_test(self, mock_authenticated_dater):
         request = self.factory.get(self.url)
         request.user.id = 1
         force_authenticate(request, user=User.objects.get(username='test'))
@@ -353,7 +353,7 @@ class TestGetDaterProfile(APITestCase):
         mock_authenticated_dater.assert_called_once()
 
     @patch('helpers.authenticated_dater')
-    def bad_test(self, mock_authenticated_dater):
+    def test_bad_test(self, mock_authenticated_dater):
         request = self.factory.get(self.url)
         request.user.id = 1
         force_authenticate(request, user=User.objects.get(username='test'))
@@ -374,7 +374,7 @@ class TestSetDaterProfile(APITestCase):
     @patch('get_object_or_404')
     @patch('DaterSerializer')
     @patch('UserSerializer')
-    def good_test(self, mock_get_location_string, mock_get_object_or_404, mock_dater_serializer, mock_user_serializer):
+    def test_good_test(self, mock_get_location_string, mock_get_object_or_404, mock_dater_serializer, mock_user_serializer):
         request = self.factory.post(self.url)
         force_authenticate(request, user=User.objects.get(username='test'))
         mock_get_location_string.return_value = "Location"
@@ -392,7 +392,7 @@ class TestSetDaterProfile(APITestCase):
     @patch('get_object_or_404')
     @patch('DaterSerializer')
     @patch('UserSerializer')
-    def bad_test(self, mock_get_location_string, mock_get_object_or_404, mock_dater_serializer, mock_user_serializer):
+    def test_bad_test(self, mock_get_location_string, mock_get_object_or_404, mock_dater_serializer, mock_user_serializer):
         request = self.factory.post(self.url)
         force_authenticate(request, user=User.objects.get(username='test'))
         mock_get_location_string.return_value = "Location"
@@ -418,7 +418,7 @@ class TestRateCupid(APITestCase):
     @patch('Gig.objects.get')
     @patch('FeedbackSerializer')
     @patch('make_aware')
-    def good_test(self, mock_update_user_location, mock_gig_get, mock_feedback_serializer, mock_make_aware):
+    def test_good_test(self, mock_update_user_location, mock_gig_get, mock_feedback_serializer, mock_make_aware):
         request = self.factory.post(self.url)
         force_authenticate(request, user=User.objects.get(username='test'))
         mock_update_user_location.return_value = MagicMock()
@@ -436,7 +436,7 @@ class TestRateCupid(APITestCase):
     @patch('Gig.objects.get')
     @patch('FeedbackSerializer')
     @patch('make_aware')
-    def bad_test(self, mock_update_user_location, mock_gig_get, mock_feedback_serializer, mock_make_aware):
+    def test_bad_test(self, mock_update_user_location, mock_gig_get, mock_feedback_serializer, mock_make_aware):
         request = self.factory.post(self.url)
         force_authenticate(request, user=User.objects.get(username='test'))
         mock_update_user_location.return_value = MagicMock()
@@ -463,7 +463,7 @@ class TestCreateGig(APITestCase):
     @patch('QuestSerializer')
     @patch('GigSerializer')
     @patch('helpers.save_serializer')
-    def good_test(self, mock_update_user_location, mock_get_object_or_404, mock_quest_serializer, mock_gig_serializer,
+    def test_good_test(self, mock_update_user_location, mock_get_object_or_404, mock_quest_serializer, mock_gig_serializer,
                   mock_save_serializer):
         request = self.factory.post(self.url)
         force_authenticate(request, user=User.objects.get(username='test'))
@@ -484,7 +484,7 @@ class TestCreateGig(APITestCase):
     @patch('QuestSerializer')
     @patch('GigSerializer')
     @patch('helpers.save_serializer')
-    def bad_test(self, mock_update_user_location, mock_get_object_or_404, mock_quest_serializer, mock_gig_serializer,
+    def test_bad_test(self, mock_update_user_location, mock_get_object_or_404, mock_quest_serializer, mock_gig_serializer,
                  mock_save_serializer):
         request = self.factory.post(self.url)
         force_authenticate(request, user=User.objects.get(username='test'))
@@ -512,7 +512,7 @@ class TestSpeechToText(APITestCase):
     @patch('get_object_or_404')
     @patch('helpers.get_response_from_audio')
     @patch('helpers.process_ai_response')
-    def good_test(self, mock_get_location_string, mock_get_object_or_404, mock_get_response_from_audio,
+    def test_good_test(self, mock_get_location_string, mock_get_object_or_404, mock_get_response_from_audio,
                   mock_process_ai_response):
         request = self.factory.post(self.url)
         force_authenticate(request, user=User.objects.get(username='test'))
@@ -531,7 +531,7 @@ class TestSpeechToText(APITestCase):
     @patch('get_object_or_404')
     @patch('helpers.get_response_from_audio')
     @patch('helpers.process_ai_response')
-    def bad_test(self, mock_get_location_string, mock_get_object_or_404, mock_get_response_from_audio,
+    def test_bad_test(self, mock_get_location_string, mock_get_object_or_404, mock_get_response_from_audio,
                  mock_process_ai_response):
         request = self.factory.post(self.url)
         force_authenticate(request, user=User.objects.get(username='test'))

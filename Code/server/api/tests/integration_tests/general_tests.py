@@ -11,14 +11,14 @@ import Code.server.api.views as views
 
 class TestUpdateUserLocation(APITestCase):
 
-    def good_test(self):
+    def test_good_test(self):
         user = MagicMock()
         addr = MagicMock()
         helpers.update_user_location(user, addr)
         # check that the user's location is updated
         user.save.assert_called_once()
 
-    def bad_test(self, mock_get_location_string):
+    def test_bad_test(self, mock_get_location_string):
         mock_get_location_string.return_value = None
         user = MagicMock()
         addr = MagicMock()
@@ -31,12 +31,12 @@ class TestUpdateUserLocation(APITestCase):
 
 class TestGetLocationString(APITestCase):
 
-    def good_test(self):
+    def test_good_test(self):
         addr = MagicMock()
         s = helpers.get_location_string(addr)
         assert s == "1 2"
 
-    def bad_test(self):
+    def test_bad_test(self):
         addr = MagicMock()
         s = helpers.get_location_string(addr)
         assert s is None
@@ -44,13 +44,13 @@ class TestGetLocationString(APITestCase):
 
 class TestGetLocationFromAddress(APITestCase):
 
-    def good_test(self):
+    def test_good_test(self):
         addr = MagicMock()
         lat, lon = helpers.get_location_from_address(addr)
         assert lat == 1
         assert lon == 2
 
-    def bad_test(self):
+    def test_bad_test(self):
         addr = MagicMock()
         lat, lon = helpers.get_location_from_address(addr)
         assert lat is None
@@ -59,13 +59,13 @@ class TestGetLocationFromAddress(APITestCase):
 
 class TestGetLocationFromIPAddress(APITestCase):
 
-    def good_test(self):
+    def test_good_test(self):
         ip_address = MagicMock()
         lat, lon = helpers.get_location_from_ip_address(ip_address)
         assert lat == 1
         assert lon == 2
 
-    def bad_test(self):
+    def test_bad_test(self):
         ip_address = MagicMock()
         lat, lon = helpers.get_location_from_ip_address(ip_address)
         assert lat is None
@@ -74,14 +74,14 @@ class TestGetLocationFromIPAddress(APITestCase):
 
 class TestLocationsAreNear(APITestCase):
 
-    def good_test(self):
+    def test_good_test(self):
         location1 = "1,2"
         location2 = "3,4"
         max_distance_miles = 5
         b = helpers.locations_are_near(location1, location2, max_distance_miles)
         assert b is True
 
-    def bad_test(self):
+    def test_bad_test(self):
         location1 = "1,2"
         location2 = "3,4"
         max_distance_miles = 5
@@ -91,7 +91,7 @@ class TestLocationsAreNear(APITestCase):
 
 class TestHaversineDistance(APITestCase):
 
-    def good_test(self):
+    def test_good_test(self):
         lat1 = 1
         lon1 = 2
         lat2 = 3
@@ -99,7 +99,7 @@ class TestHaversineDistance(APITestCase):
         d = helpers.haversine_distance(lat1, lon1, lat2, lon2)
         assert d == 314.404
 
-    def bad_test(self):
+    def test_bad_test(self):
         lat1 = 1
         lon1 = 2
         lat2 = 3
@@ -110,7 +110,7 @@ class TestHaversineDistance(APITestCase):
 
 class TestWithinDistance(APITestCase):
 
-    def good_test(self):
+    def test_good_test(self):
         lat1 = 1
         lon1 = 2
         lat2 = 3
@@ -119,7 +119,7 @@ class TestWithinDistance(APITestCase):
         b = helpers.within_distance(lat1, lon1, lat2, lon2, max_distance_miles)
         assert b is True
 
-    def bad_test(self):
+    def test_bad_test(self):
         lat1 = 1
         lon1 = 2
         lat2 = 3
@@ -136,14 +136,14 @@ class TestRequestYelpAPI(APITestCase):
         self.urls = ['get_stores', 'get_activities', 'get_events', 'get_restaurants', 'get_attractions']
         self.views = [views.get_stores, views.get_activities, views.get_events, views.get_restaurants, views.get_attractions]
 
-    def good_test(self):
+    def test_good_test(self):
         for url, view in zip(self.urls, self.views):
             request = self.factory.get(reverse(url))
             force_authenticate(request, user=User.objects.create())
             response = view(request)
             assert response.status_code == status.HTTP_200_OK
 
-    def bad_test(self):
+    def test_bad_test(self):
         for url, view in zip(self.urls, self.views):
             request = self.factory.get(reverse(url))
             force_authenticate(request, user=User.objects.create())
@@ -152,14 +152,14 @@ class TestRequestYelpAPI(APITestCase):
 
 
 class TestGetResponseFromYelpAPI(APITestCase):
-    def good_test(self):
+    def test_good_test(self):
         pk = 1
         request = MagicMock()
         search = MagicMock()
         response = helpers.get_response_from_yelp_api(pk, request, search)
         assert response.status_code == status.HTTP_200_OK
 
-    def bad_test(self):
+    def test_bad_test(self):
         pk = 1
         request = MagicMock()
         search = MagicMock()
@@ -171,7 +171,7 @@ class TestGetResponseFromYelpAPI(APITestCase):
 class TestCallYelpAPI(APITestCase):
     @patch("get_object_or_404")
     @patch("YelpAPI")
-    def good_test(self, mock_get_object_or_404, mock_YelpAPI):
+    def test_good_test(self, mock_get_object_or_404, mock_YelpAPI):
         mock_get_object_or_404.return_value = MagicMock()
         mock_YelpAPI.return_value = MagicMock()
         pk = 1
@@ -183,7 +183,7 @@ class TestCallYelpAPI(APITestCase):
 
     @patch("get_object_or_404")
     @patch("YelpAPI")
-    def bad_test(self, mock_get_object_or_404, mock_YelpAPI):
+    def test_bad_test(self, mock_get_object_or_404, mock_YelpAPI):
         mock_get_object_or_404.return_value = None
         mock_YelpAPI.return_value = MagicMock()
         pk = 1
@@ -202,7 +202,7 @@ class TestNotify(APITestCase):
         self.views = views.notify
 
     @patch("get_object_or_404")
-    def good_test(self, mock_get_object_or_404):
+    def test_good_test(self, mock_get_object_or_404):
         dater = MagicMock()
         dater.communication_preference = 0
         mock_get_object_or_404.return_value = dater
@@ -221,7 +221,7 @@ class TestNotify(APITestCase):
         mock_get_object_or_404.assert_called_once()
 
     @patch("get_object_or_404")
-    def bad_test(self, mock_get_object_or_404):
+    def test_bad_test(self, mock_get_object_or_404):
         mock_get_object_or_404.return_value = None
         request = self.factory.get(reverse(self.urls))
         force_authenticate(request, user=User.objects.create())
@@ -233,7 +233,7 @@ class TestNotify(APITestCase):
 class TestCreateNewGig(APITestCase):
     @patch("QuestSerializer")
     @patch("GigSerializer")
-    def good_test(self, mock_quest_serializer, mock_gig_serializer):
+    def test_good_test(self, mock_quest_serializer, mock_gig_serializer):
         dater = MagicMock()
         dater.budget = 1
         ai_response = """
@@ -255,7 +255,7 @@ class TestCreateNewGig(APITestCase):
     @patch("call_yelp_api")
     @patch("QuestSerializer")
     @patch("GigSerializer")
-    def bad_test(self, mock_yelp_api, mock_quest_serializer, mock_gig_serializer):
+    def test_bad_test(self, mock_yelp_api, mock_quest_serializer, mock_gig_serializer):
         dater = MagicMock()
         request = None
         mock_yelp_api.return_value = MagicMock()
@@ -273,7 +273,7 @@ class TestSendEmail(APITestCase):
     @patch("Mail")
     @patch("get_grid_api_key")
     @patch("SendGridAPIClient")
-    def good_test(self, mock_mail, mock_get_grid_api_key, mock_send_grid):
+    def test_good_test(self, mock_mail, mock_get_grid_api_key, mock_send_grid):
         dater = MagicMock()
         message = "Test"
         dater.email = "Dater email"
@@ -290,7 +290,7 @@ class TestSendEmail(APITestCase):
     @patch("Mail")
     @patch("get_grid_api_key")
     @patch("SendGridAPIClient")
-    def bad_test(self, mock_mail, mock_get_grid_api_key, mock_send_grid):
+    def test_bad_test(self, mock_mail, mock_get_grid_api_key, mock_send_grid):
         dater = MagicMock()
         message = "Test"
         dater.email = None
@@ -310,7 +310,7 @@ class TestSendText(APITestCase):
     @patch("get_twilio_authenticated_sender_phone_number")
     @patch("Client")
     @patch("Client.messages.create")
-    def good_test(self, mock_reserve_number, mock_sender_number, mock_client, mock_message_create):
+    def test_good_test(self, mock_reserve_number, mock_sender_number, mock_client, mock_message_create):
         account_sid = "sid"
         auth_token = "token"
         message = "Test"
@@ -330,7 +330,7 @@ class TestSendText(APITestCase):
     @patch("get_twilio_authenticated_sender_phone_number")
     @patch("Client")
     @patch("Client.messages.create")
-    def bad_test(self, mock_reserve_number, mock_sender_number, mock_client, mock_message_create):
+    def test_bad_test(self, mock_reserve_number, mock_sender_number, mock_client, mock_message_create):
         account_sid = "sid"
         auth_token = None
         message = "Test"
@@ -349,7 +349,7 @@ class TestSendText(APITestCase):
 
 class TestGetResponseFromAudio(APITestCase):
 
-    def good_test(self):
+    def test_good_test(self):
         audio_data = "audio data test"
         audio_type = "audio type test"
         dater = MagicMock()
@@ -358,7 +358,7 @@ class TestGetResponseFromAudio(APITestCase):
         assert response.status_code == status.HTTP_200_OK
 
 
-    def bad_test(self):
+    def test_bad_test(self):
         # Testing with no audio data
         audio_data = None
         audio_type = "audio type test"

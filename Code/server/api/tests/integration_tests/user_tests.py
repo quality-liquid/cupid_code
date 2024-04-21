@@ -33,7 +33,7 @@ class TestCreateUser(APITestCase):
     @patch("DaterSerializer")
     @patch("CupidSerializer")
     @patch('helpers.update_location')
-    def good_test(self, mock_user, mock_dater, mock_cupid, mock_update_location):
+    def test_good_test(self, mock_user, mock_dater, mock_cupid, mock_update_location):
         mock_user.return_value = MagicMock()
         mock_dater.return_value = MagicMock()
         mock_cupid.return_value = MagicMock()
@@ -51,7 +51,7 @@ class TestCreateUser(APITestCase):
     @patch("DaterSerializer")
     @patch("CupidSerializer")
     @patch('helpers.update_location')
-    def bad_test(self, mock_user, mock_dater, mock_cupid, mock_update_location):
+    def test_bad_test(self, mock_user, mock_dater, mock_cupid, mock_update_location):
         mock_user.return_value = MagicMock()
         mock_dater.return_value = MagicMock()
         mock_cupid.return_value = MagicMock()
@@ -73,7 +73,7 @@ class TestSignIn(APITestCase):
         self.view = views.sign_in
 
     @patch('helpers.update_location')
-    def good_test(self, mock_update_location):
+    def test_good_test(self, mock_update_location):
         mock = MagicMock()
         mock.user_id = 1
         mock.username = "Test"
@@ -88,7 +88,7 @@ class TestSignIn(APITestCase):
         mock_update_location.assert_called_once()
 
     @patch('helpers.update_location')
-    def bad_test(self, mock_update_location):
+    def test_bad_test(self, mock_update_location):
         mock = MagicMock()
         mock.user_id = 1
         mock.username = None
@@ -110,7 +110,7 @@ class TestGetUser(APITestCase):
 
     @patch("helpers.initialize_serializer")
     @patch("helpers.user_expand")
-    def good_test(self, mock_serializer, mock_user_expand):
+    def test_good_test(self, mock_serializer, mock_user_expand):
         mock_serializer.return_value = MagicMock()
         mock_user_expand.return_value = "Test User Data"
         request = self.factory.post(self.url)
@@ -124,7 +124,7 @@ class TestGetUser(APITestCase):
     
     @patch("helpers.initialize_serializer")
     @patch("helpers.user_expand")
-    def bad_test(self, mock_serializer, mock_user_expand):
+    def test_bad_test(self, mock_serializer, mock_user_expand):
         mock_serializer.return_value = MagicMock()
         mock_user_expand.return_value = "Test User Data"
         request = self.factory.post(self.url)
@@ -139,7 +139,7 @@ class TestGetUser(APITestCase):
 
 class TestUserExpand(APITestCase):
     @patch("UserSerializer")
-    def good_test(self, mock_serializer):
+    def test_good_test(self, mock_serializer):
         mock_serializer.return_value = MagicMock()
         user = MagicMock()
         serializer = MagicMock()
@@ -155,7 +155,7 @@ class TestUserExpand(APITestCase):
         assert return_data['user']['password'] == None
 
     @patch("UserSerializer")
-    def bad_test(self, mock_serializer):
+    def test_bad_test(self, mock_serializer):
         mock_serializer.return_value = MagicMock
         user = 3
         other_serializer = MagicMock()
@@ -171,7 +171,7 @@ class TestDeleteUser(APITestCase):
         self.url = reverse('api/delete_user')
         self.view = views.delete_user
 
-    def good_test(self):
+    def test_good_test(self):
         request = self.factory.post(self.url)
         request.data["user_id"] = 1
         request.data["is_staff"] = True
@@ -179,7 +179,7 @@ class TestDeleteUser(APITestCase):
         response = self.view(request)
         assert response.status_code == status.HTTP_200_OK
 
-    def bad_test(self):
+    def test_bad_test(self):
         request = self.factory.post(self.url)
         request.data["user_id"] = 1
         request.data["is_staff"] = False

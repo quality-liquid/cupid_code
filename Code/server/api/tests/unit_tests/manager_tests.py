@@ -32,7 +32,7 @@ class TestGetCupids(APITestCase):
 
     @patch("Cupid.objects.all")
     @patch("CupidSerializer")
-    def good_test(self, mock_all_cupids, mock_serializer):
+    def test_good_test(self, mock_all_cupids, mock_serializer):
         mock_all_cupids.return_value = MagicMock()
         mock_serializer.return_value = MagicMock()
         request = self.factory.post(self.url)
@@ -45,7 +45,7 @@ class TestGetCupids(APITestCase):
 
     @patch("Cupid.objects.all")
     @patch("CupidSerializer")
-    def bad_test(self, mock_all_cupids, mock_serializer):
+    def test_bad_test(self, mock_all_cupids, mock_serializer):
         # Test 1: Testing if Cupid.objects.all gives back nothing
         mock_all_cupids.return_value = None
         mock_serializer.return_value = MagicMock()
@@ -77,7 +77,7 @@ class TestGetDaters(APITestCase):
 
     @patch("Dater.objects.all")
     @patch("DaterSerializer")
-    def good_test(self, mock_all_daters, mock_serializer):
+    def test_good_test(self, mock_all_daters, mock_serializer):
         mock_all_daters.return_value = MagicMock()
         mock_serializer.return_value = MagicMock()
         request = self.factory.post(self.url)
@@ -90,7 +90,7 @@ class TestGetDaters(APITestCase):
 
     @patch("Dater.objects.all")
     @patch("DaterSerializer")
-    def bad_test(self, mock_all_daters, mock_serializer):
+    def test_bad_test(self, mock_all_daters, mock_serializer):
         # Test 1: Testing if Dater.objects.all gives back nothing
         mock_all_daters.return_value = None
         mock_serializer.return_value = MagicMock()
@@ -121,7 +121,7 @@ class TestGetDaterCount(APITestCase):
         self.view = views.get_dater_count
     
     @patch("Dater.objects.all().count")
-    def good_test(self, mock_all_daters):
+    def test_good_test(self, mock_all_daters):
         mock_all_daters.return_value = 1
         request = self.factory.post(self.url)
         response = self.view(request)
@@ -130,7 +130,7 @@ class TestGetDaterCount(APITestCase):
         assert isinstance(response.data['count'], int)
 
     @patch("Dater.objects.all().count")
-    def bad_test(self, mock_all_daters):
+    def test_bad_test(self, mock_all_daters):
         mock_all_daters.return_value = None
         request = self.factory.post(self.url)
         response = self.view(request)
@@ -146,7 +146,7 @@ class TestGetCupidCount(APITestCase):
         self.view = views.get_cupid_count
     
     @patch("Cupid.objects.all().count")
-    def good_test(self, mock_all_cupids):
+    def test_good_test(self, mock_all_cupids):
         mock_all_cupids.return_value = 1
         request = self.factory.post(self.url)
         response = self.view(request)
@@ -155,7 +155,7 @@ class TestGetCupidCount(APITestCase):
         assert isinstance(response.data['count'], int)
 
     @patch("Cupid.objects.all().count")
-    def bad_test(self, mock_all_cupids):
+    def test_bad_test(self, mock_all_cupids):
         mock_all_cupids.return_value = None
         request = self.factory.post(self.url)
         response = self.view(request)
@@ -171,7 +171,7 @@ class TestGetActiveCupids(APITestCase):
         self.view = views.get_active_cupids
 
     @patch("helpers.get_sessions")
-    def good_test(self, mock_sessions):
+    def test_good_test(self, mock_sessions):
         mock_sessions.return_value = {'test': 'test'}
         request = self.factory.post(self.url)
         response = self.view(request)
@@ -180,7 +180,7 @@ class TestGetActiveCupids(APITestCase):
         mock_sessions.assert_called_once()
 
     @patch("helpers.get_sessions")
-    def bad_test(self, mock_sessions):
+    def test_bad_test(self, mock_sessions):
         mock_sessions.return_value = None
         request = self.factory.post(self.url)
         response = self.view(request)
@@ -196,7 +196,7 @@ class TestGetActiveDaters(APITestCase):
         self.view = views.get_active_daters
 
     @patch("helpers.get_sessions")
-    def good_test(self, mock_sessions):
+    def test_good_test(self, mock_sessions):
         mock_sessions.return_value = {'test': 'test'}
         request = self.factory.post(self.url)
         response = self.view(request)
@@ -205,7 +205,7 @@ class TestGetActiveDaters(APITestCase):
         mock_sessions.assert_called_once()
 
     @patch("helpers.get_sessions")
-    def bad_test(self, mock_sessions):
+    def test_bad_test(self, mock_sessions):
         mock_sessions.return_value = None
         request = self.factory.post(self.url)
         response = self.view(request)
@@ -223,7 +223,7 @@ class TestGetGigRates(APITestCase):
     @patch("datetime.datetime.now")
     @patch("datetime.timedelta")
     @patch("Gig.objects.filter")
-    def good_test(self, mock_datetime, mock_timedelta, mock_gigs):
+    def test_good_test(self, mock_datetime, mock_timedelta, mock_gigs):
         mock_datetime.return_value = datetime.datetime.now()
         mock_timedelta.return_value = datetime.timedelta(days=1)
         mock_gigs.return_value = 24
@@ -236,7 +236,7 @@ class TestGetGigRates(APITestCase):
     @patch("datetime.datetime.now")
     @patch("datetime.timedelta")
     @patch("Gig.objects.filter")
-    def bad_test(self, mock_datetime, mock_timedelta, mock_gigs):
+    def test_bad_test(self, mock_datetime, mock_timedelta, mock_gigs):
         mock_datetime.return_value = datetime.datetime.now()
         mock_timedelta.return_value = datetime.timedelta(days=1)
         mock_gigs.return_value = None
@@ -253,7 +253,7 @@ class TestGetGigCount(APITestCase):
         self.view = views.get_gig_count
 
     @patch("Gig.objects.all().count")
-    def good_test(self, mock_gigs):
+    def test_good_test(self, mock_gigs):
         mock_gigs.return_value = 1
         request = self.factory.post(self.url)
         response = self.view(request)
@@ -262,7 +262,7 @@ class TestGetGigCount(APITestCase):
         mock_gigs.assert_called_once()
 
     @patch("Gig.objects.all().count")
-    def bad_test(self, mock_gigs):
+    def test_bad_test(self, mock_gigs):
         mock_gigs.return_value = None
         request = self.factory.post(self.url)
         response = self.view(request)
@@ -280,7 +280,7 @@ class TestGetGigDropRate(APITestCase):
     @patch("datetime.datetime.now")
     @patch("datetime.timedelta")
     @patch("Gig.objects.filter")
-    def good_test(self, mock_datetime, mock_timedelta, mock_gigs):
+    def test_good_test(self, mock_datetime, mock_timedelta, mock_gigs):
         mock_datetime.return_value = datetime.datetime.now()
         mock_timedelta.return_value = datetime.timedelta(days=1)
         mock_gigs.return_value = 24
@@ -293,7 +293,7 @@ class TestGetGigDropRate(APITestCase):
     @patch("datetime.datetime.now")
     @patch("datetime.timedelta")
     @patch("Gig.objects.filter")
-    def bad_test(self, mock_datetime, mock_timedelta, mock_gigs):
+    def test_bad_test(self, mock_datetime, mock_timedelta, mock_gigs):
         mock_datetime.return_value = datetime.datetime.now()
         mock_timedelta.return_value = datetime.timedelta(days=1)
         mock_gigs.return_value = None
@@ -312,7 +312,7 @@ class TestGetGigCompleteRate(APITestCase):
     @patch("datetime.datetime.now")
     @patch("datetime.timedelta")
     @patch("Gig.objects.filter")
-    def good_test(self, mock_datetime, mock_timedelta, mock_gigs):
+    def test_good_test(self, mock_datetime, mock_timedelta, mock_gigs):
         mock_datetime.return_value = datetime.datetime.now()
         mock_timedelta.return_value = datetime.timedelta(days=1)
         mock_gigs.return_value = 24
@@ -325,7 +325,7 @@ class TestGetGigCompleteRate(APITestCase):
     @patch("datetime.datetime.now")
     @patch("datetime.timedelta")
     @patch("Gig.objects.filter")
-    def bad_test(self, mock_datetime, mock_timedelta, mock_gigs):
+    def test_bad_test(self, mock_datetime, mock_timedelta, mock_gigs):
         mock_datetime.return_value = datetime.datetime.now()
         mock_timedelta.return_value = datetime.timedelta(days=1)
         mock_gigs.return_value = None
@@ -345,7 +345,7 @@ class TestSuspend(APITestCase):
     @patch("DaterSerializer")
     @patch("CupidSerializer")
     @patch("helpers.retrieved_response")
-    def good_test(self, mock_404, mock_dater_serializer, mock_cupid_serializer, mock_response):
+    def test_good_test(self, mock_404, mock_dater_serializer, mock_cupid_serializer, mock_response):
         mock_404.return_value = MagicMock()
         mock_dater_serializer.return_value = MagicMock()
         mock_cupid_serializer.return_value = MagicMock()
@@ -364,7 +364,7 @@ class TestSuspend(APITestCase):
     @patch("DaterSerializer")
     @patch("CupidSerializer")
     @patch("helpers.retrieved_response")
-    def bad_test(self, mock_404, mock_dater_serializer, mock_cupid_serializer, mock_response):
+    def test_bad_test(self, mock_404, mock_dater_serializer, mock_cupid_serializer, mock_response):
         mock_404.return_value = MagicMock()
         mock_dater_serializer.return_value = MagicMock()
         mock_cupid_serializer.return_value = MagicMock()
@@ -414,7 +414,7 @@ class TestUnsuspend(APITestCase):
     @patch("DaterSerializer")
     @patch("CupidSerializer")
     @patch("helpers.retrieved_response")
-    def good_test(self, mock_404, mock_dater_serializer, mock_cupid_serializer, mock_response):
+    def test_good_test(self, mock_404, mock_dater_serializer, mock_cupid_serializer, mock_response):
         mock_404.return_value = MagicMock()
         mock_dater_serializer.return_value = MagicMock()
         mock_cupid_serializer.return_value = MagicMock()
@@ -433,7 +433,7 @@ class TestUnsuspend(APITestCase):
     @patch("DaterSerializer")
     @patch("CupidSerializer")
     @patch("helpers.retrieved_response")
-    def bad_test(self, mock_404, mock_dater_serializer, mock_cupid_serializer, mock_response):
+    def test_bad_test(self, mock_404, mock_dater_serializer, mock_cupid_serializer, mock_response):
         mock_404.return_value = MagicMock()
         mock_dater_serializer.return_value = MagicMock()
         mock_cupid_serializer.return_value = MagicMock()

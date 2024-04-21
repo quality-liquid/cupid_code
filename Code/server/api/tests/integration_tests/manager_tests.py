@@ -31,7 +31,7 @@ class TestGetCupids(APITestCase):
         self.view = views.get_cupids
 
     @patch("CupidSerializer")
-    def good_test(self, mock_serializer):
+    def test_good_test(self, mock_serializer):
         mock_serializer.return_value = MagicMock()
         request = self.factory.post(self.url)
         
@@ -41,7 +41,7 @@ class TestGetCupids(APITestCase):
         mock_serializer.assert_called_once()
 
     @patch("CupidSerializer")
-    def bad_test(self, mock_serializer):
+    def test_bad_test(self, mock_serializer):
         # Test 1: Testing if Cupid.objects.all gives back nothing
         mock_serializer.return_value = MagicMock()
         request = self.factory.post(self.url)
@@ -68,7 +68,7 @@ class TestGetDaters(APITestCase):
         self.view = views.get_daters
 
     @patch("DaterSerializer")
-    def good_test(self, mock_serializer):
+    def test_good_test(self, mock_serializer):
         mock_serializer.return_value = MagicMock()
         request = self.factory.post(self.url)
         
@@ -78,7 +78,7 @@ class TestGetDaters(APITestCase):
         mock_serializer.assert_called_once()
 
     @patch("DaterSerializer")
-    def bad_test(self, mock_serializer):
+    def test_bad_test(self, mock_serializer):
         # Test 1: Testing if Dater.objects.all gives back nothing
         mock_serializer.return_value = MagicMock()
         request = self.factory.post(self.url)
@@ -104,14 +104,14 @@ class TestGetDaterCount(APITestCase):
         self.url = reverse('api/get_dater_count')
         self.view = views.get_dater_count
     
-    def good_test(self):
+    def test_good_test(self):
         request = self.factory.post(self.url)
         response = self.view(request)
 
         assert response.status_code == status.HTTP_200_OK
         assert isinstance(response.data['count'], int)
 
-    def bad_test(self):
+    def test_bad_test(self):
         request = self.factory.post(self.url)
         response = self.view(request)
 
@@ -125,14 +125,14 @@ class TestGetCupidCount(APITestCase):
         self.url = reverse('api/get_cupid_count')
         self.view = views.get_cupid_count
     
-    def good_test(self):
+    def test_good_test(self):
         request = self.factory.post(self.url)
         response = self.view(request)
 
         assert response.status_code == status.HTTP_200_OK
         assert isinstance(response.data['count'], int)
 
-    def bad_test(self):
+    def test_bad_test(self):
         request = self.factory.post(self.url)
         response = self.view(request)
 
@@ -146,13 +146,13 @@ class TestGetActiveCupids(APITestCase):
         self.url = reverse('api/get_active_cupids')
         self.view = views.get_active_cupids
 
-    def good_test(self):
+    def test_good_test(self):
         request = self.factory.post(self.url)
         response = self.view(request)
 
         assert response.status_code == status.HTTP_200_OK
 
-    def bad_test(self):
+    def test_bad_test(self):
         request = self.factory.post(self.url)
         response = self.view(request)
 
@@ -165,13 +165,13 @@ class TestGetActiveDaters(APITestCase):
         self.url = reverse('api/get_active_daters')
         self.view = views.get_active_daters
 
-    def good_test(self):
+    def test_good_test(self):
         request = self.factory.post(self.url)
         response = self.view(request)
 
         assert response.status_code == status.HTTP_200_OK
 
-    def bad_test(self):
+    def test_bad_test(self):
         request = self.factory.post(self.url)
         response = self.view(request)
 
@@ -183,14 +183,14 @@ class TestGetGigRates(APITestCase):
         self.url = reverse('api/get_gig_rate')
         self.view = views.get_gig_rate
 
-    def good_test(self):
+    def test_good_test(self):
         request = self.factory.post(self.url)
         response = self.view(request)
 
         assert response.status_code == status.HTTP_200_OK
 
 
-    def bad_test(self):
+    def test_bad_test(self):
         request = self.factory.post(self.url)
         response = self.view(request)
 
@@ -203,13 +203,13 @@ class TestGetGigCount(APITestCase):
         self.url = reverse('api/get_gig_count')
         self.view = views.get_gig_count
 
-    def good_test(self):
+    def test_good_test(self):
         request = self.factory.post(self.url)
         response = self.view(request)
 
         assert response.status_code == status.HTTP_200_OK
 
-    def bad_test(self):
+    def test_bad_test(self):
         request = self.factory.post(self.url)
         response = self.view(request)
 
@@ -221,13 +221,13 @@ class TestGetGigDropRate(APITestCase):
         self.url = reverse('api/get_gig_drop_rate')
         self.view = views.get_gig_drop_rate
 
-    def good_test(self):
+    def test_good_test(self):
         request = self.factory.post(self.url)
         response = self.view(request)
 
         assert response.status_code == status.HTTP_200_OK
 
-    def bad_test(self):
+    def test_bad_test(self):
         request = self.factory.post(self.url)
         response = self.view(request)
 
@@ -240,13 +240,13 @@ class TestGetGigCompleteRate(APITestCase):
         self.url = reverse('api/get_gig_complete_rate')
         self.view = views.get_gig_complete_rate
 
-    def good_test(self):
+    def test_good_test(self):
         request = self.factory.post(self.url)
         response = self.view(request)
 
         assert response.status_code == status.HTTP_200_OK
 
-    def bad_test(self):
+    def test_bad_test(self):
         request = self.factory.post(self.url)
         response = self.view(request)
 
@@ -262,7 +262,7 @@ class TestSuspend(APITestCase):
     @patch("DaterSerializer")
     @patch("CupidSerializer")
     @patch("helpers.retrieved_response")
-    def good_test(self, mock_dater_serializer, mock_cupid_serializer, mock_response):
+    def test_good_test(self, mock_dater_serializer, mock_cupid_serializer, mock_response):
         mock_dater_serializer.return_value = MagicMock()
         mock_cupid_serializer.return_value = MagicMock()
         mock_response = MagicMock()
@@ -279,7 +279,7 @@ class TestSuspend(APITestCase):
     @patch("DaterSerializer")
     @patch("CupidSerializer")
     @patch("helpers.retrieved_response")
-    def bad_test(self, mock_dater_serializer, mock_cupid_serializer, mock_response):
+    def test_bad_test(self, mock_dater_serializer, mock_cupid_serializer, mock_response):
         mock_dater_serializer.return_value = MagicMock()
         mock_cupid_serializer.return_value = MagicMock()
         mock_response = MagicMock()
@@ -327,7 +327,7 @@ class TestUnsuspend(APITestCase):
     @patch("DaterSerializer")
     @patch("CupidSerializer")
     @patch("helpers.retrieved_response")
-    def good_test(self, mock_dater_serializer, mock_cupid_serializer, mock_response):
+    def test_good_test(self, mock_dater_serializer, mock_cupid_serializer, mock_response):
         mock_dater_serializer.return_value = MagicMock()
         mock_cupid_serializer.return_value = MagicMock()
         mock_response = MagicMock()
@@ -344,7 +344,7 @@ class TestUnsuspend(APITestCase):
     @patch("DaterSerializer")
     @patch("CupidSerializer")
     @patch("helpers.retrieved_response")
-    def bad_test(self, mock_dater_serializer, mock_cupid_serializer, mock_response):
+    def test_bad_test(self, mock_dater_serializer, mock_cupid_serializer, mock_response):
         mock_dater_serializer.return_value = MagicMock()
         mock_cupid_serializer.return_value = MagicMock()
         mock_response = MagicMock()

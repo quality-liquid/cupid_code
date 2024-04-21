@@ -9,7 +9,7 @@ from Code.server.api.helpers import *
 class TestUpdateUserLocation(APITestCase):
 
     @patch("get_location_string")
-    def good_test(self, mock_get_location_string):
+    def test_good_test(self, mock_get_location_string):
         mock_get_location_string.return_value = MagicMock()
         user = MagicMock()
         addr = MagicMock()
@@ -21,7 +21,7 @@ class TestUpdateUserLocation(APITestCase):
         user.save.assert_called_once()
 
     @patch("get_location_string")
-    def bad_test(self, mock_get_location_string):
+    def test_bad_test(self, mock_get_location_string):
         mock_get_location_string.return_value = None
         user = MagicMock()
         addr = MagicMock()
@@ -35,7 +35,7 @@ class TestUpdateUserLocation(APITestCase):
 class TestGetLocationString(APITestCase):
 
     @patch("get_location_from_ip_address")
-    def good_test(self, mock_get_location_from_ip_address):
+    def test_good_test(self, mock_get_location_from_ip_address):
         mock_get_location_from_ip_address.return_value = (1, 2)
         addr = MagicMock()
         s = get_location_string(addr)
@@ -43,7 +43,7 @@ class TestGetLocationString(APITestCase):
         mock_get_location_from_ip_address.assert_called_once()
 
     @patch("get_location_from_ip_address")
-    def bad_test(self, mock_get_location_from_ip_address):
+    def test_bad_test(self, mock_get_location_from_ip_address):
         mock_get_location_from_ip_address.return_value = (None, None)
         addr = MagicMock()
         s = get_location_string(addr)
@@ -55,7 +55,7 @@ class TestGetLocationFromAddress(APITestCase):
 
     @patch("geopy.geocoders.Nominatim")
     @patch("geopy.geocoders.Nominatim.geocode")
-    def good_test(self, mock_nominatim, mock_geocode):
+    def test_good_test(self, mock_nominatim, mock_geocode):
         mock_nominatim.return_value = MagicMock()
         mock_geocode.return_value = MagicMock(latitude=1, longitude=2)
         addr = MagicMock()
@@ -67,7 +67,7 @@ class TestGetLocationFromAddress(APITestCase):
 
     @patch("geopy.geocoders.Nominatim")
     @patch("geopy.geocoders.Nominatim.geocode")
-    def bad_test(self, mock_nominatim, mock_geocode):
+    def test_bad_test(self, mock_nominatim, mock_geocode):
         mock_nominatim.return_value = MagicMock()
         mock_geocode.return_value = None
         addr = MagicMock()
@@ -81,7 +81,7 @@ class TestGetLocationFromAddress(APITestCase):
 class TestGetLocationFromIPAddress(APITestCase):
 
     @patch("geoip2.database.Reader")
-    def good_test(self, mock_reader):
+    def test_good_test(self, mock_reader):
         mock_reader.return_value = MagicMock()
         mock_reader.city.return_value = MagicMock(location=MagicMock(latitude=1, longitude=2))
         ip_address = MagicMock()
@@ -92,7 +92,7 @@ class TestGetLocationFromIPAddress(APITestCase):
         mock_reader.city.assert_called_once()
 
     @patch("geoip2.database.Reader")
-    def bad_test(self, mock_reader):
+    def test_bad_test(self, mock_reader):
         mock_reader.return_value = MagicMock()
         mock_reader.city.side_effect = geoip2.errors.AddressNotFoundError
         ip_address = MagicMock()
@@ -106,7 +106,7 @@ class TestGetLocationFromIPAddress(APITestCase):
 class TestLocationsAreNear(APITestCase):
 
     @patch("within_distance")
-    def good_test(self, mock_within_distance):
+    def test_good_test(self, mock_within_distance):
         mock_within_distance.return_value = True
         location1 = "1,2"
         location2 = "3,4"
@@ -116,7 +116,7 @@ class TestLocationsAreNear(APITestCase):
         mock_within_distance.assert_called_once()
 
     @patch("within_distance")
-    def bad_test(self, mock_within_distance):
+    def test_bad_test(self, mock_within_distance):
         mock_within_distance.return_value = False
         location1 = "1,2"
         location2 = "3,4"
@@ -128,7 +128,7 @@ class TestLocationsAreNear(APITestCase):
 
 class TestHaversineDistance(APITestCase):
 
-    def good_test(self):
+    def test_good_test(self):
         lat1 = 1
         lon1 = 2
         lat2 = 3
@@ -136,7 +136,7 @@ class TestHaversineDistance(APITestCase):
         d = haversine_distance(lat1, lon1, lat2, lon2)
         assert d == 314.404
 
-    def bad_test(self):
+    def test_bad_test(self):
         lat1 = 1
         lon1 = 2
         lat2 = 3
@@ -148,7 +148,7 @@ class TestHaversineDistance(APITestCase):
 class TestWithinDistance(APITestCase):
 
     @patch("haversine_distance")
-    def good_test(self, mock_haversine_distance):
+    def test_good_test(self, mock_haversine_distance):
         mock_haversine_distance.return_value = 5
         lat1 = 1
         lon1 = 2
@@ -159,7 +159,7 @@ class TestWithinDistance(APITestCase):
         assert b is True
 
     @patch("haversine_distance")
-    def bad_test(self, mock_haversine_distance):
+    def test_bad_test(self, mock_haversine_distance):
         mock_haversine_distance.return_value = 6
         lat1 = 1
         lon1 = 2
@@ -178,7 +178,7 @@ class TestRequestYelpAPI(APITestCase):
         self.views = [get_stores, get_activities, get_events, get_restaurants, get_attractions]
 
     @patch("helpers.get_response_from_yelp_api")
-    def good_test(self, mock_get_response_from_yelp_api):
+    def test_good_test(self, mock_get_response_from_yelp_api):
         for url, view in zip(self.urls, self.views):
             mock_get_response_from_yelp_api.return_value = MagicMock()
             request = self.factory.get(reverse(url))
@@ -188,7 +188,7 @@ class TestRequestYelpAPI(APITestCase):
             mock_get_response_from_yelp_api.assert_called_once()
 
     @patch("helpers.get_response_from_yelp_api")
-    def bad_test(self, mock_get_response_from_yelp_api):
+    def test_bad_test(self, mock_get_response_from_yelp_api):
         for url, view in zip(self.urls, self.views):
             mock_get_response_from_yelp_api.return_value = None
             request = self.factory.get(reverse(url))
@@ -200,7 +200,7 @@ class TestRequestYelpAPI(APITestCase):
 
 class TestGetResponseFromYelpAPI(APITestCase):
     @patch("call_yelp_api")
-    def good_test(self, mock_call_yelp_api):
+    def test_good_test(self, mock_call_yelp_api):
         mock_call_yelp_api.return_value = MagicMock()
         pk = 1
         request = MagicMock()
@@ -211,7 +211,7 @@ class TestGetResponseFromYelpAPI(APITestCase):
         assert response.status_code == status.HTTP_200_OK
 
     @patch("call_yelp_api")
-    def bad_test(self, mock_call_yelp_api):
+    def test_bad_test(self, mock_call_yelp_api):
         mock_call_yelp_api.return_value = None
         pk = 1
         request = MagicMock()
@@ -226,7 +226,7 @@ class TestCallYelpAPI(APITestCase):
     @patch("get_object_or_404")
     @patch("get_yelp_api_key")
     @patch("YelpAPI")
-    def good_test(self, mock_get_object_or_404, mock_get_yelp_api_key, mock_YelpAPI):
+    def test_good_test(self, mock_get_object_or_404, mock_get_yelp_api_key, mock_YelpAPI):
         mock_get_object_or_404.return_value = MagicMock()
         mock_get_yelp_api_key.return_value = "key"
         mock_YelpAPI.return_value = MagicMock()
@@ -241,7 +241,7 @@ class TestCallYelpAPI(APITestCase):
     @patch("get_object_or_404")
     @patch("get_yelp_api_key")
     @patch("YelpAPI")
-    def bad_test(self, mock_get_object_or_404, mock_get_yelp_api_key, mock_YelpAPI):
+    def test_bad_test(self, mock_get_object_or_404, mock_get_yelp_api_key, mock_YelpAPI):
         mock_get_object_or_404.return_value = None
         mock_get_yelp_api_key.return_value = "key"
         mock_YelpAPI.return_value = MagicMock()
@@ -264,7 +264,7 @@ class TestNotify(APITestCase):
     @patch("send_email")
     @patch("send_text")
     @patch("get_object_or_404")
-    def good_test(self, mock_send_email, mock_send_text, mock_get_object_or_404):
+    def test_good_test(self, mock_send_email, mock_send_text, mock_get_object_or_404):
         dater = MagicMock()
         dater.communication_preference = 0
         mock_get_object_or_404.return_value = dater
@@ -289,7 +289,7 @@ class TestNotify(APITestCase):
     @patch("send_email")
     @patch("send_text")
     @patch("get_object_or_404")
-    def bad_test(self, mock_send_email, mock_send_text, mock_get_object_or_404):
+    def test_bad_test(self, mock_send_email, mock_send_text, mock_get_object_or_404):
         mock_get_object_or_404.return_value = None
         mock_send_email.return_value = MagicMock()
         mock_send_text.return_value = MagicMock()
@@ -306,7 +306,7 @@ class TestCreateNewGig(APITestCase):
     @patch("call_yelp_api")
     @patch("QuestSerializer")
     @patch("GigSerializer")
-    def good_test(self, mock_yelp_api, mock_quest_serializer, mock_gig_serializer):
+    def test_good_test(self, mock_yelp_api, mock_quest_serializer, mock_gig_serializer):
         dater = MagicMock()
         dater.budget = 1
         ai_response = """
@@ -330,7 +330,7 @@ class TestCreateNewGig(APITestCase):
     @patch("call_yelp_api")
     @patch("QuestSerializer")
     @patch("GigSerializer")
-    def bad_test(self, mock_yelp_api, mock_quest_serializer, mock_gig_serializer):
+    def test_bad_test(self, mock_yelp_api, mock_quest_serializer, mock_gig_serializer):
         dater = MagicMock()
         request = None
         mock_yelp_api.return_value = MagicMock()
@@ -349,7 +349,7 @@ class TestSendEmail(APITestCase):
     @patch("Mail")
     @patch("get_grid_api_key")
     @patch("SendGridAPIClient")
-    def good_test(self, mock_get_twilio, mock_mail, mock_get_grid_api_key, mock_send_grid):
+    def test_good_test(self, mock_get_twilio, mock_mail, mock_get_grid_api_key, mock_send_grid):
         dater = MagicMock()
         message = "Test"
         dater.email = "Dater email"
@@ -369,7 +369,7 @@ class TestSendEmail(APITestCase):
     @patch("Mail")
     @patch("get_grid_api_key")
     @patch("SendGridAPIClient")
-    def bad_test(self, mock_get_twilio, mock_mail, mock_get_grid_api_key, mock_send_grid):
+    def test_bad_test(self, mock_get_twilio, mock_mail, mock_get_grid_api_key, mock_send_grid):
         dater = MagicMock()
         message = "Test"
         dater.email = None
@@ -391,7 +391,7 @@ class TestSendText(APITestCase):
     @patch("get_twilio_authenticated_sender_phone_number")
     @patch("Client")
     @patch("Client.messages.create")
-    def good_test(self, mock_reserve_number, mock_sender_number, mock_client, mock_message_create):
+    def test_good_test(self, mock_reserve_number, mock_sender_number, mock_client, mock_message_create):
         account_sid = "sid"
         auth_token = "token"
         message = "Test"
@@ -411,7 +411,7 @@ class TestSendText(APITestCase):
     @patch("get_twilio_authenticated_sender_phone_number")
     @patch("Client")
     @patch("Client.messages.create")
-    def bad_test(self, mock_reserve_number, mock_sender_number, mock_client, mock_message_create):
+    def test_bad_test(self, mock_reserve_number, mock_sender_number, mock_client, mock_message_create):
         account_sid = "sid"
         auth_token = None
         message = "Test"
@@ -436,7 +436,7 @@ class TestGetResponseFromAudio(APITestCase):
     @patch("recognizer.record")
     @patch("recognizer.recognize_sphinx")
     @patch("get_ai_response")
-    def good_test(self, mock_recognizer, mock_base64, mock_open, mock_audiofile, mock_record, mock_recognize_sphinx, mock_ai_response):
+    def test_good_test(self, mock_recognizer, mock_base64, mock_open, mock_audiofile, mock_record, mock_recognize_sphinx, mock_ai_response):
         audio_data = "audio data test"
         audio_type = "audio type test"
         dater = MagicMock()
@@ -465,7 +465,7 @@ class TestGetResponseFromAudio(APITestCase):
     @patch("recognizer.record")
     @patch("recognizer.recognize_sphinx")
     @patch("get_ai_response")
-    def bad_test(self, mock_recognizer, mock_base64, mock_open, mock_audiofile, mock_record, mock_recognize_sphinx, mock_ai_response):
+    def test_bad_test(self, mock_recognizer, mock_base64, mock_open, mock_audiofile, mock_record, mock_recognize_sphinx, mock_ai_response):
         # Testing with no audio data
         audio_data = None
         audio_type = "audio type test"
