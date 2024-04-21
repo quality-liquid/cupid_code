@@ -50,6 +50,9 @@ The team also used Discord to communicate with each other and to share files and
 
 ### Sprint 0 (Daniel Barfuss)
 
+#### Summary
+
+
 #### Goals
 
 #### Accomplishments
@@ -98,6 +101,8 @@ The team also used Discord to communicate with each other and to share files and
       -
 
 ### Sprint 1 (Nate Stott)
+
+#### Summary
 
 #### Goals
 
@@ -149,6 +154,9 @@ The team also used Discord to communicate with each other and to share files and
 
 ### Sprint 2 (Emma Wright)
 
+#### Summary
+
+
 #### Goals
 
 #### Accomplishments
@@ -197,6 +205,9 @@ The team also used Discord to communicate with each other and to share files and
       -
 
 ### Sprint 3 (Brighton Ellis)
+
+#### Summary
+
 
 #### Goals
 
@@ -248,6 +259,9 @@ The team also used Discord to communicate with each other and to share files and
 
 ### Sprint 4 (Nate McKenzie)
 
+#### Summary
+
+
 #### Goals
 
 #### Accomplishments
@@ -297,6 +311,9 @@ The team also used Discord to communicate with each other and to share files and
 
 ### Sprint 5 (Emma Wright)
 
+#### Summary
+
+
 #### Goals
 
 #### Accomplishments
@@ -345,6 +362,9 @@ The team also used Discord to communicate with each other and to share files and
       -
 
 ### Sprint 6 (Eric Deboolis)
+
+#### Summary
+
 
 #### Goals
 
