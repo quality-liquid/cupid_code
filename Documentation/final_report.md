@@ -97,7 +97,7 @@ The team also used Discord to communicate with each other and to share files and
   - Task
       -
 
-### Sprint 1
+### Sprint 1 (Nate Stott)
 
 #### Goals
 
@@ -147,7 +147,7 @@ The team also used Discord to communicate with each other and to share files and
       -
 
 
-### Sprint 2
+### Sprint 2 (Emma Wright)
 
 #### Goals
 
@@ -196,7 +196,106 @@ The team also used Discord to communicate with each other and to share files and
   - Task
       -
 
-### Sprint 3
+### Sprint 3 (Brighton Ellis)
+
+#### Goals
+
+
+#### Accomplishments
+
+
+#### Setbacks
+
+
+#### Lessons Learned
+
+
+#### Retrospective
+
+
+#### Who worked on what
+
+- Nate McKenzie
+  - Time
+    - 
+  - Task
+    - 
+- Emma Wright
+  - Time
+      - 
+  - Task
+      -
+- Nate Stott
+  - Time
+      - 
+  - Task
+      -
+- Brighton Ellis
+  - Time
+      - 
+  - Task
+      -
+- Daniel Barfuss
+  - Time
+      - 
+  - Task
+      -
+- Eric Deboolis
+  - Time
+      - 
+  - Task
+      -
+
+### Sprint 4 (Nate McKenzie)
+
+#### Goals
+
+#### Accomplishments
+
+
+#### Setbacks
+
+
+#### Lessons Learned
+
+
+#### Retrospective
+
+
+#### Who worked on what
+
+- Nate McKenzie
+  - Time
+    - 
+  - Task
+    - 
+- Emma Wright
+  - Time
+      - 
+  - Task
+      - 
+- Nate Stott
+  - Time
+      - 
+  - Task
+      -
+- Brighton Ellis
+  - Time
+      - 
+  - Task
+      -
+- Daniel Barfuss
+  - Time
+      - 
+  - Task
+      -
+- Eric Deboolis
+  - Time
+      - 
+  - Task
+      -
+
+### Sprint 5 (Emma Wright)
 
 #### Goals
 
@@ -245,105 +344,7 @@ The team also used Discord to communicate with each other and to share files and
   - Task
       -
 
-### Sprint 4
-
-#### Goals
-
-#### Accomplishments
-
-
-#### Setbacks
-
-
-#### Lessons Learned
-
-
-#### Retrospective
-
-
-#### Who worked on what
-
-- Nate McKenzie
-  - Time
-    - 
-  - Task
-    - 
-- Emma Wright
-  - Time
-      - 
-  - Task
-      -
-- Nate Stott
-  - Time
-      - 
-  - Task
-      -
-- Brighton Ellis
-  - Time
-      - 
-  - Task
-      -
-- Daniel Barfuss
-  - Time
-      - 
-  - Task
-      -
-- Eric Deboolis
-  - Time
-      - 
-  - Task
-      -
-
-### Sprint 5
-
-#### Goals
-
-#### Accomplishments
-
-
-#### Setbacks
-
-
-#### Lessons Learned
-
-
-#### Retrospective
-
-
-#### Who worked on what
-
-- Nate McKenzie
-  - Time
-    - 
-  - Task
-    - 
-- Emma Wright
-  - Time
-      - 
-  - Task
-      -
-- Nate Stott
-  - Time
-      - 
-  - Task
-      -
-- Brighton Ellis
-  - Time
-      - 
-  - Task
-      -
-- Daniel Barfuss
-  - Time
-      - 
-  - Task
-      -
-- Eric Deboolis
-  - Time
-      - 
-  - Task
-      -
-
-### Sprint 6
+### Sprint 6 (Eric Deboolis)
 
 #### Goals
 
