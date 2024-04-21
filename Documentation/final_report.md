@@ -81,9 +81,9 @@ The team also used Discord to communicate with each other and to share files and
       -
 - Nate Stott
   - Time
-      - 
+      - 3.5 hours
   - Task
-      -
+      - I wrote the functional requirements section of the document.
 - Brighton Ellis
   - Time
       - 
@@ -104,17 +104,17 @@ The team also used Discord to communicate with each other and to share files and
 
 #### Summary
 
-This Sprint was focused on getting the high and low level design documents completed.
-We had three weeks to complete the design documents and we were able to get them done in time.
-During this sprint we broke down the project into smaller tasks and assigned them to team members.
+We set up the project repository and started working on the high and low level design documents.
+We had three weeks to complete the design documents, and we were able to get them done in time.
+During this sprint, we broke down the project into smaller tasks and assigned them to team members.
 We also broke team members into smaller groups to work on specific parts of the project.
 These smaller groups met regularly to discuss the progress of the project and to plan the work for the next sprint.
 Groups included the front-end team, the back-end team, and the middleend team.
-Someone being apart of a group did not mean that they could not work on other parts of the project.
-In a lot of cases team members worked on multiple parts of the project in different groups.
+Someone being a part of a group did not mean that they could not work on other parts of the project.
+In a lot of cases, team members worked on multiple parts of the project in different groups.
 Someone being assigned to a group just meant that they were responsible for that part of the project.
 We also created a timeline for the project and set goals for each sprint.
-Overall, this sprint was a success and we where excited to move on to the next sprint.
+Overall, this sprint was a success, and we were excited to move on to the next sprint.
 
 - Groups
   - Front-end
@@ -127,11 +127,24 @@ Overall, this sprint was a success and we where excited to move on to the next s
   - Middleend
     - Emma Wright 
 
+- Group responsibilities
+  - Front-end
+    - Design the user interface
+    - Create the front-end components
+    - Implement the front-end functionality
+  - Back-end
+    - Design the database
+    - Create the back-end components
+    - Implement the back-end functionality
+  - Middleend
+    - Connect the front-end and back-end
+    - Implement the middleend functionality
+
 #### Goals
 
 We had three goals for this sprint:
-1. Complete the high level design document
-2. Complete the low level design document
+1. Complete the high-level design document
+2. Complete the low-level design document
 3. Create a timeline for the project
 
 #### Accomplishments
@@ -211,20 +224,41 @@ Though this would have slowed down the project, it would have made the team stro
 
 #### Summary
 
+Sprint 2 was our first development sprint.
+Because we set up the project repository and completed the design documents in the first sprint, we were able to start development right away.
+Creating a Django project and a Vue project was the first step.
+The front-end team worked on the user interface and the front-end components.
+The backend team worked on the database and the back-end components.
+The middleend team worked on connecting the front-end and back-end.
 
 #### Goals
 
+Get the project set up to the point where we could start hooking up the front-end and back-end in the next sprint.
+
 #### Accomplishments
 
+The backend team was able to create the database and most of the back-end components.
+The front-end team was learn how to use Vue and create some of the front-end components.
+It took time to learn how to use Vue, and get templates set up, but we were able to get a good start on the front-end.
 
 #### Setbacks
 
+Vue was new to most of the team, so it took time to learn how to use it.
+Learning what the different parts of Vue were and how they worked together was challenging.
+
+Django and the Django Rest Framework work together well but can be confusing at times.
+It took time to learn how to use them together and how to set up the database.
+It also took us time to learn about serializers and how to use them.
 
 #### Lessons Learned
 
+The Django Rest framework has an awesome browsable API that makes it easy to test the back-end.
 
 #### Retrospective
 
+We felt this sprint was a success, but it was challenging to get the front-end and back-end set up.
+It was confusing to figure out how to use Vue and Django together. 
+Emma Wright was able to get the front-end set up and working with the back-end.
 
 #### Who worked on what
 
@@ -240,9 +274,11 @@ Though this would have slowed down the project, it would have made the team stro
       -
 - Nate Stott
   - Time
-      - 
+      - 13 hours
   - Task
-      -
+      - I wrote one third of the views.
+      - Figured out how serializers work, and how to use them.
+      - I set up the routing for the back-end.
 - Brighton Ellis
   - Time
       - 
@@ -293,9 +329,10 @@ Though this would have slowed down the project, it would have made the team stro
       -
 - Nate Stott
   - Time
-      - 
+      - 5.5 hours
   - Task
-      -
+      - Wrote Unit tests for the back-end.
+      - Debugged the back-end while front-end was getting hooked up and reported issues.
 - Brighton Ellis
   - Time
       - 
@@ -345,9 +382,11 @@ Though this would have slowed down the project, it would have made the team stro
       - 
 - Nate Stott
   - Time
-      - 
+      - 8 hours
   - Task
-      -
+      - Wrote Unit tests for the back-end.
+      - Debugged the back-end while front-end was getting hooked up and reported issues.
+      - Wrote documentation.
 - Brighton Ellis
   - Time
       - 
@@ -397,9 +436,11 @@ Though this would have slowed down the project, it would have made the team stro
       -
 - Nate Stott
   - Time
-      - 
+      - 7 hours
   - Task
-      -
+      - Wrote Integration tests for the back-end.
+      - Debugged the back-end while front-end was getting hooked up and reported issues.
+      - Wrote testing documentation.
 - Brighton Ellis
   - Time
       - 
@@ -449,9 +490,10 @@ Though this would have slowed down the project, it would have made the team stro
       -
 - Nate Stott
   - Time
-      - 
+      - 4 hours
   - Task
-      -
+      - Wrote the template for this final report.
+      - Updated the low-level design document.
 - Brighton Ellis
   - Time
       - 

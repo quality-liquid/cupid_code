@@ -75,3 +75,14 @@
 | Nate McKenzie  | Selenium                                  | 4         |   
 | Eric DeBloois  | Manuals & Document writing                |           |   
 | Brandon Herrin |                                           |           |
+
+| Sprint 7       |                                                 |           |
+|----------------|-------------------------------------------------|-----------|
+| Name           | Job                                             | Time(hrs) |
+| Nate Stott     | Updating documentation / worked on final report | 4         |
+| Emma Wright    |                                                 |           |
+| Daniel Barfuss |                                                 |           |
+| Brighton Ellis |                                                 |           |
+| Nate McKenzie  |                                                 |           |
+| Eric DeBloois  |                                                 |           |
+| Brandon Herrin |                                                 |           |
