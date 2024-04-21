@@ -37,7 +37,7 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
     * Daters will have the ability to schedule dates, and will be able to manage their dating calendar.
 7. **Payment System:**
     * Daters will be able to transfer funds to Cupid Code for use in emergency date-saving assistance.
-    * Cupids will be able to view the amount of money they have earned.
+    * Cupids will be able to view the amount of money they have earned, and transfer it to their bank account.
 
 
 ## Non-Functional Requirements:
@@ -55,6 +55,7 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
     * The user interfaces for Daters, Cupids, and Managers will be intuitive and user-friendly.
 6. **Compatibility:**
     * The application will be compatible with various devices and browsers. 
+    * The application will utilize responsive design to ensure good experiences on desktop and mobile.
 7. **Compliance:**
     * The system will comply with any relevant regulations and legal requirements. ACM codes of ethics are applied to keep confidentiallity of Daters and Cupids.
 8. **Documentation:**
@@ -74,6 +75,7 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
     * Invest in a robust and scalable technology infrastructure to support the growing user base and ensure a seamless user experience.
 5. **Quality of Service:**
     * Prioritize the delivery of high-quality service to Daters and Cupids, ensuring that the AI provides dating advice and Cupids offer assistance during dates.
+    * Quality of service will be determined by allowing Cuipds and Daters to rate each other. Managers may take action on these reviews as necessary.
 6. **Financial Management:**
     * Establish sound financial management practices to handle revenue collection, financial reporting, and fund disbursement to Cupids.
 7. **Compliance and Legal Considerations:**
@@ -129,12 +131,12 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
     * Cupids will be able to provide feedback and ratings Daters' services.
     * Cupids and Daters will be able to see feedback written about them.
 
-8. **User Support:**
+7. **User Support:**
 
     * The app will have a user support system to assist users with any issues they encounter.
     * Support channels will include chat, email, or an online help center.
 
-9. **User Preferences:**
+8. **User Preferences:**
 
     * Daters will be able to customize their preferences for AI advice and Cupid services.
     * These preferences will only be used once the corresponding systems are implemented.
@@ -148,17 +150,20 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
     * The app will have a feature to enable the AI to listen in on dates when activated by the Dater.
     * Emergency advice will be provided in real-time during dates to assist Daters in navigating challenging situations.
 
-4. **Notifications:**
+10. **Notifications:**
 
     * Daters will have the option to receive notifications before, during, and after scheduled dates.
     * Notifications may include reminders, suggestions, and post-date feedback.
     * A panel for managers to access and review complaints and feedback related to Cupids.
     * Dater advice for both the AI advice and 
 
-7. **User Support:**
+11. **User Support:**
 
     * The app will have a user support system to assist users with any issues they encounter.
     * Support channels will include chat, email, or an online help center.
+
+
+
 
 ## Requirement Priority 
 
@@ -169,14 +174,15 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 
 * Browser (web page that looks well on the phone)/App for Cupid Code.
 * Username/Password for user authentication.
-* Notifications within the app for real-time updates and communication.
 * Daters can ask for tips using AI API (cheap/free).
 * Profile for the Dater with details like type of nerd, relationship goals, and communication preferences.
-* AI can be prompted to provide intervention or tips(listening in is a should-have)
-* Automated interventions (e.g., handling situations like sold-out concerts).
-* Free tier with a limited budget for initial interventions (e.g., $15 free intervention).
+* AI can be prompted to provide intervention or tips(listening in is a could-have)
 * Budget allocation for Cupids to save dates (company and Cupids receive a cut).
-* Orders can be placed through the Cupid app.
+* Save chat history feature in the chat box. If history cannot be saved, direct the user to a new chat.
+* Profile for Cupids similar to DoorDash or Grubhub style (able to state availability).
+* Cupids can be rated/fired by Daters.
+* Cupids can be on duty/off duty based on availability.
+* Portal for Cupids to sign up.
 * Manager dashboard.
     * Purpose: for tracking revenue, subscription numbers, and other analytics. Functionality may be in future release (see “Could-haves”)
 
@@ -185,39 +191,39 @@ Preparing for a date can be intimidating, and it can be tough to know what to sa
 
 
 
-* Save chat history feature in the chat box. If history cannot be saved, direct the user to a new chat.
-* Profile for Cupids similar to DoorDash or Grubhub style (able to state availability).
 * Simulate usage of the budget for class reveal with fake money (e.g., hacking in, etc.).
 * Schedule date in the app or assume Cupid is busy (charge for peak time).
 * Single Sign-On (SSO) options (Github, LinkedIn, Google, Facebook) as an alternative login method.
-* Cupids can be rated/fired by Daters.
-* Cupids can be on duty/off duty based on availability.
-* Listening to conversations by AI and responding for tips.
 * Mic on device permission to hear conversations.
 * $10/$15 a month subscription for Cupids.
+* Free tier with a limited budget for initial interventions (e.g., $15 free intervention).
 * AI uses Dater profile details with prompt.
-
+* Notifications within the app for real-time updates and communication.
+* Orders can be placed through the Cupid app.
+* Manager analytics for profit, subscriptions, and money spent on interventions + cut Cupids receive.
 
 #### Could-haves (C):
 
 
 
-* Portal for Cupids to sign up.
-* Manager analytics for profit, subscriptions, and money spent on interventions + cut Cupids receive.
 * Preferred for AI to hit Cupid panic button rather than the Dater.
 * Dater can select when AI listens in on conversations.
+* Automated interventions (e.g., handling situations like sold-out concerts).
+* Listening to conversations by AI and responding for tips.
 
 
 #### Won’t-haves (W):
 
 
 
-* History retention in case of login issues.
-* Expenses tracking for individual Cupids (may be covered under manager analytics).
+* Log failed logins and ban repeat offenders
+    * This would increase security against bots and brute forcing.
+    * This is not a major concern at this time, as we are focusing on creating a minimum viable product first.
+* Expenses tracking for individual Cupids 
+    *  Cupids will receive a flat-rate return for completing gigs instead.
 * Chat between Daters and Cupids
-
-5. **Communication:**
-    * Daters and Cupids will be able to communicate and within the platform through instant messaging.
+    * While this feature would be nice to have, it was deemed unowrthy of our time and effort at this time.
+    * Cupids and Daters already have access to enough information to complete the requested tasks without direct communication.
 
 
 ## User Stories 
