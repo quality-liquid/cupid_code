@@ -535,3 +535,30 @@ We also learned that it is important to write tests as you go, not after the fac
       - 
   - Task
       -
+
+## Case for Final Grades
+
+### Nate McMcKenzie
+
+
+
+### Emma Writing
+
+
+
+### Nate Stott
+
+
+
+### Brighton Ellis
+
+
+
+### Daniel Barfuss
+
+
+
+### Eric Deboolis
+
+
+
