@@ -71,12 +71,12 @@ The team also used Discord to communicate with each other and to share files and
 
 - Nate McKenzie
   - Time
-    - 
+    - 3.5 hours
   - Task
-    - 
+    - Problem statment
 - Emma Wright
   - Time
-      - 3.5 hrs
+      - 3.5 hours
   - Task
       - User stories and Requirements
 - Nate Stott
@@ -169,7 +169,7 @@ A high and low level design document are important to have before starting the p
 
 We felt this sprint was a success, but it was challenging to get the high and low level design documents done in time.
 With so many ideas, and possible features, it was hard to narrow down what we wanted to do.
-If we were, to do this sprint again, we would want to make sure we had a clear idea of who was responsible for what and when it was due.
+If we were to do this sprint again, we would want to make sure we had a clear idea of who was responsible for what and when it was due.
 Also making sure that every team member was going to be around for the duration of the project.
 If we took these precautions, the project would have gone smoother.
 
@@ -185,12 +185,12 @@ Though this would have slowed down the project, it would have made the team stro
 
 - Nate McKenzie
   - Time
-    - 
+    - 4.5 hours
   - Task
-    - 
+    - Database & Reports sections
 - Emma Wright
   - Time
-      - 10.5
+      - 10.5 hours
   - Task
       - Internal interfaces, all UML, classes, and Middleend
 - Nate Stott
@@ -270,32 +270,32 @@ Emma Wright was able to get the front-end set up and working with the back-end.
 
 - Nate McKenzie
   - Time
-    - 15
+    - 15 hours
   - Task
     - Backend - Views, logging in/ signing up, Database
 - Emma Wright
   - Time
-      - 8
+      - 8 hours
   - Task
       - Connecting front & back, logging in/ signing up
 - Nate Stott
   - Time
-      - 13 hours13
+      - 13 hours
   - Task
       - Views, django routing, apis
 - Brighton Ellis
   - Time
-      - 8
+      - 8 hours
   - Task
       - Manager page skeletons
 - Daniel Barfuss
   - Time
-      - 6
+      - 6 hours
   - Task
       - Backend views
 - Eric Deboolis
   - Time
-      - 7.5
+      - 7.5 hours
   - Task
       - Cupid page skeletons
 
@@ -323,12 +323,12 @@ Emma Wright was able to get the front-end set up and working with the back-end.
 
 - Nate McKenzie
   - Time
-    - 
+    - 15 hours
   - Task
-    - 
+    - Authentication: Make sure the frontend and backend worked together to allow users to login/signup and ensure that data was only available to those authorized
 - Emma Wright
   - Time
-      - 8 hrs
+      - 8 hours
   - Task
       - Router & Dater views 
 - Nate Stott
@@ -357,31 +357,59 @@ Emma Wright was able to get the front-end set up and working with the back-end.
 
 #### Summary
 
+This sprint was the final development. We all pulled together to try to get a cohesive app together. A lot of the frontend came together this sprint, while the backend was patched to match as new bugs became apparent.
+
 
 #### Goals
 
-#### Accomplishments
+The goal was to add as many missing features as possible. We priortized these ones:
 
+|Task                   |Notes                                                                                  |
+|-----------------------|---------------------------------------------------------------------------------------|
+|Dater Create Gig       |Create a frontend interface for the daters to create gigs.                             |
+|Various navigation     |Navigating around was difficult and inconsistent, so had to be fixed                   |
+|Dater View Feedback    |Create a page for dater's to view ratings they have been given                         |
+|Cupid See Availabe Gigs|Create a page for cupid's to see gigs that are available for them.                     |
+|Cupid Feedback         |Create interface for cupids to rate daters and see their own ratings                   |
+|Dater Give Feedback    |Create page for daters to give feedback on Cupids                                      |
+|Manager dashboard      |All of the manager frontend was included in this one                                   |
+|Cupids see past jobs   |Was deemed low priority, but ended up as a convenient way for them to rate daters      |
+|Cupid make money       |Allow cupids to actually make money from completed gigs                                |
+|Calendar               |Create a page for daters to view and schedule dates                                    |
+|Backend Unit Tests     |Wrote the lion's share of unit tests for the backend                                   |
+|User manual            |Wrote the User manual                                                                  |
+|Gigs show names, not id|Gigs were displaying id of cupid/dater on other end, now they show the names           |
+|AI microphone listening|Allow the frontend to record audio from the microphone, then send the transcription to the AI|
+
+#### Accomplishments
+We succesfully completed the above tasks, except for the AI listening in to the microphone. This gave our frontend most of the core capabilities that were still lacking. Because of this our app was fully functional for the basic uses of Cupid Code.
 
 #### Setbacks
 
+The AI listening in on the microphone took a lot of our manhours and ended up going nowhere. This was a real shame and took resources that could have been used elsewhere. I think we all learned a lot from the experience, however.
+
+We also had at least one major issue with git because one of our main directories was renamed from `Dev` to `Code`. As a part of this rename something happened with the gitignore which caused some files to be lost. In particular the files used by our dependencie managers got lost, resulting in the app being unable to run. We were able to fix it and get back on track.
 
 #### Lessons Learned
 
+Prioritizing tasks was pretty big in this sprint, as it was our last chance to finish everything up. The AI microphone was a high priority issue because we really wanted it to work, but we might have been able to do more by giving up on it earlier.
+
+We learned to be careful messing with unimportant things with a deadline coming up. Luckily this one wasn't a big deal in the end, but it was not worth the hassle when we were already on a time crunch.
 
 #### Retrospective
 
+Overall, this sprint went really well. We were able to accomplish a lot of tasks and stay focused on our end goal. As we looked back at our design and requirements doc we felt that we had met the goals we had set there pretty well. Our team dynamic was pretty strong this sprint, and we all enjoyed working together on this project.
 
 #### Who worked on what
 
 - Nate McKenzie
   - Time
-    - 
+    - 14 hours
   - Task
-    - 
+    - Assist frontend in wrapping up new features
 - Emma Wright
   - Time
-      - 8
+      - 8 hours
   - Task
       - Dater vues and manager vues
 - Nate Stott
@@ -393,19 +421,19 @@ Emma Wright was able to get the front-end set up and working with the back-end.
       - Wrote documentation.
 - Brighton Ellis
   - Time
-      - 
+      - 7 hours
   - Task
-      -
+      - Calendar page and assist Emma with microphone
 - Daniel Barfuss
   - Time
-      - 
+      - 7 hours
   - Task
-      -
+      - Backend unit tests and debugging
 - Eric Deboolis
   - Time
-      - 
+      - 6 hours
   - Task
-      -
+      - Cupid Home page
 
 ### Sprint 5 (Emma Wright)
 
@@ -454,32 +482,32 @@ We also learned that it is important to write tests as you go, not after the fac
 
 - Nate McMcKenzie
   - Time
-    - 7
+    - 7 hours
   - Task
     - Selenium
 - Emma Wright
   - Time
-      - 4
+      - 4 hours
   - Task
       - Manuals/ Test Design dooc
 - Nate Stott
   - Time
-      - 8
+      - 8 hours
   - Task
       - Backend/ Debug/ Unit & Integration tests/ Docs
 - Brighton Ellis
   - Time
-      - 5
+      - 5 hours
   - Task
       - Dater-side Selenium/ human demo tests
 - Daniel Barfuss
   - Time
-      - 7
+      - 7 hours
   - Task
       - Unit & Integration tests/ Test design doc
 - Eric Deboolis
   - Time
-      - 6
+      - 6 hours
   - Task
       - Manuals/ Editing of high & low level docs
 
