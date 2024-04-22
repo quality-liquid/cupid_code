@@ -223,6 +223,7 @@ Though this would have slowed down the project, it would have made the team stro
 ### Sprint 2 (Emma Wright)
 
 #### Summary
+
 Sprint 2 was our first development sprint.
 Because we set up the project repository and completed the design documents in the first sprint, we were able to start development right away.
 Creating a Django project and a Vue project was the first step.
@@ -231,17 +232,20 @@ The backend team worked on the database and the back-end components.
 The middleend team worked on connecting the front-end and back-end.
 
 #### Goals
+
 The goal for this sprint, being the first Development sprint, was to get all of our pseudocode and planning from the low-level documentation into actual code. 
 As well as do a simple hookup with the server and frontend and get the signup, login, and welcome page looking pretty and successfully creating/logging in users. 
 We also wanted a simple "homepage" for each kind of user to display that logging in had worked.
 
 #### Accomplishments
+
 The hookup was a success, we were able to run the project with both the front and backend hooked up from the start. This definitely helped streamline a lot of the work for the rest of the development sprints. A lot of the puesdocode written previously was also translated into code. This allowed backend to be able to help with debugging a lot faster as the frontend got built. A good example of this during this sprint was with signup and login. They didn't work fora bit but we were able to get both to succeed by the end of this sprint. It was one of our biggest hurdles and a great one to overcome.
 The backend team was able to create the database and most of the back-end components.
 The front-end team was learn how to use Vue and create some of the front-end components.
 It took time to learn how to use Vue, and get templates set up, but we were able to get a good start on the front-end.
 
 #### Setbacks
+
 Vue is a weird language, and relearning Django takes some time. Everyone spent a lot of the sprint learning and reading documentation to make sure their implementations were following the language properly and that it wouldn't crash the server. 
 Vue was new to most of the team, so it took time to learn how to use it.
 Learning what the different parts of Vue were and how they worked together was challenging.
@@ -251,10 +255,12 @@ It took time to learn how to use them together and how to set up the database.
 It also took us time to learn about serializers and how to use them.
 
 #### Lessons Learned
+
 We learned a lot about Vite, Vue and Django running through this. With connecting, making calls to the backend, how to return json to the frontend, and proper routing names so nothing got confused between different calls and routes. 
 The Django Rest framework has an awesome browsable API that makes it easy to test the back-end.
 
 #### Retrospective
+
 Overall I think the first development sprint went as smoothly as it did. We possibly could've prepared better with the frontend and connection if the low level design went better. But getting the frontend and backend connected from the start and figuring out signing up and logging in so quickly was a great way to start off development.
 We felt this sprint was a success, but it was challenging to get the front-end and back-end set up.
 It was confusing to figure out how to use Vue and Django together. 
@@ -405,21 +411,44 @@ Emma Wright was able to get the front-end set up and working with the back-end.
 
 #### Summary
 
+This sprint was all about testing. 
+We worked hard to get all of our tests written but it has been a struggle to get them to run.
+Weirdly we had to deploy the project to get the tests to run. 
+When we where able to get them to run we found that the structure of our unit tests was not great.
 
 #### Goals
-Finish testing on the backend and do some level of testing on the frontend were the primary goals for this sprint. Backend had began writing unit tests during development and in between debugging the actual views they were writing tests for, so all that was left for them to do was to finalize all of those and potentially start some integration tests for better code coverage. Frontend wasn't able to start testing early so our team spent this sprint setting up Selenium. The goal was to get some core coverage with the tool.
+
+Finish testing on the backend and do some level of testing on the frontend were the primary goals for this sprint. 
+Backend had begun writing unit tests during development and in between debugging the actual views they were writing tests for, so all that was left for them to do was to finalize all of those and potentially start some integration tests for better code coverage. 
+Frontend wasn't able to start testing early, so our team spent this sprint setting up Selenium. 
+The goal was to get some core coverage with the tool.
 
 #### Accomplishments
-All of the tests got written and Selenium actually was able to be ran. We also got a fun presentation setup for our final showing of the project to the whole class.
+
+All the tests got written, and Selenium actually was able to be ran. 
+We also got a fun presentation setup for our final showing of the project to the whole class.
+Writing the tests was a lot of work. 
+We started early on the backend, but it was hard to get them to run.
+We should have figured out how to run the tests before we started writing them.
 
 #### Setbacks
-Unit testing in Django is really weird and confusing. There's lots of great tools that make testing quick and easy but actually writing the code with those tools? The worst thing ever. Makes it even harder to figure out if the tests are failing because they're written wrong or because the views they're testing are wrong.
+
+Unit testing in Django is really weird and confusing. 
+There are lots of great tools that make testing quick and easy but actually writing the code with those tools? 
+The worst thing ever. 
+Makes it even harder to figure out if the tests are failing because they're written wrong or because the views they're testing are wrong.
 
 #### Lessons Learned
+
 Don't write a bunch of unit tests with MagicMock without testing them first to make sure they're written right.
+We had to refactor the code to make it easier to test. 
+We learned that it is important to write tests as you go, not after the fact.
 
 #### Retrospective
 
+We felt this sprint was a success, but it was challenging to get the tests to run.
+Tests are important and we all will make sure to keep them in the center of our development process in the future.
+We also learned that it is important to write tests as you go, not after the fact.
 
 #### Who worked on what
 
