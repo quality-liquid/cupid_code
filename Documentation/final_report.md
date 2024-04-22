@@ -231,7 +231,9 @@ The backend team worked on the database and the back-end components.
 The middleend team worked on connecting the front-end and back-end.
 
 #### Goals
-The goal for this sprint, being the first Development sprint, was to get all of our psuedocode and planning from the low level documentation into actual code. As well as do simple hookup with the server and frontend and get the signup, login, and welcome page looking pretty and successfully creating/logging in users. We also wanted a simple "homepage" for each kind of user to display that logging in had worked.
+The goal for this sprint, being the first Development sprint, was to get all of our pseudocode and planning from the low-level documentation into actual code. 
+As well as do a simple hookup with the server and frontend and get the signup, login, and welcome page looking pretty and successfully creating/logging in users. 
+We also wanted a simple "homepage" for each kind of user to display that logging in had worked.
 
 #### Accomplishments
 The hookup was a success, we were able to run the project with both the front and backend hooked up from the start. This definitely helped streamline a lot of the work for the rest of the development sprints. A lot of the puesdocode written previously was also translated into code. This allowed backend to be able to help with debugging a lot faster as the frontend got built. A good example of this during this sprint was with signup and login. They didn't work fora bit but we were able to get both to succeed by the end of this sprint. It was one of our biggest hurdles and a great one to overcome.
