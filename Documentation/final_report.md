@@ -7,13 +7,13 @@
 - [Project Description](#project-overview)
 - [Project Management](#project-management)
 - [Sprints](#sprints)
-  - [Sprint 0](#sprint-0)
-  - [Sprint 1](#sprint-1)
-  - [Sprint 2](#sprint-2)
-  - [Sprint 3](#sprint-3)
-  - [Sprint 4](#sprint-4)
-  - [Sprint 5](#sprint-5)
-  - [Sprint 6](#sprint-6)
+  - [Sprint 0](#sprint-0-daniel-barfuss)
+  - [Sprint 1](#sprint-1-nate-stott)
+  - [Sprint 2](#sprint-2-emma-wright)
+  - [Sprint 3](#sprint-3-brighton-ellis)
+  - [Sprint 4](#sprint-4-nate-mckenzie)
+  - [Sprint 5](#sprint-5-emma-wright)
+  - [Sprint 6](#sprint-6-eric-deboolis)
 
 ## Introduction
 
@@ -452,7 +452,7 @@ We also learned that it is important to write tests as you go, not after the fac
 
 #### Who worked on what
 
-- Nate McKenzie
+- Nate McMcKenzie
   - Time
     - 7
   - Task
