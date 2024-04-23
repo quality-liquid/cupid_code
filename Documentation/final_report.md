@@ -227,9 +227,11 @@ Though this would have slowed down the project, it would have made the team stro
         - I also edited the document.
 - Brighton Ellis
   - Time
-      - 
+      - 2.5 hours
   - Task
-      -
+      - Low Level Design Document
+        - Figma models for each of the pages and components.
+        - assisted with final revisions of document. 
 - Daniel Barfuss
   - Time
       - 11 hours
@@ -324,22 +326,24 @@ Emma Wright was able to get the front-end set up and working with the back-end.
 ### Sprint 3 (Brighton Ellis)
 
 #### Summary
-
+Sprint 3 covered the span of the week before through the week after Spring Break, along with taking place during a majority of midterm exams for most of our teammates. As our second development sprint, we expected to crannk out working albeit visually unappealing pages and components in order to ensure that proper connections and testing could be implemented. After completing the components extra time was spent styling the pages to ensure a smooth and seamless experience. 
 
 #### Goals
-
+Our goal for this sprint was to knock out the code for most of the pages and components, then if time allowed we would 'rice' out the styling so that everything worked together very well and was visually appealing. 
 
 #### Accomplishments
+We had many large accomplishments this sprint. Out implementation and live testing of our APIs was done very well, with our backend team keeping themselves available for hot-fixes as the frontend team finished components or web pages. In addition, our routing system was ironed out via the same method so that each of our pages worked properly from the UI as well as the backend. 
 
+Aside from a handful of difficulties working with the Django Rest framework, we were able to connect all of the frontend elements accordingly to the backend. Documentation was updated periodically to ensure that we had the most current set of instructions/information for running our app.
 
 #### Setbacks
-
+We had a disbalance with the amount of work that some teammates put in vs others, which led to occasional waiting for components and elements to be implemented in order to move forward. We also ran into more unknown unkowns in regards to sending certain information to the backend from the frontend, which also took lots of time to be able to resolve. 
 
 #### Lessons Learned
-
+Communication is vital!  Even though there were some pauses in productivity due to waiting for the next step, our team did a very good job at communicating where they were at and how they could help one another out. Another lesson learned was how to further break down problems or tasks that we had assigned that ended up being larger or more laborious than anticipated. 
 
 #### Retrospective
-
+This sprint was interesting as it lined up with many classes midterms as well as being split in half with Spring Break. But even being a longer sprint with many outside influences, we were still able to accomplish most of the objectives that were set amongst the team. 
 
 #### Who worked on what
 
@@ -361,9 +365,9 @@ Emma Wright was able to get the front-end set up and working with the back-end.
       - Debugged the back-end while front-end was getting hooked up and reported issues.
 - Brighton Ellis
   - Time
-      - 
+      - 5.5 hours
   - Task
-      -
+      - Routing and Dater Vues, calendar component
 - Daniel Barfuss
   - Time
       - 5 hours
@@ -580,9 +584,9 @@ was this final report going over the project.
       - Updated the low-level design document.
 - Brighton Ellis
   - Time
-      - 
+      - 3 hours
   - Task
-      -
+      - Requirements doc revision
 - Daniel Barfuss
   - Time
       - 5 hours
