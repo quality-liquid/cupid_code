@@ -51,21 +51,43 @@ The team also used Discord to communicate with each other and to share files and
 ### Sprint 0 (Daniel Barfuss)
 
 #### Summary
+We wrote the requirements document. That had several parts to it (the person who worked on the section is indicated in 
+paranthesis):
+- Problem Statement (Nate McKenzie)
+- Solution Statement (Daniel Barfuss)
+- Requirements
+	-- Functional Requirements (Nate Scott)
+	-- Non-Functional Requirements (Nate Scott)
+	-- Business Requirements (Nate Scott)
+	-- User Requirements (Emma Wright)
+	-- MoSCoW (Brighton Ellis), (we had it as it's own section, apart from Functional/Non-Functional). The Functional and Non-Func
+		tional sections are more principle-oriented. Then MoSCoW got into more specifics (hopefully without
+		going into design mode)
+- User Stories (Emma Wright)
+- UML Diagram (Eric DeBloois)
+- Editing (Brandon Herrin, Daniel Barfuss, Nate McKenzie)
 
+We also met up as a team in person two times throughout this sprint. It was for one hour each meeting.
+
+We set up the repository and got it situated with everyone. We also got a discord channel set up so we can easily
+communicate with each other. I believe Brighton was the one who also gave us a file that helps with Git stuff like 
+merging, which is nice. 
 
 #### Goals
+* Finish the requirements document.
+* Establish a channel of communication to make discussions and interaction easy.
 
 #### Accomplishments
-
+We completed the requirements document. We got an effective means for the team to communicate and collaborate.
 
 #### Setbacks
-
+There weren't any. Perhaps a little difficulty reaching Brandon, but that was it. 
 
 #### Lessons Learned
-
+Requirement-seeking can be a demanding challenge. It's difficult to foresee everything, and we can get optimistic. However, it can serve as a way to push ourselves. We started on the right foot.
 
 #### Retrospective
-
+Some slight changes to the requirements documentation was needed over time. Part of it was clarification that we needed to put in. For the most part, I was proud with the level of detail.
 
 #### Who worked on what
 
@@ -86,14 +108,14 @@ The team also used Discord to communicate with each other and to share files and
       - I wrote the functional requirements section of the document.
 - Brighton Ellis
   - Time
-      - 
+      - 3 hours
   - Task
-      -
+      - MoSCoW
 - Daniel Barfuss
   - Time
-      - 
+      - 4 hours
   - Task
-      -
+      - Solution statement, editing
 - Eric Deboolis
   - Time
       - 4 Hours
@@ -210,9 +232,9 @@ Though this would have slowed down the project, it would have made the team stro
       -
 - Daniel Barfuss
   - Time
-      - 
+      - 11 hours
   - Task
-      -
+      - Backend - Security, Unit Tests, Django Admin & Settings, View functions
 - Eric Deboolis
   - Time
       - 9 hours
@@ -344,9 +366,10 @@ Emma Wright was able to get the front-end set up and working with the back-end.
       -
 - Daniel Barfuss
   - Time
-      - 
+      - 5 hours
   - Task
-      -
+      - Wrote unit tests for the back-end.
+      - Debugged some back-end views.
 - Eric Deboolis
   - Time
       - 5 Hours
@@ -562,9 +585,11 @@ was this final report going over the project.
       -
 - Daniel Barfuss
   - Time
-      - 
+      - 5 hours
   - Task
-      -
+      - Debugged unit tests.
+      - Created some integration tests.
+      - Updated requirements section of final sprint summary.
 - Eric Deboolis
   - Time
       - 4 hours
