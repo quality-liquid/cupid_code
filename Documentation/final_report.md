@@ -6,14 +6,14 @@
 - [Team Members](#team-members)
 - [Project Description](#project-overview)
 - [Project Management](#project-management)
-- [Sprints](#sprints)
+- [Sprint Summaries](#sprint-summaries)
   - [Sprint 0](#sprint-0-daniel-barfuss)
   - [Sprint 1](#sprint-1-nate-stott)
   - [Sprint 2](#sprint-2-emma-wright)
   - [Sprint 3](#sprint-3-brighton-ellis)
   - [Sprint 4](#sprint-4-nate-mckenzie)
   - [Sprint 5](#sprint-5-emma-wright)
-  - [Sprint 6](#sprint-6-eric-deboolis)
+  - [Sprint 6](#sprint-6-eric-debloois)
 
 ## Introduction
 
@@ -27,26 +27,17 @@ This document will provide an overview of the project, the team members, the pro
 - Nate Stott
 - Brighton Ellis
 - Daniel Barfuss
-- Eric Deboolis
+- Eric DeBloois
 
 ## Project Overview
 
-The Dev Team had a lot of fun working on this project.
-The team was able to create a fully functional dating app that allows users to create profiles, plan dates, and chat with the AI.
-The team used Vue for the front-end, Django for the back-end, and SQLlite for the database. 
-The team was able to implement all the features planned for the project, including user authentication, profile creation, and chat functionality. 
-The team also implemented a responsive design that works well on both desktop and mobile devices. 
-Overall, the team is very proud of the work done on this project and is excited to share it with the world.
+The Dev Team had a fantastic time working on this project, culminating in the creation of a fully functional dating app. This app allows users to create profiles, plan dates, and engage in conversations with an AI. To achieve this, the team utilized Vue for the front-end, Django for the back-end, and SQLlite for the database. The team successfully implemented all planned features, including user authentication, profile creation, and chat functionality. Furthermore, they ensured a seamless experience across devices by implementing a responsive design that works well on both desktop and mobile platforms. Overall, the team is immensely proud of their work and is eager to introduce the app to the world.
 
 ## Project Management
 
-The project was managed using a Agile methodology. 
-The team used the Scrum framework to organize the work into sprints. 
-The team met regularly to discuss the progress of the project and to plan the work for the next sprint. 
-The team used GitLab to track the progress of the project and to assign tasks to team members. 
-The team also used Discord to communicate with each other and to share files and information.
+The project was efficiently managed using an Agile methodology, with the team adopting the Scrum framework to organize their work into sprints. Regular meetings were held to review project progress and plan the upcoming sprint activities. GitLab was utilized to track project progress and assign tasks to team members, ensuring transparency and accountability. Additionally, Discord was used as a communication platform, enabling seamless collaboration, file sharing, and information exchange among team members.
 
-## Sprints
+## Sprint Summaries
 
 ### Sprint 0 (Daniel Barfuss)
 
@@ -116,11 +107,11 @@ Some slight changes to the requirements documentation was needed over time. Part
       - 4 hours
   - Task
       - Solution statement, editing
-- Eric Deboolis
+- Eric DeBloois
   - Time
       - 4 Hours
   - Task
-      - Created UML diagrams to be used in the high level design document. 
+      - Created UML diagram for the requirements document. 
 
 ### Sprint 1 (Nate Stott)
 
@@ -141,7 +132,7 @@ Overall, this sprint was a success, and we were excited to move on to the next s
 - Groups
   - Front-end
     - Brighton Ellis
-    - Eric Deboolis
+    - Eric DeBloois
   - Back-end
     - Nate Stott
     - Nate McKenzie
@@ -237,7 +228,7 @@ Though this would have slowed down the project, it would have made the team stro
       - 11 hours
   - Task
       - Backend - Security, Unit Tests, Django Admin & Settings, View functions
-- Eric Deboolis
+- Eric DeBloois
   - Time
       - 9 hours
   - Task
@@ -317,7 +308,7 @@ Emma Wright was able to get the front-end set up and working with the back-end.
       - 6 hours
   - Task
       - Backend views
-- Eric Deboolis
+- Eric DeBloois
   - Time
       - 7.5 hours
   - Task
@@ -374,7 +365,7 @@ This sprint was interesting as it lined up with many classes midterms as well as
   - Task
       - Wrote unit tests for the back-end.
       - Debugged some back-end views.
-- Eric Deboolis
+- Eric DeBloois
   - Time
       - 5 Hours
   - Task
@@ -456,7 +447,7 @@ Overall, this sprint went really well. We were able to accomplish a lot of tasks
       - 7 hours
   - Task
       - Backend unit tests and debugging
-- Eric Deboolis
+- Eric DeBloois
   - Time
       - 6 hours
   - Task
@@ -532,37 +523,42 @@ We also learned that it is important to write tests as you go, not after the fac
       - 7 hours
   - Task
       - Unit & Integration tests/ Test design doc
-- Eric Deboolis
+- Eric DeBloois
   - Time
       - 6 hours
   - Task
       - Manuals/ Editing of high & low level docs
 
-### Sprint 6 (Eric Deboolis)
+### Sprint 6 (Eric DeBloois)
 
 #### Summary
 
-Each team member was given the task to add their sprint summaries for then they were the team lead of a given sprint. Some general editing of 
-project documents was also done such as checking for gammar and spelling, updating documents with any changes that came about as the project 
-was created, and acting on the feedback given on prior assignments. 
+Each team member was tasked with adding their sprint summaries for when they were the team lead of a given sprint. Additionally, general editing of project documents was conducted, including checking for grammar and spelling errors, updating documents with any changes that occurred during the project's development, and implementing feedback from previous assignments.
 
 #### Goals
 
-Finalize the the project, create a final report, and turn everything in. 
+The primary objective for this sprint was to finalize the project, which was achieved through the following actions:
+
+- Updating and editing the high-level documents
+- Updating and editing the low-level documents
+- Updating and editing the testing documents
+- Creating this final report
 
 #### Accomplishments
 
-We did just that. We all did a final review of the documents for the project and turned these documents in. The biggest thing that was created 
-was this final report going over the project. 
+The team successfully completed the goal of finalizing the project. A final review of all project documents was conducted, and these documents were submitted. The most significant achievement was the creation of this final report, which comprehensively covers the project and includes summaries contributed by each team member who led a sprint.
 
 #### Setbacks
 
+The only setback during this final sprint was not completing all tasks as early as initially planned. The goal was to submit everything by Monday night, with the due date being Tuesday. Despite this slight delay, the team still managed to finalize all documents and submit them early Tuesday afternoon.
 
 #### Lessons Learned
 
+Reflecting on and reviewing the work accomplished is crucial. This process not only helps reinforce knowledge for future projects but also allows for a moment to appreciate the progress made. This reflection also made it apparent how important a good team is. Without this exellent Developer Team this project would not have been as far along as it is now. 
 
 #### Retrospective
 
+After a final review, it was determined that while the project may not be 100% complete, an excellent prototype has been produced. Overall, the team is proud of the project's outcome and the lessons learned throughout its development. This project will be remembered fondly as the team moves on to new endeavors or potentially continues work on this project. 
 
 #### Who worked on what
 
@@ -595,7 +591,7 @@ was this final report going over the project.
       - Debugged unit tests.
       - Created some integration tests.
       - Updated requirements section of final sprint summary.
-- Eric Deboolis
+- Eric DeBloois
   - Time
       - 4 hours
   - Task
