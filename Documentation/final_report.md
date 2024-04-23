@@ -564,9 +564,10 @@ was this final report going over the project.
 
 - Nate McKenzie
   - Time
-    - 
+    - 3 hours
   - Task
-    - 
+    - Polished up our requirements.
+    - Included my info in this document.
 - Emma Wright
   - Time
       - 3
