@@ -96,9 +96,9 @@ The team also used Discord to communicate with each other and to share files and
       -
 - Eric Deboolis
   - Time
-      - 
+      - 4 Hours
   - Task
-      -
+      - Created UML diagrams to be used in the high level design document. 
 
 ### Sprint 1 (Nate Stott)
 
@@ -215,9 +215,9 @@ Though this would have slowed down the project, it would have made the team stro
       -
 - Eric Deboolis
   - Time
-      - 
+      - 9 hours
   - Task
-      -
+      - Worked on creating the high level figma project. I also helped with general editing in the high and low level documents. 
 
 
 ### Sprint 2 (Emma Wright)
@@ -349,9 +349,9 @@ Emma Wright was able to get the front-end set up and working with the back-end.
       -
 - Eric Deboolis
   - Time
-      - 
+      - 5 Hours
   - Task
-      -
+      - Worked on creating the Cupid Vues. Accidentially done in Vue 2 rather than Vue 3
 
 ### Sprint 4 (Nate McKenzie)
 
@@ -433,7 +433,7 @@ Overall, this sprint went really well. We were able to accomplish a lot of tasks
   - Time
       - 6 hours
   - Task
-      - Cupid Home page
+      - Worked on learning Vue 3 and the Cupid Home page
 
 ### Sprint 5 (Emma Wright)
 
@@ -515,11 +515,18 @@ We also learned that it is important to write tests as you go, not after the fac
 
 #### Summary
 
+Each team member was given the task to add their sprint summaries for then they were the team lead of a given sprint. Some general editing of 
+project documents was also done such as checking for gammar and spelling, updating documents with any changes that came about as the project 
+was created, and acting on the feedback given on prior assignments. 
 
 #### Goals
 
+Finalize the the project, create a final report, and turn everything in. 
+
 #### Accomplishments
 
+We did just that. We all did a final review of the documents for the project and turned these documents in. The biggest thing that was created 
+was this final report going over the project. 
 
 #### Setbacks
 
@@ -560,7 +567,7 @@ We also learned that it is important to write tests as you go, not after the fac
       -
 - Eric Deboolis
   - Time
-      - 
+      - 4 hours
   - Task
-      -
+      - Updating High level document and final sprint summary. 
 
