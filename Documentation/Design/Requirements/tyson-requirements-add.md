@@ -17,6 +17,16 @@
 
 ## Functional Requirements
 ### User Roles
+* Definitions:
+    0. *Dater* is defined as the regular user of our application. They are using 
+    the application for help to have successful dates and achieve a good
+    relationship.
+    1. *Cupids* are workers who sign up to help out daters, not for themselves.
+    Similar to Uber Eats workers, but for more than just food, they fulfill jobs
+    created by the Dater/the Dater's AI.
+    2. *Business Leaders* are defined as any high level decision making
+    leadership at Duckiecorp and of course our esteemed customer 
+    Cowboy Erik Falor.
 #### Daters will be able to:
 * Recieve notifications from the webapp for:
     * Updates or help on date plans
