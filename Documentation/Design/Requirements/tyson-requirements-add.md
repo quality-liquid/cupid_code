@@ -28,6 +28,7 @@ created by the Dater/the Dater's AI.
 0. *Business Leaders* are defined as any high level decision making
 leadership at Duckiecorp and of course our esteemed customer 
 Cowboy Erik Falor.
+
 #### Daters will be able to:
 * Recieve notifications from the webapp for:
     * Updates or help on date plans
@@ -38,17 +39,20 @@ Cowboy Erik Falor.
 * Plan out a date's activities, costs, and location in our web application 
 interface with smart assistance from the AI.
 * Chat with the AI for help, ideas, or practicing for an upcoming date.
-* 
+* Get occasional advice from the AI when dates are becoming sparse 
+based on the user's profile, preferences, and what the AI learns about the user 
+over time. 
 * Create a work order for a Cupid
     * Choose how much Cupid cash to dedicate to the order.
     * Fill in instructions for Cupid.
     * Set time must be completed by. 
 
 #### Cupids will be able to:
-* Accept a job from a list displayed based on their chosen filters;
+* Accept a job from a list displayed based on their chosen filters:
     * mile radius
     * level of difficulty/estimated time to complete
-* See the jobs in priority order based on when they expire (a job)
+* See the jobs in priority order based on when they expire. 
+* Sign-up as a Cupid so their app interface is different.
 
 #### Business Leadership will be able to:
 * Access metrics boards for Daters showing the following
@@ -77,7 +81,7 @@ run out of funds to plan good dates.
 throughout the date so I can overcome my social awkwardness.
 5. As a Dater, I want the AI to recognize when the data is going well and not be
 messaging me so I am not distracted.
-6. As a Dater, I want to 
+6. As a Dater, I want to  
 7. As a Dater, I want
 8. As a Dater, I want
 9. As a Dater, I want
