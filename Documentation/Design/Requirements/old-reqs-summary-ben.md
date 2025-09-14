@@ -69,3 +69,27 @@ The last team specified the following high level user requirements:
 9. Calendar/Scheduling Interface
 10. Emergency Advice: Real time tips from a live-listening AI model.
 11. Push Notifications
+
+
+### Requirement Priority Levels
+
+The last team's document included specification of levels of priority for each requirement, including the following:
+
+* Must-haves.
+* Should-haves.
+* Could-haves.
+* Won't-haves.
+
+These specs help to set and keep expectations transparent between the customer and the developing team. They also help to prioritize tickets when time is a factor, and we won't be able to complete all tasks.
+
+### User Stories
+
+The last team included a long list of user stories for each of the established user roles.
+
+### Use Case Diagrams
+
+Included in the documentation are use case diagrams that outline visually the relationships between the users, the system, and external systems.
+
+### Conclusion to summary of previous requirements
+
+The last teams requirements specification is thorough and a great starting point for our team. They have outlined in great detail what precisely the users and customers should and should not expect. Our team will build on top of these requirements to enhance the existing application, add features, remove bugs, and create an application that implements agentic AI to a greater degree, giving the application a degree of autonomy that it didn't have before.
