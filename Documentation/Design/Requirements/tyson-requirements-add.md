@@ -1,19 +1,28 @@
 ## Summary of Previous Teams Requirements
 
 ### What Previous Team Did Not Complete
+#### Cupid Pages
+* Range in profile update has no units on it, 20 what?
+* Feedback page says undefined, does not work.
+* No indication that updates to profile info actually saved.
+* Gigs do not show how far away they are, we already (supposedly I have not
+checked) calculate that to offer it to them within the cupid's desired range,
+we should display it on the card.
 
+#### Dater Pages
+* Sign Up
+    * Does not work. I filled out all the fields first with stuff that did not
+    make sense for the field, then stuff that should work but when I click
+    create account nothing happens on the page.
+    * No password requirements enforced on sign up
+    (at least 12 chars, has a symbol, etc...)
 
-
-
-
-
-
-
-
-
-
-
-
+#### Non-Functional Requirements
+* There was no requirements for strong passwords on signup, this goes against
+their requirement for strong security.
+* The documentation is unclear in some ways, following what they had 
+written for project setup I have been unable to get the Dater signup page to 
+work.
 
 
 ## Functional Requirements
@@ -81,97 +90,12 @@ run out of funds to plan good dates.
 throughout the date so I can overcome my social awkwardness.
 5. As a Dater, I want the AI to recognize when the data is going well and not be
 messaging me so I am not distracted.
-6. As a Dater, I want to  
-7. As a Dater, I want
-8. As a Dater, I want
-9. As a Dater, I want
-10. As a Dater, I want
-11. As a Dater, I want
-12. As a Dater, I want
-13. As a Dater, I want
-14. As a Dater, I want
-15. As a Dater, I want
-16. As a Dater, I want
-17. As a Dater, I want
-18. As a Dater, I want
-19. As a Dater, I want
-20. As a Dater, I want
-21. As a Dater, I want
-22. As a Dater, I want
-23. As a Dater, I want
-24. As a Dater, I want
-25. As a Dater, I want
-26. As a Dater, I want
-27. As a Dater, I want
-28. As a Dater, I want
-29. As a Dater, I want
-30. As a Dater, I want
-31. As a Dater, I want
-32. As a Dater, I want
-33. As a Dater, I want
-34. As a Dater, I want
-35. As a Dater, I want
-36. As a Dater, I want
-37. As a Dater, I want
-38. As a Dater, I want
-39. As a Dater, I want
-40. As a Dater, I want
-41. As a Dater, I want
-42. As a Dater, I want
-43. As a Dater, I want
-44. As a Dater, I want
-45. As a Dater, I want
-46. As a Dater, I want
-47. As a Dater, I want
-48. As a Dater, I want
-49. As a Dater, I want
-50. As a Dater, I want
-51. As a Dater, I want
-52. As a Dater, I want
-53. As a Dater, I want
-54. As a Dater, I want
-55. As a Dater, I want
-56. As a Dater, I want
-57. As a Dater, I want
-58. As a Dater, I want
-59. As a Dater, I want
-60. As a Dater, I want
-61. As a Dater, I want
-62. As a Dater, I want
-63. As a Dater, I want
-64. As a Dater, I want
-65. As a Dater, I want
-66. As a Dater, I want
-67. As a Dater, I want
-68. As a Dater, I want
-69. As a Dater, I want
-70. As a Dater, I want
-71. As a Dater, I want
-72. As a Dater, I want
-73. As a Dater, I want
-74. As a Dater, I want
-75. As a Dater, I want
-76. As a Dater, I want
-77. As a Dater, I want
-78. As a Dater, I want
-79. As a Dater, I want
-80. As a Dater, I want
-81. As a Dater, I want
-82. As a Dater, I want
-83. As a Dater, I want
-84. As a Dater, I want
-85. As a Dater, I want
-86. As a Dater, I want
-87. As a Dater, I want
-88. As a Dater, I want
-89. As a Dater, I want
-90. As a Dater, I want
-91. As a Dater, I want
-92. As a Dater, I want
-93. As a Dater, I want
-94. As a Dater, I want
-95. As a Dater, I want
-96. As a Dater, I want
-97. As a Dater, I want
-98. As a Dater, I want
-99. As a Dater, I want 
+6. As a Dater, I want to see when a Cupid has picked up my work request so I 
+can relax knowing it is getting done.
+7. As a Dater, I want to be able to get funds out of my Cupid Balance, so I do
+not end up in financial trouble if I accidently send too much money to my Cupid
+account.
+8. As a Dater, I want to have an interactive UI, so I know that actions I 
+perform were successful and I do not worry that my work did not save.
+9. As a Dater, I want to be able to input data about my potential date so my AI
+will help me remember important details that I tend to forget.
