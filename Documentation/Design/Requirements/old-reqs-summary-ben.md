@@ -37,4 +37,35 @@ The last team specified the following categories for non-functional requirements
 7. Compliance: Adheres to ethical codes and guidelines.
 8. Documentation: Manuals tailored for each user role are accessible to the users.
 
+### Business Requirements
 
+The last team specified the following high level business requirements:
+
+1. Mission: Combine AI and human support to make dating more approachable and meaningful.
+2. Revenue: Monthly subscriptions for Daters and percentage fees on funds deposited by Daters.
+3. User Retention: Features that build loyalty and incentivize retention.
+4. Technology Infrastructure: Invest in scalability early on.
+5. Quality of Service: Reviews and reputation management system for Daters and Cupids.
+6. Financial Management: Careful collection, reporting, and dispursement of funds.
+7. Compliance: Meet all associated legal standards.
+8. Innovation: Stay on the cutting edge of the industry.
+9. Brand/Marketing: Have targeted campaigns to build share of voice in the relevant domain.
+10. Partnerships: Collaborate with date venues or related applications.
+11. Customer Support: Fast support and conflict resolution mechanisms.
+12. Social Responsibility: Contribute positively to the community.
+
+### User Requirements
+
+The last team specified the following high level user requirements:
+
+1. Simple Registration & Profile Management for Daters.
+2. Cupid Service: On-demand delivery.
+3. AI Chat for dating advice.
+4. Manager Panel: Analytics and system authority.
+5. Privacy & Security
+6. Feedback & Ratings for Daters and Cupids.
+7. User Support
+8. Preferences: Customization for users.
+9. Calendar/Scheduling Interface
+10. Emergency Advice: Real time tips from a live-listening AI model.
+11. Push Notifications
