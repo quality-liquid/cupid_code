@@ -119,3 +119,23 @@ In addition to essential features like authentication, calendar management, and 
 - Cupid Code shall allow Daters to disable their location sharing, with the default set to enabled. **(C)**
 
 ## User Stories
+### Cupid Stories
+- As a Cupid, I want to filter job listings by distance, difficulty, or time required so that I can accept jobs that match my preferences and availability.
+- As a Cupid, I want to see jobs prioritized by their expiration time so that I fulfill the most urgent requests first.
+- As a Cupid, I want to view details about each job—including instructions, location, and payout—before accepting so that I can make informed decisions about which jobs to take.
+- As a Cupid, I want to accept or decline available jobs directly through my app interface so that I can efficiently manage my workload.
+- As a Cupid, I want to track my active, pending, and completed jobs in an organized dashboard so that I remain on top of my assignments.
+- As a Cupid, I want to get notified when a Dater cancels a request before I make a purchase or start the job so that I do not waste time or resources.
+- As a Cupid, I want to see an estimated arrival time for pickup or delivery tasks so that I can plan my route and meet deadlines.
+- As a Cupid, I want to have access to my earnings and be able to transfer them to my bank account seamlessly so that I am paid promptly for my work.
+- As a Cupid, I want my personal location to only be shared when necessary for active jobs so that my privacy is protected.
+- As a Cupid, I want clear confirmation when my job actions (accept, complete, transfer earnings) have been processed successfully so that I trust the platform's reliability.
+- As a Cupid, I want to see the location and instructions for each job assignment so that I can plan my route and understand the tasks required.
+- As a Cupid, I want to get notifications for changes to active jobs, such as updated instructions or deadlines, so I can adjust quickly if plans change.
+- As a Cupid, I want to receive reminders about upcoming jobs I’ve accepted so I never miss a pickup or delivery.
+- As a Cupid, I want to decline jobs I’m unable to complete without penalty, so I can maintain a positive gig history while managing my workload.
+- As a Cupid, I want the ability to report abusive or inappropriate behavior by Daters so that I feel safe while working.
+- As a Cupid, I want the ability to report abusive or inappropriate behavior between Daters so that I can alert local authorities before problems arise.
+- As a Cupid, I want app notifications to arrive in real time and be reliably delivered so I never miss an urgent update or Dater message.
+- As a Cupid, I want to see which jobs offer higher payouts based on urgency or complexity so I can prioritize high-value work.
+- As a Cupid, I want to add and verify multiple bank accounts so I can transfer earnings flexibly and securely.
