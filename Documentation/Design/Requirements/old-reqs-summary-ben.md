@@ -1,4 +1,4 @@
-### Summary of old requirements documentation
+## Summary of old requirements documentation
 
 Cupid Code is a dating assistant for nerds with a central focus on AI. It provides users AI chat assistance on dates, and helps to schedule and execute dating activities. It also includes an interface for "cupids," who are employees of Cupid Code who perform tasks to help our customers while they are on dates. Cupid code was started by another team of students from a previous semester of CS3450 at Utah State University. They outlined the overarching vision, functional design, and user stories for the application. This portion of the new requirements document summarizes the requirements given by the former team of developers including problem statement, solution concept, functional and non-functional requirements, user requirements, and user stories.
 
