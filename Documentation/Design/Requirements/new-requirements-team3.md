@@ -5,12 +5,6 @@ The previous team’s requirements document for Cupid Code details a dating assi
 
 In addition to essential features like authentication, calendar management, and budget controls, the platform places a strong emphasis on user privacy, data security, and responsive support systems for all parties. The business logic prioritizes quality of service, continuous innovation, and compliance with legal requirements, with mechanisms for revenue generation through subscriptions and service fees. The requirements also distinguish between must-have baseline features and more advanced, optional enhancements, supporting phased development as resources and feedback allow. The document’s user stories and structured priorities lay a foundation for an adaptable, user-focused, and secure dating solution.
 
-[Paragraph to address which requirements they met, which they didn't, and what the documentation says about the requirements they didn't meet]
-
-## Summary of old requirements documentation
-
-Cupid Code is a dating assistant for nerds with a central focus on AI. It provides users AI chat assistance on dates, and helps to schedule and execute dating activities. It also includes an interface for "cupids," who are employees of Cupid Code who perform tasks to help our customers while they are on dates. Cupid code was started by another team of students from a previous semester of CS3450 at Utah State University. They outlined the overarching vision, functional design, and user stories for the application. This portion of the new requirements document summarizes the requirements given by the former team of developers including problem statement, solution concept, functional and non-functional requirements, user requirements, and user stories.
-
 ### Problem Statement
 
 Dating poses challenges due to the high stakes of forming a romantic relationship with someone unfamiliar. There are many social pitfalls to fall into, and often, people find that there is little outside help available. This difficulty is especially pronounced for computer scientists and "nerd" types, who already have a reputation for struggling with interpersonal relationships. There is a need for a solution that addresses these common dating hurdles by providing tailored support for individuals in this demographic, enhancing their ability to form meaningful connections.
@@ -99,10 +93,6 @@ The last team included a long list of user stories for each of the established u
 
 Included in the documentation are use case diagrams that outline visually the relationships between the users, the system, and external systems.
 
-### Conclusion to summary of previous requirements
-
-The last teams requirements specification is thorough and a great starting point for our team. They have outlined in great detail what precisely the users and customers should and should not expect. Our team will build on top of these requirements to enhance the existing application, add features, remove bugs, and create an application that implements agentic AI to a greater degree, giving the application a degree of autonomy that it didn't have before.
-
 ### What Previous Team Did Not Complete
 #### Cupid Pages
 * Range in profile update has no units on it, 20 what?
@@ -126,6 +116,10 @@ their requirement for strong security.
 * The documentation is unclear in some ways, following what they had 
 written for project setup I have been unable to get the Dater signup page to 
 work.
+
+### Conclusion to summary of previous requirements
+
+The last teams requirements specification is thorough and a great starting point for our team. They have outlined in great detail what precisely the users and customers should and should not expect. Our team will build on top of these requirements to enhance the existing application, add features, remove bugs, and create an application that implements agentic AI to a greater degree, giving the application a degree of autonomy that it didn't have before.
 
 
 
