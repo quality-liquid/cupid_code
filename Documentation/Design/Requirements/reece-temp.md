@@ -27,3 +27,4 @@
 1. As a Dater, I want to be able to control what information Cupid Code gathers about me and can sell to third party sources so that Cupid Code can only use the information that I want them to be able to use.
 
 ## Use Case UML Diagram
+![UML diagram](images/new_UML_diagram.png "image_tooltip")
