@@ -39,7 +39,7 @@ leadership at Duckiecorp and of course our esteemed customer
 Cowboy Erik Falor.
 
 #### Daters will be able to:
-* Recieve notifications from the webapp for:
+* Receive notifications from the webapp for:
     * Updates or help on date plans
     * Cupid order status
     * Get an advice message from the AI listening when the date is going 
@@ -83,17 +83,17 @@ up.
 1. As a Dater, I want to see my Cupid Cash balance easily so I do not end up
 running out at a bad time.
 2. As a Dater, I want to get location specific help with planning a date so I 
-can have an easier experience plannning out a good date.
+can have an easier experience planning out a good date.
 3. As a Dater, I want to schedule payments into my Cupid Cash account so I never
 run out of funds to plan good dates.
-4. As a Dater, I want to recieve messages from my AI companion on how I am doing
+4. As a Dater, I want to receive messages from my AI companion on how I am doing
 throughout the date so I can overcome my social awkwardness.
-5. As a Dater, I want the AI to recognize when the data is going well and not be
+5. As a Dater, I want the AI to recognize when the date is going well and not be
 messaging me so I am not distracted.
 6. As a Dater, I want to see when a Cupid has picked up my work request so I 
 can relax knowing it is getting done.
 7. As a Dater, I want to be able to get funds out of my Cupid Balance, so I do
-not end up in financial trouble if I accidently send too much money to my Cupid
+not end up in financial trouble if I accidentally send too much money to my Cupid
 account.
 8. As a Dater, I want to have an interactive UI, so I know that actions I 
 perform were successful and I do not worry that my work did not save.
