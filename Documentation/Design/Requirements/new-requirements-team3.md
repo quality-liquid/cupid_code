@@ -1,4 +1,7 @@
 # CS3450 Fall 2025 Team 3 Requirements Document
+
+**Team Members: Tyson Buxton, Saxton Calvert, Benjamin Hickenlooper, Felix Jacob, Reece Nielson, Garrett Woodhouse**
+
 ## Summary of Previous Teams Requirements
 
 The previous team’s requirements document for Cupid Code details a dating assistance platform built around artificial intelligence, human “Cupid” helpers, and robust user management. The app addresses the unique social and logistical challenges faced by its user base, especially those who may find dating intimidating or unfamiliar. Core functionalities include role-based features for Daters, Cupids, and Managers, such as scheduling, budgeting, AI-driven advice (before, during, and after dates), secure payments, and structured feedback. AI integrates tightly with the experience, offering real-time tips and summoning assistance during dates if needed.
