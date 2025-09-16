@@ -423,36 +423,22 @@ The platform will have low latency communication between Daters, Cupids, and the
 ### User stories
 #### Daters
 ##### As a dater I want to
-0.  get advice from the AI mid-date to save me when I mess
-up.
-0.  see my Cupid Cash balance easily so I do not end up
-running out at a bad time.
-0.  get location specific help with planning a date so I 
-can have an easier experience planning out a good date.
-0.  schedule payments into my Cupid Cash account so I never
-run out of funds to plan good dates.
-0.  receive messages from my AI companion on how I am doing
-throughout the date so I can overcome my social awkwardness.
-0. As a Dater, I want the AI to recognize when the date is going well and not be
-messaging me so I am not distracted.
-0.  see when a Cupid has picked up my work request so I 
-can relax knowing it is getting done.
-0.  be able to get funds out of my Cupid Balance, so I do
-not end up in financial trouble if I accidentally send too much money to my Cupid
-account.
-0.  have an interactive UI, so I know that actions I 
-perform were successful and I do not worry that my work did not save.
-0.  be able to input data about my potential date so my AI
-will help me remember important details that I tend to forget.
+0.  have the AI to coach me before and during dates, with adaptive advice and respectful notifications, so I get support without distraction.
+0.  see my Cupid Cash balance easily so I do not end up running out at a bad time.
+0.  get location specific help with planning a date so I can have an easier experience planning out a good date.
+0.  schedule payments into my Cupid Cash account so I never run out of funds to plan good dates.
+0.  to have the AI to recognize when the date is going well and not be messaging me so I am not distracted.
+0.  see when a Cupid has picked up my work request so I can relax knowing it is getting done.
+0.  be able to get funds out of my Cupid Cash balance, so I do not end up in financial trouble if I accidentally send too much money to my Cupid Code account.
+0.  have an interactive UI, so I know that actions I perform were successful and I do not worry that my work did not save.
+0.  be able to input data about my potential date so my AI will help me remember important details that I tend to forget.
 0.  be able to create profiles for different potential dates so that I can tailor the date ideas to a particular person and have a more successful date.
 0.  be able to record how dates with particular people went so that I can have a better idea of how things are going with the people I am going on dates with.
 0.  be able to update the potential date profiles that I have created so that the AI has access to any information about the potential date that may have come about during any non-date activities in order to get better advice from the AI
-0.  be able to tell the AI companion when a particular date is important so that the AI knows to lock in and help me prepare a better date than normal.
-0.  be able to receive coaching from the AI companion before the date so that I can be prepared for general situations that I may not know how to handle.
+0.  be able to tell the AI companion when a particular date is important so that the AI helps me prepare a better date than normal.
 0.  be able to specify how I receive different types of push notifications so that I can be present on my date and not have to constantly check my phone to see if the AI companion thinks that I am doing a good job.
 0.  be able to have easily navigable pages so that I access the tools that I need efficiently.
 0.  be able to connect my Cupid Code profile to other dating apps so that I can have the AI companion's help on securing dates in the first place.
-0.  be able to receive advice on what to say when I need to check my phone to communicate with the AI agent so that my date is not bothered by the fact that I am checking my phone and so that they do not think that I am weird.
 0.  be able to specify the types of food that the AI agent is allowed to order so that the AI companion does not order something from a Cupid that my date or I are allergic to.
 0.  be able to approve or deny the AI agent's requests to use Cupid Cash to purchase something so that I do not feel like the AI agent is wasting money on things that I do not want it to.
 0.  be able to specify the types of events that the AI agent can purchase tickets to so that I do not have to go to an event that my date or I do not want to go to.
@@ -471,45 +457,39 @@ will help me remember important details that I tend to forget.
 0.  be able to control what information Cupid Code gathers about me and can sell to third party sources so that Cupid Code can only use the information that I want them to be able to use.
 
 #### Cupid Stories
-##### As a cupid I want to
+##### As a Cupid, I want to...
 0.  filter job listings by distance, difficulty, or time required so that I can accept jobs that match my preferences and availability.
 0.  see jobs prioritized by their expiration time so that I fulfill the most urgent requests first.
-0.  view details about each job—including instructions, location, and payout—before accepting so that I can make informed decisions about which jobs to take.
 0.  accept or decline available jobs directly through my app interface so that I can efficiently manage my workload.
 0.  track my active, pending, and completed jobs in an organized dashboard so that I remain on top of my assignments.
 0.  get notified when a Dater cancels a request before I make a purchase or start the job so that I do not waste time or resources.
-0.  see an estimated arrival time for pickup or delivery tasks so that I can plan my route and meet deadlines.
 0.  have access to my earnings and be able to transfer them to my bank account seamlessly so that I am paid promptly for my work.
-0. As a Cupid, I want my personal location to only be shared when necessary for active jobs so that my privacy is protected.
-0. As a Cupid, I want clear confirmation when my job actions (accept, complete, transfer earnings) have been processed successfully so that I trust the platform's reliability.
-0.  see the location and instructions for each job assignment so that I can plan my route and understand the tasks required.
+0.  have my personal location only be shared when necessary for active jobs so that my privacy is protected.
+0.  have clear confirmation when my job actions (accept, complete, transfer earnings) have been processed successfully so that I trust the platform's reliability.
 0.  get notifications for changes to active jobs, such as updated instructions or deadlines, so I can adjust quickly if plans change.
 0.  receive reminders about upcoming jobs I’ve accepted so I never miss a pickup or delivery.
 0.  decline jobs I’m unable to complete without penalty, so I can maintain a positive gig history while managing my workload.
-0. As a Cupid, I want the ability to report abusive or inappropriate behavior by Daters so that I feel safe while working.
-0. As a Cupid, I want the ability to report abusive or inappropriate behavior between Daters so that I can alert local authorities before problems arise.
-0. As a Cupid, I want app notifications to arrive in real time and be reliably delivered so I never miss an urgent update or Dater message.
+0.  have the ability to report abusive or inappropriate behavior by Daters so that I feel safe while working.
+0.  have the ability to report abusive or inappropriate behavior between Daters so that I can alert local authorities before problems arise.
+0.  have app notifications to arrive in real time and be reliably delivered so I never miss an urgent update or Dater message.
 0.  see which jobs offer higher payouts based on urgency or complexity so I can prioritize high-value work.
 0.  add and verify multiple bank accounts so I can transfer earnings flexibly and securely.
-##### As a Cupid, I want to...
-
-0. Be able to make an account which I can log back into so that I can have my user data saved within the app each time for future use.
-0. Be able to see active jobs near me while in the app, so that I can find jobs easily and when I need them.
-0. Be notified when new potential jobs are available, so that I have more opportunities to work.
-0. Be able to view information about each job, such as distance, difficulty, payout, and estimated time for completion so that I can have enough information to decide whether to accept the job.
-0. Be able to set my preferences for available times and the maximum distance I am willing to travel to complete a job, so that I can save time in filtering jobs myself.
-0. Be able to quickly and easily accept jobs so that I can work efficiently and without confusion.
-0. Be able to get feedback or a rating from daters so that I can improve and be able to show other daters that I have a history of reliability.
-0. Be able to give feedback or a rating to daters so that they can improve and that other cupids can know what to expect, good or bad, before accepting a job.
-0. Be able to see information and ratings of dater that each job is assigned to so that I can decide whether to take the job and be able to provide better and more personalized assistance to them.
-0. Get paid for my services from a steady rate as well as tips, so that I am incentivize to keep working and do a good job.
-0. Track my earnings in the app and be able to transfer the money out of the app so that I can use the money that I earn outside of the app.
-0. View my job history and any information connected to those jobs, such as earnings and ratings or feedback from the respective dater for that job so that I can use that information to improve and help choose jobs in the future.
-0. Be able to provide feedback and suggestions to the app developers, so that my user experience can continue to improve.
-0. Have a user-friendly experience with an app which is intuitive and easy to use, so that I can use the app without frustration and want to continue to use it.
-0. Ensure my data and financial information is kept secure, so that I am not a victim of identity fraud.
-0. Be able to communicate with the dater in real time, either through the app or otherwise, so that I can know about any changes or to be able to inform the dater about any problems that arise.
-0. Have accurate and up-to-date information on the current location of the user so that I can know the estimated time it will take to complete the job and be able to complete it as quickly and efficiently as possible.
+0.  be able to make an account which I can log back into so that I can have my user data saved within the app each time for future use.
+0.  be able to see active jobs near me while in the app, so that I can find jobs easily and when I need them.
+0.  be notified when new potential jobs are available, so that I have more opportunities to work.
+0.  be able to view information about each job, such as distance, difficulty, payout, and estimated time for completion so that I can have enough information to decide whether to accept the job.
+0.  be able to set my preferences for available times and the maximum distance I am willing to travel to complete a job, so that I can save time in filtering jobs myself.
+0.  be able to get feedback or a rating from daters so that I can improve and be able to show other daters that I have a history of reliability.
+0.  be able to give feedback or a rating to daters so that they can improve and that other cupids can know what to expect, good or bad, before accepting a job.
+0.  be able to see information and ratings of dater that each job is assigned to so that I can decide whether to take the job and be able to provide better and more personalized assistance to them.
+0.  get paid for my services from a steady rate as well as tips, so that I am incentivize to keep working and do a good job.
+0.  track my earnings in the app and be able to transfer the money out of the app so that I can use the money that I earn outside of the app.
+0.  view my job history and any information connected to those jobs, such as earnings and ratings or feedback from the respective dater for that job so that I can use that information to improve and help choose jobs in the future.
+0.  be able to provide feedback and suggestions to the app developers, so that my user experience can continue to improve.
+0.  have a user-friendly experience with an app which is intuitive and easy to use, so that I can use the app without frustration and want to continue to use it.
+0.  ensure my data and financial information is kept secure, so that I am not a victim of identity fraud.
+0.  be able to communicate with the dater in real time, either through the app or otherwise, so that I can know about any changes or to be able to inform the dater about any problems that arise.
+0.  have accurate and up-to-date information on the current location of the user so that I can know the estimated time it will take to complete the job and be able to complete it as quickly and efficiently as possible.
 
 #### As a Business Leader, I want to 
 0.  view the number of registered Daters so that I can assess the growth of the platform.  
@@ -532,8 +512,8 @@ will help me remember important details that I tend to forget.
 0.  generate reports on platform performance so that I can share insights with stakeholders.  
 0.  identify peak activity times for Daters and Cupids so that I can optimize platform operations.  
 0.  monitor the overall health of the platform so that I can ensure long-term success.  
-0. have a survey feature so I can know how the users and Cupids enjoy the software.
-0. have a monthly subscription so I can have a consistent way to make money.
+0.  have a survey feature so I can know how the users and Cupids enjoy the software.
+0.  have a monthly subscription so I can have a consistent way to make money.
 
 
 ### Use Case UML Diagram
