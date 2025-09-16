@@ -256,7 +256,7 @@ over time.
 ### Cloud Deployment
 - Cupid Code shall be deployed using Azure **(M)**
 
-### Payment Processer APIs
+### Payment Processor APIs
 - Cupid Code shall integrate with Stripe APIs to process payments. **(M)**
 - Cupid Code shall integrate with PayPal APIs to process payments. **(M)**
 - Cupid Code shall allow a Dater to connect a bank account to their Cupid Code CupidCash funds using Stripe APIs. **(M)**
@@ -453,6 +453,37 @@ legal requirements.
 
 ### Won't-have
 - The application and server won't crash.
+
+# User Requirements
+###  Must-have
+- Cupid Code shall send push notifications to Daters with reminders about planned dates. 
+- All users can create an account on the Cupid Code app.
+- All Daters and Cupids can create an account on the Cupid Code app.
+- The registration process will be user-friendly and require basic information (email, password, full name, etc.).
+- Daters will be able to create a detailed profile with information about their interests, preferences, and past dating experiences.
+- The dater will be able to hire a "Cupid" to purchase and deliver items during a date.
+- Cupids can be available on-demand, and Daters can specify the items they need.
+- The app will feature an AI-powered chat where Daters can seek dating advice.
+- The AI chat can provide relevant and helpful advice based on Dater queries.
+- Managers will have the ability to see a cupid's stats.
+- Managers will have the ability to take appropriate actions based on cupid stats.
+- Daters will be able to provide feedback and ratings Cupids' services.
+- Cupids will be able to provide feedback and ratings Daters' services.
+- Cupids and Daters will be able to see feedback written about them.
+- The app will have a user support system that includes chat, email, or an online help center to assist users with any issues they encounter.
+- Daters will be able to customize their preferences for AI advice and Cupid services.
+- Daters can set up when dates are, using an in-app calendar.
+- The app will have a feature to enable the AI to listen in on dates when activated by the Dater.
+- Emergency advice will be provided in real-time during dates to assist Daters in navigating challenging situations.
+- Daters will have the option to receive notifications before, during, and after scheduled dates.
+- Notifications may include reminders, suggestions, and post-date feedback.
+- Cupid Code shall display transaction history within the Dater's account dashboard. 
+
+### Should-have
+- A panel for managers to access and review complaints and feedback related to Cupids.
+### Could-have
+### Won't-have
+
 
 ## User stories
 ### Daters
