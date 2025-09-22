@@ -14,7 +14,7 @@ The Dater will set a budget for the date so the AI can provide assistance during
 Cupid Code is a web app that uses Vue.js for the front end and Django for the back end.
 
 ## Installation
-Go to the Dev directory and look at the README.md file for instructions on how to run the app.
+See [`README.md`](./Code/README.md) in the `Code/` directory for instructions on how to run the app.
 
 ## Support
 If you have any questions or need help with the project, please contact the project owner on GitLab.
@@ -45,7 +45,7 @@ You should have received a copy of the GNU General Public License along with Cup
 See Documentation/License/gpl-3.0.txt for more information.
 
 ## User Manual
-Go to Documentation/README.md for information on how to use Cupid Code.
+See [`README.md`](./Documentation/README.md) in the `Documention/` directory for information on how to use Cupid Code.
 
 
 ## Project status
