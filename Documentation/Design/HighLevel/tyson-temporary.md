@@ -31,6 +31,8 @@
 * [PCI Standards Site](https://www.pcisecuritystandards.org/standards/)
 ### Frameworks and APIs
 ### Account Protection
+* Forced strong password
+* Forgotten password they enter secret info they gave at start
 ### Data Flow
 ### Database Security
 
