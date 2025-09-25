@@ -7,9 +7,9 @@
 ### Location Privacy
 * The location of a Dater will remain exclusively visible to them until a date crisis occurs. 
 ### Financial Transactions
-* Credit/debit card transactions will be facilitated while adhering to PCI compliance standards. Card information, including numbers, expiration dates, and CVV codes, will be encrypted before transmission over the internet to ensure robust financial data security.
+* Credit/debit card transactions will be facilitated while adhering to PCI compliance standards.
 ### Frameworks and APIs
-* Utilization of the latest frameworks will be prioritized, and any obsolete features will be addressed proactively. APIs with a strong reputation for security will be preferred to enhance overall application security measures.
+* Utilization of the latest frameworks will be prioritized, obsolete features will be addressed proactively. APIs with a strong reputation for security will be preferred.
 ### Account Protection
 * A secure login system will be implemented, incorporating strong password requirements, favoring 12+ characters or 8+ characters with a mix of symbols, numbers, and capital letters. The exploration of a timeout system will be approached cautiously to avoid inconveniences during user activity. Consideration will be given to integrating Multi-Factor Authentication (MFA) for an additional layer of security.
 ### Data Flow
