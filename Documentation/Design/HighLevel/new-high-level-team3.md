@@ -22,6 +22,7 @@ Team Members: Benjamin Hickenlooper, Felix Jacob, Saxton Calvert, Garrett Woodho
 
 
 # 0. Software Architecture
+[*Table of Contents*](#table-of-contents)
 
 The existing code base for Cupid Code uses the Client-Server 3-Tier structure with elements of other architectures implemented in both the front and backends. The frontend follows an event based architecture and the backend implements a more component based architecture. Since the main architecture of the program is a 3-Tier Client-Server architecture, the backend is split between the processing portion and the database portion. The Client side of the codebase also makes calls to external API's to gain additional functionality. At this time there are no plans to expose a public facing API for Cupid Code.
 
@@ -29,6 +30,7 @@ We will continue to use the existing architecture for future development as chan
 
 
 # 1. Hardware Platform
+[*Table of Contents*](#table-of-contents)
 
 ### **Server**
 
@@ -88,6 +90,8 @@ It's worth noting that as long as users' chosen combination of User-Agent and Op
 The design and implementation made for the client end of the app, combined with the required features asked for by the client, lead us to believe that no design changes are needed.
 
 # 2. User Interface
+[*Table of Contents*](#table-of-contents)
+
 The previous team's high-level design document includes almost everything that we intend to use for our user interface with a few minor changes. 
 
 The UI will be optimized for mobile use for Cupids and Daters, but the manager interface will be optimized for desktop. However, it will be designed to be accessable on all devices. 
@@ -178,10 +182,13 @@ The system will use modularization in order to break it down into seperate compo
 
 
 # 3. Internal Interfaces
+[*Table of Contents*](#table-of-contents)
 
 # 4. External Interfaces
+[*Table of Contents*](#table-of-contents)
 
 # 5. Risk Analysis
+[*Table of Contents*](#table-of-contents)
 ## Summary of Old Teams Risk Analysis
 They talk about the risks of data interception or manipulation during transit in their [Client Section](./high_level_docs.md#client). The previous team also wrote a bit about the potential risk of using a Cloud-Provided server in the [Server Section](./high_level_docs.md#server) underneath [Hardware Platform Considerations](./high_level_docs.md#hardware-platform-considerations).
 
@@ -216,6 +223,7 @@ The information we will be holding is extremely private
 
 
 # 6. Security and Risk Mitigation
+[*Table of Contents*](#table-of-contents)
 ## Summary of Previous Teams Security Measures
 The previous team focused on the following items in their [Security Considerations](./high_level_docs.md#security-considerations)
 * Encryption of Sensitive Information
@@ -279,5 +287,7 @@ All applicable [PCI Standards](https://www.pcisecuritystandards.org/standards/) 
 
 
 # 7. Data Design
+[*Table of Contents*](#table-of-contents)
 
 # 8. Future Proofing
+[*Table of Contents*](#table-of-contents)
