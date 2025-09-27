@@ -23,10 +23,12 @@ The information we will be holding is extremely private
 ![Terminal output for `npm install`](./images/prev-team-npm-vulnerabilities.png)
 
 * There are many packages used for this project in its current state, each new package brings with it the bugs and vulnerabilites of said package. Having many packages creates a lot to keep track of which makes it more difficult to check used packages for vulnerabilties or to keep all packages up to date and still working with the application.
-    * 180 packages used for the client.  
-    * 75 packages are installed for the Poetry environment. 
+    * 180 packages currently are used for the client.  
+    * 75 python packages currently are installed for the Poetry environment. 
 
-* This is a similar risk with the APIs and Frameworks we use as it is with using other's packages. There must be continual maintenance work to stay up to date on the API, research must be done to ensure the API is reputable, and the code base must be kept up to date on a likely changing Framework interface to keep the application running and secure as time goes on.
+* There is a similar risk with using APIs and Frameworks as with using other's packages.
+    * There must be continual maintenance work to stay up to date on the APIs, ensuring any changes in how one interfaces are implemented to keep the application functioning, research must be done to ensure the APIs used are reputable. In addition, by relying on API's should there service go down for any reason, our applications related service will also be down.
+    * For working with different Frameworks the code base must be kept up to date on a likely changing Framework interface to keep the application running and secure as time goes on. There is also a risk that the Framework could lose popularity over time, and thereby the developers stop working on it, leaving vulnerabilities unpatched and bugs unfixed.
 
 
 # TODO put this section below under Security
@@ -44,13 +46,14 @@ The previous team focused on the following items in their [Security Consideratio
 * A strong password requirement
 * 2 factor authentication
 
-## Sinister Six Security Measures
+## Sinister Six Security Measures and Risk Mitigations
 Much of our decided security measures are the same or similar to those of the previous team as our proposed changes and features still bring about many of the same  security risks to be mitigated. Though some of the sections were consolidated so as not to repeat information.
 
 ### Location Privacy
 * Dater location will only be able to be accessed when necessary, necessary defined below as:
     * When a Dater creates a job for a Cupid, the Dater can pick for their location to be shared, or they can pick a location where the Cupid will meet them/drop off the item or perform the requested action. 
     * A Dater cancelling the job will revoke the live location permission for the Cupid who had accepted the job.
+    * Managers will be able to see general locations for Daters, the closest city to the Dater. 
 
 ### Financial Transactions
 All applicable [PCI Standards](https://www.pcisecuritystandards.org/standards/) will be followed for the handling of User financial information.
@@ -60,7 +63,8 @@ All applicable [PCI Standards](https://www.pcisecuritystandards.org/standards/) 
 
 ### Dependencies, Frameworks, and APIs
 * We will go through the `npm` and `python` dependencies removing any we can confidently say are not needed. Thus removing unnecessary risk, and allowing for more focus on vetting the dependencies which are truly needed. 
-* Research on new vulnerabilities discoverd in the Frameworks we use will need to be done periodically, and then the subsequent work to update our version of the Frameworks to close said vulnerabilities will be done.
+* Research on new vulnerabilities discoverd, or updates in general in the Frameworks we use will need to be done periodically, and then the subsequent work to update our version of the Frameworks to close said vulnerabilities and ensure we stay capable of running will be done.
+* The APIs we choose will be researched and confirmed to have a strong reputation for security and reliability.
 
 ### Account Protection
 * A strong password will be required for registration
@@ -81,6 +85,7 @@ All applicable [PCI Standards](https://www.pcisecuritystandards.org/standards/) 
 ### Database Security
 * Passwords will be stored as hashes.
 * All access to database will go through security middleware for authentication.
+* We are going with Azure Cloud Service to host our application and database. Microsoft is very large coorporation with years of experience, large talent pools, and many resources. We are confident their services will be up to the latest security standards, and will continue to be maintained by them to stay secure as the years go on.
 
 ### AI Security
-We will make a summary card that appears to the Dater, showing everything the AI intends to do after the User asked it to do something. This will allow the Dater to confirm the AI understood them correctly before the AI immediately acts buying tickets, sending messages, hiring cupids, etc...to ensure Dater privacy, security, and satisfaction with the application.
+We will make a summary card that appears to the Dater, showing everything the AI intends to do after the User has requested and action. This will allow the Dater to confirm that the AI understood them correctly before the AI immediately acts buying tickets, sending messages, hiring cupids, etc...to ensure Dater privacy, security, and satisfaction with the application.
