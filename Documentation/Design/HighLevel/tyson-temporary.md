@@ -6,8 +6,9 @@ Otherwise the previous team's risk analysis is more implied than directly stated
 
 ## Current Risk Analysis
 ### Giving AI more control
-Our changes to the application will be giving more power to the AI which will enhance the user experience greatly, however this can also come with risks to the integrity of the system should we not be careful.
-* AI can be unpredictable at times, it could misunderstand instructions given by a Dater and potentially reveal private data or spend unauthorized funds.   
+Our changes to the application will be giving more power to the AI which will enhance the user experience greatly, however this can also come with risks to the integrity of the system.
+* The AI will be able to record conversations which will be stored in our database. This brings a new angle for Bad Actors to steal the private information of our clients, as we will have their written private information as well as their recorded converstations stored in our database.
+* AI can be unpredictable at times, it could misunderstand instructions given by a Dater and potentially reveal private data or spend unauthorized funds when performing a task.   
 ### Dating Life Information
 The information we will be holding is extremely private
 * Private life details of Daters;
@@ -50,7 +51,7 @@ The previous team focused on the following items in their [Security Consideratio
 Much of our decided security measures are the same or similar to those of the previous team as our proposed changes and features still bring about many of the same  security risks to be mitigated. Though some of the sections were consolidated so as not to repeat information.
 
 ### Location Privacy
-* Dater location will only be able to be accessed when necessary, necessary defined below as:
+* Dater location will only be accessed in the following circumstances:
     * When a Dater creates a job for a Cupid, the Dater can pick for their location to be shared, or they can pick a location where the Cupid will meet them/drop off the item or perform the requested action. 
     * A Dater cancelling the job will revoke the live location permission for the Cupid who had accepted the job.
     * Managers will be able to see general locations for Daters, the closest city to the Dater. 
@@ -60,6 +61,8 @@ All applicable [PCI Standards](https://www.pcisecuritystandards.org/standards/) 
 * Point-to-Point Encryption with HTTPS for sending and recieving financial information.
 * Encryption of all user's financial payment information stored in our database.
     * Credit Card number, expiration date, CVV code.
+    * Name and Billing address.
+    * Direct bank account information (alternative to credit card).
 
 ### Dependencies, Frameworks, and APIs
 * We will go through the `npm` and `python` dependencies removing any we can confidently say are not needed. Thus removing unnecessary risk, and allowing for more focus on vetting the dependencies which are truly needed. 
@@ -85,7 +88,8 @@ All applicable [PCI Standards](https://www.pcisecuritystandards.org/standards/) 
 ### Database Security
 * Passwords will be stored as hashes.
 * All access to database will go through security middleware for authentication.
-* We are going with Azure Cloud Service to host our application and database. Microsoft is very large coorporation with years of experience, large talent pools, and many resources. We are confident their services will be up to the latest security standards, and will continue to be maintained by them to stay secure as the years go on.
+* We are going with Azure Cloud Service to host our application and database. Microsoft is very large coorporation with years of experience, large talent pools, and many resources. We are confident their services will be up to the latest security standards and will continue to be maintained by them to stay secure as the years go on.
 
 ### AI Security
-We will make a summary card that appears to the Dater, showing everything the AI intends to do after the User has requested and action. This will allow the Dater to confirm that the AI understood them correctly before the AI immediately acts buying tickets, sending messages, hiring cupids, etc...to ensure Dater privacy, security, and satisfaction with the application.
+* We will make a summary card that appears to the Dater, showing everything the AI intends to do after the User has requested and action. This will allow the Dater to confirm that the AI understood them correctly before the AI immediately acts (buying tickets, sending messages, hiring cupids, etc...) to ensure Dater privacy, security, and satisfaction with the application.
+* All recorded information will be encrypted when stored, only accessible by the Dater and their AI.
