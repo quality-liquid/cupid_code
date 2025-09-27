@@ -1,3 +1,19 @@
+# TODO put this section below under risk analysis
+## Summary of Old Teams Risk Analysis
+They talk about the risks of data interception or manipulation during transit in their [Client Section](./high_level_docs.md#client). The previous team also wrote a bit about the potential risk of using a Cloud-Provided server in the [Server Section](./high_level_docs.md#server) underneath [Hardware Platform Considerations](./high_level_docs.md#hardware-platform-considerations).
+
+Otherwise the previous team's risk analysis is more implied than directly stated, through what they covered in terms of security measures they wanted to implement.
+
+## Current Risk Analysis
+### Giving AI more control
+Our changes to the application will be giving more power to act to the AI which will enhance the user experience greatly, however can also come with risks to the integrity of the system should we not be careful.
+* 
+### Dating Life Information
+The information we will be holding is extremely private
+* Recorded date conversations.
+* Very private life details of Daters; likes, dislikes, dating history, etc...information people will want kept very private, meaning there is a greater risk for bad actors targeting our system as they could use this information for convincing phishing scams, identity fraud, and possibly other malicious attacks.   
+
+
 # TODO put this section below under Security
 ## Summary of Previous Teams Security Measures
 ### Encryption of Sensitive Information
@@ -17,10 +33,9 @@
 ### Database Security
 * Password hashing within the database, regular data backups, and exploration of data encryption beyond passwords. 
 
-### What they did do
-* Passwords were hashed in the database
-### They did not do
-* No strong password requirement implemented
+### They did not implement
+* A strong password requirement
+
 
 ## Current Security Measures
 ### Encryption of Sensitive Information
@@ -40,7 +55,3 @@
 * Forgotten password they enter secret info they gave at start
 ### Data Flow
 ### Database Security
-
-
-# TODO put this section below under risk analysis
-## Summary of Old Teams Risk Analysis

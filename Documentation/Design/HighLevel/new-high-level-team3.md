@@ -1,25 +1,24 @@
 # **New Cupid Code High Level Design**
-* Team 3, *The Sinister Six*
-* Sprint Leader: Tyson Buxton
-* Sprint Followers: Benjamin Hickenlooper, Felix Jacob, Saxton Calvert, Garrett Woodhouse, and Reece Nielson
+Team 3: *The Sinister Six*  
+Sprint Leader: Tyson Buxton  
+Team Members: Benjamin Hickenlooper, Felix Jacob, Saxton Calvert, Garrett Woodhouse, and Reece Nielson  
 
 ## Introduction
 **Purpose:** TODO write out purpose of document
 
 ### Links
+0. [Requirements](../Requirements/new-requirements-team3.md)
 0. [Low Level Design](../LowLevel/new-low-level-team3.md)
-
 ### Table of Contents  
 0. [Architecture](#0-architecture)
 0. [Hardware Platform](#1-hardware-platform)
 0. [User Interface](#2-user-interface)
 0. [Internal Interfaces](#3-internal-interfaces)
 0. [External Interfaces](#4-internal-interfaces)
-0. [Security](#5-security)
-0. [Risk Analysis](#6-risk-analysis)
+0. [Risk Analysis](#5-risk-analysis)
+0. [Security and Risk Mitigation](#6-security-and-risk-mitigation)
 0. [Data Design](#7-data-design)
 0. [Future Proofing](#8-future-proofing)
-
 
 
 # 0. Architecture
@@ -89,11 +88,9 @@ The design and implementation made for the client end of the app, combined with 
 
 # 4. External Interfaces
 
-# 5. Security
+# 5. Risk Analysis
 
-# 6. Risk Analysis
-## Risks
-## Mitigation Strategies
+# 6. Security and Risk Mitigation
 
 # 7. Data Design
 
