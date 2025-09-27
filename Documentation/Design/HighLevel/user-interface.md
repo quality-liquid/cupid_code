@@ -49,7 +49,7 @@ The UI will be optimized for mobile use for Cupids and Daters, but the manager i
 11. Feedback System
     * Daters will be able to give feedback to the developers on bugs/features and be able to rate and review any Cupids who have done gigs for them.
     * Cupids will be able to give feedback to the developers on bugs/features and be able to rate and review any Daters that they've done gigs for.
-    * Managers will be ablo to review all feedback to developers or between Daters and Cupids.
+    * Managers will be able to review all feedback to developers or between Daters and Cupids.
     * Managers will also be able to remove/warn users with low ratings.
 12. Cupid Gig Finder
     * This page will display a list of nearby available gigs.
