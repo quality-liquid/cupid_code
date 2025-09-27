@@ -1,5 +1,0 @@
-# **Software Architecture**
-
-The existing code base for Cupid Code uses the Client-Server 3-Tier structure with elements of other architectures implemented in both the front and backends. The frontend follows an event based architecture and the backend implements a more component based architecture. Since the main architecture of the program is a 3-Tier Client-Server architecture, the backend is split between the processing portion and the database portion. The Client side of the codebase also makes calls to external API's to gain additional functionality. At this time there are no plans to expose a public facing API for Cupid Code.
-
-We will continue to use the existing architecture for future development as changing the architecture would require a large effort that would not have any meaningful effect on the way the system runs. As we are moving the servers to the cloud, this plays into the Client-Server architecture which is easily scalable and should allow us to set up more resources to act as servers according to demand.
