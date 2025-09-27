@@ -7,12 +7,13 @@ The UI will be optimized for mobile use for Cupids and Daters, but the manager i
 
 ## Components
 1. Log In/Sign Up
-    * The log-in page is accesable to all users, while the sign-up page is available for new Daters and Cupids.
+    * The log-in page is accessible to all users, while the sign-up page is available for new Daters and Cupids.
     * Daters and Cupids will input data in order to make their profiles.
-    * Some data will be required, such as username and password, while otnher data will be optional, such as interests.
-    * The sign-up page will be updated to indicate which fields are required and it will allow the user to create an account even if optional fields are left blank.
+    * Some data will be required, such as username and password, while other data will be optional, such as interests.
+    * The sign-up page will be updated to indicate which fields are required
+    * The sign-up page will allow the user to create an account even if optional fields are left blank.
 2. Profile Viewing/Editing
-    * Daters and Cupids will both be able to view a profile page which displays their data and they will be able to edit any data.
+    * Daters and Cupids will both be able to view a profile page which displays their own data and they will be able to edit any of their own data.
     * Dater profiles will show their dating history on the app.
     * Cupid profiles will show their gig history and finances.
 3. AI Chat
