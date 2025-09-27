@@ -1,6 +1,21 @@
 # CS3450 Fall 2025 Team 3 Requirements Document
+Team 3: *The Sinister Six*  
+Sprint Leader: Garrett Woodhouse  
+Team Members: Benjamin Hickenlooper, Felix Jacob, Saxton Calvert, Garrett Woodhouse, Reece Nielson, and Tyson Buxton  
 
-**Team Members: Tyson Buxton, Saxton Calvert, Benjamin Hickenlooper, Felix Jacob, Reece Nielson, Garrett Woodhouse**
+### Links
+0. [High Level Design](../HighLevel/new-high-level-team3.md)
+0. [Low Level Design](../LowLevel/new-low-level-team3.md)
+### Table of Contents  
+0. [Previous Team Summary](#summary-of-previous-teams-requirements)
+0. [User Role Definitions](#user-role-definitions)
+0. [Functional Requirements](#functional-requirements-1)
+0. [Non-Functional Requirements](#non-functional-requirements-2)
+0. [Non-Functional Requirements for the Server](#non-functional-requirements-for-the-server)
+0. [Business Requirements](#business-requirements-1)
+0. [User Requirements](#user-requirements-1)
+0. [User Stories](#user-stories-1)
+0. [Use Case Diagram](#use-case-uml-diagram)
 
 ## Summary of Previous Teams Requirements
 

@@ -4,9 +4,8 @@
 * Sprint Followers: Benjamin Hickenlooper, Felix Jacob, Saxton Calvert, Garrett Woodhouse, and Reece Nielson
 
 ### Links
+0. [Requirements](../Requirements/new-requirements-team3.md)
 0. [High Level Design](../HighLevel/new-high-level-team3.md)
-
-
 ### Table of Contents  
 0. [TODO]()
 

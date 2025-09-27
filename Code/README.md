@@ -4,12 +4,12 @@
 
 ### Do once
 
-1. Make sure you have installed poetry, npm, python, and tmux
-2. make sure you are in the Code directory
-3. Run `poetry install` in the Code directory to make sure the poetry.lock file exists/is up to date.
-4. Run `npm install` in the client directory to make sure current npm packages are installed
-5. Run `chmod +x setup.sh start.sh stop.sh restart.sh` to make the shell scripts executable
-6. run `./setup.sh` to install poetry, install npm_modules, create the .env file, install python dependencies, and create the database
+0. Make sure you have installed poetry, npm, python, and tmux
+0. make sure you are in the Code directory
+0. Run `poetry install` in the Code directory to make sure the poetry.lock file exists/is up to date.
+0. Run `npm install` in the client directory to make sure current npm packages are installed
+0. Run `chmod +x setup.sh start.sh stop.sh restart.sh` to make the shell scripts executable
+0. run `./setup.sh` to install poetry, install npm_modules, create the .env file, install python dependencies, and create the database
 
 ### Running the server
 
