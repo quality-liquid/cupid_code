@@ -42,7 +42,7 @@ Cupid Profile:
 ![alt_text](images/NewPrototypeImages/CupidProfile2.png "image_tooltip")
 
 Cupid Available Gigs:
-![alt_text](images/NewPrototypeImages/CupidAvailableGigs.png "image_tooltip")
+![Cupid Available Gigs](images/NewPrototypeImages/CupidAvailableGigs.png "Cupid Available Gigs")
 
 ## Manager Gallery
 Manager Homepage:
