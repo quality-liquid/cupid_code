@@ -291,7 +291,7 @@ All applicable [PCI Standards](https://www.pcisecuritystandards.org/standards/) 
 
 
 # 6. Data Design
-[*Table of Contents*](#table-of-contents)# **Database tables**
+[*Table of Contents*](#table-of-contents)# 
 
 ### Database Tables
 1. Dater
