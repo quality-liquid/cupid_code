@@ -53,5 +53,5 @@ Manager Platform Reports:
 ![Manager Platform Reports](images/NewPrototypeImages/ManagerPlatformReports.png "Manager Platform Reports")
 
 Manager Feedback:
-![alt_text](images/NewPrototypeImages/ManagerFeedback.png "image_tooltip")
+![Manager Feedback](images/NewPrototypeImages/ManagerFeedback.png "Manager Feedback")
 ![alt_text](images/NewPrototypeImages/ManagerFeedback2.png "image_tooltip")
