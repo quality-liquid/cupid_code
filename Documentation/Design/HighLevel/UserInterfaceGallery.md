@@ -12,7 +12,7 @@ Dater Homepage:
 ![Dater Home Page 2](images/NewPrototypeImages/DaterHomePage2.png "Dater Home Page 2")
 
 Dater Profile:
-![alt_text](images/NewPrototypeImages/Daterprofile.png "image_tooltip")
+![Dater Profile](images/NewPrototypeImages/Daterprofile.png "Dater Profile")
 ![alt_text](images/NewPrototypeImages/Daterprofile2.png "image_tooltip")
 
 Dater AI Assistant:
