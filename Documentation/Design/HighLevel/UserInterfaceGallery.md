@@ -46,7 +46,7 @@ Cupid Available Gigs:
 
 ## Manager Gallery
 Manager Homepage:
-![alt_text](images/NewPrototypeImages/ManagerHomepage.png "image_tooltip")
+![Manager Homepage](images/NewPrototypeImages/ManagerHomepage.png "Manager Homepage")
 ![alt_text](images/NewPrototypeImages/ManagerHomepage2.png "image_tooltip")
 
 Manager Platform Reports:
