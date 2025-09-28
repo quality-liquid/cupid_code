@@ -4,7 +4,7 @@ Sprint Leader: Tyson Buxton
 Team Members: Benjamin Hickenlooper, Felix Jacob, Saxton Calvert, Garrett Woodhouse, and Reece Nielson  
 
 ## Introduction
-**Purpose:** TODO write out purpose of document
+**Purpose:** This document serves to give a high level view of **what** exactly we want to do in order to meet our requirements for the customer.
 
 ### Links
 0. [Requirements](../Requirements/new-requirements-team3.md)
