@@ -13,12 +13,11 @@ Team Members: Benjamin Hickenlooper, Felix Jacob, Saxton Calvert, Garrett Woodho
 0. [Software Architecture](#0-software-architecture)
 0. [Hardware Platform](#1-hardware-platform)
 0. [User Interface](#2-user-interface)
-0. [Internal Interfaces](#3-internal-interfaces)
-0. [External Interfaces](#4-internal-interfaces)
-0. [Risk Analysis](#5-risk-analysis)
-0. [Security and Risk Mitigation](#6-security-and-risk-mitigation)
-0. [Data Design](#7-data-design)
-0. [Future Proofing](#8-future-proofing)
+0. [External Interfaces](#3-external-interfaces)
+0. [Risk Analysis](#4-risk-analysis)
+0. [Security and Risk Mitigation](#5-security-and-risk-mitigation)
+0. [Data Design](#6-data-design)
+0. [Future Proofing](#7-future-proofing)
 
 
 # 0. Software Architecture
@@ -181,13 +180,10 @@ The Manager homepage will allaw them to select one of these pages: Report system
 The system will use modularization in order to break it down into seperate components. This makes each component more manageable and easier to change without disrupting the rest of the program. This allows the program to be better suited to future changes and additions. It will also make development simpler and easier to divide tasks between multiple team members.
 
 
-# 3. Internal Interfaces
+# 3. External Interfaces
 [*Table of Contents*](#table-of-contents)
 
-# 4. External Interfaces
-[*Table of Contents*](#table-of-contents)
-
-# 5. Risk Analysis
+# 4. Risk Analysis
 [*Table of Contents*](#table-of-contents)
 ## Summary of Old Teams Risk Analysis
 They talk about the risks of data interception or manipulation during transit in their [Client Section](./high_level_docs.md#client). The previous team also wrote a bit about the potential risk of using a Cloud-Provided server in the [Server Section](./high_level_docs.md#server) underneath [Hardware Platform Considerations](./high_level_docs.md#hardware-platform-considerations).
@@ -222,7 +218,7 @@ The information we will be holding is extremely private
     * For working with different Frameworks the code base must be kept up to date on a likely changing Framework interface to keep the application running and secure as time goes on. There is also a risk that the Framework could lose popularity over time, and thereby the developers stop working on it, leaving vulnerabilities unpatched and bugs unfixed.
 
 
-# 6. Security and Risk Mitigation
+# 5. Security and Risk Mitigation
 [*Table of Contents*](#table-of-contents)
 ## Summary of Previous Teams Security Measures
 The previous team focused on the following items in their [Security Considerations](./high_level_docs.md#security-considerations)
@@ -286,8 +282,8 @@ All applicable [PCI Standards](https://www.pcisecuritystandards.org/standards/) 
 * All recorded information will be encrypted when stored, only accessible by the Dater and their AI.
 
 
-# 7. Data Design
+# 6. Data Design
 [*Table of Contents*](#table-of-contents)
 
-# 8. Future Proofing
+# 7. Future Proofing
 [*Table of Contents*](#table-of-contents)
