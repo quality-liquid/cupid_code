@@ -26,7 +26,7 @@ Dater Gig Requests:
 ![Dater Gig Requests](images/NewPrototypeImages/DaterGigRequests.png "Dater Gig Requests")
 
 Dater Feedback:
-![alt_text](images/NewPrototypeImages/DaterFeedback.png "image_tooltip")
+![Dater Feedback](images/NewPrototypeImages/DaterFeedback.png "Dater Feedback")
 ![Dater Feedback 2](images/NewPrototypeImages/DaterFeedback2.png "Dater Feedback 2")
 
 Dater Calendar:
