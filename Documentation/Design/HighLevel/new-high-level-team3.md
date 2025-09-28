@@ -182,7 +182,7 @@ The Cupid homepage will allow them to select one of these pages: Cupid gigs, Pro
 
 **Manager Login**
 
-The Manager homepage will allaw them to select one of these pages: Report system, Feedback System.
+The Manager homepage will allow them to select one of these pages: Report system, Feedback System.
 
 **Login System Design Purpose**
 
