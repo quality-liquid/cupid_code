@@ -8,7 +8,7 @@ Sign Up Page:
 ![Sign Up Page](images/NewPrototypeImages/SignUpPage.png "Sign Up Page")
 ## Dater Gallery
 Dater Homepage:
-![alt_text](images/NewPrototypeImages/DaterHomePage.png "image_tooltip")
+![Dater Home Page](images/NewPrototypeImages/DaterHomePage.png "Dater Home Page")
 ![Dater Home Page 2](images/NewPrototypeImages/DaterHomePage2.png "Dater Home Page 2")
 
 Dater Profile:
