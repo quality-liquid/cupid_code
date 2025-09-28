@@ -9,7 +9,7 @@ Sign Up Page:
 ## Dater Gallery
 Dater Homepage:
 ![alt_text](images/NewPrototypeImages/DaterHomePage.png "image_tooltip")
-![alt_text](images/NewPrototypeImages/DaterHomePage2.png "image_tooltip")
+![Dater Home Page 2](images/NewPrototypeImages/DaterHomePage2.png "Dater Home Page 2")
 
 Dater Profile:
 ![alt_text](images/NewPrototypeImages/Daterprofile.png "image_tooltip")
