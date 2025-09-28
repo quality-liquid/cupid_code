@@ -187,6 +187,21 @@ The Manager homepage will allow them to select one of these pages: Report system
 
 The system will use modularization in order to break it down into separate components. This makes each component more manageable and easier to change without disrupting the rest of the program. This allows the program to be better suited to future changes and additions. It will also make development simpler and easier to divide tasks between multiple team members.
 
+**UML Use Case Diagrams**
+
+These will show how one user will interact with the system and what other users will be impacted by it.
+
+No high level changes to the dater's diagram were needed. This shows how the dater will interact with the system. Cupids will be able to accept and complete any gigs requested. The dater can also rate the cupid's work and give feedback. If the dater has poor ratings or is proven to be misbehaving on the system, then they will be suspended when they login and cannot access the system. This is done by the manager. They can talk to the AI and have the AI listen in to conversations. They can also update any information about themselves on their profile and update their payment information and budgets. This interacts with the database.
+
+![alt_text](images/uml_use_1.png "image_tooltip")
+
+The high level design change added to this diagram centered around the AI prioritization of gigs. Cupids will be able to accept and complete or drop gigs reqeusted from daters. They can also rate and provide feedback to the daters. They can be suspended off of the platform from a manager and will lose access to the system. Cupids can update their profile and payment information and interact with the database. Cupids can receive a prioritized list of available gigs from the AI.
+
+![alt_text](images/uml_use_2.png "image_tooltip")
+
+No high level changes to the manager's diagram were needed. Managers can review Cupids and Daters, see their ratings and performances. They can also suspend and block any users of either type if they are too low of a rating or have reports of misbehavior. The manager can also get statistics and data from the database to create a report on how well the app is doing.
+
+![alt_text](images/uml_use_3.png "image_tooltip")
 
 # 3. External Interfaces
 [*Table of Contents*](#table-of-contents)
