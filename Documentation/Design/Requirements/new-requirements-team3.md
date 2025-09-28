@@ -18,6 +18,7 @@ Team Members: Benjamin Hickenlooper, Felix Jacob, Saxton Calvert, Garrett Woodho
 0. [Use Case Diagram](#use-case-uml-diagram)
 
 ## Summary of Previous Teams Requirements
+[*Table of Contents*](#table-of-contents)
 
 The previous team’s requirements document for Cupid Code details a dating assistance platform built around artificial intelligence, human “Cupid” helpers, and robust user management. The app addresses the unique social and logistical challenges faced by its user base, especially those who may find dating intimidating or unfamiliar. Core functionalities include role-based features for Daters, Cupids, and Managers, such as scheduling, budgeting, AI-driven advice (before, during, and after dates), secure payments, and structured feedback. AI integrates tightly with the experience, offering real-time tips and summoning assistance during dates if needed.
 
@@ -143,6 +144,8 @@ The last teams requirements specification is thorough and a great starting point
 
 ## Current Project Team 3 Requirements
 ### User Role Definitions
+[*Table of Contents*](#table-of-contents)
+
 0. *Dater* is defined as the regular user of our application. They are using 
 the application for help to have successful dates and achieve a happy
 relationship.
@@ -193,6 +196,8 @@ over time.
 
 
 ### Functional Requirements
+[*Table of Contents*](#table-of-contents)
+
 #### Must-Have
 ##### Rebranding Requirements
 - Cupid Code shall provide a dark mode theme. 
@@ -306,6 +311,8 @@ over time.
 
 
 ### Non-Functional Requirements
+[*Table of Contents*](#table-of-contents)
+
 #### Must-Have
 ##### Security
 - Encrypting data at rest and in transit
@@ -358,6 +365,8 @@ The platform will have low latency communication between Daters, Cupids, and the
 
 
 ### Non-Functional Requirements for the Server
+[*Table of Contents*](#table-of-contents)
+
 #### Must-Have
 ##### Performance
 - The server should be able to handle at least 1,000 concurrent orders per second during peak times to meet high demand.
@@ -397,6 +406,8 @@ The platform will have low latency communication between Daters, Cupids, and the
 
 
 ### Business Requirements
+[*Table of Contents*](#table-of-contents)
+
 #### Must-have
 - The application must accommodate three types of users: Daters, Cupids, and admin managers.
 - Daters and Cupids must be able to create an account which they can log back into.
@@ -438,6 +449,8 @@ The platform will have low latency communication between Daters, Cupids, and the
 - The application and server won't crash.
 
 ### User Requirements
+[*Table of Contents*](#table-of-contents)
+
 ####  Must-have
 - Cupid Code shall send push notifications to Daters with reminders about planned dates.
 - All users can create an account on the Cupid Code app.
@@ -470,6 +483,8 @@ The platform will have low latency communication between Daters, Cupids, and the
 
 
 ### User stories
+[*Table of Contents*](#table-of-contents)
+
 #### Daters
 ##### As a dater I want to
 0.  have the AI to coach me before and during dates, with adaptive advice and respectful notifications, so I get support without distraction.
@@ -566,4 +581,6 @@ The platform will have low latency communication between Daters, Cupids, and the
 
 
 ### Use Case UML Diagram
+[*Table of Contents*](#table-of-contents)
+
 ![UML diagram](images/new_UML_diagram.png "image_tooltip")
