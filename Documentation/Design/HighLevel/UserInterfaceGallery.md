@@ -5,7 +5,7 @@
 Login Page:
 ![Login Page](images/NewPrototypeImages/LoginPage.png "Login Page")
 Sign Up Page:
-![alt_text](images/NewPrototypeImages/SignUpPage.png "image_tooltip")
+![Sign Up Page](images/NewPrototypeImages/SignUpPage.png "Sign Up Page")
 ## Dater Gallery
 Dater Homepage:
 ![alt_text](images/NewPrototypeImages/DaterHomePage.png "image_tooltip")
