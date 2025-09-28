@@ -38,7 +38,7 @@ Cupid Homepage:
 ![alt_text](images/NewPrototypeImages/CupidHomepage2.png "image_tooltip")
 
 Cupid Profile:
-![alt_text](images/NewPrototypeImages/CupidProfile.png "image_tooltip")
+![Cupid Profile](images/NewPrototypeImages/CupidProfile.png "Cupid Profile")
 ![Cupid Profile 2](images/NewPrototypeImages/CupidProfile2.png "Cupid Profile 2")
 
 Cupid Available Gigs:
