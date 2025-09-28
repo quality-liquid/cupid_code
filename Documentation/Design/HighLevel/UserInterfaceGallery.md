@@ -16,7 +16,7 @@ Dater Profile:
 ![alt_text](images/NewPrototypeImages/Daterprofile2.png "image_tooltip")
 
 Dater AI Assistant:
-![alt_text](images/NewPrototypeImages/DaterAIAssistant.png "image_tooltip")
+![Dater AI Assistant](images/NewPrototypeImages/DaterAIAssistant.png "Dater AI Assistant")
 
 Dater Cupid Cash:
 ![alt_text](images/NewPrototypeImages/DaterCupidCash.png "image_tooltip")
