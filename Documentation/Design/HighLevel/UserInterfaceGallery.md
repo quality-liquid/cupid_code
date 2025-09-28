@@ -50,7 +50,7 @@ Manager Homepage:
 ![alt_text](images/NewPrototypeImages/ManagerHomepage2.png "image_tooltip")
 
 Manager Platform Reports:
-![alt_text](images/NewPrototypeImages/ManagerPlatformReports.png "image_tooltip")
+![Manager Platform Reports](images/NewPrototypeImages/ManagerPlatformReports.png "Manager Platform Reports")
 
 Manager Feedback:
 ![alt_text](images/NewPrototypeImages/ManagerFeedback.png "image_tooltip")
