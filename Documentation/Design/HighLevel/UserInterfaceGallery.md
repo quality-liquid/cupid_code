@@ -34,7 +34,7 @@ Dater Calendar:
 
 ## Cupid Gallery
 Cupid Homepage:
-![alt_text](images/NewPrototypeImages/CupidHomepage.png "image_tooltip")
+![Cupid Homepage](images/NewPrototypeImages/CupidHomepage.png "Cupid Homepage")
 ![Cupid Homepage 2](images/NewPrototypeImages/CupidHomepage2.png "Cupid Homepage 2")
 
 Cupid Profile:
