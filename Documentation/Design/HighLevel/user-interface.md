@@ -35,6 +35,7 @@ The UI will be optimized for mobile use for Cupids and Daters, but the manager i
       - Cupid Cash
       - Profile
       - App feedback
+      - Gig requests
 7. Manager Main Page
     * Managers will be able to see any feedback given by Daters or Cupids
     * They will also have the option to go to the report system page.
@@ -58,6 +59,9 @@ The UI will be optimized for mobile use for Cupids and Daters, but the manager i
 13. Cupid Chosen Gig
     * The gig will display information such as distance, time, and dater rating.
     * The Cupid will be able to accept or reject the gig. Gigs already selected can be cancelled.
+14. Dater Gig Requests
+    * Daters will be able to request gigs and see the status of each request, including whether it's been picked up and the distance of the Cupid. 
+
 
 ### Component interaction
 
@@ -71,7 +75,7 @@ The user will enter username and password. The system will validate the input. I
 
 **Dater Login**
 
-The Dater homepage will allow them to select one of these pages: Calendar, AI chat, Cupid Cash, Profile, or App feedback.
+The Dater homepage will allow them to select one of these pages: Calendar, AI chat, Cupid Cash, Profile, App feedback, or Gig Requests.
 
 --> CUPID LOGIN UML DIAGRAM
 
