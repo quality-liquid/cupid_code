@@ -79,7 +79,7 @@ We conclude that the decision to host the server on Microsoft Azure is a careful
 
 ### **Client**
 
-Our system prioritizes user flexibility by accepting requests from a wide array of Operating Systems and User-Agents. Whether users prefer iOS, Android, macOS, Windows, or various Linux Distros, and choose Chrome, Edge, Firefox, etc. as their preferred User-Agent, our platform is equipped to seamlessly accommodate their preferences.
+Our system prioritizes user flexibility by accepting requests from a wide array of Operating Systems and User-Agents. Whether users prefer iOS, Android, macOS, Windows, or various Linux Distributions, and choose Chrome, Edge, Firefox, etc. as their preferred User-Agent, our platform is equipped to seamlessly accommodate their preferences.
 
 The linchpin enabling this versatility is the implementation of HTTPS (Hypertext Transfer Protocol Secure). HTTPS plays a pivotal role in ensuring a secure and reliable connection between Cupid Code and our clients. This encryption protocol encrypts the data exchanged between the client and server, safeguarding it from potential threats or unauthorized access.
 
@@ -94,7 +94,7 @@ The design and implementation made for the client end of the app, combined with 
 
 The previous team's high-level design document includes almost everything that we intend to use for our user interface with a few minor changes. 
 
-The UI will be optimized for mobile use for Cupids and Daters, but the manager interface will be optimized for desktop. However, it will be designed to be accessable on all devices. 
+The UI will be optimized for mobile use for Cupids and Daters, but the manager interface will be optimized for desktop. However, it will be designed to be accessible on all devices. 
 
 ## Components
 1. Log In/Sign Up
@@ -114,6 +114,7 @@ The UI will be optimized for mobile use for Cupids and Daters, but the manager i
     * It will also provide real-time information about Cupids or other dating opportunities.
 5. Cupid Main Page
     * This will be the home page for Cupids.
+    * This is where Cupids will Clock in and out.
     * It will provide links to the following pages
       - Cupid gigs
       - Profile
@@ -155,33 +156,37 @@ The UI will be optimized for mobile use for Cupids and Daters, but the manager i
 
 ### Component interaction
 
---> GENERAL LOGIN UML DIAGRAM
+![alt_text](images/signup.png "image_tooltip")
+**General Signup**
 
+Only Daters and Cupids will be able to use the signup page. The system will validate the input and verify that there is not an existing account with the same username. If valid, it will direct them to their respective homepage. Otherwise, it will tell them that the username is already taken.
+
+![alt_text](images/login.png "image_tooltip")
 **General Login**
 
 The user will enter username and password. The system will validate the input. If valid, it will direct them to their respective homepage. Otherwise, it will tell the user that either username or password are incorrect.
 
---> DATER LOGIN UML DIAGRAM
+![alt_text](images/dater.png "image_tooltip")
 
 **Dater Login**
 
 The Dater homepage will allow them to select one of these pages: Calendar, AI chat, Cupid Cash, Profile, App feedback, or Gig Requests.
 
---> CUPID LOGIN UML DIAGRAM
+![alt_text](images/cupid.png "image_tooltip")
 
 **Cupid Login**
 
 The Cupid homepage will allow them to select one of these pages: Cupid gigs, Profile, or App feedback.
 
---> MANAGER LOGIN UML DIAGRAM
+![alt_text](images/manager.png "image_tooltip")
 
 **Manager Login**
 
-The Manager homepage will allaw them to select one of these pages: Report system, Feeback System.
+The Manager homepage will allaw them to select one of these pages: Report system, Feedback System.
 
 **Login System Design Purpose**
 
-The system will use modularization in order to break it down into seperate components. This makes each component more manageable and easier to change without disrupting the rest of the program. This allows the program to be better suited to future changes and additions. It will also make development simpler and easier to divide tasks between multiple team members.
+The system will use modularization in order to break it down into separate components. This makes each component more manageable and easier to change without disrupting the rest of the program. This allows the program to be better suited to future changes and additions. It will also make development simpler and easier to divide tasks between multiple team members.
 
 
 # 3. Internal Interfaces
@@ -200,7 +205,7 @@ Otherwise the previous team's risk analysis is more implied than directly stated
 ## Current Risk Analysis
 ### Giving AI more control
 Our changes to the application will be giving more power to the AI which will enhance the user experience greatly, however this can also come with risks to the integrity of the system.
-* The AI will be able to record conversations which will be stored in our database. This brings a new angle for Bad Actors to steal the private information of our clients, as we will have their written private information as well as their recorded converstations stored in our database.
+* The AI will be able to record conversations which will be stored in our database. This brings a new angle for Bad Actors to steal the private information of our clients, as we will have their written private information as well as their recorded conversations stored in our database.
 * AI can be unpredictable at times, it could misunderstand instructions given by a Dater and potentially reveal private data or spend unauthorized funds when performing a task.   
 ### Dating Life Information
 The information we will be holding is extremely private
@@ -216,9 +221,9 @@ The information we will be holding is extremely private
 * There are already `npm` packages from the old teams project which contain critical security vulnerabilities. Without continual maintenance our application will become less secure as time goes on.  
 ![Terminal output for `npm install`](./images/prev-team-npm-vulnerabilities.png)
 
-* There are many packages used for this project in its current state, each new package brings with it the bugs and vulnerabilites of said package. Having many packages creates a lot to keep track of which makes it more difficult to check used packages for vulnerabilties or to keep all packages up to date and still working with the application.
-    * 180 packages currently are used for the client.  
-    * 75 python packages currently are installed for the Poetry environment. 
+* There are many packages used for this project in its current state, each new package brings with it the bugs and vulnerabilities of said package. Having many packages creates a lot to keep track of which makes it more difficult to check used packages for vulnerabilities or to keep all packages up to date and still working with the application.
+    * 180 packages currently are used for the client. 
+    * 75 python packages currently are installed for the Poetry environment.
 
 * There is a similar risk with using APIs and Frameworks as with using other's packages.
     * There must be continual maintenance work to stay up to date on the APIs, ensuring any changes in how one interfaces are implemented to keep the application functioning, research must be done to ensure the APIs used are reputable. In addition, by relying on API's should there service go down for any reason, our applications related service will also be down.
@@ -252,7 +257,7 @@ Much of our decided security measures are the same or similar to those of the pr
 
 ### Financial Transactions
 All applicable [PCI Standards](https://www.pcisecuritystandards.org/standards/) will be followed for the handling of User financial information.
-* Point-to-Point Encryption with HTTPS for sending and recieving financial information.
+* Point-to-Point Encryption with HTTPS for sending and receiving financial information.
 * Encryption of all user's financial payment information stored in our database.
     * Credit Card number, expiration date, CVV code.
     * Name and Billing address.
@@ -274,7 +279,7 @@ All applicable [PCI Standards](https://www.pcisecuritystandards.org/standards/) 
 
 ### Data Flow
 * HTTPS will be used to encrypt all traffic incoming and outgoing.
-* CSRF tokens with session IDs faciliated by the Django framework will be used to ensure proper authentication and authorization.
+* CSRF tokens with session IDs facilitated by the Django framework will be used to ensure proper authentication and authorization.
 * Daters will only have access to their personal information and the name and photo of Cupids who accept their jobs.
 * Cupids will be able to see only the information the Daters give to them and permissions for said information will be revoked upon job completion, Cupid dropping the job, or job timeout. 
 * Management will retain broader access to data for statistics and management of users (banning bad users).
@@ -282,7 +287,7 @@ All applicable [PCI Standards](https://www.pcisecuritystandards.org/standards/) 
 ### Database Security
 * Passwords will be stored as hashes.
 * All access to database will go through security middleware for authentication.
-* We are going with Azure Cloud Service to host our application and database. Microsoft is very large coorporation with years of experience, large talent pools, and many resources. We are confident their services will be up to the latest security standards and will continue to be maintained by them to stay secure as the years go on.
+* We are going with Azure Cloud Service to host our application and database. Microsoft is very large corporation with years of experience, large talent pools, and many resources. We are confident their services will be up to the latest security standards and will continue to be maintained by them to stay secure as the years go on.
 
 ### AI Security
 * We will make a summary card that appears to the Dater, showing everything the AI intends to do after the User has requested and action. This will allow the Dater to confirm that the AI understood them correctly before the AI immediately acts (buying tickets, sending messages, hiring cupids, etc...) to ensure Dater privacy, security, and satisfaction with the application.
