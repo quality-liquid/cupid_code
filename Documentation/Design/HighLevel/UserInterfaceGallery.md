@@ -19,7 +19,7 @@ Dater AI Assistant:
 ![Dater AI Assistant](images/NewPrototypeImages/DaterAIAssistant.png "Dater AI Assistant")
 
 Dater Cupid Cash:
-![alt_text](images/NewPrototypeImages/DaterCupidCash.png "image_tooltip")
+![Dater Cupid Cash](images/NewPrototypeImages/DaterCupidCash.png "Dater Cupid Cash")
 ![alt_text](images/NewPrototypeImages/DaterCupidCash2.png "image_tooltip")
 
 Dater Gig Requests:
