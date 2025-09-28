@@ -4,7 +4,7 @@ Sprint Leader: Tyson Buxton
 Team Members: Benjamin Hickenlooper, Felix Jacob, Saxton Calvert, Garrett Woodhouse, and Reece Nielson  
 
 ## Introduction
-**Purpose:** TODO write out purpose of document
+**Purpose:** This document serves to give a high level view of **what** exactly we want to do in order to meet our requirements for the customer.
 
 ### Links
 0. [Requirements](../Requirements/new-requirements-team3.md)
@@ -205,6 +205,31 @@ No high level changes to the manager's diagram were needed. Managers can review 
 
 # 3. External Interfaces
 [*Table of Contents*](#table-of-contents)
+## Previous External Interfaces
+### Considered API's
+* AI API (Microsoft Copilot)
+* Location API (Geolocation)
+* Speech To Text API (pyttsx3)
+* Text and Email notifications API (Twilio) 
+* Nearby Shops API (yelpapi)
+
+## Sinister 6 External Interfaces
+
+### API's 
+- AI API (**LM Studio**)
+    - In the existing code, they planned to use Microsoft Copilot at a high level, then ended up using gpt2 in their low level planning and in implementation. We are going to use LM Studio as it is easier, faster, and will give us more flexibility as we continue the project. Additionally as we plan to make a reactive agent, we believe that LM Studio will provide more opportunities to grow.
+- Location API (**GeoLite2**)
+- Text To Speech API (pyttsx3)
+- Text and Email notifications API (Twilio) 
+- Nearby Shops API (yelpapi)
+
+### How to manage these API's
+- Modular Code Design
+    - Each API is used for a specific purpose. We will keep each API isolated in only the file(s) where they are needed.
+    - We will separate the API calls from the direct codebase where it impacts in modules so that if we need to change an API it will be simple with minimal changes.
+- Document Management
+    - We will keep clear instructions on how to use the API's by linking the documentation for each one in our documentation pages.
+    - We will have a log of changes and our experience with each API.
 
 # 4. Risk Analysis
 [*Table of Contents*](#table-of-contents)
