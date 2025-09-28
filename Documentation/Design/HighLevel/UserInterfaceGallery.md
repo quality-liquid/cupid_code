@@ -30,7 +30,7 @@ Dater Feedback:
 ![alt_text](images/NewPrototypeImages/DaterFeedback2.png "image_tooltip")
 
 Dater Calendar:
-![alt_text](images/NewPrototypeImages/DaterCalender.png "image_tooltip")
+![Dater Calendar](images/NewPrototypeImages/DaterCalender.png "Dater Calendar")
 
 ## Cupid Gallery
 Cupid Homepage:
