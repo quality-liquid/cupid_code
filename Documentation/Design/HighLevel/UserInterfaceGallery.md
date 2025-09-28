@@ -23,7 +23,7 @@ Dater Cupid Cash:
 ![Dater Cupid Cash 2](images/NewPrototypeImages/DaterCupidCash2.png "Dater Cupid Cash 2")
 
 Dater Gig Requests:
-![alt_text](images/NewPrototypeImages/DaterGigRequests.png "image_tooltip")
+![Dater Gig Requests](images/NewPrototypeImages/DaterGigRequests.png "Dater Gig Requests")
 
 Dater Feedback:
 ![alt_text](images/NewPrototypeImages/DaterFeedback.png "image_tooltip")
