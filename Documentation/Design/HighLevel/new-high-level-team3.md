@@ -409,7 +409,7 @@ Then we'll split up into different models for each type of user to hold all the 
 
 The Manager model will have a Reports model that will pull the data needed for meetings about the system and other users to ensure if any need to get suspended or blocked. 
 
-![alt_text](images/uml_class_2.png "image_tooltip")
+![UML Class Diagram 2](images/uml_class_2.png "UML Class Diagram 2")
 
 The Cupid model will have access to the Gigs model. This will hold all of the gigs created by the AI or the user in emergency. The Gigs model will also extend a Quest model that will hold additional information related to the Gig created. The Cupid model will also have feebacks in the Feedback model. This will hold any ratings and feedback comments from Daters the Cupid has done a gig for.
 
