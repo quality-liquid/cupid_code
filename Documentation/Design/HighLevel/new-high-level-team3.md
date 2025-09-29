@@ -389,7 +389,7 @@ All applicable [PCI Standards](https://www.pcisecuritystandards.org/standards/) 
 
 Dater, Cupid, and Manager objects are all one-to-one relationships with a more generic "User" object in the database. This way we abstract the common properties between the three and reduce redundancy in the code for interfacing with the database.
 
-1. Dater
+0. Dater
    * This data is sensitive because it includes personal identifiable information about the dater.
    * Data:
        * Username
@@ -410,7 +410,7 @@ Dater, Cupid, and Manager objects are all one-to-one relationships with a more g
        * Cupid cash balance
        * Budget
        * AI chat logs
-2. Cupid
+0. Cupid
    * This data is sensitive because it includes details about the cupid’s location and payment information, which could be used by bad actors.
    * Data:
        * Username
@@ -426,11 +426,11 @@ Dater, Cupid, and Manager objects are all one-to-one relationships with a more g
        * Last active time
        * Payment information
        * Status (Not validated, validated, banned)
-3. Manager
+0. Manager
    * Username
    * Email
    * Password
-4. Gig
+0. Gig
    * Dater who requested
    * Cupid who claimed - or unclaimed
    * Quest
@@ -438,12 +438,12 @@ Dater, Cupid, and Manager objects are all one-to-one relationships with a more g
    * Date and time of request
    * Date and time of claim by Cupid
    * Date and time of completion
-5. Quest (separate for modularity)
+0. Quest (separate for modularity)
    * Gig attached to
    * Message to Cupid
    * Allowed budget
    * Item requested
-6. Date
+0. Date
    * This data is sensitive because it tells where a dater will be and when they will be there.
    * Data:
        * Dater who it belongs to
@@ -452,28 +452,28 @@ Dater, Cupid, and Manager objects are all one-to-one relationships with a more g
        * Description
        * Status (planned, completed, canceled)
        * Budget
-7. Feedback
+0. Feedback
    * User in question
    * Gig resulting in feedback
    * Message
    * Star rating (hearts)
    * Day and time feedback received
-9. Message
+0. Message
     * This is where AI Chat logs will be held
     * owner
     * fromAI, indicates if this message is from AI or to AI
     * message
-10. Payment Card
+0. Payment Card
    * This data is sensitive because it includes money information
    * User
    * Card Number
    * CVV
    * Expiration Information
-11. Bank Account
+0. Bank Account
    * This data is sensitive because it includes money information
    * Routing Number
    * Account Number
-12. Reports
+0. Reports
    * Manager dashboard:
        * Revenue
        * Registered dater count
@@ -493,7 +493,7 @@ Dater, Cupid, and Manager objects are all one-to-one relationships with a more g
    * Text and Email notifications API (Twilio) 
    * Nearby Shops API (yelpapi)
 
-**UML Class Diagrams**
+### **UML Class Diagrams**
 
 These show the connections between different models that will be within the database.
 
