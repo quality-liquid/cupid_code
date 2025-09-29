@@ -155,39 +155,41 @@ The UI will be optimized for mobile use for Cupids and Daters, but the manager i
 
 ### Component interaction
 
-![alt_text](images/signup.png "image_tooltip")
-**General Signup**
+#### **General Signup**
+![Signup Component](images/signup.png "Signup Component")
 
 Only Daters and Cupids will be able to use the signup page. The system will validate the input and verify that there is not an existing account with the same username. If valid, it will direct them to their respective homepage. Otherwise, it will tell them that the username is already taken.
 
-![alt_text](images/login.png "image_tooltip")
-**General Login**
+
+#### **General Login**
+![General Login](images/login.png "General Login")
 
 The user will enter username and password. The system will validate the input. If valid, it will direct them to their respective homepage. Otherwise, it will tell the user that either username or password are incorrect.
 
-![alt_text](images/dater.png "image_tooltip")
 
-**Dater Login**
+#### **Dater Login**
+![Dater Login](images/dater.png "Dater Login")
 
 The Dater homepage will allow them to select one of these pages: Calendar, AI chat, Cupid Cash, Profile, App feedback, or Gig Requests.
 
-![alt_text](images/cupid.png "image_tooltip")
 
-**Cupid Login**
+#### **Cupid Login**
+![Cupid Login](images/cupid.png "Cupid Login")
 
 The Cupid homepage will allow them to select one of these pages: Cupid gigs, Profile, or App feedback.
 
-![alt_text](images/manager.png "image_tooltip")
 
-**Manager Login**
+#### **Manager Login**
+![Manager Login](images/manager.png "Manager Login")
 
 The Manager homepage will allow them to select one of these pages: Report system, Feedback System.
 
-**Login System Design Purpose**
+
+#### **Login System Design Purpose**
 
 The system will use modularization in order to break it down into separate components. This makes each component more manageable and easier to change without disrupting the rest of the program. This allows the program to be better suited to future changes and additions. It will also make development simpler and easier to divide tasks between multiple team members.
 
-**UML Use Case Diagrams**
+### **UML Use Case Diagrams**
 
 These will show how one user will interact with the system and what other users will be impacted by it.
 
