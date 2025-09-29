@@ -96,29 +96,29 @@ The previous team's high-level design document includes almost everything that w
 The UI will be optimized for mobile use for Cupids and Daters, but the manager interface will be optimized for desktop. However, it will be designed to be accessible on all devices. 
 
 ## Components
-1. Log In/Sign Up
+0. Log In/Sign Up
     * The log-in page is accessible to all users, while the sign-up page is available for new Daters and Cupids.
     * Daters and Cupids will input data in order to make their profiles.
     * Some data will be required, such as username and password, while other data will be optional, such as interests.
     * The sign-up page will be updated to indicate which fields are required
     * The sign-up page will allow the user to create an account even if optional fields are left blank.
-2. Profile Viewing/Editing
+0. Profile Viewing/Editing
     * Daters and Cupids will both be able to view a profile page which displays their own data and they will be able to edit any of their own data.
     * Dater profiles will show their dating history on the app.
     * Cupid profiles will show their gig history and finances.
-3. AI Chat
+0. AI Chat
     * This page will have a messaging feature with the AI chatbot, which will be configured to help with planning dates and other dating advice.
-4. AI Listen-in
+0. AI Listen-in
     * This page will listen to the conversation during the date and give real-time advice to the Dater as needed. 
     * It will also provide real-time information about Cupids or other dating opportunities.
-5. Cupid Main Page
+0. Cupid Main Page
     * This will be the home page for Cupids.
     * This is where Cupids will Clock in and out.
     * It will provide links to the following pages
       - Cupid gigs
       - Profile
       - App feedback
-6. Dater Main Page
+0. Dater Main Page
     * This will be the home page for the Daters.
     * It will provide links to the following pages
       - Calendar
@@ -127,30 +127,30 @@ The UI will be optimized for mobile use for Cupids and Daters, but the manager i
       - Profile
       - App feedback
       - Gig requests
-7. Manager Main Page
+0. Manager Main Page
     * Managers will be able to see any feedback given by Daters or Cupids
     * They will also have the option to go to the report system page.
-8. Calendar
+0. Calendar
     * Daters will be able to use the calendar to schedule their dates.
-9. Cupid Cash
+0. Cupid Cash
     * Daters will be able to purchase Cupid Cash via PayPal or Stripe.
     * They will be able to view their current amount and spending history.
-10. Manager Report System
+0. Manager Report System
     * Managers can view statistics on users, such as number of Cupids, number of Daters, user rating, and financial information.
     * They will be able to generate reports with whatever information they select and save it as a PDF.
-11. Feedback System
+0. Feedback System
     * Daters will be able to give feedback to the developers on bugs/features and be able to rate and review any Cupids who have done gigs for them.
     * Cupids will be able to give feedback to the developers on bugs/features and be able to rate and review any Daters that they've done gigs for.
     * Managers will be able to review all feedback to developers or between Daters and Cupids.
     * Managers will also be able to remove/warn users with low ratings.
-12. Cupid Gig Finder
+0. Cupid Gig Finder
     * This page will display a list of nearby available gigs.
     * Any gig in progress will be highlighted at the top.
     * Clicking on a gig will open it in a pop-up which will give more information about that gig.
-13. Cupid Chosen Gig
+0. Cupid Chosen Gig
     * The gig will display information such as distance, time, and dater rating.
     * The Cupid will be able to accept or reject the gig. Gigs already selected can be cancelled.
-14. Dater Gig Requests
+0. Dater Gig Requests
     * Daters will be able to request gigs and see the status of each request, including whether it's been picked up and the distance of the Cupid. 
 
 ### Component interaction
@@ -205,6 +205,56 @@ No high level changes to the manager's diagram were needed. Managers can review 
 
 ![UML Use Case Diagram 3](images/uml_use_3.png "UML_Use_Case_Diagram_3")
 
+## User Interface Idea Gallery
+*See our [High level Figma prototype](https://www.figma.com/make/dyBiIuagv5tgAkkiqAZbL5/Cupid-Code?node-id=0-4&t=ZHUi9woTs8L83P00-0)*
+
+### Login Gallery
+#### Login Page:
+![Login Page](images/NewPrototypeImages/LoginPage.png "Login Page")
+#### Sign Up Page:
+![Sign Up Page](images/NewPrototypeImages/SignUpPage.png "Sign Up Page")
+
+### Dater Gallery
+#### Dater Homepage:
+![Dater Home Page](images/NewPrototypeImages/DaterHomePage.png "Dater Home Page")
+![Dater Home Page 2](images/NewPrototypeImages/DaterHomePage2.png "Dater Home Page 2")
+#### Dater Profile:
+![Dater Profile](images/NewPrototypeImages/Daterprofile.png "Dater Profile")
+![Dater Profile 2](images/NewPrototypeImages/Daterprofile2.png "Dater Profile 2")
+#### Dater AI Assistant:
+![Dater AI Assistant](images/NewPrototypeImages/DaterAIAssistant.png "Dater AI Assistant")
+#### Dater Cupid Cash:
+![Dater Cupid Cash](images/NewPrototypeImages/DaterCupidCash.png "Dater Cupid Cash")
+![Dater Cupid Cash 2](images/NewPrototypeImages/DaterCupidCash2.png "Dater Cupid Cash 2")
+#### Dater Gig Requests:
+![Dater Gig Requests](images/NewPrototypeImages/DaterGigRequests.png "Dater Gig Requests")
+#### Dater Feedback:
+![Dater Feedback](images/NewPrototypeImages/DaterFeedback.png "Dater Feedback")
+![Dater Feedback 2](images/NewPrototypeImages/DaterFeedback2.png "Dater Feedback 2")
+#### Dater Calendar:
+![Dater Calendar](images/NewPrototypeImages/DaterCalender.png "Dater Calendar")
+
+### Cupid Gallery
+#### Cupid Homepage:
+![Cupid Homepage](images/NewPrototypeImages/CupidHomepage.png "Cupid Homepage")
+![Cupid Homepage 2](images/NewPrototypeImages/CupidHomepage2.png "Cupid Homepage 2")
+#### Cupid Profile:
+![Cupid Profile](images/NewPrototypeImages/CupidProfile.png "Cupid Profile")
+![Cupid Profile 2](images/NewPrototypeImages/CupidProfile2.png "Cupid Profile 2")
+#### Cupid Available Gigs:
+![Cupid Available Gigs](images/NewPrototypeImages/CupidAvailableGigs.png "Cupid Available Gigs")
+
+### Manager Gallery
+#### Manager Homepage:
+![Manager Homepage](images/NewPrototypeImages/ManagerHomepage.png "Manager Homepage")
+![Manager Homepage 2](images/NewPrototypeImages/ManagerHomepage2.png "Manager Homepage 2")
+#### Manager Platform Reports:
+![Manager Platform Reports](images/NewPrototypeImages/ManagerPlatformReports.png "Manager Platform Reports")
+#### Manager Feedback:
+![Manager Feedback](images/NewPrototypeImages/ManagerFeedback.png "Manager Feedback")
+![Manager Feedback 2](images/NewPrototypeImages/ManagerFeedback2.png "Manager Feedback 2")
+
+
 # 3. External Interfaces
 [*Table of Contents*](#table-of-contents)
 ## Previous External Interfaces
@@ -257,7 +307,7 @@ The information we will be holding is extremely private
 
 ### Dependencies, Frameworks, and APIs
 * There are already `npm` packages from the old teams project which contain critical security vulnerabilities. Without continual maintenance our application will become less secure as time goes on.  
-![Terminal output for `npm install`](./images/prev-team-npm-vulnerabilities.png)
+![Output from terminl for `npm install`](./images/prev-team-npm-vulnerabilities.png "Output from terminal for `npm install`")
 
 * There are many packages used for this project in its current state, each new package brings with it the bugs and vulnerabilities of said package. Having many packages creates a lot to keep track of which makes it more difficult to check used packages for vulnerabilities or to keep all packages up to date and still working with the application.
     * 180 packages currently are used for the client. 
