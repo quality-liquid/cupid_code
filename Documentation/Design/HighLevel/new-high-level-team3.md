@@ -294,6 +294,9 @@ All applicable [PCI Standards](https://www.pcisecuritystandards.org/standards/) 
 [*Table of Contents*](#table-of-contents) 
 
 ### Database Tables
+
+Dater, Cupid, and Manager objects are all one-to-one relationships with a more generic "User" object in the database. This way we abstract the common properties between the three and reduce redundancy in the code for interfacing with the database.
+
 1. Dater
    * This data is sensitive because it includes personal identifiable information about the dater.
    * Data:
