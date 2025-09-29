@@ -331,7 +331,150 @@ All applicable [PCI Standards](https://www.pcisecuritystandards.org/standards/) 
 
 
 # 6. Data Design
-[*Table of Contents*](#table-of-contents)
+[*Table of Contents*](#table-of-contents) 
+
+### Database Tables
+
+Dater, Cupid, and Manager objects are all one-to-one relationships with a more generic "User" object in the database. This way we abstract the common properties between the three and reduce redundancy in the code for interfacing with the database.
+
+1. Dater
+   * This data is sensitive because it includes personal identifiable information about the dater.
+   * Data:
+       * Username
+       * Password
+       * Email
+       * Phone number
+       * Profile for AI
+           * Describe self
+           * Perceived dating strengths
+           * Perceived dating weaknesses
+           * Interests
+           * Preference for degree of AI assistance/intervention
+           * Past dating experiences
+           * Type of nerd
+           * Relationship goals
+           * Communication preferences
+       * Picture
+       * Cupid cash balance
+       * Budget
+       * AI chat logs
+2. Cupid
+   * This data is sensitive because it includes details about the cupid’s location and payment information, which could be used by bad actors.
+   * Data:
+       * Username
+       * Email
+       * Password
+       * isActive (whether a Cupid is accepting gigs)
+       * Location
+       * Cupid cash balance
+       * Average rating
+       * Total gigs completed
+       * Total gigs failed
+       * Date joined
+       * Last active time
+       * Payment information
+       * Status (Not validated, validated, banned)
+3. Manager
+   * Username
+   * Email
+   * Password
+4. Gig
+   * Dater who requested
+   * Cupid who claimed - or unclaimed
+   * Quest
+   * Status (pending, claimed, complete)
+   * Date and time of request
+   * Date and time of claim by Cupid
+   * Date and time of completion
+5. Quest (separate for modularity)
+   * Gig attached to
+   * Message to Cupid
+   * Allowed budget
+   * Item requested
+6. Date
+   * This data is sensitive because it tells where a dater will be and when they will be there.
+   * Data:
+       * Dater who it belongs to
+       * Date and time
+       * Location
+       * Description
+       * Status (planned, completed, canceled)
+       * Budget
+7. Feedback
+   * User in question
+   * Gig resulting in feedback
+   * Message
+   * Star rating (hearts)
+   * Day and time feedback received
+9. Message
+    * This is where AI Chat logs will be held
+    * owner
+    * fromAI, indicates if this message is from AI or to AI
+    * message
+10. Payment Card
+   * This data is sensitive because it includes money information
+   * User
+   * Card Number
+   * CVV
+   * Expiration Information
+11. Bank Account
+   * This data is sensitive because it includes money information
+   * Routing Number
+   * Account Number
+12. Reports
+   * Manager dashboard:
+       * Revenue
+       * Registered dater count
+       * Registered Cupid count
+       * Current active Cupid count
+       * Gigs per day/week/month
+       * Cupid feedback and complaints
+       * Also see Cupid profiles individually to gauge rating, success/fail ratio, response times.
+   * Dater:
+       * Can see how far away Cupids are
+       * Can see information regarding popular date locations
+       * Can see a calendar of their dates
+   * Cupid:
+       * Can see hotspots of dater activity to stay in the area
+       * Can see information regarding common date times and locations
+       * Can see statistics on completed gigs, money earned, failed gigs
+   * Text and Email notifications API (Twilio) 
+   * Nearby Shops API (yelpapi)
+
+**UML Class Diagrams**
+
+These show the connections between different models that will be within the database.
+
+The User model will encompass data of the User that is shared through all types of users. 
+Then we'll split up into different models for each type of user to hold all the necessary data that will hold everything that pertains only to that type of user.
+
+![UML Class Diagram 1](images/uml_class_1.png "UML Class Diagram 1")
+
+The Manager model will have a Reports model that will pull the data needed for meetings about the system and other users to ensure if any need to get suspended or blocked. 
+
+![UML Class Diagram 2](images/uml_class_2.png "UML Class Diagram 2")
+
+The Cupid model will have access to the Gigs model. This will hold all of the gigs created by the AI or the user in emergency. The Gigs model will also extend a Quest model that will hold additional information related to the Gig created. The Cupid model will also have feebacks in the Feedback model. This will hold any ratings and feedback comments from Daters the Cupid has done a gig for.
+
+![UML Class Diagram 3](images/uml_class_3.png "UML Class Diagram 3")
+
+The Dater model will have access to the Date, Message, and Payment Cards models. The Date model will hold any dates the dater schedules to inform the app. It will help the AI to send appropriately timed notfications. The Message model will hold all of the information of each message sent to and from the AI and will be linked to the dater. The Payment Cards model will securely hold all of the data for the dater's payment method. It also extends the Banking Account information that will be held securely and separately to better protect it.
+
+![UML Class Diagram 4](images/uml_class_4.png "UML Class Diagram 4")
 
 # 7. Future Proofing
 [*Table of Contents*](#table-of-contents)
+
+To ensure Cupid Code remains robust, scalable, and maintainable as technology and user needs evolve, we have adopted several future-proofing strategies:
+
+* **Modular Architecture:** The system is designed with modular components, allowing for easier updates, replacements, and additions without affecting unrelated parts of the codebase.
+* **Cloud Scalability:** Hosting on Microsoft Azure enables dynamic scaling of resources to meet changing demand, minimizing downtime and performance bottlenecks.
+* **Dependency Management:** Regular audits and updates of third-party packages and frameworks will be performed to address vulnerabilities and maintain compatibility.
+* **API Flexibility:** External APIs are integrated in a way that allows for easy substitution or upgrades, reducing risk from vendor changes or outages.
+* **Security Updates:** Security protocols and encryption standards will be reviewed and updated periodically to address emerging threats.
+* **Documentation:** Comprehensive documentation is maintained for all major components, facilitating onboarding of new developers and smooth transitions during team changes.
+* **Testing and CI/CD:** Automated testing and continuous integration pipelines will be used to catch regressions early and streamline deployment of new features.
+* **User Feedback:** Mechanisms for collecting and analyzing user feedback are in place to guide future enhancements and ensure the system continues to meet user needs.
+
+By following these practices, Cupid Code will remain adaptable and resilient in the face of future challenges.
+
