@@ -405,7 +405,7 @@ These show the connections between different models that will be within the data
 The User model will encompass data of the User that is shared through all types of users. 
 Then we'll split up into different models for each type of user to hold all the necessary data that will hold everything that pertains only to that type of user.
 
-![alt_text](images/uml_class_1.png "image_tooltip")
+![UML Class Diagram 1](images/uml_class_1.png "UML Class Diagram 1")
 
 The Manager model will have a Reports model that will pull the data needed for meetings about the system and other users to ensure if any need to get suspended or blocked. 
 
