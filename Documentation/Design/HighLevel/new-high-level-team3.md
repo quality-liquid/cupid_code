@@ -417,7 +417,7 @@ The Cupid model will have access to the Gigs model. This will hold all of the gi
 
 The Dater model will have access to the Date, Message, and Payment Cards models. The Date model will hold any dates the dater schedules to inform the app. It will help the AI to send appropriately timed notfications. The Message model will hold all of the information of each message sent to and from the AI and will be linked to the dater. The Payment Cards model will securely hold all of the data for the dater's payment method. It also extends the Banking Account information that will be held securely and separately to better protect it.
 
-![alt_text](images/uml_class_4.png "image_tooltip")
+![UML Class Diagram 4](images/uml_class_4.png "UML Class Diagram 4")
 
 # 7. Future Proofing
 [*Table of Contents*](#table-of-contents)
