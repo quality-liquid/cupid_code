@@ -4,7 +4,7 @@ Sprint Leader: Tyson Buxton
 Team Members: Benjamin Hickenlooper, Felix Jacob, Saxton Calvert, Garrett Woodhouse, and Reece Nielson  
 
 ## Introduction
-**Purpose:** TODO write out purpose of document
+**Purpose:** This document serves to give a high level view of **what** exactly we want to do in order to meet our requirements for the customer.
 
 ### Links
 0. [Requirements](../Requirements/new-requirements-team3.md)
@@ -187,9 +187,49 @@ The Manager homepage will allow them to select one of these pages: Report system
 
 The system will use modularization in order to break it down into separate components. This makes each component more manageable and easier to change without disrupting the rest of the program. This allows the program to be better suited to future changes and additions. It will also make development simpler and easier to divide tasks between multiple team members.
 
+**UML Use Case Diagrams**
+
+These will show how one user will interact with the system and what other users will be impacted by it.
+
+No high level changes to the dater's diagram were needed. This shows how the dater will interact with the system. Cupids will be able to accept and complete any gigs requested. The dater can also rate the cupid's work and give feedback. If the dater has poor ratings or is proven to be misbehaving on the system, then they will be suspended when they login and cannot access the system. This is done by the manager. They can talk to the AI and have the AI listen in to conversations. They can also update any information about themselves on their profile and update their payment information and budgets. This interacts with the database.
+
+![UML Use Case Diagram 1](images/uml_use_1.png "UML_Use_Case_Diagram_1")
+
+The high level design change added to this diagram centered around the AI prioritization of gigs. Cupids will be able to accept and complete or drop gigs requested from daters. They can also rate and provide feedback to the daters. They can be suspended off of the platform from a manager and will lose access to the system. Cupids can update their profile and payment information and interact with the database. Cupids can receive a prioritized list of available gigs from the AI.
+
+![UML Use Case Diagram 2](images/uml_use_2.png "UML_Use_Case_Diagram_2")
+
+No high level changes to the manager's diagram were needed. Managers can review Cupids and Daters, see their ratings and performances. They can also suspend and block any users of either type if they are too low of a rating or have reports of misbehavior. The manager can also get statistics and data from the database to create a report on how well the app is doing.
+
+![UML Use Case Diagram 3](images/uml_use_3.png "UML_Use_Case_Diagram_3")
 
 # 3. External Interfaces
 [*Table of Contents*](#table-of-contents)
+## Previous External Interfaces
+### Considered API's
+* AI API (Microsoft Copilot)
+* Location API (Geolocation)
+* Speech To Text API (pyttsx3)
+* Text and Email notifications API (Twilio) 
+* Nearby Shops API (yelpapi)
+
+## Sinister 6 External Interfaces
+
+### API's 
+- AI API (**LM Studio**)
+    - In the existing code, they planned to use Microsoft Copilot at a high level, then ended up using gpt2 in their low level planning and in implementation. We are going to use LM Studio as it is easier, faster, and will give us more flexibility as we continue the project. Additionally as we plan to make a reactive agent, we believe that LM Studio will provide more opportunities to grow.
+- Location API (**GeoLite2**)
+- Text To Speech API (pyttsx3)
+- Text and Email notifications API (Twilio) 
+- Nearby Shops API (yelpapi)
+
+### How to manage these API's
+- Modular Code Design
+    - Each API is used for a specific purpose. We will keep each API isolated in only the file(s) where they are needed.
+    - We will separate the API calls from the direct codebase where it impacts in modules so that if we need to change an API it will be simple with minimal changes.
+- Document Management
+    - We will keep clear instructions on how to use the API's by linking the documentation for each one in our documentation pages.
+    - We will have a log of changes and our experience with each API.
 
 # 4. Risk Analysis
 [*Table of Contents*](#table-of-contents)
