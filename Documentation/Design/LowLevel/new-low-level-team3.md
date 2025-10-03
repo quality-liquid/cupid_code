@@ -91,7 +91,7 @@ TODO
 TODO
 
 #### Dater
-TODO
+TODO: remember that we're adding an option for married individuals to seek dating assistance
 
 #### Cupid
 TODO
