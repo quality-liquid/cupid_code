@@ -42,7 +42,8 @@
 # 0. Team Conventions
 [*Table of Contents*](#table-of-contents)
 
-The Sinister-six will be following the same conventions outlined by the previous team, see [previous team's conventions](./low_level_docs.md#team-conventions-and-standards), except for the following changes outlined below.
+The Sinister-six will be following all of the same conventions outlined by the previous team, see [previous team's conventions](./low_level_docs.md#team-conventions-and-standards), except for the following changes outlined below.
+
 ## Branching
 We will classify our branches into these four types, to keep our version control workflow consistent and coherent.
 * *master*
@@ -59,6 +60,9 @@ We will classify our branches into these four types, to keep our version control
   * Development of features and experimentation of ideas which will merge into *development* once they are functioning.
 
 ## Coding Standards
+We will follow all of the same coding standards, see [previous code standards](./low_level_docs.md#coding-standards), except for the following:
+* New lines of code will be limited to 100 columns or less rather than the previous limit of 200 to increase code readability.
+* Attention will be made to import only the methods, attributes, objects, etc...which we actually use from a package rather than blanket imports of entire packages. I.e. use `from _ import _, _, ...` rather than `import _`.
 
 
 # 1. Frontend Design
