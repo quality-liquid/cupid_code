@@ -131,11 +131,90 @@ TODO
 ### Templates
 TODO
 
+### Vue Router
+
+The previous team used Vue Router to switch between pages in the frontend. They used hash routing to control which page the user is on which allows the frontend to switch pages without contacting the server every time. We will continue to use this routing method and take care to keep track of the state of the application to keep the frontend light and responsive.
+
+The following is an example fo how Vue Router is used in the application:
+```javascript
+import create web history, web hash history from 'vue-router';
+
+import Home from './components/Home.vue';
+import About from './components/Dater.vue';
+import Contact from './components/Cupid.vue';
+
+const routes = [
+  { path: '/', name: 'Home', component: Home },
+  { path: '/dater/:id', name: 'Dater', component: Dater },
+  { path: '/cupid', name: 'Cupid', component: Cupid }
+];
+
+const router = create_web_history({
+  history: web hash history,
+  routes
+});
+
+export default router;
+```
+The ':' in "path: '/dater/:id'" symbolizes a parameter to be passed through the path. This was used to pass the user id when making calls to the backend. We are unsure as to why the previous team passed the id in way as it is possible to accomplish this using state variables. As we work on the routing, if we discover that passing the id through the state instead of the url is more efficient, then we will make the necessary changes.
+
 #### Implementing the router
-TODO
+
+In the **main.js** file we include the router and mount it. Other pages can import the router to use programmatic routing or use the router-link tag in components:
+
+``` javascript
+import router from './router/router.js'
+
+router.go(1) // Forward 1
+router.forward() // ^
+router.go(-1) // Back 1
+router.back() // ^
+
+// Route the user to this path with the given params.
+router.push({name: "Path Name", params: {param: given param}})
+```
+
+```html
+  <nav>
+    <router-link :to="{name: 'Path name', params: {param: given param}}">
+      Go here!
+    </router-link>
+    <router-link :to="{name: 'Path name', params: {param: given param}}">
+      Or here!
+    </router-link>
+  </nav>
+  <div>
+    Other components from the page get displayed here.
+  </div>  
+<template>
+```
 
 ### Vue URLs
-TODO
+The Vue app will live at URL `/app/`. The following pages will be available through the Vue Router. 
+
+| URL                 | Notes               |
+|---------------------|---------------------|
+| /                   | Welcome page        |
+| /login              | Login page          |
+| /register           | Signup page         |
+| /dater/home/:id     | dater homepage      |
+| /dater/chat/:id     | dater chat page     |
+| /dater/listen/:id   | dater listen page   |
+| /dater/balance/:id  | dater cash page     |
+| /dater/calendar/:id | dater calendar page |
+| /dater/feedback/:id | dater feedback page |
+| /dater/gigs/:id     | dater gigs page     |
+| /dater/profile/:id  | dater profile page  |
+| /cupid/home/:id     | cupid homepage      |
+| /cupid/gigs/        | cupid gigs          |
+| /cupid/balance/:id  | cupid balance       |
+| /cupid/profile/:id  | cupid profile       |
+| /cupid/feedback/:id | cupid feedback page |
+| /manager/home/:id   | manager homepage    |
+| /manager/cupids/    | manager reports     |
+| /manager/daters/    | manager reports     |
+
+The :id syntax is using the params syntax from the Vue Router. These are the URLs that are going to need an id of some sort. If the id is not valid for the page that is being accessed (i.e. dater user trying to access a manager page), a 404 page will be served instead.
 
 ### Testing
 We intend to continue using and building upon the existing testing framework going forward in the development of the product. Testing is done in the following ways:
