@@ -138,7 +138,17 @@ TODO
 TODO
 
 ### Testing
-TODO
+We intend to continue using and building upon the existing testing framework going forward in the development of the product. Testing is done in the following ways:
+
+0. **Unit Testing**: Unit tests isolate functions and methods and verify that it outputs the way it is intended. Focus on testing edge cases and potential invalid inputs.
+
+0. **Component Testing**: Vue Test Utils is used to test Vue components and simulate user interactions.
+
+0. **Integration Testing**: Integration tests will verify that multiple components work together and ensure the entire application can work.
+
+0. **Mocking**: Mocking is a technique used in testing to isolate a component that may rely on other components. By using mocking you can "mock" what a function should return and thereby control the behavior of external dependencies to focus entirely on the component under test.
+
+The tests will be run in a CICD pipeline to ensure that changes to the app do not break working functionality. If a change to the code alters what a function inputs and outputs, the developer who made the change is in charge of fixing the corresponding test and ensuring that it works.
 
 # 2. Middleend Design
 [*Table of Contents*](#table-of-contents)
