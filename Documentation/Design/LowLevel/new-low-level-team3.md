@@ -129,7 +129,26 @@ TODO
 TODO
 
 ### Templates
-TODO
+
+A Django Template is used to connect the Vue frontend to the backend. A second Django Template is used to make the sign-up/login process its own separate app to improve security. The sign-up/login process is only responsible for adding/validating users and then redirecting them to the appropriate homepage depending on what type of user they are.
+
+Django templates take the following form:
+
+``` html
+{% load static %}
+<head>
+  <style>
+    /* Write inline styles here */
+  </style>  
+</head>
+<body>
+  <div>
+    Welcome to Cupid Code landing page here
+  </div>
+  <button> Login </button>
+  <button> Sign up </button>
+</body>  
+```
 
 ### Vue Router
 
