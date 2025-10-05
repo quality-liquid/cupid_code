@@ -57,6 +57,7 @@ We will classify our branches into these four types, to keep our version control
   * Get code ready to merge with *master*.
 * *feature/fixes*
   * Branched off of *development*.
+  * This category would also include *sub-feature* branches coming off of a *feature* branch; used to break up the work for the larger *feature* branches.
   * Development of features and experimentation of ideas which will merge into *development* once they are functioning.
 
 ## Coding Standards
