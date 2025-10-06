@@ -87,7 +87,9 @@ If a user loses their account information, a form of Two-Step Authentication wil
 We also intend to make calls to external APIs and thus we need to ensure that we safeguard any response that could be malicious. We will do this by...
 
 ### Performance
-TODO - That said, I don't think there's a whole lot that we can do on the frontend for this except for make sure we keep it lightweight.
+The frontend will verify any inputs that it can before making requests to the backend to lower the amount of requests made to the backend. For example, the frontend will check that an entered email is valid before making a request. Since the page is a single page application, we are also able to reduce the number of requests to the backend.
+
+By reducing how many requests we make to the server, the user is able to interact with the app more without having to wait for constant responses from the server.
 
 ### UI
 TODO - Add a dark theme, change up the colors and web page (we're going to need to update all the images), create a "Plan-a-Date" page
