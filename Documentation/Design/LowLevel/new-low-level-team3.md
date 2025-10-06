@@ -122,10 +122,11 @@ The existing design for the use of icons will be kept in place.
 The app's portrait orientation and general "mobile-first" design principles will be maintained as the app will primarily be used in mobile settings. Desktop functionality and scalability will be maintained.
 
 #### Making accounts and Logging in
-The existing design for making accounts and logging in will be maintained. The pages will be updated to reflect the updated visual interface. 
+The existing design for making accounts and logging in will be maintained. The pages will be updated to reflect the updated visual interface. A new logo will also be integrated.
 
 ![create_account_image](images/createacc.png "Create_Acc")
 ![login_image](images/login.png "Login")
+![logo](images/logo.png "Logo")
 
 #### Dater
 The Daters will be able to access the 8 following features from their home pages:
@@ -155,10 +156,10 @@ The Cupids will be able to access the following 5 features from their home pages
 - Profile to view gig history, manage finances, and edit information.
 - App Feedback to submit reviews and report app issues.
 
-![alt_text](images/ch.png "Cupid_Home")
-![alt_text](images/ch_cash.png "Cash_Earned")
-![alt_text](images/ch_gig1.png "Gig_1")
-![alt_text](images/ch_gig2.png "Gig_2")
+![cupid_home](images/ch.png "Cupid_Home")
+![cash_earned](images/ch_cash.png "Cash_Earned")
+![gig1](images/ch_gig1.png "Gig_1")
+![gig2](images/ch_gig2.png "Gig_2")
 
 #### Manager
 The Manager users who act as administrators for the platform will be able to access the following features:
@@ -169,13 +170,8 @@ The Manager users who act as administrators for the platform will be able to acc
 - Cupid Schedule Reports
 - System Status
 
-![alt_text](images/manager_home.png "Manager_Home")
-
-NEEDS A PAGE?
-![alt_text](images/manage_cupids.png "Manage_Cupids")
-![alt_text](images/manage_cupid.png "Manage_Cupid")
-![alt_text](images/manage_daters.png "Manage_Daters")
-![alt_text](images/manage_dater.png "Manage_Dater")
+![manager_home](images/manager_home.png "Manager_Home")
+![user_management](images/manage.png "User_Management")
 
 ### UX
 The existing design for the user experience will be maintained, striving to ensure that they enjoy the app and find a helpful tool to shoulder their dating burdens.
