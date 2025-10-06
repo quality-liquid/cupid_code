@@ -156,7 +156,7 @@ Django templates take the following form:
 
 The previous team used Vue Router to switch between pages in the frontend. They used hash routing to control which page the user is on which allows the frontend to switch pages without contacting the server every time. We will continue to use this routing method and take care to keep track of the state of the application to keep the frontend light and responsive.
 
-The following is an example fo how Vue Router is used in the application:
+The following is an example of how Vue Router is used in the application:
 ```javascript
 import create web history, web hash history from 'vue-router';
 
