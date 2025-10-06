@@ -23,7 +23,6 @@ The dynamic endpoints neet user data. Authenication will be required to access a
 | URL      | Method    | View Function | Notes                                                                                          |
 |----------|-----------|---------------|------------------------------------------------------------------------------------------------|
 | /api/user/create | POST | create_user | Creates a user and makes them a cupid or dater as necessary |
-| /api/user/sign_in | POST | sign_in | Signs the user in and returns their data |
 | /api/user/<int:id> | GET | get_user | Gets the user's data based on their id number |
 | /api/chat/ | POST | send_chat_message | Sends the chat message and returns the AI's response |
 | /api/chat/<int:id>/ GET | get_five_messages | Returns the user's five most recent chat messages
@@ -67,12 +66,11 @@ The dynamic endpoints neet user data. Authenication will be required to access a
 | /api/manager/gig_complete_rate | GET | get_gig_complete_rate | Returns the number of gigs completed per day |
 | /api/manager/suspend/ | POST | suspend | Sets user as suspended |
 | /api/manager/unsuspend | POST | unsuspend | sets user as unsuspended |
-| /api/manager/delete_user/<int:id> | POST | delete_user | Deletes the user whose id number is used |
+| /api/manager/delete_user/<string:usertype>/<int:id> | POST | delete_user | Deletes the user whose id number is used |
 | /api/stt/ | POST | speech_to_text | Takes in audio and returns the words as text |
 | /api/notify/ | POST | notify | Send a notification |
 
 ??? TODO:
-- fix views.py
 - check HLD/req for any other required urls
 - add to urls.py & views.py
 
@@ -104,7 +102,6 @@ urlpatterns = [
   path = ("/signup/", views.signup, name="signup"),
   path = ("/app/", views.app, name="app"),
   path = ("/api/user/create", views.create_user, name="create_user"),
-  path = ("/api/user/sign_in", views.sign_in, name="sign_in"),
   path = ("/api/user/<int:id>", views.get_user, name="get_user"),
   path = ("/api/chat/", views.send_chat_message, name="send_chat_message"),
   path = ("/api/chat/<int:id>/", views.get_five_messages, name="get_five_messages"),
@@ -148,7 +145,7 @@ urlpatterns = [
   path = ("/api/manager/gig_complete_rate", views.get_gig_complete_rate, name="gig_complete_rate"),
   path = ("/api/manager/suspend/", views.suspend, name="suspend"),
   path = ("/api/manager/unsuspend", views.unsuspend, name="unsuspend"),
-  path = ("/api/manager/delete_user/<int:id>", views.delete_user, name="delete_user"),
+  path = ("/api/manager/delete_user/<string:usertype>/<int:id>", views.delete_user, name="delete_user"),
   path = ("/api/stt/", views.speech_to_text, name="speech_to_text"),
   path = ("/api/notify/", views.notify, name="notify"),
 ]
@@ -164,15 +161,15 @@ from rest_framework import status
 from .models import Dater, Cupid, Message, Manager, Gig, Quest, Date, Feedback, PaymentCard, BankAccount
 from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, ManagerSerializer, GigSerializer, QuestSerializer, DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
 
-def welcome(request):
-    return render(request, "welcome.html")
+def home(request):
+    return render(request, "home.html")
     
-def sign_up(request):
+def signup(request):
     if request.method == "POST":
         validate the form
         return redirect("/login/")
     else:
-        return render(request, "sign_up.html")
+        return render(request, "signup.html")
         
 def login(request):
     if request.method == "POST":
@@ -290,15 +287,15 @@ def get_dater_avg_rating(request, id):
 
 def dater_transfer(request):
   dater_id = request.user_id
-  card_on_file = Payment_Card.objects.get(user=dater_id)
+  money_api = request.api_info
 
   transfer_amount = request.transfer_amount
   
-  result = way to transfer money from card(card_on_file, transfer_amount)
+  result = way to transfer money from api(money_api, transfer_amount)
 
   dater.balance = dater.balance + result
 
-  send result to company bank account
+  send result to money_api
 
   dater.save()
 
@@ -329,6 +326,13 @@ def set_dater_profile(request):
   dater.save()
 
   return JsonResponse({'message': 'Profile saved'})
+
+def get_dater_gigs(request, id):
+  dater = Dater.objects.get(id=id)
+
+  gigs = Gig.objects.get(user=id)
+
+  response = gigs.json()
 
 def rate_cupid(request):
   cupid_id = request.cupid_id
@@ -372,11 +376,11 @@ def get_cupid_avg_rating(request, id):
 
 def cupid_transfer(request):
   cupid_id = request.cupid_id
-  bank_account = Bank_Account.objects.get(user=cupid_id)
+  money_api = request.api_info
 
   transfer_amount = request.transfer_amount
   
-  send transfer_amount to bank_account
+  send transfer_amount to money_api
   
   cupid.balance = dater.balance - transfer_amount
 
@@ -385,7 +389,7 @@ def cupid_transfer(request):
   return JsonResponse({'message': 'Deposit successful'})
 
 def get_cupid_balance(request, id):
-  dupid = Cupid.objects.get(id=id)
+  cupid = Cupid.objects.get(id=id)
 
   response = cupid.balance.json()
 
@@ -409,7 +413,18 @@ def set_cupid_profile(request):
   cupid.save()
 
   return JsonResponse({'message': 'Profile saved'})
-  
+
+def cupid_accepting(request):
+    cupid_ip_address = request.META.get('REMOTE_ADDR')
+    cupid_id = request.cupid_id
+    cupid = Cupid.get(id=cupid_id)
+    cupid.location = cupid_ip_address  
+
+    cupid.accepting = True
+    cupid.save()
+
+    return JsonResponse({'message': 'Cupid is now active'})
+
 def create_gig(request):
     
     dater_id = request.dater_id
@@ -484,6 +499,20 @@ def drop_gig(request):
     gig.save()
     
     return JsonResponse({'message': 'Gig has been dropped'})
+
+def delete_gig(request):
+
+    cupid_ip_address = request.META.get('REMOTE_ADDR')
+    cupid_id = request.cupid_id
+    cupid = Cupid.get(id=cupid_id)
+    cupid.location = cupid_ip_address
+    
+    gig_id = request.gig_id
+    gig = Gig.get(id=gig_id)
+    
+    gig.delete()
+    
+    return JsonResponse({'message': 'Gig has been deleted'})
     
 def get_gigs(request, count):
     gigs = Gig.objects.all()[:count]
@@ -641,6 +670,17 @@ def unsuspend(request):
     user_id = request.user_id
     user = User.get(id=user_id)
     user.suspended = False
+
+def delete_user(request, usertype, id):
+  if usertype == "dater":
+    user = Dater.objects.get(id=id)
+  else if usertype == "cupid":
+    user = Cupid.objects.get(id=id)
+  else:
+    return JsonResponse({'message': 'Invalid usertype'})
+  
+  user.delete()
+  return JsonResponse({'message': 'The {usertype} has been deleted'})
     
 def speech_to_text(request):
 
