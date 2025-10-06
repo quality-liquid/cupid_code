@@ -144,6 +144,7 @@ The Daters will be able to access the 8 following features from their home pages
 ![dater_home](images/uh.png "User_Home")
 ![dater_ai](images/aichat.png "Ai_Chat")
 ![dater_calendar](images/calendar.png "Calendar")
+![dater_planner](images/planner.png "PlanADate")
 ![dater_cupid_cash](images/cupidcash.png "Cupid_Cash")
 ![dater_add_cash](images/addfunds.png "Add_Cupid_Cash")
 ![dater_profile](images/useracc.png "User_Acc")
@@ -164,6 +165,8 @@ The Cupids will be able to access the following 5 features from their home pages
 ![alt_text](images/ch_cash.png "Cash_Earned")
 ![alt_text](images/ch_gig1.png "Gig_1")
 ![alt_text](images/ch_gig2.png "Gig_2")
+
+NEEDS A PAGE?
 ![alt_text](images/ch_rate.png "Rate_Daters")
 
 #### Manager
@@ -175,7 +178,9 @@ The Manager users who act as administrators for the platform will be able to acc
 - Cupid Schedule Reports
 - System Status
 
-![alt_text](images/manager_home.png "Cupid_Home")
+![alt_text](images/manager_home.png "Manager_Home")
+
+NEEDS A PAGE?
 ![alt_text](images/manage_cupids.png "Manage_Cupids")
 ![alt_text](images/manage_cupid.png "Manage_Cupid")
 ![alt_text](images/manage_daters.png "Manage_Daters")
