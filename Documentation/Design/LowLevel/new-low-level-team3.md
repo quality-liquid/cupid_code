@@ -95,7 +95,7 @@ By reducing how many requests we make to the server, the user is able to interac
 The application as handed to us was well designed for intuitive clicking and use for the features it had. We intend to make more features immediately accessible on the landing page and make some changes to the color scheme. There will be a dark scheme and a light theme to make it more accessible. Clear instructions will continue to be provided as needed
 
 #### User Flow:
-The user flow as handed to us in the application was well designed. There will be slight changes to the home page relative to new features pertinent to the type of user. Daters will be able to see upcoming dates and their Cupid Cash balance. They will also be able to, from the home page, access their date calendar, an AI chatbot for advice and plans, the new Plan-a-Date feature, their Cupid Cash wallet and history, all their Gig requests, their profile page, a feedback page, and the ability to allow the AI to start listening and provide live feedback. Cupids will be able to clock in and out and see how many available gigs there are, how many gigs they've completed, and how much they've earned. Cupids will have home page access to the list of nearby gigs and how many are active, their active gig(s) and status(es), their profile page, and a feedback page. A recent activity list and a weekly earnings report will also be on the page. Platform admin managers will be able to see metrics on how many total and active daters, total and active cupids, total and monthly revenue, and critical issues including those that are pending. A general platform health dashboard with key performance indicators will also be displayed with recent platform activity. Access to a report system, the feedback reviews, user management, financial reports, analytics, and schedule reports will also be available with a status page. Each of these buttons are tap sensitive and dynamically redirect the specific user to the destination indicated.
+The user flow as handed to us in the application was well designed. There will be slight changes to the home page relative to new features pertinent to the type of user. Daters will be able to see upcoming dates and their Cupid Cash balance. They will also be able to, from the home page, access their date calendar, an AI chatbot for advice and plans, the new Plan-a-Date feature, their Cupid Cash wallet and history, all their Gig requests, their profile page, a feedback page, and the ability to allow the AI to start listening and provide live feedback. Cupids will be able to clock in and out and see how many available gigs there are, how many gigs they've completed, and how much they've earned. Cupids will have home page access to the list of nearby gigs and how many are active, their active gig(s) and status(es), their profile page, and a feedback page. A recent activity list and a weekly earnings report will also be on the page. Platform admin managers will be able to see metrics on how many total and active daters, total and active cupids, total and monthly revenue, and critical issues including those that are pending. A general platform health dashboard with key performance indicators will also be displayed with recent platform activity. Access to a report system, the feedback reviews, user management, financial reports, analytics, and cupid schedule reports will also be available with a status page. Each of these buttons are tap sensitive and dynamically redirect the specific user to the destination indicated.
 
 #### Screen Designs:
 Creating a dark theme while also maintaining the contrast present as handed to us across the application is important. Important information will be made more easily accessible with no need to scroll or swipe, the most important being locked at the top of the screen in the case of a scroll. Our main customer is a mobile user, so all screen designs will be designed as "mobile-first" architecture.
@@ -155,11 +155,29 @@ The Cupids will be able to access the following 5 features from their home pages
 - Profile to view gig history, manage finances, and edit information.
 - App Feedback to submit reviews and report app issues.
 
+![alt_text](images/ch.png "Cupid_Home")
+![alt_text](images/ch_cash.png "Cash_Earned")
+![alt_text](images/ch_gig1.png "Gig_1")
+![alt_text](images/ch_gig2.png "Gig_2")
+![alt_text](images/ch_rate.png "Rate_Daters")
+
 #### Manager
-TODO
+The Manager users who act as administrators for the platform will be able to access the following features:
+- Analytics Report System
+- Inter-user Feedback
+- User Management
+- Financial Reports
+- Cupid Schedule Reports
+- System Status
+
+![alt_text](images/manager_home.png "Cupid_Home")
+![alt_text](images/manage_cupids.png "Manage_Cupids")
+![alt_text](images/manage_cupid.png "Manage_Cupid")
+![alt_text](images/manage_daters.png "Manage_Daters")
+![alt_text](images/manage_dater.png "Manage_Dater")
 
 ### UX
-TODO
+The existing design for the user experience will be maintained, striving to ensure that they enjoy the app and find a helpful tool to shoulder their dating burdens.
 
 ### Templates
 
