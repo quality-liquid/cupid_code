@@ -70,10 +70,6 @@ The dynamic endpoints neet user data. Authenication will be required to access a
 | /api/stt/ | POST | speech_to_text | Takes in audio and returns the words as text |
 | /api/notify/ | POST | notify | Send a notification |
 
-??? TODO:
-- check HLD/req for any other required urls
-- add to urls.py & views.py
-
 ### Django Settings
 
 The file `server/settings.py` will apply settings to the Django project. All of the current settings will be kept the same with the note that:
