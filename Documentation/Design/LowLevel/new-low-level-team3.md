@@ -127,9 +127,6 @@ The existing design for making accounts and logging in will be maintained. The p
 ![create_account_image](images/createacc.png "Create_Acc")
 ![login_image](images/login.png "Login")
 
-NEEDS A PAGE?
-![suspended_account_image](images/suspended.png "Suspended")
-
 #### Dater
 The Daters will be able to access the 8 following features from their home pages:
 - Date calendar from which to schedule and manage their dates.
@@ -148,10 +145,7 @@ The Daters will be able to access the 8 following features from their home pages
 ![dater_cupid_cash](images/cupidcash.png "Cupid_Cash")
 ![dater_add_cash](images/addfunds.png "Add_Cupid_Cash")
 ![dater_profile](images/useracc.png "User_Acc")
-
-NEEDS A PAGE?
-![dater_listening1](images/listen1.png "Listen_1")
-![dater_listening2](images/listen2.png "Listen_2")
+![dater_listening](images/listen1.png "Listen")
 
 #### Cupid
 The Cupids will be able to access the following 5 features from their home pages:
@@ -165,9 +159,6 @@ The Cupids will be able to access the following 5 features from their home pages
 ![alt_text](images/ch_cash.png "Cash_Earned")
 ![alt_text](images/ch_gig1.png "Gig_1")
 ![alt_text](images/ch_gig2.png "Gig_2")
-
-NEEDS A PAGE?
-![alt_text](images/ch_rate.png "Rate_Daters")
 
 #### Manager
 The Manager users who act as administrators for the platform will be able to access the following features:
