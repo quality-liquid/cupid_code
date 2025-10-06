@@ -223,6 +223,7 @@ The Vue app will live at URL `/app/`. The following pages will be available thro
 | /dater/listen/:id   | dater listen page   |
 | /dater/balance/:id  | dater cash page     |
 | /dater/calendar/:id | dater calendar page |
+| /dater/planner/:id  | dater planner page  |
 | /dater/feedback/:id | dater feedback page |
 | /dater/gigs/:id     | dater gigs page     |
 | /dater/profile/:id  | dater profile page  |
