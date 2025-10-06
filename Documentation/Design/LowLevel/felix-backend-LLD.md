@@ -18,7 +18,7 @@ More pages will be covered by the [Vue Router] (#vue-router)
 
 #### Dynamic Endpoints
 
-The dynamic endpoints neet user data. Authenication will be required to access all of these endpoints.
+The dynamic endpoints need user data. Authenication will be required to access all of these endpoints.
 
 | URL      | Method    | View Function | Notes                                                                                          |
 |----------|-----------|---------------|------------------------------------------------------------------------------------------------|
@@ -35,6 +35,7 @@ The dynamic endpoints neet user data. Authenication will be required to access a
 | /api/dater/profile/<int:id>/ | GET | get_dater_profile | Get dater's profile
 | /api/dater/profile/ | POST | set_dater_profile | Saves/updates the dater's profile |
 | /api/dater/gigs/<int:id> | GET | get_dater_gigs | Gets all the gigs that the user has requested |
+| /api/dater/planner/ | GET | planner | Gets the page for the plan-a-date |
 | /api/cupid/rate/ | POST | rate_cupid | Cupid rating daters |
 |api/cupid/ratings/<int:id>/ | GET | get_cupid_ratings | Gets a list of the cupid's ratings |
 | /api/cupid/ratings/<int:id>/ | GET | get_cupid_avg_rating | Gets a cupid's average rating | 
@@ -110,6 +111,7 @@ urlpatterns = [
   path = ("/api/dater/profile/<int:id>/", views.get_dater_profile, name="get_dater_profile"),
   path = ("/api/dater/profile/", views.set_dater_profile, name="set_dater_profile"),
   path = ("/api/dater/gigs/<int:id>", views.get_dater_gigs, name="get_dater_gigs"),
+  path = ("/api/dater/planner", views.planner, name="planner"),
   path = ("/api/cupid/rate/", views.rate_cupid, name="rate_cupid"),
   path = ("api/cupid/ratings/<int:id>/", views.get_cupid_ratings, name="get_cupid_ratings"),
   path = ("/api/cupid/ratings/<int:id>/", views.get_cupid_avg_rating, name="get_cupid_avg_rating"),
@@ -154,7 +156,7 @@ urlpatterns = [
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Dater, Cupid, Message, Manager, Gig, Quest, Date, Feedback, PaymentCard, BankAccount
+from .models import Dater, Cupid, Message, Manager, Gig, Quest, Date, Feedback
 from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, ManagerSerializer, GigSerializer, QuestSerializer, DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
 
 def home(request):
@@ -329,6 +331,9 @@ def get_dater_gigs(request, id):
   gigs = Gig.objects.get(user=id)
 
   response = gigs.json()
+
+def planner(request):
+  return("planner.html")
 
 def rate_cupid(request):
   cupid_id = request.cupid_id
