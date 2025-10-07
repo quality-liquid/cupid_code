@@ -34,7 +34,6 @@
     - [UX](#ux)
     - [Templates](#templates)
     - [Vue Router](#vue-router)
-      - [How the Router works](#how-the-router-works)
     - [Testing](#testing)
 0. [Middleend Design](#2-middleend-design-connecting-vue-and-django)
     * [Summary](#summary)
@@ -91,7 +90,6 @@ We will follow all of the same coding standards, see [previous code standards](.
 [*Table of Contents*](#table-of-contents)
 
 #### Subsections
-- [Frontend Design](#frontend-design)
 - [Security](#security)
 - [UI](#ui)
 - [UX](#ux)
