@@ -37,6 +37,14 @@
       - [How the Router works](#how-the-router-works)
     - [Testing](#testing)
 0. [Middleend Design](#2-middleend-design-connecting-vue-and-django)
+    * [Summary](#summary)
+    * [Poetry](#poetry)
+    * [Vite Config](#vite-config)
+    * [Node.js](#nodejs)
+    * [npm](#npm)
+    * [Serverside](#serverside)
+    * [Clientside](#clientside)
+    * [Pseudocode](#pseudocode)
 0. [Backend Design](#3-backend-design)  
     * [Backend Summary](#backend-summary-revisit-this-after-everything-else-is-done)
     * [Resources for the Backend](#resources-for-the-backend)
@@ -327,18 +335,12 @@ The tests will be run in a CICD pipeline to ensure that changes to the app do no
 * [Node.js](#nodejs)
 * [npm](#npm)
 * [Serverside](#serverside)
-* [Files to Add](#files-to-addy)
-* [Environment](#environment)
-* [Middleware](#middleware)
-* [In Server Settings](#in-server-settings)
-* [In core views](#in-core-viewspy)
-* [In core index](#in-core-indexhtml)
 * [Clientside](#clientside)
 * [Pseudocode](#pseudocode)
 
 
 ## Summary
-Note: Our newly proposed fetures and add-ons change little from the previous teams designs for connecting the frontend and backend. As such to focus more on our proposed changes, in the interest of following the DRY (Don't Repeat Yourself) principle, only the changes we make will be noted and for the sections where we choose to follow their same plan the previous teams document will be linked with a bit of explanation. 
+Note: Our newly proposed features and add-ons change little for the previous teams designs for connecting the frontend and backend. As such to focus more on our proposed changes and in the interest of following the DRY (Don't Repeat Yourself) principle, only the changes we make will be noted and for the sections where we choose to follow their same plan the previous teams document will be linked with a bit of explanation. 
 
 We will continue to use Vite, Vue, NVM, and NPM for the frontend. With Poetry and Django used for the backend. They are still viable tools for connecting our client and server, maintaining the project packages (NVM, NPM), and maintaining the server environment (poetry).   
 
@@ -357,21 +359,13 @@ Nothing should change here from the previous teams setup.
 See [previous Vite Config](./low_level_docs.md#vite-config)
 
 ## Node.js
-
-The [current LTS version](https://nodejs.org/en) (20.11.1 as of 2/18/2024) of Node.js will be used for project development. `nvm` (Node Version Manager) will be used to manage the version of Node.js being used.
-
-`nvm` commands for selecting Node.js version:
-```
-$ nvm install -lts
-$ nvm use --lts
-```
+The version of Node.js will be upgraded to the now [current LTS version](https://nodejs.org/en) `v22.20.0`. Otherwise, we will continue using `nvm` for Node.js management.  
+See [previous team Node.js section](./low_level_docs.md#nodejs)
 
 ## npm
-
-`npm` will be used for package management
-These are the dependencies we'll install
-* Vue 3.3.11+
-* Cookie 0.6.0+
+`npm` will continue to be used for package management. We will upgrade the previous teams dependencies to the now current stable versions for security and performance.
+* `Vue v3.5.22` see [Vue Releases](https://vuejs.org/about/releases.html)
+* `Cookie v1.0.2` see [npm Cookie package](https://www.npmjs.com/package/cookie)
 
 ## Serverside
 See [previous Serverside](./low_level_docs.md#serverside)
@@ -385,17 +379,12 @@ The same environment setup will be followed.
 See [previous Environment section](./low_level_docs.md#environment)
 
 ### Middleware
-TODO
-* Add the asset middleware here
-* We already have a written one
-* An example is in the psuedocode
+* The Django framework comes with built in middleware to handle all of our needs for authentication, data passing, and the like. Thus we will rely on the optimized and professionaly build Django included middleware for connecting the frontend and backend.
 
 ### In Server Settings
-TODO
 * Import load_dotenv from dotenv (python-dotenv)
 * Add a Debug check for asset middleware:
   * if DEBUG: MIDDLEWARE.append('core.middleware.asset_proxy_middleware')
-  * Note: This is the middleware we added/wrote earlier
 
 ### In Core views.py
 The same setup will be followed as the previous team.  
@@ -407,12 +396,11 @@ See [previous team Core index section](./low_level_docs.md#in-core-indexhtml)
 
 
 ## Clientside
-
-For running the server by default, you won't need to add anything. However, if you want to make some actual requests then this is where Cookie comes in. 
-Add a utils folder in your src folder, and make a file called `make_requests.js` here. Here you'll write a function to send and receive json from the server.
+The previous team's instructions here are the same for the project as it will become with out implementation.  
+See [previous teams Clientside instructions](./low_level_docs.md#clientside).
 
 ## Pseudocode
-Their pseudocode covers the same as what we want to implement.  
+Their pseudocode covers the same as what we will implement.  
 See [previous team pseudocode](./low_level_docs.md#pseudocode)
 
 # 3. Backend Design

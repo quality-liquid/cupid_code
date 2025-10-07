@@ -664,7 +664,7 @@ These are the dependencies we'll install
 #### Clientside
 
 For running the server by default, you won't need to add anything. However, if you want to make some actual requests then this is where `Cookie` comes in. 
-Add a utils folder in your src folder, and make a file called `make_requests.js` here. Here you'll write a function to send and receive json from the server.
+Add a `utils` folder in your `src` folder, and make a file called `make_requests.js` here. Here you'll write a function to send and receive json from the server.
 
 #### Pseudocode
 ``` javascript
