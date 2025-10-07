@@ -338,38 +338,22 @@ The app will primarily be designed for portrait orientation for mobile devices. 
 #### Making accounts and Logging in
 From the login/User creation page, the user will be able to enter their information with respect to their use-case for the app (Dater or Cupid). Should the user receive several poor ratings from their counterpart, and upon the discretion of the manager, a user can be suspended from the app for a time or indefinitely. 
 
-![alt_text](images/createacc.png "Create_Acc")
-![alt_text](images/login.png "Login")
-![alt_text](images/suspended.png "Suspended")
+IMAGES REMOVED DUE TO UPDATE
 
 #### Dater
 The Dater will have access to 5 features from the app. They can enable the listening function for our AI-bot to determine how well the date is going, texting with the chat-bot to help them get prepared for the date, add cash to their online account to be utilized for purchasing gigs and paying the delivery of the cupid, and a calendar to schedule their date so our system knows how best to assist the dater leading up to the date. Once a delivery is completed, the user will have the ability to rate the experience between them and the cupid. 
 
-![alt_text](images/uh.png "User_Home")
-![alt_text](images/aichat.png "Ai_Chat")
-![alt_text](images/calendar.png "Calendar")
-![alt_text](images/listen1.png "Listen_1")
-![alt_text](images/listen2.png "Listen_2")
-![alt_text](images/cupidcash.png "Cupid_Cash")
-![alt_text](images/useracc.png "User_Acc")
+IMAGES REMOVED DUE TO UPDATE
 
 #### Cupid
 The Cupid home page will display their personal rating on a scale to 5, as well as a running list of gig offers to accept delivery for. They will be displayed to them based on their location. From there, the cupid can either accept a gig delivery or drop an already accepted delivery. Once a gig is selected, it will show all of the information for the delivery as well as the ability to update the completion status. Once a gig is completed, the Cupid will be provided a screen to supply their feedback for the Dater they were delivering for. The cupid will also be able to acces their earnings page (which will be synonymous with their account info page) to see their running earnings as well as the next pay date. 
 
-![alt_text](images/ch.png "Cupid_Home")
-![alt_text](images/ch_cash.png "Cash_Earned")
-![alt_text](images/ch_gig1.png "Gig_1")
-![alt_text](images/ch_gig2.png "Gig_2")
-![alt_text](images/ch_rate.png "Rate_Daters")
+IMAGES REMOVED DUE TO UPDATE
 
 #### Manager
 The manager page will work very similarly to that of the cupid page, however they will have access to lists of current users (Daters and Cupids) as well as their ratings and usage info. Their home screen will allow them to select between viewing Daters, Cupids, or Statistical information with respect to app usage. The manager will be able to make the decision of whether or not to suspend another user from their account based on inappropriate usage of the app or conduct during a delivery/date. 
 
-![alt_text](images/manager_home.png "Cupid_Home")
-![alt_text](images/manage_cupids.png "Manage_Cupids")
-![alt_text](images/manage_cupid.png "Manage_Cupid")
-![alt_text](images/manage_daters.png "Manage_Daters")
-![alt_text](images/manage_dater.png "Manage_Dater")
+IMAGES REMOVED DUE TO UPDATE
 
 ### UX
 Crafting a seamless user experience is at the forefront of our app development mission. Through meticulous attention to detail, we are committed to ensuring a smooth and intuitive journey for every user. Our strategy centers around maintaining a cohesive and polished aesthetic, characterized by consistent color schemes that resonate throughout the app. Clear, easily discernible buttons and text inputs are prioritized, enhancing usability and reducing friction in navigation. Leveraging widely adopted formats and design conventions, we empower users to effortlessly engage with our app, fostering familiarity and ease of use. With our unwavering dedication to excellence in UX design, we are poised to deliver an exceptional digital experience that exceeds expectations and leaves a lasting impression.
