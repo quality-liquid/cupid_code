@@ -34,7 +34,6 @@
     - [UX](#ux)
     - [Templates](#templates)
     - [Vue Router](#vue-router)
-      - [How the Router works](#how-the-router-works)
     - [Testing](#testing)
 0. [Middleend Design](#2-middleend-design-connecting-vue-and-django)
     * [Summary](#summary)
