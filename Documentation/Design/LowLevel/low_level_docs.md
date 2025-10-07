@@ -620,9 +620,9 @@ These are the dependencies we'll install
 
 ##### Environment
 
-* Add "ASSET_URL=http://localhost:5173" to both.
+* Add `ASSET_URL=http://localhost:5173` to both.
 * Change the url to whatever the client is being hosted on.
-* Port 5173 is the default of vite so we'll be using that.
+* Port `5173`is the default of vite so we'll be using that.
 
 ##### Middleware
 
@@ -632,7 +632,7 @@ These are the dependencies we'll install
 
 ##### In Server Settings
 
-* Import load_dotenv from dotenv (python-dotenv)
+* `Import load_dotenv from dotenv` (python-dotenv)
 * Add a Debug check for asset middleware:
   * if DEBUG: MIDDLEWARE.append('core.middleware.asset_proxy_middleware')
   * Note: This is the middleware we added/wrote earlier
@@ -663,7 +663,7 @@ These are the dependencies we'll install
 
 #### Clientside
 
-For running the server by default, you won't need to add anything. However, if you want to make some actual requests then this is where Cookie comes in. 
+For running the server by default, you won't need to add anything. However, if you want to make some actual requests then this is where `Cookie` comes in. 
 Add a utils folder in your src folder, and make a file called `make_requests.js` here. Here you'll write a function to send and receive json from the server.
 
 #### Pseudocode

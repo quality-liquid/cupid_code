@@ -36,7 +36,7 @@
     - [Vue Router](#vue-router)
       - [How the Router works](#how-the-router-works)
     - [Testing](#testing)
-0. [Middleend Design](#2-middleend-design)
+0. [Middleend Design](#2-middleend-design-connecting-vue-and-django)
 0. [Backend Design](#3-backend-design)  
 
 # 0. Team Conventions
@@ -298,9 +298,103 @@ We intend to continue using and building upon the existing testing framework goi
 
 The tests will be run in a CICD pipeline to ensure that changes to the app do not break working functionality. If a change to the code alters what a function inputs and outputs, the developer who made the change is in charge of fixing the corresponding test and ensuring that it works.
 
-# 2. Middleend Design
+# 2. Middleend Design: Connecting Vue and Django
 [*Table of Contents*](#table-of-contents)
-* This section for design how to connect the frontend and backend
+
+#### Subsections
+* [Summary](#summary)
+* [Poetry](#poetry)
+* [Vite Config](#vite-config)
+* [Node.js](#nodejs)
+* [npm](#npm)
+* [Serverside](#serverside)
+* [Files to Add](#files-to-addy)
+* [Environment](#environment)
+* [Middleware](#middleware)
+* [In Server Settings](#in-server-settings)
+* [In core views](#in-core-viewspy)
+* [In core index](#in-core-indexhtml)
+* [Clientside](#clientside)
+* [Pseudocode](#pseudocode)
+
+
+## Summary
+Note: Our newly proposed fetures and add-ons change little from the previous teams designs for connecting the frontend and backend. As such to focus more on our proposed changes, in the interest of following the DRY (Don't Repeat Yourself) principle, only the changes we make will be noted and for the sections where we choose to follow their same plan the previous teams document will be linked with a bit of explanation. 
+
+We will continue to use Vite, Vue, NVM, and NPM for the frontend. With Poetry and Django used for the backend. They are still viable tools for connecting our client and server, maintaining the project packages (NVM, NPM), and maintaining the server environment (poetry).   
+
+See [previous team's summary](./low_level_docs.md#summary)
+
+
+## Poetry
+We will work to upgrade the Django version to the latest, and to upgrade to Python 3.12.
+* Python 3.12+
+* Django 5.2.7+
+* Requests 2.31.0+
+* Python-dotenv 1.0.1+
+
+## Vite Config
+Nothing should change here from the previous teams setup.  
+See [previous Vite Config](./low_level_docs.md#vite-config)
+
+## Node.js
+
+The [current LTS version](https://nodejs.org/en) (20.11.1 as of 2/18/2024) of Node.js will be used for project development. `nvm` (Node Version Manager) will be used to manage the version of Node.js being used.
+
+`nvm` commands for selecting Node.js version:
+```
+$ nvm install -lts
+$ nvm use --lts
+```
+
+## npm
+
+`npm` will be used for package management
+These are the dependencies we'll install
+* Vue 3.3.11+
+* Cookie 0.6.0+
+
+## Serverside
+See [previous Serverside](./low_level_docs.md#serverside)
+
+### Files to Add
+This will continue as the same steps.  
+See [previous Files to Add section](./low_level_docs.md#files-to-add)
+
+### Environment
+The same environment setup will be followed.  
+See [previous Environment section](./low_level_docs.md#environment)
+
+### Middleware
+TODO
+* Add the asset middleware here
+* We already have a written one
+* An example is in the psuedocode
+
+### In Server Settings
+TODO
+* Import load_dotenv from dotenv (python-dotenv)
+* Add a Debug check for asset middleware:
+  * if DEBUG: MIDDLEWARE.append('core.middleware.asset_proxy_middleware')
+  * Note: This is the middleware we added/wrote earlier
+
+### In Core views.py
+The same setup will be followed as the previous team.  
+See [previous team Core views section](./low_level_docs.md#in-core-viewspy)
+
+### In Core index.html
+The same setup will be followed as the previous team.  
+See [previous team Core index section](./low_level_docs.md#in-core-indexhtml)
+
+
+## Clientside
+
+For running the server by default, you won't need to add anything. However, if you want to make some actual requests then this is where Cookie comes in. 
+Add a utils folder in your src folder, and make a file called `make_requests.js` here. Here you'll write a function to send and receive json from the server.
+
+## Pseudocode
+Their pseudocode covers the same as what we want to implement.  
+See [previous team pseudocode](./low_level_docs.md#pseudocode)
 
 # 3. Backend Design
 [*Table of Contents*](#table-of-contents)
