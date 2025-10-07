@@ -443,8 +443,9 @@ We will be using the following external APIs:
   * Free to use.
   * Provides accurate location data.
   * Easy to integrate with Django.
-* [gpt2](https://huggingface.co/openai-community/gpt2)
+* [OpenAI](https://openai.com/api/)
   * Used to generate responses for the chatbot.
+  * Used for agentic AI features.
   * Free to use.
   * Provides high-quality responses.
   * Easy to integrate with Django.
