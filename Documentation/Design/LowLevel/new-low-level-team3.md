@@ -90,7 +90,6 @@ We will follow all of the same coding standards, see [previous code standards](.
 [*Table of Contents*](#table-of-contents)
 
 #### Subsections
-- [Frontend Design](#frontend-design)
 - [Security](#security)
 - [UI](#ui)
 - [UX](#ux)
