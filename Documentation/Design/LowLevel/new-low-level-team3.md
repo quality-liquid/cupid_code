@@ -260,8 +260,6 @@ The tests will be run in a CICD pipeline to ensure that changes to the app do no
 
 ### Django Models
 
-TODO: update 
-
 We will use the Django built-in User model, but add roles to it by extending `AbstractUser`. This comes with authentication functionality and the following fields. Details available in 
 [Django docs](https://docs.djangoproject.com/en/5.0/ref/contrib/auth/#django.contrib.auth.models.User).
 
@@ -368,8 +366,6 @@ relationship as their primary key.
 
 ### Django Migrations
 
-TODO: update
-
 * Test Daters
   * username:dater1, email:bob@cupidcode.com, password:password, 200 cupid coin balance, budget of 50
   * username:dater2, email:Manny@cupidcode.com, password:password, 20 cupid coin balance, budget of 50
@@ -393,8 +389,6 @@ TODO: update
   * A couple negative reviews for each dater
 
 ### External API's
-
-TODO: update
 
 We will be using the following external APIs:
 
@@ -420,8 +414,6 @@ We will be using the following external APIs:
   * Easy to integrate with Django.
 
 ### Quick Tutorial on how to use the Django Rest Framework
-
-TODO: update
 
 * Create a new app in the project
 ``` 
