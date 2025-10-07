@@ -36,7 +36,15 @@
     - [Vue Router](#vue-router)
       - [How the Router works](#how-the-router-works)
     - [Testing](#testing)
-0. [Middleend Design](#2-middleend-design)
+0. [Middleend Design](#2-middleend-design-connecting-vue-and-django)
+    * [Summary](#summary)
+    * [Poetry](#poetry)
+    * [Vite Config](#vite-config)
+    * [Node.js](#nodejs)
+    * [npm](#npm)
+    * [Serverside](#serverside)
+    * [Clientside](#clientside)
+    * [Pseudocode](#pseudocode)
 0. [Backend Design](#3-backend-design)  
     * [Backend Summary](#backend-summary-revisit-this-after-everything-else-is-done)
     * [Resources for the Backend](#resources-for-the-backend)
@@ -70,6 +78,7 @@ We will classify our branches into these four types, to keep our version control
   * Get code ready to merge with *master*.
 * *feature/fixes*
   * Branched off of *development*.
+  * This category would also include *sub-feature* branches coming off of a *feature* branch; used to break up the work for the larger *feature* branches.
   * Development of features and experimentation of ideas which will merge into *development* once they are functioning.
 
 ## Coding Standards
@@ -316,9 +325,83 @@ We intend to continue using and building upon the existing testing framework goi
 
 The tests will be run in a CICD pipeline to ensure that changes to the app do not break working functionality. If a change to the code alters what a function inputs and outputs, the developer who made the change is in charge of fixing the corresponding test and ensuring that it works.
 
-# 2. Middleend Design
+# 2. Middleend Design: Connecting Vue and Django
 [*Table of Contents*](#table-of-contents)
-* This section for design how to connect the frontend and backend
+
+#### Subsections
+* [Summary](#summary)
+* [Poetry](#poetry)
+* [Vite Config](#vite-config)
+* [Node.js](#nodejs)
+* [npm](#npm)
+* [Serverside](#serverside)
+* [Clientside](#clientside)
+* [Pseudocode](#pseudocode)
+
+
+## Summary
+Note: Our newly proposed features and add-ons change little for the previous teams designs for connecting the frontend and backend. As such to focus more on our proposed changes and in the interest of following the DRY (Don't Repeat Yourself) principle, only the changes we make will be noted and for the sections where we choose to follow their same plan the previous teams document will be linked with a bit of explanation. 
+
+We will continue to use Vite, Vue, NVM, and NPM for the frontend. With Poetry and Django used for the backend. They are still viable tools for connecting our client and server, maintaining the project packages (NVM, NPM), and maintaining the server environment (poetry).   
+
+See [previous team's summary](./low_level_docs.md#summary)
+
+
+## Poetry
+We will work to upgrade the lates packages for security and performance.
+* `Python v3.12+`
+* `Django v5.2.7+`
+* `Requests v2.32.5+`
+* `Python-dotenv v1.1.1+`
+
+## Vite Config
+Nothing should change here from the previous teams setup.  
+See [previous Vite Config](./low_level_docs.md#vite-config)
+
+## Node.js
+The version of Node.js will be upgraded to the now [current LTS version](https://nodejs.org/en) `v22.20.0`. Otherwise, we will continue using `nvm` for Node.js management.  
+See [previous team Node.js section](./low_level_docs.md#nodejs)
+
+## npm
+`npm` will continue to be used for package management. We will upgrade the previous teams dependencies to the now current stable versions for security and performance.
+* `Vue v3.5.22` see [Vue Releases](https://vuejs.org/about/releases.html)
+* `Cookie v1.0.2` see [npm Cookie package](https://www.npmjs.com/package/cookie)
+
+## Serverside
+See [previous Serverside](./low_level_docs.md#serverside)
+
+### Files to Add
+This will continue as the same steps.  
+See [previous Files to Add section](./low_level_docs.md#files-to-add)
+
+### Environment
+The same environment setup will be followed.  
+See [previous Environment section](./low_level_docs.md#environment)
+
+### Middleware
+* The Django framework comes with built in middleware to handle all of our needs for authentication, data passing, and the like. Thus we will rely on the optimized and professionaly build Django included middleware for connecting the frontend and backend.
+
+### In Server Settings
+* Import load_dotenv from dotenv (python-dotenv)
+* Add a Debug check for asset middleware:
+  * if DEBUG: MIDDLEWARE.append('core.middleware.asset_proxy_middleware')
+
+### In Core views.py
+The same setup will be followed as the previous team.  
+See [previous team Core views section](./low_level_docs.md#in-core-viewspy)
+
+### In Core index.html
+The same setup will be followed as the previous team.  
+See [previous team Core index section](./low_level_docs.md#in-core-indexhtml)
+
+
+## Clientside
+The previous team's instructions here are the same for the project as it will become with out implementation.  
+See [previous teams Clientside instructions](./low_level_docs.md#clientside).
+
+## Pseudocode
+Their pseudocode covers the same as what we will implement.  
+See [previous team pseudocode](./low_level_docs.md#pseudocode)
 
 # 3. Backend Design
 [*Table of Contents*](#table-of-contents)
