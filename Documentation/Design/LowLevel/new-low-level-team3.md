@@ -327,11 +327,11 @@ See [previous team's summary](./low_level_docs.md#summary)
 
 
 ## Poetry
-We will work to upgrade the Django version to the latest, and to upgrade to Python 3.12.
-* Python 3.12+
-* Django 5.2.7+
-* Requests 2.31.0+
-* Python-dotenv 1.0.1+
+We will work to upgrade the lates packages for security and performance.
+* `Python v3.12+`
+* `Django v5.2.7+`
+* `Requests v2.32.5+`
+* `Python-dotenv v1.1.1+`
 
 ## Vite Config
 Nothing should change here from the previous teams setup.  
