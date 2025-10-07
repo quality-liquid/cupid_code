@@ -320,6 +320,10 @@ The tests will be run in a CICD pipeline to ensure that changes to the app do no
 * [URL Mapping](#url-mapping)
 * [Django Settings](#django-settings)
 * [Backend Pseudocode](#backend-pseudocode)
+* [Django Models](#django-models)
+* [Django Migrations](#django-migrations)
+* [External API's](#external-apis)
+* [Tutorial for Django REST](#quick-tutorial-on-how-to-use-the-django-rest-framework)
 
 ## Backend Summary (Revisit this after everything else is done)
     The backend will be built using Django and the Django REST Framework. As a result much of the needed security is already implemented. A majority of the work will be in the models, views, and serializers. The models will be the database, the views will be the API, and the serializers will be the conversion of the models to JSON and vice versa. The frontend will communicate with the backend using HTTP GET and POST requests. The backend will respond with JSON data. This will be made easy by the Django Rest Framework. Mapping what endpoints the frontend needs is helpful for the backend to know what to build. This will be done in the URL Mapping section.
@@ -1262,4 +1266,297 @@ def notify(request):
 
 ``` python
 DEBUG = False #for production
+```
+
+
+## Django Models
+TODO REMOVE: BEN'S STUFF
+We will use the Django built-in User model, but add roles to it by extending `AbstractUser`. This comes with authentication functionality and the following fields. Details available in 
+[Django docs](https://docs.djangoproject.com/en/5.0/ref/contrib/auth/#django.contrib.auth.models.User).
+
+* User
+  * **id**
+  * *role added by us {Dater, Cupid, Manager}*
+  * *phone_number added by us*
+  * username
+  * first_name
+  * last_name
+  * email
+  * password
+  * groups
+  * user_permissions
+  * is_staff
+  * is_active
+  * is_superuser
+  * last_login
+  * date_joined
+
+Each model will correspond to a table. Bold denotes a primary key. For most tables,
+this is the default id provided by Django. For certain one-to-one tables they will use that
+relationship as their primary key. 
+
+* Dater
+    * **User : OneToOne Field (As provided by Django)**
+    * Budget : Decimal Field
+    * Communication preferences : IntegerChoices(EMAIL,TEXT)
+    * Profile Picture : Image Field 
+    * Text available to AI
+        * Description of self : Text Field
+        * Dating strengths : Text Field
+        * Dating weaknesses : Text Field
+        * Interests : Text Field
+        * Past dating experiences : Text Field
+        * Type of nerd : Text Field
+        * Relationship goals : Text Field
+        * Degree of AI assistance : Integer Field
+    * Common with Cupid
+        * Cupid Cash Balance : Decimal Field
+        * Location : Text Field (Containing geo coordinates) 
+        * Average Rating : Decimal Field
+        * Suspended : Boolean Field
+* Cupid
+    * **User : OneToOne Field (As provided by Django)**
+    * Accepting Gigs : Boolean Field (Is cupid accepting gigs)
+    * Total gigs completed : Integer Field
+    * Total gigs failed : Integer Field
+    * Status : Text Choices (OFFLINE, GIGGING, AVAILABLE)
+    * Gig Range : Integer Field
+    * Common with Dater
+        * Cupid Cash Balance : Decimal Field
+        * Location : Text Field (Containing geo coordinates) 
+        * Average Rating : Decimal Field
+        * Suspended : Boolean Field
+* Manager doesn't need anything more than a Django User in the manager role
+* Message
+    * **id : Auto Field**
+    * Owner : Foreign Key (User)
+    * Text : Text Field
+    * fromAI : Boolean Field (Indicates which side of the convo this message belongs to)
+* Gig
+    * **id : Auto Field**
+    * Dater : Foreign Key
+    * Cupid : Foreign Key
+    * Quest : OneToOne Field
+    * Status : Text Choices (UNCLAIMED, CLAIMED, COMPLETE)
+    * DateTime of request : DateTime Field
+    * DateTime of claim : DateTime Field
+    * DateTime of completion : DateTime Field
+    * Dropped Count : Integer Field
+    * Accepted Count : Integer Field
+* Quest (separate for modularity)
+    * **Gig : *Established by OneToOne Field on Gig***
+    * Budget : Decimal Field
+    * Items Requested : Text Field 
+    * Pickup location : Text Field (address or geolocation to get object from)
+* Date
+    * **id : Auto Field**
+    * Dater : Foreign Key
+    * Date & Time : DateTime Field
+    * Location : Text Field (Containing geo coordinates) 
+    * Description : Text Field
+    * Status : Text Choices (PLANNED, OCCURRING, PAST, CANCELED)
+    * Budget : Decimal Field
+* Feedback
+    * **id : Auto Field**
+    * Owner : Foreign Key (User)
+    * Target : Foreign Key (User)
+    * Gig : Foreign Key
+    * Message : Text Field
+    * Star Rating : Integer Field (bound to 1-5)
+    * DateTime : DateTime Field 
+* Payment Card
+    * **User : Foreign Key**
+    * Name On Card : Text Field
+    * Card Number : Text Field
+    * CVV : Text Field
+    * Expiration : Text Field
+* Bank Account
+    * **User : Foreign Key**
+    * Routing Number : Text Field
+    * Account Number : Text Field
+
+## Django Migrations
+
+* Test Daters
+  * username:dater1, email:bob@cupidcode.com, password:password, 200 cupid coin balance, budget of 50
+  * username:dater2, email:Manny@cupidcode.com, password:password, 20 cupid coin balance, budget of 50
+* Test Cupids
+  * username:cupid1, email:joe@mail.com, password:password, 54 completed gigs, 12 failed
+  * username:cupid2, email:really@me.com, password:password, 4 completed gigs, 16 failed
+* Test Manager
+  * username:manager, email:manager@cupidcode.com, password:password
+* Test messages
+  * Create a few test conversation for each dater.
+* Test Gigs
+  * Unclaimed gig with a unique quest
+  * Unclaimed gig with a unique quest
+  * Claimed gig
+* Test Dates
+  * A test location, date is june 17th, so it will never come during this semester.
+* Feedback
+  * A couple positive reviews for each cupid
+  * A couple negative reviews for each cupid
+  * A couple positive reviews for each dater
+  * A couple negative reviews for each dater
+
+## External API's
+
+We will be using the following external APIs:
+
+* [GeoLite2](https://www.maxmind.com/en/geoip2-databases)
+  * Used to look up location by IP address.
+  * Free to use.
+  * Provides accurate location data.
+  * Easy to integrate with Django.
+* [OpenAI](https://openai.com/api/)
+  * Used to generate responses for the chatbot.
+  * Used for agentic AI features.
+  * Free to use.
+  * Provides high-quality responses.
+  * Easy to integrate with Django.
+* [yelpapi](https://www.yelp.com/developers)
+  * Used to look up local businesses.
+  * Free to use.
+  * Provides accurate business data.
+  * Easy to integrate with Django.
+* [twilio](https://www.twilio.com/docs/usage/api)
+  * Used to send SMS messages.
+  * Paid service.
+  * Provides reliable SMS delivery.
+  * Easy to integrate with Django.
+
+## Quick Tutorial on how to use the Django Rest Framework
+
+* Create a new app in the project
+``` 
+$ python manage.py startapp example
+```
+
+* In the project `settings.py` file, add the following to the INSTALLED_APPS list:
+  * 'rest_framework'
+  * 'example'
+``` python
+INSTALLED_APPS = [
+    ...
+    'rest_framework',
+    'example',
+    ...
+]
+```
+
+* In the `example/models.py` file, create the models that will be used by the API
+``` python
+
+from django.db import models
+
+class User(models.Model):
+    username = models.CharField(max_length=100)
+    email = models.EmailField()
+    password = models.CharField(max_length=100)
+    is_suspended = models.BooleanField()
+    is_cupid = models.BooleanField()
+```
+
+* In the `example/serializers.py` file, create the serializers that will be used by the API (serializers are used to convert model instances to JSON and vice versa)
+  * ReaderUserSerializer will be used to convert User instances to JSON
+  * WriterUserSerializer will be used to convert JSON to User instances
+``` python
+from rest_framework import serializers
+from .models import User
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'password']
+    
+    def validate(self, data):
+        if data['password'] == data['confirm_password']:
+            return serializers.ValidationError('Password cannot be "password"')
+        return data
+    
+    def create(self, validated_data):
+        user = User(**validated_data)
+        user.is_suspended = False
+        user.save()
+        return user
+        
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+        instance.password = validated_data.get('password', instance.password)
+        instance.save()
+        return instance
+```
+
+* In the `example/views.py` file, create the views that will be used by the API
+``` python
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .models import User
+from .serializers import UserSerializer
+
+@api_view(['GET'])
+def user_list(request):
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
+    
+@api_view(['GET'])
+def user_detail(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
+    
+@api_view(['POST'])
+def user_create(request):
+    serializer = UserSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True):
+    serializer.save()
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+@api_view(['PUT'])
+def user_update(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = UserSerializer(user, data=request.data)
+    serializer.is_valid(raise_exception=True):
+    serializer.save()
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+def user_delete(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    user.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+```
+
+* In the `example/urls.py` file, create the URLs that will be used by the API
+``` python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('/user/', views.user_list),
+    path('/user/<int:pk>/', views.user_detail),
+    path('/user/create/', views.user_create),
+]
+```
+
+* In the project's `urls.py` file, include the api's urls
+``` python
+from django.urls import path, include
+
+urlpatterns = [
+    ...
+    path('/api/', include('api.urls')),
+]
 ```
