@@ -50,6 +50,7 @@ onMounted(() => {
   padding: 4px 8px;
   border-radius: 4px;
   transition: background-color 0.2s;
+  color: var(--primary-foreground);
 }
 
 .dark-mode-toggle:hover {
