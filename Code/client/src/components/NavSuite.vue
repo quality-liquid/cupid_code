@@ -5,7 +5,7 @@
 
     const props = defineProps(['title', 'profile'])
     const user_id  = parseInt(window.location.hash.split('/')[3])
-    const isDarkMode = ref(false);
+    const isDarkMode = ref(true);
 
     function openDrawer() {
       const element = document.getElementById('navbar')
@@ -37,8 +37,12 @@
       const savedDarkMode = localStorage.getItem('darkMode');
       if (savedDarkMode !== null) {
         isDarkMode.value = savedDarkMode === 'true';
-        document.documentElement.classList.toggle('dark', isDarkMode.value);
+      } else {
+        // Set dark mode as default if no preference is saved
+        isDarkMode.value = true;
+        localStorage.setItem('darkMode', 'true');
       }
+      document.documentElement.classList.toggle('dark', isDarkMode.value);
     });
 </script>
 <template>

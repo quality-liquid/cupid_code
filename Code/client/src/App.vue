@@ -4,7 +4,7 @@ import { makeRequest } from './utils/make_request.js';
 import { ref, onMounted } from 'vue';
 
 const user_id = parseInt(window.location.hash.split('/')[3])
-const isDarkMode = ref(false);
+const isDarkMode = ref(true);
 
 async function getUser() {
   const results = await makeRequest('api/user/', 'get', {
@@ -22,8 +22,12 @@ onMounted(() => {
   const savedDarkMode = localStorage.getItem('darkMode');
   if (savedDarkMode !== null) {
     isDarkMode.value = savedDarkMode === 'true';
-    document.documentElement.classList.toggle('dark', isDarkMode.value);
+  } else {
+    // Set dark mode as default if no preference is saved
+    isDarkMode.value = true;
+    localStorage.setItem('darkMode', 'true');
   }
+  document.documentElement.classList.toggle('dark', isDarkMode.value);
 });
 </script>
 
