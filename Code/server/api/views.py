@@ -1,6 +1,7 @@
 # Standard Library
 from datetime import datetime
 import json
+import stripe
 
 # Django
 from django.contrib.auth import login, authenticate
@@ -453,6 +454,28 @@ def get_cards(request, pk):
     serializer = PaymentCardSerializer(cards, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def get_payment(request):
+    """
+    Creates a PaymentIntent with the order amount and currency.
+    Args (request.body):
+        amount(float): The amount to charge the user
+    Returns:
+        JsonResponse:
+            clientSecret(str): The client secret of the PaymentIntent
+    """
+    try:
+        data = json.loads(request.body)
+        intent = stripe.PaymentIntent.create(
+            amount=int(data['amount'] * 100),
+            currency='usd',
+            payment_method_types=['card'],
+        )
+        return JsonResponse({'clientSecret': intent['client_secret']})
+    except Exception as e:
+        return JsonResponse({'error': str(e)})
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
@@ -674,6 +697,89 @@ def save_bank_account(request):
     serializer = BankAccountSerializer(data=data)
     return helpers.save_serializer(serializer)
 
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def create_stripe_account(request):
+    """
+    Creates a Stripe Express account for the authenticated Cupid.
+    Args:
+        request: Information about the request.
+    Returns:
+        Response:
+            account_id (str): The ID of the created Stripe account.
+    """
+    helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
+    cupid = get_object_or_404(Cupid, user=request.user)
+    if cupid.stripe_account_id:
+        return Response({'account_id': cupid.stripe_account_id}, status=status.HTTP_200_OK)
+    account = stripe.Account.create(
+        type="express",
+        country="US",
+        capabilities={
+            "transfers": {"requested": True},
+        },
+    )
+    cupid.stripe_account_id = account['id']
+    cupid.save()
+    return Response({'account_id': account['id']}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def create_onboarding_link(request, account_id):
+    """
+    Creates an account onboarding link for the given Stripe account ID.
+    Args:
+        request: Information about the request.
+        account_id (str): The ID of the Stripe account.
+    Returns:
+        Response:
+            url (str): The URL for the onboarding link.
+    """
+    helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
+    cupid = get_object_or_404(Cupid, user=request.user)
+    if cupid.stripe_account_id != account_id:
+        return Response({'error': 'Account ID does not match authenticated user.'}, status=status.HTTP_403_FORBIDDEN)
+    link = stripe.AccountLink.create(
+        account=account_id,
+        refresh_url="https://example.com/reauth",
+        return_url="https://example.com/return",
+        type="account_onboarding",
+    )
+    return Response({'url': link['url']}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def transfer_out(request, amount):
+    """
+    For a cupid.
+    Transfers money from the platform's Stripe account to the authenticated Cupid's Stripe account.
+
+    Args:
+        request: Information about the request.
+        amount (float): The amount to transfer.
+    Returns:
+        Response:
+            If the transfer was successful, return a 200 status code.
+            If the transfer failed, return a corresponding error status code (400 if on our end, 500 if on bank's end)
+    """
+    helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
+    cupid = get_object_or_404(Cupid, user=request.user)
+    if not cupid.stripe_account_id:
+        return Response({'error': 'Cupid does not have a Stripe account.'}, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        transfer = stripe.Transfer.create(
+            amount=int(amount * 100),
+            currency="usd",
+            destination=cupid.stripe_account_id,
+            transfer_group="{ORDER10}",
+        )
+        return Response({'status': 'Transfer successful', 'transfer_id': transfer['id']}, status=status.HTTP_200_OK)
+    except stripe.error.StripeError as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
