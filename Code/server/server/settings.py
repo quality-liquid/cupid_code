@@ -149,3 +149,12 @@ STATIC_URL = 'static/' if not DEBUG else '__UNUSED__/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#STRIPE API KEYS
+STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
+STRIPE_CONNECT_CLIENT_ID = os.getenv("STRIPE_CONNECT_CLIENT_ID")
+STRIPE_MODE = os.getenv("STRIPE_MODE", "test")
+STRIPE_API_VERSION = "2025-09-30"
+STRIPE_DEFAULT_CURRENCY = "usd"
