@@ -7,11 +7,10 @@
     button {
         margin-left: 3px;
         margin-right: 3px;
-        background-color: var(--primary-red);
-        border-radius: 10px;
-        color: white;
+        background-color: var(--primary);
+        border-radius: var(--radius);
+        color: var(--primary-foreground);
         border: none;
-        border-radius: 4px;
         box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.2);
         text-decoration: solid;
         padding: 16px;
@@ -20,6 +19,7 @@
         justify-self: center;
         align-self: center;
         user-select: none;
+        transition: all 0.2s;
     }
 
     button:hover {

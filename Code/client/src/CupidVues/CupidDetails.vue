@@ -141,19 +141,19 @@ input {
 }
 
 .card {
-    border: 4px solid var(--secondary-blue);
+    border: 4px solid var(--secondary);
     border-radius: 16px;
     margin: 16px;
     padding: 8px;
-    background-color: var(--primary-blue);
-    color: white;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
     font-size: 1.3em;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 .card > hr {
-    border-color: var(--secondary-red);
+    border-color: var(--accent);
 }
 .card > p {
     margin-top: 2px;

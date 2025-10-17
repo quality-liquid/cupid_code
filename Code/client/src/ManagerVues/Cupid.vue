@@ -96,11 +96,11 @@ onMounted(getCupids)
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--primary-blue);
+  background-color: var(--primary);
 }
 
 .suspended {
-  background-color: var(--primary-red);
+  background-color: var(--destructive);
 }
 
 .header h4 {
@@ -110,10 +110,10 @@ onMounted(getCupids)
 .button {
   border: none;
   border-radius: 4px;
-  color: white;
+  color: var(--accent-foreground);
   margin: 6px 8px;
   padding: 8px;
-  background-color: var(--secondary-red);
+  background-color: var(--accent);
 }
 
 .button:hover {
@@ -121,6 +121,6 @@ onMounted(getCupids)
 }
 
 .unsuspend {
-  background-color: var(--primary-blue);
+  background-color: var(--primary);
 }
 </style>
