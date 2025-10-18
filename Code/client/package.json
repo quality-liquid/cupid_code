@@ -12,8 +12,7 @@
     "axios": "^1.12.2",
     "cookie": "^1.0.2",
     "vue": "^3.5.22",
-    "vue-router": "^4.6.3",
-    "vue3-html2pdf": "^1.1.2"
+    "vue-router": "^4.6.3"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",
