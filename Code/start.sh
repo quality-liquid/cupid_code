@@ -12,7 +12,7 @@ fi
 
 echo "Starting Django server..."
 tmux new-session -d -s django_session
-tmux send-keys -t django_session "source $VIRTUAL_ENV/bin/activate" Enter
+tmux send-keys -t django_session "poetry shell" Enter
 # Send Django server command to a new window in the tmux session
 tmux send-keys -t django_session "cd server || exit" Enter
 # Check if python3 command is available
@@ -31,7 +31,6 @@ echo "Starting Vue development server..."
 # Create a new window for Vue development server
 tmux new-session -d -s vue_session
 # start the Vue development server
-tmux send-keys -t vue_session "source $VIRTUAL_ENV/bin/activate" Enter
 tmux send-keys -t vue_session "cd client || exit" Enter
 tmux send-keys -t vue_session "npm run dev" Enter
 echo "Vue development server started."
