@@ -7,10 +7,6 @@ poetry install
 cp server/.env.example server/.env
 echo "VAULT_PATH=$PWD/server/core/static/" >> server/.env
 
-# Activate poetry shell
-# poetry shell
-echo "Continue"
-
 # Apply Django migrations
 cd server || exit
 # Check if python3 command is available
