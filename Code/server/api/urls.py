@@ -29,7 +29,6 @@ urlpatterns = [
     path('cupid/save_bank_account/', views.save_bank_account, name='save_bank_account'),
     path('cupid/create_stripe_account/', views.create_stripe_account, name='create_stripe_account'),
     path('cupid/create_onboarding_link/', views.create_onboarding_link, name='create_onboarding_link'),
-    path('cupid/transfer_out/', views.cupid_transfer_out, name='cupid_transfer_out'),
     path('cupid/gigs/<int:pk>/', views.get_cupid_gigs, name='get_cupid_gigs'),
     path('cupid/accepting/', views.cupid_accepting, name='cupid_accepting'),
     path('gig/create/', views.create_gig, name='create_gig'),
