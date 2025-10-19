@@ -4,6 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Emma <a02324881@usu.edu>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -23,6 +24,7 @@ transformers = "^4.38.2"
 twilio = "^9.0.0"
 sendgrid = "^6.11.0"
 selenium = "^4.19.0"
+stripe = "^13.0.1"
 
 
 [build-system]
