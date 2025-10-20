@@ -45,7 +45,7 @@ const desc = {
 const imagePreview = ref("")
 
 // Dater specific 
-const str = ref('')
+const strengths = ref('')
 const weak = ref('')
 const ntype = ref('')
 const interests = ref('')
@@ -97,7 +97,7 @@ async function register() {
     }
 
     try {
-        if (accType.value === 'dater') {
+        if (accType.value.value === 'dater') {
             const results = await makeRequest('/api/user/create/', 'post', {
                 username: username.value.value,
                 first_name: fname.value.value,
@@ -109,15 +109,24 @@ async function register() {
                 location: addr.value.value,
                 description: desc.value.value,
                 //profile_picture: image, // Crashing here
-                dating_strengths: str.value,
+                dating_strengths: strengths.value,
                 dating_weaknesses: weak.value,
                 nerd_type: ntype.value,
                 interests: interests.value,
                 relationship_goals: goals.value,
                 past: past.value,
             })
-            showToast('Account created — redirecting...')
-            setTimeout(() => router.push({ name: 'DaterHome', params: { id: results.user['id'] } }), 900)
+            if (results.user === undefined || results.user === null){
+                let errors = ""
+                for (let key in results){
+                    errors += `\n${key}: ${results[key][0]}`
+                }
+                showToast(`Failed to create account:${errors}`)
+            }
+            else{
+                showToast('Account created — redirecting...')
+                setTimeout(() => router.push({ name: 'DaterHome', params: { id: results.user['id'] } }), 900)
+            }
         }
         else {
             const results = await makeRequest('/api/user/create/', 'post', {
@@ -132,15 +141,23 @@ async function register() {
                 description: desc.value.value,
                 //profile_picture: image
             })
-            showToast('Account created — redirecting...')
-            setTimeout(() => router.push({ name: 'CupidHome', params: { id: results.user['id'] } }), 900)
+            if (results.user === undefined || results.user === null){
+                let errors = ""
+                for (let key in results){
+                    errors += `\n${key}: ${results[key][0]}`
+                }
+                showToast(`Failed to create account:${errors}`)
+            }
+            else{
+                showToast('Account created — redirecting...')
+                setTimeout(() => router.push({ name: 'DaterHome', params: { id: results.user['id'] } }), 900)
+            }
         }
     } catch (err) {
         // show an error toast (server-side validation failures should be shown inline ideally)
         showToast('Failed to create account')
         console.error(err)
     }
-
 }
 
 function previewFile() {
@@ -183,23 +200,23 @@ function previewFile() {
                 </label>
             </div>
             <label class="input_detail" for="fname">
-                First Name
+                First Name*
                 <input type="text" id="fname" placeholder="First Name" v-model="fname.value.value" />
             </label>
             <label class="input_detail" for="lname">
-                Last Name
+                Last Name*
                 <input type="text" id="lname" placeholder="Last Name" v-model="lname.value.value" />
             </label>
             <label class="input_detail" for="username">
-                Username
+                Username*
                 <input type="text" id="username" placeholder="username01" v-model="username.value.value" />
             </label>
             <label class="input_detail" for="email">
-                Email
+                Email*
                 <input type="email" id="email" placeholder="example@email.com" v-model="email.value.value" />
             </label>
             <label class="input_detail" for="password">
-                Password
+                Password*
                 <input v-model="password.value.value" type="password" id="password" placeholder="Password"
                     aria-describedby="pw-requirements" />
                 <div id="pw-requirements" class="pw-checklist" aria-live="polite">
@@ -212,11 +229,11 @@ function previewFile() {
                 </div>
             </label>
             <label class="input_detail" for="phone">
-                Phone Number
+                Phone Number*
                 <input type="number" id="phone" placeholder="8889991111" v-model="phone.value.value" />
             </label>
             <label class="input_detail" for="address">
-                Address
+                Address*
                 <input type="text" id="address" placeholder="1300 N 400 W Example Lane" v-model="addr.value.value" />
             </label>
             <label class="input_detail" for="image">
@@ -225,7 +242,7 @@ function previewFile() {
                 <img name="pfp" v-if="imagePreview" :src="imagePreview" height="100" alt="Image preview...">
             </label>
             <label class="text_detail" for="desc">
-                Physical Description
+                Physical Description*
                 <textarea v-model="desc.value.value"></textarea>
             </label>
             <div v-if="accType.value.value === 'dater'" class="form">
@@ -247,7 +264,7 @@ function previewFile() {
                 </label>
                 <label class="update-text" for="strengths">
                     Dating Strengths
-                    <textarea id="strengths" v-model="str"></textarea>
+                    <textarea id="strengths" v-model="strengths"></textarea>
                 </label>
                 <label class="update-text" for="weaknesses">
                     Dating Weaknesses
