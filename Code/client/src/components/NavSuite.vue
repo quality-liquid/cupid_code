@@ -53,7 +53,9 @@
         <span id="title">{{ props.title }}</span>
         <div class="nav-controls">
             <button @click="toggleDarkMode" class="dark-mode-toggle">
-                {{ isDarkMode ? '☀️' : '🌙' }}
+                <span class="material-symbols-outlined icon">
+                    {{ isDarkMode ? 'light_mode' : 'dark_mode' }}
+                </span>
             </button>
             <button id="profile" class="icon-button" @click="naviProf">
                 <span class="material-symbols-outlined icon">account_circle</span>
