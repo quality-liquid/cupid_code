@@ -1,28 +1,50 @@
 [tool.poetry]
 name = "dev"
 version = "0.1.0"
-description = ""
-authors = ["Emma <a02324881@usu.edu>"]
+description = "Cupid Code python/backend dependencies management."
+authors = ["Emma <a02324881@usu.edu>", "Tyson <tyson.buxton@usu.edu>"]
 readme = "README.md"
 package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.14"
+
+# django framework
 django = "*"
-requests = "*"
-python-dotenv = "*"
 djangorestframework = "*"
 django-debug-toolbar = "*"
+
+# Tool for HTTP requests
+requests = "*"
+
+# Tool for loading env file variables
+python-dotenv = "*"
+
+
+# Image processing tool
 pillow = "*"
+
+# Location
 geopy = "*"
 geoip2 = "*"
+
+# Yelp
 yelpapi = "*"
+
+# Text to Speech
 speechrecognition = "*"
-pocketsphinx = "*"
+
+# AI tools
 transformers = "*"
+
+# Phone calls/text management 
 twilio = "*"
 sendgrid = "*"
+
+# Code testing
 selenium = "*"
+
+# Payment processing
 stripe = "^13.0.1"
 
 
