@@ -38,7 +38,9 @@ onMounted(() => {
           <router-link id="sign up" class="link" to="/register"> Sign Up </router-link>
           <router-link id="welcome" class="link" to="/"> Welcome </router-link>
           <button @click="toggleDarkMode" class="dark-mode-toggle">
-            {{ isDarkMode ? '☀️' : '🌙' }}
+            <span class="material-symbols-outlined icon">
+              {{ isDarkMode ? 'light_mode' : 'dark_mode' }}
+            </span>
           </button>
       </nav>
     </div>
