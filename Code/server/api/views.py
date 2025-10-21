@@ -1,7 +1,14 @@
 # Standard Library
 from datetime import datetime
-import json
-import stripe
+from json import loads as deseralize_json
+
+from stripe import (
+    PaymentIntent, 
+    Account, 
+    AccountLink,
+    Transfer,
+    StripeError
+)
 
 # Django
 from django.contrib.auth import login, authenticate
@@ -38,7 +45,20 @@ from .serializers import (
     BankAccountSerializer,
     QuestSerializer,
 )
-from .models import (User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, PaymentCard, BankAccount)
+
+from .models import (
+    User,
+    Dater,
+    Cupid,
+    Gig,
+    Quest,
+    Message,
+    Date,
+    Feedback,
+    PaymentCard,
+    BankAccount
+)
+
 from . import helpers
 
 # AI API (pytensor) https://pytensor.readthedocs.io/en/latest/
@@ -467,8 +487,8 @@ def get_payment(request):
             clientSecret(str): The client secret of the PaymentIntent
     """
     try:
-        data = json.loads(request.body)
-        intent = stripe.PaymentIntent.create(
+        data = deseralize_json(request.body)
+        intent = PaymentIntent.create(
             amount=int(data['amount'] * 100),
             currency='usd',
             payment_method_types=['card'],
@@ -713,7 +733,7 @@ def create_stripe_account(request):
     cupid = get_object_or_404(Cupid, user=request.user)
     if cupid.stripe_account_id:
         return Response({'account_id': cupid.stripe_account_id}, status=status.HTTP_200_OK)
-    account = stripe.Account.create(
+    account = Account.create(
         type="express",
         country="US",
         capabilities={
@@ -741,7 +761,7 @@ def create_onboarding_link(request, account_id):
     cupid = get_object_or_404(Cupid, user=request.user)
     if cupid.stripe_account_id != account_id:
         return Response({'error': 'Account ID does not match authenticated user.'}, status=status.HTTP_403_FORBIDDEN)
-    link = stripe.AccountLink.create(
+    link = AccountLink.create(
         account=account_id,
         refresh_url="https://example.com/reauth",
         return_url="https://example.com/return",
@@ -770,14 +790,14 @@ def transfer_out(request, amount):
     if not cupid.stripe_account_id:
         return Response({'error': 'Cupid does not have a Stripe account.'}, status=status.HTTP_400_BAD_REQUEST)
     try:
-        transfer = stripe.Transfer.create(
+        transfer = Transfer.create(
             amount=int(amount * 100),
             currency="usd",
             destination=cupid.stripe_account_id,
             transfer_group="{ORDER10}",
         )
         return Response({'status': 'Transfer successful', 'transfer_id': transfer['id']}, status=status.HTTP_200_OK)
-    except stripe.error.StripeError as e:
+    except StripeError as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 
