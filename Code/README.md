@@ -41,7 +41,7 @@ In `server`, create your own .env file. You can copy the data in the .env.exampl
 
 DO NOT remove or rename the .env.example file!! Only copy from it!
 
-Activate your shell using `poetry shell`
+Activate your shell using `source $(poetry env activate)`
 
 In `server`, run `python manage.py makemigrations` and `python manage.py migrate`
 

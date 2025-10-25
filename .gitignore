@@ -24,3 +24,7 @@ npm-debug.log
 **.sqlite3
 
 .DS_Store
+
+# Ensure lockfiles are ignored anywhere in the repo
+**/poetry.lock
+**/package-lock.json
