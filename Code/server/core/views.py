@@ -1,6 +1,7 @@
-import json
-import os
-import requests
+from json import load as load_json
+from os import environ as env 
+from os.path import join as join_path
+# import requests TODO delete me later if still not used when time for deployment
 
 from django.shortcuts import render, redirect
 from django.conf import settings
@@ -15,12 +16,12 @@ from api.models import User
 MANIFEST = {}
 if not settings.DEBUG:
     f = open(f'{settings.BASE_DIR}/core/static/core/.vite/manifest.json')
-    MANIFEST = json.load(f)
+    MANIFEST = load_json(f)
 
 
 def index(req):
     context = {
-        'asset_url': os.environ.get('ASSET_URL', ''),
+        'asset_url': env.get('ASSET_URL', ''),
         'debug': settings.DEBUG,
         'manifest': MANIFEST,
         'js_file': '' if settings.DEBUG else MANIFEST['src/main.ts']['file'],
@@ -30,15 +31,15 @@ def index(req):
 
 
 def get_image(req: HttpRequest):
-    FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
-    VAULT_PATH = os.environ.get('VAULT_PATH', '')
-    path = os.path.join(VAULT_PATH, 'cupid_logo' + '.' + FILE_EXTENSION)
+    FILE_EXTENSION = env.get('FILE_EXTENSION', '')
+    VAULT_PATH = env.get('VAULT_PATH', '')
+    path = join_path(VAULT_PATH, 'cupid_logo' + '.' + FILE_EXTENSION)
     return FileResponse(open(path, "rb"))
 
 def get_graph(req: HttpRequest):
-    FILE_EXTENSION = os.environ.get('FILE_EXTENSION', '')
-    VAULT_PATH = os.environ.get('VAULT_PATH', '')
-    path = os.path.join(VAULT_PATH, 'graph' + '.' + FILE_EXTENSION)
+    FILE_EXTENSION = env.get('FILE_EXTENSION', '')
+    VAULT_PATH = env.get('VAULT_PATH', '')
+    path = join_path(VAULT_PATH, 'graph' + '.' + FILE_EXTENSION)
     return FileResponse(open(path, "rb"))
 
 @login_required
