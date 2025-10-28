@@ -106,7 +106,7 @@ function clearTranscript() {
             <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
         </NavSuite>
     
-        <div class="container">
+        <div class="mobile-container">
             <!-- Text to Speech UI -->
             <div class="live-panel">
                 <h2 class="panel-title">Live Speech Tools</h2>

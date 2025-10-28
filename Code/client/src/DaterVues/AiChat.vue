@@ -83,7 +83,7 @@ onMounted(getChats)
         <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
     </NavSuite>
 
-    <div class="chatbox">
+    <div class="mobile-container">
         <div v-if="noChats">
             <h3 id="header">Start your chat with Cupid AI here!</h3>
             <div id="chat-container"></div>
@@ -104,13 +104,10 @@ onMounted(getChats)
 </template>
 
 <style scoped>
-.chatbox {
-    display: flex;
-    flex-flow: column nowrap;
-    overflow-y: scroll;
-    height: 100%;
-    margin-top: 42px;
+.mobile-container {
     margin-bottom: 158px;
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
 }
 
 h3 {

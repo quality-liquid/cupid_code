@@ -21,49 +21,42 @@ const user_id  = parseInt(window.location.hash.split('/')[3])
         <a to="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Need Help?</a>
     </NavSuite>
 
-    <div class="container">
-      <div class="widget blue">
-        <span class="material-symbols-outlined icon">forum</span>
-        <router-link class="header" :to="{name: 'AiChat', params: {id: user_id}}">AI Chat</router-link>
-      </div>
-      <div class="widget red">
-        <span class="material-symbols-outlined icon">mic</span>
-        <router-link class="header" :to="{name: 'AiListen', params: {id: user_id}}">AI Listen</router-link>
-      </div>
-      <div class="widget blue">
-        <span class="material-symbols-outlined icon">attach_money</span>
-        <router-link class="header" :to="{name: 'CupidCash', params: {id: user_id}}">Add Cash</router-link>
-      </div>
-      <div class="widget red"> <!-- This will become Calendar when it's made -->
-        <span class="material-symbols-outlined icon">calendar_month</span>
-        <router-link class="header" :to="{name: 'Calendar', params: {id: user_id}}">Calendar</router-link>
-      </div>
+    <div class="mobile-container">
+      <router-link class="mobile-button blue" :to="{name: 'AiChat', params: {id: user_id}}">
+        <span class="material-symbols-outlined mobile-button-icon">forum</span>
+        <div class="mobile-button-content">
+          <div class="mobile-button-title">AI Chat</div>
+          <div class="mobile-button-description">Chat with your AI dating assistant</div>
+        </div>
+      </router-link>
+      
+      <router-link class="mobile-button red" :to="{name: 'AiListen', params: {id: user_id}}">
+        <span class="material-symbols-outlined mobile-button-icon">mic</span>
+        <div class="mobile-button-content">
+          <div class="mobile-button-title">AI Listen</div>
+          <div class="mobile-button-description">Get real-time advice during dates</div>
+        </div>
+      </router-link>
+      
+      <router-link class="mobile-button blue" :to="{name: 'CupidCash', params: {id: user_id}}">
+        <span class="material-symbols-outlined mobile-button-icon">attach_money</span>
+        <div class="mobile-button-content">
+          <div class="mobile-button-title">Add Cash</div>
+          <div class="mobile-button-description">Manage your Cupid Cash balance</div>
+        </div>
+      </router-link>
+      
+      <router-link class="mobile-button red" :to="{name: 'Calendar', params: {id: user_id}}">
+        <span class="material-symbols-outlined mobile-button-icon">calendar_month</span>
+        <div class="mobile-button-content">
+          <div class="mobile-button-title">Calendar</div>
+          <div class="mobile-button-description">Schedule and track your dates</div>
+        </div>
+      </router-link>
     </div>
 </template>
 
 <style scoped>
-  .container {
-    margin: 10px;
-    margin-top: 50px;
-    display: flex;
-    flex-flow: row wrap;
-    gap: 10px;
-  }
-
-  .widget {
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
-    justify-content: center;
-    padding: 50px;
-    border: none;
-    border-radius: 16px;
-  }
-
-  .header {
-    color: white;
-  }
-
   .blue {
     background-color: var(--secondary-blue);
   }

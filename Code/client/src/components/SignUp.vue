@@ -182,7 +182,7 @@ function previewFile() {
 </script>
 
 <template>
-    <div class="container">
+    <div class="mobile-container">
         <div class="image">
             <img :src="'/get_img/'" alt="Cupid Code Logo" width="300" height="300">
         </div>

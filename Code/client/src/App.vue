@@ -34,20 +34,26 @@ onMounted(() => {
 <template>
     <div id="app">
       <nav class="nav">
-          <router-link id="login" class="link" to="/login"> Login </router-link>
-          <router-link id="sign up" class="link" to="/register"> Sign Up </router-link>
           <router-link id="welcome" class="link" to="/"> Welcome </router-link>
-          <button @click="toggleDarkMode" class="dark-mode-toggle">
-            <span class="material-symbols-outlined icon">
-              {{ isDarkMode ? 'light_mode' : 'dark_mode' }}
-            </span>
-          </button>
+          <div class="nav-controls">
+            <button @click="toggleDarkMode" class="dark-mode-toggle">
+              <span class="material-symbols-outlined icon">
+                {{ isDarkMode ? 'light_mode' : 'dark_mode' }}
+              </span>
+            </button>
+          </div>
       </nav>
     </div>
     <router-view />
 </template>
 
 <style scoped>
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .dark-mode-toggle {
   background: none;
   border: none;
@@ -55,11 +61,16 @@ onMounted(() => {
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 4px;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
   color: var(--primary-foreground);
 }
 
 .dark-mode-toggle:hover {
   background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.dark-mode-toggle:active {
+  transform: scale(0.95);
 }
 </style>
