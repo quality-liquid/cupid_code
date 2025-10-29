@@ -1588,7 +1588,7 @@ def ai_agent(request):
     response = client.chat.completions.create(
         model="gpt-5",
         messages=[{"role": "user", "content": user_message}],
-        tools=AI_FUNCTION_SCHEMAS,
+        tools=AI_TOOLS,
     )
 
     msg = response.choices[0].message
