@@ -6,6 +6,7 @@ def get_server_time() -> Dict[str, Any]:
     """Returns the current server time."""
     return {"server_time": datetime.datetime.now().isoformat() + "Z"}
 
+# TODO: Add functions to expose our existing server capabilities to AI tools here.
 
 # Additional AI tool functions can be added here
 
