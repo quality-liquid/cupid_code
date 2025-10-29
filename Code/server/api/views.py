@@ -63,7 +63,7 @@ from .models import (
 )
 
 from . import helpers, ai_tools
-from .ai_tools import AI_FUNCTIONS, AI_TOOLS
+from ai_tools import AI_FUNCTIONS, AI_FUNCTION_SCHEMAS
 
 # AI API (pytensor) https://pytensor.readthedocs.io/en/latest/
 # Location API (Geolocation) https://pypi.org/project/geolocation-python/
@@ -879,18 +879,61 @@ def set_cupid_profile(request):
 @permission_classes([IsAuthenticated])
 def create_gig(request):
     """
-    Temporarily disabled.
+    Creates a gig.
+
+    Args:
+        request: Information about the request.
+            request.post: The json data sent to the server.
+                quest (json): The quest that the gig is for.
+                    quest['budget'] (float): The budget for the gig.
+                    quest['items_requested'] (str): The items requested for the gig.
+                    quest['pickup_location'] (str): The location to pick up the items for the gig.
+
+    Returns:
+        Response:
+            If the gig was created correctly, return a 200 status code.
+            If the gig was failed to be created, return a 400 status code.
     """
-    return Response({'detail': 'create_gig is temporarily disabled'}, status=status.HTTP_501_NOT_IMPLEMENTED)
+    data = request.data
+    helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
+    dater = get_object_or_404(Dater, user_id=request.user.id)
+    quest = Quest(budget=data['budget'], pickup_location=data['pickup_location'], items_requested=data['items_requested'])
+    quest.save()
+    gig = Gig(dater=dater, quest=quest, status=Gig.Status.UNCLAIMED, dropped_count=0, accepted_count=0)
+    gig.save()
+    return Response(GigSerializer(gig).data, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
 def accept_gig(request):
     """
-    Temporarily disabled.
+    Modifies the gig to show that it has been accepted by a Cupid.
+
+    Args:
+        request: Information about the request.
+            request.post: The json data sent to the server.
+                gig_id (int): The id of the gig to accept.
+    Returns:
+        Response:
+            If the gig was successfully accepted, return a 200 status code.
+            If the gig could not be accepted or was already accepted, return a 400 status code.
     """
-    return Response({'detail': 'accept_gig is temporarily disabled'}, status=status.HTTP_501_NOT_IMPLEMENTED)
+    data = request.data
+    data['location'] = helpers.get_location_string(request.META['REMOTE_ADDR'])
+    gig = get_object_or_404(Gig, id=data['gig_id'])
+    serializer = GigSerializer(
+        gig,
+        data={
+            'status': Gig.Status.CLAIMED,
+            'cupid': request.user.id,
+            'accepted_count': gig.accepted_count + 1,
+            'date_time_of_claim': make_aware(datetime.now()),
+        },
+        partial=True,
+    )
+    return helpers.retrieved_response(serializer)
+
 
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
@@ -925,7 +968,7 @@ def complete_gig(request):
         gig.cupid.cupid_cash_balance += reward
         gig.cupid.gigs_completed += 1
         gig.cupid.save()
-        return_data
+        return_data = serializer.data
         return_data['reward'] = reward
         return Response(return_data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -1588,7 +1631,7 @@ def ai_agent(request):
     response = client.chat.completions.create(
         model="gpt-5",
         messages=[{"role": "user", "content": user_message}],
-        tools=AI_TOOLS,
+        tools=AI_FUNCTION_SCHEMAS,
     )
 
     msg = response.choices[0].message
