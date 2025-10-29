@@ -39,7 +39,7 @@ from .serializers import (
     QuestSerializer,
 )
 from .models import (User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, PaymentCard, BankAccount)
-from . import helpers
+from . import helpers, ai_tools
 
 # AI API (pytensor) https://pytensor.readthedocs.io/en/latest/
 # Location API (Geolocation) https://pypi.org/project/geolocation-python/
@@ -1592,3 +1592,35 @@ def notify(request):
         return helpers.send_text(account_sid, auth_token, message)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def ai_agent(request):
+    """
+    AI agent endpoint to handle AI tool requests.
+
+    Args:
+        request: Information about the request.
+            request.post: The json data sent to the server.
+                function_name (str): The name of the AI tool function to call.
+                parameters (dict): The parameters for the AI tool function.
+    Returns:
+        Response:
+            If the AI tool function was called successfully, return the result and a 200 status code.
+            If the AI tool function could not be called, return an error message and a 400 status code.
+    """
+    data = request.data
+    function_name = data.get('function_name')
+    parameters = data.get('parameters', {})
+
+    ai_function = ai_tools.AI_FUNCTIONS.get(function_name)
+    if not ai_function:
+        return Response({'error': 'Function not found'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        result = ai_function(**parameters)
+        return Response(result, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
