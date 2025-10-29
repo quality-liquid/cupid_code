@@ -21,6 +21,9 @@ from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
+# AI
+from openai import OpenAI
+
 # Miscellaneous utils
 import speech_recognition
 
@@ -40,6 +43,7 @@ from .serializers import (
 )
 from .models import (User, Dater, Cupid, Gig, Quest, Message, Date, Feedback, PaymentCard, BankAccount)
 from . import helpers, ai_tools
+from ai_tools import AI_FUNCTIONS, AI_FUNCTION_SCHEMAS
 
 # AI API (pytensor) https://pytensor.readthedocs.io/en/latest/
 # Location API (Geolocation) https://pypi.org/project/geolocation-python/
@@ -1593,34 +1597,42 @@ def notify(request):
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
+# TODO: add the api keys and organization id to environment variables
+client = OpenAI()
 
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
 def ai_agent(request):
-    """
-    AI agent endpoint to handle AI tool requests.
+    data = json.loads(request.body)
+    user_message = data.get("message")
 
-    Args:
-        request: Information about the request.
-            request.post: The json data sent to the server.
-                function_name (str): The name of the AI tool function to call.
-                parameters (dict): The parameters for the AI tool function.
-    Returns:
-        Response:
-            If the AI tool function was called successfully, return the result and a 200 status code.
-            If the AI tool function could not be called, return an error message and a 400 status code.
-    """
-    data = request.data
-    function_name = data.get('function_name')
-    parameters = data.get('parameters', {})
+    # Step 1: call model with tool definitions
+    response = client.chat.completions.create(
+        model="gpt-5",
+        messages=[{"role": "user", "content": user_message}],
+        tools=AI_FUNCTION_SCHEMAS,
+    )
 
-    ai_function = ai_tools.AI_FUNCTIONS.get(function_name)
-    if not ai_function:
-        return Response({'error': 'Function not found'}, status=status.HTTP_400_BAD_REQUEST)
+    msg = response.choices[0].message
 
-    try:
-        result = ai_function(**parameters)
-        return Response(result, status=status.HTTP_200_OK)
-    except Exception as e:
-        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    if msg.tool_calls:
+        tool_call = msg.tool_calls[0]
+        func_name = tool_call.function.name
+        args = json.loads(tool_call.function.arguments)
+        result = AI_FUNCTIONS[func_name](**args)
+
+        # Step 2: Send result back to model if needed
+        follow_up = client.chat.completions.create(
+            model="gpt-5",
+            messages=[
+                {"role": "user", "content": user_message},
+                msg,
+                {"role": "tool", "tool_call_id": tool_call.id, "content": json.dumps(result)},
+            ],
+        )
+        return JsonResponse({"response": follow_up.choices[0].message.content})
+
+    # Otherwise just return the model’s message
+    return JsonResponse({"response": msg.content})
+

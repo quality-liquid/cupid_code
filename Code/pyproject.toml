@@ -46,6 +46,7 @@ selenium = "^4.37.0"
 
 # Payment processing
 stripe = "^13.0.1"
+openai = "^2.6.1"
 
 
 [build-system]
