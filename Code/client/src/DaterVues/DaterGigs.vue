@@ -96,7 +96,7 @@
         <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
     </NavSuite>
 
-    <main>
+    <div class="mobile-container">
         <h1>Claimed</h1>
         <hr/>
         <div class="gig claimed" v-for="(gig, index) in claimedGigs">
@@ -139,7 +139,7 @@
                 <PinkButton class = "margin-sixteen" @click-forward="toggleActiveGig">Cancel</PinkButton>
             </div>
         </Popup>
-    </main>
+    </div>
 </template>
 
 <style scoped>

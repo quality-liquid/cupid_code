@@ -24,7 +24,7 @@ onMounted(getFeedback)
         <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Gigs Completed </router-link>
     </NavSuite>
 
-    <div class="container">
+    <div class="mobile-container">
         <div v-for="item, index of feedback">
             <div :class="index % 2 === 0 ? 'feedback even' : 'feedback odd'">
                 <h1>{{ 'Star Rating: ' + item.star_rating }}</h1>

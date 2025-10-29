@@ -67,7 +67,7 @@
         <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
     </NavSuite>
 
-    <main>
+    <div class="mobile-container">
         <h1>Active</h1>
         <hr/>
         <div class="gig active" v-for="(gig, index) in activeGigs">
@@ -86,7 +86,7 @@
         </div>
         <p v-if="gigs.length == 0">There are no gigs available.</p>
         <p class="bottom" :data-active="rewardShow">+ ${{ reward.toFixed(2) }}</p>
-    </main>
+    </div>
 </template>
 
 <style scoped>
