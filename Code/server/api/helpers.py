@@ -1,8 +1,9 @@
 # Standard Library
 from math import radians, sin, cos, sqrt, atan2
-import base64
-import wave
-import os
+from base64 import b64decode 
+from wave import open as open_wave
+from os.path import exists as file_exists
+from os import remove as delete_file
 
 # Django
 from django.contrib.auth import login
@@ -24,13 +25,18 @@ from operator import contains
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from twilio.rest import Client
-import speech_recognition as sr
+from speech_recognition import Recognizer, AudioFile 
 
 # Local
 from .models import User, Dater, Cupid, Date
-from .serializers import UserSerializer, DaterSerializer, CupidSerializer, QuestSerializer, GigSerializer, \
+from .serializers import (
+    UserSerializer, 
+    DaterSerializer, 
+    CupidSerializer, 
+    QuestSerializer, 
+    GigSerializer, 
     DateSerializer
-
+)
 
 def initialize_serializer(user):
     if user.role == User.Role.DATER:
@@ -389,20 +395,20 @@ def send_email(dater, message):
 
 
 def get_message_from_audio(audio_data, dater):
-    recognizer = sr.Recognizer()
+    recognizer = Recognizer()
     # Convert base64 audio data to bytes
-    audio_bytes = base64.b64decode(audio_data)
+    audio_bytes = b64decode(audio_data)
     file_path = "temp_audio_storage/file.wav"
     try:
         # Convert bytes to audio file
-        with wave.open(file_path, 'wb') as file:
+        with open_wave(file_path, 'wb') as file:
             file.setnchannels(1)  # Mono audio
             file.setsampwidth(2)  # 2 bytes per sample (16-bit audio)
             file.setframerate(44100)  # Sample rate (adjust as needed)
             file.writeframes(audio_bytes)
 
         # Transcribe audio
-        with sr.AudioFile(file_path) as source:
+        with AudioFile(file_path) as source:
             audio_data = recognizer.record(source)
             text = recognizer.recognize_sphinx(audio_data)
             prompt = f"""
@@ -427,8 +433,8 @@ def get_message_from_audio(audio_data, dater):
         return "Error processing audio"
     finally:
         # Delete the temporary WAV file
-        if os.path.exists(file_path):
-            os.remove(file_path)
+        if file_exists(file_path):
+            delete_file(file_path)
 
 
 def get_response_from_yelp_api(pk, request, search):
