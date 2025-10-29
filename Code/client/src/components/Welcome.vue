@@ -22,12 +22,6 @@ import router from '../router';
           Say goodbye to dating woes and hello to a world of endless possibilities with Cupid Code. Whether you're a seasoned romantic or a first-time dater, <br>
           let us help you crack the code to finding love in the digital age. Welcome to your new favorite wingman!
     </div>
-    <div class="container">
-      <router-link to="/register">Get Started Now!</router-link>
-    </div>
-    <div class="container">
-      <router-link to="/login">Already have an account? Sign In</router-link>
-    </div>
   </div>
 
 </template>
