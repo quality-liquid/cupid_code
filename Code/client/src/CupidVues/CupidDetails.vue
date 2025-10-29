@@ -77,7 +77,7 @@
         <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
     </NavSuite>
 
-    <main> 
+    <div class="mobile-container">
         <CupidCoin :active="accepting_gigs" @click="toggleAccept"/>
         <div class="card">
             <p id="balance">${{ balance }}</p>
@@ -105,7 +105,7 @@
             </label>
             <PinkButton>Save</PinkButton>
         </form>
-    </main>
+    </div>
 </template>
 
 <style scoped>

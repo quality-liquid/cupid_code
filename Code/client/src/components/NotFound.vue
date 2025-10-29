@@ -3,9 +3,11 @@
 </script>
 
 <template>
-    <h4>Error 404</h4>
-    <h3>Page not Found</h3>
+    <div class="mobile-container">
+        <h4>Error 404</h4>
+        <h3>Page not Found</h3>
 
-    <router-link to="/">Redicrect to the Welcome page</router-link>
-    <p>Or hit the back button</p>
+        <router-link to="/">Redicrect to the Welcome page</router-link>
+        <p>Or hit the back button</p>
+    </div>
 </template>
