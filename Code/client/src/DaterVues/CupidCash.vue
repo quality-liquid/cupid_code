@@ -4,63 +4,82 @@
     import { makeRequest } from '../utils/make_request';
 
     import NavSuite from '../components/NavSuite.vue';
+    import { loadStripe } from '@stripe/stripe-js';
 
     const user_id  = parseInt(window.location.hash.split('/')[3])
 
+    const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
+
+    const stripe = ref(null)
+
     const balance = ref(0)
-    const cards = ref([])
-    const cardIndex = ref(0)
+    // const cards = ref([])
+    // const cardIndex = ref(0)
     const amount = ref(0)
+    const clientSecret = ref('')
 
-    const chosenCard = ref(0)
+    // const chosenCard = ref(0)
 
-    const name = ref('')
-    const num = ref('')
-    const mon = ref('')
-    const year = ref('')
-    const cvv = ref('')
+    // const name = ref('')
+    // const num = ref('')
+    // const mon = ref('')
+    // const year = ref('')
+    // const cvv = ref('')
 
     async function addFunds() {
-        const res = await makeRequest('/api/dater/transfer/', 'post', {
-            user: user_id,
-            card_id: chosenCard.value,
+        const res = await makeRequest('/api/dater/payment/', 'post', {
             amount: amount
         })
-    }
-
-    async function saveCard() {
-        // Save card to db
-        const exp = `${mon.value}/${year.value}`
-
-        const res = await makeRequest('/api/dater/save_card/', 'post', {
-            user: {
-                id: user_id
+        console.log(res)
+        clientSecret.value = res.client_secret
+        const options = {
+            clientSecret: clientSecret.value,
+            appearance: {
+                theme: 'stripe',
             },
-            name_on_card: name.value,
-            card_number: num.value,
-            cvv: cvv.value,
-            expiration: exp
-        })
-        const card_id = res.id
-        const new_res = await makeRequest('/api/dater/transfer/', 'post', {
-            user: user_id,
-            card_id: card_id,
-            amount: amount
-        })
-
-        router.push({name: 'CupidCash', params: {id: user_id}})
+        };
+        const elements = stripe.elements(options)
+        const paymentElementOptions = { layout: 'accordion'};
+        const paymentElement = elements.create('payment', paymentElementOptions);
+        paymentElement.mount('#payment-element');
     }
+
+    // async function saveCard() {
+    //     const exp = `${mon.value}/${year.value}`
+
+    //     const res = await makeRequest('/api/dater/save_card/', 'post', {
+    //         user: {
+    //             id: user_id
+    //         },
+    //         name_on_card: name.value,
+    //         card_number: num.value,
+    //         cvv: cvv.value,
+    //         expiration: exp
+    //     })
+    //     const card_id = res.id
+    //     const new_res = await makeRequest('/api/dater/transfer/', 'post', {
+    //         user: user_id,
+    //         card_id: card_id,
+    //         amount: amount
+    //     })
+
+    //     router.push({name: 'CupidCash', params: {id: user_id}})
+    // }
 
 
     async function getMoney() {
         const results = await makeRequest(`/api/dater/balance/${user_id}`)
         balance.value = results.balance
-        
-        cards.value = await makeRequest(`/api/dater/get_cards/${user_id}`)
-        console.log(cards)
     }
 
-    onMounted(getMoney)   
+    onMounted(async () => {
+        await getMoney()
+        stripe.value = await stripePromise
+        if (!stripe.value) {
+            console.error('Stripe.js failed to load.')
+            return
+        }
+    })   
 </script>
 
 <template>  
@@ -76,16 +95,15 @@
     <div class="container center">
         <h1>{{ 'Current balance: $' + balance }}</h1>
         <form class="container clamped" @submit.prevent="addFunds">
-            <select v-model="cardIndex">
-                <option disabled selected>Saved cards</option>
-                <option v-for="(card, i) in cards" :value="i">***{{ card.card_number.slice(card.card_number.length-4) }}</option>
-            </select>
             <div class="oneline">
                 <input type="number" min="0" id="amount" v-model="amount"/>
                 <button class="button">Deposit</button>
             </div>
         </form>
-        <h1>Add Card</h1>
+        <div id="payment-element">
+            <!--Stripe.js injects the Payment Element-->
+        </div>
+        <!-- <h1>Add Card</h1>
         <form class="input-container clamped" @submit.prevent="saveCard">
             <label class="details" for="card-name">  
                 <input type="text" name="card-name" id="card-name" placeholder="Name on Card"
@@ -114,7 +132,7 @@
                 </label>
             </div>
             <button class="button">Save Card</button>
-        </form>
+        </form> -->
     </div>
 </template>
 
