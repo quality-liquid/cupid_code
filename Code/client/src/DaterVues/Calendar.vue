@@ -83,7 +83,7 @@ onMounted(() => getCalendar())
         <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
     </NavSuite>
 
-    <div class="container">
+    <div class="mobile-container">
       <div class="header">
         <h2>View Upcoming Dates and Add New Dates!</h2>
         <form class="form" @submit.prevent="addDate">

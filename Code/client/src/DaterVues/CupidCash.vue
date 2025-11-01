@@ -92,7 +92,7 @@
         <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
         <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
     </NavSuite>
-    <div class="container center">
+    <div class="mobile-container">
         <h1>{{ 'Current balance: $' + balance }}</h1>
         <form class="container clamped" @submit.prevent="addFunds">
             <div class="oneline">
@@ -138,7 +138,7 @@
 
 <style scoped>
 .container h1 {
-    margin-top: 50px;
+    margin-top: 0px;
     text-align: center;
 }
 
@@ -146,8 +146,8 @@
     display: flex;
     justify-content: center;
     align-content: center;
-    margin-left: 12px;
-    margin-right: 12px;
+    margin-left: 0px;
+    margin-right: 0px;
     flex-direction: column;
 }
 
@@ -190,7 +190,9 @@ select {
 }
 
 .clamped {
-    width: clamp(230px, 50%, 400px);
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 .details input{

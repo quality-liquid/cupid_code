@@ -119,7 +119,8 @@
         <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
     </NavSuite>
 
-    <form class="container" @submit.prevent="update">
+    <div class="mobile-container">
+        <form class="container" @submit.prevent="update">
         <h2 class="top">Personal Information</h2>      
         <div class="personal">
             <label class="update-content" for="fname">
@@ -196,8 +197,8 @@
             <img name="pfp" src="" height="200" alt="Image preview...">
         </label>
         <PinkButton> Update/Save changes </PinkButton>
-    </form>
-    <form class="container" @submit.prevent="updatePassword">
+        </form>
+        <form class="container" @submit.prevent="updatePassword">
         <h2> Update Password </h2>
         <!-- Make it so they have to update the password w/ old, new, repeated new. -->
         <label class="update-content" for="old-password">
@@ -213,7 +214,8 @@
             <input type="password" id="new-password-2" v-model="newPassword2"/>
         </label>
         <PinkButton> Update Password </PinkButton>
-    </form>
+        </form>
+    </div>
 </template>
 
 <style scoped>

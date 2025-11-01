@@ -62,7 +62,9 @@
             </button>
         </div>
         <div id="navbar" class="navbar">
-            <slot />
+            <div class="nav-links">
+                <slot />
+            </div>
             <button class="logout" @click="logout"> Logout </button>
         </div>
     </nav>  
@@ -81,11 +83,73 @@
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 4px;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
   color: var(--primary-foreground);
 }
 
 .dark-mode-toggle:hover {
   background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.dark-mode-toggle:active {
+  transform: scale(0.95);
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.nav-links .link {
+  display: block;
+  padding: 10px 12px;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  text-decoration: none;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  margin: 0 8px;
+}
+
+.nav-links .link:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+  transform: translateX(4px);
+  border-color: var(--accent-foreground);
+}
+
+.nav-links .link:active {
+  transform: translateX(2px) scale(0.98);
+  background-color: var(--secondary);
+}
+
+.logout {
+  display: flex;
+  align-self: center;
+  color: var(--accent-foreground);
+  background-color: var(--accent);
+  border: 2px solid var(--accent-foreground);
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.logout:hover {
+  background-color: var(--destructive);
+  color: var(--destructive-foreground);
+  border-color: var(--destructive-foreground);
+  transform: translateY(-2px);
+}
+
+.logout:active {
+  transform: translateY(0) scale(0.98);
 }
 </style>
