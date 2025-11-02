@@ -51,20 +51,17 @@ async function getMoney() {
 }
 
 async function submitPayment() {
-    console.log("kochi dayo")
     const { error } = await stripe.value.confirmPayment({
         // `Elements` instance that was used to create the Payment Element
         elements: elementsRef.value,
         confirmParams: { return_url: returnUrl },
     });
-    console.log("kochi kana?")
     if (error) {
         // This point will only be reached if there is an immediate error when
         // confirming the payment. Show error to your customer (for example, payment
         // details incomplete)
         console.log(error.message);
     } else {
-        console.log("here")
         router.push({ name: 'CupidCash', params: { id: user_id } });
     }
 }
