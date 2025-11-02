@@ -26,7 +26,7 @@ fi
 cd ../client || exit
 
 # Install npm dependencies
-npm install
+npm ci
 
 # Go back to Code directory
 cd .. || exit
