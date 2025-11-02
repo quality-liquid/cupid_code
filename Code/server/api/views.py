@@ -14,7 +14,7 @@ from stripe import (
 from django.contrib.auth import login, authenticate
 from django.http import JsonResponse
 from django.utils.timezone import make_aware
-from django.shortcuts import get_object_or_404, get_list_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect
 
 # REST Framework
 from rest_framework import status
@@ -313,6 +313,70 @@ def calendar(request, pk):
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def get_dates(request, pk):
+    """
+    For a dater.
+    Returns the dater's scheduled dates.
+    Args:
+        request: information about the request
+        pk(int): the user_id as included in the URL
+    Returns:
+        Response:
+            The user's saved dates
+    """
+    try:
+        dater = helpers.authenticated_dater(pk, request.user)
+    except PermissionDenied:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    dates = get_list_or_404(Date, dater=dater)
+    serializer = DateSerializer(dates, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def new_date(request):
+    """
+    For a dater.
+    Renders the form to create a new date.
+    Args:
+        request: information about the request
+    Returns:
+        Render:
+            date creation form
+    """
+    return render(request, 'api/date_form.html')
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def create_date(request):
+    """
+    For a dater.
+    Creates a new date for the dater.
+    Args (request.post):
+        date_time(str): ISO 8601 timestamp (I fed output back into API, and GPT said that was the date format)
+        location(str): Location of date
+        description(str): Arbitrary description
+    Returns:
+        Redirect:
+            to the dater's calendar
+    """
+    params = request.POST
+    if not params.get('date_time') or not params.get('location') or not params.get('description'):
+        return redirect('/dater/date/create/')
+    date = Date(
+        dater=get_object_or_404(Dater, user=request.user),
+        date_time=make_aware(datetime.fromisoformat(params.get('date_time'))),
+        location=params.get('location'),
+        description=params.get('description'),
+        status=Date.Status.PLANNED,
+    )
+    date.save()
+    return redirect('/dater/calendar/' + str(request.user.id) + '/')
 
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
