@@ -69,7 +69,7 @@
         <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
     </NavSuite>
 
-    <main>
+    <div class="mobile-container">
         <h1>Completed Gigs</h1>
         <div class="gig" v-for="(gig, index) in gigs">
             <GigData :gig="gig"/>
@@ -90,7 +90,7 @@
                 <PinkButton @click-forward="toggleActiveGig">Cancel</PinkButton>
             </div>
         </Popup>
-    </main>
+    </div>
 </template>
 
 <style scoped>

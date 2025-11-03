@@ -46,7 +46,7 @@ async function login() {
 </script>
 
 <template>
-    <div class="login_paper">
+    <div class="mobile-container">
         <div class="image">
             <img :src="'/get_img/'" alt="Cupid Code Logo" width="300" height="300">
         </div>
@@ -85,7 +85,11 @@ async function login() {
     .form {
         display: flex;
         flex-flow: column wrap;
-        background-color: white;
+        background-color: var(--card);
+        color: var(--card-foreground);
+        border-radius: var(--radius);
+        padding: 16px;
+        border: 1px solid var(--border);
     }
 
     .form_input {
@@ -94,11 +98,19 @@ async function login() {
         padding: 8px;
     }
     input {
-        border: 3px rgba(128, 128, 128, 0.5) solid;
-        border-radius: 4px;
+        border: 2px solid var(--border);
+        border-radius: var(--radius);
         width: auto;
         padding: 8px;
         margin: 10px;
+        background-color: var(--input-background);
+        color: var(--foreground);
+    }
+
+    input:focus {
+        outline: none;
+        border-color: var(--ring);
+        box-shadow: 0 0 0 2px var(--ring);
     }
 
     .button {
@@ -115,22 +127,24 @@ async function login() {
     }
     a {
         margin: 10px;
-        color: white;
+        color: var(--foreground);
+        text-decoration: none;
+        transition: color 0.2s;
     }
 
     a:hover {
-        color: white;
+        color: var(--primary);
     }
 
     a:visited {
-        color: var(--primary-red);
+        color: var(--primary);
     }
 
     .error {
         position: relative;
         left: -300px;
         overflow: hidden;
-        color: var(--secondary-red);
+        color: var(--destructive);
     }
 
     .shown {

@@ -1,127 +1,141 @@
 <script setup>
-import {ref} from 'vue'
-import { makeRequest } from '../utils/make_request';
-
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import PinkButton from '../components/PinkButton.vue';
-import Popup from '../components/Popup.vue';
 import NavSuite from '../components/NavSuite.vue';
 
+// --- Live Speech Panel logic (from RealtimeSpeechPanel.vue) ---
+const listening = ref(false)
+const transcript = ref('')
+const interim = ref('')
+const ttsText = ref('')
+const recognitionSupported = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window
+let recognition = null
+const voices = ref([])
+const selectedVoice = ref('')
 
-let audio = null
-let recorder = null
-
-const popupActive = ref(false)
-const budget = ref('')
-const items_requested = ref('')
-const pickup_location = ref('')
-
-const user_id = parseInt(window.location.hash.split('/')[3])
-
-function toggleEmergency() {
-    popupActive.value = !popupActive.value;
+function loadVoices() {
+    const synth = window.speechSynthesis
+    voices.value = synth.getVoices()
+    if (!selectedVoice.value && voices.value.length) {
+        selectedVoice.value = voices.value[0].name
+    }
 }
 
-async function sendEmergency() {
-    const result = await makeRequest('/api/gig/create/', 'post', {
-        "budget":budget._value,
-        "items_requested":items_requested._value,
-        "pickup_location":pickup_location._value
-    })
-    popupActive.value = false
+onMounted(() => {
+    if (recognitionSupported) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+        recognition = new SpeechRecognition()
+        recognition.continuous = true
+        recognition.interimResults = true
+        recognition.lang = 'en-US'
+        recognition.onresult = (event) => {
+            let finalText = ''
+            let interimText = ''
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+                const res = event.results[i]
+                if (res.isFinal) {
+                    finalText += res[0].transcript
+                } else {
+                    interimText += res[0].transcript
+                }
+            }
+            if (finalText) transcript.value += (transcript.value ? ' ' : '') + finalText.trim()
+            interim.value = interimText
+        }
+        recognition.onerror = (e) => {
+            console.error('STT error:', e)
+            listening.value = false
+        }
+        recognition.onend = () => {
+            listening.value = false
+        }
+    }
+    loadVoices()
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = loadVoices
+    }
+})
+
+onBeforeUnmount(() => {
+    if (recognition && listening.value) {
+        recognition.stop()
+    }
+})
+
+function toggleListening() {
+    if (!recognitionSupported) return
+    if (!listening.value) {
+        transcript.value = transcript.value.trim()
+        interim.value = ''
+        try {
+            recognition.start()
+            listening.value = true
+        } catch (e) {
+            console.error('STT start failed:', e)
+        }
+    } else {
+        recognition.stop()
+        listening.value = false
+    }
 }
 
-async function listen() {
-    // Request access to the user's microphone
-    navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(function(stream) {
-        // Create an instance of MediaRecorder to record audio
-        recorder = new MediaRecorder(stream)
-        let chunks = []
-        // Start recording when the recorder is ready
-        recorder.onstart = () => {console.log('Recording started')}
-        // Collect recorded audio data in chunks
-        recorder.ondataavailable = (event) => {chunks.push(event.data)}
-        // Stop recording and process the recorded audio
-        recorder.onstop = () => {
-            // Combine all recorded chunks into a single Blob
-            const audioBlob = new Blob(chunks, { type: 'audio/wav' });
-            // Convert Blob to base64-encoded string
-            const reader = new FileReader();
-            reader.readAsDataURL(audioBlob);
-            reader.onloadend = function() {
-                const base64Data = reader.result.split(',')[1];
-                // Send base64-encoded audio data to the backend for processing
-                sendToBackend(base64Data);
-            };
-        };
-        // Start recording
-        recorder.start()
-    })
-    .catch(function(err) {
-        console.error('Error accessing microphone:', err);
-    })
+function speak() {
+    if (!ttsText.value.trim()) return
+    const utterance = new SpeechSynthesisUtterance(ttsText.value)
+    const v = voices.value.find(v => v.name === selectedVoice.value)
+    if (v) utterance.voice = v
+    window.speechSynthesis.cancel()
+    window.speechSynthesis.speak(utterance)
 }
 
-// Function to send base64-encoded audio data to the backend
-async function sendToBackend(base64Data) {
-    // Example: Use fetch to send data to backend
-    const res = await makeRequest('/api/stt/', 'post', {
-        user_id, 
-        audio: base64Data
-    });
-    console.log(res)
-    // Put result on the screen
-}
-
-async function stopListen() {
-    recorder.stop();
-    recorder = null;
+function clearTranscript() {
+    transcript.value = ''
+    interim.value = ''
 }
 </script>
 
 <template>
-    <NavSuite title='Let the AI Listen in!' profile='DaterProfile'>
-        <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
-        <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
-        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
-        <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
-        <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
-        <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
-        <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
-    </NavSuite>
-
-    <div class="container">
-        <div class="buttons">
-            <button class="listen button" @click="listen">
-                <span class="material-symbols-outlined">mic</span>
-            </button>
-            <button class="listen button" @click="stopListen">
-                <span class="material-symbols-outlined">mic_off</span>
-            </button>
-            <button class="emergency button" @click="toggleEmergency">
-                <span class="material-symbols-outlined">priority_high</span>
-            </button>
-        </div>
-        <Popup :data-active="popupActive">
-            <h1>Create Gig</h1>
-            <label class="update-content" for="budget">
-                Budget
-                <input type="text" id="budget" v-model="budget"/>
-            </label>
-            <label class="update-content" for="items_requested">
-                Items Requested
-                <input type="text" id="items_requested" v-model="items_requested"/>
-            </label>
-            <label class="update-content" for="pickup_location">
-                Pickup Location
-                <input type="text" id="pickup_location" v-model="pickup_location"/>
-            </label>
-            <div class="space-evenly">
-                <PinkButton @click-forward="sendEmergency">Send</PinkButton>
-                <PinkButton @click-forward="toggleEmergency">Cancel</PinkButton>
+    <div>
+        <NavSuite title='Let the AI Listen in!' profile='DaterProfile'>
+            <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
+            <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
+            <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
+            <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
+            <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
+            <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
+            <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
+        </NavSuite>
+    
+        <div class="mobile-container">
+            <!-- Text to Speech UI -->
+            <div class="live-panel">
+                <h2 class="panel-title">Live Speech Tools</h2>
+                <div class="stt">
+                    <div class="controls">
+                        <PinkButton :class="listening ? 'danger' : 'primary'" @click="toggleListening" :disabled="!recognitionSupported">
+                            {{ listening ? 'Stop Listening' : 'Start Listening' }}
+                        </PinkButton>
+                        <PinkButton @click="clearTranscript">Clear</PinkButton>
+                    </div>
+                    <p v-if="!recognitionSupported" class="hint">
+                        Your browser doesn't support the Web Speech API. Chrome is recommended for live transcription.
+                    </p>
+                    <div class="transcript">
+                        <div class="final" v-text="transcript" />
+                        <div class="interim" v-text="interim" />
+                    </div>
+                </div>
+                <div class="tts">
+                    <label>
+                        Voice
+                        <select v-model="selectedVoice">
+                            <option v-for="v in voices" :key="v.name" :value="v.name">{{ v.name }}</option>
+                        </select>
+                    </label>
+                    <textarea v-model="ttsText" rows="3" placeholder="Type text to speak..." />
+                    <PinkButton class="primary" @click="speak">Speak</PinkButton>
+                </div>
             </div>
-        </Popup>
-        <div class="text" id="chatbox">
         </div>
     </div>
 </template>
@@ -218,4 +232,122 @@ async function stopListen() {
     border-radius: 4px;
     padding: 8px;
 }
+.live-panel {
+    background: var(--primary-white, #fff);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    padding: 24px;
+    margin: 32px auto;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.panel-title {
+    color: var(--primary-red);
+    margin-bottom: 8px;
+    font-size: 1.3em;
+    font-weight: 600;
+    text-align: center;
+}
+.controls {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+.transcript {
+    min-height: 80px;
+    border: 2px solid var(--primary-red);
+    border-radius: 8px;
+    padding: 12px;
+    background: var(--primary-white, #fff);
+    color: var(--primary-black, #222);
+    margin-top: 8px;
+}
+.final { color: var(--primary-black, #222); font-size: 1.1em; }
+.interim { color: var(--secondary-blue, #007bff); font-style: italic; }
+.tts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+}
+textarea {
+    width: 100%;
+    resize: vertical;
+    border: 1px solid var(--primary-red);
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 1em;
+}
+select {
+    margin-left: 8px;
+    border-radius: 4px;
+    padding: 4px;
+}
+.hint {
+    font-size: 0.95em;
+    color: var(--secondary-blue, #007bff);
+    text-align: center;
+}
 </style>
+.live-panel {
+    background: var(--primary-white, #fff);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    padding: 24px;
+    margin: 32px auto;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.panel-title {
+    color: var(--primary-red);
+    margin-bottom: 8px;
+    font-size: 1.3em;
+    font-weight: 600;
+    text-align: center;
+}
+.controls {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+.transcript {
+    min-height: 80px;
+    border: 2px solid var(--primary-red);
+    border-radius: 8px;
+    padding: 12px;
+    background: var(--primary-white, #fff);
+    color: var(--primary-black, #222);
+    margin-top: 8px;
+}
+.final { color: var(--primary-black, #222); font-size: 1.1em; }
+.interim { color: var(--secondary-blue, #007bff); font-style: italic; }
+.tts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+}
+textarea {
+    width: 100%;
+    resize: vertical;
+    border: 1px solid var(--primary-red);
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 1em;
+}
+select {
+    margin-left: 8px;
+    border-radius: 4px;
+    padding: 4px;
+}
+.hint {
+    font-size: 0.95em;
+    color: var(--secondary-blue, #007bff);
+    text-align: center;
+}

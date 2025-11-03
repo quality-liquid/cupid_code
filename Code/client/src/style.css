@@ -1,14 +1,204 @@
+@custom-variant dark (&:is(.dark *));
+
 :root {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  --primary-blue: #46ADF0;
-  --secondary-blue: #4c589c;
-  --primary-red: #f04b7f;
-  --secondary-red: #a55271;
-  --content-background: #FCEBFF;
+  --font-size: 16px;
+  --background: #ffffff;
+  --foreground: #0A0908;
+  --card: #f8f9fa;
+  --card-foreground: #0A0908;
+  --popover: #ffffff;
+  --popover-foreground: #0A0908;
+  --primary: #B5838D;
+  --primary-foreground: #ffffff;
+  --secondary: #E5989B;
+  --secondary-foreground: #0A0908;
+  --muted: #f1f5f9;
+  --muted-foreground: #5E503F;
+  --accent: #E5989B;
+  --accent-foreground: #0A0908;
+  --destructive: #d4183d;
+  --destructive-foreground: #ffffff;
+  --border: #e2e8f0;
+  --input: transparent;
+  --input-background: #ffffff;
+  --switch-background: #cbd5e1;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: #B5838D;
+  --chart-1: #B5838D;
+  --chart-2: #E5989B;
+  --chart-3: #22333B;
+  --chart-4: #5E503F;
+  --chart-5: #0A0908;
+  --radius: 0.625rem;
+  --sidebar: #f8f9fa;
+  --sidebar-foreground: #0A0908;
+  --sidebar-primary: #B5838D;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #E5989B;
+  --sidebar-accent-foreground: #0A0908;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #B5838D;
+  
+  /* Legacy variables for backward compatibility */
+  --primary-blue: var(--primary);
+  --secondary-blue: var(--secondary);
+  --primary-red: var(--destructive);
+  --secondary-red: var(--accent);
+  --content-background: var(--card);
+}
+
+.dark {
+  --background: #0A0908;
+  --foreground: #E5989B;
+  --card: #22333B;
+  --card-foreground: #E5989B;
+  --popover: #22333B;
+  --popover-foreground: #E5989B;
+  --primary: #E5989B;
+  --primary-foreground: #0A0908;
+  --secondary: #B5838D;
+  --secondary-foreground: #0A0908;
+  --muted: #5E503F;
+  --muted-foreground: #B5838D;
+  --accent: #B5838D;
+  --accent-foreground: #0A0908;
+  --destructive: #d4183d;
+  --destructive-foreground: #ffffff;
+  --border: #5E503F;
+  --input: #22333B;
+  --ring: #B5838D;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --chart-1: #E5989B;
+  --chart-2: #B5838D;
+  --chart-3: #5E503F;
+  --chart-4: #22333B;
+  --chart-5: #0A0908;
+  --sidebar: #22333B;
+  --sidebar-foreground: #E5989B;
+  --sidebar-primary: #E5989B;
+  --sidebar-primary-foreground: #0A0908;
+  --sidebar-accent: #B5838D;
+  --sidebar-accent-foreground: #0A0908;
+  --sidebar-border: #5E503F;
+  --sidebar-ring: #B5838D;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/**
+ * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
+ */
+@layer base {
+  :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
+    h1 {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h2 {
+      font-size: var(--text-xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h3 {
+      font-size: var(--text-lg);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h4 {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    p {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+
+    label {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    button {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    input {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+  }
+}
+
+html {
+  font-size: var(--font-size);
 }
 
 body {
   margin: 0;
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
 .image {
@@ -19,8 +209,8 @@ body {
 }
 
 .nav {
-  color: white;
-  background-color: var(--primary-blue);
+  color: var(--primary-foreground);
+  background-color: var(--primary);
   top: 0;
   left: 0;
   right: 0; 
@@ -37,7 +227,7 @@ body {
 }
 
 .navbar {
-  background-color: var(--primary-blue);
+  background-color: var(--primary);
   background-position-x: 0;
   height: 100%;
   margin-top: 40px;
@@ -48,6 +238,9 @@ body {
   left: 0;
   overflow-x: hidden; 
   transition: 0.5s; 
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
 }
 
 .navbar a {
@@ -60,44 +253,63 @@ body {
   padding-left: 16px; 
   flex-flow: column nowrap;
   justify-content: flex-start;
-  width: 150px;
+  width: 200px;
   overflow-x: visible;
 }
 
 .icon-button {
   border: none;
-  background-color: var(--primary-blue);
+  background-color: var(--primary);
   display: flex;
-  padding: 4px;
-  width: 25px;
-  height: 25px;
+  padding: 8px;
+  width: 40px;
+  height: 40px;
   justify-content: center;
   align-items: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background-color: var(--accent);
+  transform: scale(1.05);
+}
+
+.icon-button:active {
+  transform: scale(0.95);
 }
 
 .icon {
   display: flex;
   justify-content: center;
-  color: white;
+  color: var(--primary-foreground);
 }
 
 .link {
-  color: white;
+  color: var(--primary-foreground);
   gap: 10px;
-  padding-bottom: 4px;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  display: inline-block;
 }
 
-.logout {
-  display: flex;
-  align-self: center;
-  color: white;
-  background-color: var(--secondary-red);
-  border: none;
-  padding: 8px;
-  border-radius: 4px;
-  margin: 8px;
-  margin-top: 300px;
+.link:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+  border-color: var(--accent-foreground);
+  transform: translateY(-2px);
 }
+
+.link:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Logout button styling moved to NavSuite.vue */
 
 
 /* These are for AiChat.vue - These must be global so I can programmatically add chats to the screen */
@@ -111,8 +323,8 @@ body {
 .sent {
   display: flex;
   justify-content: flex-end;
-  background-color: var(--primary-red);
-  color: white;
+  background-color: var(--destructive);
+  color: var(--destructive-foreground);
   position: relative;
   margin-bottom: 10px;
   margin-left: calc(100% - 240px);
@@ -122,8 +334,8 @@ body {
 .response {
   display: flex;
   justify-content: flex-start;
-  background-color: var(--secondary-blue);
-  color: white;
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
   position: relative;
   margin-bottom: 10px;
   margin-right: calc(100% - 240px);
@@ -133,32 +345,104 @@ body {
 /* These are for Calendar */
 .date {
   text-align: center;
-  color: white;
+  color: var(--primary-foreground);
   display: flex;
   margin: 20px;
   padding: 10px;
   flex-direction: column;
-  background-color: var(--primary-blue);
+  background-color: var(--primary);
   border-radius: 4px;
 }
 
 .date h3 {
   margin: 4px;
-  border-bottom: 2px solid var(--secondary-blue);
+  border-bottom: 2px solid var(--secondary);
 }
 
 .button {
   display: flex;
   justify-content: center;
-  background-color: var(--secondary-red);
+  background-color: var(--accent);
   border: none;
   border-radius: 4px;
   padding: 8px;
   margin: 2px 4px;
-  color: white;
+  color: var(--accent-foreground);
   box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.2);
 }
 
 .button:hover {
   filter: brightness(.7);
+}
+
+/* Mobile-first responsive containers */
+.mobile-container {
+  min-width: 375px;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 60px; /* Add space for navigation bar */
+}
+
+/* Mobile-friendly navigation updates */
+.nav {
+  color: var(--primary-foreground);
+  background-color: var(--primary);
+  top: 0;
+  left: 0;
+  right: 0; 
+  display: flex;
+  position: absolute;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+}
+
+/* Show navigation links on mobile */
+.nav .link {
+  display: block;
+}
+
+/* Mobile-friendly rectangular button widgets */
+.mobile-button {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  margin: 8px 0;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mobile-button:hover {
+  filter: brightness(0.9);
+  transform: translateY(-1px);
+}
+
+.mobile-button-icon {
+  font-size: 24px;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.mobile-button-content {
+  flex: 1;
+}
+
+.mobile-button-title {
+  font-weight: var(--font-weight-medium);
+  font-size: 1.1em;
+  margin: 0 0 4px 0;
+  color: white;
+}
+
+.mobile-button-description {
+  font-size: 0.9em;
+  margin: 0;
+  opacity: 0.9;
+  color: white;
 }

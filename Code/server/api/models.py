@@ -136,3 +136,7 @@ class BankAccount(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     routing_number = models.TextField()
     account_number = models.TextField()
+
+class StripeAccount(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    account_id = models.CharField(max_length=255, unique=True)

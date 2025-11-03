@@ -18,45 +18,34 @@ const user_id  = parseInt(window.location.hash.split('/')[3])
     </NavSuite>
 
 
-    <div class="container">
-      <div class="widget red">
-        <span class="material-symbols-outlined icon">person</span>
-        <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
-      </div>
-      <div class="widget blue">
-        <span class="material-symbols-outlined icon">explore</span>
-        <router-link id="find" class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Find Gigs </router-link>
-      </div>
-      <div class="widget red"> <!-- This will become Calendar when it's made -->
-        <span class="material-symbols-outlined icon">playlist_add_check</span>
-        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Past Gigs </router-link>
-      </div>
+    <div class="mobile-container">
+      <router-link class="mobile-button red" :to="{name: 'CupidDetails', params: {id: user_id}}">
+        <span class="material-symbols-outlined mobile-button-icon">person</span>
+        <div class="mobile-button-content">
+          <div class="mobile-button-title">Profile</div>
+          <div class="mobile-button-description">View and edit your profile</div>
+        </div>
+      </router-link>
+      
+      <router-link class="mobile-button blue" :to="{name: 'GigDetails', params: {id: user_id}}">
+        <span class="material-symbols-outlined mobile-button-icon">explore</span>
+        <div class="mobile-button-content">
+          <div class="mobile-button-title">Find Gigs</div>
+          <div class="mobile-button-description">Browse available dating assistance gigs</div>
+        </div>
+      </router-link>
+      
+      <router-link class="mobile-button red" :to="{name: 'GigComplete', params: {id: user_id}}">
+        <span class="material-symbols-outlined mobile-button-icon">playlist_add_check</span>
+        <div class="mobile-button-content">
+          <div class="mobile-button-title">Past Gigs</div>
+          <div class="mobile-button-description">Review your completed gigs</div>
+        </div>
+      </router-link>
     </div>
 </template>
 
 <style scoped>
-  .container {
-    margin: 10px;
-    margin-top: 50px;
-    display: flex;
-    flex-flow: row wrap;
-    gap: 10px;
-  }
-
-  .widget {
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
-    justify-content: center;
-    padding: 50px;
-    border: none;
-    border-radius: 16px;
-  }
-
-  .header {
-    color: white;
-  }
-
   .blue {
     background-color: var(--secondary-blue);
   }

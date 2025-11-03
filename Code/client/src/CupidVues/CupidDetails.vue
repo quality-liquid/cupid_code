@@ -77,7 +77,7 @@
         <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
     </NavSuite>
 
-    <main> 
+    <div class="mobile-container">
         <CupidCoin :active="accepting_gigs" @click="toggleAccept"/>
         <div class="card">
             <p id="balance">${{ balance }}</p>
@@ -105,7 +105,7 @@
             </label>
             <PinkButton>Save</PinkButton>
         </form>
-    </main>
+    </div>
 </template>
 
 <style scoped>
@@ -141,19 +141,19 @@ input {
 }
 
 .card {
-    border: 4px solid var(--secondary-blue);
+    border: 4px solid var(--secondary);
     border-radius: 16px;
     margin: 16px;
     padding: 8px;
-    background-color: var(--primary-blue);
-    color: white;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
     font-size: 1.3em;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 .card > hr {
-    border-color: var(--secondary-red);
+    border-color: var(--accent);
 }
 .card > p {
     margin-top: 2px;
