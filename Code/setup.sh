@@ -25,8 +25,8 @@ fi
 # Navigate to Vue client directory
 cd ../client || exit
 
-# Install npm dependencies
-npm install
+# Install npm dependencies, `npm ci` is better for CI/CD. See `npm help ci` (the man page)
+npm ci
 
 # Go back to Code directory
 cd .. || exit
