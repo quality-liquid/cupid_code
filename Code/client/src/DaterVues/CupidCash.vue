@@ -1,119 +1,112 @@
 <script setup>
-    import {ref, onMounted} from 'vue';
-    import router from '../router/index';
-    import { makeRequest } from '../utils/make_request';
+import { ref, onMounted } from 'vue';
+import router from '../router/index';
+import { makeRequest } from '../utils/make_request';
 
-    import NavSuite from '../components/NavSuite.vue';
+import NavSuite from '../components/NavSuite.vue';
+import { loadStripe } from '@stripe/stripe-js';
 
-    const user_id  = parseInt(window.location.hash.split('/')[3])
+const user_id = parseInt(window.location.hash.split('/')[3])
 
-    const balance = ref(0)
-    const cards = ref([])
-    const cardIndex = ref(0)
-    const amount = ref(0)
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
-    const chosenCard = ref(0)
+const stripe = ref(null)
 
-    const name = ref('')
-    const num = ref('')
-    const mon = ref('')
-    const year = ref('')
-    const cvv = ref('')
+const balance = ref(0)
+const amount = ref(0)
+const clientSecret = ref('')
+const elementsRef = ref(null)
 
-    async function addFunds() {
-        const res = await makeRequest('/api/dater/transfer/', 'post', {
-            user: user_id,
-            card_id: chosenCard.value,
-            amount: amount
-        })
+const returnUrl = `${window.location.origin}${router.currentRoute.value.fullPath}`;
+
+async function addFunds() {
+    const res = await makeRequest(`/api/dater/payment/${user_id}/`, 'post', {
+        amount: amount.value
+    })
+    clientSecret.value = res.client_secret
+    const options = {
+        clientSecret: clientSecret.value,
+        appearance: {
+            theme: 'stripe',
+        },
+    };
+    // initialize Elements and mount the Payment Element
+    elementsRef.value = stripe.value.elements(options)
+    const paymentElementOptions = { layout: 'accordion' };
+    const paymentElement = elementsRef.value.create('payment', paymentElementOptions);
+    paymentElement.mount('#payment-element');
+    const paymentForm = document.getElementById('payment-form')
+    if (!paymentForm.querySelector('button[type="submit"]')) {
+        const button = document.createElement('button')
+        button.type = 'submit'
+        button.textContent = 'Submit Payment'
+        button.className = 'button'
+        paymentForm.appendChild(button)
     }
+}
 
-    async function saveCard() {
-        // Save card to db
-        const exp = `${mon.value}/${year.value}`
+async function getMoney() {
+    const results = await makeRequest(`/api/dater/balance/${user_id}`)
+    balance.value = results.balance
+}
 
-        const res = await makeRequest('/api/dater/save_card/', 'post', {
-            user: {
-                id: user_id
-            },
-            name_on_card: name.value,
-            card_number: num.value,
-            cvv: cvv.value,
-            expiration: exp
-        })
-        const card_id = res.id
-        const new_res = await makeRequest('/api/dater/transfer/', 'post', {
-            user: user_id,
-            card_id: card_id,
-            amount: amount
-        })
-
-        router.push({name: 'CupidCash', params: {id: user_id}})
+async function submitPayment() {
+    const { error } = await stripe.value.confirmPayment({
+        // `Elements` instance that was used to create the Payment Element
+        elements: elementsRef.value,
+        confirmParams: { return_url: returnUrl },
+    });
+    if (error) {
+        // This point will only be reached if there is an immediate error when
+        // confirming the payment. Show error to your customer (for example, payment
+        // details incomplete)
+        console.log(error.message);
+    } else {
+        router.push({ name: 'CupidCash', params: { id: user_id } });
     }
+}
 
-
-    async function getMoney() {
-        const results = await makeRequest(`/api/dater/balance/${user_id}`)
-        balance.value = results.balance
-        
-        cards.value = await makeRequest(`/api/dater/get_cards/${user_id}`)
-        console.log(cards)
+onMounted(async () => {
+    try {
+        await getMoney()
+    } catch (error) {
+        console.error('Error fetching money:', error)
     }
-
-    onMounted(getMoney)   
+    try {
+        stripe.value = await stripePromise
+        if (!stripe.value) {
+            console.error('Stripe.js failed to load.')
+            return
+        }
+    }
+    catch (error) {
+        console.error('Error loading Stripe.js:', error)
+    }
+})
 </script>
 
-<template>  
+<template>
     <NavSuite title='Add Cash' profile='DaterProfile'>
-        <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
-        <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
-        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
-        <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
-        <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
-        <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
-        <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
+        <router-link class="link" :to="{ name: 'DaterHome', params: { id: user_id } }"> Home </router-link>
+        <router-link class="link" :to="{ name: 'DaterProfile', params: { id: user_id } }"> Profile </router-link>
+        <router-link class="link" :to="{ name: 'Calendar', params: { id: user_id } }"> Calendar </router-link>
+        <router-link class="link" :to="{ name: 'AiChat', params: { id: user_id } }"> AI Chat </router-link>
+        <router-link class="link" :to="{ name: 'AiListen', params: { id: user_id } }"> AI Listen </router-link>
+        <router-link class="link" :to="{ name: 'DaterGigs', params: { id: user_id } }"> Gigs </router-link>
+        <router-link class="link" :to="{ name: 'DaterFeedback', params: { id: user_id } }"> Feedback </router-link>
     </NavSuite>
     <div class="mobile-container">
         <h1>{{ 'Current balance: $' + balance }}</h1>
         <form class="container clamped" @submit.prevent="addFunds">
-            <select v-model="cardIndex">
-                <option disabled selected>Saved cards</option>
-                <option v-for="(card, i) in cards" :value="i">***{{ card.card_number.slice(card.card_number.length-4) }}</option>
-            </select>
             <div class="oneline">
-                <input type="number" min="0" id="amount" v-model="amount"/>
+                <input type="number" min="0" id="amount" v-model="amount" />
                 <button class="button">Deposit</button>
             </div>
         </form>
-        <h1>Add Card</h1>
-        <form class="input-container clamped" @submit.prevent="saveCard">
-            <label class="details" for="card-name">  
-                <input type="text" name="card-name" id="card-name" placeholder="Name on Card"
-                :value="name" @change="e => name = e.target.value"
-                >
-            </label>
-            <label class="details" for="card-num">  
-                <input type="text" name="card-num" id="card-num" placeholder="0000 0000 0000 0000"
-                :value="num" @change="e => num = e.target.value"
-                >
-            </label>
-            <div class="date">
-                <label class="details" for="month">  
-                    <input type="text" size="5" name="month" id="month" placeholder="MM"
-                    :value="mon" @change="e => mon = e.target.value"
-                    >
-                </label>
-                <label class="details" for="year">  
-                    <input type="text" size="5" name="year" id="year" placeholder="YY"
-                    :value="year" @change="e => year = e.target.value"
-                    >
-                </label>
-                <label class="details" for="security-code">  
-                    <input type="text" size="5" name="security-code" id="security-code" placeholder="CVV"
-                    :value="cvv" @change="e => cvv = e.target.value">
-                </label>
+        <form @submit.prevent="submitPayment" id="payment-form" class="container clamped">
+            <div id="payment-element">
+                <!--Stripe.js injects the Payment Element-->
             </div>
-            <button class="button">Save Card</button>
         </form>
     </div>
 </template>
@@ -147,7 +140,7 @@
 }
 
 select,
-.oneline > input{
+.oneline>input {
     margin: auto;
     display: flex;
     border: 1px solid rgb(139, 139, 139);
@@ -167,7 +160,7 @@ select {
     align-content: center;
 }
 
-.center > * {
+.center>* {
     margin: auto;
 }
 
@@ -177,7 +170,7 @@ select {
     margin: 0 auto;
 }
 
-.details input{
+.details input {
     display: flex;
     margin: 4px;
     border: 1px solid rgb(139, 139, 139);
@@ -207,5 +200,4 @@ select {
 input:focus {
     border-color: var(--secondary-red);
 }
-
 </style>

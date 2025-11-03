@@ -2,6 +2,8 @@
 from datetime import datetime
 from json import loads as deseralize_json
 
+import stripe
+
 from stripe import (
     PaymentIntent, 
     Account, 
@@ -9,10 +11,16 @@ from stripe import (
     Transfer,
     StripeError
 )
+from django.conf import settings
+
+# Configure the stripe library with the secret key from settings.
+if hasattr(settings, 'STRIPE_SECRET_KEY') and settings.STRIPE_SECRET_KEY:
+    stripe.api_key = settings.STRIPE_SECRET_KEY
 
 # Django
 from django.contrib.auth import login, authenticate
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.utils.timezone import make_aware
 from django.shortcuts import get_object_or_404, get_list_or_404
 
@@ -60,6 +68,7 @@ from .models import (
 )
 
 from . import helpers
+from decimal import Decimal
 
 # AI API (pytensor) https://pytensor.readthedocs.io/en/latest/
 # Location API (Geolocation) https://pypi.org/project/geolocation-python/
@@ -410,95 +419,72 @@ def get_dater_avg_rating(request, pk):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def dater_transfer(request):
-    """
-    For a dater.
-    Charges the dater's card and updates their balance.
-
-    Args (request.post):
-        card_id(int): The id of the card to charge
-        amount(float): The amount to transfer
-    Returns:
-        Response:
-            OK
-    """
-    data = request.data
-    data['location'] = helpers.get_location_string(request.META['REMOTE_ADDR'])
-    dater = get_object_or_404(Dater, user=request.user)
-    card = get_object_or_404(PaymentCard, id=data['card_id'])
-    if dater is None or card is None:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-    if card.user != dater.user:
-        return Response(
-            {"error: you don't have a card with that id"},
-            status=status.HTTP_403_FORBIDDEN,
-        )
-    dater.cupid_cash_balance += data['amount']
-    # Card would be charged amount if it were real.
-    dater.save()
-    return Response({f'Card charged {data["amount"]}'}, status=status.HTTP_200_OK)
-
-
-@api_view(['POST'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
-def save_card(request):
-    """
-    For a dater.
-    Creates a new payment card and saves it.
-
-    Args (request.post):
-       name_on_card(str): The name on the card
-       card_number(str): The card number
-       cvv(str): The 3 digits on the back
-       expiration(str): MM/YY expiration date
-
-    Returns:
-        Response:
-            serialized card.
-    """
-
-    data = request.data
-    helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
-    data['user'] = request.user.id
-    serializer = PaymentCardSerializer(data=data)
-    return helpers.save_serializer(serializer)
-
-
-@api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
-def get_cards(request, pk):
-    try:
-        dater = helpers.authenticated_dater(pk, request.user)
-    except PermissionDenied:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    cards = get_list_or_404(PaymentCard, user=request.user)
-    serializer = PaymentCardSerializer(cards, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-@api_view(['POST'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
-def get_payment(request):
+def get_payment(request, pk):
     """
     Creates a PaymentIntent with the order amount and currency.
     Args (request.body):
         amount(float): The amount to charge the user
+        pk(int): the user_id as included in the URL
     Returns:
         JsonResponse:
             clientSecret(str): The client secret of the PaymentIntent
     """
     try:
-        data = deseralize_json(request.body)
+        data = request.data
+        amount = float(data.get('amount', 0))
+        dater = helpers.authenticated_dater(pk, request.user)
         intent = PaymentIntent.create(
-            amount=int(data['amount'] * 100),
+            amount=int(amount * 100),
             currency='usd',
             payment_method_types=['card'],
+            metadata={
+                'user_id': str(pk),
+            },
+            receipt_email=dater.user.email,
         )
-        return JsonResponse({'clientSecret': intent['client_secret']})
+        return JsonResponse({'client_secret': intent['client_secret']}, status=200)
     except Exception as e:
-        return JsonResponse({'error': str(e)})
+        return JsonResponse({'error': str(e)}, status=400)
+
+
+@csrf_exempt
+def stripe_webhook(request):
+    """
+    Endpoint to receive Stripe webhooks. Verifies signature and updates user balance
+    on payment_intent.succeeded events.
+    """
+    payload = request.body
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE', '')
+    try:
+        event = stripe.Webhook.construct_event(
+            payload=payload, sig_header=sig_header, secret=getattr(settings, 'STRIPE_WEBHOOK_SECRET', None)
+        )
+    except ValueError:
+        # Invalid payload
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError:
+        # Invalid signature
+        return HttpResponse(status=400)
+
+    # Handle the event
+    if event['type'] == 'payment_intent.succeeded':
+        intent = event['data']['object']
+        metadata = intent.get('metadata', {}) or {}
+        user_id = metadata.get('user_id')
+        amount = intent.get('amount_received') or intent.get('amount')
+        print(amount, user_id)
+        if user_id and amount is not None:
+            try:
+                dater = Dater.objects.get(user_id=int(user_id))
+                # amount is in cents
+                credited = Decimal(amount) / Decimal(100)
+                dater.cupid_cash_balance += credited
+                dater.save()
+            except Dater.DoesNotExist:
+                # ignore if user not found
+                pass
+
+    return HttpResponse(status=200)
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
