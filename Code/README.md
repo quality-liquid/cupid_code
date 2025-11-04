@@ -9,7 +9,7 @@
 0. Run `poetry install` in the Code directory to make sure the poetry.lock file exists/is up to date.
 0. Run `npm install` in the client directory to make sure current npm packages are installed
 0. Run `chmod +x setup.sh start.sh stop.sh restart.sh` to make the shell scripts executable
-0. run `./setup.sh` to install poetry, install npm_modules, create the .env file, install python dependencies, and create the database
+0. run `./setup.sh` to install poetry, install npm_modules, create the .env files, install python dependencies, and create the database
 
 ### Running the server
 
