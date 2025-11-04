@@ -7,6 +7,9 @@ poetry install
 cp server/.env.example server/.env
 echo "VAULT_PATH=$PWD/server/core/static/" >> server/.env
 
+# Create Client .env file
+cp client/.env.example client/.env
+
 # Apply Django migrations
 cd server || exit
 # Check if python3 command is available
@@ -30,3 +33,8 @@ npm ci
 
 # Go back to Code directory
 cd .. || exit
+
+# Print help message to remind developer to add in API keys
+TODO_MSG="\033[1;31mTODO: Add your API keys to the %s .env file to finish setup!"
+printf "\n\n$TODO_MSG" "server"
+printf "\n$TODO_MSG\n\n" "client"
