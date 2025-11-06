@@ -262,7 +262,9 @@ def get_messages(request, pk, count):
     Args:
         request: information about the request
         pk(int): the user_id as included in the URL
-        count(int): the number of messages to return. if count is 0, return all messages. if count is greater than the number of messages, return all messages. if count is less than the number of messages, that number of messages will be returned.
+        count(int): the number of messages to return. if count is 0, return all messages. 
+            if count is greater than the number of messages, return all messages.
+            if count is less than the number of messages, that number of messages will be returned.
     Returns:
         Response:
             The five messages serialized
@@ -306,7 +308,8 @@ def calendar(request, pk):
 
     POST
     Args (request.post):
-        date_time(str): ISO 8601 timestamp (I fed output back into API, and GPT said that was the date format)
+        date_time(str): ISO 8601 timestamp (I fed output back into API, and GPT said that 
+            was the date format)
         location(str): Location of date
         description(str): Arbitrary description
         status(str): Date.Status (PLANNED, OCCURING, PAST, or CANCELED)
@@ -732,7 +735,8 @@ def cupid_transfer(request):
     Returns:
         Response:
             If the transfer went through successfully, return a 200 status code.
-            If the transfer failed, return a corresponding error status code (400 if on our end, 500 if on bank's end)
+            If the transfer failed, return a corresponding error status code 
+                (400 if on our end, 500 if on bank's end)
     """
     helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
     cupid = get_object_or_404(Cupid, user_id=request.user.id)
@@ -810,7 +814,10 @@ def create_onboarding_link(request, account_id):
     helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
     cupid = get_object_or_404(Cupid, user=request.user)
     if cupid.stripe_account_id != account_id:
-        return Response({'error': 'Account ID does not match authenticated user.'}, status=status.HTTP_403_FORBIDDEN)
+        return Response(
+            {'error': 'Account ID does not match authenticated user.'}, 
+            status=status.HTTP_403_FORBIDDEN
+        )
     link = AccountLink.create(
         account=account_id,
         refresh_url="https://example.com/reauth",
@@ -833,12 +840,16 @@ def transfer_out(request, amount):
     Returns:
         Response:
             If the transfer was successful, return a 200 status code.
-            If the transfer failed, return a corresponding error status code (400 if on our end, 500 if on bank's end)
+            If the transfer failed, return a corresponding error status code 
+                (400 if on our end, 500 if on bank's end)
     """
     helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
     cupid = get_object_or_404(Cupid, user=request.user)
     if not cupid.stripe_account_id:
-        return Response({'error': 'Cupid does not have a Stripe account.'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {'error': 'Cupid does not have a Stripe account.'}, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
     try:
         transfer = Transfer.create(
             amount=int(amount * 100),
@@ -846,7 +857,10 @@ def transfer_out(request, amount):
             destination=cupid.stripe_account_id,
             transfer_group="{ORDER10}",
         )
-        return Response({'status': 'Transfer successful', 'transfer_id': transfer['id']}, status=status.HTTP_200_OK)
+        return Response(
+            {'status': 'Transfer successful', 'transfer_id': transfer['id']}, 
+            status=status.HTTP_200_OK
+        )
     except StripeError as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
@@ -903,7 +917,8 @@ def set_cupid_profile(request):
     Returns:
         Response:
             If the profile was created or changed successfully, return a 200 status code.
-            If the profile failed to be created or changed (insufficent permissions, bad data, or error), return a 400 status code.
+            If the profile failed to be created or changed 
+                (insufficent permissions, bad data, or error), return a 400 status code.
     """
     data = request.data
     data['location'] = helpers.get_location_string(request.META['REMOTE_ADDR'])
@@ -943,9 +958,19 @@ def create_gig(request):
     data = request.data
     helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, user_id=request.user.id)
-    quest = Quest(budget=data['budget'], pickup_location=data['pickup_location'], items_requested=data['items_requested'])
+    quest = Quest(
+        budget=data['budget'], 
+        pickup_location=data['pickup_location'], 
+        items_requested=data['items_requested']
+    )
     quest.save()
-    gig = Gig(dater=dater, quest=quest, status=Gig.Status.UNCLAIMED, dropped_count=0, accepted_count=0)
+    gig = Gig(
+        dater=dater, 
+        quest=quest, 
+        status=Gig.Status.UNCLAIMED, 
+        dropped_count=0, 
+        accepted_count=0
+    )
     gig.save()
     return Response(GigSerializer(gig).data, status=status.HTTP_201_CREATED)
 
@@ -1025,7 +1050,8 @@ def complete_gig(request):
 @permission_classes([IsAuthenticated])
 def drop_gig(request):
     """
-    Modifies the gig to show that it is no longer claimed by a Cupid. Cupid is no longer in charge of the gig.
+    Modifies the gig to show that it is no longer claimed by a Cupid. 
+        Cupid is no longer in charge of the gig.
 
     Args:
         request: Information about the request.
@@ -1034,7 +1060,8 @@ def drop_gig(request):
     Returns:
         Response:
             If the gig was successfully dropped, return a 200 status code.
-            If the gig could not be dropped, was already dropped, or does not have a Cupid assigned, return a 400 status code.
+            If the gig could not be dropped, was already dropped, or does not have a Cupid assigned,
+              return a 400 status code.
     """
     data = request.data
     # This doesn't do much, should update the cupid's location instead
@@ -1070,7 +1097,8 @@ def cancel_gig(request):
     Returns:
         Response:
             If the gig was successfully dropped, return a 200 status code.
-            If the gig could not be dropped, was already dropped, or does not have a Cupid assigned, return a 400 status code.
+            If the gig could not be dropped, was already dropped, or does not have a Cupid assigned,
+              return a 400 status code.
     """
     data = request.data
     gig = get_object_or_404(Gig, id=data['gig_id'])
@@ -1231,8 +1259,10 @@ def get_attractions(request, pk):
         request: Information about the request.
     Returns:
         Response:
-            If the attractions were retrieved successfully, return a list of nearby attractions, including their specific location amd a 200 status code.
-            If the attractions were not retrieved successfully, return an error message and a 400 status code.
+            If the attractions were retrieved successfully, return a list of nearby attractions, 
+                including their specific location amd a 200 status code.
+            If the attractions were not retrieved successfully, return an error message and a 
+                400 status code.
     """
     return helpers.get_response_from_yelp_api(pk, request, 'attractions')
 
@@ -1248,8 +1278,10 @@ def get_restaurants(request, pk):
         request: Information about the request.
     Returns:
         Response:
-            If the restaurants were retrieved successfully, return a list of nearby restaurants, including their specific location and a 200 status code.
-            If the restaurants were not retrieved successfully, return an error message and a 400 status code.
+            If the restaurants were retrieved successfully, return a list of nearby restaurants, 
+                including their specific location and a 200 status code.
+            If the restaurants were not retrieved successfully, return an error message and a 
+                400 status code.
     """
     return helpers.get_response_from_yelp_api(pk, request, 'restaurants')
 
@@ -1266,8 +1298,10 @@ def get_user_location(request, pk):
         pk (int): The id of the user to get the location of.
     Returns:
         Response:
-            If the location of the user was retrieved successfully, return the user location and a 200 status code.
-            If the location of the user was not retrieved successfully, return an error message and a 400 status code.
+            If the location of the user was retrieved successfully, return the user location and a 
+                200 status code.
+            If the location of the user was not retrieved successfully, return an error message and 
+                a 400 status code.
 
     """
     if pk != request.user.id:
@@ -1298,8 +1332,10 @@ def get_cupids(request):
         request: Information about the request.
     Returns:
         Response:
-            If the cupid profiles were retrieved successfully, return the serialized cupids and a 200 status code.
-            If the cupid profiles were not retrieved successfully, return an error message and a 400 status code.
+            If the cupid profiles were retrieved successfully, return the serialized cupids and a 
+                200 status code.
+            If the cupid profiles were not retrieved successfully, return an error message and a 
+                400 status code.
     """
     cupids = Cupid.objects.all()
     if cupids is None:
@@ -1322,8 +1358,10 @@ def get_daters(request):
         request: Information about the request.
     Returns:
         Response:
-            If the dater profiles were retrieved successfully, return the serialized daters and a 200 status code.
-            If the dater profiles were not retrieved successfully, return an error message and a 400 status code.
+            If the dater profiles were retrieved successfully, return the serialized daters and a 
+                200 status code.
+            If the dater profiles were not retrieved successfully, return an error message and a 
+                400 status code.
     """
     daters = Dater.objects.all()
     if daters is None:
@@ -1346,8 +1384,10 @@ def get_dater_count(request):
         request: Information about the request.
     Returns:
         Response:
-            If the number of daters that are currently active was retrieved successfully, return the number of daters and a 200 status code.
-            If the number of daters that are currently active was not retrieved successfully, return an error message and a 400 status code.
+            If the number of daters that are currently active was retrieved successfully, return 
+                the number of daters and a 200 status code.
+            If the number of daters that are currently active was not retrieved successfully, 
+                return an error message and a 400 status code.
     """
     try:
         number_of_daters = Dater.objects.all().count()
@@ -1369,8 +1409,10 @@ def get_cupid_count(request):
         request: Information about the request.
     Returns:
         Response:
-            If the number of cupids that are currently active was retrieved successfully, return the cupid count and a 200 status code.
-            If the number of cupids that are currently active was not retrieved successfully, return an error message and a 400 status code.
+            If the number of cupids that are currently active was retrieved successfully, return 
+                the cupid count and a 200 status code.
+            If the number of cupids that are currently active was not retrieved successfully, 
+                return an error message and a 400 status code.
     """
     try:
         number_of_cupids = Cupid.objects.all().count()
@@ -1392,8 +1434,10 @@ def get_active_cupids(request):
         request: Information about the request.
     Returns:
         Response:
-            If the number of active cupids was retrieved successfully, return the number of active cupids and a 200 status code.
-            If the number of active cupids was not retrieved successfully, return an error message and a 400 status code.
+            If the number of active cupids was retrieved successfully, return the number of active 
+                cupids and a 200 status code.
+            If the number of active cupids was not retrieved successfully, return an error message 
+                and a 400 status code.
     """
     try:
         active_cupids = helpers.get_sessions(User.Role.DATER)
@@ -1415,8 +1459,10 @@ def get_active_daters(request):
         request: Information about the request.
     Returns:
         Response:
-            If the number of active daters was retrieved successfully, return the number of active daters and a 200 status code.
-            If the number of active daters was not retrieved successfully, return an error message and a 400 status code.
+            If the number of active daters was retrieved successfully, return the number of active 
+                daters and a 200 status code.
+            If the number of active daters was not retrieved successfully, return an error message 
+                and a 400 status code.
     """
     try:
         active_daters = helpers.get_sessions(User.Role.DATER)
@@ -1438,12 +1484,16 @@ def get_gig_rate(request):
         request: Information about the request.
     Returns:
         Response:
-            If the rate of gigs per hour was retrieved successfully, return the gig rate and a 200 status code.
-            If the rate of gigs per hour was not retrieved successfully, return an error message and a 400 status code.
+            If the rate of gigs per hour was retrieved successfully, return the gig rate and a 
+                200 status code.
+            If the rate of gigs per hour was not retrieved successfully, return an error message
+              and a 400 status code.
     """
     try:
         yesterday = datetime.now() - datetime.timedelta(days=1)
-        gigs_from_past_day = Gig.objects.filter(date_time_of_request__range=(yesterday, datetime.now()))
+        gigs_from_past_day = Gig.objects.filter(
+            date_time_of_request__range=(yesterday, datetime.now())
+        )
         if gigs_from_past_day is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         gig_rate = gigs_from_past_day.count() / 24
@@ -1463,8 +1513,10 @@ def get_gig_count(request):
         request: Information about the request.
     Returns:
         Response:
-            If the number of gigs that are currently active was retrieved successfully, return the gig count and a 200 status code.
-            If the number of gigs that are currently active was not retrieved successfully, return an error message and a 400 status code.
+            If the number of gigs that are currently active was retrieved successfully, return the 
+                gig count and a 200 status code.
+            If the number of gigs that are currently active was not retrieved successfully, return 
+                an error message and a 400 status code.
     """
     try:
         number_of_gigs = Gig.objects.all().count()
@@ -1486,13 +1538,17 @@ def get_gig_drop_rate(request):
         request: Information about the request.
     Returns:
         Response:
-            If the rate of gigs that are dropped was retrieved successfully, return the gig drop rate and a 200 status code.
-            If the rate of gigs that are dropped was not retrieved successfully, return an error message and a 400 status code.
+            If the rate of gigs that are dropped was retrieved successfully, return the gig drop 
+                rate and a 200 status code.
+            If the rate of gigs that are dropped was not retrieved successfully, return an error 
+                message and a 400 status code.
     """
     try:
         number_of_drops = 0
         yesterday = datetime.now() - datetime.timedelta(days=1)
-        gigs_from_past_day = Gig.objects.filter(date_time_of_request__range=(yesterday, datetime.now()))
+        gigs_from_past_day = Gig.objects.filter(
+            date_time_of_request__range=(yesterday, datetime.now())
+        )
         if gigs_from_past_day is None:
             return Response(status.HTTP_400_BAD_REQUEST)
         for gig in gigs_from_past_day:
@@ -1515,12 +1571,16 @@ def get_gig_complete_rate(request):
         request: Information about the request.
     Returns:
         Response:
-            If the rate of gigs that are completed was retrieved successfully, return the gig complete rate and a 200 status code.
-            If the rate of gigs that are completed was not retrieved successfully, return an error message and a 400 status code.
+            If the rate of gigs that are completed was retrieved successfully, return the gig 
+                complete rate and a 200 status code.
+            If the rate of gigs that are completed was not retrieved successfully, return an error 
+                message and a 400 status code.
     """
     try:
         yesterday = datetime.now() - datetime.timedelta(days=1)
-        gigs_from_past_day = Gig.objects.filter(date_time_of_request__range=(yesterday, datetime.now()))
+        gigs_from_past_day = Gig.objects.filter(
+            date_time_of_request__range=(yesterday, datetime.now())
+        )
         if gigs_from_past_day is None:
             return Response(status.HTTP_400_BAD_REQUEST)
         number_of_completed_gigs = gigs_from_past_day.filter(status=2).count()
@@ -1545,7 +1605,8 @@ def suspend(request):
     Returns:
         Response:
             If the user was suspended successfully, return a 200 status code.
-            If the user was not suspended successfully, return an error message and a 400 status code.
+            If the user was not suspended successfully, return an error message and a 
+                400 status code.
     """
     user_data = request.data
     if user_data['role'] == 'Dater':
@@ -1573,7 +1634,8 @@ def unsuspend(request):
     Returns:
         Response:
             If the user was unsuspended successfully, return a 200 status code.
-            If the user was not unsuspended successfully, return an error message and a 400 status code.
+            If the user was not unsuspended successfully, return an error message and a 
+                400 status code.
     """
     user_data = request.data
     if user_data['role'] == 'Dater':
@@ -1594,7 +1656,8 @@ def unsuspend(request):
 def speech_to_text(request):
     """
     For a Dater.
-    Convert an audio file to text. When the audio is converted to text, the text is sent to the external AI service.
+    Convert an audio file to text. When the audio is converted to text, the text is sent to the 
+        external AI service.
     The response from the AI service is analyzed and a gig could be created based on the response.
 
     Args:
@@ -1605,8 +1668,10 @@ def speech_to_text(request):
                     audio['data'] (str): The audio file in base64 format.
     Returns:
         Response:
-            If the audio was converted to text successfully and indicate if a gig was created or not, return a 200 status code.
-            If the audio was not converted to text successfully or a gig could not be created, return an error message and a 400 status code.
+            If the audio was converted to text successfully and indicate if a gig was created or 
+                not, return a 200 status code.
+            If the audio was not converted to text successfully or a gig could not be created, 
+                return an error message and a 400 status code.
     """
     data = request.data
     dater = get_object_or_404(Dater, user_id=data['user_id'])
@@ -1639,7 +1704,8 @@ def speech_to_text(request):
 @permission_classes([IsAuthenticated])
 def notify(request):
     """
-    Notify a user (any type) of something via a text or email depending on their communication preference.
+    Notify a user (any type) of something via a text or email depending on their 
+        communication preference.
 
     Args:
         request: Information about the request.
