@@ -13,7 +13,9 @@ const budget = ref(0.0)
 async function getCalendar() {
   const results = await makeRequest(`/api/dater/calendar/${user_id}/`);
   const dates = document.getElementById('dates')
-  console.log(results)
+
+  console.log("getCalendar results: ", results)
+
   // put calendar to screen
   for (let res of results) {
     const date = document.createElement('div')
@@ -38,7 +40,7 @@ async function getCalendar() {
 }
 
 async function addDate() {
-  console.log(newDate.value)
+  console.log("newDate.value: ", newDate.value)
   // Add to screen
   const dates = document.getElementById('dates')
 
