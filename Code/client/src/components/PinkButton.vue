@@ -1,4 +1,7 @@
 <script setup>
+defineProps({
+    id: String
+})
 </script>
 <template>
     <button :id="id" @click="$emit('click-forward')"><slot /></button>

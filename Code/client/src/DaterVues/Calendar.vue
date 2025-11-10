@@ -1,122 +1,165 @@
 <script setup>
-import { makeRequest } from '../utils/make_request';
-import {onMounted, ref} from 'vue';
-import NavSuite from '../components/NavSuite.vue';
+import { ref, computed, onMounted } from 'vue'
+import { Calendar } from 'v-calendar'
+import 'v-calendar/style.css'
 
-const user_id  = parseInt(window.location.hash.split('/')[3])
+import { makeRequest } from '../utils/make_request'
+import NavSuite from '../components/NavSuite.vue'
+import Popup from '../components/Popup.vue'
+import DateForm from './components/DateForm.vue'
+import PlanDateChat from './components/PlanDateChat.vue'
+import PinkButton from '../components/PinkButton.vue'
 
-const newDate = ref('')
-const addr = ref('')
-const desc = ref('')
-const budget = ref(0.0)
+const user_id = parseInt(window.location.hash.split('/')[3])
+
+const dates = ref([])
+const showDateForm = ref(false)
+const showPlanChat = ref(false)
+const dateFormData = ref(null)
+
+const attributes = computed(() =>
+  dates.value.map((date) => ({
+    key: date.id,
+    dates: [new Date(date.date_time)],
+    dot: {
+      color:
+        date.status === 'planned'
+          ? 'var(--secondary-red)'
+          : date.status === 'occurring'
+          ? 'var(--primary-red)'
+          : date.status === 'completed'
+          ? 'var(--secondary-blue)'
+          : 'gray',
+    },
+    popover: {
+      visibility: 'hover',
+    },
+    popoverLabel: `${date.location} - ${date.description}`,
+  }))
+)
 
 async function getCalendar() {
-  const results = await makeRequest(`/api/dater/calendar/${user_id}/`);
-  const dates = document.getElementById('dates')
-  console.log(results)
-  // put calendar to screen
-  for (let res of results) {
-    const date = document.createElement('div')
-    date.setAttribute('class', 'date')
-    date.setAttribute('id', res.id)
-    date.innerHTML = `
-      <h3>${res.date_time.split('T')[0]}</h3>
-      <span>${res.location}</span>
-      <span>${res.description}</span>
-      <span >${res.status}</span>
-    `
-    const button = document.createElement('button')
-    button.setAttribute('class', "button")
-    button.setAttribute('onclick', `${() => {
-      if (res.status === 'planned') res.status = 'completed'
-      else res.status = 'planned'
-    } }`)
-    button.innerText = 'Change Status'
-    date.appendChild(button)
-    dates.appendChild(date)
+  try {
+    const results = await makeRequest(`/api/dater/calendar/${user_id}/`)
+    dates.value = results || []
+  } catch (error) {
+    console.error('Error fetching calendar:', error)
+    dates.value = []
   }
 }
 
-async function addDate() {
-  console.log(newDate.value)
-  // Add to screen
-  const dates = document.getElementById('dates')
+function openAddDateForm() {
+  dateFormData.value = null
+  showDateForm.value = true
+}
 
-  const res = await makeRequest(`/api/dater/calendar/${user_id}/`, 'post', {
-    date_time: newDate.value,
-    location: addr.value,
-    description: desc.value,
-    status: 'planned',
-    budget: budget.value,
-  })
+function openPlanChat() {
+  showPlanChat.value = true
+}
 
-  const date = document.createElement('div')
-  date.setAttribute('class', 'date')
-  date.setAttribute('id', res.id)
-  date.innerHTML = `
-    <h3>${res.date_time.split('T')[0]}</h3>
-    <span>${res.location}</span>
-    <span>${res.status}</span>
-  `
-  const button = document.createElement('button')
-  button.setAttribute('class', "button")
-  button.setAttribute('onclick', `${() => {
-    if (res.status === 'planned') res.status = 'completed'
-    else res.status = 'planned'
-  } }`)
-  button.innerText = 'Change Status'
-  date.appendChild(button)
-  dates.appendChild(date)
+function closeDateForm() {
+  showDateForm.value = false
+  dateFormData.value = null
+}
+
+function closePlanChat() {
+  showPlanChat.value = false
+}
+
+function handleDateSelected(dateIdea) {
+  dateFormData.value = {
+    date_time: dateIdea.date_time || '',
+    location: dateIdea.location || '',
+    description: dateIdea.description || '',
+    budget: dateIdea.budget || 0.0,
+  }
+  showPlanChat.value = false
+  showDateForm.value = true
+}
+
+function handleDateSuccess() {
+  getCalendar()
 }
 
 onMounted(() => getCalendar())
 </script>
 
-<template>  
-    <NavSuite title='Calendar' profile='DaterProfile'>
-        <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
-        <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
-        <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
-        <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
-        <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
-        <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
-        <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
-    </NavSuite>
+<template>
+  <NavSuite title="Calendar" profile="DaterProfile">
+    <router-link class="link" :to="{ name: 'DaterHome', params: { id: user_id } }">Home</router-link>
+    <router-link class="link" :to="{ name: 'DaterProfile', params: { id: user_id } }">Profile</router-link>
+    <router-link class="link" :to="{ name: 'AiChat', params: { id: user_id } }">AI Chat</router-link>
+    <router-link class="link" :to="{ name: 'AiListen', params: { id: user_id } }">AI Listen</router-link>
+    <router-link class="link" :to="{ name: 'DaterGigs', params: { id: user_id } }">Gigs</router-link>
+    <router-link class="link" :to="{ name: 'CupidCash', params: { id: user_id } }">Balance</router-link>
+    <router-link class="link" :to="{ name: 'DaterFeedback', params: { id: user_id } }">Feedback</router-link>
+  </NavSuite>
 
-    <div class="mobile-container">
-      <div class="header">
-        <h2>View Upcoming Dates and Add New Dates!</h2>
-        <form class="form" @submit.prevent="addDate">
-          <label for="date">
-            Choose the Day
-          </label>
-          <input type="date" class="add-date" id="date" v-model="newDate">
-          <label for="addr">
-            Where are you Going?
-          </label>
-          <input type="text" class="add-date" id="addr" v-model="addr">
-          <label for="desc">
-            What will you be doing?
-          </label>
-          <input type="desc" class="add-date" id="desc" v-model="desc">
-          <label for="budget">
-            Max budget for Gigs ($XX.XX)
-          </label>
-          <input type="number" class="add-date" id="budget" v-model="budget">
-          <button class="button">Add!</button>
-        </form class="form">
-      </div>
-
-      <div class="dates" id="dates">
-
+  <div class="mobile-container">
+    <div class="header">
+      <h2>View Upcoming Dates and Add New Dates!</h2>
+      <div class="button-group">
+        <PinkButton @click-forward="openAddDateForm">Add Date</PinkButton>
+        <PinkButton @click-forward="openPlanChat">Plan a date w/ AI</PinkButton>
       </div>
     </div>
+
+    <div class="calendar-container">
+      <Calendar
+        :attributes="attributes"
+        :columns="2"
+        :rows="1"
+        expanded
+        class="calendar"
+      />
+    </div>
+
+    <div class="dates-list" v-if="dates.length > 0">
+      <h3>Upcoming Dates</h3>
+      <div v-for="date in dates" :key="date.id" class="date-item">
+        <div class="date-info">
+          <h4>
+            {{ new Date(date.date_time).toLocaleDateString() }}
+            at
+            {{
+              new Date(date.date_time).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+              })
+            }}
+          </h4>
+          <p><strong>Location:</strong> {{ date.location }}</p>
+          <p><strong>Description:</strong> {{ date.description }}</p>
+          <p v-if="date.budget"><strong>Budget:</strong> ${{ parseFloat(date.budget).toFixed(2) }}</p>
+          <p><strong>Status:</strong> {{ date.status }}</p>
+        </div>
+      </div>
+    </div>
+
+    <p v-else class="no-dates">No dates scheduled yet. Add one to get started!</p>
+  </div>
+
+  <Popup :data-active="showDateForm">
+    <DateForm
+      :user_id="user_id"
+      :initialData="dateFormData"
+      @close="closeDateForm"
+      @success="handleDateSuccess"
+    />
+  </Popup>
+
+  <Popup :data-active="showPlanChat">
+    <PlanDateChat
+      :user_id="user_id"
+      @close="closePlanChat"
+      @selectDate="handleDateSelected"
+    />
+  </Popup>
 </template>
 
 <style scoped>
-.container {
-  margin: 40px;
-  margin-top: 50px;
+.mobile-container {
+  padding: 20px;
 }
 
 .header {
@@ -125,46 +168,90 @@ onMounted(() => getCalendar())
   align-items: center;
   border-bottom: 4px solid var(--primary-red);
   color: var(--secondary-blue);
+  padding-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .header h2 {
   margin: 8px;
-  margin-bottom: 0px;
+  margin-bottom: 16px;
   color: var(--secondary-blue);
 }
 
-.form {
+.button-group {
   display: flex;
-  flex-flow: column wrap;
-  margin: 20px;
-  margin-top: 5px;
-  gap: 8px;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.form label {
+.calendar-container {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.calendar {
+  width: 100%;
+  max-width: 800px;
+}
+
+.dates-list {
+  margin-top: 30px;
+}
+
+.dates-list h3 {
+  color: var(--secondary-blue);
+  margin-bottom: 16px;
+}
+
+.date-item {
+  background-color: var(--secondary-blue);
+  color: white;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 12px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.date-info h4 {
+  margin: 0 0 8px 0;
+  color: var(--primary-red);
+}
+
+.date-info p {
+  margin: 4px 0;
+}
+
+.no-dates {
   text-align: center;
-  font-weight: bold;
+  color: var(--secondary-blue);
+  margin-top: 20px;
+  font-style: italic;
 }
 
-.add-date {
-  border: 2px solid rgba(128, 128, 128, 0.5);
-  border-radius: 4px;
+:deep(.vc-container) {
+  border: 2px solid var(--primary-red);
+  border-radius: 8px;
+}
+
+:deep(.vc-weeks) {
   padding: 8px;
 }
 
-.button {
-    display: flex;
-    justify-content: center;
-    background-color: var(--secondary-red);
-    border: none;
-    border-radius: 4px;
-    padding: 8px;
-    margin: 2px 4px;
-    color: white;
-    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.2);
+:deep(.vc-weekday) {
+  color: var(--secondary-blue);
+  font-weight: bold;
 }
 
-.button:hover {
-    filter: brightness(.7);
+:deep(.vc-day-content:hover) {
+  background-color: var(--secondary-red);
+  color: white;
+}
+
+:deep(.date-dot) {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
 }
 </style>
