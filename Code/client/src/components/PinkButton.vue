@@ -1,10 +1,15 @@
 <script setup>
-defineProps({
-    id: String
+const props = defineProps({
+    id: String,
+    type: {
+        type: String,
+        default: 'button',
+    },
 })
 </script>
+
 <template>
-    <button :id="id" @click="$emit('click-forward')"><slot /></button>
+    <button :id="props.id" :type="props.type" @click="$emit('click-forward')"><slot /></button>
 </template>
 <style scoped>
     button {

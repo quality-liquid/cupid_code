@@ -3,7 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import { Calendar } from 'v-calendar'
 import 'v-calendar/style.css'
 
-import { makeRequest } from '../utils/make_request'
+import { makeRequest, makeRequestRaw } from '../utils/make_request'
 import NavSuite from '../components/NavSuite.vue'
 import Popup from '../components/Popup.vue'
 import DateForm from './components/DateForm.vue'
@@ -81,6 +81,23 @@ function handleDateSuccess() {
   getCalendar()
 }
 
+async function deleteDate(id) {
+  if (!confirm('Delete this date? This action cannot be undone.')) return;
+  try {
+    const res = await makeRequestRaw(`/api/dater/calendar/${user_id}/`, 'delete', { id })
+    if (res.status === 204) {
+      await getCalendar()
+    } else {
+      const text = await res.text()
+      console.error('Delete failed', res.status, text)
+      alert(`Failed to delete date (${res.status}). See console for details.`)
+    }
+  } catch (error) {
+    console.error('Error deleting date:', error)
+    alert('Failed to delete date. Please try again.')
+  }
+}
+
 onMounted(() => getCalendar())
 </script>
 
@@ -132,6 +149,9 @@ onMounted(() => getCalendar())
           <p><strong>Description:</strong> {{ date.description }}</p>
           <p v-if="date.budget"><strong>Budget:</strong> ${{ parseFloat(date.budget).toFixed(2) }}</p>
           <p><strong>Status:</strong> {{ date.status }}</p>
+        </div>
+        <div class="date-actions">
+          <PinkButton @click-forward="() => deleteDate(date.id)">Delete</PinkButton>
         </div>
       </div>
     </div>

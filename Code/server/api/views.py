@@ -291,7 +291,7 @@ def get_messages(request, pk, count):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST', 'DELETE'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
 def calendar(request, pk):
@@ -322,6 +322,21 @@ def calendar(request, pk):
         return helpers.get_calendar(pk, request)
     elif request.method == 'POST':
         return helpers.save_calendar(request)
+    elif request.method == 'DELETE':
+        try:
+            helpers.authenticated_dater(pk, request.user)
+        except PermissionDenied:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        data = request.data
+        date_id = data.get('id') or data.get('date_id')
+        if not date_id:
+            return Response({'detail': 'Missing date id'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            date = Date.objects.get(id=date_id, dater__user=request.user)
+        except Date.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        date.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 

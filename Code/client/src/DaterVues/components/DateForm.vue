@@ -23,7 +23,20 @@ const budget = ref(0.0);
 
 watch(() => props.initialData, (newData) => {
   if (newData) {
-    dateTime.value = newData.date_time || '';
+    // If initial data contains an ISO datetime, extract the local date (YYYY-MM-DD)
+    if (newData.date_time) {
+      try {
+        const d = new Date(newData.date_time);
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        dateTime.value = `${y}-${m}-${day}`;
+      } catch (e) {
+        dateTime.value = newData.date_time || '';
+      }
+    } else {
+      dateTime.value = '';
+    }
     location.value = newData.location || '';
     description.value = newData.description || '';
     budget.value = newData.budget || 0.0;
@@ -37,8 +50,18 @@ async function submitDate() {
   }
 
   try {
+    // Convert date input (YYYY-MM-DD) to a timezone-safe ISO datetime.
+    // Creating a Date with local midday avoids timezone shifts that can make the
+    // stored date appear a day earlier/later when converted between UTC and local time.
+    let dateIso = dateTime.value;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateTime.value)) {
+      const [y, m, d] = dateTime.value.split('-').map(Number);
+      const dt = new Date(y, m - 1, d, 12, 0, 0); // local noon
+      dateIso = dt.toISOString();
+    }
+
     const res = await makeRequest(`/api/dater/calendar/${props.user_id}/`, 'post', {
-      date_time: dateTime.value,
+      date_time: dateIso,
       location: location.value,
       description: description.value,
       status: 'planned',
