@@ -48,6 +48,22 @@ selenium = "==4.37.0"
 stripe = "==13.0.1"
 
 
+# AI agents / LangGraph stack
+langchain = "*"
+langchain-core = "*"
+langchain-groq = "*"
+langgraph = "*"
+groq = "*"
+
+# Google APIs
+google-api-python-client = "*"
+google-auth = "*"
+google-auth-oauthlib = "*"
+
+# Speech / audio
+pyaudio = "*"
+
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
