@@ -49,19 +49,19 @@ stripe = "==13.0.1"
 
 
 # AI agents / LangGraph stack
-langchain = "*"
-langchain-core = "*"
-langchain-groq = "*"
-langgraph = "*"
-groq = "*"
+langchain = "==1.0.5"
+langchain-core = "==1.0.4"
+langchain-groq = "==1.0.0"
+langgraph = "==1.0.2"
+groq = "==0.33.0"
 
 # Google APIs
-google-api-python-client = "*"
-google-auth = "*"
-google-auth-oauthlib = "*"
+google-api-python-client = "==2.187.0"
+google-auth = "==2.43.0"
+google-auth-oauthlib = "==1.2.2"
 
 # Speech / audio
-pyaudio = "*"
+pyaudio = "==0.2.14"
 
 
 [build-system]
