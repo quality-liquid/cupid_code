@@ -27,6 +27,9 @@ from sendgrid.helpers.mail import Mail
 from twilio.rest import Client
 from speech_recognition import Recognizer, AudioFile 
 
+#TODO add groq to packages, should be done once Garrett's PR is merged
+from groq import Groq
+
 # Local
 from .models import User, Dater, Cupid, Date
 from .serializers import (
@@ -105,7 +108,47 @@ def save_serializer(serializer):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+def get_ai_groq_response(message: str, history: str):
+    """
+    Send the message to the AI and return the response
+    """
+    try:
+        client = Groq()
 
+        system_content = (
+            "You are a helpful assistant that gives advice to daters based on their requests."
+        )
+
+        chat_completion = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {
+                    "role": "system",
+                    "content": system_content
+                },
+                {
+                    "role": "system",
+                    "content": "Use the conversation history to provide context for your responses."
+                },
+                {
+                    "role": "system",
+                    "content": "The conversation history is as follows: " + history
+                },
+                {
+                    "role": "user",
+                    "content": message
+                }
+            ]
+        )
+
+        print(chat_completion)
+
+    except Exception as e:
+        #TODO how do I make this exception more informative?
+        return str(e)
+
+
+#TODO remove this once other function is working
 def get_ai_response(message: str):
     """
     Send the message to the AI and return the response.
