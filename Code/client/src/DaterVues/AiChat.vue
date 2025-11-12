@@ -11,11 +11,11 @@ let noChats = false
 
 const user_id  = parseInt(window.location.hash.split('/')[3])
 
-const chatCount = 10;
+const chatCount = 10; //TODO what is this doing?
 
 async function getChats() {
     const results = await makeRequest(`/api/chat/${user_id}/${chatCount}`);
-    console.log(results)
+    console.log("Results: ", results)
     // May need to split results chat to fit into array
     if (results === undefined) {
         chatArr.value = []
@@ -24,7 +24,7 @@ async function getChats() {
     else {
         chatArr.value = results.reverse()
     }
-    console.log(chatArr.value)
+    console.log("chatArr.value: ", chatArr.value)
 }
 
 async function send() {
