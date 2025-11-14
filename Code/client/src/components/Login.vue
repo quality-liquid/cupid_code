@@ -14,17 +14,6 @@ async function login() {
         email: email.value,
         password: password.value,
     })
-    // Add error class to which one is invalid
-    const doc = document.getElementById('error')
-    if (results.method === '400' || results.method === 400) {
-        doc.setAttribute('class', 'error shown')
-        return;
-    }
-    else {
-        doc.setAttribute('class', 'error')
-    }
-    
-    console.log(results)
     if (results.is_suspended) {
         router.push('/suspended')
     }
@@ -60,7 +49,7 @@ async function login() {
                 Password
                 <input type="password" placeholder="Password" id="password" name="password" v-model="password">
             </label>
-            <PinkButton id="sign_in">Sign In</PinkButton>
+            <PinkButton id="sign_in" type="submit">Sign In</PinkButton>
         </form>
     </div>
     <div class="atag">
