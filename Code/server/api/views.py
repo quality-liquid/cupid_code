@@ -242,14 +242,16 @@ def send_chat_message(request):
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     # send a message to AI
-    ai_response = helpers.get_ai_response(message)
-    # save AI's response to database
-    serializer = MessageSerializer(data={'owner': user_id, 'text': ai_response, 'from_ai': True})
-    if serializer.is_valid():
-        serializer.save()
-        return Response({'message': ai_response}, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    # return AI's response
+    ai_response = helpers.get_ai_groq_response(message)
+    print("AI Response: ", ai_response)
+    
+    # # save AI's response to database
+    # serializer = MessageSerializer(data={'owner': user_id, 'text': ai_response, 'from_ai': True})
+    # if serializer.is_valid():
+    #     serializer.save()
+    #     return Response({'message': ai_response}, status=status.HTTP_200_OK)
+    # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # # return AI's response
 
 
 @api_view(['GET'])
@@ -385,7 +387,8 @@ def create_date(request):
     For a dater.
     Creates a new date for the dater.
     Args (request.post):
-        date_time(str): ISO 8601 timestamp (I fed output back into API, and GPT said that was the date format)
+        date_time(str): ISO 8601 timestamp (I fed output back into API, 
+            and GPT said that was the date format)
         location(str): Location of date
         description(str): Arbitrary description
     Returns:
@@ -536,7 +539,9 @@ def stripe_webhook(request):
     sig_header = request.META.get('HTTP_STRIPE_SIGNATURE', '')
     try:
         event = stripe.Webhook.construct_event(
-            payload=payload, sig_header=sig_header, secret=getattr(settings, 'STRIPE_WEBHOOK_SECRET', None)
+            payload=payload, 
+            sig_header=sig_header, 
+            secret=getattr(settings, 'STRIPE_WEBHOOK_SECRET', None)
         )
     except ValueError:
         # Invalid payload
@@ -1252,7 +1257,8 @@ def get_activities(request, pk):
 @permission_classes([IsAuthenticated])
 def get_events(request, pk):
     """
-    Reaches out to an API with an address to get current entertainment events near that address location.
+    Reaches out to an API with an address to get current entertainment events near that address 
+        location.
 
     Args:
         request: Information about the request.

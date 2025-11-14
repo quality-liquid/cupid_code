@@ -11,6 +11,7 @@ from django.contrib.sessions.models import Session
 from django.utils import timezone
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, get_list_or_404
+from django.conf import settings
 
 # Rest Framework
 from rest_framework.response import Response
@@ -27,7 +28,7 @@ from sendgrid.helpers.mail import Mail
 from twilio.rest import Client
 from speech_recognition import Recognizer, AudioFile 
 
-#TODO add groq to packages, should be done once Garrett's PR is merged
+# Groq AI
 from groq import Groq
 
 # Local
@@ -100,7 +101,8 @@ def retrieved_response(serializer):
 
 def save_serializer(serializer):
     """
-    This method is to make validating information is changed and saved correctly, and it returns a 201.
+    This method is to make validating information is changed and saved correctly, 
+        and it returns a 201.
     Returns 400 if it failed.
     """
     if serializer.is_valid():
@@ -108,12 +110,14 @@ def save_serializer(serializer):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def get_ai_groq_response(message: str, history: str):
+
+def get_ai_groq_response(message: str, history: str = "") -> str:
     """
     Send the message to the AI and return the response
     """
     try:
-        client = Groq()
+        api_key = getattr(settings, "GROQ_API_KEY", None)
+        client = Groq(api_key)
 
         system_content = (
             "You are a helpful assistant that gives advice to daters based on their requests."
@@ -141,7 +145,7 @@ def get_ai_groq_response(message: str, history: str):
             ]
         )
 
-        print(chat_completion)
+        return chat_completion.choices[0].message.content
 
     except Exception as e:
         #TODO how do I make this exception more informative?
@@ -161,7 +165,12 @@ def get_ai_response(message: str):
         # Tokenize input text
         input_ids = tokenizer.encode(message, return_tensors='pt')
         # Generate response
-        output = model.generate(input_ids, max_length=100, num_return_sequences=1, early_stopping=True)
+        output = model.generate(
+            input_ids, 
+            max_length=100, 
+            num_return_sequences=1, 
+            early_stopping=True
+        )
         # Decode and return response
         response = tokenizer.decode(output[0], skip_special_tokens=True)
         return response
@@ -172,7 +181,8 @@ def get_ai_response(message: str):
 def save_calendar(request):
     try:
         data = request.data
-        # TODO: Either us or the frontend needs to determine a planned location, then save the geo coords
+        # TODO: Either us or the frontend needs to determine a planned location, 
+        # then save the geo coords
         data['location'] = get_location_string(request.META['REMOTE_ADDR'])
         data['dater'] = request.user.id
         serializer = DateSerializer(data=data)
@@ -254,7 +264,11 @@ def locations_are_near(location1, location2, max_distance_miles):
     latitude2 = latitude2.strip(',')
     # TODO: Expand quest or give frontend an api for getting quests.
     return within_distance(
-        float(latitude1), float(longitude1), float(latitude2), float(longitude2), float(max_distance_miles)
+        float(latitude1),
+        float(longitude1),
+        float(latitude2),
+        float(longitude2),
+        float(max_distance_miles)
     )
 
 
@@ -286,7 +300,12 @@ def call_yelp_api(pk, search):
     api_key = get_yelp_api_key()
     with YelpAPI(api_key, timeout_s=5.0) as yelp_api:
         try:
-            return yelp_api.search_query(term=search, latitude=latitude, longitude=longitude, limit=10)
+            return yelp_api.search_query(
+                term=search,
+                latitude=latitude,
+                longitude=longitude,
+                limit=10
+            )
         except YelpAPI.YelpAPIError as e:
             return None
 
@@ -461,11 +480,13 @@ def get_message_from_audio(audio_data, dater):
                           The purpose of a gig is to tell a Cupid what to do to save the date. 
                           If a gig is created, the Cupid will be able to see the gig and accept it. 
                           A gig will need to know what items are requested for the date. 
-                          The budget for the gig will be the amount of money the Dater is willing to spend on the date.
+                          The budget for the gig will be the amount of money the Dater 
+                            is willing to spend on the date.
                           Budget: {dater.budget}
                           Please give your response in the following form:
                               Create gig: True or False
-                              Items requested: Flowers, Chocolate, etc. or NA if no items are requested
+                              Items requested: Flowers, Chocolate, etc. or NA if no items 
+                                are requested
                           The text is: 
 
                           """
