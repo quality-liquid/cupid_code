@@ -14,6 +14,17 @@ async function login() {
         email: email.value,
         password: password.value,
     })
+    // Add error class to which one is invalid
+    const doc = document.getElementById('error')
+    if (results.method === '400' || results.method === 400) {
+        doc.setAttribute('class', 'error shown')
+        return;
+    }
+    else {
+        doc.setAttribute('class', 'error')
+    }
+    
+    console.log(results)
     if (results.is_suspended) {
         router.push('/suspended')
     }
