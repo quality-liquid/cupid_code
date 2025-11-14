@@ -13,7 +13,8 @@ ADD_CLIENT_API_KEY="false"
 if [ -f "server/.env" ]; then
     echo "Server .env already exists. Skipping creation..."
     if grep -q 'STRIPE_SECRET_KEY=""' server/.env || \
-        grep -q 'STRIPE_WEBHOOK_SECRET=""' server/.env; then
+        grep -q 'STRIPE_WEBHOOK_SECRET=""' server/.env || \
+        grep -q 'GROQ_API_KEY=""' server/.env; then
         ADD_SERVER_API_KEY="true"
     fi
 else
@@ -59,8 +60,8 @@ npm ci
 cd .. || exit
 
 # Print help message to remind developer to add in API keys
-TODO_MSG="\033[31mTODO: One or more API keys in the %s .env file are not set, "
-TODO_MSG+="set keys to finish setup!"
+TODO_MSG="\e[31mTODO: One or more API keys in the %s .env file are not set, "
+TODO_MSG+="set keys to finish setup!\e[0m"
 
 if [ $ADD_SERVER_API_KEY = "true" ]; then
     printf "\n$TODO_MSG\n" "server"
