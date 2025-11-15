@@ -1789,7 +1789,7 @@ def date_ideas(request):
                             based on the user's input and preferences. 
                             Also factor in their user data, including their location.
                             Also factor in weather conditions if relevant.
-                            Number them 1, 2, and 3. Keep each idea consice and it it's own paragraph.                   
+                            Number them 1, 2, and 3. Keep each idea consice and in it's own paragraph.                   
                             Prompt the user to pick one of the ideas by number.
                             Format the message in html, using <p> for paragraphs and <br> for line breaks.""",
             },

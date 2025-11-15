@@ -1,5 +1,5 @@
 <script setup>
-import { h, ref } from 'vue';
+import { ref } from 'vue';
 import { makeRequest } from '../../utils/make_request';
 import PinkButton from '../../components/PinkButton.vue';
 import DateForm from './DateForm.vue';
