@@ -17,19 +17,60 @@ const amount = ref(0)
 const clientSecret = ref('')
 const elementsRef = ref(null)
 
-const returnUrl = `${window.location.origin}${router.currentRoute.value.fullPath}`;
+const returnUrl = `${window.location.origin.split('?')[0]}/#/dater/balance/${user_id}`
+console.log(returnUrl)
 
 async function addFunds() {
     const res = await makeRequest(`/api/dater/payment/${user_id}/`, 'post', {
         amount: amount.value
     })
     clientSecret.value = res.client_secret
-    const options = {
-        clientSecret: clientSecret.value,
-        appearance: {
-            theme: 'stripe',
-        },
-    };
+        // Build Stripe appearance using app CSS variables so the Payment Element matches
+        // the app color palette and adapts to dark mode where possible.
+        function cssVar(name, fallback) {
+            try {
+                const v = getComputedStyle(document.documentElement).getPropertyValue(name)
+                if (v) return v.trim()
+            } catch (e) {
+                // ignore
+            }
+            return fallback
+        }
+
+        function getStripeAppearance() {
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+            // Common app variables used across components
+            const colorPrimary = cssVar('--secondary-red', '#e55353')
+            const colorBackground = cssVar('--primary-white', prefersDark ? '#0b0b0b' : '#ffffff')
+            const colorText = cssVar('--primary-foreground', prefersDark ? '#f6f6f6' : '#111115')
+            const colorDanger = cssVar('--destructive', '#ff4d4f')
+            const colorBorder = cssVar('--accent', prefersDark ? '#2b2b2b' : '#e6e6e6')
+            const colorPlaceholder = cssVar('--secondary-blue', '#6b7280')
+
+            return {
+                theme: 'stripe',
+                variables: {
+                    colorPrimary,
+                    colorBackground,
+                    colorText,
+                    colorDanger,
+                    colorBorder,
+                    colorPlaceholder,
+                    fontFamily: cssVar('--font-family', 'Inter, system-ui, sans-serif'),
+                    borderRadius: cssVar('--radius', '8px'),
+                },
+                rules: {
+                    '.Label': { color: colorText },
+                    '.Input, .Block': { color: colorText, background: colorBackground },
+                    '.Input::placeholder': { color: colorPlaceholder },
+                },
+            }
+        }
+
+        const options = {
+            clientSecret: clientSecret.value,
+            appearance: getStripeAppearance(),
+        };
     // initialize Elements and mount the Payment Element
     elementsRef.value = stripe.value.elements(options)
     const paymentElementOptions = { layout: 'accordion' };
