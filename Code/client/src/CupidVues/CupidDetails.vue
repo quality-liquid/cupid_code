@@ -15,6 +15,40 @@
     const lname = ref('')
     const username = ref('')
 
+    //Stripe info
+    const stripe_account = ref(false)
+    const transferLoading = ref(false)
+
+    async function transferFunds() {
+        // Request the backend to transfer the Cupid's balance to their bank/Stripe account.
+        transferLoading.value = true
+        try {
+            const results = await makeRequest(`/api/cupid/transfer/`, 'post')
+            // If backend returns a url for further action, redirect. Otherwise show message.
+            if (results.url) window.location.href = results.url
+            else if (results && typeof results === 'object') alert(JSON.stringify(results))
+        } finally {
+            transferLoading.value = false
+        }
+        getData()
+    }
+
+    async function createStripeAccount() {
+        // Create a Stripe Express account for this cupid (server will attach to current user)
+        const res = await makeRequest('/api/cupid/create_stripe_account/')
+        if (res.account_id) {
+            // Request an onboarding link; pass account_id as query param to be robust
+            const linkRes = await makeRequest(`/api/cupid/create_onboarding_link/`, 'post', {account_id: res.account_id})
+            if (linkRes.url) window.location.href = linkRes.url
+            else alert('Stripe account created: ' + res.account_id)
+        } else if (res.url) {
+            // some implementations may return an onboarding url directly
+            window.location.href = res.url
+        } else {
+            alert('Failed to create Stripe account')
+        }
+    }
+
     //Cupid info
     const accepting_gigs = ref(false)
     const balance = ref(0)
@@ -63,6 +97,7 @@
         range.value = cupid.gig_range
         gigs_completed.value = cupid.gigs_completed
         gigs_failed.value = cupid.gigs_failed
+        stripe_account.value = cupid.stripe_account_id !== null
     }
 
     onMounted(getData)
@@ -81,6 +116,13 @@
         <CupidCoin :active="accepting_gigs" @click="toggleAccept"/>
         <div class="card">
             <p id="balance">${{ balance }}</p>
+            <!-- Add a button to remove funds if they have a stripe account, else button to create a stripe account -->
+            <div style="display:flex; gap:8px; justify-content:center; margin-top:8px;">
+                <button v-if="stripe_account" class="button" @click.prevent="transferFunds" :disabled="transferLoading">
+                    {{ transferLoading ? 'Processing...' : 'Withdraw funds' }}
+                </button>
+                <button v-else class="button" @click.prevent="createStripeAccount">Create Stripe Account</button>
+            </div>
             <hr></hr>
             <p id="succesful">{{ gigs_completed }} gigs succesful of {{ gigs_failed + gigs_completed}}</p>
         </div>

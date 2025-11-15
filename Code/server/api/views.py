@@ -742,55 +742,6 @@ def cupid_accepting(request):
     return Response(status=status.HTTP_200_OK)
 
 
-@api_view(['POST'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
-def cupid_transfer(request):
-    """
-    Performs financial transfer from a Cupid's balance to their bank account.
-
-    Args:
-        request: Information about the request.
-            request.post: The json data sent to the server.
-    Returns:
-        Response:
-            If the transfer went through successfully, return a 200 status code.
-            If the transfer failed, return a corresponding error status code 
-                (400 if on our end, 500 if on bank's end)
-    """
-    helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
-    cupid = get_object_or_404(Cupid, user_id=request.user.id)
-    bank_account = get_object_or_404(BankAccount, user=cupid.user)
-    amount = cupid.cupid_cash_balance
-    cupid.cupid_cash_balance = 0
-    cupid.save()
-    return Response({f"Transferring {amount} to {bank_account.routing_number}"},
-                    status=status.HTTP_200_OK)
-
-
-@api_view(['POST'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
-def save_bank_account(request):
-    """
-    For a cupid.
-    Creates a new bank account and saves it.
-
-    Args (request.post):
-       routing_number(str): The routing number
-       account_number(str): The account number
-
-    Returns:
-        Response:
-            serialized card.
-
-    """
-    data = request.data
-    helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
-    data['user'] = request.user.id
-    serializer = BankAccountSerializer(data=data)
-    return helpers.save_serializer(serializer)
-
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
@@ -805,23 +756,46 @@ def create_stripe_account(request):
     """
     helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
     cupid = get_object_or_404(Cupid, user=request.user)
+
+    # Ensure a server-side Stripe secret key is configured
+    if not getattr(settings, 'STRIPE_SECRET_KEY', None):
+        return Response(
+            {'error': 'Server Stripe secret key is not configured. Please set STRIPE_SECRET_KEY in settings.'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
     if cupid.stripe_account_id:
         return Response({'account_id': cupid.stripe_account_id}, status=status.HTTP_200_OK)
-    account = Account.create(
-        type="express",
-        country="US",
-        capabilities={
-            "transfers": {"requested": True},
-        },
-    )
+
+    try:
+        account = Account.create(
+            type="express",
+            country="US",
+            capabilities={
+                "transfers": {"requested": True},
+            },
+        )
+    except StripeError as e:
+        # Provide a clearer response to the frontend and include the Stripe message for logs.
+        err_str = str(e)
+        if 'signed up for Connect' in err_str or 'You can only create new accounts' in err_str:
+            user_msg = (
+                "Stripe Connect is not enabled for the configured Stripe account. "
+                "Make sure STRIPE_SECRET_KEY is a platform secret key with Connect enabled (see https://stripe.com/docs/connect)."
+            )
+            return Response({'error': user_msg, 'stripe_error': err_str}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Stripe error creating account', 'stripe_error': err_str}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     cupid.stripe_account_id = account['id']
     cupid.save()
     return Response({'account_id': account['id']}, status=status.HTTP_200_OK)
 
-@api_view(['GET'])
+@api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def create_onboarding_link(request, account_id):
+def create_onboarding_link(request):
     """
     Creates an account onboarding link for the given Stripe account ID.
     Args:
@@ -833,35 +807,48 @@ def create_onboarding_link(request, account_id):
     """
     helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
     cupid = get_object_or_404(Cupid, user=request.user)
+    data = request.data
+    account_id = data.get('account_id')
     if cupid.stripe_account_id != account_id:
         return Response(
             {'error': 'Account ID does not match authenticated user.'}, 
             status=status.HTTP_403_FORBIDDEN
         )
+    # Build refresh and return URLs. Prefer explicit settings if provided, otherwise
+    # fall back to constructing absolute URLs from the incoming request so the
+    # onboarding flow returns to this app/front-end.
+    refresh_url = getattr(settings, 'STRIPE_ONBOARDING_REFRESH_URL', None)
+    return_url = getattr(settings, 'STRIPE_ONBOARDING_RETURN_URL', None)
+    frontend_base = getattr(settings, 'FRONTEND_BASE_URL', None)
+    if not refresh_url or not return_url:
+        if frontend_base:
+            base = frontend_base.rstrip('/')
+        else:
+            # build_absolute_uri('/') returns a string like 'http://host:port/'
+            base = request.build_absolute_uri('/')[:-1]
+        refresh_url = refresh_url or f"{base}/#/cupid/profile/{cupid.user.id}"
+        return_url = return_url or f"{base}/#/cupid/profile/{cupid.user.id}"
+
     link = AccountLink.create(
         account=account_id,
-        refresh_url="https://example.com/reauth",
-        return_url="https://example.com/return",
+        refresh_url=refresh_url,
+        return_url=return_url,
         type="account_onboarding",
     )
     return Response({'url': link['url']}, status=status.HTTP_200_OK)
 
-@api_view(['GET'])
+@api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def transfer_out(request, amount):
+def transfer_out(request):
     """
     For a cupid.
     Transfers money from the platform's Stripe account to the authenticated Cupid's Stripe account.
 
-    Args:
-        request: Information about the request.
-        amount (float): The amount to transfer.
-    Returns:
-        Response:
-            If the transfer was successful, return a 200 status code.
-            If the transfer failed, return a corresponding error status code 
-                (400 if on our end, 500 if on bank's end)
+    Accepts POST with optional JSON body: {"amount": 12.34}
+    If amount is omitted, transfers the entire cupid.cupid_cash_balance.
+
+    Returns JSON with status and transfer id on success.
     """
     helpers.update_user_location(request.user, request.META['REMOTE_ADDR'])
     cupid = get_object_or_404(Cupid, user=request.user)
@@ -870,6 +857,24 @@ def transfer_out(request, amount):
             {'error': 'Cupid does not have a Stripe account.'}, 
             status=status.HTTP_400_BAD_REQUEST
         )
+
+    # Read amount from POST body (JSON). If missing, use full balance.
+    try:
+        data = request.data
+        requested_amount = data.get('amount')
+        if requested_amount is None:
+            amount = cupid.cupid_cash_balance
+        else:
+            amount = float(requested_amount)
+    except Exception:
+        return Response({'error': 'Invalid amount'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Validate amount
+    if amount <= 0:
+        return Response({'error': 'Amount must be greater than 0'}, status=status.HTTP_400_BAD_REQUEST)
+    if amount > float(cupid.cupid_cash_balance):
+        return Response({'error': 'Insufficient cupid cash balance'}, status=status.HTTP_400_BAD_REQUEST)
+
     try:
         transfer = Transfer.create(
             amount=int(amount * 100),
@@ -877,6 +882,11 @@ def transfer_out(request, amount):
             destination=cupid.stripe_account_id,
             transfer_group="{ORDER10}",
         )
+
+        # Decrease cupid balance (use Decimal math)
+        cupid.cupid_cash_balance = Decimal(cupid.cupid_cash_balance) - Decimal(str(amount))
+        cupid.save()
+
         return Response(
             {'status': 'Transfer successful', 'transfer_id': transfer['id']}, 
             status=status.HTTP_200_OK
@@ -938,7 +948,7 @@ def set_cupid_profile(request):
         Response:
             If the profile was created or changed successfully, return a 200 status code.
             If the profile failed to be created or changed 
-                (insufficent permissions, bad data, or error), return a 400 status code.
+                (insufficient permissions, bad data, or error), return a 400 status code.
     """
     data = request.data
     data['location'] = helpers.get_location_string(request.META['REMOTE_ADDR'])
