@@ -15,8 +15,8 @@ from api.models import User
 # Load manifest when server launches
 MANIFEST = {}
 if not settings.DEBUG:
-    f = open(f'{settings.BASE_DIR}/core/static/core/.vite/manifest.json')
-    MANIFEST = load_json(f)
+    file = open(f'{settings.BASE_DIR}/core/static/core/.vite/manifest.json')
+    MANIFEST = load_json(file)
 
 
 def index(req):
