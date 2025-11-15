@@ -22,7 +22,6 @@ const history = [];
 
 async function initialMessage() {
   const response = await makeRequest(`/api/dateAI/initial_msg`, 'get');
-  // console.log('Initial message response:', response);
   return response.message[0][1];
 }
 
@@ -57,7 +56,6 @@ async function sendMessage() {
 
       //date ideas takes arguments (repsonse, history)
       const aiDateIdeas = await makeRequest(`/api/dateAI/date_ideas/?history=${encodeURIComponent(JSON.stringify(history))}`, 'get');
-
       chatMessages.value.push({
         text: aiDateIdeas.message[0][1],
         from_ai: true
@@ -95,6 +93,7 @@ function cancel() {
 }
 
 function openDateForm(dateData) {
+  chatMessages.value = [];
   emit('selectDate', dateData);
   emit('close');
 }
@@ -115,7 +114,7 @@ function openDateForm(dateData) {
       </div>
       
       <div v-for="(msg, index) in chatMessages" :key="index" :class="msg.from_ai ? 'chat response' : 'chat sent'">
-        {{ msg.text }}
+        <span v-html="msg.text"></span>
       </div>
       
       <div v-if="isLoading" class="chat response">

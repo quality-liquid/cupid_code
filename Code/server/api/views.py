@@ -1777,6 +1777,7 @@ def date_ideas(request):
         history = json.loads(history)
     else:
         return Response({'error': 'No chat history provided.'}, status=status.HTTP_400_BAD_REQUEST)
+    dater = get_object_or_404(Dater, user_id=request.user.id)
     client = Groq(
         api_key=os.environ.get("GROQ_API_KEY"),
     )
@@ -1785,14 +1786,31 @@ def date_ideas(request):
             {
                 "role": "system",
                 "content": """Suggest exactly 3 (no more or less) date ideas 
-                            based on the user's input and preferences.
-                            Number them 1, 2, and 3. 
-                            Prompt the user to pick one of the ideas by number.""",
+                            based on the user's input and preferences. 
+                            Also factor in their user data, including their location.
+                            Also factor in weather conditions if relevant.
+                            Number them 1, 2, and 3. Keep each idea consice and it it's own paragraph.                   
+                            Prompt the user to pick one of the ideas by number.
+                            Format the message in html, using <p> for paragraphs and <br> for line breaks.""",
             },
             {
                 "role": "system",
                 "content": "chat history: " + str(history),
-            }
+            },
+            {
+                "role": "system",
+                "content": f"user data: name={dater.user.first_name} "
+                           f"budget={dater.budget}"
+                           f"description={dater.description} "
+                           f"dating strengths={dater.dating_strengths} "
+                           f"dating weaknesses={dater.dating_weaknesses} "
+                           f"interests={dater.interests} "
+                           f"dating history={dater.past} "
+                           f"nerd type={dater.nerd_type} "
+                           f"relationship goals={dater.relationship_goals} "
+                           f"degree of AI help needed={dater.ai_degree} "
+                           f"location={dater.location}."
+                            }
         ],
         model="llama-3.3-70b-versatile",
     )
