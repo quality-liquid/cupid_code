@@ -127,7 +127,8 @@ onMounted(async () => {
 </script>
 
 <template>
-    <NavSuite title='Add Cash' profile='DaterProfile'>
+    <div class="cupid-cash-page">
+        <NavSuite title='Add Cash' profile='DaterProfile'>
         <router-link class="link" :to="{ name: 'DaterHome', params: { id: user_id } }"> Home </router-link>
         <router-link class="link" :to="{ name: 'DaterProfile', params: { id: user_id } }"> Profile </router-link>
         <router-link class="link" :to="{ name: 'Calendar', params: { id: user_id } }"> Calendar </router-link>
@@ -135,6 +136,7 @@ onMounted(async () => {
         <router-link class="link" :to="{ name: 'AiListen', params: { id: user_id } }"> AI Listen </router-link>
         <router-link class="link" :to="{ name: 'DaterGigs', params: { id: user_id } }"> Gigs </router-link>
         <router-link class="link" :to="{ name: 'DaterFeedback', params: { id: user_id } }"> Feedback </router-link>
+        <router-link class="link" :to="{ name: 'NotificationCenter', params: { id: user_id } }"> Notifications </router-link>
     </NavSuite>
     <div class="mobile-container">
         <h1>{{ 'Current balance: $' + balance }}</h1>
@@ -149,6 +151,7 @@ onMounted(async () => {
                 <!--Stripe.js injects the Payment Element-->
             </div>
         </form>
+    </div>
     </div>
 </template>
 

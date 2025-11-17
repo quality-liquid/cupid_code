@@ -102,6 +102,7 @@ onMounted(() => getCalendar())
 </script>
 
 <template>
+  <div class="calendar-page">
   <NavSuite title="Calendar" profile="DaterProfile">
     <router-link class="link" :to="{ name: 'DaterHome', params: { id: user_id } }">Home</router-link>
     <router-link class="link" :to="{ name: 'DaterProfile', params: { id: user_id } }">Profile</router-link>
@@ -110,6 +111,7 @@ onMounted(() => getCalendar())
     <router-link class="link" :to="{ name: 'DaterGigs', params: { id: user_id } }">Gigs</router-link>
     <router-link class="link" :to="{ name: 'CupidCash', params: { id: user_id } }">Balance</router-link>
     <router-link class="link" :to="{ name: 'DaterFeedback', params: { id: user_id } }">Feedback</router-link>
+    <router-link class="link" :to="{ name: 'NotificationCenter', params: { id: user_id } }">Notifications</router-link>
   </NavSuite>
 
   <div class="mobile-container">
@@ -175,6 +177,7 @@ onMounted(() => getCalendar())
       @selectDate="handleDateSelected"
     />
   </Popup>
+  </div>
 </template>
 
 <style scoped>
