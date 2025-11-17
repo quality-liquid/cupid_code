@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { makeRequest } from '../../utils/make_request';
 import PinkButton from '../../components/PinkButton.vue';
+import DateForm from './DateForm.vue';
 
 const props = defineProps({
   user_id: {
@@ -16,8 +17,22 @@ const message = ref('');
 const isLoading = ref(false);
 const dateIdeas = ref([]);
 const chatMessages = ref([]);
+const initialMsg = ref('');
+const history = [];
+
+async function initialMessage() {
+  const response = await makeRequest(`/api/dateAI/initial_msg`, 'get');
+  return response.message[0][1];
+}
 
 async function sendMessage() {
+  if (chatMessages.value.length === 0 && initialMsg.value) {
+    chatMessages.value.push({
+      text: initialMsg.value,
+      from_ai: true
+    });
+  }
+    
   if (!message.value.trim()) return;
 
   chatMessages.value.push({
@@ -35,34 +50,26 @@ async function sendMessage() {
       message: userMessage
     });
 
-    // Expected response format from backend:
-    // {
-    //   date_ideas: [
-    //     { date_time: '2024-01-15T18:00:00', location: '...', description: '...', budget: 50.00 },
-    //     { date_time: '2024-01-15T19:00:00', location: '...', description: '...', budget: 75.00 },
-    //     { date_time: '2024-01-15T20:00:00', location: '...', description: '...', budget: 100.00 }
-    //   ]
-    // }
-    
-    if (response.date_ideas && Array.isArray(response.date_ideas)) {
-      dateIdeas.value = response.date_ideas;
-      
-      // Add AI response to chat
+    if(chatMessages.value.length === 2){
+      history.push("role: assistant, content: " + initialMsg.value);
+      history.push("role: user, content: " + userMessage);
+
+      //date ideas takes arguments (repsonse, history)
+      const aiDateIdeas = await makeRequest(`/api/dateAI/date_ideas/?history=${encodeURIComponent(JSON.stringify(history))}`, 'get');
       chatMessages.value.push({
-        text: 'Here are three date ideas for you! Click on one to add it to your calendar.',
+        text: aiDateIdeas.message[0][1],
         from_ai: true
       });
-    } else {
-      // Fallback if response format is different
-      chatMessages.value.push({
-        text: response.message || 'I received your request. Here are some date ideas!',
-        from_ai: true
-      });
-      
-      // If backend returns ideas in different format, adapt here
-      if (response.ideas) {
-        dateIdeas.value = response.ideas;
-      }
+
+      history.push("role: assistant, content: " + aiDateIdeas.message[0][1]);
+    }
+    if (chatMessages.value.length > 3){
+      history.push("role: user, content: " + userMessage);
+
+      const date = await makeRequest(`/api/dateAI/date_plan/?history=${encodeURIComponent(JSON.stringify(history))}`, 'get');
+
+      const dateData = JSON.parse(date.message[0][1]);
+      openDateForm(dateData);
     }
   } catch (error) {
     console.error('Error getting date ideas:', error);
@@ -81,8 +88,20 @@ function selectDateIdea(dateIdea) {
 }
 
 function cancel() {
+  chatMessages.value = [];
   emit('close');
 }
+
+function openDateForm(dateData) {
+  chatMessages.value = [];
+  emit('selectDate', dateData);
+  emit('close');
+}
+
+(async () => {
+  initialMsg.value = await initialMessage();
+})();
+
 </script>
 
 <template>
@@ -91,11 +110,11 @@ function cancel() {
     
     <div class="chat-container" id="chat-container">
       <div v-if="chatMessages.length === 0" class="welcome-message">
-        <p>Tell me about what kind of date you'd like to plan, and I'll suggest three great options!</p>
+        <p>{{ initialMsg }}</p>
       </div>
       
       <div v-for="(msg, index) in chatMessages" :key="index" :class="msg.from_ai ? 'chat response' : 'chat sent'">
-        {{ msg.text }}
+        <span v-html="msg.text"></span>
       </div>
       
       <div v-if="isLoading" class="chat response">

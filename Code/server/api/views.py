@@ -1,6 +1,7 @@
 # Standard Library
 from datetime import datetime
 from json import loads as deseralize_json
+import json
 
 import stripe
 
@@ -76,6 +77,8 @@ from decimal import Decimal
 # Text and Email notifications API (Twilio) https://www.twilio.com/en-us
 # Nearby Shops API (yelpapi) https://pypi.org/project/yelpapi/
 
+import os
+from groq import Groq
 
 @api_view(['POST'])
 def create_user(request):
@@ -1759,3 +1762,104 @@ def notify(request):
         return helpers.send_text(account_sid, auth_token, message)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def initial_msg(request):
+    client = Groq(
+        api_key=os.environ.get("GROQ_API_KEY"),
+    )
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": """You are a romantic date planner. 
+                    Start by greeting the user and asking for their ideas for the date 
+                    and any information about their partner. Keep this message concise.""",
+            }
+        ],
+        model="llama-3.3-70b-versatile",
+    )
+
+    return Response({'message': chat_completion.choices[0].message}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def date_ideas(request):
+    history = request.GET.get('history')
+    if history:
+        history = json.loads(history)
+    else:
+        return Response({'error': 'No chat history provided.'}, status=status.HTTP_400_BAD_REQUEST)
+    dater = get_object_or_404(Dater, user_id=request.user.id)
+    client = Groq(
+        api_key=os.environ.get("GROQ_API_KEY"),
+    )
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "system",
+                "content": """Suggest exactly 3 (no more or less) date ideas 
+                            based on the user's input and preferences. 
+                            Also factor in their user data, including their location.
+                            Also factor in weather conditions if relevant.
+                            Number them 1, 2, and 3. Keep each idea consice and in it's own paragraph.                   
+                            Prompt the user to pick one of the ideas by number.
+                            Format the message in html, using <p> for paragraphs and <br> for line breaks.""",
+            },
+            {
+                "role": "system",
+                "content": "chat history: " + str(history),
+            },
+            {
+                "role": "system",
+                "content": f"user data: name={dater.user.first_name} "
+                           f"budget={dater.budget}"
+                           f"description={dater.description} "
+                           f"dating strengths={dater.dating_strengths} "
+                           f"dating weaknesses={dater.dating_weaknesses} "
+                           f"interests={dater.interests} "
+                           f"dating history={dater.past} "
+                           f"nerd type={dater.nerd_type} "
+                           f"relationship goals={dater.relationship_goals} "
+                           f"degree of AI help needed={dater.ai_degree} "
+                           f"location={dater.location}."
+                            }
+        ],
+        model="llama-3.3-70b-versatile",
+    )
+
+    return Response({'message': chat_completion.choices[0].message}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def date_plan(request):
+    history = request.GET.get('history')
+    if history:
+        history = json.loads(history)
+    else:
+        return Response({'error': 'No chat history provided.'}, status=status.HTTP_400_BAD_REQUEST)
+    client = Groq(
+        api_key=os.environ.get("GROQ_API_KEY"),
+    )
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "system",
+                "content": """Reply with a summary of the idea they chose as a json object with:
+                    date = { "date_time": "", "description": <insert description>, "location": <insert location> }.
+                    Format the message as just the json object with no extra text.
+                    """, 
+            },
+            {
+                "role": "system",
+                "content": "chat history: " + str(history),
+            }
+        ],
+        model="llama-3.3-70b-versatile",
+    )
+
+    return Response({'message': chat_completion.choices[0].message}, status=status.HTTP_200_OK)

@@ -61,4 +61,7 @@ urlpatterns = [
     path('stripe/webhook/', views.stripe_webhook, name='stripe_webhook'),
     path('stt/', views.speech_to_text, name='speech_to_text'),
     path('notify/', views.notify, name='notify'),
+    path('dateAI/initial_msg/', views.initial_msg, name='date_ai_initial_msg'),
+    path('dateAI/date_ideas/', views.date_ideas, name='date_ai_date_ideas'),
+    path('dateAI/date_plan/', views.date_plan, name='date_ai_date_plan'),
 ]
