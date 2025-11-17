@@ -43,11 +43,11 @@ TODO
 
 ### Lessons Learned
 
-TODO
+So far we have mainly done manual testing, but something that we have learned is that even small changes can have unintended side effects. We expect that automated testing will be much more telling and effective in finding bugs.
 
 ### Encountered Bugs
 
-TODO
+During development, we noticed some bugs that will require more investigation and resolution. Notable issues include a few buttons that stopped working in certain sections of the UI and inconsistent formatting across various pages. These are indicative of other potential issues and we expect to find more as we scale up our testing efforts. As we move into more comprehensive testing in the coming phases, we anticipate uncovering additional edge cases and integration issues that will require attention.
 
 ## Tools and Frameworks
 
