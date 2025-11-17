@@ -21,7 +21,6 @@ from rest_framework import status
 from geopy.geocoders import Nominatim
 import geoip2.database
 from yelpapi import YelpAPI
-from transformers import GPT2Tokenizer, GPT2LMHeadModel
 from operator import contains
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
@@ -117,7 +116,7 @@ def get_ai_groq_response(message: str, history: str = "") -> str:
     """
     try:
         api_key = getattr(settings, "GROQ_API_KEY", None)
-        client = Groq(api_key)
+        client = Groq(api_key=api_key)
 
         system_content = (
             "You are a helpful assistant that gives advice to daters based on their requests."
