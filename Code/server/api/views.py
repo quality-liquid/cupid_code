@@ -627,18 +627,23 @@ def set_dater_profile(request):
         Response:
             Saved dater serialized
     """
+    print('ok')
     data = request.data
     data['user'] = request.user.id
     data['location'] = helpers.get_location_string(request.META['REMOTE_ADDR'])
     dater = get_object_or_404(Dater, user_id=request.user.id)
     serializer = DaterSerializer(dater, data=data)
     user_serializer = UserSerializer(request.user, data=data, partial=True)
+    print('ok')
     if serializer.is_valid() and user_serializer.is_valid():
+        print('ok1')
         serializer.save()
         user_serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     if serializer.is_valid():
+        print('ok2')
         return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    print('ok3')
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

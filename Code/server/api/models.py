@@ -17,6 +17,11 @@ class Dater(models.Model):
         EMAIL = 0
         TEXT = 1
 
+    class RelationshipStatus(models.TextChoices):
+        SINGLE = 'single', 'Single'
+        DATING = 'dating', 'Dating'
+        MARRIED = 'married', 'Married'
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.user.role = User.Role.DATER
@@ -31,6 +36,7 @@ class Dater(models.Model):
     interests = models.TextField(default="", blank=True)
     past = models.TextField(default="", blank=True)
     nerd_type = models.TextField(default="", blank=True)
+    relationship_status = models.CharField(max_length=10, choices=RelationshipStatus.choices, default=RelationshipStatus.SINGLE, blank=True)
     relationship_goals = models.TextField(default="", blank=True)
     ai_degree = models.TextField(default="max", blank=True)
     cupid_cash_balance = models.DecimalField(default=0,max_digits=10, decimal_places=2)
