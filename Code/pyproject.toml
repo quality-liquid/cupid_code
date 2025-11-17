@@ -34,9 +34,6 @@ yelpapi = "==2.5.1"
 # Text to Speech
 speechrecognition = "==3.14.3"
 
-# AI tools
-transformers = "==4.57.1"
-
 # Phone calls/text management 
 twilio = "==9.8.4"
 sendgrid = "==6.12.5"

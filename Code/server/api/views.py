@@ -248,13 +248,12 @@ def send_chat_message(request):
     ai_response = helpers.get_ai_groq_response(message)
     print("AI Response: ", ai_response)
     
-    # # save AI's response to database
-    # serializer = MessageSerializer(data={'owner': user_id, 'text': ai_response, 'from_ai': True})
-    # if serializer.is_valid():
+    # save AI's response to database
+    serializer = MessageSerializer(data={'owner': user_id, 'text': ai_response, 'from_ai': True})
+    if serializer.is_valid():
     #     serializer.save()
-    #     return Response({'message': ai_response}, status=status.HTTP_200_OK)
-    # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    # # return AI's response
+        return Response({'message': ai_response}, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
