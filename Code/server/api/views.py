@@ -1825,6 +1825,7 @@ def date_ideas(request):
                            f"relationship goals={dater.relationship_goals} "
                            f"degree of AI help needed={dater.ai_degree} "
                            f"location={dater.location}."
+                           f"relationship status={dater.relationship_status}.",
                             }
         ],
         model="llama-3.3-70b-versatile",
