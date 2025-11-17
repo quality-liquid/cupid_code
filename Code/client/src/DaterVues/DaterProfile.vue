@@ -1,110 +1,114 @@
 <script setup>
-    import {ref, onMounted} from 'vue';
-    import router from '../router/index';
-    import { makeRequest } from '../utils/make_request';
+import { ref, onMounted } from 'vue';
+import router from '../router/index';
+import { makeRequest } from '../utils/make_request';
 
-    import NavSuite from '../components/NavSuite.vue';
-    import PinkButton from '../components/PinkButton.vue';
+import NavSuite from '../components/NavSuite.vue';
+import PinkButton from '../components/PinkButton.vue';
 
-    const email = ref('')
-    const phone = ref()
-    const addr = ref('')
-    const fname = ref('')
-    const lname = ref('')
-    const username = ref('')
-    const desc = ref('')
-    let image = null 
-    const str = ref('')
-    const weak = ref('')
-    const ntype = ref('')
-    const interests = ref('')
-    const goals = ref('')
-    const past = ref('')
-    const degree = ref('')
+const email = ref('')
+const phone = ref()
+const addr = ref('')
+const fname = ref('')
+const lname = ref('')
+const username = ref('')
+const desc = ref('')
+let image = null
+const str = ref('')
+const weak = ref('')
+const ntype = ref('')
+const interests = ref('')
+const relationshipStatus = ref('single')
+const goals = ref('')
+const past = ref('')
+const degree = ref('')
 
-    // Allow user to change password
-    const oldPassword = ref('')
-    const newPassword = ref('')
-    const newPassword2 = ref('')
-    
-    const user_id  = parseInt(window.location.hash.split('/')[3])
+// Allow user to change password
+const oldPassword = ref('')
+const newPassword = ref('')
+const newPassword2 = ref('')
 
-    function previewFile() {
-        let preview = document.querySelector('img[name=pfp]');
-        let file = document.querySelector('input[type=file]').files[0];
-        let reader = new FileReader();
-        
-        image = file
+const user_id = parseInt(window.location.hash.split('/')[3])
 
-        reader.onloadend = function () {
-            preview.src = reader.result;
+function previewFile() {
+    let preview = document.querySelector('img[name=pfp]');
+    let file = document.querySelector('input[type=file]').files[0];
+    let reader = new FileReader();
+
+    image = file
+
+    reader.onloadend = function () {
+        preview.src = reader.result;
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = "";
+    }
+}
+
+async function getData() {
+    // dater results
+    const results = await makeRequest(`api/user/${user_id}`)
+    degree.value = results.ai_degree
+    addr.value = results.location
+    desc.value = results.description
+    str.value = results.dating_strengths
+    weak.value = results.dating_weaknesses
+    ntype.value = results.nerd_type
+    interests.value = results.interests
+    relationshipStatus.value = results.relationship_status || 'single'
+    goals.value = results.relationship_goals
+    past.value = results.past
+
+    // user results
+    email.value = results.user['email']
+    fname.value = results.user['first_name']
+    lname.value = results.user['last_name']
+    phone.value = results.user['phone_number']
+    username.value = results.user['username']
+}
+
+async function update() {
+    console.log("updating profile")
+    // Validate data
+    const checkData = [email, phone, addr, desc]
+
+    let check = 0;
+    for (let i = 0; i < checkData.length; i++) {
+        if (checkData[i] !== '') check++;
+        else {
+            const error = document.querySelector(`input[name=${checkData[i]}]`);
+            error.class = error.class + 'error';
         }
-
-        if (file) {
-            reader.readAsDataURL(file);
-        } else {
-            preview.src = "";
-        }
     }
+    const results = await makeRequest(`/api/dater/profile/`, 'post', {
+        username: username.value,
+        first_name: fname.value,
+        last_name: lname.value,
+        email: email.value,
+        phone_number: phone.value,
+        location: addr.value,
+        description: desc.value,
+        //profile_picture: image,
+        dating_strengths: str.value,
+        dating_weaknesses: weak.value,
+        nerd_type: ntype.value,
+        interests: interests.value,
+        relationship_status: relationshipStatus.value,
+        relationship_goals: goals.value,
+        past: past.value,
+    })
+    router.push({ name: 'DaterProfile', params: { id: user_id } });
+}
 
-    async function getData() {
-        // dater results
-        const results = await makeRequest(`api/user/${user_id}`)
-        degree.value = results.ai_degree
-        addr.value = results.location
-        desc.value = results.description
-        str.value = results.dating_strengths
-        weak.value = results.dating_weaknesses
-        ntype.value = results.nerd_type
-        interests.value = results.interests
-        goals.value = results.relationship_goals
-        past.value = results.past
+async function updatePassword() {
+    if (newPassword.value === newPassword2.value) console.log("Still not a feature")
+    console.log("Not a feature currently")
+}
 
-        // user results
-        email.value = results.user['email']
-        fname.value = results.user['first_name']
-        lname.value = results.user['last_name']
-        phone.value = results.user['phone_number']
-        username.value = results.user['username']
-    }
-
-    async function update() {
-        // Validate data
-        const checkData = [email, phone, addr, desc]
-
-        let check = 0;
-        for (let i = 0; i < checkData.length; i++) {
-            if (checkData[i] !== '') check++;
-            else {
-                const error = document.querySelector(`input[name=${checkData[i]}]`);
-                error.class = error.class + 'error';
-            }
-        }
-        const results = await makeRequest(`/api/dater/profile/`, 'post', {
-            username: username.value,
-            first_name: fname.value,
-            last_name: lname.value,
-            email: email.value,
-            phone_number: phone.value,
-            location: addr.value,
-            description: desc.value,
-            //profile_picture: image,
-            dating_strengths: str.value,
-            dating_weaknesses: weak.value,
-            nerd_type: ntype.value,
-            interests: interests.value,
-            relationship_goals: goals.value,
-            past: past.value,
-        })
-        router.push({name: 'DaterProfile', params: {id: user_id}});
-    }
-    
-    async function updatePassword() {
-        if (newPassword.value === newPassword2.value) console.log("Still not a feature")
-        console.log("Not a feature currently")
-    }
-
-    onMounted(getData)
+onMounted(getData)
 
 </script>
 
@@ -123,106 +127,123 @@
 
     <div class="mobile-container">
         <form class="container" @submit.prevent="update">
-        <h2 class="top">Personal Information</h2>      
-        <div class="personal">
-            <label class="update-content" for="fname">
-                First Name
-                <input type="text" id="fname" v-model="fname"/>
+            <h2 class="top">Personal Information</h2>
+            <div class="personal">
+                <label class="update-content" for="fname">
+                    First Name
+                    <input type="text" id="fname" v-model="fname" />
+                </label>
+                <label class="update-content" for="lname">
+                    Last Name
+                    <input type="text" id="lname" v-model="lname" />
+                </label>
+                <label class="update-content" for="phone">
+                    Phone Number
+                    <input type="number" id="phone" v-model="phone" />
+                </label>
+                <label class="update-content" for="address">
+                    Address
+                    <input type="text" id="address" v-model="addr" />
+                </label>
+                <label class="update-content" for="degree">
+                    AI Degree
+                    <select id="degree" v-model="degree" class="update-select">
+                        <option value="I don't want any help">I don't want any help</option>
+                        <option value="I would like a little help">I would like a little help</option>
+                        <option value="I need a good amount of help">I need a good amount of help</option>
+                        <option value="I need all the help">I need all the help</option>
+                    </select>
+                </label>
+            </div>
+            <h2>User Information</h2>
+            <div class="userinfo">
+                <label class="update-content" for="username">
+                    Username
+                    <input type="text" id="username" v-model="username" />
+                </label>
+                <label class="update-content" for="email">
+                    Email
+                    <input type="email" id="email" v-model="email" />
+                </label>
+            </div>
+            <h2> Details about you! </h2>
+            <div class="details">
+                <label class="update-text" for="desc">
+                    Physical Description
+                    <textarea id="desc" v-model="desc"></textarea>
+                </label>
+                <label class="update-content" for="nerd_type">
+                    Nerd Type
+                    <input type="text" id="nerd_type" v-model="ntype" />
+                </label>
+                <fieldset class="update-text">
+                    <legend>Relationship Status</legend>
+                    <label class="radio_detail" for="status-single">
+                        Single
+                        <input type="radio" id="status-single" name="relationshipStatus" value="single"
+                            v-model="relationshipStatus" />
+                    </label>
+                    <label class="radio_detail" for="status-dating">
+                        Dating
+                        <input type="radio" id="status-dating" name="relationshipStatus" value="dating"
+                            v-model="relationshipStatus" />
+                    </label>
+                    <label class="radio_detail" for="status-married">
+                        Married
+                        <input type="radio" id="status-married" name="relationshipStatus" value="married"
+                            v-model="relationshipStatus" />
+                    </label>
+                </fieldset>
+                <label class="update-text" for="goals">
+                    Relationship Goals
+                    <textarea id="goals" v-model="goals"></textarea>
+                </label>
+                <label class="update-text" for="interests">
+                    Interests
+                    <textarea id="interests" v-model="interests"></textarea>
+                </label>
+                <label class="update-text" for="past">
+                    Past Dating History
+                    <textarea id="past" v-model="past"></textarea>
+                </label>
+                <label class="update-text" for="strengths">
+                    Dating Strengths
+                    <textarea id="strengths" v-model="str"></textarea>
+                </label>
+                <label class="update-text" for="weaknesses">
+                    Dating Weaknesses
+                    <textarea id="weaknesses" v-model="weak"></textarea>
+                </label>
+            </div>
+            <label class="update-content" for="image">
+                Profile Picture
+                <input type="file" id="image" name="image" @change="previewFile" />
+                <img name="pfp" src="" height="200" alt="Image preview...">
             </label>
-            <label class="update-content" for="lname">
-                Last Name
-                <input type="text" id="lname" v-model="lname"/>
-            </label>
-            <label class="update-content" for="phone">
-                Phone Number
-                <input type="number" id="phone" v-model="phone"/>
-            </label>
-            <label class="update-content" for="address">
-                Address
-                <input type="text" id="address" v-model="addr"/>
-            </label>
-            <label class="update-content" for="degree">
-                AI Degree
-                <select id="degree" v-model="degree" class="update-select">
-                    <option value="I don't want any help">I don't want any help</option>
-                    <option value="I would like a little help">I would like a little help</option>
-                    <option value="I need a good amount of help">I need a good amount of help</option>
-                    <option value="I need all the help">I need all the help</option>
-                </select>
-            </label>
-        </div>
-        <h2>User Information</h2>
-        <div class="userinfo">
-            <label class="update-content" for="username">
-                Username
-                <input type="text" id="username" v-model="username"/>
-            </label>
-            <label class="update-content" for="email">
-                Email
-                <input type="email" id="email" v-model="email"/>
-            </label>
-        </div>
-        <h2> Details about you! </h2>
-        <div class="details">
-            <label class="update-text" for="desc">
-                Physical Description
-                <textarea id="desc" v-model="desc"></textarea>
-            </label>
-            <label class="update-content" for="nerd_type">
-                Nerd Type
-                <input type="text" id="nerd_type" v-model="ntype"/>
-            </label>
-            <label class="update-text" for="goals">
-                Relationship Goals
-                <textarea id="goals" v-model="goals"></textarea>
-            </label>
-            <label class="update-text" for="interests">
-                Interests
-                <textarea id="interests" v-model="interests"></textarea>
-            </label>
-            <label class="update-text" for="past">
-                Past Dating History
-                <textarea id="past" v-model="past"></textarea>
-            </label>
-            <label class="update-text" for="strengths">
-                Dating Strengths
-                <textarea id="strengths" v-model="str"></textarea>
-            </label>
-            <label class="update-text" for="weaknesses">
-                Dating Weaknesses
-                <textarea id="weaknesses" v-model="weak"></textarea>
-            </label>
-        </div>
-        <label class="update-content" for="image">
-            Profile Picture
-            <input type="file" id="image" name="image" @change="previewFile"/>
-            <img name="pfp" src="" height="200" alt="Image preview...">
-        </label>
-        <PinkButton> Update/Save changes </PinkButton>
+            <PinkButton type="submit"> Update/Save changes </PinkButton>
         </form>
         <form class="container" @submit.prevent="updatePassword">
-        <h2> Update Password </h2>
-        <!-- Make it so they have to update the password w/ old, new, repeated new. -->
-        <label class="update-content" for="old-password">
-            Old Password
-            <input type="password" id="old-password" v-model="oldPassword"/>
-        </label>
-        <label class="update-content" for="new-password">
-            New Password
-            <input type="password" id="new-password" v-model="newPassword">
-        </label>
-        <label class="update-content" for="new-password-2">
-            Repeat New password
-            <input type="password" id="new-password-2" v-model="newPassword2"/>
-        </label>
-        <PinkButton> Update Password </PinkButton>
+            <h2> Update Password </h2>
+            <!-- Make it so they have to update the password w/ old, new, repeated new. -->
+            <label class="update-content" for="old-password">
+                Old Password
+                <input type="password" id="old-password" v-model="oldPassword" />
+            </label>
+            <label class="update-content" for="new-password">
+                New Password
+                <input type="password" id="new-password" v-model="newPassword">
+            </label>
+            <label class="update-content" for="new-password-2">
+                Repeat New password
+                <input type="password" id="new-password-2" v-model="newPassword2" />
+            </label>
+            <PinkButton type="submit"> Update Password </PinkButton>
         </form>
     </div>
     </div>
 </template>
 
 <style scoped>
-
 h2 {
     margin: 5px;
     color: var(--secondary-blue);
@@ -256,6 +277,20 @@ h2 {
     font-weight: bold;
 }
 
+.radio_detail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+}
+
+.radio_detail input[type="radio"] {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    border: none;
+}
+
 input {
     border: 3px rgba(128, 128, 128, 0.5) solid;
     border-radius: 4px;
@@ -275,6 +310,17 @@ input[type="file"] {
     padding: 8px;
     margin: 10px;
     font-weight: bold;
+}
+
+fieldset {
+    border: none;
+    padding: 8px 0;
+    margin: 10px 0;
+}
+
+legend {
+    font-weight: bold;
+    padding: 0 0 8px 0;
 }
 
 textarea {

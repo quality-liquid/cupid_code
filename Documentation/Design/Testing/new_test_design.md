@@ -1,0 +1,145 @@
+# Test Design Overview
+
+## Philosophy
+
+Existentialism.
+
+Just kidding. Our goal in testing is to ensure that we produce a quality application that can endure the myriad of cases presented by end users in production. The hope is that we can find most major bugs in development, and minimize the amount of bug finding performed by the end user. In order to accomplish this goal, we will employ tests across the spectrum: unit, integration, system, and acceptance tests. This will ensure that the application is of high quality from functions and classes up to user interface.
+
+**Serverside and Database**
+
+One important aspect of our testing process is testing the backend Django views and their interactions with the database. Ideally, backend behaviors have been separated into discrete, easy-to-use functions through Django's ORM. This is an important subject of our test design, as it is foundational to data integrity, security, and perhaps most importantly application functionality.
+
+**Clientside and the End User**
+
+In essence, acceptance testing will consist of ensuring that navigation in the UI is as expected, and every button leads where it is expected to. This will ensure usability and ease of navigation in production, and satisfaction for our users.
+
+**Testing Types**
+
+- **Unit Testing**
+  - Unit testing forms the backbone of our testing strategy, particularly for the backend components of our application. 
+  - Given the nature of our server-side operations, which primarily involve processing input and delivering expected output to the UI, unit tests are invaluable for isolating and validating individual components. 
+  - By subjecting each component to controlled inputs and meticulously examining their responses, we can detect and address potential bugs early in the development lifecycle.
+  - We did not have time to fully implement this, as there are many use cases we'd undoubtedly miss. We also had little time to be thorough. We did talk about potential cases as a team, though.
+- **Integration Testing**
+  - Integration testing plays a crucial role in validating the seamless interaction between different components of our application. 
+  - While currently pending, our integration testing efforts will focus on testing the integration points between various modules and subsystems to ensure their cohesive operation.
+  - We did not have time to fully implement this, but it is a crucial part of our testing strategy. Given more time, we would have provided further implementation to ensure that all of our components work together as expected.
+- **Regression Testing**
+  - Regression testing forms an integral part of our ongoing maintenance and development efforts. 
+  - Rather than solely focusing on crafting new tests, regression testing involves systematically rerunning existing tests whenever a new feature is added or a bug is resolved. 
+  - This ensures that any changes or updates do not inadvertently introduce regressions or disrupt existing functionality. 
+- **System Testing**
+  - System testing encompasses a comprehensive evaluation of the entire application ecosystem, including its compatibility across different devices and platforms, UI consistency, and adherence to security standards. 
+  - This includes rigorous validation of input data to mitigate the risk of code or SQL injections, ensuring robust data security measures are in place.
+- **Acceptance Testing**
+  - Acceptance testing serves as the final validation phase before presenting the Minimum Viable Product (MVP) to stakeholders and customers. 
+  - It involves meticulously verifying whether the delivered product meets the predefined acceptance criteria and aligns with the stakeholders' expectations.
+  - Our presentation in class will simulate acceptance testing.
+
+## Journey to Testing
+
+TODO
+
+### Lessons Learned
+
+TODO
+
+### Encountered Bugs
+
+TODO
+
+## Tools and Frameworks
+
+In our testing endeavors, we leverage a variety of tools and frameworks to streamline our processes and enhance efficiency:
+
+- MagicMock: 
+  - Used for backend view testing, enabling the creation of mock objects to simulate real-world scenarios.
+- Django & Django REST testing frameworks: 
+  - Integral for testing Django-based applications and RESTful APIs, providing robust testing capabilities and streamlined workflow.
+- Unit tests: 
+  - Employed extensively for unit testing backend components, facilitating isolated testing and validation of individual units of code.
+- Selenium: 
+  - Used for UI testing, enabling automated testing of web applications across different browsers and platforms.
+  - As the interactions with the UI rely on a functioning backend and frontend, the use of Selenium also allows us to test our system as a whole.
+- Django Browsable API and Django Debug Toolbar:
+  - Leveraged for API testing, allowing for interactive exploration of API endpoints and detailed debugging capabilities.
+
+## Bug Handling Strategies
+
+Our approach to bug handling is characterized by proactive identification, prompt resolution, and continuous improvement:
+
+During the development phase, we prioritize the immediate resolution of bugs as they are discovered, fostering a culture of continuous improvement and quality assurance. 
+Experiences have underscored the importance of addressing issues promptly, even if it entails making significant changes to the codebase. 
+While such changes may occasionally be disruptive or inconvenient, they ultimately contribute to the enhancement and refinement of our application.
+
+Post-deployment, our bug handling approach adopts a more cautious and methodical stance. 
+Bugs identified after deployment are meticulously triaged and prioritized based on their severity and impact on functionality. 
+Critical issues that significantly impede usability or compromise security are given the highest priority and addressed expediently. 
+Conversely, lower-priority bugs, while acknowledged, may be deferred for resolution based on available resources and project timelines.
+
+In all cases, known bugs are meticulously documented, and our bug handling plan is transparently communicated to all stakeholders. 
+This ensures accountability, fosters collaboration, and facilitates effective bug resolution within the established timelines and constraints.
+
+
+## Code Coverage
+
+TODO
+
+## Running tests
+
+TODO (here to end of doc): update for testing updates specific to our team
+
+### Unit tests  
+
+**NOTE: There were complications using MagicMock, particularly with `@patch`, so tests currently won't run. Sorry for the inconvenience**
+
+To set up the environment, navigate to the `Code/` directory and use `poetry` to install the dependencies situated in the `poetry.lock` file. Use the following command to do so:
+
+```poetry install```
+
+To run a unit test using Django's framework, navigate to the `Code/server/` directory, where `manage.py` resides. The tests we wrote are for the `api` application. Use the following command to run the tests:
+
+```python manage.py test api.tests.unit_tests.cupid_tests```
+
+### Automated system tests
+
+One-time setup:
+
+1. Follow the instructions in [Documentation/Manual/installation_manual.md](../../Manual/installation_manual.md) to get poetry set up.
+    - The only dependency you really need is selenium, but if you have the project as a whole set up, then you will have selenium
+2. Migrate the database (as described in [Code/README.md](../../../Code/README.md)) so you have a fresh database. The tests all rely on a fresh database, so each one restores a backup before running. To ensure there is a backup copy `Code/server/db.sqlite3` to `Code/server/db_backup.sqlite3`
+3. Set up your options in `Code/selenium/options.conf`
+    - `chrome=true` will use chrome, otherwise firefox will be used
+    - `headless=true` will cause the tests to run headless(no browser window) otherwise you will see the browser
+
+Every-time:
+
+1. Ensure the server is up and running for the frontend and backend.[Code/README.md](../../../Code/README.md)
+2. Navigate to [Code/selenium](../../../Code/selenium)
+3. Ensure you have access to selenium, run `poetry shell` if using poetry.
+4. Run all tests with `python run_tests.py`, or run specific tests with `python test_*.py`
+
+### Manual system test
+
+Use-case: As a cupid, complete a gig and rate the dater.
+
+0. Ensure the server is up and running for the frontend and backend.[Code/README.md](../../../Code/README.md)
+1. Sign in as a cupid
+    - username: really@me.com
+    - passowrd: password
+2. Click the "find gigs" link on the home page
+3. Claim a gig.
+4. Mark the gig as complete.
+5. Use the sidepanel to navigate to "Gigs Completed"
+6. Click "Rate Dater"
+7. Enter a message describing your rating, and select a heart count.
+8. Click "Send"
+
+Verify results:
+1. Login as the dater (use a new container/profile, incognito/private, or logout first)
+    - username: bob@cupidcode.com
+    - password: password
+2. Use the sidebar to navigate to "Feedback"
+3. You should see your new review at the bottom of the list.
+

@@ -45,6 +45,7 @@ const desc = {
 const imagePreview = ref("")
 
 // Dater specific 
+const relationshipStatus = ref('single')
 const strengths = ref('')
 const weak = ref('')
 const ntype = ref('')
@@ -113,17 +114,18 @@ async function register() {
                 dating_weaknesses: weak.value,
                 nerd_type: ntype.value,
                 interests: interests.value,
+                relationship_status: relationshipStatus.value,
                 relationship_goals: goals.value,
                 past: past.value,
             })
-            if (results.user === undefined || results.user === null){
+            if (results.user === undefined || results.user === null) {
                 let errors = ""
-                for (let key in results){
+                for (let key in results) {
                     errors += `\n${key}: ${results[key][0]}`
                 }
                 showToast(`Failed to create account:${errors}`)
             }
-            else{
+            else {
                 showToast('Account created — redirecting...')
                 setTimeout(() => router.push({ name: 'DaterHome', params: { id: results.user['id'] } }), 900)
             }
@@ -141,14 +143,14 @@ async function register() {
                 description: desc.value.value,
                 //profile_picture: image
             })
-            if (results.user === undefined || results.user === null){
+            if (results.user === undefined || results.user === null) {
                 let errors = ""
-                for (let key in results){
+                for (let key in results) {
                     errors += `\n${key}: ${results[key][0]}`
                 }
                 showToast(`Failed to create account:${errors}`)
             }
-            else{
+            else {
                 showToast('Account created — redirecting...')
                 setTimeout(() => router.push({ name: 'DaterHome', params: { id: results.user['id'] } }), 900)
             }
@@ -250,6 +252,24 @@ function previewFile() {
                     Nerd Type
                     <input type="text" id="nerd_type" v-model="ntype" />
                 </label>
+                <fieldset class="update-text">
+                    <legend>Relationship Status</legend>
+                    <label class="radio_detail" for="single">
+                        Single
+                        <input type="radio" id="single" name="relationshipStatus" value="single"
+                            v-model="relationshipStatus" />
+                    </label>
+                    <label class="radio_detail" for="dating">
+                        Dating
+                        <input type="radio" id="dating" name="relationshipStatus" value="dating"
+                            v-model="relationshipStatus" />
+                    </label>
+                    <label class="radio_detail" for="married">
+                        Married
+                        <input type="radio" id="married" name="relationshipStatus" value="married"
+                            v-model="relationshipStatus" />
+                    </label>
+                </fieldset>
                 <label class="update-text" for="goals">
                     Relationship Goals
                     <textarea id="goals" v-model="goals"></textarea>
@@ -311,6 +331,16 @@ h3 {
 
 .radio_detail {
     display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+}
+
+.radio_detail input[type="radio"] {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    border: none;
 }
 
 .input_detail {
@@ -356,6 +386,17 @@ input:focus {
     display: flex;
     flex-direction: column;
     padding: 16px;
+}
+
+fieldset {
+    border: none;
+    padding: 8px 0;
+    margin: 10px 0;
+}
+
+legend {
+    font-weight: bold;
+    padding: 0 0 8px 0;
 }
 
 textarea {
