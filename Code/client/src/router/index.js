@@ -17,6 +17,7 @@ import DaterProfile from '../DaterVues/DaterProfile.vue'
 import DaterFeedback from '../DaterVues/DaterFeedback.vue'
 import DaterGigs from '../DaterVues/DaterGigs.vue'
 import Calendar from '../DaterVues/Calendar.vue'
+import NotificationCenter from '../DaterVues/NotificationCenter.vue'
 
 // Cupid Specific
 import CupidDetails from '../CupidVues/CupidDetails.vue'
@@ -78,6 +79,11 @@ const routes = [
         path: '/dater/gigs/:id',
         name: 'DaterGigs',
         component: DaterGigs,
+    },
+    {
+        path: '/dater/notifications/:id',
+        name: 'NotificationCenter',
+        component: NotificationCenter,
     },
     {
         path: '/dater/feedback/:id',

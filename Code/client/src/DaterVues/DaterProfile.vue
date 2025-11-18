@@ -113,14 +113,16 @@ onMounted(getData)
 </script>
 
 <template>
-    <NavSuite title='Profile' profile='DaterProfile'>
-        <router-link class="link" :to="{ name: 'DaterHome', params: { id: user_id } }"> Home </router-link>
-        <router-link class="link" :to="{ name: 'Calendar', params: { id: user_id } }"> Calendar </router-link>
-        <router-link class="link" :to="{ name: 'AiChat', params: { id: user_id } }"> AI Chat </router-link>
-        <router-link class="link" :to="{ name: 'AiListen', params: { id: user_id } }"> AI Listen </router-link>
-        <router-link class="link" :to="{ name: 'DaterGigs', params: { id: user_id } }"> Gigs </router-link>
-        <router-link class="link" :to="{ name: 'CupidCash', params: { id: user_id } }"> Balance</router-link>
-        <router-link class="link" :to="{ name: 'DaterFeedback', params: { id: user_id } }"> Feedback </router-link>
+    <div class="dater-profile-page">
+        <NavSuite title='Profile' profile='DaterProfile'>
+        <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
+        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
+        <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
+        <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
+        <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
+        <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
+        <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
+        <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}"> Notifications </router-link>
     </NavSuite>
 
     <div class="mobile-container">
@@ -237,6 +239,7 @@ onMounted(getData)
             </label>
             <PinkButton type="submit"> Update Password </PinkButton>
         </form>
+    </div>
     </div>
 </template>
 
