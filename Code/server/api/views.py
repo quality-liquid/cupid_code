@@ -16,7 +16,6 @@ Transfer = stripe.Transfer
 StripeError = stripe.StripeError
 StripeSignatureVerificationError = stripe.SignatureVerificationError
 
-# stripe.error.SignatureVerificationError
 from django.conf import settings
 
 # Configure the stripe library with the secret key from settings.
@@ -254,11 +253,11 @@ def send_chat_message(request: Request) -> Response:
     print("AI Response: ", ai_response)
     
     # save AI's response to database
-    # serializer = MessageSerializer(data={'owner': user_id, 'text': ai_response, 'from_ai': True})
-    # if serializer.is_valid():
-    #     serializer.save()
-    return Response({'message': ai_response}, status=status.HTTP_200_OK)
-    # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer = MessageSerializer(data={'owner': user_id, 'text': ai_response, 'from_ai': True})
+    if serializer.is_valid():
+        serializer.save()
+        return Response({'message': ai_response}, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])

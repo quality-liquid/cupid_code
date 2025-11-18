@@ -11,7 +11,7 @@ let noChats = false
 
 const user_id  = parseInt(window.location.hash.split('/')[3])
 
-const chatCount = 10; //TODO what is this doing?
+const chatCount = 10;
 
 async function getChats() {
     const results = await makeRequest(`/api/chat/${user_id}/${chatCount}`);
@@ -54,6 +54,7 @@ async function send() {
         },
         message: message.value
     });
+    console.log("AI Response: ", results)
     chatArr.value.push(results.message)
 
     const ai_child = document.createElement('div')
