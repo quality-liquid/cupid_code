@@ -84,7 +84,9 @@ This ensures accountability, fosters collaboration, and facilitates effective bu
 
 ## Code Coverage
 
-TODO
+While making tests it is essential that the tests cover a significant portion of the code such that it can be ensured that the code works as expected. The optimal goal would be that we have tests for 100% of the code in our repository, however, as there is limited time and resources, we will focus on the most essential parts of the project. We will focus our automated tests on the key parts of the program such as the Vues, the helper functions, and the API calls that give functionality to the application. Examples include everything that the Daters, Cupids, and Administrators will see, AI calls, and making sure that the database holds and shares data correctly.
+
+We are aiming to have 75% automated code coverage for the project in order to reduce bugs and ensure functionality. Additionally, we are hoping to have tests that will aim for odd cases of use to find failure paths in the application not just happy paths of use.
 
 ## Running tests
 
