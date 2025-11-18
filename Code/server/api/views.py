@@ -9,14 +9,13 @@ if TYPE_CHECKING:
     from django.http import HttpRequest as Request
 
 import stripe
+PaymentIntent = stripe.PaymentIntent
+Account = stripe.Account
+AccountLink = stripe.AccountLink
+Transfer = stripe.Transfer
+StripeError = stripe.StripeError
+StripeSignatureVerificationError = stripe.error.SignatureVerificationError
 
-from stripe import (
-    PaymentIntent, 
-    Account, 
-    AccountLink,
-    Transfer,
-    StripeError
-)
 from django.conf import settings
 
 # Configure the stripe library with the secret key from settings.
@@ -553,7 +552,7 @@ def stripe_webhook(request: Request) -> HttpResponse:
     except ValueError:
         # Invalid payload
         return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError:
+    except StripeSignatureVerificationError:
         # Invalid signature
         return HttpResponse(status=400)
 
