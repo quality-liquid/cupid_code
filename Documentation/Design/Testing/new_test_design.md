@@ -42,8 +42,15 @@ In essence, acceptance testing will consist of ensuring that navigation in the U
   - Our presentation in class will simulate acceptance testing. As a new team, we will ensure that all requirements that were not met are accounted for in preparation for the next team to take over.
 
 ## Journey to Testing
+We have struggled to put in a lot of formal testing work throughout the previous sprints. We planned to write at least some of the different types of tests whilst we worked in the development sprints, but this workflow was harder than we had anticipated and we all struggled to write and formal tests for our various features we worked on. 
 
-TODO
+Everyone has performed what appears to be sufficient informal testing (print statements, console logs, manual tests of the different website features, etc) for all of their work but we have not arrived at setting up the official Selenium testing suite or other written software tests yet.
+
+We are now writing this test document to come up with our formalized testing plan, and will be spending much of sprint 5 implementing all of the test types we wish to employ to ensure our softwares funcionality.
+
+We have some varying levels of expertise on testing software in the team. One team member works in mainly in software testing right now which we hope to put to use to accelerate and enhance our testing implementation process.
+
+Overall, we have learned a lot about the importance of writing tests as your are implementing rather than at the feature freeze. It was easy to put them off, because there was already so much to do for our requirements on top of testing implementation, but our testing sprint would have been easier had we been writing more formal tests along the way. Though we should still be able to get everything working for the testing suite, we did do good work in the informal testing of our features before pushing them to develop so we expect to not find too many project critically damaging bugs.
 
 ### Lessons Learned
 
@@ -92,13 +99,10 @@ While making tests it is essential that the tests cover a significant portion of
 
 We are aiming to have 75% automated code coverage for the project in order to reduce bugs and ensure functionality. Additionally, we are hoping to have tests that will aim for odd cases of use to find failure paths in the application not just happy paths of use.
 
-## Running tests
-
-TODO (here to end of doc): update for testing updates specific to our team
+### Running tests
+The process of running tests will be the same as the previous team. We will have to update the tests themselves, but they will follow the same process to run.
 
 ### Unit tests  
-
-**NOTE: There were complications using MagicMock, particularly with `@patch`, so tests currently won't run. Sorry for the inconvenience**
 
 To set up the environment, navigate to the `Code/` directory and use `poetry` to install the dependencies situated in the `poetry.lock` file. Use the following command to do so:
 
@@ -128,48 +132,36 @@ Every-time:
 
 ### Manual system tests
 
-Use-case: As a cupid, complete a gig and rate the dater.
+Use-case: As a dater, create a gig. As a cupid, complete the gig and rate the dater.
+
+Dater:
 
 0. Ensure the server is up and running for the frontend and backend.[Code/README.md](../../../Code/README.md)
-1. Sign in as a cupid
-    - username: really@me.com
+0. Sign in as a dater (use a new container/profile, incognito/private, or logout first)
+    - username: bob@cupidcode.com
     - password: password
-2. Click the "find gigs" link on the home page
-3. Claim a gig.
-4. Mark the gig as complete.
-5. Use the sidepanel to navigate to "Gigs Completed"
-6. Click "Rate Dater"
-7. Enter a message describing your rating, and select a heart count.
-8. Click "Send"
+0. Click on "Add Cash" and check your balance
+0. Use the side panel to navigate the the "gigs" page
+0. Add a gig with a budget lower than your balance.
+
+Cupid:
+
+0. Sign in as a cupid
+    - username: really@me.com
+    - passowrd: password
+0. Click on "profile" and check your balance
+0. Click the "find gigs" link on the home page
+0. Claim a gig.
+0. Mark the gig as complete.
+0. Use the sidepanel to navigate to "Profile" and check that the balance has increased
+0. Use the sidepanel to navigate to "Gigs Completed"
+0. Click "Rate Dater"
+0. Enter a message describing your rating, and select a heart count.
+0. Click "Send"
 
 Verify results:
-1. Login as the dater (use a new container/profile, incognito/private, or logout first)
-    - username: bob@cupidcode.com
-    - password: password
-2. Use the sidebar to navigate to "Feedback"
-3. You should see your new review at the bottom of the list.
 
-Use-case: As a dater, have a conversation with the AI as you plan a date.
-
-0. Ensure the server is up and running for the frontend and backend.[Code/README.md](../../../Code/README.md)
-0. Sign in as a dater
-    - username: bob@cupidcode.com
-    - password: password
-0. Click the "Calendar" link on the home page.
-0. Click "Plan a date w/AI" above the calendar.
-0. In the chat box, give the AI a bare-bones idea for a date. This will force it to use data it already has from your profile in creating a date.
-0. Tell the AI that you like the second option, but would prefer it be a full day event. This should have the AI more fully flesh out the date idea.
-0. Tell the AI that you've changed your mind and would like a shorter date, and to keep it under a budget of $25. This should once again have the AI more fully flesh out the date idea.
-0. Accept the new idea. It should generate a date according to the new specifications.
-
-Use-case: As a dater, have a conversation with another person with the AI listening in.
-
-0. Ensure the server is up and running for the frontend and backend.[Code/README.md](../../../Code/README.md)
-0. Sign in as a dater
-    - username: bob@cupidcode.com
-    - password: password
-0. Click the "AI Listen" link on the home page.
-0. Find a friend.
-0. Click "Start Listening" on the AI Listen page.
-0. Have a conversation with your friend close to the built-in microphone.
-0. Observe the AI's transcript of the conversation and note its accuracy.
+0. Log back in as the dater
+0. Click on "Add Cash" and verify the balance has decreased
+0. Use the sidebar to navigate to "Feedback"
+0. You should see your new review at the bottom of the list.
