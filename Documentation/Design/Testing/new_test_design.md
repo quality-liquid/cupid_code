@@ -20,22 +20,26 @@ In essence, acceptance testing will consist of ensuring that navigation in the U
   - Unit testing forms the backbone of our testing strategy, particularly for the backend components of our application. 
   - Given the nature of our server-side operations, which primarily involve processing input and delivering expected output to the UI, unit tests are invaluable for isolating and validating individual components. 
   - By subjecting each component to controlled inputs and meticulously examining their responses, we can detect and address potential bugs early in the development lifecycle.
-  - We did not have time to fully implement this, as there are many use cases we'd undoubtedly miss. We also had little time to be thorough. We did talk about potential cases as a team, though.
+  - As a new team, our intention will be to better implement unit tests with the new components we have added as well as better flesh out the unit tests written by the old team. They stated that they didn't have a whole lot of time to fully implement it and we have lots of components that could easily be verifiable using unit tests.
+  - As a new team, we also intend to better utilize this in our CI/CD pipeline as it is currently a lot of "CD" without a lot of "CI" automatically running the tests for us mostly because there aren't a lot of unit or integration tests to run.
 - **Integration Testing**
   - Integration testing plays a crucial role in validating the seamless interaction between different components of our application. 
   - While currently pending, our integration testing efforts will focus on testing the integration points between various modules and subsystems to ensure their cohesive operation.
-  - We did not have time to fully implement this, but it is a crucial part of our testing strategy. Given more time, we would have provided further implementation to ensure that all of our components work together as expected.
+  - As a new team, our intention will be to better implement integration tests with the new components we have added. They stated that they didn't have a whole lot of time to fully implement it and in addition to having many components added we have also relied on a lot of moving parts within our system that could be tested as part of integration testing.
+  - As a new team, we also intend to better utilize this in our CI/CD pipeline as it is currently a lot of "CD" without a lot of "CI" automatically running the tests for us mostly because there aren't a lot of unit or integration tests to run.
 - **Regression Testing**
   - Regression testing forms an integral part of our ongoing maintenance and development efforts. 
   - Rather than solely focusing on crafting new tests, regression testing involves systematically rerunning existing tests whenever a new feature is added or a bug is resolved. 
-  - This ensures that any changes or updates do not inadvertently introduce regressions or disrupt existing functionality. 
+  - This ensures that any changes or updates do not inadvertently introduce regressions or disrupt existing functionality.
+  - As a new team, we intend to ensure good compatibility as we continue testing to prevent adding anything that breaks to our production branch. Regression testing will be done before it gets to touch production.
 - **System Testing**
   - System testing encompasses a comprehensive evaluation of the entire application ecosystem, including its compatibility across different devices and platforms, UI consistency, and adherence to security standards. 
   - This includes rigorous validation of input data to mitigate the risk of code or SQL injections, ensuring robust data security measures are in place.
+  - As a new team, we will try to understand what the previous team did for their system testing and adhere to those standards as well as make sure our new additions maintain the system security that they had.
 - **Acceptance Testing**
   - Acceptance testing serves as the final validation phase before presenting the Minimum Viable Product (MVP) to stakeholders and customers. 
   - It involves meticulously verifying whether the delivered product meets the predefined acceptance criteria and aligns with the stakeholders' expectations.
-  - Our presentation in class will simulate acceptance testing.
+  - Our presentation in class will simulate acceptance testing. As a new team, we will ensure that all requirements that were not met are accounted for in preparation for the next team to take over.
 
 ## Journey to Testing
 
@@ -84,7 +88,9 @@ This ensures accountability, fosters collaboration, and facilitates effective bu
 
 ## Code Coverage
 
-TODO
+While making tests it is essential that the tests cover a significant portion of the code such that it can be ensured that the code works as expected. The optimal goal would be that we have tests for 100% of the code in our repository, however, as there is limited time and resources, we will focus on the most essential parts of the project. We will focus our automated tests on the key parts of the program such as the Vues, the helper functions, and the API calls that give functionality to the application. Examples include everything that the Daters, Cupids, and Administrators will see, AI calls, and making sure that the database holds and shares data correctly.
+
+We are aiming to have 75% automated code coverage for the project in order to reduce bugs and ensure functionality. Additionally, we are hoping to have tests that will aim for odd cases of use to find failure paths in the application not just happy paths of use.
 
 ## Running tests
 
@@ -120,14 +126,14 @@ Every-time:
 3. Ensure you have access to selenium, run `poetry shell` if using poetry.
 4. Run all tests with `python run_tests.py`, or run specific tests with `python test_*.py`
 
-### Manual system test
+### Manual system tests
 
 Use-case: As a cupid, complete a gig and rate the dater.
 
 0. Ensure the server is up and running for the frontend and backend.[Code/README.md](../../../Code/README.md)
 1. Sign in as a cupid
     - username: really@me.com
-    - passowrd: password
+    - password: password
 2. Click the "find gigs" link on the home page
 3. Claim a gig.
 4. Mark the gig as complete.
@@ -143,3 +149,27 @@ Verify results:
 2. Use the sidebar to navigate to "Feedback"
 3. You should see your new review at the bottom of the list.
 
+Use-case: As a dater, have a conversation with the AI as you plan a date.
+
+0. Ensure the server is up and running for the frontend and backend.[Code/README.md](../../../Code/README.md)
+0. Sign in as a dater
+    - username: bob@cupidcode.com
+    - password: password
+0. Click the "Calendar" link on the home page.
+0. Click "Plan a date w/AI" above the calendar.
+0. In the chat box, give the AI a bare-bones idea for a date. This will force it to use data it already has from your profile in creating a date.
+0. Tell the AI that you like the second option, but would prefer it be a full day event. This should have the AI more fully flesh out the date idea.
+0. Tell the AI that you've changed your mind and would like a shorter date, and to keep it under a budget of $25. This should once again have the AI more fully flesh out the date idea.
+0. Accept the new idea. It should generate a date according to the new specifications.
+
+Use-case: As a dater, have a conversation with another person with the AI listening in.
+
+0. Ensure the server is up and running for the frontend and backend.[Code/README.md](../../../Code/README.md)
+0. Sign in as a dater
+    - username: bob@cupidcode.com
+    - password: password
+0. Click the "AI Listen" link on the home page.
+0. Find a friend.
+0. Click "Start Listening" on the AI Listen page.
+0. Have a conversation with your friend close to the built-in microphone.
+0. Observe the AI's transcript of the conversation and note its accuracy.
