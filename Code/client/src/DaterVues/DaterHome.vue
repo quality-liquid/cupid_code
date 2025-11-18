@@ -10,6 +10,7 @@ const user_id  = parseInt(window.location.hash.split('/')[3])
 </script>
 
 <template>
+  <div class="dater-home-root">
     <NavSuite title='Home' profile='DaterProfile'>
         <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
         <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
@@ -18,6 +19,7 @@ const user_id  = parseInt(window.location.hash.split('/')[3])
         <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
         <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
         <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
+    <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}"> Notifications </router-link>
         <a to="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Need Help?</a>
     </NavSuite>
 
@@ -53,7 +55,15 @@ const user_id  = parseInt(window.location.hash.split('/')[3])
           <div class="mobile-button-description">Schedule and track your dates</div>
         </div>
       </router-link>
+      <router-link class="mobile-button blue" :to="{name: 'NotificationCenter', params: {id: user_id}}">
+        <span class="material-symbols-outlined mobile-button-icon">notifications</span>
+        <div class="mobile-button-content">
+          <div class="mobile-button-title">Notifications</div>
+          <div class="mobile-button-description">Manage push notifications</div>
+        </div>
+      </router-link>
     </div>
+  </div>
 </template>
 
 <style scoped>

@@ -43,6 +43,34 @@ watch(() => props.initialData, (newData) => {
   }
 }, { immediate: true });
 
+function showDateScheduledNotification() {
+  // Check if browser supports notifications
+  if (!('Notification' in window)) {
+    console.log('Browser does not support notifications');
+    return;
+  }
+  
+  // If permission already granted, show notification
+  if (Notification.permission === 'granted') {
+    new Notification('Date Scheduled! 💖', {
+      body: `You have scheduled a date at ${location.value}!`,
+      icon: '/icon.png',
+      badge: '/badge.png'
+    });
+  } 
+  // If permission not denied, request it
+  else if (Notification.permission !== 'denied') {
+    Notification.requestPermission().then(permission => {
+      if (permission === 'granted') {
+        new Notification('Date Scheduled! 💖', {
+          body: `You have scheduled a date at ${location.value}!`,
+          icon: '/icon.png'
+        });
+      }
+    });
+  }
+}
+
 async function submitDate() {
   if (!dateTime.value || !location.value || !description.value) {
     alert('Please fill in all required fields');
@@ -67,6 +95,9 @@ async function submitDate() {
       status: 'planned',
       budget: budget.value,
     });
+    
+    // Show notification after successful date creation
+    showDateScheduledNotification();
     
     emit('success', res);
     emit('close');
