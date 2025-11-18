@@ -4,9 +4,9 @@ from base64 import b64decode
 from wave import open as open_wave
 from os.path import exists as file_exists
 from os import remove as delete_file
-from typing import TYPE_CHECKING
 
 # Allows for type hinting without importing unnecessary modules at runtime
+from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from django.http import HttpRequest as Request
     from rest_framework import serializers

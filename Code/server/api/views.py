@@ -3,6 +3,11 @@ from datetime import datetime
 from json import loads as deseralize_json
 import json
 
+# Allows for type hinting without importing unnecessary modules at runtime
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from django.http import HttpRequest as Request
+
 import stripe
 
 from stripe import (
@@ -81,7 +86,7 @@ import os
 from groq import Groq
 
 @api_view(['POST'])
-def create_user(request):
+def create_user(request: Request) -> Response:
     """
     Request the server to create an appropriate dater, cupid, or manager from info given.
 
@@ -135,7 +140,7 @@ def create_user(request):
 
 
 @api_view(['POST'])
-def sign_in(request):
+def sign_in(request: Request) -> Response:
     """
     Log in a user
 
@@ -174,7 +179,7 @@ def sign_in(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_user(request, pk):
+def get_user(request: Request, pk: int) -> Response:
     """
     Get a user's information
 
@@ -200,7 +205,7 @@ def get_user(request, pk):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def delete_user(request, pk):
+def delete_user(request: Request, pk: int) -> Response:
     """
     For a manager.
     Delete a user
@@ -222,7 +227,7 @@ def delete_user(request, pk):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def send_chat_message(request):
+def send_chat_message(request: Request) -> Response:
     """
     For a dater.
     Stores the given message in the database, sends it to the AI, and returns the AI's response.
@@ -259,14 +264,14 @@ def send_chat_message(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_messages(request, pk, count):
+def get_messages(request: Request, pk: int, count: int) -> Response:
     """
     Returns the five most recent messages between user and AI.
 
     Args:
         request: information about the request
-        pk(int): the user_id as included in the URL
-        count(int): the number of messages to return. if count is 0, return all messages. 
+        pk: the user_id as included in the URL
+        count: the number of messages to return. if count is 0, return all messages. 
             if count is greater than the number of messages, return all messages.
             if count is less than the number of messages, that number of messages will be returned.
     Returns:
@@ -298,7 +303,7 @@ def get_messages(request, pk, count):
 @api_view(['GET', 'POST', 'DELETE'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def calendar(request, pk):
+def calendar(request: Request, pk: int) -> Response:
     """
     For a dater.
     Returns the dater's scheduled dates.
@@ -347,7 +352,7 @@ def calendar(request, pk):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_dates(request, pk):
+def get_dates(request: Request, pk: int) -> Response:
     """
     For a dater.
     Returns the dater's scheduled dates.
@@ -369,7 +374,7 @@ def get_dates(request, pk):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def new_date(request):
+def new_date(request: Request) -> HttpResponse:
     """
     For a dater.
     Renders the form to create a new date.
@@ -384,7 +389,7 @@ def new_date(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def create_date(request):
+def create_date(request: Request) -> HttpResponse:
     """
     For a dater.
     Creates a new date for the dater.
@@ -413,7 +418,7 @@ def create_date(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def rate_dater(request):
+def rate_dater(request: Request) -> Response:
     """
     For a cupid.
     Saves a rating of a dater to the database.
@@ -457,7 +462,7 @@ def rate_dater(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_dater_ratings(request, pk):
+def get_dater_ratings(request: Request, pk: int) -> Response:
     """
     For all users.
     Returns the ratings of a specific dater.
@@ -481,7 +486,7 @@ def get_dater_ratings(request, pk):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_dater_avg_rating(request, pk):
+def get_dater_avg_rating(request: Request, pk: int) -> Response:
     """
     For all users.
     Returns the average rating of a specific dater.
@@ -503,7 +508,7 @@ def get_dater_avg_rating(request, pk):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_payment(request, pk):
+def get_payment(request: Request, pk: int) -> JsonResponse:
     """
     Creates a PaymentIntent with the order amount and currency.
     Args (request.body):
@@ -532,7 +537,7 @@ def get_payment(request, pk):
 
 
 @csrf_exempt
-def stripe_webhook(request):
+def stripe_webhook(request: Request) -> HttpResponse:
     """
     Endpoint to receive Stripe webhooks. Verifies signature and updates user balance
     on payment_intent.succeeded events.
@@ -575,7 +580,7 @@ def stripe_webhook(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_dater_balance(request, pk):
+def get_dater_balance(request: Request, pk: int) -> Response:
     """
     For daters.
     Returns the balance of a specific dater.
@@ -597,7 +602,7 @@ def get_dater_balance(request, pk):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_dater_profile(request, pk):
+def get_dater_profile(request: Request, pk: int) -> Response:
     """
     For daters.
     Returns the profile information of the dater.
@@ -620,7 +625,7 @@ def get_dater_profile(request, pk):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def set_dater_profile(request):
+def set_dater_profile(request: Request) -> Response:
     """
     For a dater.
     Saves the profile data of a dater.
@@ -654,7 +659,7 @@ def set_dater_profile(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def rate_cupid(request):
+def rate_cupid(request: Request) -> Response:
     """
     For a dater.
     Saves a rating of a cupid to the database.
@@ -698,7 +703,7 @@ def rate_cupid(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_cupid_ratings(request, pk):
+def get_cupid_ratings(request: Request, pk: int) -> Response:
     """
     For all users.
     Returns the ratings of a specific cupid.
@@ -718,7 +723,7 @@ def get_cupid_ratings(request, pk):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_cupid_avg_rating(request, pk):
+def get_cupid_avg_rating(request: Request, pk: int) -> Response:
     """
     Return the average rating for the requested Cupid.
 
@@ -738,7 +743,7 @@ def get_cupid_avg_rating(request, pk):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def cupid_accepting(request):
+def cupid_accepting(request: Request) -> Response:
     cupid = get_object_or_404(Cupid, user=request.user)
     if request.data['choice']:
         cupid.status = Cupid.Status.AVAILABLE
@@ -752,7 +757,7 @@ def cupid_accepting(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def create_stripe_account(request):
+def create_stripe_account(request: Request) -> Response:
     """
     Creates a Stripe Express account for the authenticated Cupid.
     Args:
@@ -767,7 +772,12 @@ def create_stripe_account(request):
     # Ensure a server-side Stripe secret key is configured
     if not getattr(settings, 'STRIPE_SECRET_KEY', None):
         return Response(
-            {'error': 'Server Stripe secret key is not configured. Please set STRIPE_SECRET_KEY in settings.'},
+            {
+                'error': (
+                    'Server Stripe secret key is not configured. '
+                    'Please set STRIPE_SECRET_KEY in settings.'
+                )
+            },
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
 
@@ -788,10 +798,17 @@ def create_stripe_account(request):
         if 'signed up for Connect' in err_str or 'You can only create new accounts' in err_str:
             user_msg = (
                 "Stripe Connect is not enabled for the configured Stripe account. "
-                "Make sure STRIPE_SECRET_KEY is a platform secret key with Connect enabled (see https://stripe.com/docs/connect)."
+                "Make sure STRIPE_SECRET_KEY is a platform secret key with Connect "
+                "enabled (see https://stripe.com/docs/connect)."
             )
-            return Response({'error': user_msg, 'stripe_error': err_str}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({'error': 'Stripe error creating account', 'stripe_error': err_str}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {'error': user_msg, 'stripe_error': err_str}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        return Response(
+            {'error': 'Stripe error creating account', 'stripe_error': err_str}, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -802,7 +819,7 @@ def create_stripe_account(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def create_onboarding_link(request):
+def create_onboarding_link(request: Request) -> Response:
     """
     Creates an account onboarding link for the given Stripe account ID.
     Args:
@@ -847,7 +864,7 @@ def create_onboarding_link(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def transfer_out(request):
+def transfer_out(request: Request) -> Response:
     """
     For a cupid.
     Transfers money from the platform's Stripe account to the authenticated Cupid's Stripe account.
@@ -878,9 +895,15 @@ def transfer_out(request):
 
     # Validate amount
     if amount <= 0:
-        return Response({'error': 'Amount must be greater than 0'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {'error': 'Amount must be greater than 0'}, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
     if amount > float(cupid.cupid_cash_balance):
-        return Response({'error': 'Insufficient cupid cash balance'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {'error': 'Insufficient cupid cash balance'}, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
     try:
         transfer = Transfer.create(
@@ -905,7 +928,7 @@ def transfer_out(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_cupid_balance(request, pk):
+def get_cupid_balance(request: Request, pk: int) -> Response:
     """
     Returns a number representing the Cupid's balance on their account.
 
@@ -924,7 +947,7 @@ def get_cupid_balance(request, pk):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_cupid_profile(request, pk):
+def get_cupid_profile(request: Request, pk: int) -> Response:
     """
     Returns all details on a Cupid's profile (details from Cupid record).
 
@@ -943,7 +966,7 @@ def get_cupid_profile(request, pk):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def set_cupid_profile(request):
+def set_cupid_profile(request: Request) -> Response:
     """
     Creates or changes data in a Cupid's profile.
 
@@ -975,7 +998,7 @@ def set_cupid_profile(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def create_gig(request):
+def create_gig(request: Request) -> Response:
     """
     Creates a gig.
 
@@ -1014,7 +1037,7 @@ def create_gig(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def accept_gig(request):
+def accept_gig(request: Request) -> Response:
     """
     Modifies the gig to show that it has been accepted by a Cupid.
 
@@ -1046,7 +1069,7 @@ def accept_gig(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def complete_gig(request):
+def complete_gig(request: Request) -> Response:
     """
     Modifies the gig to show that it has been completed.
 
@@ -1085,7 +1108,7 @@ def complete_gig(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def drop_gig(request):
+def drop_gig(request: Request) -> Response:
     """
     Modifies the gig to show that it is no longer claimed by a Cupid. 
         Cupid is no longer in charge of the gig.
@@ -1123,7 +1146,7 @@ def drop_gig(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def cancel_gig(request):
+def cancel_gig(request: Request) -> Response:
     """
     Deletes the gig.
 
@@ -1148,7 +1171,7 @@ def cancel_gig(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_cupid_gigs(request, pk):
+def get_cupid_gigs(request: Request, pk: int) -> Response:
     """
     For a cupid.
     Returns all gigs that the cupid has been assigned.
@@ -1181,7 +1204,7 @@ def get_cupid_gigs(request, pk):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_dater_gigs(request, pk):
+def get_dater_gigs(request: Request, pk: int) -> Response:
     """
     For a dater.
     Returns all gigs that the dater has created.
@@ -1210,7 +1233,7 @@ def get_dater_gigs(request, pk):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_gigs(request, pk, count):
+def get_gigs(request: Request, pk: int, count: int) -> Response:
     """
     Returns a list of gigs, up to the number of `count`.
 
@@ -1240,7 +1263,7 @@ def get_gigs(request, pk, count):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_stores(request, pk):
+def get_stores(request: Request, pk: int) -> Response:
     """
     Reaches out to an API with an address to get stores near that address location.
 
@@ -1256,7 +1279,7 @@ def get_stores(request, pk):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_activities(request, pk):
+def get_activities(request: Request, pk: int) -> Response:
     """
     Reaches out to an API with an address to get possible activities near that address location.
 
@@ -1272,7 +1295,7 @@ def get_activities(request, pk):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_events(request, pk):
+def get_events(request: Request, pk: int) -> Response:
     """
     Reaches out to an API with an address to get current entertainment events near that address 
         location.
@@ -1289,7 +1312,7 @@ def get_events(request, pk):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_attractions(request, pk):
+def get_attractions(request: Request, pk: int) -> Response:
     """
     Reaches out to an API with an address to get attractions near that address location.
 
@@ -1308,7 +1331,7 @@ def get_attractions(request, pk):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_restaurants(request, pk):
+def get_restaurants(request: Request, pk: int) -> Response:
     """
     Reaches out to an API with an address to get restaurants near that address location.
 
@@ -1327,7 +1350,7 @@ def get_restaurants(request, pk):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def get_user_location(request, pk):
+def get_user_location(request: Request, pk: int) -> Response:
     """
     For gigs, the location of the user is needed to determine the delivery location of the gig.
 
@@ -1362,7 +1385,7 @@ def get_user_location(request, pk):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated, IsAdminUser])
-def get_cupids(request):
+def get_cupids(request: Request) -> JsonResponse:
     """
     A manager can get all the cupid profiles.
 
@@ -1388,7 +1411,7 @@ def get_cupids(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated, IsAdminUser])
-def get_daters(request):
+def get_daters(request: Request) -> JsonResponse:
     """
     A manager can get all the dater profiles.
 
@@ -1414,7 +1437,7 @@ def get_daters(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated, IsAdminUser])
-def get_dater_count(request):
+def get_dater_count(request: Request) -> Response:
     """
     A manager can get the number of total daters.
 
@@ -1439,7 +1462,7 @@ def get_dater_count(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated, IsAdminUser])
-def get_cupid_count(request):
+def get_cupid_count(request: Request) -> Response:
     """
     A manager can get the number of total cupids.
 
@@ -1464,7 +1487,7 @@ def get_cupid_count(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated, IsAdminUser])
-def get_active_cupids(request):
+def get_active_cupids(request: Request) -> Response:
     """
     A manager can get the number of active cupids.
 
@@ -1489,7 +1512,7 @@ def get_active_cupids(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated, IsAdminUser])
-def get_active_daters(request):
+def get_active_daters(request: Request) -> Response:
     """
     A manager can get the number of active daters.
 
@@ -1514,7 +1537,7 @@ def get_active_daters(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated, IsAdminUser])
-def get_gig_rate(request):
+def get_gig_rate(request: Request) -> Response:
     """
     A manager can get the rate of gigs per hour.
 
@@ -1543,7 +1566,7 @@ def get_gig_rate(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated, IsAdminUser])
-def get_gig_count(request):
+def get_gig_count(request: Request) -> Response:
     """
     A manager can get the number of gigs that are currently active.
 
@@ -1568,7 +1591,7 @@ def get_gig_count(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated, IsAdminUser])
-def get_gig_drop_rate(request):
+def get_gig_drop_rate(request: Request) -> Response:
     """
     A manager can get the rate of gigs that are dropped.
 
@@ -1601,7 +1624,7 @@ def get_gig_drop_rate(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated, IsAdminUser])
-def get_gig_complete_rate(request):
+def get_gig_complete_rate(request: Request) -> Response:
     """
     A manager can get the rate of gigs that are completed.
 
@@ -1632,7 +1655,7 @@ def get_gig_complete_rate(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated, IsAdminUser])
-def suspend(request):
+def suspend(request: Request) -> Response:
     """
     Manager can suspend a user.
 
@@ -1661,7 +1684,7 @@ def suspend(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated, IsAdminUser])
-def unsuspend(request):
+def unsuspend(request: Request) -> Response:
     """
     Manager can unsuspend a user.
 
@@ -1691,7 +1714,7 @@ def unsuspend(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def speech_to_text(request):
+def speech_to_text(request: Request) -> Response:
     """
     For a Dater.
     Convert an audio file to text. When the audio is converted to text, the text is sent to the 
@@ -1740,7 +1763,7 @@ def speech_to_text(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def notify(request):
+def notify(request: Request) -> Response:
     """
     Notify a user (any type) of something via a text or email depending on their 
         communication preference.
@@ -1770,7 +1793,7 @@ def notify(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def initial_msg(request):
+def initial_msg(request: Request) -> Response:
     client = Groq(
         api_key=os.environ.get("GROQ_API_KEY"),
     )
@@ -1791,7 +1814,7 @@ def initial_msg(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def date_ideas(request):
+def date_ideas(request: Request) -> Response:
     history = request.GET.get('history')
     if history:
         history = json.loads(history)
@@ -1809,9 +1832,11 @@ def date_ideas(request):
                             based on the user's input and preferences. 
                             Also factor in their user data, including their location.
                             Also factor in weather conditions if relevant.
-                            Number them 1, 2, and 3. Keep each idea consice and in it's own paragraph.                   
+                            Number them 1, 2, and 3. Keep each idea concise and in 
+                            it's own paragraph.                   
                             Prompt the user to pick one of the ideas by number.
-                            Format the message in html, using <p> for paragraphs and <br> for line breaks.""",
+                            Format the message in html, using <p> for paragraphs 
+                            and <br> for line breaks.""",
             },
             {
                 "role": "system",
@@ -1841,7 +1866,7 @@ def date_ideas(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def date_plan(request):
+def date_plan(request: Request) -> Response:
     history = request.GET.get('history')
     if history:
         history = json.loads(history)
