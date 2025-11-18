@@ -42,8 +42,15 @@ In essence, acceptance testing will consist of ensuring that navigation in the U
   - Our presentation in class will simulate acceptance testing. As a new team, we will ensure that all requirements that were not met are accounted for in preparation for the next team to take over.
 
 ## Journey to Testing
+We have struggled to put in a lot of formal testing work throughout the previous sprints. We planned to write at least some of the different types of tests whilst we worked in the development sprints, but this workflow was harder than we had anticipated and we all struggled to write and formal tests for our various features we worked on. 
 
-TODO
+Everyone has performed what appears to be sufficient informal testing (print statements, console logs, manual tests of the different website features, etc) for all of their work but we have not arrived at setting up the official Selenium testing suite or other written software tests yet.
+
+We are now writing this test document to come up with our formalized testing plan, and will be spending much of sprint 5 implementing all of the test types we wish to employ to ensure our softwares funcionality.
+
+We have some varying levels of expertise on testing software in the team. One team member works in mainly in software testing right now which we hope to put to use to accelerate and enhance our testing implementation process.
+
+Overall, we have learned a lot about the importance of writing tests as your are implementing rather than at the feature freeze. It was easy to put them off, because there was already so much to do for our requirements on top of testing implementation, but our testing sprint would have been easier had we been writing more formal tests along the way. Though we should still be able to get everything working for the testing suite, we did do good work in the informal testing of our features before pushing them to develop so we expect to not find too many project critically damaging bugs.
 
 ### Lessons Learned
 
