@@ -15,7 +15,7 @@ const chatCount = 10;
 
 async function getChats() {
     const results = await makeRequest(`/api/chat/${user_id}/${chatCount}`);
-    console.log("Results: ", results)
+    console.log("getChats() results: ", results)
     // May need to split results chat to fit into array
     if (results === undefined) {
         chatArr.value = []
@@ -54,7 +54,7 @@ async function send() {
         },
         message: message.value
     });
-    console.log("AI Response: ", results)
+    console.log("send() response results:", results)
     chatArr.value.push(results.message)
 
     const ai_child = document.createElement('div')
@@ -66,7 +66,7 @@ async function send() {
 
     message.value = ''
 
-    router.push({ name: 'AiChat', params: {id: user_id} })
+    router.push({ name: 'AiChat', params: {id: user_id}, query: {refresh: Date.now()}})
 }
 
 onMounted(getChats)
