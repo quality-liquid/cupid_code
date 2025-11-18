@@ -20,22 +20,26 @@ In essence, acceptance testing will consist of ensuring that navigation in the U
   - Unit testing forms the backbone of our testing strategy, particularly for the backend components of our application. 
   - Given the nature of our server-side operations, which primarily involve processing input and delivering expected output to the UI, unit tests are invaluable for isolating and validating individual components. 
   - By subjecting each component to controlled inputs and meticulously examining their responses, we can detect and address potential bugs early in the development lifecycle.
-  - We did not have time to fully implement this, as there are many use cases we'd undoubtedly miss. We also had little time to be thorough. We did talk about potential cases as a team, though.
+  - As a new team, our intention will be to better implement unit tests with the new components we have added as well as better flesh out the unit tests written by the old team. They stated that they didn't have a whole lot of time to fully implement it and we have lots of components that could easily be verifiable using unit tests.
+  - As a new team, we also intend to better utilize this in our CI/CD pipeline as it is currently a lot of "CD" without a lot of "CI" automatically running the tests for us mostly because there aren't a lot of unit or integration tests to run.
 - **Integration Testing**
   - Integration testing plays a crucial role in validating the seamless interaction between different components of our application. 
   - While currently pending, our integration testing efforts will focus on testing the integration points between various modules and subsystems to ensure their cohesive operation.
-  - We did not have time to fully implement this, but it is a crucial part of our testing strategy. Given more time, we would have provided further implementation to ensure that all of our components work together as expected.
+  - As a new team, our intention will be to better implement integration tests with the new components we have added. They stated that they didn't have a whole lot of time to fully implement it and in addition to having many components added we have also relied on a lot of moving parts within our system that could be tested as part of integration testing.
+  - As a new team, we also intend to better utilize this in our CI/CD pipeline as it is currently a lot of "CD" without a lot of "CI" automatically running the tests for us mostly because there aren't a lot of unit or integration tests to run.
 - **Regression Testing**
   - Regression testing forms an integral part of our ongoing maintenance and development efforts. 
   - Rather than solely focusing on crafting new tests, regression testing involves systematically rerunning existing tests whenever a new feature is added or a bug is resolved. 
-  - This ensures that any changes or updates do not inadvertently introduce regressions or disrupt existing functionality. 
+  - This ensures that any changes or updates do not inadvertently introduce regressions or disrupt existing functionality.
+  - As a new team, we intend to ensure good compatibility as we continue testing to prevent adding anything that breaks to our production branch. Regression testing will be done before it gets to touch production.
 - **System Testing**
   - System testing encompasses a comprehensive evaluation of the entire application ecosystem, including its compatibility across different devices and platforms, UI consistency, and adherence to security standards. 
   - This includes rigorous validation of input data to mitigate the risk of code or SQL injections, ensuring robust data security measures are in place.
+  - As a new team, we will try to understand what the previous team did for their system testing and adhere to those standards as well as make sure our new additions maintain the system security that they had.
 - **Acceptance Testing**
   - Acceptance testing serves as the final validation phase before presenting the Minimum Viable Product (MVP) to stakeholders and customers. 
   - It involves meticulously verifying whether the delivered product meets the predefined acceptance criteria and aligns with the stakeholders' expectations.
-  - Our presentation in class will simulate acceptance testing.
+  - Our presentation in class will simulate acceptance testing. As a new team, we will ensure that all requirements that were not met are accounted for in preparation for the next team to take over.
 
 ## Journey to Testing
 
