@@ -66,7 +66,7 @@ async function send() {
 
     message.value = ''
 
-    router.push({ name: 'AiChat', params: {id: user_id}, query: {refresh: Date.now()}})
+    router.push({ name: 'AiChat', params: {id: user_id}})
 }
 
 onMounted(getChats)

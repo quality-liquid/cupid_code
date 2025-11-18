@@ -46,7 +46,7 @@ onMounted(() => {
           </div>
       </nav>
     </div>
-    <router-view :key="$route.fullPath"/>
+    <router-view />
 </template>
 
 <style scoped>
