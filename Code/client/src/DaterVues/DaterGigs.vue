@@ -94,6 +94,7 @@
         <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
         <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
         <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
+        <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}"> Notifications </router-link>
     </NavSuite>
 
     <div class="mobile-container">
