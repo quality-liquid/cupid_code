@@ -75,14 +75,30 @@ onMounted(getChats)
 
 <template>  
     <NavSuite title='Chat Room' profile='DaterProfile'>
-        <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
-        <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
-        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
-        <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
-        <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
-        <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
-        <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
-        <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}"> Notifications </router-link>
+        <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> 
+            Home 
+        </router-link>
+        <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> 
+            Profile 
+        </router-link>
+        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> 
+            Calendar 
+        </router-link>
+        <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> 
+            AI Listen 
+        </router-link>
+        <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> 
+            Gigs 
+        </router-link>
+        <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> 
+            Balance
+        </router-link>
+        <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> 
+            Feedback 
+        </router-link>
+        <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}"> 
+            Notifications 
+        </router-link>
     </NavSuite>
 
     <div class="mobile-container">
@@ -92,7 +108,9 @@ onMounted(getChats)
         </div>
         <div v-else>
             <div v-for="(chat, index) of chatArr" id="chat-container">
-                <div :key="index" :class="chat.from_ai ? 'chat response' : 'chat sent'">{{ chat.text }}</div>
+                <div :key="index" :class="chat.from_ai ? 'chat response' : 'chat sent'">
+                    {{ chat.text }}
+                </div>
             </div>
         </div>
     </div>
