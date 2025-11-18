@@ -120,14 +120,14 @@ Every-time:
 3. Ensure you have access to selenium, run `poetry shell` if using poetry.
 4. Run all tests with `python run_tests.py`, or run specific tests with `python test_*.py`
 
-### Manual system test
+### Manual system tests
 
 Use-case: As a cupid, complete a gig and rate the dater.
 
 0. Ensure the server is up and running for the frontend and backend.[Code/README.md](../../../Code/README.md)
 1. Sign in as a cupid
     - username: really@me.com
-    - passowrd: password
+    - password: password
 2. Click the "find gigs" link on the home page
 3. Claim a gig.
 4. Mark the gig as complete.
@@ -143,3 +143,27 @@ Verify results:
 2. Use the sidebar to navigate to "Feedback"
 3. You should see your new review at the bottom of the list.
 
+Use-case: As a dater, have a conversation with the AI as you plan a date.
+
+0. Ensure the server is up and running for the frontend and backend.[Code/README.md](../../../Code/README.md)
+0. Sign in as a dater
+    - username: bob@cupidcode.com
+    - password: password
+0. Click the "Calendar" link on the home page.
+0. Click "Plan a date w/AI" above the calendar.
+0. In the chat box, give the AI a bare-bones idea for a date. This will force it to use data it already has from your profile in creating a date.
+0. Tell the AI that you like the second option, but would prefer it be a full day event. This should have the AI more fully flesh out the date idea.
+0. Tell the AI that you've changed your mind and would like a shorter date, and to keep it under a budget of $25. This should once again have the AI more fully flesh out the date idea.
+0. Accept the new idea. It should generate a date according to the new specifications.
+
+Use-case: As a dater, have a conversation with another person with the AI listening in.
+
+0. Ensure the server is up and running for the frontend and backend.[Code/README.md](../../../Code/README.md)
+0. Sign in as a dater
+    - username: bob@cupidcode.com
+    - password: password
+0. Click the "AI Listen" link on the home page.
+0. Find a friend.
+0. Click "Start Listening" on the AI Listen page.
+0. Have a conversation with your friend close to the built-in microphone.
+0. Observe the AI's transcript of the conversation and note its accuracy.
