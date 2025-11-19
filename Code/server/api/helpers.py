@@ -5,12 +5,21 @@ from wave import open as open_wave
 from os.path import exists as file_exists
 from os import remove as delete_file
 
+# Allows for type hinting without importing unnecessary modules at runtime
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from django.http import HttpRequest as Request
+    from rest_framework import serializers
+    from typing import Any
+
+
 # Django
 from django.contrib.auth import login
 from django.contrib.sessions.models import Session
 from django.utils import timezone
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, get_list_or_404
+from django.conf import settings
 
 # Rest Framework
 from rest_framework.response import Response
@@ -20,12 +29,14 @@ from rest_framework import status
 from geopy.geocoders import Nominatim
 import geoip2.database
 from yelpapi import YelpAPI
-from transformers import GPT2Tokenizer, GPT2LMHeadModel
 from operator import contains
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from twilio.rest import Client
 from speech_recognition import Recognizer, AudioFile 
+
+# Groq AI
+from groq import Groq
 
 # Local
 from .models import User, Dater, Cupid, Date
@@ -38,7 +49,7 @@ from .serializers import (
     DateSerializer
 )
 
-def initialize_serializer(user):
+def initialize_serializer(user: User) -> DaterSerializer | CupidSerializer:
     if user.role == User.Role.DATER:
         dater = Dater.objects.get(user=user)
         return DaterSerializer(dater)
@@ -47,19 +58,19 @@ def initialize_serializer(user):
         return CupidSerializer(cupid)
 
 
-def authenticated_dater(pk, user):
+def authenticated_dater(pk: int, user: User):
     if pk != user.id:
         raise PermissionDenied()
     return get_object_or_404(Dater, user_id=pk)
 
 
-def authenticated_cupid(pk, user):
+def authenticated_cupid(pk: int, user: User):
     if pk != user.id:
         raise PermissionDenied()
     return get_object_or_404(Cupid, user_id=pk)
 
 
-def save_profile(request, user, serializer):
+def save_profile(request: Request, user: User, serializer: serializers.ModelSerializer) -> Response:
     if serializer.is_valid():
         serializer.save()
         login(request, user)
@@ -70,7 +81,7 @@ def save_profile(request, user, serializer):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def user_expand(user, other_serializer):
+def user_expand(user: User, other_serializer: serializers.ModelSerializer) -> dict | Response:
     try:
         return_data = other_serializer.data
         if user.role == User.Role.MANAGER:
@@ -84,7 +95,7 @@ def user_expand(user, other_serializer):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-def retrieved_response(serializer):
+def retrieved_response(serializer: serializers.ModelSerializer) -> Response:
     """
     This method is to make validating information is retrieved correctly and return a 200.
     Returns 400 if it failed.
@@ -95,9 +106,10 @@ def retrieved_response(serializer):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def save_serializer(serializer):
+def save_serializer(serializer: serializers.ModelSerializer) -> Response:
     """
-    This method is to make validating information is changed and saved correctly, and it returns a 201.
+    This method is to make validating information is changed and saved correctly, 
+        and it returns a 201.
     Returns 400 if it failed.
     """
     if serializer.is_valid():
@@ -106,6 +118,48 @@ def save_serializer(serializer):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+def get_ai_groq_response(message: str, history: str = "") -> str:
+    """
+    Send the message to the AI and return the response
+    """
+    try:
+        api_key = getattr(settings, "GROQ_API_KEY", None)
+        client = Groq(api_key=api_key)
+
+        system_content = (
+            "You are a helpful assistant that gives advice to daters based on their requests."
+        )
+
+        chat_completion = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {
+                    "role": "system",
+                    "content": system_content
+                },
+                {
+                    "role": "system",
+                    "content": "Use the conversation history to provide context for your responses."
+                },
+                {
+                    "role": "system",
+                    "content": "The conversation history is as follows: " + history
+                },
+                {
+                    "role": "user",
+                    "content": message
+                }
+            ]
+        )
+
+        return chat_completion.choices[0].message.content
+
+    except Exception as e:
+        #TODO how do I make this exception more informative?
+        return str(e)
+
+
+#TODO remove this once other function is working
 def get_ai_response(message: str):
     """
     Send the message to the AI and return the response.
@@ -118,7 +172,12 @@ def get_ai_response(message: str):
         # Tokenize input text
         input_ids = tokenizer.encode(message, return_tensors='pt')
         # Generate response
-        output = model.generate(input_ids, max_length=100, num_return_sequences=1, early_stopping=True)
+        output = model.generate(
+            input_ids, 
+            max_length=100, 
+            num_return_sequences=1, 
+            early_stopping=True
+        )
         # Decode and return response
         response = tokenizer.decode(output[0], skip_special_tokens=True)
         return response
@@ -126,10 +185,11 @@ def get_ai_response(message: str):
         return str(e)
 
 
-def save_calendar(request):
+def save_calendar(request: Request) -> Response:
     try:
         data = request.data
-        # TODO: Either us or the frontend needs to determine a planned location, then save the geo coords
+        # TODO: Either us or the frontend needs to determine a planned location, 
+        # then save the geo coords
         data['location'] = get_location_string(request.META['REMOTE_ADDR'])
         data['dater'] = request.user.id
         serializer = DateSerializer(data=data)
@@ -138,7 +198,7 @@ def save_calendar(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-def get_calendar(pk, request):
+def get_calendar(pk: int, request: Request) -> Response:
     try:
         dater = authenticated_dater(pk, request.user)
         dates = get_list_or_404(Date, dater=dater)
@@ -148,13 +208,13 @@ def get_calendar(pk, request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-def update_user_location(user, addr):
+def update_user_location(user: User, addr: str) -> None:
     user.location = get_location_string(addr)
     if user.location is not None:
         user.save()
 
 
-def get_location_string(ip_address):
+def get_location_string(ip_address: str) -> str | None:
     if ip_address is None:
         return None
     if ip_address == "127.0.0.1" or ip_address == "localhost":
@@ -165,7 +225,7 @@ def get_location_string(ip_address):
     return f"{latitude} {longitude}"
 
 
-def get_location_from_address(address):
+def get_location_from_address(address: str) -> tuple[float, float] | tuple[None, None]:
     """
     Returns the location of an address.
     """
@@ -182,7 +242,7 @@ def get_location_from_address(address):
         return None, None
 
 
-def get_location_from_ip_address(ip_address):
+def get_location_from_ip_address(ip_address: str) -> tuple[str, str] | tuple[None, None]:
     """
     Returns the location of an IP address.
     """
@@ -201,7 +261,7 @@ def get_location_from_ip_address(ip_address):
             return None, None
 
 
-def locations_are_near(location1, location2, max_distance_miles):
+def locations_are_near(location1: str, location2: str, max_distance_miles: float) -> bool:
     """
     Returns whether two locations are near each other.
     """
@@ -211,11 +271,15 @@ def locations_are_near(location1, location2, max_distance_miles):
     latitude2 = latitude2.strip(',')
     # TODO: Expand quest or give frontend an api for getting quests.
     return within_distance(
-        float(latitude1), float(longitude1), float(latitude2), float(longitude2), float(max_distance_miles)
+        float(latitude1),
+        float(longitude1),
+        float(latitude2),
+        float(longitude2),
+        float(max_distance_miles)
     )
 
 
-def haversine_distance(lat1, lon1, lat2, lon2):
+def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     # Radius of the Earth in miles
     r = 3958.8  # miles
 
@@ -232,23 +296,35 @@ def haversine_distance(lat1, lon1, lat2, lon2):
     return distance
 
 
-def within_distance(lat1, lon1, lat2, lon2, max_distance_miles):
+def within_distance(
+        lat1: float, 
+        lon1: float, 
+        lat2: float, 
+        lon2: float, 
+        max_distance_miles: float
+    ) -> bool:
+
     distance = haversine_distance(lat1, lon1, lat2, lon2)
     return distance <= max_distance_miles
 
 
-def call_yelp_api(pk, search):
+def call_yelp_api(pk: int, search: str) -> Any | None:
     dater = get_object_or_404(Dater, user_id=pk)
     latitude, longitude = dater.location.split(" ")
     api_key = get_yelp_api_key()
     with YelpAPI(api_key, timeout_s=5.0) as yelp_api:
         try:
-            return yelp_api.search_query(term=search, latitude=latitude, longitude=longitude, limit=10)
+            return yelp_api.search_query(
+                term=search,
+                latitude=latitude,
+                longitude=longitude,
+                limit=10
+            )
         except YelpAPI.YelpAPIError as e:
             return None
 
 
-def get_yelp_api_key():
+def get_yelp_api_key() -> str:
     """
     Returns the Yelp API key.
     """
@@ -257,7 +333,7 @@ def get_yelp_api_key():
         return lines[0].split(" ")[2].strip()
 
 
-def get_twilio_account_sid():
+def get_twilio_account_sid() -> str:
     """
     Returns the Twilio account SID.
     """
@@ -266,7 +342,7 @@ def get_twilio_account_sid():
         return lines[1].split(" ")[2].strip()
 
 
-def get_twilio_auth_token():
+def get_twilio_auth_token() -> str:
     """
     Returns the Twilio authentication token.
     """
@@ -275,7 +351,7 @@ def get_twilio_auth_token():
         return lines[1].split(" ")[4].strip()
 
 
-def get_twilio_authenticated_sender_email():
+def get_twilio_authenticated_sender_email() -> str:
     """
     Returns the Twilio authenticated sender email.
     """
@@ -284,7 +360,7 @@ def get_twilio_authenticated_sender_email():
         return lines[5].split(" ")[1].strip()
 
 
-def get_grid_api_key():
+def get_grid_api_key() -> str:
     """
     Returns the Grid API key.
     """
@@ -293,7 +369,7 @@ def get_grid_api_key():
         return lines[2].split(" ")[2].strip()
 
 
-def get_twilio_authenticated_reserve_phone_number():
+def get_twilio_authenticated_reserve_phone_number() -> str:
     """
     Returns the Twilio authenticated reserve phone number.
     """
@@ -302,7 +378,7 @@ def get_twilio_authenticated_reserve_phone_number():
         return lines[4].split(" ")[1].strip()
 
 
-def get_twilio_authenticated_sender_phone_number():
+def get_twilio_authenticated_sender_phone_number() -> str:
     """
     Returns the Twilio authenticated sender phone number.
     """
@@ -311,7 +387,7 @@ def get_twilio_authenticated_sender_phone_number():
         return lines[5].split(" ")[1].strip()
 
 
-def process_ai_response(dater, response):
+def process_ai_response(dater: Dater, response: str) -> Response:
     if contains('Create gig: True', response):
         return create_new_gig(dater, response)
     else:
@@ -321,7 +397,7 @@ def process_ai_response(dater, response):
         )
 
 
-def create_new_gig(dater, response):
+def create_new_gig(dater: Dater, response: str) -> Response:
     requested_items = 'NA'
     for line in response.split('\n'):
         if contains('Items requested:', line):
@@ -363,7 +439,7 @@ def create_new_gig(dater, response):
         )
 
 
-def send_text(account_sid, auth_token, message):
+def send_text(account_sid: str, auth_token: str, message: str) -> Response:
     # We are hard-coding the number since only verified numbers can be used
     to_phone_number = get_twilio_authenticated_reserve_phone_number()
     from_phone_number = get_twilio_authenticated_sender_phone_number()
@@ -376,7 +452,7 @@ def send_text(account_sid, auth_token, message):
     return Response(message.sid, status=status.HTTP_200_OK)
 
 
-def send_email(dater, message):
+def send_email(dater: Dater, message: str) -> Response:
     dater_email = dater.email
     from_email = get_twilio_authenticated_sender_email()
     mail = Mail(
@@ -394,7 +470,7 @@ def send_email(dater, message):
     return Response(response, status=status.HTTP_200_OK)
 
 
-def get_message_from_audio(audio_data, dater):
+def get_message_from_audio(audio_data: str, dater: Dater) -> str:
     recognizer = Recognizer()
     # Convert base64 audio data to bytes
     audio_bytes = b64decode(audio_data)
@@ -418,11 +494,13 @@ def get_message_from_audio(audio_data, dater):
                           The purpose of a gig is to tell a Cupid what to do to save the date. 
                           If a gig is created, the Cupid will be able to see the gig and accept it. 
                           A gig will need to know what items are requested for the date. 
-                          The budget for the gig will be the amount of money the Dater is willing to spend on the date.
+                          The budget for the gig will be the amount of money the Dater 
+                            is willing to spend on the date.
                           Budget: {dater.budget}
                           Please give your response in the following form:
                               Create gig: True or False
-                              Items requested: Flowers, Chocolate, etc. or NA if no items are requested
+                              Items requested: Flowers, Chocolate, etc. or NA if no items 
+                                are requested
                           The text is: 
 
                           """
@@ -437,7 +515,7 @@ def get_message_from_audio(audio_data, dater):
             delete_file(file_path)
 
 
-def get_response_from_yelp_api(pk, request, search):
+def get_response_from_yelp_api(pk: int, request: Request, search: str) -> Response:
     if pk != request.user.id:
         return Response(status=status.HTTP_403_FORBIDDEN)
     response = call_yelp_api(pk, search)
@@ -446,7 +524,7 @@ def get_response_from_yelp_api(pk, request, search):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-def get_sessions(role):
+def get_sessions(role: str) -> Response:
     active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
     if active_sessions is None:
         return Response({'error': 'No active sessions'}, status=status.HTTP_400_BAD_REQUEST)

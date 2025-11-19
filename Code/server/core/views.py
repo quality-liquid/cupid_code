@@ -19,7 +19,7 @@ if not settings.DEBUG:
     MANIFEST = load_json(file)
 
 
-def index(req):
+def index(req: HttpRequest) -> render:
     context = {
         'asset_url': env.get('ASSET_URL', ''),
         'debug': settings.DEBUG,
@@ -30,19 +30,19 @@ def index(req):
     return render(req, 'core/index.html', context)
 
 
-def get_image(req: HttpRequest):
+def get_image(req: HttpRequest) -> FileResponse:
     FILE_EXTENSION = env.get('FILE_EXTENSION', '')
     VAULT_PATH = env.get('VAULT_PATH', '')
     path = join_path(VAULT_PATH, 'cupid_logo' + '.' + FILE_EXTENSION)
     return FileResponse(open(path, "rb"))
 
-def get_graph(req: HttpRequest):
+def get_graph(req: HttpRequest) -> FileResponse:
     FILE_EXTENSION = env.get('FILE_EXTENSION', '')
     VAULT_PATH = env.get('VAULT_PATH', '')
     path = join_path(VAULT_PATH, 'graph' + '.' + FILE_EXTENSION)
     return FileResponse(open(path, "rb"))
 
 @login_required
-def logout_view(request):
+def logout_view(request: HttpRequest) -> redirect:
     logout(request)
     return redirect("/")
