@@ -9,4 +9,4 @@ Run all tests with `python run_tests.py`
 Run specific tests with `python test_x.py`
 
 # Common Problems
-If you are getting errors about unexpected data, you may have a bad db. Make sure you have a freshly migrated db. If you have on stored in `Code/server/db_backup.sqlite3` you can run `python utils.py` and it will invoke `db_restore()`
+If you are getting errors about unexpected data, you may have a bad db. Make sure you have a freshly migrated db. If you have one stored in `Code/server/db_backup.sqlite3` you can run `python utils.py` and it will invoke `db_restore()`

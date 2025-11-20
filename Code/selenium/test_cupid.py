@@ -33,7 +33,9 @@ class CupidTestCases(unittest.TestCase):
         for i in range(2):
             gig = self.browser.find_element(By.CLASS_NAME, 'inactive')
             gig.find_element(By.TAG_NAME, 'button').click()
-            self.wait.until(lambda d: len(self.browser.find_elements(By.CLASS_NAME, 'active')) == i+1)
+            self.wait.until(
+                lambda d: len(self.browser.find_elements(By.CLASS_NAME, 'active')) == i+1
+            )
 
     def navigate(self, link_text):
         self.browser.find_element(By.ID, 'navMenu').click()
@@ -69,11 +71,15 @@ class CupidTestCases(unittest.TestCase):
         for i in range(2):
             active = self.browser.find_element(By.CLASS_NAME, 'active')
             active.find_element(By.TAG_NAME, 'button').click()
-            self.wait.until(lambda d: len(self.browser.find_elements(By.CLASS_NAME, 'active')) == 1-i)
+            self.wait.until(
+                lambda d: len(self.browser.find_elements(By.CLASS_NAME, 'active')) == 1-i
+            )
 
         self.navigate('Profile')
         self.assertEqual(self.browser.find_element(By.ID, 'balance').text, "$15.00")
-        self.assertEqual(self.browser.find_element(By.ID, 'succesful').text, "6 gigs succesful of 22")
+        self.assertEqual(
+            self.browser.find_element(By.ID, 'succesful').text, "6 gigs succesful of 22"
+        )
 
     def test_feedback(self):
         utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
@@ -81,7 +87,9 @@ class CupidTestCases(unittest.TestCase):
         feedbacks = self.browser.find_elements(By.CLASS_NAME, 'feedback')
         self.assertEqual(len(feedbacks), 1)
         self.assertEqual(feedbacks[0].find_element(By.TAG_NAME, 'h1').text, 'Star Rating: 5')
-        self.assertEqual(feedbacks[0].find_element(By.TAG_NAME, 'span').text, 'Feedback: This cupid was great!')
+        self.assertEqual(
+            feedbacks[0].find_element(By.TAG_NAME, 'span').text, 'Feedback: This cupid was great!'
+        )
 
     def test_navigation(self):
         routes = {'Home': 'Home',
