@@ -1,6 +1,7 @@
 <script setup>
 // NOTE: I tried matching the results names to what I can see in the views.py and helper.py 
-//If things are reading null or undefined, just console.log(results) to see what the names are and then change `results.data` to `results.<foundName>`
+//If things are reading null or undefined, just console.log(results) to see what the names are 
+// and then change `results.data` to `results.<foundName>`
 import {ref, onMounted} from 'vue'
 import { makeRequest } from '../utils/make_request';
 import {to_pdf} from '../utils/to_PDF';
@@ -68,19 +69,29 @@ onMounted(() => {
 
 <template>
     <NavSuite title='Home'>
-          <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}"> Home </router-link>
-          <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}"> See Dater Info </router-link>
-          <router-link class="link" :to="{name: 'ManageCupids', params: {id: user_id}}"> See Cupid Info </router-link>
+          <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}">
+            Home 
+          </router-link>
+          <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}">
+            See Dater Info 
+          </router-link>
+          <router-link class="link" :to="{name: 'ManageCupids', params: {id: user_id}}">
+            See Cupid Info 
+          </router-link>
     </NavSuite>
   <main class="container">
       <div class="widget-container">
         <div class="widget blue">
           <span class="material-symbols-outlined icon">person</span>
-          <router-link class="header" :to="{name: 'ManageCupids', params: {id: user_id}}">Cupids</router-link>
+          <router-link class="header" :to="{name: 'ManageCupids', params: {id: user_id}}">
+            Cupids
+          </router-link>
         </div>
         <div class="widget red"> 
           <span class="material-symbols-outlined icon">favorite</span>
-          <router-link class="header" :to="{name: 'ManageDaters', params: {id: user_id}}">Daters</router-link>
+          <router-link class="header" :to="{name: 'ManageDaters', params: {id: user_id}}">
+            Daters
+          </router-link>
         </div>
       </div>
 
@@ -220,8 +231,3 @@ h3 {
   padding: 16px;
 }
 </style>
-  
-
-
-
-
