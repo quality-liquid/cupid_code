@@ -194,54 +194,118 @@ function previewFile() {
             <div class="radios">
                 <label class="radio_detail" for="cupid">
                     Cupid
-                    <input type="radio" id="cupid" name="accountType" value="cupid" v-model="accType.value.value" />
+                    <input
+                        type="radio"
+                        id="cupid"
+                        name="accountType"
+                        value="cupid"
+                        v-model="accType.value.value"
+                    />
                 </label>
                 <label class="radio_detail" for="dater">
                     Dater
-                    <input type="radio" id="dater" name="accountType" value="dater" v-model="accType.value.value" />
+                    <input
+                        type="radio"
+                        id="dater"
+                        name="accountType"
+                        value="dater"
+                        v-model="accType.value.value"
+                    />
                 </label>
             </div>
             <label class="input_detail" for="fname">
                 First Name*
-                <input type="text" id="fname" placeholder="First Name" v-model="fname.value.value" />
+                <input
+                    type="text"
+                    id="fname"
+                    placeholder="First Name"
+                    v-model="fname.value.value"
+                />
             </label>
             <label class="input_detail" for="lname">
                 Last Name*
-                <input type="text" id="lname" placeholder="Last Name" v-model="lname.value.value" />
+                <input
+                    type="text"
+                    id="lname"
+                    placeholder="Last Name"
+                    v-model="lname.value.value"
+                />
             </label>
             <label class="input_detail" for="username">
                 Username*
-                <input type="text" id="username" placeholder="username01" v-model="username.value.value" />
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="username01"
+                    v-model="username.value.value"
+                />
             </label>
             <label class="input_detail" for="email">
                 Email*
-                <input type="email" id="email" placeholder="example@email.com" v-model="email.value.value" />
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="example@email.com"
+                    v-model="email.value.value"
+                />
             </label>
             <label class="input_detail" for="password">
                 Password*
-                <input v-model="password.value.value" type="password" id="password" placeholder="Password"
-                    aria-describedby="pw-requirements" />
+                <input
+                    v-model="password.value.value"
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                    aria-describedby="pw-requirements" 
+                />
                 <div id="pw-requirements" class="pw-checklist" aria-live="polite">
-                    <div><small :class="{ ok: pwMinLen, bad: !pwMinLen }">▣ At least 8 characters</small></div>
-                    <div><small :class="{ ok: pwHasUpper, bad: !pwHasUpper }">▣ Uppercase letter</small></div>
-                    <div><small :class="{ ok: pwHasLower, bad: !pwHasLower }">▣ Lowercase letter</small></div>
-                    <div><small :class="{ ok: pwHasNumber, bad: !pwHasNumber }">▣ Number</small></div>
-                    <div><small :class="{ ok: pwHasSpecial, bad: !pwHasSpecial }">▣ Special character</small></div>
-                    <div><small :class="{ ok: pwNotCommon, bad: !pwNotCommon }">▣ Not a common password</small></div>
+                    <div><small :class="{ ok: pwMinLen, bad: !pwMinLen }">
+                        ▣ At least 8 characters
+                    </small></div>
+                    <div><small :class="{ ok: pwHasUpper, bad: !pwHasUpper }">
+                        ▣ Uppercase letter
+                    </small></div>
+                    <div><small :class="{ ok: pwHasLower, bad: !pwHasLower }">
+                        ▣ Lowercase letter
+                    </small></div>
+                    <div><small :class="{ ok: pwHasNumber, bad: !pwHasNumber }">
+                        ▣ Number
+                    </small></div>
+                    <div><small :class="{ ok: pwHasSpecial, bad: !pwHasSpecial }">
+                        ▣ Special character
+                    </small></div>
+                    <div><small :class="{ ok: pwNotCommon, bad: !pwNotCommon }">
+                        ▣ Not a common password
+                    </small></div>
                 </div>
             </label>
             <label class="input_detail" for="phone">
                 Phone Number*
-                <input type="number" id="phone" placeholder="8889991111" v-model="phone.value.value" />
+                <input
+                    type="number" 
+                    id="phone" 
+                    placeholder="8889991111" 
+                    v-model="phone.value.value" 
+                />
             </label>
             <label class="input_detail" for="address">
                 Address*
-                <input type="text" id="address" placeholder="1300 N 400 W Example Lane" v-model="addr.value.value" />
+                <input 
+                    type="text" 
+                    id="address" 
+                    placeholder="1300 N 400 W Example Lane" 
+                    v-model="addr.value.value" 
+                />
             </label>
             <label class="input_detail" for="image">
                 Profile Picture
                 <input type="file" id="image" name="image" @change="previewFile" />
-                <img name="pfp" v-if="imagePreview" :src="imagePreview" height="100" alt="Image preview...">
+                <img 
+                    name="pfp" 
+                    v-if="imagePreview" :src="imagePreview" 
+                    height="100" 
+                    alt="Image preview..."
+                >
             </label>
             <label class="text_detail" for="desc">
                 Physical Description*
