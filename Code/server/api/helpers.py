@@ -328,63 +328,49 @@ def get_yelp_api_key() -> str:
     """
     Returns the Yelp API key.
     """
-    with open('yelp_api_key.txt', 'r') as file:
-        lines = file.readlines()
-        return lines[0].split(" ")[2].strip()
+    return getattr(settings, "YELP_API_KEY", None)
 
 
 def get_twilio_account_sid() -> str:
     """
     Returns the Twilio account SID.
     """
-    with open('yelp_api_key.txt', 'r') as file:
-        lines = file.readlines()
-        return lines[1].split(" ")[2].strip()
+    return getattr(settings, "TWILIO_ACCOUNT_SID", None)
 
 
 def get_twilio_auth_token() -> str:
     """
     Returns the Twilio authentication token.
     """
-    with open('yelp_api_key.txt', 'r') as file:
-        lines = file.readlines()
-        return lines[1].split(" ")[4].strip()
+    return getattr(settings, "TWILIO_AUTH_TOKEN", None)
 
 
 def get_twilio_authenticated_sender_email() -> str:
     """
     Returns the Twilio authenticated sender email.
     """
-    with open('yelp_api_key.txt', 'r') as file:
-        lines = file.readlines()
-        return lines[5].split(" ")[1].strip()
-
-
-def get_grid_api_key() -> str:
-    """
-    Returns the Grid API key.
-    """
-    with open('yelp_api_key.txt', 'r') as file:
-        lines = file.readlines()
-        return lines[2].split(" ")[2].strip()
+    return getattr(settings, "TWILIO_AUTHENTICATED_SENDER_EMAIL", None)
 
 
 def get_twilio_authenticated_reserve_phone_number() -> str:
     """
     Returns the Twilio authenticated reserve phone number.
     """
-    with open('yelp_api_key.txt', 'r') as file:
-        lines = file.readlines()
-        return lines[4].split(" ")[1].strip()
+    return getattr(settings, "TWILIO_AUTHENTICATED_RESERVE_NUMBER", None)
 
 
 def get_twilio_authenticated_sender_phone_number() -> str:
     """
     Returns the Twilio authenticated sender phone number.
     """
-    with open('yelp_api_key.txt', 'r') as file:
-        lines = file.readlines()
-        return lines[5].split(" ")[1].strip()
+    return getattr(settings, "TWILIO_AUTHENTICATED_SENDER_NUMBER", None)
+
+
+def get_grid_api_key() -> str:
+    """
+    Returns the Grid API key.
+    """
+    return getattr(settings, "GRID_API_KEY", None)
 
 
 def process_ai_response(dater: Dater, response: str) -> Response:
