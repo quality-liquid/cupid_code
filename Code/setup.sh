@@ -14,7 +14,15 @@ if [ -f "server/.env" ]; then
     echo "Server .env already exists. Skipping creation..."
     if grep -q 'STRIPE_SECRET_KEY=""' server/.env || \
         grep -q 'STRIPE_WEBHOOK_SECRET=""' server/.env || \
-        grep -q 'GROQ_API_KEY=""' server/.env; then
+        grep -q 'GROQ_API_KEY=""' server/.env || \
+        grep -q 'YELP_CLIENT_ID=""' server/.env || \
+        grep -q 'YELP_API_KEY=""' server/.env || \
+        grep -q 'TWILIO_ACCOUNT_SID=""' server/.env || \
+        grep -q 'TWILIO_AUTH_TOKEN=""' server/.env || \
+        grep -q 'TWILIO_AUTHENTICATED_RESERVE_NUMBER=""' server/.env || \
+        grep -q 'TWILIO_AUTHENTICATED_SENDER_NUMBER=""' server/.env || \
+        grep -q 'TWILIO_AUTHENTICATED_SENDER_EMAIL=""' server/.env || \
+        grep -q 'GRID_API_KEY=""' server/.env; then 
         ADD_SERVER_API_KEY="true"
     fi
 else
