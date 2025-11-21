@@ -29,8 +29,16 @@ urlpatterns = [
     path('cupid/balance/<int:pk>/', views.get_cupid_balance, name='get_cupid_balance'),
     path('cupid/profile/<int:pk>/', views.get_cupid_profile, name='get_cupid_profile'),
     path('cupid/profile/', views.set_cupid_profile, name='set_cupid_profile'),
-    path('cupid/create_stripe_account/', views.create_stripe_account, name='create_stripe_account'),
-    path('cupid/create_onboarding_link/', views.create_onboarding_link, name='create_onboarding_link'),
+    path(
+        'cupid/create_stripe_account/',
+        views.create_stripe_account, 
+        name='create_stripe_account'
+    ),
+    path(
+        'cupid/create_onboarding_link/', 
+        views.create_onboarding_link, 
+        name='create_onboarding_link'
+    ),
     path('cupid/gigs/<int:pk>/', views.get_cupid_gigs, name='get_cupid_gigs'),
     path('cupid/accepting/', views.cupid_accepting, name='cupid_accepting'),
     path('gig/create/', views.create_gig, name='create_gig'),

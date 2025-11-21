@@ -38,7 +38,11 @@
         const res = await makeRequest('/api/cupid/create_stripe_account/')
         if (res.account_id) {
             // Request an onboarding link; pass account_id as query param to be robust
-            const linkRes = await makeRequest(`/api/cupid/create_onboarding_link/`, 'post', {account_id: res.account_id})
+            const linkRes = await makeRequest(
+                `/api/cupid/create_onboarding_link/`, 
+                'post', 
+                {account_id: res.account_id}
+            )
             if (linkRes.url) window.location.href = linkRes.url
             else alert('Stripe account created: ' + res.account_id)
         } else if (res.url) {
@@ -106,25 +110,47 @@
 
 <template>
     <NavSuite title='Profile' profile='CupidDetails'>
-        <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
-        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gigs Available </router-link>
-        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Gigs Completed </router-link>
-        <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
+        <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}">
+            Home
+        </router-link>
+        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}">
+            Gigs Available
+        </router-link>
+        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}">
+            Gigs Completed
+        </router-link>
+        <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}">
+            Feedback
+</router-link>
     </NavSuite>
 
     <div class="mobile-container">
         <CupidCoin :active="accepting_gigs" @click="toggleAccept"/>
         <div class="card">
             <p id="balance">${{ balance }}</p>
-            <!-- Add a button to remove funds if they have a stripe account, else button to create a stripe account -->
+            <!-- Add a button to remove funds if they have a stripe account, 
+             else button to create a stripe account -->
             <div style="display:flex; gap:8px; justify-content:center; margin-top:8px;">
-                <button v-if="stripe_account" class="button" @click.prevent="transferFunds" :disabled="transferLoading">
+                <button
+                    v-if="stripe_account"
+                    class="button"
+                    @click.prevent="transferFunds"
+                    :disabled="transferLoading"
+                >
                     {{ transferLoading ? 'Processing...' : 'Withdraw funds' }}
                 </button>
-                <button v-else class="button" @click.prevent="createStripeAccount">Create Stripe Account</button>
+                <button
+                    v-else
+                    class="button"
+                    @click.prevent="createStripeAccount"
+                >
+                    Create Stripe Account
+                </button>
             </div>
             <hr></hr>
-            <p id="succesful">{{ gigs_completed }} gigs succesful of {{ gigs_failed + gigs_completed}}</p>
+            <p id="succesful">
+                {{ gigs_completed }} gigs succesful of {{ gigs_failed + gigs_completed}}
+            </p>
         </div>
         <h1>Update Details</h1>
         <hr>

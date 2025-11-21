@@ -59,9 +59,15 @@ onMounted(getDaters)
   <!-- nav banner component -->
   <!-- end nav bar -->
   <NavSuite title='Dater Information'>
-      <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}"> Home </router-link>
-      <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}"> See Dater Info </router-link>
-      <router-link class="link" :to="{name: 'ManageCupids', params: {id: user_id}}"> See Cupid Info </router-link>
+      <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}">
+        Home 
+      </router-link>
+      <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}">
+        See Dater Info 
+      </router-link>
+      <router-link class="link" :to="{name: 'ManageCupids', params: {id: user_id}}">
+        See Cupid Info 
+      </router-link>
   </NavSuite>
   <figure>{{ daterCount }} Daters</figure>
 
@@ -70,12 +76,20 @@ onMounted(getDaters)
     <div class="header" :id="`header-${dater.user ? dater.user['id'] : ''}`">
       <span class="material-symbols-outlined icon">person</span>
       <h4>{{ dater.user ? (dater.user['first_name'] + " " + dater.user['last_name']) : ''}}</h4>
-      <h4 :id="`id-${dater.user ? dater.user['id'] : ''}`">{{ dater.user ? dater.user['id'] : '' }}</h4>
+      <h4 :id="`id-${dater.user ? dater.user['id'] : ''}`">
+        {{ dater.user ? dater.user['id'] : '' }}
+      </h4>
     </div>
     <article class="user-data">
       <span>Rating: {{ dater.rating_sum }}</span>
       <span>Location: {{ dater.location }}</span>
-      <button :id="`button-${dater.user ? dater.user['id'] : ''}`" class="button" @click="() => suspend(dater.user ? dater.user['id'] : '')">Suspend</button>
+      <button
+        :id="`button-${dater.user ? dater.user['id'] : ''}`" 
+        class="button" 
+        @click="() => suspend(dater.user ? dater.user['id'] : '')"
+      >
+        Suspend
+      </button>
     </article> 
   </div>
 

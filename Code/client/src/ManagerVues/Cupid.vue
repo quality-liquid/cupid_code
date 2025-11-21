@@ -40,9 +40,15 @@ onMounted(getCupids)
 
 <template>
     <NavSuite title='Cupid Information'>
-        <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}"> Home </router-link>
-        <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}"> See Dater Info </router-link>
-        <router-link class="link" :to="{name: 'ManageCupids', params: {id: user_id}}"> See Cupid Info </router-link>
+        <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}">
+          Home 
+        </router-link>
+        <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}">
+          See Dater Info 
+        </router-link>
+        <router-link class="link" :to="{name: 'ManageCupids', params: {id: user_id}}">
+          See Cupid Info 
+        </router-link>
     </NavSuite>
   <figure>{{ cupidCount }} Cupids</figure>
 
@@ -51,13 +57,21 @@ onMounted(getCupids)
     <div class="header" :id="`header-${cupid.user ? cupid.user['id'] : ''}`">
       <span class="material-symbols-outlined icon">person</span>
       <h4>{{ cupid.user ? (cupid.user['first_name'] + " " + cupid.user['last_name']) : ''}}</h4>
-      <h4 :id="`id-${cupid.user ? cupid.user['id'] : ''}`">{{ cupid.user ? cupid.user['id'] : '' }}</h4>
+      <h4 :id="`id-${cupid.user ? cupid.user['id'] : ''}`">
+        {{ cupid.user ? cupid.user['id'] : '' }}
+      </h4>
     </div>
     <article class="user-data">
       <span>Rating: {{ cupid.rating_sum }}</span>
       <span>Location: {{ cupid.location }}</span>
       <span>Completed Gigs: {{ cupid.gigs_completed }}</span>
-      <button :id="`button-${cupid.user ? cupid.user['id'] : ''}`" class="button" @click="() => suspend(cupid.user ? cupid.user['id'] : '')">Suspend</button>
+      <button 
+        :id="`button-${cupid.user ? cupid.user['id'] : ''}`" 
+        class="button" 
+        @click="() => suspend(cupid.user ? cupid.user['id'] : '')"
+      >
+        Suspend
+      </button>
     </article> 
   </div>
 

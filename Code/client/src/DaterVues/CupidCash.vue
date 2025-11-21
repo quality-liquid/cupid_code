@@ -38,7 +38,9 @@ async function addFunds() {
         }
 
         function getStripeAppearance() {
-            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+            const prefersDark = 
+                window.matchMedia && 
+                window.matchMedia('(prefers-color-scheme: dark)').matches;
             // Common app variables used across components
             const colorPrimary = cssVar('--secondary-red', '#e55353')
             const colorBackground = cssVar('--primary-white', prefersDark ? '#0b0b0b' : '#ffffff')
@@ -129,14 +131,30 @@ onMounted(async () => {
 <template>
     <div class="cupid-cash-page">
         <NavSuite title='Add Cash' profile='DaterProfile'>
-        <router-link class="link" :to="{ name: 'DaterHome', params: { id: user_id } }"> Home </router-link>
-        <router-link class="link" :to="{ name: 'DaterProfile', params: { id: user_id } }"> Profile </router-link>
-        <router-link class="link" :to="{ name: 'Calendar', params: { id: user_id } }"> Calendar </router-link>
-        <router-link class="link" :to="{ name: 'AiChat', params: { id: user_id } }"> AI Chat </router-link>
-        <router-link class="link" :to="{ name: 'AiListen', params: { id: user_id } }"> AI Listen </router-link>
-        <router-link class="link" :to="{ name: 'DaterGigs', params: { id: user_id } }"> Gigs </router-link>
-        <router-link class="link" :to="{ name: 'DaterFeedback', params: { id: user_id } }"> Feedback </router-link>
-        <router-link class="link" :to="{ name: 'NotificationCenter', params: { id: user_id } }"> Notifications </router-link>
+        <router-link class="link" :to="{ name: 'DaterHome', params: { id: user_id } }">
+            Home
+        </router-link>
+        <router-link class="link" :to="{ name: 'DaterProfile', params: { id: user_id } }">
+            Profile
+        </router-link>
+        <router-link class="link" :to="{ name: 'Calendar', params: { id: user_id } }">
+            Calendar
+        </router-link>
+        <router-link class="link" :to="{ name: 'AiChat', params: { id: user_id } }">
+            AI Chat
+        </router-link>
+        <router-link class="link" :to="{ name: 'AiListen', params: { id: user_id } }">
+            AI Listen
+        </router-link>
+        <router-link class="link" :to="{ name: 'DaterGigs', params: { id: user_id } }">
+            Gigs
+        </router-link>
+        <router-link class="link" :to="{ name: 'DaterFeedback', params: { id: user_id } }">
+            Feedback
+        </router-link>
+        <router-link class="link" :to="{ name: 'NotificationCenter', params: { id: user_id } }">
+            Notifications
+        </router-link>
     </NavSuite>
     <div class="mobile-container">
         <h1>{{ 'Current balance: $' + balance }}</h1>
