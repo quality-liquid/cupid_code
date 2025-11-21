@@ -18,14 +18,30 @@ onMounted(getFeedback)
 
 <template>
     <NavSuite title='Feedback' profile='DaterProfile'>
-        <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
-        <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
-        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
-        <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
-        <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
-        <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
-        <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
-        <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}"> Notifications </router-link>
+        <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }">
+            Home 
+        </router-link>
+        <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }">
+            Profile 
+        </router-link>
+        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }">
+            Calendar 
+        </router-link>
+        <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }">
+            AI Chat 
+        </router-link>
+        <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }">
+            AI Listen 
+        </router-link>
+        <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}">
+            Gigs 
+        </router-link>
+        <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }">
+            Balance
+        </router-link>
+        <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}">
+            Notifications 
+        </router-link>
     </NavSuite>
 
     <div class="mobile-container">

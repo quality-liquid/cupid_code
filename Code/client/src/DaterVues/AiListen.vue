@@ -97,14 +97,30 @@ function clearTranscript() {
 <template>
     <div>
         <NavSuite title='Let the AI Listen in!' profile='DaterProfile'>
-            <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
-            <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
-            <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
-            <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
-            <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
-            <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
-            <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
-            <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}"> Notifications </router-link>
+            <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }">
+                Home
+            </router-link>
+            <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }">
+                Profile
+            </router-link>
+            <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }">
+                Calendar
+            </router-link>
+            <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }">
+                AI Chat
+            </router-link>
+            <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}">
+                Gigs
+            </router-link>
+            <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }">
+                Balance
+            </router-link> 
+            <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}">
+                Feedback
+            </router-link>
+            <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}">
+                Notifications
+            </router-link>
         </NavSuite>
     
         <div class="mobile-container">
@@ -113,13 +129,18 @@ function clearTranscript() {
                 <h2 class="panel-title">Live Speech Tools</h2>
                 <div class="stt">
                     <div class="controls">
-                        <PinkButton :class="listening ? 'danger' : 'primary'" @click="toggleListening" :disabled="!recognitionSupported">
+                        <PinkButton 
+                            :class="listening ? 'danger' : 'primary'" 
+                            @click="toggleListening" 
+                            :disabled="!recognitionSupported"
+                        >
                             {{ listening ? 'Stop Listening' : 'Start Listening' }}
                         </PinkButton>
                         <PinkButton @click="clearTranscript">Clear</PinkButton>
                     </div>
                     <p v-if="!recognitionSupported" class="hint">
-                        Your browser doesn't support the Web Speech API. Chrome is recommended for live transcription.
+                        Your browser doesn't support the Web Speech API. 
+                        Chrome is recommended for live transcription.
                     </p>
                     <div class="transcript">
                         <div class="final" v-text="transcript" />
@@ -130,7 +151,13 @@ function clearTranscript() {
                     <label>
                         Voice
                         <select v-model="selectedVoice">
-                            <option v-for="v in voices" :key="v.name" :value="v.name">{{ v.name }}</option>
+                            <option
+                                v-for="v in voices"
+                                :key="v.name"
+                                :value="v.name"
+                            >
+                                {{ v.name }}
+                            </option>
                         </select>
                     </label>
                     <textarea v-model="ttsText" rows="3" placeholder="Type text to speak..." />
