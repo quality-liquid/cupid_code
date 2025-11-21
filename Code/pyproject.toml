@@ -20,7 +20,6 @@ requests = "==2.32.5"
 # Tool for loading env file variables
 python-dotenv = "==1.1.1"
 
-
 # Image processing tool
 pillow = "==12.0.0"
 
@@ -34,9 +33,6 @@ yelpapi = "==2.5.1"
 # Text to Speech
 speechrecognition = "==3.14.3"
 
-# AI tools
-transformers = "==4.57.1"
-
 # Phone calls/text management 
 twilio = "==9.8.4"
 sendgrid = "==6.12.5"
@@ -46,6 +42,21 @@ selenium = "==4.37.0"
 
 # Payment processing
 stripe = "==13.0.1"
+
+# AI agents / LangGraph stack
+langchain = "==1.0.5"
+langchain-core = "==1.0.4"
+langchain-groq = "==1.0.0"
+langgraph = "==1.0.2"
+groq = "==0.33.0"
+
+# Google APIs
+google-api-python-client = "==2.187.0"
+google-auth = "==2.43.0"
+google-auth-oauthlib = "==1.2.2"
+
+# Speech / audio
+pyaudio = "==0.2.14"
 
 
 [build-system]
