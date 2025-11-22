@@ -5,8 +5,10 @@ urlpatterns = [
     path('user/create/', views.create_user, name='create_user'),
     path('user/sign_in/', views.sign_in, name='sign_in'),
     path('user/<int:pk>', views.get_user, name='get_user'),
+
     path('chat/', views.send_chat_message, name='send_chat_message'),
     path('chat/<int:pk>/<int:count>', views.get_messages, name='get_messages'),
+
     path('dater/calendar/<int:pk>/', views.calendar, name='calendar'),
     path('dater/dates/<int:pk>/', views.get_dates, name='get_dates'),
     path('dater/dates/new/', views.new_date, name='new_date'),
@@ -22,6 +24,7 @@ urlpatterns = [
     path('dater/gigs/<int:pk>', views.get_dater_gigs, name='get_dater_gigs'),
     # path('dater/save_card/', views.save_card, name='save_card'),
     # path('dater/get_cards/<int:pk>', views.get_cards, name='get_cards'),
+
     path('cupid/rate/', views.rate_cupid, name='rate_cupid'),
     path('cupid/ratings/<int:pk>/', views.get_cupid_ratings, name='get_cupid_ratings'),
     path('cupid/avg_rating/<int:pk>/', views.get_cupid_avg_rating, name='get_cupid_avg_rating'),
@@ -41,18 +44,21 @@ urlpatterns = [
     ),
     path('cupid/gigs/<int:pk>/', views.get_cupid_gigs, name='get_cupid_gigs'),
     path('cupid/accepting/', views.cupid_accepting, name='cupid_accepting'),
+
     path('gig/create/', views.create_gig, name='create_gig'),
     path('gig/accept/', views.accept_gig, name='accept_gig'),
     path('gig/complete/', views.complete_gig, name='complete_gig'),
     path('gig/drop/', views.drop_gig, name='drop_gig'),
     path('gig/cancel/', views.cancel_gig, name='cancel_gig'),
     path('gig/<int:pk>/<int:count>/', views.get_gigs, name='get_gigs'),
+
     path('geo/stores/<int:pk>/', views.get_stores, name='get_stores'),
     path('geo/activities/<int:pk>/', views.get_activities, name='get_activities'),
     path('geo/events/<int:pk>/', views.get_events, name='get_events'),
     path('geo/attractions/<int:pk>/', views.get_attractions, name='get_attractions'),
     path('geo/restaurants/<int:pk>/', views.get_restaurants, name='get_restaurants'),
     path('geo/user/<int:pk>/', views.get_user_location, name='get_user_location'),
+
     path('manager/cupids/', views.get_cupids, name='get_cupids'),
     path('manager/daters/', views.get_daters, name='get_daters'),
     path('manager/dater_count/', views.get_dater_count, name='get_dater_count'),
@@ -66,9 +72,12 @@ urlpatterns = [
     path('manager/suspend/', views.suspend, name='suspend'),
     path('manager/delete_user/<int:pk>/', views.delete_user, name='delete_user'),
     path('manager/unsuspend/', views.unsuspend, name='unsuspend'),
+
     path('stripe/webhook/', views.stripe_webhook, name='stripe_webhook'),
+
     path('stt/', views.speech_to_text, name='speech_to_text'),
     path('notify/', views.notify, name='notify'),
+
     path('dateAI/initial_msg/', views.initial_msg, name='date_ai_initial_msg'),
     path('dateAI/date_ideas/', views.date_ideas, name='date_ai_date_ideas'),
     path('dateAI/date_plan/', views.date_plan, name='date_ai_date_plan'),
