@@ -11,41 +11,19 @@ from Code.server.api.helpers import *
 
 class TestGetAIResponse(APITestCase):
 
-    @patch('GPT2Tokenizer.from_pretrained')
-    @patch('GPT2LMHeadModel.from_pretrained')
-    def test_good_test(self, mock_tokenizer, mock_model):
-        tokenizer = MagicMock()
-        mock_tokenizer.return_value = tokenizer
-        model = MagicMock()
-        mock_model.return_value = model
-        tokenizer.encode.return_value = [1, 2, 3]
-        model.generate.return_value = [4, 5, 6]
-        tokenizer.decode.return_value = "Response"
+    def test_good_test(self):
+        # TODO these test still do not work, I just removed all of the unused
+        # mocks from the old teams AI GPT chat
         message = "Hello"
         response = get_ai_groq_response(message)
         assert response == "Response"
-        mock_tokenizer.assert_called_once()
-        mock_model.assert_called_once()
-        tokenizer.encode.assert_called_once()
-        model.generate.assert_called_once()
-        tokenizer.decode.assert_called_once()
 
-    @patch('GPT2Tokenizer.from_pretrained')
-    @patch('GPT2LMHeadModel.from_pretrained')
-    def test_bad_test(self, mock_tokenizer, mock_model):
-        tokenizer = MagicMock()
-        mock_tokenizer.return_value = tokenizer
-        model = MagicMock()
-        mock_model.return_value = model
-        tokenizer.encode.raise_exception = Exception("Test Exception")
+    def test_bad_test(self):
+        # TODO these test still do not work, I just removed all of the unused
+        # mocks from the old teams AI GPT chat
         message = "Hello"
         response = get_ai_groq_response(message)
         assert response == "Test Exception"
-        mock_tokenizer.assert_called_once()
-        mock_model.assert_called_once()
-        tokenizer.encode.assert_called_once()
-        model.generate.assert_not_called()
-        tokenizer.decode.assert_not_called()
 
 
 class TestSendChatMessage(APITestCase):
