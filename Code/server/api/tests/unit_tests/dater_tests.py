@@ -22,7 +22,7 @@ class TestGetAIResponse(APITestCase):
         model.generate.return_value = [4, 5, 6]
         tokenizer.decode.return_value = "Response"
         message = "Hello"
-        response = get_ai_response(message)
+        response = get_ai_groq_response(message)
         assert response == "Response"
         mock_tokenizer.assert_called_once()
         mock_model.assert_called_once()
@@ -39,7 +39,7 @@ class TestGetAIResponse(APITestCase):
         mock_model.return_value = model
         tokenizer.encode.raise_exception = Exception("Test Exception")
         message = "Hello"
-        response = get_ai_response(message)
+        response = get_ai_groq_response(message)
         assert response == "Test Exception"
         mock_tokenizer.assert_called_once()
         mock_model.assert_called_once()
@@ -57,24 +57,24 @@ class TestSendChatMessage(APITestCase):
 
     @patch('helpers.get_location_string')
     @patch('MessageSerializer')
-    @patch('helpers.get_ai_response')
-    def test_good_test(self, mock_get_location_string, mock_message_serializer, mock_get_ai_response):
+    @patch('helpers.get_ai_groq_response')
+    def test_good_test(self, mock_get_location_string, mock_message_serializer, mock_get_ai_groq_response):
         request = self.factory.post(self.url)
         force_authenticate(request, user=User.objects.get(username='test'))
         mock_get_location_string.return_value = "Location"
         mock_message_serializer.return_value = MagicMock()
-        mock_get_ai_response.return_value = "Response"
+        mock_get_ai_groq_response.return_value = "Response"
         response = self.view(request)
         assert response.data == "Response"
         assert response.status_code == status.HTTP_200_OK
         mock_get_location_string.assert_called_once()
         mock_message_serializer.assert_called_once()
-        mock_get_ai_response.assert_called_once()
+        mock_get_ai_groq_response.assert_called_once()
 
     @patch('helpers.get_location_string')
     @patch('MessageSerializer')
-    @patch('helpers.get_ai_response')
-    def test_bad_test(self, mock_get_location_string, mock_message_serializer, mock_get_ai_response):
+    @patch('helpers.get_ai_groq_response')
+    def test_bad_test(self, mock_get_location_string, mock_message_serializer, mock_get_ai_groq_response):
         request = self.factory.post(self.url)
         force_authenticate(request, user=User.objects.get(username='test'))
         mock_get_location_string.return_value = "Location"
@@ -85,7 +85,7 @@ class TestSendChatMessage(APITestCase):
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         mock_get_location_string.assert_called_once()
         mock_message_serializer.assert_called_once()
-        mock_get_ai_response.assert_not_called()
+        mock_get_ai_groq_response.assert_not_called()
 
 
 class TestGetMessages(APITestCase):

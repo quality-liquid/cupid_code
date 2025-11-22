@@ -242,15 +242,15 @@ def send_chat_message(request: Request) -> Response:
     data['location'] = helpers.get_location_string(request.META['REMOTE_ADDR'])
     user_id = request.user.id
     message = data['message']
+
     # save a message to database
     serializer = MessageSerializer(data={'owner': user_id, 'text': message, 'from_ai': False})
     if serializer.is_valid():
         serializer.save()
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    # send a message to AI
+
     ai_response = helpers.get_ai_groq_response(message)
-    print("AI Response: ", ai_response)
     
     # save AI's response to database
     serializer = MessageSerializer(data={'owner': user_id, 'text': ai_response, 'from_ai': True})
@@ -1743,7 +1743,7 @@ def speech_to_text(request: Request) -> Response:
                 {'error': message},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        response = helpers.get_ai_response(message)
+        response = helpers.get_ai_groq_response(message)
         return helpers.process_ai_response(dater, response)
     except speech_recognition.UnknownValueError:
         return Response(

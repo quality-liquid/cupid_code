@@ -159,32 +159,6 @@ def get_ai_groq_response(message: str, history: str = "") -> str:
         return str(e)
 
 
-#TODO remove this once other function is working
-def get_ai_response(message: str):
-    """
-    Send the message to the AI and return the response.
-    https://pytensor.readthedocs.io/en/latest/
-    https://huggingface.co/
-    """
-    try:
-        tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-        model = GPT2LMHeadModel.from_pretrained("gpt2")
-        # Tokenize input text
-        input_ids = tokenizer.encode(message, return_tensors='pt')
-        # Generate response
-        output = model.generate(
-            input_ids, 
-            max_length=100, 
-            num_return_sequences=1, 
-            early_stopping=True
-        )
-        # Decode and return response
-        response = tokenizer.decode(output[0], skip_special_tokens=True)
-        return response
-    except Exception as e:
-        return str(e)
-
-
 def save_calendar(request: Request) -> Response:
     try:
         data = request.data
