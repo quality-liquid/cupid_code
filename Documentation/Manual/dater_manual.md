@@ -97,6 +97,26 @@ You can also view the details of each date and see the status of the date.
 
 ![Calendar](dater_images/calendar.png)
 
+#### Adding dates
+
+There are two ways to add a date to your calendar. 
+
+1. Manually add the date yourself
+    - Click the "Add Date" button at the top of the page.
+    - Fill out the form that pops up. It will ask for the date, location, a description, and the budget.
+    - Click "Submit" to save the date to your calendar.
+
+![Add Date](dater_images/add-date.png)
+
+2. Get help from the AI chatbot
+    - Click the "Plan a date w/ AI" button.
+    - A chat window will pop up prompting your for input about ideas you may have for your date or any information about the person you're going with. Send a message responding to this prompt.
+    - The AI will send back three ideas for potential dates. Respond with 1, 2, or 3 to select one.
+    - A form will pop up with the date information filled in for the location and description. Enter the date and bugdet to complete the form.
+    - Click "Submit" to save the date to your calendar.
+
+![Plan-a-date](dater_images/plan-a-date.png)
+
 ## Common Issues
 
 - Chatbot is not working
