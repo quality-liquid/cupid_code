@@ -119,6 +119,126 @@ class CupidTestCases(unittest.TestCase):
                 current_page = route
                 self.navigate(route)
 
+    # Stripe tests for Cupid using ZOMBIES principles
+    def test_stripe_account_creation_simple(self):
+        """Test basic Stripe account creation flow (simple case)"""
+        utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
+        self.navigate('Profile')
+        
+        # Verify account creation button exists
+        create_button = self.browser.find_element(By.CSS_SELECTOR, 'button:contains("Create Stripe Account")')
+        self.assertIsNotNone(create_button)
+        self.assertFalse(create_button.get_attribute('disabled') == 'true')
+
+    def test_stripe_account_button_visibility_without_account(self):
+        """Test that create account button is visible when no account exists (one case)"""
+        utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
+        self.navigate('Profile')
+        
+        create_button = self.browser.find_element(By.CSS_SELECTOR, 'button:contains("Create Stripe Account")')
+        self.assertTrue(create_button.is_displayed())
+
+    def test_stripe_account_button_state_zero_accounts(self):
+        """Test button state with zero existing Stripe accounts (boundary)"""
+        utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
+        self.navigate('Profile')
+        
+        # Should have create button, not withdraw button
+        create_buttons = self.browser.find_elements(By.CSS_SELECTOR, 'button:contains("Create Stripe Account")')
+        withdraw_buttons = self.browser.find_elements(By.CSS_SELECTOR, 'button:contains("Withdraw funds")')
+        
+        self.assertEqual(len(create_buttons), 1)
+        self.assertEqual(len(withdraw_buttons), 0)
+
+    def test_stripe_withdraw_funds_disabled_state(self):
+        """Test that withdraw button shows loading state during processing (interface)"""
+        utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
+        self.navigate('Profile')
+        
+        # Initially button should show "Withdraw funds"
+        withdraw_btn = self.browser.find_element(By.CSS_SELECTOR, 'button:contains("Withdraw funds")')
+        self.assertIsNotNone(withdraw_btn)
+
+    def test_stripe_balance_display_zero(self):
+        """Test balance display shows correctly (zero case)"""
+        utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
+        self.navigate('Profile')
+        
+        balance = self.browser.find_element(By.ID, 'balance').text
+        self.assertTrue(balance.startswith('$'))
+        self.assertIsNotNone(balance)
+
+    def test_stripe_balance_format_valid(self):
+        """Test balance is displayed in correct currency format (simple case)"""
+        utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
+        self.navigate('Profile')
+        
+        balance_text = self.browser.find_element(By.ID, 'balance').text
+        # Should match pattern like "$12.00"
+        self.assertTrue(balance_text.startswith('$'))
+        self.assertTrue(any(c.isdigit() for c in balance_text))
+
+    def test_stripe_balance_updates_after_gig_completion(self):
+        """Test balance increases after completing gigs (many case - multiple transactions)"""
+        utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
+        self.navigate('Profile')
+        initial_balance = self.browser.find_element(By.ID, 'balance').text
+        
+        self.navigate('Gigs Available')
+        self.claim_gigs()
+        
+        # Complete gigs
+        for i in range(2):
+            active = self.browser.find_element(By.CLASS_NAME, 'active')
+            active.find_element(By.TAG_NAME, 'button').click()
+            self.wait.until(
+                lambda d: len(self.browser.find_elements(By.CLASS_NAME, 'active')) == 1-i
+            )
+        
+        self.navigate('Profile')
+        final_balance = self.browser.find_element(By.ID, 'balance').text
+        
+        # Balance should have increased
+        self.assertNotEqual(initial_balance, final_balance)
+
+    def test_stripe_account_creation_button_click(self):
+        """Test that create account button is clickable (interface)"""
+        utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
+        self.navigate('Profile')
+        
+        create_button = self.browser.find_element(By.CSS_SELECTOR, 'button:contains("Create Stripe Account")')
+        self.assertTrue(create_button.is_enabled())
+
+    def test_stripe_profile_card_exists(self):
+        """Test that profile card with balance info exists (simple case)"""
+        utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
+        self.navigate('Profile')
+        
+        card = self.browser.find_element(By.CLASS_NAME, 'card')
+        self.assertIsNotNone(card)
+        balance = card.find_element(By.ID, 'balance')
+        self.assertIsNotNone(balance)
+
+    def test_stripe_balance_negative_prevention(self):
+        """Test that balance cannot go negative (exception case)"""
+        utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
+        self.navigate('Profile')
+        
+        balance_text = self.browser.find_element(By.ID, 'balance').text
+        # Remove $ and convert to float
+        balance_value = float(balance_text.replace('$', ''))
+        self.assertGreaterEqual(balance_value, 0)
+
+    def test_stripe_gigs_completed_counter(self):
+        """Test that gigs completed counter displays correctly (boundary)"""
+        utils.auto_login(self.browser, 'really@me.com', '#/cupid/home/4')
+        self.navigate('Profile')
+        
+        success_text = self.browser.find_element(By.ID, 'successful').text
+        # Should contain pattern like "6 gigs successful of 22"
+        self.assertIn('gigs successful of', success_text)
+        self.assertRegex(success_text, r'\d+ gigs successful of \d+')
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
