@@ -93,7 +93,9 @@ If you run out of Cupid Cash, you won't be able to create gigs for Cupids so mak
 
 This is the Date Calendar page. 
 Here you can view your Date Calendar and see all the dates you have planned. 
+The default setting shows two months of calendar with dots appearing on days that have dates. 
 You can also view the details of each date and see the status of the date.
+The Date Calendar page is also where you are able to access the date adding features which are demonstrated below.
 
 ![Calendar](dater_images/calendar.png)
 
