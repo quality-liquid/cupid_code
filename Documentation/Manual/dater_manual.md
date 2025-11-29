@@ -57,6 +57,11 @@ You will always have access to this menu no matter what page you are on!
 
 ![Home Page with Menu](dater_images/home_menu.png)
 
+You will also always have access to change your light/dark mode preference.
+This is done by hitting the sun or moon icon in the top right.
+
+![Light Home Page](dater_images/home-light.png)
+
 You can use the menu or the buttons on the home page to navigate to the different pages of the site. 
 Whatever is easier for you!
 
