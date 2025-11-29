@@ -117,7 +117,7 @@ There are two ways to add a date to your calendar.
 
 2. Get help from the AI chatbot
     - Click the "Plan a date w/ AI" button.
-    - A chat window will pop up prompting your for input about ideas you may have for your date or any information about the person you're going with. Send a message responding to this prompt.
+    - A chat window will pop up prompting you for input about ideas you may have for your date or any information about the person you're going with. Send a message responding to this prompt.
     - The AI will send back three ideas for potential dates. Respond with 1, 2, or 3 to select one.
     - A form will pop up with the date information filled in for the location and description. Enter the date and bugdet to complete the form.
     - Click "Submit" to save the date to your calendar.
