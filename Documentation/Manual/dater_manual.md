@@ -57,6 +57,11 @@ You will always have access to this menu no matter what page you are on!
 
 ![Home Page with Menu](dater_images/home_menu.png)
 
+You will also always have access to change your light/dark mode preference.
+This is done by hitting the sun or moon icon in the top right.
+
+![Light Home Page](dater_images/home-light.png)
+
 You can use the menu or the buttons on the home page to navigate to the different pages of the site. 
 Whatever is easier for you!
 
@@ -93,9 +98,31 @@ If you run out of Cupid Cash, you won't be able to create gigs for Cupids so mak
 
 This is the Date Calendar page. 
 Here you can view your Date Calendar and see all the dates you have planned. 
+The default setting shows two months of calendar with dots appearing on days that have dates. 
 You can also view the details of each date and see the status of the date.
+The Date Calendar page is also where you are able to access the date adding features which are demonstrated below.
 
 ![Calendar](dater_images/calendar.png)
+
+#### Adding dates
+
+There are two ways to add a date to your calendar. 
+
+1. Manually add the date yourself
+    - Click the "Add Date" button at the top of the page.
+    - Fill out the form that pops up. It will ask for the date, location, a description, and the budget.
+    - Click "Submit" to save the date to your calendar.
+
+![Add Date](dater_images/add-date.png)
+
+2. Get help from the AI chatbot
+    - Click the "Plan a date w/ AI" button.
+    - A chat window will pop up prompting you for input about ideas you may have for your date or any information about the person you're going with. Send a message responding to this prompt.
+    - The AI will send back three ideas for potential dates. Respond with 1, 2, or 3 to select one.
+    - A form will pop up with the date information filled in for the location and description. Enter the date and bugdet to complete the form.
+    - Click "Submit" to save the date to your calendar.
+
+![Plan-a-date](dater_images/plan-a-date.png)
 
 ## Common Issues
 
