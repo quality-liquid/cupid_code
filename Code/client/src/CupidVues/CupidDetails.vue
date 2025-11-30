@@ -148,8 +148,8 @@
                 </button>
             </div>
             <hr></hr>
-            <p id="succesful">
-                {{ gigs_completed }} gigs succesful of {{ gigs_failed + gigs_completed}}
+            <p id="successful">
+                {{ gigs_completed }} gigs successful of {{ gigs_failed + gigs_completed}}
             </p>
         </div>
         <h1>Update Details</h1>
