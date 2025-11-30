@@ -1907,10 +1907,10 @@ def date_plan(request: Request) -> Response:
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
 def speech_test(request: Request) -> Response:
-    """Filter newly streamed interim speech text.
+    """Filter finalized speech text.
 
-    Expects JSON body with { "transcript": "<new interim chunk>" } where the
-    value is ONLY the newly appended portion of the live speech interim text.
+    Expects JSON body with { "transcript": "<full finalized text>" } where the
+    value is the complete text from a finalized speech recognition result.
     Returns filtered / classified result from `filterResponse`.
     """
     try:

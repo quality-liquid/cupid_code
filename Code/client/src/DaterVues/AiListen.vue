@@ -86,18 +86,13 @@ onBeforeUnmount(() => {
     window.removeEventListener('beforeunload', cancelSpeech)
 })
 
-// Call server with only new interim text chunks
-watch(interim, async (newVal, oldVal) => {
-    if (!newVal || !newVal.trim()) return
-    // Determine appended portion relative to previous interim value
-    let diff = ''
-    if (oldVal && newVal.startsWith(oldVal)) {
-        diff = newVal.slice(oldVal.length)
-    } else {
-        diff = newVal
-    }
-    diff = diff.trim()
-    if (!diff) return
+// Watch for final transcript changes (when interim becomes final)
+watch(transcript, async (newVal, oldVal) => {
+    // Only process when new text is added to transcript
+    if (!newVal || newVal === oldVal) return
+    const addedText = oldVal ? newVal.slice(oldVal.length).trim() : newVal.trim()
+    if (!addedText) return
+    
     const csrf = getCsrfToken()
     try {
         const res = await fetch('/api/speech/test', {
@@ -107,7 +102,7 @@ watch(interim, async (newVal, oldVal) => {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrf
             },
-            body: JSON.stringify({ transcript: diff })
+            body: JSON.stringify({ transcript: addedText })
         })
         if (res.ok) {
             const data = await res.json()
