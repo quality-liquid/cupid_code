@@ -35,7 +35,9 @@ As a Dater you will have access to the following features:
 
 Here is a demonstration of how to sign up for a Dater account:
 
-![Signing up](dater_images/sign_up.png)
+![Signing up](dater_images/sign_up1.png)
+![Signing up](dater_images/sign_up2.png)
+![Signing up](dater_images/sign_up3.png)
 
 ## Logging In
 
@@ -93,7 +95,13 @@ This is the Cupid Cash page.
 Here you can view your Cupid Cash balance and add more funds if needed. 
 If you run out of Cupid Cash, you won't be able to create gigs for Cupids so make sure you have enough!
 
-![Cash](dater_images/cash.png)
+To add funds, enter the amount you want to add and press deposit.
+
+![Cash](dater_images/cash1.png)
+
+After the Stripe menu appears, enter your card information and press submit payment.
+
+![Cash](dater_images/cash2.png)
 
 ### Date Calendar Page
 

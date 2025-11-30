@@ -153,6 +153,8 @@ def sign_in(request: Request) -> Response:
     """
     data = request.data
     data['location'] = helpers.get_location_string(request.META['REMOTE_ADDR'])
+    if not User.objects.filter(email=data['email']):
+        return Response({'Reason': 'User not found'}, status=status.HTTP_400_BAD_REQUEST)
     username = User.objects.get(email=data['email']).username
     user = authenticate(request, username=username, password=data['password'])
     if user is not None:
@@ -168,10 +170,7 @@ def sign_in(request: Request) -> Response:
             else:
                 return Response({'Reason': 'Invalid User Type'}, status=status.HTTP_400_BAD_REQUEST)
     else:
-        if User.objects.filter(email=data['email']):
-            reason = 'Incorrect password'
-        else:
-            reason = 'User not found'
+        reason = 'Incorrect password'
         return Response({'Reason': reason}, status=status.HTTP_400_BAD_REQUEST)
 
 

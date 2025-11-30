@@ -46,7 +46,8 @@ To sign up, go to the sign-up page by clicking "Sign up" at the top of the welco
 
 On the sign-up page, select "Cupid" as the account type and fill out the form. Once you click "Create Account," your account will be created, and you can log in.
 
-![alt_text](cupid_imgs/Signup_Form.png "Sign Up Form")
+![alt_text](cupid_imgs/sign_up1.png "Sign Up Form")
+![alt_text](cupid_imgs/sign_up2.png "Sign Up Form")
 
 
 ## Logging In
@@ -61,9 +62,13 @@ Once logged in, you can access four different pages: Profile, Feedback, Gigs, an
 
 ### Profile Page 
 
-Here, you can edit your profile and set your availability. The example below shows what this page looks like.
+Here, you can edit your profile, set your availability, and withdraw your earnings. The example below shows what this page looks like.
 
-![alt_text](cupid_imgs/Profile.png "Profile Page")
+![Profile Page image](cupid_imgs/profile.png "Profile Page")
+
+#### Withdrawing Funds
+
+To withdraw your funds, just click the withdraw funds button and follow the Stripe instructions to setup the payment for the first time. On subsequent attempts, selecting the button will automatically transfer your earnings to your account.
 
 #### Editing your Profile
 To edit your profile, simply edit the text fields and click "Save."

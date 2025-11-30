@@ -16,7 +16,7 @@ async function login() {
     })
     // Add error class to which one is invalid
     const doc = document.getElementById('error')
-    if (results.method === '400' || results.method === 400) {
+    if (results.Reason === 'User not found' || results.Reason === 'Incorrect password') {
         doc.setAttribute('class', 'error shown')
         return;
     }
@@ -153,17 +153,13 @@ async function login() {
     }
 
     .error {
-        position: relative;
-        left: -300px;
-        overflow: hidden;
+        display: none;
         color: var(--destructive);
     }
 
     .shown {
-        left: 0px;
         display: flex;
         justify-content: center;
-        overflow: visible;
         padding: 10px;
     }
 </style>
