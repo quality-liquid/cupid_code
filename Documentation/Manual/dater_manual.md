@@ -69,13 +69,14 @@ Use the logout button to log out of your account. We don't want anyone else usin
 
 ### AI Chat Page
 
-This is the chat page where you can chat with the AI. 
-You can ask for date ideas, advice, and feedback. 
-You can also ask for help with creating gigs for Cupids. 
+This is the chat page where you can chat with the AI. You can ask for date ideas, advice, and feedback! 
+
+Unfortunately, due to budget constraints the page must be manually refreshed for the response to your chat message to appear. But worry not, the AI responds with great advice!
 
 The AI and Cupids are here to help you find love, so don't be afraid to ask for help! 
 
-![Chat](dater_images/chat.png)
+<img src="dater_images/ai_chat.png" style="width:40%" alt="AI Chat" title="AI Chat">
+
 
 ### AI Listening Page
 
