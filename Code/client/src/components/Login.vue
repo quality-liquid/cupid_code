@@ -76,7 +76,7 @@ async function login() {
         </form>
     </div>
     <div class="atag">
-        <router-link to="#/register">Get Started Now!</router-link>
+        <router-link to="/register">Get Started Now!</router-link>
     </div>
 </template>
 

@@ -31,6 +31,9 @@ import router from '../router';
           let us help you crack the code to finding love in the digital age. 
           Welcome to your new favorite wingman!
     </div>
+    <div class="atag">
+        <router-link to="/register">Get Started Now!</router-link>
+    </div>
   </div>
 
 </template>
@@ -47,5 +50,22 @@ import router from '../router';
     justify-content: center;
     margin-top: 30px;
     padding: 10px;
+  }
+  .atag {
+    display: flex;
+    margin: 10px;
+    justify-content: center;
+  }
+  a {
+    margin: 10px;
+    color: var(--foreground);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  a:hover {
+      color: var(--primary);
+  }
+  a:visited {
+      color: var(--primary);
   }
 </style>
