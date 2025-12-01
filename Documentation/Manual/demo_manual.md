@@ -29,6 +29,11 @@ Good luck and enjoy the journey through our system!!
 - Use AI to plan a date from the Date Calendar page.
 - Utilize our Speech-to-Text feature found on the AI Listen page and have a conversation monitored by the AI.
 
+Here are your login credentials:
+
+    email: bob@cupidcode.com
+    password: password
+
 You can find information here at the [Dater Manual](https://github.com/quality-liquid/cupid_code/blob/master/Documentation/Manual/dater_manual.md?ref_type=heads)
 
 ## Cupid Demo
