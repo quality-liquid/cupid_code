@@ -35,27 +35,3 @@ Here are your login credentials:
     password: password
 
 You can find information here at the [Dater Manual](https://github.com/quality-liquid/cupid_code/blob/master/Documentation/Manual/dater_manual.md?ref_type=heads)
-
-## Cupid Demo
-
-- Pick a gig and turn down a gig
-- Complete a gig and rate a dater
-
-Here are your login credentials: 
-
-    email: joe@mail.com
-    password: password
-
-You can find information on how to do this here at [Cupid Manual](https://github.com/quality-liquid/cupid_code/blob/master/Documentation/Manual/cupid_manual.md?ref_type=heads)
-
-## Manager Demo
-
-- Review cupid ratings and fire underperformed cupids
-- Block daters with poor ratings from the service
-
-Here are your login credentials:
-
-    email: manager@cupidcode.com
-    password: password
-
-Information on this is at [Manager Manual](https://github.com/quality-liquid/cupid_code/blob/master/Documentation/Manual/manager_manual.md?ref_type=heads)
