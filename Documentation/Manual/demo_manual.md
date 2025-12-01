@@ -34,4 +34,8 @@ Here are your login credentials:
     email: bob@cupidcode.com
     password: password
 
+Here is the URL:
+
+    http://52.241.253.69:8000/
+
 You can find information here at the [Dater Manual](https://github.com/quality-liquid/cupid_code/blob/master/Documentation/Manual/dater_manual.md?ref_type=heads)
