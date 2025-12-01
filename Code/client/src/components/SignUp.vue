@@ -355,7 +355,7 @@ function previewFile() {
                     <textarea id="weaknesses" v-model="weak"></textarea>
                 </label>
             </div>
-            <PinkButton>Create Account</PinkButton>
+            <PinkButton type="submit">Create Account</PinkButton>
         </form>
         <!-- Toast (non-blocking) -->
         <div v-if="toast.show" class="toast" role="status" aria-live="polite">
