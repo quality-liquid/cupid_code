@@ -145,10 +145,23 @@ onMounted(() => loadNotifications())
 .send-box { margin:1rem 0; display:flex; flex-direction:column; gap:.5rem; }
 .send-box input, .send-box textarea { 
 	width:100%; 
+	max-width:100%;
+	box-sizing:border-box;
 	padding:.5rem; 
 	border:1px solid #ccc; 
 	border-radius:4px; 
 	font:inherit; 
+	word-break:break-word;
+}
+/* Match visual sizing to notif-title and notif-body */
+.send-box input { 
+	font-weight:600; /* aligns with .notif-title */
+}
+.send-box textarea { 
+	font-size:.85rem; 
+	color:#444;      /* aligns with .notif-body */
+	min-height:6rem;
+	resize:vertical;
 }
 .row { display:flex; gap:.5rem; }
 button { cursor:pointer; border:none; padding:.55rem .9rem; border-radius:6px; font-weight:600; }
