@@ -16,7 +16,7 @@ This manual will provide information on how to sign up, log in, and navigate the
 
 ## Usage
 
-So what can you do as a Manager of Cupid Code? Well you can Manage Cupid Code! 
+So what can you do as a Manager of Cupid Code? Well, you can Manage Cupid Code! 
 
 As a Manager you will have access to the following features:
 - View all users
@@ -66,9 +66,7 @@ This is the Home Page
 
 These are the Widgets that will take you to the Daters List and Cupids List
 
-![alt_text](manager_imgs/daterwidget.png "Dater_Widget")
-
-![alt_text](manager_imgs/cupidwidget.png "Cupid_Widget")
+![alt_text](manager_imgs/widgets.png "Widgets")
 
 Below are the statistics that are displayed on the page for your viewing
 

@@ -98,7 +98,7 @@ onMounted(() => {
     <div id="content">
       <h3>Revenue Graph (Very Real)</h3>
       <figure class="graph-container" name="toPDF">
-        <img :src="'/get_graph/'" alt="Graph" class="graph" width="300px">
+        <img :src="'/get_graph/'" alt="Graph" class="graph">
         <figcaption>Graph of Overall Revenue</figcaption>
       </figure>
       <h3>General Stats</h3>
@@ -167,22 +167,24 @@ h3 {
 }
 
 .stat-container {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 8px;
+  align-items: stretch;
+  margin: 8px 0 24px 0;
 }
 
 .stat-widget {
   border: 2px solid var(--primary-blue);
-  border-radius: 4px;
-  padding: 16px;
+  border-radius: 8px;
+  padding: 12px;
   display: flex;
   flex-flow: column;
   justify-content: center;
   align-items: center;
   color: grey;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 
 .stat {
@@ -193,7 +195,7 @@ h3 {
 
 .widget-container {
   margin: 10px;
-  margin-top: 50px;
+  margin-top: 60px;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
@@ -205,9 +207,11 @@ h3 {
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
-  padding: 50px;
+  padding: 28px 24px;
   border: none;
-  border-radius: 16px;
+  border-radius: 12px;
+  min-width: 140px;
+  flex: 1 1 160px;
 }
 
 .header {
@@ -223,11 +227,35 @@ h3 {
 }
 
 .button {
-  margin: 10px 250px;
+  margin: 16px auto;
   border: none;
   border-radius: 8px;
   background-color: var(--primary-blue);
   color: white;
-  padding: 16px;
+  padding: 12px 18px;
+  width: calc(100% - 40px);
+  max-width: 420px;
+  display: block;
+  text-align: center;
 }
+
+/* Responsive tweaks */
+@media (max-width: 800px) {
+  .widget { padding: 20px; }
+  .container { margin-top: 30px; }
+  .stat { font-size: 1.25rem; }
+  .graph { width: 100%; max-width: 500px; }
+}
+
+@media (max-width: 480px) {
+  .widget-container { flex-direction: column; gap: 12px; align-items: stretch; }
+  .widget { padding: 18px; border-radius: 10px; }
+  .stat-widget { padding: 10px; }
+  .stat { font-size: 1rem; }
+  .graph { width: 100%; max-width: 360px; }
+  .container { margin: 8px; margin-top: 16px; }
+  .button { width: calc(100% - 24px); }
+}
+
+.graph { width: 300px; max-width: 100%; height: auto; }
 </style>
