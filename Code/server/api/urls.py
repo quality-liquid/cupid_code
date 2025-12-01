@@ -68,6 +68,7 @@ urlpatterns = [
     path('manager/unsuspend/', views.unsuspend, name='unsuspend'),
     path('stripe/webhook/', views.stripe_webhook, name='stripe_webhook'),
     path('stt/', views.speech_to_text, name='speech_to_text'),
+    path('speech/test', views.speech_test, name='speech_test'),
     path('notify/', views.notify, name='notify'),
     path('dateAI/initial_msg/', views.initial_msg, name='date_ai_initial_msg'),
     path('dateAI/date_ideas/', views.date_ideas, name='date_ai_date_ideas'),
