@@ -83,11 +83,21 @@ The AI and Cupids are here to help you find love, so don't be afraid to ask for 
 ### AI Listening Page
 
 This is the AI listening page. 
-Here you can turn on and off the AI listening mode. 
-When the AI is listening, it will listen to your conversations and call for help from Cupids when needed. 
+Here you can turn on and off the AI listening mode.  
+When the AI is listening, it will listen to your conversations and it will give you friendly advice of when to change the topic or give you more context about what you are talking about. 
 That way you can focus on your date and let the AI and Cupids handle the rest!
 
-![Listen](dater_images/listen.png)
+![Listen](dater_images/AIListen1.png)
+
+When it detects something that it will give an opinion on, it will bring up extra text as well as suggestions and the option to read it aloud.
+
+![Listen](dater_images/AIListen2.png)
+
+### Notification Page
+
+This page is used as a home for all notifications coming from the app. It works to send custom notifications as well as showing the notifications that you receive while using the app!
+
+![Notification](dater_images/Notification_Page.png)
 
 ### Cupid Cash Page
 
