@@ -92,7 +92,7 @@ This page has all the Daters listed with the ability to suspend or unsuspend the
 
 Suspending a Dater
 
-If their nametag is blue, they are unsuspended
+If their nametag is pink, they are unsuspended
 
 ![alt_text](manager_imgs/unsuspendeddater.png "Unsuspend")
 
@@ -104,7 +104,7 @@ Their nametag will turn to red to show that they are suspended.
 
 ![alt_text](manager_imgs/suspendeddater.png "Suspended")
 
-You can do the same to unsuspend them by clicking the button again. It will return their privileges and change their nametag to blue
+You can do the same to unsuspend them by clicking the button again. It will return their privileges and change their nametag to pink
 
 ![alt_text](manager_imgs/unsuspendeddater.png)
 
@@ -115,7 +115,7 @@ This page has all the Cupids listed with the ability to suspend or unsuspend the
 
 Suspending a cupid
 
-If their nametag is blue, they are unsuspended
+If their nametag is pink, they are unsuspended
 
 ![alt_text](manager_imgs/unsuspendedcupid.png "Unsuspend")
 
@@ -127,13 +127,13 @@ Their nametag will turn to red to show that they are suspended.
 
 ![alt_text](manager_imgs/suspendedcupid.png "Suspended")
 
-You can do the same to unsuspend them by clicking the button again. It will return their privileges and change their nametag to blue
+You can do the same to unsuspend them by clicking the button again. It will return their privileges and change their nametag to pink
 
 ![alt_text](manager_imgs/unsuspendedcupid.png)
 
 ### Navigation with the Menu Drawer
 
-On every page, there is a blue navigation bar at the top with an icon that is three lines in the top left. 
+On every page, there is a pink navigation bar at the top with an icon that is three lines in the top left. 
 This is a button that will open the navigation drawer.
 
 ![alt_text](manager_imgs/drawnavigation.png "NavBar")
@@ -170,15 +170,15 @@ And will return you to the login page that you first saw when going to the site.
 
 You can also get to both of those pages with the widgets at the top of the Home Page
 
-For Cupids, click the blue widget to the left's name
+For Cupids, click the pink widget's name
 
-![alt_text](manager_imgs/cupidlink2.png "CupidLink2")
+![alt_text](manager_imgs/cupidlink.png "CupidLink2")
 
 ![alt_text](manager_imgs/cupidlist.png "Cupids")
 
-For Daters, click on the pink box to the right's name.
+For Daters, click on the red widget's name.
 
-![alt_text](manager_imgs/daterlink2.png "DaterLink2")
+![alt_text](manager_imgs/daterlink.png "DaterLink2")
 
 ![alt_text](manager_imgs/daterlist.png "Daters")
 
@@ -196,18 +196,10 @@ The only way to return to the Home Page is through the navigation drawer. Refer 
 - If you cannot suspend or unsuspend at all after trying these please file a bug report with `support@cupidcode.com`. 
     - Please include the word "bug" in the header. 
 
-**The graph isn't updating correctly**
-- Wait for an extra day or two for the graph to properly update. The data sometimes doesn't get processed immediately
-    - If you're still having problems and need the data soon, ask your system admin to get the necessary data you need and they should be able to provide it.
-
-**The Widgets won't take me to the page!!**
-- This is likely a bug caused by an update or fix from the developers. Use the navigation drawer until it's been fixed.
-    - Let us know about it at `support@cupidcode.com`. Remember to add "bug" in the header!
-
 ## FAQ
 
 **Can System Admins change the level of permissions for Managers?**
-- Not in Version 1.0. All managers get the same permissions for Cupids, Daters, and Data.
+- Not right now. All managers get the same permissions for Cupids, Daters, and Data.
 
 **Will managers see all data for the entire system?**
 - Yes, as of right now, the managers can see all the system data.
