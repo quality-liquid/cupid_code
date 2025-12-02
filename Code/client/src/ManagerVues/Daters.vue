@@ -59,9 +59,15 @@ onMounted(getDaters)
   <!-- nav banner component -->
   <!-- end nav bar -->
   <NavSuite title='Dater Information'>
-      <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}"> Home </router-link>
-      <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}"> See Dater Info </router-link>
-      <router-link class="link" :to="{name: 'ManageCupids', params: {id: user_id}}"> See Cupid Info </router-link>
+      <router-link class="link" :to="{name: 'ManagerHome', params: {id: user_id}}">
+        Home 
+      </router-link>
+      <router-link class="link" :to="{name: 'ManageDaters', params: {id: user_id}}">
+        See Dater Info 
+      </router-link>
+      <router-link class="link" :to="{name: 'ManageCupids', params: {id: user_id}}">
+        See Cupid Info 
+      </router-link>
   </NavSuite>
   <figure>{{ daterCount }} Daters</figure>
 
@@ -70,12 +76,20 @@ onMounted(getDaters)
     <div class="header" :id="`header-${dater.user ? dater.user['id'] : ''}`">
       <span class="material-symbols-outlined icon">person</span>
       <h4>{{ dater.user ? (dater.user['first_name'] + " " + dater.user['last_name']) : ''}}</h4>
-      <h4 :id="`id-${dater.user ? dater.user['id'] : ''}`">{{ dater.user ? dater.user['id'] : '' }}</h4>
+      <h4 :id="`id-${dater.user ? dater.user['id'] : ''}`">
+        {{ dater.user ? dater.user['id'] : '' }}
+      </h4>
     </div>
     <article class="user-data">
       <span>Rating: {{ dater.rating_sum }}</span>
       <span>Location: {{ dater.location }}</span>
-      <button :id="`button-${dater.user ? dater.user['id'] : ''}`" class="button" @click="() => suspend(dater.user ? dater.user['id'] : '')">Suspend</button>
+      <button
+        :id="`button-${dater.user ? dater.user['id'] : ''}`" 
+        class="button" 
+        @click="() => suspend(dater.user ? dater.user['id'] : '')"
+      >
+        Suspend
+      </button>
     </article> 
   </div>
 
@@ -83,31 +97,34 @@ onMounted(getDaters)
 
 <style scoped>
 .container {
-  margin: 10;
-} 
+  margin: 30px 0;
+}
 
 .user-data {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  margin: 0px 90px 10px 90px;
-  padding: 8px 0px;
+  margin: 0 auto 10px auto;
+  max-width: 920px;
+  padding: 10px 14px;
   border: none;
-  gap: 2px;
+  gap: 6px;
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
   box-shadow: 2px 5px 8px 1px rgb(194, 194, 194);
+  background: #fff;
 }
 
 .user-data span{
-  padding-left: 8px;
+  padding-left: 6px;
 }
 
 .header {
   display: flex;
-  margin: 10px 90px 0px 90px;
-  padding: 8px;
+  margin: 10px auto 0 auto;
+  max-width: 920px;
+  padding: 10px 14px;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
   color: white;
@@ -116,6 +133,8 @@ onMounted(getDaters)
   align-items: center;
   background-color: var(--primary-blue);
 }
+
+.header .icon { margin-right: 8px; }
 
 .suspended {
   background-color: var(--primary-red);
@@ -127,19 +146,30 @@ onMounted(getDaters)
 
 .button {
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   color: white;
   margin: 6px 8px;
-  padding: 8px;
+  padding: 8px 10px;
   background-color: var(--secondary-red);
 }
 
 .button:hover {
-  filter: brightness(1.3);
+  filter: brightness(1.05);
 }
 
 .unsuspend {
   background-color: var(--primary-blue);
+}
+
+@media (max-width: 720px) {
+  .header, .user-data { padding: 10px; margin-left: 12px; margin-right: 12px; }
+  .button { width: 100%; box-sizing: border-box; margin: 8px 0 0 0; }
+  .header { flex-direction: row; gap: 8px; }
+}
+
+@media (max-width: 420px) {
+  .header h4 { font-size: 0.95rem; }
+  .user-data span { font-size: 0.95rem; }
 }
 </style>
   

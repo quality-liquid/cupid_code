@@ -12,15 +12,31 @@ const user_id  = parseInt(window.location.hash.split('/')[3])
 <template>
   <div class="dater-home-root">
     <NavSuite title='Home' profile='DaterProfile'>
-        <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
-        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
-        <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
-        <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
-        <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
-        <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
-        <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
-    <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}"> Notifications </router-link>
-        <a to="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Need Help?</a>
+      <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }">
+        Profile 
+      </router-link>
+      <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }">
+        Calendar 
+      </router-link>
+      <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }">
+        AI Chat 
+      </router-link>
+      <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }">
+        AI Listen 
+      </router-link>
+      <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}">
+        Gigs 
+      </router-link>
+      <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }">
+        Balance
+      </router-link>
+      <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}">
+        Feedback 
+      </router-link>
+      <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}">
+        Notifications 
+      </router-link>
+      <a to="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Need Help?</a>
     </NavSuite>
 
     <div class="mobile-container">

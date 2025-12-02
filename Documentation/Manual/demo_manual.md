@@ -9,7 +9,7 @@
 
 ## Introduction
 
-Welcome, esteemed demo users, to our Cupid Code Project demonstration manual. 
+Welcome, esteemed demo users, to our Cupid Code Demonstration Manual. 
 We are thrilled to present to you our Minimum Viable Product (MVP), a culmination of dedication, innovation, and countless hours of meticulous craftsmanship. 
 In the following pages, you will embark on a journey through the intricacies of our revolutionary solution, designed to transform the way we connect and interact in the digital realm. 
 As pioneers in our field, we are excited to showcase the capabilities and potential of our Cupid Code Project, offering a glimpse into the future of technology-driven connections. 
@@ -26,32 +26,16 @@ Good luck and enjoy the journey through our system!!
 ## Dater Demo
 
 **Use Cases**
-- Create a new customer account and set up a dating profile
-- Chat with the AI dating expert (about an upcoming date or for general dating advice)
-    - Note: You might need to wait a second for the AI to "wake up." It always takes a second on the first message of the day.
-
-You can find information here at the [Dater Manual](https://gitlab.cs.usu.edu/cs3450-team2/cupid_code/-/blob/development/Documentation/Manual/dater_manual.md?ref_type=heads)
-
-## Cupid Demo
-
-- Pick a gig and turn down a gig
-- Complete a gig and rate a dater
-
-Here are your login credentials: 
-
-    email: joe@mail.com
-    password: password
-
-You can find information on how to do this here at [Cupid Manual](https://gitlab.cs.usu.edu/cs3450-team2/cupid_code/-/blob/development/Documentation/Manual/cupid_manual.md?ref_type=heads)
-
-## Manager Demo
-
-- Review cupid ratings and fire underperformed cupids
-- Block daters with poor ratings from the service
+- Use AI to plan a date from the Date Calendar page.
+- Utilize our Speech-to-Text feature found on the AI Listen page and have a conversation monitored by the AI.
 
 Here are your login credentials:
 
-    email: manager@cupidcode.com
+    email: bob@cupidcode.com
     password: password
 
-Information on this is at [Manager Manual](https://gitlab.cs.usu.edu/cs3450-team2/cupid_code/-/blob/development/Documentation/Manual/manager_manual.md?ref_type=heads)
+Here is the URL:
+
+    http://52.241.253.69:8000/
+
+You can find information here at the [Dater Manual](https://github.com/quality-liquid/cupid_code/blob/master/Documentation/Manual/dater_manual.md?ref_type=heads)

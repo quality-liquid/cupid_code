@@ -50,7 +50,7 @@ function previewFile() {
 
 async function getData() {
     // dater results
-    const results = await makeRequest(`api/user/${user_id}`)
+    const results = await makeRequest(`/api/user/${user_id}`)
     degree.value = results.ai_degree
     addr.value = results.location
     desc.value = results.description
@@ -115,14 +115,30 @@ onMounted(getData)
 <template>
     <div class="dater-profile-page">
         <NavSuite title='Profile' profile='DaterProfile'>
-        <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
-        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
-        <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
-        <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
-        <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
-        <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
-        <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
-        <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}"> Notifications </router-link>
+        <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }">
+            Home 
+        </router-link>
+        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }">
+            Calendar 
+        </router-link>
+        <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }">
+            AI Chat 
+        </router-link>
+        <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }">
+            AI Listen 
+        </router-link>
+        <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}">
+            Gigs 
+        </router-link>
+        <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }">
+            Balance
+        </router-link>
+        <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}">
+            Feedback 
+        </router-link>
+        <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}">
+            Notifications 
+        </router-link>
     </NavSuite>
 
     <div class="mobile-container">
@@ -148,10 +164,18 @@ onMounted(getData)
                 <label class="update-content" for="degree">
                     AI Degree
                     <select id="degree" v-model="degree" class="update-select">
-                        <option value="I don't want any help">I don't want any help</option>
-                        <option value="I would like a little help">I would like a little help</option>
-                        <option value="I need a good amount of help">I need a good amount of help</option>
-                        <option value="I need all the help">I need all the help</option>
+                        <option value="I don't want any help">
+                            I don't want any help
+                        </option>
+                        <option value="I would like a little help">
+                            I would like a little help
+                        </option>
+                        <option value="I need a good amount of help">
+                            I need a good amount of help
+                        </option>
+                        <option value="I need all the help">
+                            I need all the help
+                        </option>
                     </select>
                 </label>
             </div>
@@ -180,18 +204,33 @@ onMounted(getData)
                     <legend>Relationship Status</legend>
                     <label class="radio_detail" for="status-single">
                         Single
-                        <input type="radio" id="status-single" name="relationshipStatus" value="single"
-                            v-model="relationshipStatus" />
+                        <input
+                            type="radio"
+                            id="status-single"
+                            name="relationshipStatus"
+                            value="single"
+                            v-model="relationshipStatus" 
+                        />
                     </label>
                     <label class="radio_detail" for="status-dating">
                         Dating
-                        <input type="radio" id="status-dating" name="relationshipStatus" value="dating"
-                            v-model="relationshipStatus" />
+                        <input
+                            type="radio"
+                            id="status-dating"
+                            name="relationshipStatus"
+                            value="dating"
+                            v-model="relationshipStatus" 
+                        />
                     </label>
                     <label class="radio_detail" for="status-married">
                         Married
-                        <input type="radio" id="status-married" name="relationshipStatus" value="married"
-                            v-model="relationshipStatus" />
+                        <input 
+                            type="radio" 
+                            id="status-married" 
+                            name="relationshipStatus" 
+                            value="married"
+                            v-model="relationshipStatus"
+                        />
                     </label>
                 </fieldset>
                 <label class="update-text" for="goals">

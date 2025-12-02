@@ -74,52 +74,55 @@ onMounted(getChats)
 </script>
 
 <template>  
-    <NavSuite title='Chat Room' profile='DaterProfile'>
-        <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> 
-            Home 
-        </router-link>
-        <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> 
-            Profile 
-        </router-link>
-        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> 
-            Calendar 
-        </router-link>
-        <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> 
-            AI Listen 
-        </router-link>
-        <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> 
-            Gigs 
-        </router-link>
-        <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> 
-            Balance
-        </router-link>
-        <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> 
-            Feedback 
-        </router-link>
-        <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}"> 
-            Notifications 
-        </router-link>
-    </NavSuite>
-
-    <div class="mobile-container">
-        <div v-if="noChats">
-            <h3 id="header">Start your chat with Cupid AI here!</h3>
-            <div id="chat-container"></div>
-        </div>
-        <div v-else>
-            <div v-for="(chat, index) of chatArr" id="chat-container">
-                <div :key="index" :class="chat.from_ai ? 'chat response' : 'chat sent'">
-                    {{ chat.text }}
+    <div>
+        <NavSuite title='Chat Room' profile='DaterProfile'>
+            <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> 
+                Home 
+            </router-link>
+            <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> 
+                Profile 
+            </router-link>
+            <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> 
+                Calendar 
+            </router-link>
+            <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> 
+                AI Listen 
+            </router-link>
+            <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> 
+                Gigs 
+            </router-link>
+            <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> 
+                Balance
+            </router-link>
+            <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> 
+                Feedback 
+            </router-link>
+            <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}"> 
+                Notifications 
+            </router-link>
+        </NavSuite>
+    
+        
+        <div class="mobile-container">
+            <div v-if="noChats">
+                <h3 id="header">Start your chat with Cupid AI here!</h3>
+                <div id="chat-container"></div>
+            </div>
+            <div v-else>
+                <div id="chat-container">
+                    <div v-for="(chat, index) in chatArr" :key="index" :class="chat.from_ai ? 'chat response' : 'chat sent'">
+                        {{ chat.text }}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="textbox">
-        <label for="message" class="message">
-            <h4>Enter Message Here</h4>
-            <input id="message" placeholder="Type your message to the AI!" v-model="message">
-        </label>
-        <button class="button" @click="send">Send</button>
+        <div class="textbox">
+            <label for="message" class="message">
+                <h4>Enter Message Here</h4>
+                <input id="message" placeholder="Type your message to the AI!" v-model="message">
+            </label>
+            <button class="button" @click="send">Send</button>
+        </div>
     </div>
 </template>
 

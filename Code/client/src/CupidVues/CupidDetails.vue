@@ -38,7 +38,11 @@
         const res = await makeRequest('/api/cupid/create_stripe_account/')
         if (res.account_id) {
             // Request an onboarding link; pass account_id as query param to be robust
-            const linkRes = await makeRequest(`/api/cupid/create_onboarding_link/`, 'post', {account_id: res.account_id})
+            const linkRes = await makeRequest(
+                `/api/cupid/create_onboarding_link/`, 
+                'post', 
+                {account_id: res.account_id}
+            )
             if (linkRes.url) window.location.href = linkRes.url
             else alert('Stripe account created: ' + res.account_id)
         } else if (res.url) {
@@ -85,7 +89,7 @@
     }
 
     async function getData() {
-        const cupid = await makeRequest(`api/user/${user_id}`)
+        const cupid = await makeRequest(`/api/user/${user_id}`)
         email.value = cupid.user.email
         phone.value = cupid.user.phone_number
         fname.value = cupid.user.first_name
@@ -93,7 +97,7 @@
         username.value = cupid.user.username
 
         accepting_gigs.value = cupid.accepting_gigs
-        balance.value = cupid.cupid_cash_balance
+        balance.value = (cupid && cupid.cupid_cash_balance != null) ? cupid.cupid_cash_balance : 0
         range.value = cupid.gig_range
         gigs_completed.value = cupid.gigs_completed
         gigs_failed.value = cupid.gigs_failed
@@ -106,25 +110,47 @@
 
 <template>
     <NavSuite title='Profile' profile='CupidDetails'>
-        <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
-        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gigs Available </router-link>
-        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}"> Gigs Completed </router-link>
-        <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
+        <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}">
+            Home
+        </router-link>
+        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}">
+            Gigs Available
+        </router-link>
+        <router-link class="link" :to="{name: 'GigComplete', params: {id: user_id}}">
+            Gigs Completed
+        </router-link>
+        <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}">
+            Feedback
+</router-link>
     </NavSuite>
 
     <div class="mobile-container">
         <CupidCoin :active="accepting_gigs" @click="toggleAccept"/>
         <div class="card">
             <p id="balance">${{ balance }}</p>
-            <!-- Add a button to remove funds if they have a stripe account, else button to create a stripe account -->
+            <!-- Add a button to remove funds if they have a stripe account, 
+             else button to create a stripe account -->
             <div style="display:flex; gap:8px; justify-content:center; margin-top:8px;">
-                <button v-if="stripe_account" class="button" @click.prevent="transferFunds" :disabled="transferLoading">
+                <button
+                    v-if="stripe_account"
+                    class="button"
+                    @click.prevent="transferFunds"
+                    :disabled="transferLoading"
+                >
                     {{ transferLoading ? 'Processing...' : 'Withdraw funds' }}
                 </button>
-                <button v-else class="button" @click.prevent="createStripeAccount">Create Stripe Account</button>
+                <button
+                    v-else
+                    class="button"
+                    @click.prevent="createStripeAccount"
+                >
+                    Create Stripe Account
+                </button>
             </div>
             <hr></hr>
-            <p id="succesful">{{ gigs_completed }} gigs succesful of {{ gigs_failed + gigs_completed}}</p>
+            <p id="successful">
+                {{ gigs_completed }} gigs successful of {{ gigs_failed + gigs_completed}}
+            </p>
         </div>
         <h1>Update Details</h1>
         <hr>

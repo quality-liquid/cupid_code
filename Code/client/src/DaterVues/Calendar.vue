@@ -104,14 +104,30 @@ onMounted(() => getCalendar())
 <template>
   <div class="calendar-page">
   <NavSuite title="Calendar" profile="DaterProfile">
-    <router-link class="link" :to="{ name: 'DaterHome', params: { id: user_id } }">Home</router-link>
-    <router-link class="link" :to="{ name: 'DaterProfile', params: { id: user_id } }">Profile</router-link>
-    <router-link class="link" :to="{ name: 'AiChat', params: { id: user_id } }">AI Chat</router-link>
-    <router-link class="link" :to="{ name: 'AiListen', params: { id: user_id } }">AI Listen</router-link>
-    <router-link class="link" :to="{ name: 'DaterGigs', params: { id: user_id } }">Gigs</router-link>
-    <router-link class="link" :to="{ name: 'CupidCash', params: { id: user_id } }">Balance</router-link>
-    <router-link class="link" :to="{ name: 'DaterFeedback', params: { id: user_id } }">Feedback</router-link>
-    <router-link class="link" :to="{ name: 'NotificationCenter', params: { id: user_id } }">Notifications</router-link>
+    <router-link class="link" :to="{ name: 'DaterHome', params: { id: user_id } }">
+      Home
+    </router-link>
+    <router-link class="link" :to="{ name: 'DaterProfile', params: { id: user_id } }">
+      Profile
+    </router-link>
+    <router-link class="link" :to="{ name: 'AiChat', params: { id: user_id } }">
+      AI Chat
+    </router-link>
+    <router-link class="link" :to="{ name: 'AiListen', params: { id: user_id } }">
+      AI Listen
+    </router-link>
+    <router-link class="link" :to="{ name: 'DaterGigs', params: { id: user_id } }">
+      Gigs
+    </router-link>
+    <router-link class="link" :to="{ name: 'CupidCash', params: { id: user_id } }">
+      Balance
+    </router-link>
+    <router-link class="link" :to="{ name: 'DaterFeedback', params: { id: user_id } }">
+      Feedback
+    </router-link>
+    <router-link class="link" :to="{ name: 'NotificationCenter', params: { id: user_id } }">
+      Notifications
+    </router-link>
   </NavSuite>
 
   <div class="mobile-container">
@@ -149,7 +165,9 @@ onMounted(() => getCalendar())
           </h4>
           <p><strong>Location:</strong> {{ date.location }}</p>
           <p><strong>Description:</strong> {{ date.description }}</p>
-          <p v-if="date.budget"><strong>Budget:</strong> ${{ parseFloat(date.budget).toFixed(2) }}</p>
+          <p v-if="date.budget">
+            <strong>Budget:</strong> ${{ parseFloat(date.budget).toFixed(2) }}
+          </p>
           <p><strong>Status:</strong> {{ date.status }}</p>
         </div>
         <div class="date-actions">

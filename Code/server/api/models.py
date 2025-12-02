@@ -29,14 +29,22 @@ class Dater(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     budget = models.DecimalField(default=0, max_digits=10, decimal_places=2)
-    communication_preference = models.IntegerField(default=Communication.EMAIL, choices=Communication.choices)
+    communication_preference = models.IntegerField(
+        default=Communication.EMAIL,
+        choices=Communication.choices
+    )
     description = models.TextField(default="", blank=True)
     dating_strengths = models.TextField(default="", blank=True)
     dating_weaknesses = models.TextField(default="", blank=True)
     interests = models.TextField(default="", blank=True)
     past = models.TextField(default="", blank=True)
     nerd_type = models.TextField(default="", blank=True)
-    relationship_status = models.CharField(max_length=10, choices=RelationshipStatus.choices, default=RelationshipStatus.SINGLE, blank=True)
+    relationship_status = models.CharField(
+        max_length=10, 
+        choices=RelationshipStatus.choices, 
+        default=RelationshipStatus.SINGLE, 
+        blank=True
+    )
     relationship_goals = models.TextField(default="", blank=True)
     ai_degree = models.TextField(default="max", blank=True)
     cupid_cash_balance = models.DecimalField(default=0,max_digits=10, decimal_places=2)

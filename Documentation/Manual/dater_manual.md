@@ -35,7 +35,9 @@ As a Dater you will have access to the following features:
 
 Here is a demonstration of how to sign up for a Dater account:
 
-![Signing up](dater_images/sign_up.png)
+![Signing up](dater_images/sign_up1.png)
+![Signing up](dater_images/sign_up2.png)
+![Signing up](dater_images/sign_up3.png)
 
 ## Logging In
 
@@ -57,6 +59,11 @@ You will always have access to this menu no matter what page you are on!
 
 ![Home Page with Menu](dater_images/home_menu.png)
 
+You will also always have access to change your light/dark mode preference.
+This is done by hitting the sun or moon icon in the top right.
+
+![Light Home Page](dater_images/home-light.png)
+
 You can use the menu or the buttons on the home page to navigate to the different pages of the site. 
 Whatever is easier for you!
 
@@ -64,22 +71,33 @@ Use the logout button to log out of your account. We don't want anyone else usin
 
 ### AI Chat Page
 
-This is the chat page where you can chat with the AI. 
-You can ask for date ideas, advice, and feedback. 
-You can also ask for help with creating gigs for Cupids. 
+This is the chat page where you can chat with the AI. You can ask for date ideas, advice, and feedback! 
+
+Unfortunately, due to budget constraints the page must be manually refreshed for the response to your chat message to appear. But worry not, the AI responds with great advice!
 
 The AI and Cupids are here to help you find love, so don't be afraid to ask for help! 
 
-![Chat](dater_images/chat.png)
+<img src="dater_images/ai_chat.png" style="width:40%" alt="AI Chat" title="AI Chat">
+
 
 ### AI Listening Page
 
 This is the AI listening page. 
-Here you can turn on and off the AI listening mode. 
-When the AI is listening, it will listen to your conversations and call for help from Cupids when needed. 
+Here you can turn on and off the AI listening mode.  
+When the AI is listening, it will listen to your conversations and it will give you friendly advice of when to change the topic or give you more context about what you are talking about. 
 That way you can focus on your date and let the AI and Cupids handle the rest!
 
-![Listen](dater_images/listen.png)
+![Listen](dater_images/AIListenUpdated.png)
+
+When it detects something that it will give an opinion on, it will bring up extra text as well as suggestions and the option to read it aloud.
+
+![Listen](dater_images/AIListenUpdated2.png)
+
+### Notification Page
+
+This page is used as a home for all notifications coming from the app. It works to send custom notifications as well as showing the notifications that you receive while using the app!
+
+![Notification](dater_images/NotifCenter.png)
 
 ### Cupid Cash Page
 
@@ -87,15 +105,43 @@ This is the Cupid Cash page.
 Here you can view your Cupid Cash balance and add more funds if needed. 
 If you run out of Cupid Cash, you won't be able to create gigs for Cupids so make sure you have enough!
 
-![Cash](dater_images/cash.png)
+To add funds, enter the amount you want to add and press deposit.
+
+![Cash](dater_images/cash1.png)
+
+After the Stripe menu appears, enter your card information and press submit payment.
+
+![Cash](dater_images/cash2.png)
 
 ### Date Calendar Page
 
 This is the Date Calendar page. 
 Here you can view your Date Calendar and see all the dates you have planned. 
+The default setting shows two months of calendar with dots appearing on days that have dates. 
 You can also view the details of each date and see the status of the date.
+The Date Calendar page is also where you are able to access the date adding features which are demonstrated below.
 
 ![Calendar](dater_images/calendar.png)
+
+#### Adding dates
+
+There are two ways to add a date to your calendar. 
+
+1. Manually add the date yourself
+    - Click the "Add Date" button at the top of the page.
+    - Fill out the form that pops up. It will ask for the date, location, a description, and the budget.
+    - Click "Submit" to save the date to your calendar.
+
+![Add Date](dater_images/add-date.png)
+
+2. Get help from the AI chatbot
+    - Click the "Plan a date w/ AI" button.
+    - A chat window will pop up prompting you for input about ideas you may have for your date or any information about the person you're going with. Send a message responding to this prompt.
+    - The AI will send back three ideas for potential dates. Respond with 1, 2, or 3 to select one.
+    - A form will pop up with the date information filled in for the location and description. Enter the date and bugdet to complete the form.
+    - Click "Submit" to save the date to your calendar.
+
+![Plan-a-date](dater_images/plan-a-date.png)
 
 ## Common Issues
 

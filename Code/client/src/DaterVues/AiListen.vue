@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { watch } from 'vue'
 import PinkButton from '../components/PinkButton.vue';
 import NavSuite from '../components/NavSuite.vue';
 
@@ -12,6 +13,25 @@ const recognitionSupported = 'webkitSpeechRecognition' in window || 'SpeechRecog
 let recognition = null
 const voices = ref([])
 const selectedVoice = ref('')
+// Last filtered backend response for newly streamed interim text
+const serverResult = ref('')
+// Track current spoken utterance & speaking state
+let currentUtterance = null
+const speaking = ref(false)
+
+function getCsrfToken() {
+    // Django sets csrftoken cookie by default when CSRF middleware is active.
+    const name = 'csrftoken='
+    const decoded = document.cookie
+    const parts = decoded.split(';')
+    for (let p of parts) {
+        p = p.trim()
+        if (p.startsWith(name)) {
+            return p.substring(name.length)
+        }
+    }
+    return ''
+}
 
 function loadVoices() {
     const synth = window.speechSynthesis
@@ -54,11 +74,42 @@ onMounted(() => {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
         window.speechSynthesis.onvoiceschanged = loadVoices
     }
+    // Auto-cancel any speech on page reload/navigation
+    window.addEventListener('beforeunload', cancelSpeech)
 })
 
 onBeforeUnmount(() => {
     if (recognition && listening.value) {
         recognition.stop()
+    }
+    cancelSpeech()
+    window.removeEventListener('beforeunload', cancelSpeech)
+})
+
+// Watch for final transcript changes (when interim becomes final)
+watch(transcript, async (newVal, oldVal) => {
+    // Only process when new text is added to transcript
+    if (!newVal || newVal === oldVal) return
+    const addedText = oldVal ? newVal.slice(oldVal.length).trim() : newVal.trim()
+    if (!addedText) return
+    
+    const csrf = getCsrfToken()
+    try {
+        const res = await fetch('/api/speech/test', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrf
+            },
+            body: JSON.stringify({ transcript: addedText })
+        })
+        if (res.ok) {
+            const data = await res.json()
+            serverResult.value = data.result || ''
+        }
+    } catch (e) {
+        console.error('Failed calling speech filter endpoint:', e)
     }
 })
 
@@ -84,27 +135,77 @@ function speak() {
     const utterance = new SpeechSynthesisUtterance(ttsText.value)
     const v = voices.value.find(v => v.name === selectedVoice.value)
     if (v) utterance.voice = v
+    attachUtteranceEvents(utterance)
     window.speechSynthesis.cancel()
     window.speechSynthesis.speak(utterance)
+}
+
+function speakAI() {
+    if (!serverResult.value.trim()) return
+    if (!voices.value.length) {
+        loadVoices()
+    }
+    const utterance = new SpeechSynthesisUtterance(serverResult.value)
+    const v = voices.value.find(v => v.name === selectedVoice.value)
+    if (v) utterance.voice = v
+    attachUtteranceEvents(utterance)
+    window.speechSynthesis.cancel()
+    window.speechSynthesis.speak(utterance)
+}
+
+function attachUtteranceEvents(utterance) {
+    currentUtterance = utterance
+    utterance.onstart = () => speaking.value = true
+    utterance.onend = () => { speaking.value = false; currentUtterance = null }
+    utterance.onerror = () => { speaking.value = false; currentUtterance = null }
+}
+
+function cancelSpeech() {
+    if (window.speechSynthesis) {
+        window.speechSynthesis.cancel()
+    }
+    speaking.value = false
+    currentUtterance = null
+}
+
+function stopSpeaking() {
+    cancelSpeech()
 }
 
 function clearTranscript() {
     transcript.value = ''
     interim.value = ''
+    serverResult.value = ''
 }
 </script>
 
 <template>
     <div>
         <NavSuite title='Let the AI Listen in!' profile='DaterProfile'>
-            <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
-            <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
-            <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
-            <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
-            <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}"> Gigs </router-link>
-            <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
-            <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
-            <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}"> Notifications </router-link>
+            <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }">
+                Home
+            </router-link>
+            <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }">
+                Profile
+            </router-link>
+            <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }">
+                Calendar
+            </router-link>
+            <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }">
+                AI Chat
+            </router-link>
+            <router-link class="link" :to="{ name: 'DaterGigs', params: {id: user_id}}">
+                Gigs
+            </router-link>
+            <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }">
+                Balance
+            </router-link> 
+            <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}">
+                Feedback
+            </router-link>
+            <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}">
+                Notifications
+            </router-link>
         </NavSuite>
     
         <div class="mobile-container">
@@ -113,28 +214,56 @@ function clearTranscript() {
                 <h2 class="panel-title">Live Speech Tools</h2>
                 <div class="stt">
                     <div class="controls">
-                        <PinkButton :class="listening ? 'danger' : 'primary'" @click="toggleListening" :disabled="!recognitionSupported">
+                        <PinkButton 
+                            :class="listening ? 'danger' : 'primary'" 
+                            @click="toggleListening" 
+                            :disabled="!recognitionSupported"
+                        >
                             {{ listening ? 'Stop Listening' : 'Start Listening' }}
                         </PinkButton>
                         <PinkButton @click="clearTranscript">Clear</PinkButton>
                     </div>
                     <p v-if="!recognitionSupported" class="hint">
-                        Your browser doesn't support the Web Speech API. Chrome is recommended for live transcription.
+                        Your browser doesn't support the Web Speech API. 
+                        Chrome is recommended for live transcription.
                     </p>
                     <div class="transcript">
                         <div class="final" v-text="transcript" />
                         <div class="interim" v-text="interim" />
+                    </div>
+                    <div v-if="serverResult" class="filtered-response">
+                        <h3 class="response-title">AI Filtered Insight</h3>
+                        <pre class="response-text">{{ serverResult }}</pre>
+                        <PinkButton class="primary" @click="speakAI">Speak Insight</PinkButton>
+                        <PinkButton 
+                            :class="speaking ? 'danger' : 'secondary'" 
+                            @click="stopSpeaking" 
+                            :disabled="!speaking"
+                            class="stop-speaking"
+                        >Stop Speaking</PinkButton>
                     </div>
                 </div>
                 <div class="tts">
                     <label>
                         Voice
                         <select v-model="selectedVoice">
-                            <option v-for="v in voices" :key="v.name" :value="v.name">{{ v.name }}</option>
+                            <option
+                                v-for="v in voices"
+                                :key="v.name"
+                                :value="v.name"
+                            >
+                                {{ v.name }}
+                            </option>
                         </select>
                     </label>
                     <textarea v-model="ttsText" rows="3" placeholder="Type text to speak..." />
                     <PinkButton class="primary" @click="speak">Speak</PinkButton>
+                    <PinkButton 
+                        :class="speaking ? 'danger' : 'secondary'" 
+                        @click="stopSpeaking" 
+                        :disabled="!speaking"
+                        class="stop-speaking"
+                    >Stop Speaking</PinkButton>
                 </div>
             </div>
         </div>
@@ -268,6 +397,37 @@ function clearTranscript() {
 }
 .final { color: var(--primary-black, #222); font-size: 1.1em; }
 .interim { color: var(--secondary-blue, #007bff); font-style: italic; }
+.filtered-response {
+    margin-top: 14px;
+    background: var(--primary-white, #fff);
+    /* Match transcript box border color */
+    border: 2px solid var(--primary-red);
+    border-radius: 8px;
+    padding: 12px;
+    white-space: pre-wrap;
+    max-height: 160px; /* prevent overly tall box */
+    overflow-y: auto; /* scroll if content exceeds height */
+    /* Allow natural width within parent; avoid overflow to right */
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+.response-title {
+    margin: 0 0 6px 0;
+    font-size: 0.95em;
+    color: var(--secondary-blue, #007bff);
+    font-weight: 600;
+    text-align: center;
+}
+.response-text {
+    margin: 0;
+    font-size: 0.85em;
+    line-height: 1.25em;
+    font-family: inherit;
+    white-space: pre-wrap;
+    word-break: break-word; /* ensure long tokens wrap */
+    overflow-wrap: anywhere;
+}
 .tts {
     display: flex;
     flex-direction: column;
@@ -292,6 +452,7 @@ select {
     color: var(--secondary-blue, #007bff);
     text-align: center;
 }
+.stop-speaking { margin-top: 4px; }
 </style>
 .live-panel {
     background: var(--primary-white, #fff);

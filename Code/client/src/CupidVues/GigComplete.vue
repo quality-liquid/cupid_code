@@ -15,12 +15,20 @@
     const heartState = ref([false,false,false,false,false])
     const rating = ref(0)
 
-    const user_id  = parseInt(window.location.hash.split('/')[4]) //Gets the id from the router
+    import { useRoute } from 'vue-router'
+    const route = useRoute()
+    const user_id  = Number(route.params.id) || null // router param id
 
     async function getData() {
-        gigs.value = await makeRequest(`api/cupid/gigs/${user_id}?complete=true`)
-        //Django returns a 404 if there are none. We have to tell Vue it is ok.
-        if (gigs.value.detail === 'Not found.'){
+        if (!user_id) {
+            gigs.value = []
+            return
+        }
+        try {
+            const res = await makeRequest(`/api/cupid/gigs/${user_id}?complete=true`)
+            gigs.value = (res && res.detail === 'Not found.') ? [] : res || []
+        } catch (err) {
+            console.warn('Failed to load completed gigs', err)
             gigs.value = []
         }
     }
@@ -37,7 +45,7 @@
     }
 
     function sendReview() {
-        makeRequest('api/dater/rate/', 'post', {
+        makeRequest('/api/dater/rate/', 'post', {
             'dater_id':activeGig.value.dater_id,
             'gig_id':activeGig.value.id,
             'message':message.value,
@@ -63,10 +71,18 @@
 
 <template>
     <NavSuite title='Completed Gigs' profile='CupidDetails'>
-        <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}"> Home </router-link>
-        <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}"> Profile </router-link>
-        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}"> Gigs Available </router-link>
-        <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}"> Feedback </router-link>
+        <router-link class="link" :to="{name: 'CupidHome', params: {id: user_id}}">
+            Home 
+        </router-link>
+        <router-link class="link" :to="{name: 'CupidDetails', params: {id: user_id}}">
+            Profile 
+        </router-link>
+        <router-link class="link" :to="{name: 'GigDetails', params: {id: user_id}}">
+            Gigs Available 
+        </router-link>
+        <router-link class="link" :to="{name: 'CupidFeedback', params: {id: user_id}}">
+            Feedback 
+        </router-link>
     </NavSuite>
 
     <div class="mobile-container">
@@ -127,6 +143,9 @@
     .row {
         display: flex;
         flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 6px;
     }
 
     .update-content {

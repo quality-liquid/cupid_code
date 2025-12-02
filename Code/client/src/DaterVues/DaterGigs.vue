@@ -87,14 +87,30 @@
 
 <template>
     <NavSuite title='Gigs' profile='DaterProfile'>
-        <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }"> Home </router-link>
-        <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }"> Profile </router-link>
-        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }"> Calendar </router-link>
-        <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }"> AI Chat </router-link>
-        <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }"> AI Listen </router-link>
-        <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }"> Balance</router-link>
-        <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}"> Feedback </router-link>
-        <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}"> Notifications </router-link>
+        <router-link class="link" :to="{ name: 'DaterHome', params: {id: user_id} }">
+            Home 
+        </router-link>
+        <router-link class="link" :to="{ name: 'DaterProfile', params: {id: user_id} }">
+            Profile 
+        </router-link>
+        <router-link class="link" :to="{ name: 'Calendar', params: {id: user_id} }">
+            Calendar 
+        </router-link>
+        <router-link class="link" :to="{ name: 'AiChat', params: {id: user_id} }">
+            AI Chat 
+        </router-link>
+        <router-link class="link" :to="{ name: 'AiListen', params: {id: user_id} }">
+            AI Listen 
+        </router-link>
+        <router-link class="link" :to="{ name: 'CupidCash', params: {id: user_id} }">
+            Balance
+        </router-link>
+        <router-link class="link" :to="{ name: 'DaterFeedback', params: {id: user_id}}">
+            Feedback 
+        </router-link>
+        <router-link class="link" :to="{ name: 'NotificationCenter', params: {id: user_id}}">
+            Notifications 
+        </router-link>
     </NavSuite>
 
     <div class="mobile-container">
@@ -136,8 +152,12 @@
                 </div>
             </label>
             <div class="space-evenly">
-                <PinkButton class = "margin-sixteen" @click-forward="sendReview">Send</PinkButton>
-                <PinkButton class = "margin-sixteen" @click-forward="toggleActiveGig">Cancel</PinkButton>
+                <PinkButton class = "margin-sixteen" @click-forward="sendReview">
+                    Send
+                </PinkButton>
+                <PinkButton class = "margin-sixteen" @click-forward="toggleActiveGig">
+                    Cancel
+                </PinkButton>
             </div>
         </Popup>
     </div>
@@ -240,5 +260,3 @@
         margin: auto;
     }
 </style>
-
-

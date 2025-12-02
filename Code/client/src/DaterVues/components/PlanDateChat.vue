@@ -55,7 +55,9 @@ async function sendMessage() {
       history.push("role: user, content: " + userMessage);
 
       //date ideas takes arguments (repsonse, history)
-      const aiDateIdeas = await makeRequest(`/api/dateAI/date_ideas/?history=${encodeURIComponent(JSON.stringify(history))}`, 'get');
+      const aiDateIdeas = await makeRequest(
+        `/api/dateAI/date_ideas/?history=${encodeURIComponent(JSON.stringify(history))}`, 'get'
+      );
       chatMessages.value.push({
         text: aiDateIdeas.message[0][1],
         from_ai: true
@@ -66,7 +68,9 @@ async function sendMessage() {
     if (chatMessages.value.length > 3){
       history.push("role: user, content: " + userMessage);
 
-      const date = await makeRequest(`/api/dateAI/date_plan/?history=${encodeURIComponent(JSON.stringify(history))}`, 'get');
+      const date = await makeRequest(
+        `/api/dateAI/date_plan/?history=${encodeURIComponent(JSON.stringify(history))}`, 'get'
+      );
 
       const dateData = JSON.parse(date.message[0][1]);
       openDateForm(dateData);
@@ -113,7 +117,11 @@ function openDateForm(dateData) {
         <p>{{ initialMsg }}</p>
       </div>
       
-      <div v-for="(msg, index) in chatMessages" :key="index" :class="msg.from_ai ? 'chat response' : 'chat sent'">
+      <div 
+        v-for="(msg, index) in chatMessages" 
+        :key="index" 
+        :class="msg.from_ai ? 'chat response' : 'chat sent'"
+      >
         <span v-html="msg.text"></span>
       </div>
       
@@ -124,10 +132,18 @@ function openDateForm(dateData) {
 
     <div v-if="dateIdeas.length > 0" class="date-ideas">
       <h3>Date Ideas:</h3>
-      <div v-for="(idea, index) in dateIdeas" :key="index" class="date-idea-card" @click="selectDateIdea(idea)">
+      <div 
+        v-for="(idea, index) in dateIdeas" 
+        :key="index" 
+        class="date-idea-card" 
+        @click="selectDateIdea(idea)"
+      >
         <div class="idea-header">Option {{ index + 1 }}</div>
         <div class="idea-details">
-          <p><strong>When:</strong> {{ idea.date_time ? new Date(idea.date_time).toLocaleString() : 'TBD' }}</p>
+          <p>
+            <strong>When:</strong> 
+            {{ idea.date_time ? new Date(idea.date_time).toLocaleString() : 'TBD' }}
+          </p>
           <p><strong>Where:</strong> {{ idea.location || 'Location TBD' }}</p>
           <p><strong>What:</strong> {{ idea.description || 'Activity TBD' }}</p>
           <p v-if="idea.budget"><strong>Budget:</strong> ${{ idea.budget.toFixed(2) }}</p>
@@ -273,4 +289,3 @@ function openDateForm(dateData) {
   justify-content: space-around;
 }
 </style>
-

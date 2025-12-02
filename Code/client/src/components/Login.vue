@@ -16,7 +16,7 @@ async function login() {
     })
     // Add error class to which one is invalid
     const doc = document.getElementById('error')
-    if (results.method === '400' || results.method === 400) {
+    if (results.Reason === 'User not found' || results.Reason === 'Incorrect password') {
         doc.setAttribute('class', 'error shown')
         return;
     }
@@ -54,17 +54,29 @@ async function login() {
             <span id="error" class="error">Email or Password is wrong!</span>
             <label class="form_input" for="email">
                 Email
-                <input type="email" placeholder="example@email.com" id="email" name="email" v-model="email">
+                <input
+                    type="email"
+                    placeholder="example@email.com"
+                    id="email"
+                    name="email"
+                    v-model="email"
+                >
             </label>
             <label class="form_input" for="password">
                 Password
-                <input type="password" placeholder="Password" id="password" name="password" v-model="password">
+                <input
+                    type="password"
+                    placeholder="Password"
+                    id="password"
+                    name="password"
+                    v-model="password"
+                >
             </label>
             <PinkButton id="sign_in" type="submit">Sign In</PinkButton>
         </form>
     </div>
     <div class="atag">
-        <router-link to="#/register">Get Started Now!</router-link>
+        <router-link to="/register">Get Started Now!</router-link>
     </div>
 </template>
 
@@ -141,17 +153,13 @@ async function login() {
     }
 
     .error {
-        position: relative;
-        left: -300px;
-        overflow: hidden;
+        display: none;
         color: var(--destructive);
     }
 
     .shown {
-        left: 0px;
         display: flex;
         justify-content: center;
-        overflow: visible;
         padding: 10px;
     }
 </style>
