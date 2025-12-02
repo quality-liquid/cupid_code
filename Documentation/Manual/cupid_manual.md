@@ -46,14 +46,14 @@ To sign up, go to the sign-up page by clicking "Sign Up" at the top of the welco
 
 On the sign-up page, select "Cupid" as the account type and fill out the form. Once you click "Create Account," your account will be created, and you can log in.
 
-![alt_text](cupid_imgs/Signup_Form.png "Sign Up Form")
+![alt_text](cupid_imgs/signup_form.png "Sign Up Form")
 
 
 ## Logging In
 
 You can access the login screen from the welcome page by clicking "Login" at the top of the page as shown below. To log in, simply enter your email and password, then click "Login In". 
 
-![alt_text](cupid_imgs/login.png "Login Page")
+![alt_text](cupid_imgs/Login.png "Login Page")
 
 
 ## Navigating the Site

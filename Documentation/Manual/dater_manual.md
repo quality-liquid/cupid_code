@@ -35,7 +35,9 @@ As a Dater you will have access to the following features:
 
 Here is a demonstration of how to sign up for a Dater account:
 
-![Signing up](dater_images/sign_up.png)
+![Signing up](dater_images/sign_up1.png)
+![Signing up](dater_images/sign_up2.png)
+![Signing up](dater_images/sign_up3.png)
 
 ## Logging In
 
@@ -81,11 +83,21 @@ The AI and Cupids are here to help you find love, so don't be afraid to ask for 
 ### AI Listening Page
 
 This is the AI listening page. 
-Here you can turn on and off the AI listening mode. 
-When the AI is listening, it will listen to your conversations and call for help from Cupids when needed. 
+Here you can turn on and off the AI listening mode.  
+When the AI is listening, it will listen to your conversations and it will give you friendly advice of when to change the topic or give you more context about what you are talking about. 
 That way you can focus on your date and let the AI and Cupids handle the rest!
 
-![Listen](dater_images/listen.png)
+![Listen](dater_images/AIListenUpdated.png)
+
+When it detects something that it will give an opinion on, it will bring up extra text as well as suggestions and the option to read it aloud.
+
+![Listen](dater_images/AIListenUpdated2.png)
+
+### Notification Page
+
+This page is used as a home for all notifications coming from the app. It works to send custom notifications as well as showing the notifications that you receive while using the app!
+
+![Notification](dater_images/NotifCenter.png)
 
 ### Cupid Cash Page
 
@@ -93,7 +105,13 @@ This is the Cupid Cash page.
 Here you can view your Cupid Cash balance and add more funds if needed. 
 If you run out of Cupid Cash, you won't be able to create gigs for Cupids so make sure you have enough!
 
-![Cash](dater_images/cash.png)
+To add funds, enter the amount you want to add and press deposit.
+
+![Cash](dater_images/cash1.png)
+
+After the Stripe menu appears, enter your card information and press submit payment.
+
+![Cash](dater_images/cash2.png)
 
 ### Date Calendar Page
 

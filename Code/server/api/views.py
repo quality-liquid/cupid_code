@@ -8,6 +8,8 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from django.http import HttpRequest as Request
 
+
+
 import stripe
 PaymentIntent = stripe.PaymentIntent
 Account = stripe.Account
@@ -83,6 +85,13 @@ from decimal import Decimal
 
 import os
 from groq import Groq
+try:
+    # Prefer relative import within app
+    from .langChain1.SpeechTextAgent import filterResponse
+except Exception:
+    # Fallback absolute path import
+    from api.langChain1.SpeechTextAgent import filterResponse
+
 
 @api_view(['POST'])
 def create_user(request: Request) -> Response:
@@ -153,6 +162,8 @@ def sign_in(request: Request) -> Response:
     """
     data = request.data
     data['location'] = helpers.get_location_string(request.META['REMOTE_ADDR'])
+    if not User.objects.filter(email=data['email']):
+        return Response({'Reason': 'User not found'}, status=status.HTTP_400_BAD_REQUEST)
     username = User.objects.get(email=data['email']).username
     user = authenticate(request, username=username, password=data['password'])
     if user is not None:
@@ -168,10 +179,7 @@ def sign_in(request: Request) -> Response:
             else:
                 return Response({'Reason': 'Invalid User Type'}, status=status.HTTP_400_BAD_REQUEST)
     else:
-        if User.objects.filter(email=data['email']):
-            reason = 'Incorrect password'
-        else:
-            reason = 'User not found'
+        reason = 'Incorrect password'
         return Response({'Reason': reason}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -1892,3 +1900,21 @@ def date_plan(request: Request) -> Response:
     )
 
     return Response({'message': chat_completion.choices[0].message}, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def speech_test(request: Request) -> Response:
+    """Filter finalized speech text.
+
+    Expects JSON body with { "transcript": "<full finalized text>" } where the
+    value is the complete text from a finalized speech recognition result.
+    Returns filtered / classified result from `filterResponse`.
+    """
+    try:
+        transcript = request.data.get('transcript', '')
+        result = filterResponse(transcript)
+        return Response({'status': 'ok', 'result': str(result)}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'status': 'error', 'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

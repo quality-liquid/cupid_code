@@ -29,28 +29,13 @@ Good luck and enjoy the journey through our system!!
 - Use AI to plan a date from the Date Calendar page.
 - Utilize our Speech-to-Text feature found on the AI Listen page and have a conversation monitored by the AI.
 
-You can find information here at the [Dater Manual](https://github.com/quality-liquid/cupid_code/blob/master/Documentation/Manual/dater_manual.md?ref_type=heads)
-
-## Cupid Demo
-
-- Pick a gig and turn down a gig
-- Complete a gig and rate a dater
-
-Here are your login credentials: 
-
-    email: joe@mail.com
-    password: password
-
-You can find information on how to do this here at [Cupid Manual](https://github.com/quality-liquid/cupid_code/blob/master/Documentation/Manual/cupid_manual.md?ref_type=heads)
-
-## Manager Demo
-
-- Review cupid ratings and fire underperformed cupids
-- Block daters with poor ratings from the service
-
 Here are your login credentials:
 
-    email: manager@cupidcode.com
+    email: bob@cupidcode.com
     password: password
 
-Information on this is at [Manager Manual](https://github.com/quality-liquid/cupid_code/blob/master/Documentation/Manual/manager_manual.md?ref_type=heads)
+Here is the URL:
+
+    http://52.241.253.69:8000/
+
+You can find information here at the [Dater Manual](https://github.com/quality-liquid/cupid_code/blob/master/Documentation/Manual/dater_manual.md?ref_type=heads)
