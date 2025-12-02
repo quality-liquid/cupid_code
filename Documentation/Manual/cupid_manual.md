@@ -40,7 +40,7 @@ To get started, sign up or log in to your account. Once logged in, you'll have a
 
 ## Signing Up
 
-To sign up, go to the sign-up page by clicking "Sign up" at the top of the welcome page, as shown in the image below.
+To sign up, go to the sign-up page by clicking "Sign Up" at the top of the welcome page, as shown in the image below.
 
 ![alt_text](cupid_imgs/Home.png "Login")
 
