@@ -88,6 +88,11 @@ It's worth noting that as long as users' chosen combination of User-Agent and Op
 
 The design and implementation made for the client end of the app, combined with the required features asked for by the client, lead us to believe that no design changes are needed.
 
+-----
+Final comment: We ended up using HTTP so that the CI:CD works! It would not work with HTTPS in the way that we did it.
+-----
+
+
 # 2. User Interface
 [*Table of Contents*](#table-of-contents)
 
@@ -111,6 +116,8 @@ The UI will be optimized for mobile use for Cupids and Daters, but the manager i
 0. AI Listen-in
     * This page will listen to the conversation during the date and give real-time advice to the Dater as needed. 
     * It will also provide real-time information about Cupids or other dating opportunities.
+0. Notification
+    * This page will be the center of notifications, allowing the daters and cupids to see the previous and current notifications.
 0. Cupid Main Page
     * This will be the home page for Cupids.
     * This is where Cupids will Clock in and out.
@@ -127,6 +134,7 @@ The UI will be optimized for mobile use for Cupids and Daters, but the manager i
       - Profile
       - App feedback
       - Gig requests
+      - Notification
 0. Manager Main Page
     * Managers will be able to see any feedback given by Daters or Cupids
     * They will also have the option to go to the report system page.
@@ -171,6 +179,11 @@ The user will enter username and password. The system will validate the input. I
 ![Dater Login](images/dater.png "Dater Login")
 
 The Dater homepage will allow them to select one of these pages: Calendar, AI chat, Cupid Cash, Profile, App feedback, or Gig Requests.
+
+----
+This does not include the notification page
+----
+
 
 
 #### **Cupid Login**
@@ -264,6 +277,10 @@ No high level changes to the manager's diagram were needed. Managers can review 
 * Speech To Text API (pyttsx3)
 * Text and Email notifications API (Twilio) 
 * Nearby Shops API (yelpapi)
+
+----
+We ended up using LangGraph and Groq (not listed)
+----
 
 ## Sinister 6 External Interfaces
 
