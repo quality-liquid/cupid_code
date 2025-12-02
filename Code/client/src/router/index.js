@@ -144,4 +144,14 @@ const router = createRouter({
     routes
 })
 
+// Close any open navbar after route changes to ensure UI updates correctly
+router.afterEach(() => {
+    try {
+        // Dispatch a global event so NavSuite (or any listener) can close safely
+        window.dispatchEvent(new Event('close-navbar'))
+    } catch (err) {
+        console.warn('Error dispatching close-navbar event', err)
+    }
+})
+
 export default router

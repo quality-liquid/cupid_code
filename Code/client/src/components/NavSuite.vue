@@ -1,20 +1,27 @@
 <script setup>
     import router from '../router';
     import { makeRequest, logoutRequest } from '../utils/make_request';
-    import { ref, onMounted } from 'vue';
+    import { ref, onMounted, onUnmounted } from 'vue';
+    import { useRoute } from 'vue-router'
 
     const props = defineProps(['title', 'profile'])
-    const user_id  = parseInt(window.location.hash.split('/')[3])
+    const route = useRoute()
+    const user_id = Number(route.params.id) || null
     const isDarkMode = ref(true);
+    const opened = ref(false)
 
     function openDrawer() {
-      const element = document.getElementById('navbar')
-      if (element.className === 'navbar') {
-        element.className = 'navbar opened'
-      }
-      else {
-        element.className = 'navbar'
-      }
+      opened.value = !opened.value
+    }
+
+    function closeDrawer() {
+      opened.value = false
+    }
+
+    // Delay closing slightly so router-link click handlers can run first
+    function handleNavClick(e) {
+      // allow the link's native click to fire and the router to process
+      setTimeout(() => closeDrawer(), 80)
     }
 
     async function logout() {
@@ -43,7 +50,13 @@
         localStorage.setItem('darkMode', 'true');
       }
       document.documentElement.classList.toggle('dark', isDarkMode.value);
+      // Listen for global requests to close the navbar (triggered by router)
+      window.addEventListener('close-navbar', closeDrawer)
     });
+
+    onUnmounted(() => {
+      window.removeEventListener('close-navbar', closeDrawer)
+    })
 </script>
 <template>
     <nav class="nav homenav">
@@ -61,10 +74,10 @@
                 <span class="material-symbols-outlined icon">account_circle</span>
             </button>
         </div>
-        <div id="navbar" class="navbar">
-            <div class="nav-links">
-                <slot />
-            </div>
+        <div id="navbar" :class="['navbar', { opened: opened }]">
+          <div class="nav-links" @click="handleNavClick">
+            <slot />
+          </div>
             <button class="logout" @click="logout"> Logout </button>
         </div>
     </nav>  
