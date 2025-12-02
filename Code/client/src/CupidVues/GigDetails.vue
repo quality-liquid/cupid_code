@@ -13,16 +13,24 @@
     const reward = ref(0)
     const rewardShow = ref(false)
 
-    const user_id  = parseInt(window.location.hash.split('/')[3]) //Gets the id from the router
+    import { useRoute } from 'vue-router'
+    const route = useRoute()
+    const user_id  = Number(route.params.id) || null //Gets the id from the router
 
     async function getData() {
-        gigs.value = await makeRequest(`/api/gig/${user_id}/${gigCount}`)
-        activeGigs.value = await makeRequest(`/api/cupid/gigs/${user_id}?complete=false`)
-        //Django returns a 404 if there none of either of these. We have to tell Vue it is ok.
-        if (gigs.value.detail === 'Not found.'){
+        if (!user_id) {
             gigs.value = []
+            activeGigs.value = []
+            return
         }
-        if (activeGigs.value.detail === 'Not found.'){
+        try {
+            const g = await makeRequest(`/api/gig/${user_id}/${gigCount}`)
+            const a = await makeRequest(`/api/cupid/gigs/${user_id}?complete=false`)
+            gigs.value = (g && g.detail === 'Not found.') ? [] : g || []
+            activeGigs.value = (a && a.detail === 'Not found.') ? [] : a || []
+        } catch (err) {
+            console.warn('Failed to load gigs', err)
+            gigs.value = []
             activeGigs.value = []
         }
     }
