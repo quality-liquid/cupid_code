@@ -89,7 +89,7 @@
     }
 
     async function getData() {
-        const cupid = await makeRequest(`api/user/${user_id}`)
+        const cupid = await makeRequest(`/api/user/${user_id}`)
         email.value = cupid.user.email
         phone.value = cupid.user.phone_number
         fname.value = cupid.user.first_name
@@ -97,7 +97,7 @@
         username.value = cupid.user.username
 
         accepting_gigs.value = cupid.accepting_gigs
-        balance.value = cupid.cupid_cash_balance
+        balance.value = (cupid && cupid.cupid_cash_balance != null) ? cupid.cupid_cash_balance : 0
         range.value = cupid.gig_range
         gigs_completed.value = cupid.gigs_completed
         gigs_failed.value = cupid.gigs_failed

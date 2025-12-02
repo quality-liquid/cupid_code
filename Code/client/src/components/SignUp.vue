@@ -127,7 +127,8 @@ async function register() {
             }
             else {
                 showToast('Account created — redirecting...')
-                setTimeout(() => router.push({ name: 'DaterHome', params: { id: results.user['id'] } }), 900)
+                const routeName = (accType.value.value === 'cupid') ? 'CupidHome' : 'DaterHome'
+                setTimeout(() => router.push({ name: routeName, params: { id: results.user['id'] } }), 900)
             }
         }
         else {
@@ -152,7 +153,8 @@ async function register() {
             }
             else {
                 showToast('Account created — redirecting...')
-                setTimeout(() => router.push({ name: 'DaterHome', params: { id: results.user['id'] } }), 900)
+                const routeName = (accType.value.value === 'cupid') ? 'CupidHome' : 'DaterHome'
+                setTimeout(() => router.push({ name: routeName, params: { id: results.user['id'] } }), 900)
             }
         }
     } catch (err) {

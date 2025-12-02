@@ -96,15 +96,11 @@ If you've claimed a Gig but can't complete it, click the "Drop" button on the ac
 
 After picking up the requested items and delivering them, click the "Complete" button on the active Gig.
 
-### Past Gigs Page
-
-Once you've completed a Gig, it will be moved here. This page records your past work and allows you to rate the daters you serviced.
-
-![alt_text](cupid_imgs/CompletedGigs.png "Completed Gigs Page")
-
 #### Rating a Dater
 
 To rate a dater, find the Gig associated with them and click the "Rate Dater" button. You can give them a score out of five and leave any comments needed to explain the rating. 
+
+![alt_text](cupid_imgs/completed.png "Completed Gigs Page")
 
 Keep in mind that while ratings are anonymous, daters you rate can see the rating they've received. As such, we ask that you be mindful of the dater you are rating and provide feedback in a constructive and respectful manner. 
 

@@ -50,7 +50,7 @@ function previewFile() {
 
 async function getData() {
     // dater results
-    const results = await makeRequest(`api/user/${user_id}`)
+    const results = await makeRequest(`/api/user/${user_id}`)
     degree.value = results.ai_degree
     addr.value = results.location
     desc.value = results.description

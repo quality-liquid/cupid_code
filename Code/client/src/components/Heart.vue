@@ -27,16 +27,16 @@
 </template>
 <style scoped>
     .heart {
-        background-color: #0000;
-        margin: auto;
-        width: 60px;
-        height: 60px;
+        background-color: transparent;
+        margin: 4px;
+        /* responsive size: scale down on small screens */
+        width: clamp(28px, 12vw, 60px);
+        height: clamp(28px, 12vw, 60px);
         display:flex;
         justify-content: center;
         align-content: center;
-        transition: all 0.8s ease;
-        fill: var(--secondary-red);
         transition: all 0.3s ease;
+        fill: var(--secondary-red);
     }
 
     .heart[data-active=true]{

@@ -18,7 +18,7 @@
     const user_id  = parseInt(window.location.hash.split('/')[4]) //Gets the id from the router
 
     async function getData() {
-        gigs.value = await makeRequest(`api/cupid/gigs/${user_id}?complete=true`)
+        gigs.value = await makeRequest(`/api/cupid/gigs/${user_id}?complete=true`)
         //Django returns a 404 if there are none. We have to tell Vue it is ok.
         if (gigs.value.detail === 'Not found.'){
             gigs.value = []
@@ -37,7 +37,7 @@
     }
 
     function sendReview() {
-        makeRequest('api/dater/rate/', 'post', {
+        makeRequest('/api/dater/rate/', 'post', {
             'dater_id':activeGig.value.dater_id,
             'gig_id':activeGig.value.id,
             'message':message.value,
@@ -135,6 +135,9 @@
     .row {
         display: flex;
         flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 6px;
     }
 
     .update-content {
