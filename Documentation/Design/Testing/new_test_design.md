@@ -165,3 +165,15 @@ Verify results:
 0. Click on "Add Cash" and verify the balance has decreased
 0. Use the sidebar to navigate to "Feedback"
 0. You should see your new review at the bottom of the list.
+
+## What we learned from our Testing Sprint
+
+Overall, from our testing sprint we realized that writing out unit tests and integration tests to automatically run in a CI/CD pipeline can take a lot more time than anticipated when starting from a framework that's not too well documented. The timeframe and schedule we had was not as high as we had anticipated, so rather than spending more time writing unit and integration tests like we had hoped we spent time doing ad hoc for bug fixes. Some of the bugs we encountered in our testing phase through ad hoc testing were:
+
+- Lack of integration between agentic AI and AI Listen feature
+- Certain vues needed to be made more user-friendly
+- Manual AI chat
+- Broken links
+- VM microphone problems
+
+We were able to implement fixes to most of these, but not all could be done before the demo. Additionally, because of our unit and integration tests being given lower priority, we'd estimate that only about 20% of the code was properly given unit test features. None of the AI was given unit test coverage, just the basic login features and cupid/dater vues along with their stripe implementation. The AI would likely be the most difficult to test because we're never guaranteed the same result each time, and we couldn't get to it. 
