@@ -119,13 +119,170 @@ I think that overall, we did pretty good at working as a team on what the task w
 
 ### Sprint 1: Tyson Buxton
 
+#### High Level Design
+
+##### Time Spent
+
+* Myself (Tyson Buxton): 18.2hrs
+* Benjamin Hickenlooper: 2hrs
+* Felix Jacob: 5hrs
+* Saxton Calvert: 3hrs
+* Garrett Woodhouse: 4.5hrs
+* Reece Nielson: 5hrs
+
+##### Tasks Worked on 
+
+* High Level Design Document
+    * Security: Tyson Buxton
+    * Risk Analysis: Tyson Buxton
+    * Merge all teams work together and submit: Tyson Buxton
+    * Data Design: Benjamin Hickenlooper
+    * Future Proofing: Benjamin Hickenlooper
+    * Use Case UML Diagrams: Saxton Calvert
+    * High level UI: Felix Jacob, Garrett Woodhouse
+    * High Level External Interfaces: Garrett Woodhouse
+    * Components UML Diagrams: Reece Nielson
+    * High Level Architecture: Reece Nielson
+    * High Level Hardware: Saxton Calvert
+    * Reviewing PR's: Everyone
+    * Team comms/coordination: Everyone
+
+#### Low Level Design
+
+##### Assigned Teams
+
+* Frontend
+    * Reece Nielson
+    * Saxton Calvert
+* Middleend
+    * Tyson Buxton
+* Backend
+    * Felix Jacob
+    * Garrett Woodhouse
+    * Benjamin Hickenlooper
+
+#### Time Spent
+
+* Myself (Tyson Buxton): 8.1hrs
+* Benjamin Hickenlooper: 2hrs
+* Felix Jacob: 5hrs
+* Saxton Calvert: 4hrs
+* Garrett Woodhouse: 3.5hrs
+* Reece Nielson: 2hrs
+
+#### Tasks Worked on
+
+* Low Level Design Document
+    * Frontend
+        * Put together their own subtasking for this section.
+        * Split up all the sections there about evenly between the two of them.
+    * Middleend
+        * Middleend summary section
+        * Tyson Buxton did everything in the Middleend section 
+    * Backend
+        * Put together their own subtasking for this section.
+        * They split up all the sections there about evenly.
+    * Team Conventions: Tyson Buxton
+    * Merging all team's work together: Tyson Buxton
+    * Reviewing PR's: Everyone
+    * Team comms/coordination: Everyone
+
 ### Sprint 2: Felix Jacob
+
+#### Tasks Completed
+
+  * Reece   
+    * Update login/signup to require strong passwords and specify optional fields plus other previously unnoticed bugs
+  * Saxton
+    * Update colors, logo, and other design
+    * Added optional dark mode
+  * Tyson
+    * Update packages to current versions and delete unnecessary packages
+  * Garrett
+    * Implement the speech-to-text feature
+  * Ben
+    * Researched Agentic AI
+    * Worked on AI framework
+  * Felix
+    * Implement Stripe on the backend
+    * Get a running VM
+
+#### Hours Worked
+
+  * Reece 
+    * Updating sign-up and fixing bugs - 4:30
+  * Saxton
+    * Updating design, adding dark mode, and studying design - 5:00
+  * Tyson
+    * Removing unused npm packages and testing - 1:05
+    * Removed unused python packages and updates - 0:55
+    * Updated setup script, added Stripe package, debugging - 1:40
+    * Updated project and packages to Python 3.14 - 1:10
+    * Upgraded poetry to python 3.14 plus additional upgrades and testing - 2:30
+  * Garrett
+    * Researching agentic AI/LangChain/MCP - 2:00
+    * Reviewing old code/researching Voice To Text - 1:00
+    * Researching and playing with Vosk in my own project - 2:00
+    * Unsuccessfully trying to run the updated project on his terminal - 3:00
+    * Implementation of Text to Speech in the project - 1:00
+  * Ben
+    * Researched agentic AI in vue applications, experimented and started implementing an agentic AI framework, helped prepare the team presentations, and participated in team meetings - 15:00
+  * Felix
+    * Implementing Stripe - 2:00
+    * Setting up VM - 1:00
+    * Working on CI/CD - 6:00
 
 ### Sprint 3: Reece Nielson
 
 ### Sprint 4: Ben Hickenlooper
 
 ### Sprint 5: Saxton Calvert
+
+#### Time Spent
+0. Tyson - 9 hours 10 minutes
+0. Saxton - 5 hours 15 minutes
+0. Ben - 12 hours 0 minutes
+0. Felix - 1 hour 30 minutes
+0. Reece - 8 hours 0 minutes
+0. Garrett - 4 hours 30 minutes
+
+#### Tasks Worked on
+The general overview of tasks that we worked on through the sprint is that we focused on ensuring our product had most of its bugs fixed and that the team who used our manual would be able to follow along with it. The testing manual was the main focus and ensuring that the things we were pointing out had been fixed too. This included various bug fixes and then a couple of new unit tests added.
+
+##### Rejected Tasks
+At the beginning Saxton was rather optimistic about how much we'd be able to get done. He made initial assignments of making unit tests and writing out integration tests, but then realized that half our sprint was covered by Thanksgiving Break and that our deliverables were related to the presentation and not necessarily the tests, so anything that wasn't implemented or close to implementation by the 24th was put on the backburner and eventually got scrapped entirely, which mostly included everything about integration testing.
+
+##### Disposition of Incomplete Tasks
+Anything that wasn't implemented or close to implementation by the 24th was put on the backburner and didn't get included/merged due to incompleteness. Some of these tests included:
+- AI unit tests
+- Calendar functionality tests
+- Login/Signup unit test updates
+
+#### People
+
+##### Saxton Calvert
+
+Tried working on unit tests for the calendar page, updated the user manual segments on the product demo and the dater's calendar page and their respective images and links, and worked on his slide for the presentation.
+
+##### Benjamin Hickenlooper
+
+Worked on testing and debugging the application and updating portions of the user manual.
+
+##### Tyson Buxton
+
+Looked at old team's testing documentation, fixed API key exposure in files, made a fix to code conventions, removed old code for AI chat and worked on fix for page redirection, added some bug fixes, fixed images in the AI chat part of the user manuals.
+
+##### Felix Jacob
+
+Reviewed login unit tests but didn't end up changing them. Added updates to user manual for the Plan-a-Date feature. Included information in the presentation about the CI/CD pipeline and Azure.
+
+##### Garrett Woodhouse
+
+Debugged the AI Listen page to use the methods previously implemented, updated the AI Listen and notification pages in the user manual.
+
+##### Reece Nielson
+
+Updated the user manual instructions on cupid cash, withdrawal of funds, signup, and login instructions. Some bug fixes were included on the login code. He also updated his section of the slideshow.
 
 ### Sprint 6: Saxton Calvert
 
