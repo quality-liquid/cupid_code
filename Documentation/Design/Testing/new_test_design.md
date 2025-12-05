@@ -168,7 +168,7 @@ Verify results:
 
 ## What we learned from our Testing Sprint
 
-Overall, from our testing sprint we realized that writing out unit tests and integration tests to automatically run in a CI/CD pipeline can take a lot more time than anticipated when starting from a framework that's not too well documented. The timeframe and schedule we had was not as high as we had anticipated, so rather than spending more time writing unit and integration tests like we had hoped we spent time doing ad hoc for bug fixes. Some of the bugs we encountered in our testing phase through ad hoc testing were:
+Overall, from our testing sprint we realized that writing out unit tests and integration tests to automatically run in a CI/CD pipeline can take a lot more time than anticipated when starting from a framework that's not too well documented. The timeframe and schedule we had was not as high as we had anticipated, so rather than spending more time writing unit and integration tests like we had hoped we spent time doing ad hoc for bug fixes. We sought to test the features that we had added, particularly to do with the AI, stripe, and signup/login updates, striving for main user tests and edge cases as we went. Some of the bugs we encountered in our testing phase through ad hoc testing were:
 
 - Lack of integration between agentic AI and AI Listen feature
 - Certain vues needed to be made more user-friendly
