@@ -40,21 +40,20 @@ To get started, sign up or log in to your account. Once logged in, you'll have a
 
 ## Signing Up
 
-To sign up, go to the sign-up page by clicking "Sign up" at the top of the welcome page, as shown in the image below.
+To sign up, go to the sign-up page by clicking "Sign Up" at the top of the welcome page, as shown in the image below.
 
 ![alt_text](cupid_imgs/Home.png "Login")
 
 On the sign-up page, select "Cupid" as the account type and fill out the form. Once you click "Create Account," your account will be created, and you can log in.
 
-![alt_text](cupid_imgs/sign_up1.png "Sign Up Form")
-![alt_text](cupid_imgs/sign_up2.png "Sign Up Form")
+![alt_text](cupid_imgs/signup_form.png "Sign Up Form")
 
 
 ## Logging In
 
 You can access the login screen from the welcome page by clicking "Login" at the top of the page as shown below. To log in, simply enter your email and password, then click "Login In". 
 
-![alt_text](cupid_imgs/login.png "Login Page")
+![alt_text](cupid_imgs/Login.png "Login Page")
 
 
 ## Navigating the Site
@@ -62,13 +61,9 @@ Once logged in, you can access four different pages: Profile, Feedback, Gigs, an
 
 ### Profile Page 
 
-Here, you can edit your profile, set your availability, and withdraw your earnings. The example below shows what this page looks like.
+Here, you can edit your profile and set your availability. The example below shows what this page looks like.
 
-![Profile Page image](cupid_imgs/profile.png "Profile Page")
-
-#### Withdrawing Funds
-
-To withdraw your funds, just click the withdraw funds button and follow the Stripe instructions to setup the payment for the first time. On subsequent attempts, selecting the button will automatically transfer your earnings to your account.
+![alt_text](cupid_imgs/Profile.png "Profile Page")
 
 #### Editing your Profile
 To edit your profile, simply edit the text fields and click "Save."
@@ -101,15 +96,11 @@ If you've claimed a Gig but can't complete it, click the "Drop" button on the ac
 
 After picking up the requested items and delivering them, click the "Complete" button on the active Gig.
 
-### Past Gigs Page
-
-Once you've completed a Gig, it will be moved here. This page records your past work and allows you to rate the daters you serviced.
-
-![alt_text](cupid_imgs/CompletedGigs.png "Completed Gigs Page")
-
 #### Rating a Dater
 
 To rate a dater, find the Gig associated with them and click the "Rate Dater" button. You can give them a score out of five and leave any comments needed to explain the rating. 
+
+![alt_text](cupid_imgs/completed.png "Completed Gigs Page")
 
 Keep in mind that while ratings are anonymous, daters you rate can see the rating they've received. As such, we ask that you be mindful of the dater you are rating and provide feedback in a constructive and respectful manner. 
 

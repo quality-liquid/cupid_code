@@ -127,7 +127,8 @@ async function register() {
             }
             else {
                 showToast('Account created — redirecting...')
-                setTimeout(() => router.push({ name: 'DaterHome', params: { id: results.user['id'] } }), 900)
+                const routeName = (accType.value.value === 'cupid') ? 'CupidHome' : 'DaterHome'
+                setTimeout(() => router.push({ name: routeName, params: { id: results.user['id'] } }), 900)
             }
         }
         else {
@@ -152,7 +153,8 @@ async function register() {
             }
             else {
                 showToast('Account created — redirecting...')
-                setTimeout(() => router.push({ name: 'DaterHome', params: { id: results.user['id'] } }), 900)
+                const routeName = (accType.value.value === 'cupid') ? 'CupidHome' : 'DaterHome'
+                setTimeout(() => router.push({ name: routeName, params: { id: results.user['id'] } }), 900)
             }
         }
     } catch (err) {
@@ -355,7 +357,7 @@ function previewFile() {
                     <textarea id="weaknesses" v-model="weak"></textarea>
                 </label>
             </div>
-            <PinkButton>Create Account</PinkButton>
+            <PinkButton type="submit">Create Account</PinkButton>
         </form>
         <!-- Toast (non-blocking) -->
         <div v-if="toast.show" class="toast" role="status" aria-live="polite">

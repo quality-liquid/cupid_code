@@ -47,8 +47,8 @@ onMounted(getFeedback)
     <div class="mobile-container">
         <div v-for="item, index of feedback">
             <div :class="index % 2 === 0 ? 'feedback even' : 'feedback odd'">
-                <h1>{{ 'Star Rating: ' + item.star_rating }}</h1>
-                <span>{{ 'Feedback:\n ' + item.message }}</span>
+                <h1>{{ 'Star Rating: ' + (item.star_rating !== undefined && item.star_rating !== null ? item.star_rating : 'N/A') }}</h1>
+                <span>{{ 'Feedback:\n ' + (item.message || '') }}</span>
             </div>
         </div>
     </div>
