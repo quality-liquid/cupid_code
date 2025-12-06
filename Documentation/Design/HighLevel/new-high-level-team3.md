@@ -88,6 +88,11 @@ It's worth noting that as long as users' chosen combination of User-Agent and Op
 
 The design and implementation made for the client end of the app, combined with the required features asked for by the client, lead us to believe that no design changes are needed.
 
+-----
+Final comment: We ended up using HTTP so that the CI:CD works! It would not work with HTTPS in the way that we did it.
+-----
+
+
 # 2. User Interface
 [*Table of Contents*](#table-of-contents)
 
@@ -111,6 +116,8 @@ The UI will be optimized for mobile use for Cupids and Daters, but the manager i
 0. AI Listen-in
     * This page will listen to the conversation during the date and give real-time advice to the Dater as needed. 
     * It will also provide real-time information about Cupids or other dating opportunities.
+0. Notification
+    * This page will be the center of notifications, allowing the daters and cupids to see the previous and current notifications.
 0. Cupid Main Page
     * This will be the home page for Cupids.
     * This is where Cupids will Clock in and out.
@@ -127,6 +134,7 @@ The UI will be optimized for mobile use for Cupids and Daters, but the manager i
       - Profile
       - App feedback
       - Gig requests
+      - Notification
 0. Manager Main Page
     * Managers will be able to see any feedback given by Daters or Cupids
     * They will also have the option to go to the report system page.
@@ -171,6 +179,11 @@ The user will enter username and password. The system will validate the input. I
 ![Dater Login](images/dater.png "Dater Login")
 
 The Dater homepage will allow them to select one of these pages: Calendar, AI chat, Cupid Cash, Profile, App feedback, or Gig Requests.
+
+----
+This does not include the notification page
+----
+
 
 
 #### **Cupid Login**
@@ -265,6 +278,10 @@ No high level changes to the manager's diagram were needed. Managers can review 
 * Text and Email notifications API (Twilio) 
 * Nearby Shops API (yelpapi)
 
+----
+We ended up using LangGraph and Groq (not listed)
+----
+
 ## Sinister 6 External Interfaces
 
 ### API's 
@@ -303,6 +320,7 @@ The information we will be holding is extremely private
     * Dating history
     * Recorded conversations on dates
     * Chats with the AI assistant
+    * Location
 * This is information people will want kept secure, meaning there will also be greater incentive for bad actors to target our system as they could use this information for convincing phishing scams, identity fraud, and possibly other malicious attacks.   
 
 ### Dependencies, Frameworks, and APIs
@@ -310,8 +328,8 @@ The information we will be holding is extremely private
 ![Output from terminl for `npm install`](./images/prev-team-npm-vulnerabilities.png "Output from terminal for `npm install`")
 
 * There are many packages used for this project in its current state, each new package brings with it the bugs and vulnerabilities of said package. Having many packages creates a lot to keep track of which makes it more difficult to check used packages for vulnerabilities or to keep all packages up to date and still working with the application.
-    * 180 packages currently are used for the client. 
-    * 75 python packages currently are installed for the Poetry environment.
+    * 147 packages currently are used for the client. 
+    * 23 top level python packages currently are installed for the Poetry environment.
 
 * There is a similar risk with using APIs and Frameworks as with using other's packages.
     * There must be continual maintenance work to stay up to date on the APIs, ensuring any changes in how one interfaces are implemented to keep the application functioning, research must be done to ensure the APIs used are reputable. In addition, by relying on API's should there service go down for any reason, our applications related service will also be down.
@@ -342,11 +360,12 @@ Much of our decided security measures are the same or similar to those of the pr
     * When a Dater creates a job for a Cupid, the Dater can pick for their location to be shared, or they can pick a location where the Cupid will meet them/drop off the item or perform the requested action. 
     * A Dater cancelling the job will revoke the live location permission for the Cupid who had accepted the job.
     * Managers will be able to see general locations for Daters, the closest city to the Dater. 
+    * The AI will be able to access the Dater's location to suggest date ideas and nearby events
 
 ### Financial Transactions
 All applicable [PCI Standards](https://www.pcisecuritystandards.org/standards/) will be followed for the handling of User financial information.
 * Point-to-Point Encryption with HTTPS for sending and receiving financial information.
-* Encryption of all user's financial payment information stored in our database.
+* Encryption of all user's financial payment information will be handled by the Stripe API and exist outside of our database
     * Credit Card number, expiration date, CVV code.
     * Name and Billing address.
     * Direct bank account information (alternative to credit card).
@@ -378,7 +397,7 @@ All applicable [PCI Standards](https://www.pcisecuritystandards.org/standards/) 
 * We are going with Azure Cloud Service to host our application and database. Microsoft is very large corporation with years of experience, large talent pools, and many resources. We are confident their services will be up to the latest security standards and will continue to be maintained by them to stay secure as the years go on.
 
 ### AI Security
-* We will make a summary card that appears to the Dater, showing everything the AI intends to do after the User has requested and action. This will allow the Dater to confirm that the AI understood them correctly before the AI immediately acts (buying tickets, sending messages, hiring cupids, etc...) to ensure Dater privacy, security, and satisfaction with the application.
+* We planned to make a summary card that appears to the Dater, showing everything the AI intends to do after the User has requested and action. This would allow the Dater to confirm that the AI understood them correctly before the AI immediately acts (buying tickets, sending messages, hiring cupids, etc...) to ensure Dater privacy, security, and satisfaction with the application. This was ultimately not implemented.
 * All recorded information will be encrypted when stored, only accessible by the Dater and their AI.
 
 
@@ -406,6 +425,8 @@ Dater, Cupid, and Manager objects are all one-to-one relationships with a more g
            * Type of nerd
            * Relationship goals
            * Communication preferences
+           * Relationship status
+       * Location
        * Picture
        * Cupid cash balance
        * Budget
@@ -463,16 +484,6 @@ Dater, Cupid, and Manager objects are all one-to-one relationships with a more g
     * owner
     * fromAI, indicates if this message is from AI or to AI
     * message
-0. Payment Card
-   * This data is sensitive because it includes money information
-   * User
-   * Card Number
-   * CVV
-   * Expiration Information
-0. Bank Account
-   * This data is sensitive because it includes money information
-   * Routing Number
-   * Account Number
 0. Reports
    * Manager dashboard:
        * Revenue
