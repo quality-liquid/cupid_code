@@ -124,7 +124,6 @@ If a user loses their account information, a form of Two-Step Authentication wil
 We also intend to make calls to external APIs and thus we need to ensure that we safeguard any response that could be malicious. We will do this by...
 
 ---
-
 Final Note:
 * We did implement a strong password system that was a good boost to security.
 * We were unable to setup the two-step authentication for any type of user.
@@ -141,7 +140,6 @@ The frontend will verify any inputs that it can before making requests to the ba
 By reducing how many requests we make to the server, the user is able to interact with the app more without having to wait for constant responses from the server.
 
 ---
-
 Final Note:
 * This was implemented as a single page application.
 * We did work to implement error handling in frontend code to check for problems.
@@ -155,7 +153,6 @@ Final Note:
 The application as handed to us was well designed for intuitive clicking and use for the features it had. We intend to make more features immediately accessible on the landing page and make some changes to the color scheme. There will be a dark scheme and a light theme to make it more accessible. Clear instructions will continue to be provided as needed
 
 ---
-
 Final Note:
 * Toggle for light and dark theme was implemented.
 
@@ -168,7 +165,6 @@ Final Note:
 The user flow as handed to us in the application was well designed. There will be slight changes to the home page relative to new features pertinent to the type of user. Daters will be able to see upcoming dates and their Cupid Cash balance. They will also be able to, from the home page, access their date calendar, an AI chatbot for advice and plans, the new Plan-a-Date feature, their Cupid Cash wallet and history, all their Gig requests, their profile page, a feedback page, and the ability to allow the AI to start listening and provide live feedback. Cupids will be able to clock in and out and see how many available gigs there are, how many gigs they've completed, and how much they've earned. Cupids will have home page access to the list of nearby gigs and how many are active, their active gig(s) and status(es), their profile page, and a feedback page. A recent activity list and a weekly earnings report will also be on the page. Platform admin managers will be able to see metrics on how many total and active daters, total and active cupids, total and monthly revenue, and critical issues including those that are pending. A general platform health dashboard with key performance indicators will also be displayed with recent platform activity. Access to a report system, the feedback reviews, user management, financial reports, analytics, and cupid schedule reports will also be available with a status page. Each of these buttons are tap sensitive and dynamically redirect the specific user to the destination indicated.
 
 ---
-
 Final Note:
 * TODO
 
@@ -342,10 +338,9 @@ export default router;
 The ':' in "path: '/dater/:id'" symbolizes a parameter to be passed through the path. This was used to pass the user id when making calls to the backend. We are unsure as to why the previous team passed the id in way as it is possible to accomplish this using state variables. As we work on the routing, if we discover that passing the id through the state instead of the url is more efficient, then we will make the necessary changes.
 
 ---
-
 Final Note: 
 
-Due to time constraints we were unable to make changes to use the state variable for the user id instead of passing id throught the url.
+Due to time constraints we were unable to make changes to use the state variable for the user id instead of passing id through the url.
 
 ---
 
