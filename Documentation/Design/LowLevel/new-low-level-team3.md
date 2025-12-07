@@ -164,6 +164,15 @@ Final Note:
 
 The user flow as handed to us in the application was well designed. There will be slight changes to the home page relative to new features pertinent to the type of user. Daters will be able to see upcoming dates and their Cupid Cash balance. They will also be able to, from the home page, access their date calendar, an AI chatbot for advice and plans, the new Plan-a-Date feature, their Cupid Cash wallet and history, all their Gig requests, their profile page, a feedback page, and the ability to allow the AI to start listening and provide live feedback. Cupids will be able to clock in and out and see how many available gigs there are, how many gigs they've completed, and how much they've earned. Cupids will have home page access to the list of nearby gigs and how many are active, their active gig(s) and status(es), their profile page, and a feedback page. A recent activity list and a weekly earnings report will also be on the page. Platform admin managers will be able to see metrics on how many total and active daters, total and active cupids, total and monthly revenue, and critical issues including those that are pending. A general platform health dashboard with key performance indicators will also be displayed with recent platform activity. Access to a report system, the feedback reviews, user management, financial reports, analytics, and cupid schedule reports will also be available with a status page. Each of these buttons are tap sensitive and dynamically redirect the specific user to the destination indicated.
 
+---
+Final Note:
+* There is a toggle on the Cupid Profile that appears to switch to "clocked-in" though we did not do much work or testing with this so we are unsure if the previous team actually had it fully working. It is vague on how to clock in with the design.
+* We did not make it to implementing the recent activity list or weekly earnings report for the Cupids.
+* The manager account can see all of the Cupids and Daters in the database. The metrics on the Managers home page are not accurate, they need to be fixed sometime.
+* The manager's ability to suspend and unsuspend accounts for bad reviews is functioning. Though it still needs some work as the state of suspension for a user does not always appear properly on the managers info page.
+
+---
+
 ### Screen Designs:
 
 *[Previous team's Screen Designs](./low_level_docs.md#screen-designs)*
