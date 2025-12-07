@@ -234,6 +234,39 @@ I think that overall, we did pretty good at working as a team on what the task w
 
 ### Sprint 3: Reece Nielson
 
+#### Time Spent
+* Reece Nielson: 7.5 hours
+* Benjamin Hickenlooper: 10 hours
+* Felix Jacob: 5 hours
+* Saxton Calvert: 7 hours
+* Garrett Woodhouse: 5 hours
+* Tyson Buxton: 5.5 hours
+
+### Tasks Worked on 
+
+* Fixed imports: Tyson Buxton
+* Coordination for plan-a-date: Tyson Buxton and Felix Jacob
+* Altered Setup scripts: Tyson Buxton
+* Agentic AI Research and Prototyping: Benjamin Hickenlooper and Garrett Woodhouse
+* Create a LangGraph basic functionality/demo: Garrett Woodhouse
+* Updated CI/CD pipeline: Felix Jacob
+* Added views for the Plan-a-date feature: Felix Jacob
+* Ensuring the Azure server updated properly: Felix Jacob
+* Ensuring the mobile page works properly: Saxton Calvert
+* Aligning the app design with the demo: Saxton Calvert
+* Create pages for the plan a date feature: Saxton Calvert
+* Get Stripe payments working: Reece Nielson
+* Reviewing PR's: Everyone
+* Team comms/coordination: Everyone
+
+#### Rejected Tasks
+
+The only task that came up that was rejected was a bug that was found in the login page. When the page is first navigated to, it displays an error that the credentials were incorrect. We rejected it for now because it doesn't break any functionality of the app and is only a visual bug that could potentially take quite a bit of time to solve. For these reasons, we set it aside for later while we work on getting more of the core functionality working.
+
+#### Disposition of Incomplete Tasks
+
+At the beginning of the sprint we finished some of the work that had carried over from the sprint before which meant that we started on a lot of tasks toward the middle of the sprint. Currently Felix and Tyson are working together to get AI integrated into the plan a date feature. Work has started on the implementation but is still a ways out from being fully functional. Saxton is working on the corresponding pages of the plan a date feature for the frontend. Ben and Garrett have been working together on the agentic AI for the voice chat and other proactive features of the AI. The work that wasn't finished was mostly due to the size of the tasks. We likely should have split the tasks into smaller more accomplishable tasks. All of the tasks that we are working on are related to the Must-Haves in the requirements so we didn't reject any of them and will continue working on them into the next sprint.
+
 ### Sprint 4: Ben Hickenlooper
 
 ### Sprint 5: Saxton Calvert
