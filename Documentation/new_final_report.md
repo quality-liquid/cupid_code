@@ -319,6 +319,60 @@ Updated the user manual instructions on cupid cash, withdrawal of funds, signup,
 
 ### Sprint 6: Saxton Calvert
 
+#### Assigned Teams
+Some small groups were assigned to ensure each document got its final drafts ready. These were how they were broken out:
+- Requirements Document: Reece Nielson
+- High-level Design Document: Garrett Woodhouse, Felix Jacob
+- Low-level Design Document: Tyson Buxton, Ben Hickenlooper
+- Testing Document: Saxton Calvert
+- User Manual: We felt as a team that in its present condition, having just worked on it and seen it demonstrated, was good.
+
+#### Time Spent
+0. Tyson - 3 hours 35 minutes
+0. Saxton - x
+0. Ben - x
+0. Felix - x
+0. Reece - 2 hours 30 minutes
+0. Garrett - x
+
+#### Tasks Worked on
+TODO: Describe the sprint
+
+#### Rejected Tasks
+As noted above, we rejected the task of making any updates to the User Manual. During our product demo, the manual provided served well and having just made edits to it we determined it was fine in its present condition.
+
+#### Disposition of Incomplete Tasks
+TODO
+
+#### People
+
+##### Saxton Calvert
+
+Over the course of the week I coordinated the last efforts to ensure that even though our coding and implementation changes are all entirely done that we had coherence in our final documents. I wrote the entirety of the final report utilizing sprint summaries sent to me by everyone and added additional commentary to the testing document to ensure that it met the requirements specified in Canvas.
+
+##### Benjamin Hickenlooper
+
+TODO: Ben's tasks He also scrubbed his sprint summary for inclusion in the final report.
+- TODO: Ben's paragraph
+
+##### Tyson Buxton
+
+Tyson added a "plethora of links" to the design document as a result of feedback we received on it. Tyson noted inconsistencies between design/prototype and final implementation and addressed those, made some formatting adjustments to be consistent with other documents, was a consistent code reviewer, and helped in maintaining communications. He also scrubbed his sprint summary for inclusion in the final report.
+
+##### Felix Jacob
+
+TODO: Felix's tasks He also scrubbed his sprint summary for inclusion in the final report.
+- TODO: Felix's paragraph
+
+##### Garrett Woodhouse
+
+TODO: Garrett's tasks He also scrubbed his sprint summary for inclusion in the final report.
+- TODO: Garrett's paragraph
+
+##### Reece Nielson
+
+Reece took this week to look over the requirements document, updating any requirements that we did not end up implementing to show that we did not meet them that way if it is used by another team in the future they'll be able to go forward knowing what we were unable to accomplish. He also scrubbed his sprint summary for inclusion in the final report.
+
 ## Document Final Drafts
 
 The following links will take you to the final drafts of each of our team's documents.
