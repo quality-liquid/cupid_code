@@ -447,11 +447,18 @@ We will continue to use Vite, Vue, NVM, and NPM for the frontend. With Poetry an
 
 *See [previous team's Poetry notes](./low_level_docs.md#poetry)*
 
-We will work to upgrade the lates packages for security and performance.
+We will work to upgrade to the latest packages for security and performance.
 * `Python v3.12+`
 * `Django v5.2.7+`
 * `Requests v2.32.5+`
 * `Python-dotenv v1.1.1+`
+
+---
+Final Note: We added more python packages and locked the versions strictly with Poetry. We were able to upgrade to `Python v3.14` and upgraded all packages to the latest then locked versions.
+
+See [pyproject.toml](../../../Code/pyproject.toml) for the new packages and versions.
+
+---
 
 ## Vite Config
 
@@ -472,6 +479,20 @@ The version of Node.js will be upgraded to the now [current LTS version](https:/
 `npm` will continue to be used for package management. We will upgrade the previous teams dependencies to the now current stable versions for security and performance.
 * `Vue v3.5.22` see [Vue Releases](https://vuejs.org/about/releases.html)
 * `Cookie v1.0.2` see [npm Cookie package](https://www.npmjs.com/package/cookie)
+
+---
+Final Note: We also ended up using the following dependencies
+* Dependencies 
+  * `@stripe/stripe-js v8.2.0`
+  * `axios v1.12.2`
+  * `v-calendar v3.0.3`
+  * `vue-router v4.6.3`
+* Dev Dependencies
+  * `@vitejs/plugin-vue v6.0.1`
+  * `sass v1.93.2`
+  * `vite v7.1.11`
+
+---
 
 ## Serverside
 
@@ -564,7 +585,7 @@ Their pseudocode covers the same as what we will implement.
 
 We added additional links to the Azure Cloud Documentation, LM studio documentation and the LangChain Documentation.
 
-[Django Rest Framework Quickstart](https://www.django-rest-framework.org/tutorial/quickstart/)   
+[Django Rest Framework Quickstart](https://www.django-rest-framework.org/tutorial/quickstart/)  
 [Django Rest Framework API Reference](https://docs.djangoproject.com/en/5.0/ref/)  
 [Django Rest Framework Serializers](https://www.django-rest-framework.org/api-guide/serializers/)  
 [Django Rest Framework Views](https://www.django-rest-framework.org/api-guide/views/)  
@@ -632,8 +653,8 @@ The majority of the changes in this section have to do with updating the documen
 
 This is what our project structure will look like:
 
-* _server/
-    * _server/ - Main project settings.
+* server/
+    * server/ - Main project settings.
         * settings.py - Main settings file.
         * urls.py - Main url file.
         * wsgi.py - Web server gateway interface.
@@ -655,6 +676,12 @@ This is what our project structure will look like:
         * templates/ - Contains the base template
     * manage.py - Command line utility for managing the project.
     * Azure cloud (Database)
+
+---
+Final Note:
+* This main structure was kept for the project.
+
+---
 
 
 ## Django Admin
@@ -683,6 +710,12 @@ The Django admin site will be used to create the initial Manager accounts to man
 
 While the admin site is a powerful tool, it is not the best tool for day-to-day operations. While the server is in production, the admin site will be disabled. Instead, the API will be used to manage the data.
 
+---
+Final Note:
+* We ended up focusing a lot of our time and attention on the Dater users and some on the Cupids, this unfortunately left us with little time to use this feature much or set it up better.
+
+---
+
 ## Unit Tests
 
 *See [previous team's Unit Tests section](./low_level_docs.md#unit-tests)*
@@ -700,6 +733,12 @@ The following tools will be used to create unit tests for the software:
     * See [Django Debug Toolbar Documentation](https://django-debug-toolbar.readthedocs.io/en/latest/)
 
 Pseudocode can be found at the bottom of the [Test pseudocode](#test-pseudocode) section.
+
+---
+Final Note:
+* We struggled to implement all of the unit tests we had orignally planned. There are some but not for every single view.
+
+---
 
 ### Test pseudocode  
 
