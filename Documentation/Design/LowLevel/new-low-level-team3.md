@@ -284,24 +284,6 @@ The existing design for the user experience will be maintained, striving to ensu
 
 A Django Template is used to connect the Vue frontend to the backend. A second Django Template is used to make the sign-up/login process its own separate app to improve security. The sign-up/login process is only responsible for adding/validating users and then redirecting them to the appropriate homepage depending on what type of user they are.
 
-Django templates take the following form:
-
-``` html
-{% load static %}
-<head>
-  <style>
-    /* Write inline styles here */
-  </style>  
-</head>
-<body>
-  <div>
-    Welcome to Cupid Code landing page here
-  </div>
-  <button> Login </button>
-  <button> Sign up </button>
-</body>  
-```
-
 ## Vue Router
 
 The previous team used Vue Router to switch between pages in the frontend. They used hash routing to control which page the user is on which allows the frontend to switch pages without contacting the server every time. We will continue to use this routing method and take care to keep track of the state of the application to keep the frontend light and responsive.
@@ -329,6 +311,7 @@ const router = create_web_history({
 
 export default router;
 ```
+
 The ':' in "path: '/dater/:id'" symbolizes a parameter to be passed through the path. This was used to pass the user id when making calls to the backend. We are unsure as to why the previous team passed the id in way as it is possible to accomplish this using state variables. As we work on the routing, if we discover that passing the id through the state instead of the url is more efficient, then we will make the necessary changes.
 
 ---
@@ -344,32 +327,6 @@ Due to time constraints we were unable to make changes to use the state variable
 
 In the **main.js** file we include the router and mount it. Other pages can import the router to use programmatic routing or use the router-link tag in components:
 
-``` javascript
-import router from './router/router.js'
-
-router.go(1) // Forward 1
-router.forward() // ^
-router.go(-1) // Back 1
-router.back() // ^
-
-// Route the user to this path with the given params.
-router.push({name: "Path Name", params: {param: given param}})
-```
-
-```html
-  <nav>
-    <router-link :to="{name: 'Path name', params: {param: given param}}">
-      Go here!
-    </router-link>
-    <router-link :to="{name: 'Path name', params: {param: given param}}">
-      Or here!
-    </router-link>
-  </nav>
-  <div>
-    Other components from the page get displayed here.
-  </div>  
-<template>
-```
 
 ## Vue URLs
 
