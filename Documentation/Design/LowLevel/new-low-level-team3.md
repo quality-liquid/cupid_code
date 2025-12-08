@@ -17,6 +17,8 @@
 0. [Requirements](../Requirements/new-requirements-team3.md)
 0. [High Level Design](../HighLevel/new-high-level-team3.md)
 
+Note: This document builds on the previous team's low-level design. For areas not explicitly changed here, see [previous team's low level docs](./low_level_docs.md).
+
 ### Table of Contents
 
 0. [Team Conventions](#0-team-conventions)
@@ -280,9 +282,7 @@ The existing design for the user experience will be maintained, striving to ensu
 
 ## Templates
 
-*See [previous team's Templates](./low_level_docs.md#templates)*
-
-A Django Template is used to connect the Vue frontend to the backend. A second Django Template is used to make the sign-up/login process its own separate app to improve security. The sign-up/login process is only responsible for adding/validating users and then redirecting them to the appropriate homepage depending on what type of user they are.
+*See [previous team's Templates](./low_level_docs.md#templates) for the base Django template setup and the separate auth app template structure. We follow the same pattern for mounting the Vue bundle and for auth redirects.
 
 ## Vue Router
 
@@ -294,6 +294,8 @@ See [previous team's Vue Router Design](./low_level_docs.md#vue-router) and the 
 *See [previous team's router design](./low_level_docs.md#implementing-the-router)*
 
 In main.js, mount the router instance and use router-link for navigation within components. Programmatic navigation (router.push) is used after authentication or role checks.
+
+Refer to [previous team's router setup](./low_level_docs.md#implementing-the-router) for the base router initialization and route guards. We add role guards to protect Dater/Cupid/Manager routes as described above.
 
 ## Vue URLs
 
@@ -326,6 +328,8 @@ The Vue app will live at URL `/app/`. The following pages will be available thro
 
 The :id syntax is using the params syntax from the Vue Router. These are the URLs that are going to need an id of some sort. If the id is not valid for the page that is being accessed (i.e. dater user trying to access a manager page), a 404 page will be served instead.
 
+See [previous team's URL list](./low_level_docs.md#vue-urls) for the original route map and params rationale. Our updates maintain the same structure with role validation.
+
 ## Testing
 
 *See [previous team's preliminary testing designs](./low_level_docs.md#testing)*
@@ -341,6 +345,8 @@ We intend to continue using and building upon the existing testing framework goi
 0. **Mocking**: Mocking is a technique used in testing to isolate a component that may rely on other components. By using mocking you can "mock" what a function should return and thereby control the behavior of external dependencies to focus entirely on the component under test.
 
 The tests will be run in a CICD pipeline to ensure that changes to the app do not break working functionality. If a change to the code alters what a function inputs and outputs, the developer who made the change is in charge of fixing the corresponding test and ensuring that it works.
+
+See [previous team's Testing](./low_level_docs.md#testing) for the test organization and tooling. We keep per-app tests (api/tests.py) and follow their CI pipeline approach.
 
 ### Test pseudocode
 Use Django’s test framework for unit and integration tests and Vue Test Utils for component tests. Organize tests per app (e.g., api/tests.py) and cover happy paths, invalid inputs, and edge cases. See [Django Testing Documentation](https://docs.djangoproject.com/en/5.0/topics/testing/) and reuse the existing project’s test structure.
@@ -406,7 +412,7 @@ The version of Node.js will be upgraded to the now [current LTS version](https:/
 
 ### Files to Add
 
-See [previous Files to Add section](./low_level_docs.md#files-to-add)
+See [previous team's Files to Add section](./low_level_docs.md#files-to-add)
 
 This will continue with the same steps.  
 
@@ -479,7 +485,7 @@ Their pseudocode covers the same as what we will implement.
 
 ## Backend Summary (Revisit this after everything else is done)
 
-*See [previous team's Backend Summary](./low_level_docs.md#backend-summary)*
+*See [previous team's Backend Summary](./low_level_docs.md#backend-summary) for the baseline DRF architecture and auth flow we continue to use.
 
     The backend will be built using Django and the Django REST Framework. As a result much of the needed security is already implemented. A majority of the work will be in the models, views, and serializers. The models will be the database, the views will be the API, and the serializers will be the conversion of the models to JSON and vice versa. The frontend will communicate with the backend using HTTP GET and POST requests. The backend will respond with JSON data. This will be made easy by the Django Rest Framework. Mapping what endpoints the frontend needs is helpful for the backend to know what to build. This will be done in the URL Mapping section.
         Additionally, the data will be stored in Azure Cloud to make it more scalable, accessible, and secure.
@@ -487,9 +493,7 @@ Their pseudocode covers the same as what we will implement.
 
 ## Resources for the Backend 
 
-*See [previous team's Backend Resources](./low_level_docs.md#resources-for-the-backend)*
-
-We added additional links to the Azure Cloud Documentation, LM studio documentation and the LangChain Documentation.
+*See [previous team's Backend Resources](./low_level_docs.md#resources-for-the-backend) for core references; we add Azure, LM Studio, and LangChain links.
 
 [Django Rest Framework Quickstart](https://www.django-rest-framework.org/tutorial/quickstart/)   
 [Django Rest Framework API Reference](https://docs.djangoproject.com/en/5.0/ref/)  
@@ -504,7 +508,7 @@ We added additional links to the Azure Cloud Documentation, LM studio documentat
 
 ## Performance:
 
-*See [previous team's backend performance designs](./low_level_docs.md#performance-1)*
+*See [previous team's backend performance designs](./low_level_docs.md#performance-1) for caching, throttling, and ORM guidance retained in our approach.
 
 ### Largest Changes from the Previous Team
 
@@ -555,7 +559,7 @@ The majority of the changes in this section have to do with updating the documen
 
 ## Django Project Structure
 
-*See [previous team's Django Project Structure](./low_level_docs.md#django-project-structure)*
+*See [previous team's Django Project Structure](./low_level_docs.md#django-project-structure) for the app layout; we follow the same structure.
 
 This is what our project structure will look like:
 
@@ -586,7 +590,7 @@ This is what our project structure will look like:
 
 ## Django Admin
 
-*See [previous team's Django Admin design](./low_level_docs.md#django-admin)*
+*See [previous team's Django Admin](./low_level_docs.md#django-admin) for admin usage in non-production and initial Manager account setup.
 
 The Django admin site adds the possibility to have admin accounts with levels of management and control. The main functions this account can provide are the following:
 
@@ -612,7 +616,7 @@ While the admin site is a powerful tool, it is not the best tool for day-to-day 
 
 ## Unit Tests
 
-*See [previous team's Unit Tests section](./low_level_docs.md#unit-tests)*
+*See [previous team's Unit Tests](./low_level_docs.md#unit-tests) for test coverage strategy; our additions remain aligned.
 
 Each view will have a corresponding unit test. The unit tests will be used to verify that the views are functioning as expected.
 
@@ -628,7 +632,7 @@ The following tools will be used to create unit tests for the software:
 
 ## URL Mapping
 
-*See [previous team's URL Mapping](./low_level_docs.md#url-mapping)*
+*See [previous team's URL Mapping](./low_level_docs.md#url-mapping) for endpoint definitions and auth requirements; we preserve the same contract and add role checks.
 
 ### Static endpoints
 
@@ -705,19 +709,19 @@ The dynamic endpoints need user data. Authenication will be required to access a
 
 ## Django Settings
 
-*See [previous team's Django Settings](./low_level_docs.md#django-settings)*
+*See [previous team's Django Settings](./low_level_docs.md#django-settings) for environment-driven configuration, static files, and production flags.
 
 The file server/settings.py applies project settings. Use environment variables for secrets and set DEBUG to False in production.
 
 ## Backend Pseudocode
 
-*See [previous team's Backend Pseudocode](./low_level_docs.md#backend-pseudocode)*
+*See [previous team's Backend Pseudocode](./low_level_docs.md#backend-pseudocode) and DRF guides for view/serializer patterns and permission classes.
 
 Use Django REST Framework’s function-based or class-based views and serializers for request handling. Map URLs with django.urls.path and enforce permissions per role (Dater, Cupid, Manager). See the previous team’s files and DRF guides for concrete patterns.
 
 ## Django Models
 
-*See [previous team's Django Models](./low_level_docs.md#django-models)*
+*See [previous team's Django Models](./low_level_docs.md#django-models) for field structures; our role extension of AbstractUser is consistent with their approach.
 
 We will use the Django built-in User model, but add roles to it by extending `AbstractUser`. This comes with authentication functionality and the following fields. Details available in 
 [Django docs](https://docs.djangoproject.com/en/5.0/ref/contrib/auth/#django.contrib.auth.models.User).
@@ -825,7 +829,7 @@ relationship as their primary key.
 
 ## Django Migrations
 
-[Previous team's Django Migrations](./low_level_docs.md#django-migrations)
+*See [previous team's Migrations](./low_level_docs.md#django-migrations) for seed data and test fixtures guidance reused here.
 
 * Test Daters
   * username:dater1, email:bob@cupidcode.com, password:password, 200 cupid coin balance, budget of 50
@@ -851,7 +855,7 @@ relationship as their primary key.
 
 ## External API's
 
-[Previous team's External API's](./low_level_docs.md#external-apis)
+*See [previous team's External APIs](./low_level_docs.md#external-apis) for integration notes; we update AI and payments to Groq and Stripe respectively.
 
 We will be using the following external APIs:
 
@@ -888,7 +892,7 @@ Final Note:
 
 ## Quick Tutorial on how to use the Django Rest Framework
 
-[Previous team's Django Rest tutorial](./low_level_docs.md#quick-tutorial-on-how-to-use-the-django-rest-framework)
+*See [previous team's DRF tutorial](./low_level_docs.md#quick-tutorial-on-how-to-use-the-django-rest-framework) and official docs for setup and usage.
 
 Refer to the official DRF tutorials and API guide for setup, serializers, views, and routing:
 - https://www.django-rest-framework.org/tutorial/quickstart/
