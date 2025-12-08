@@ -24,3 +24,5 @@ npm-debug.log
 **.sqlite3
 
 .DS_Store
+
+.python-version
