@@ -46,7 +46,7 @@ The project was managed using an Agile methodology with the team adopting the Sc
 In this sprint, we completed the Requirements Document fully, and got a deeper understanding of the codebase and documentation of the previous project. 
 
 #### Who accepted each task? Which tasks were completed?
-For this topic, everyone to whom I assigned tasks readily accepted them. All tasks were eventually completed but everyone. The task was to write the Req Doc.
+For this topic, everyone to whom I assigned tasks readily accepted them. All tasks were eventually completed by everyone. The task was to write the Req Doc.
 
 #### Rejected tasks or incomplete tasks
 No rejected tasks
@@ -483,7 +483,7 @@ Tyson added a "plethora of links" to the design document as a result of feedback
 
 ##### Felix Jacob
 
-Felix spent a lot of time on Tuesday making efforts to switch our Azure server to be https for our demo, but to no avail. He made edits to the high-levl design document in preparation to turn it in as a final draft, and also scrubbed his sprint summary for inclusion in the final report.
+Felix spent a lot of time on Tuesday making efforts to switch our Azure server to be https for our demo, but to no avail. He made edits to the high-level design document in preparation to turn it in as a final draft, and also scrubbed his sprint summary for inclusion in the final report.
 
 ##### Garrett Woodhouse
 
