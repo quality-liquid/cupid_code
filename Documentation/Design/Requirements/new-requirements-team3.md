@@ -168,17 +168,17 @@ interface with smart assistance from the AI.
 * Chat with the AI for help, ideas, or practicing for an upcoming date.
 * Get occasional advice from the AI when dates are becoming sparse 
 based on the user's profile, preferences, and what the AI learns about the user 
-over time. 
+over time.
 * Create a work order for a Cupid
     * Choose how much Cupid cash to dedicate to the order.
     * Fill in instructions for Cupid.
-    * Set time must be completed by. 
+    * Set time must be completed by.
 
 #### Cupids will be able to:
 * Accept a job from a list displayed based on their chosen filters:
     * mile radius
     * level of difficulty/estimated time to complete
-* See the jobs in priority order based on when they expire. 
+* See the jobs in priority order based on when they expire.
 * Sign-up as a Cupid so their app interface is different.
 
 #### Business Leadership will be able to:
@@ -200,114 +200,114 @@ over time.
 
 #### Must-Have
 ##### Rebranding Requirements
-- Cupid Code shall provide a dark mode theme. 
-- Cupid Code shall provide a light mode theme. 
+- Cupid Code shall provide a dark mode theme.
+- Cupid Code shall provide a light mode theme.
 
 ##### Push Notification Requirements
-- Cupid Code shall send push notifications to Daters with reminders about planned dates. 
-- Cupid Code shall send push notifications to Daters with conversation suggestions. 
-- Cupid Code shall send push notifications to Daters with weather alerts. 
-- Cupid Code shall send push notifications to Daters with date tips prior to a planned date. 
-- Cupid Code shall send push notifications to Daters with date tips during a planned date. 
-- Cupid Code shall send push notifications to Daters with date tips after a planned date. 
-- Cupid Code shall send push notifications to Daters with encouragement to set up more dates. 
-- Cupid Code shall send push notifications to Daters when a service is successfully ordered for a planned date. 
-- Cupid Code shall send push notifications to Daters when a Cupid has arrived 
-- Cupid Code shall send push notifications to Cupids with new job appearances. 
-- Cupid Code shall integrate with a texting service to send messages to Daters. 
-- Cupid Code shall integrate with a texting service to send messages to Cupids. 
-- Cupid Code shall integrate with an email service to send messages to Daters. 
-- Cupid Code shall integrate with an email service to send messages to Cupids. 
-- Cupid Code shall allow a Dater to opt-in or opt-out of receiving specific types of push notifications. 
-- Cupid Code shall allow a Cupid to opt-in or opt-out of receiving specific types of push notifications. 
-- Cupid Code shall aggregate related notifications to avoid notification fatigue. 
-- Cupid Code shall allow a Dater to set preferences for notification timing and frequency. 
-- Cupid Code shall allow a Cupid to set preferences for notification timing and frequency. 
-- Cupid Code shall use multiple methods of delivery for notifications supporting push, SMS, and email. 
-- Cupid Code shall provide a notification center within the app for Daters to view all past notifications. 
-- Cupid Code shall provide a notification center within the app for Cupids to view all past notifications. 
-- Cupid Code shall prevent sending redundant notifications by deduplicating similar events. 
-- Cupid Code shall integrate with the Weather Channel API to provide weather forecast data. 
+- Cupid Code shall send push notifications to Daters with reminders about planned dates. (**NOT IMPLEMENTED**)
+- Cupid Code shall send push notifications to Daters with conversation suggestions. (**NOT IMPLEMENTED**)
+- Cupid Code shall send push notifications to Daters with weather alerts. (**NOT IMPLEMENTED**)
+- Cupid Code shall send push notifications to Daters with date tips prior to a planned date. (**NOT IMPLEMENTED**)
+- Cupid Code shall send push notifications to Daters with date tips during a planned date. (**NOT IMPLEMENTED**)
+- Cupid Code shall send push notifications to Daters with date tips after a planned date. (**NOT IMPLEMENTED**)
+- Cupid Code shall send push notifications to Daters with encouragement to set up more dates. (**NOT IMPLEMENTED**)
+- Cupid Code shall send push notifications to Daters when a service is successfully ordered for a planned date. (**NOT IMPLEMENTED**)
+- Cupid Code shall send push notifications to Daters when a Cupid has arrived (**NOT IMPLEMENTED**)
+- Cupid Code shall send push notifications to Cupids with new job appearances. (**NOT IMPLEMENTED**)
+- Cupid Code shall integrate with a texting service to send messages to Daters. (**NOT IMPLEMENTED**)
+- Cupid Code shall integrate with a texting service to send messages to Cupids. (**NOT IMPLEMENTED**)
+- Cupid Code shall integrate with an email service to send messages to Daters.
+- Cupid Code shall integrate with an email service to send messages to Cupids.
+- Cupid Code shall allow a Dater to opt-in or opt-out of receiving specific types of push notifications. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow a Cupid to opt-in or opt-out of receiving specific types of push notifications. (**NOT IMPLEMENTED**)
+- Cupid Code shall aggregate related notifications to avoid notification fatigue. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow a Dater to set preferences for notification timing and frequency. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow a Cupid to set preferences for notification timing and frequency. (**NOT IMPLEMENTED**)
+- Cupid Code shall use multiple methods of delivery for notifications supporting push, SMS, and email. (**NOT IMPLEMENTED**)
+- Cupid Code shall provide a notification center within the app for Daters to view all past notifications.
+- Cupid Code shall provide a notification center within the app for Cupids to view all past notifications.
+- Cupid Code shall prevent sending redundant notifications by deduplicating similar events. (**NOT IMPLEMENTED**)
+- Cupid Code shall integrate with the Weather Channel API to provide weather forecast data. (**NOT IMPLEMENTED**)
 
 ##### Payment Processer APIs
-- Cupid Code shall integrate with Stripe APIs to process payments. 
-- Cupid Code shall integrate with PayPal APIs to process payments. 
-- Cupid Code shall allow a Dater to connect a bank account to their Cupid Code CupidCash funds using Stripe APIs. 
-- Cupid Code shall allow a Dater to connect a bank account to their Cupid Code CupidCash funds using PayPal APIs. 
+- Cupid Code shall integrate with Stripe APIs to process payments.
+- Cupid Code shall integrate with PayPal APIs to process payments. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow a Dater to connect a bank account to their Cupid Code CupidCash funds using Stripe APIs.
+- Cupid Code shall allow a Dater to connect a bank account to their Cupid Code CupidCash funds using PayPal APIs. (**NOT IMPLEMENTED**)
 - Cupid Code shall allow a Dater to make a request to withdraw funds from a bank account to their CupidCash funds using Stripe APIs. 
-- Cupid Code shall allow a Dater to make a request to withdraw funds from a bank account to their CupidCash funds using PayPal APIs. 
-- Cupid Code shall allow a Dater to make a request to deposit funds to a bank account from their CupidCash funds using Stripe APIs. 
-- Cupid Code shall allow a Dater to make a request to deposit funds to a bank account from their CupidCash funds using PayPal APIs. 
-- Cupid Code shall not allow a Dater to make a request to deposit funds to a bank account from their CupidCash funds if the amount exceeds their current balance of CupidCash. 
-- Cupid Code shall display transaction history within the Dater's account dashboard. 
-- Cupid Code shall display transaction history within the Cupid's account dashboard. 
-- Cupid Code shall allow a Dater to set a default payment method for processing payments made by the Dater. 
-- Cupid Code shall allow a Dater to set a default payment method for processing payments made by the AI. 
-- Cupid Code shall not make use of microtransactions. 
+- Cupid Code shall allow a Dater to make a request to withdraw funds from a bank account to their CupidCash funds using PayPal APIs. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow a Dater to make a request to deposit funds to a bank account from their CupidCash funds using Stripe APIs. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow a Dater to make a request to deposit funds to a bank account from their CupidCash funds using PayPal APIs. (**NOT IMPLEMENTED**)
+- Cupid Code shall not allow a Dater to make a request to deposit funds to a bank account from their CupidCash funds if the amount exceeds their current balance of CupidCash. (**NOT IMPLEMENTED**)
+- Cupid Code shall display transaction history within the Dater's account dashboard. (**NOT IMPLEMENTED**)
+- Cupid Code shall display transaction history within the Cupid's account dashboard. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow a Dater to set a default payment method for processing payments made by the Dater. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow a Dater to set a default payment method for processing payments made by the AI. (**NOT IMPLEMENTED**)
+- Cupid Code shall not make use of microtransactions.
 
 ##### Agentic AI
-- Cupid Code shall allow the Dater to customize the autonomy of the AI in their preferences. 
-- Cupid Code shall allow the AI to edit a date's activity. 
-- Cupid Code shall allow the AI to edit a date's estimated cost. 
-- Cupid Code shall allow the AI to edit a date's address. 
-- Cupid Code shall allow the AI to edit a date's partner. 
-- Cupid Code shall allow the AI to edit a date's start time. 
-- Cupid Code shall allow the AI to edit a date's date. 
-- Cupid Code shall allow the AI to edit a date's estimated end time. 
-- Cupid Code shall allow the AI to delete a date. 
-- Cupid Code shall allow the AI to create a date. 
-- Cupid Code shall implement a jobs queue for managing third-party service requests and Cupid-specific errands. 
-- Cupid Code shall allow the AI to place food orders via UberEats API. 
-- Cupid Code shall allow the AI to arrange rides via Uber API. 
-- Cupid Code shall allow the AI to purchase movie tickets via Megaplex API. 
-- Cupid Code shall allow the AI to fetch and recall Dater-specific preferences and history from the Dater database to personalize decisions and recommendations. 
-- Cupid Code shall allow the AI to cancel previously arranged food orders via UberEats API. 
-- Cupid Code shall allow the AI to cancel previously arranged rides via Uber API. 
-- Cupid Code shall allow the AI to cancel previously arranged movie tickets via Megaplex API. 
-- Cupid Code shall allow the AI to access weather forecast data. 
+- Cupid Code shall allow the Dater to customize the autonomy of the AI in their preferences. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to edit a date's activity. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to edit a date's estimated cost. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to edit a date's address. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to edit a date's partner. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to edit a date's start time. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to edit a date's date. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to edit a date's estimated end time. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to delete a date. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to create a date.
+- Cupid Code shall implement a jobs queue for managing third-party service requests and Cupid-specific errands. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to place food orders via UberEats API. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to arrange rides via Uber API. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to purchase movie tickets via Megaplex API. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to fetch and recall Dater-specific preferences and history from the Dater database to personalize decisions and recommendations.
+- Cupid Code shall allow the AI to cancel previously arranged food orders via UberEats API. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to cancel previously arranged rides via Uber API. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to cancel previously arranged movie tickets via Megaplex API. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to access weather forecast data.
 
 ##### Cloud Deployment
 - Cupid Code shall be deployed using Azure 
 
 ##### Plan-A-Date Feature
-- Cupid Code shall implement a Plan-A-Date service. 
-- Cupid Code Plan-A-Date service shall allow the Dater to make a request to the AI to build a date based on past interests. 
-- Cupid Code Plan-A-Date service date interface shall allow the Dater to edit the date's activity. 
-- Cupid Code Plan-A-Date service date interface shall allow the Dater to edit the date's estimated cost. 
-- Cupid Code Plan-A-Date service date interface shall allow the Dater to edit the date's address. 
-- Cupid Code Plan-A-Date service date interface shall allow the Dater to edit the date's partner. 
-- Cupid Code Plan-A-Date service date interface shall allow the Dater to edit the date's start time. 
-- Cupid Code Plan-A-Date service date interface shall allow the Dater to edit the date's date. 
-- Cupid Code Plan-A-Date service date interface shall allow the Dater to edit the date's estimated end time. 
-- Cupid Code Plan-A-Date service date interface shall allow the Dater to edit the date's prior notification with the default set to thirty minutes. 
-- Cupid Code Plan-A-Date service date interface shall allow the Dater to disable the date's prior notification with the default set to enabled. 
-- Cupid Code Plan-A-Date service date interface shall allow the Dater to delete a date. 
-- Cupid Code Plan-A-Date service date interface shall allow the Dater to create a date. 
-- Cupid Code Plan-A-Date service date interface shall allow the Dater to rate previous dates. 
+- Cupid Code shall implement a Plan-A-Date service.
+- Cupid Code Plan-A-Date service shall allow the Dater to make a request to the AI to build a date based on past interests.
+- Cupid Code Plan-A-Date service date interface shall allow the Dater to edit the date's activity.
+- Cupid Code Plan-A-Date service date interface shall allow the Dater to edit the date's estimated cost.
+- Cupid Code Plan-A-Date service date interface shall allow the Dater to edit the date's address.
+- Cupid Code Plan-A-Date service date interface shall allow the Dater to edit the date's partner. (**NOT IMPLEMENTED**)
+- Cupid Code Plan-A-Date service date interface shall allow the Dater to edit the date's start time.
+- Cupid Code Plan-A-Date service date interface shall allow the Dater to edit the date's date.
+- Cupid Code Plan-A-Date service date interface shall allow the Dater to edit the date's estimated end time.
+- Cupid Code Plan-A-Date service date interface shall allow the Dater to edit the date's prior notification with the default set to thirty minutes. (**NOT IMPLEMENTED**)
+- Cupid Code Plan-A-Date service date interface shall allow the Dater to disable the date's prior notification with the default set to enabled. (**NOT IMPLEMENTED**)
+- Cupid Code Plan-A-Date service date interface shall allow the Dater to delete a date.
+- Cupid Code Plan-A-Date service date interface shall allow the Dater to create a date.
+- Cupid Code Plan-A-Date service date interface shall allow the Dater to rate previous dates. (**NOT IMPLEMENTED**)
 
 
 #### Should-Have
 ##### Agentic AI
-- Cupid Code shall allow the AI to make weather-based suggestions for date activities. 
-- Cupid Code shall allow the AI to ask the Daters about how their date went and what could be improved. 
-- Cupid Code shall allow the AI to provide Daters with actionable feedback after a date. 
-- Cupid Code shall allow the AI to provide Dater profile completion to fill in missing interests, hobbies, or preferences. 
-- Cupid Code shall allow the AI to build a dream partner profile for a Dater. 
-- Cupid Code shall allow the Daters to enable conversation listening during a planned date. 
-- Cupid Code shall allow the Daters to enable integration with the device microphone. 
-- Cupid Code shall allow the AI to listen during planned dates when conversation listening is enabled. 
+- Cupid Code shall allow the AI to make weather-based suggestions for date activities.
+- Cupid Code shall allow the AI to ask the Daters about how their date went and what could be improved.
+- Cupid Code shall allow the AI to provide Daters with actionable feedback after a date.
+- Cupid Code shall allow the AI to provide Dater profile completion to fill in missing interests, hobbies, or preferences. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to build a dream partner profile for a Dater. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the Daters to enable conversation listening during a planned date.
+- Cupid Code shall allow the Daters to enable integration with the device microphone.
+- Cupid Code shall allow the AI to listen during planned dates when conversation listening is enabled.
 
 #### Could-Have
 ##### Agentic AI
-- Cupid Code shall allow the AI to provide an estimated time until relationship/marriage. 
-- Cupid Code shall allow the AI to dream partner profile with the profiles of other Daters. 
+- Cupid Code shall allow the AI to provide an estimated time until relationship/marriage. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow the AI to dream partner profile with the profiles of other Daters. (**NOT IMPLEMENTED**)
 
 ##### Plan-A-Date Feature
-- Cupid Code shall enable integration with Tinder API. 
-- Cupid Code shall enable integration with Google Maps API to display real-time locations of Cupids. 
-- Cupid Code shall enable integration with Google Maps API to display real-time locations of Daters. 
-- Cupid Code shall allow Cupids to disable their location sharing, with the default set to enabled. 
-- Cupid Code shall allow Daters to disable their location sharing, with the default set to enabled. 
+- Cupid Code shall enable integration with Tinder API. (**NOT IMPLEMENTED**)
+- Cupid Code shall enable integration with Google Maps API to display real-time locations of Cupids. (**NOT IMPLEMENTED**)
+- Cupid Code shall enable integration with Google Maps API to display real-time locations of Daters. (**NOT IMPLEMENTED**)
+- Cupid Code shall allow Cupids to disable their location sharing, with the default set to enabled.
+- Cupid Code shall allow Daters to disable their location sharing, with the default set to enabled.
 
 
 ### Non-Functional Requirements
@@ -315,23 +315,23 @@ over time.
 
 #### Must-Have
 ##### Security
-- Encrypting data at rest and in transit
-- Only Daters, Cupids, and Managers with a valid login can enter the system. 
+- Encrypting data at rest and in transit (**NOT IMPLEMENTED**)
+- Only Daters, Cupids, and Managers with a valid login can enter the system.
 - User data will only be available to those who are authorized to view it.
     - Cupids can only see the minimum of what they need to help the User on a date, after accepting the job.
-    - Managers will see general data trends but not specific User information
+    - Managers will see general data trends but not specific User information.
  - Data Integrity
     - The system must not corrupt data, even in the event of a network outage.
 ##### Usability
 The user interfaces for Daters, Cupids, and Managers will be intuitive and user-friendly.
-- Learnability: The website will be intuitive allowing even new users to navigate the website without training
+- Learnability: The website will be intuitive allowing even new users to navigate the website without training.
 - Efficiency: A task that is performed frequently should take a maximum of three clicks to complete.
 ##### Compatibility
-- It will be fully functional on Google Chrome, Mozilla Firefox, and Safari.
-- The website must work on most screen sizes and device options. 
+- It will be fully functional on Google Chrome, Mozilla Firefox, and Safari. (**Speech to text functionality not supported on Firefox and Safari**)
+- The website must work on most screen sizes and device options.
 ##### Compliance
-- Our website will comply with the General Data Protection Regulation (GDPR), and the California Consumer Privacy Act (CCPA). 
-- The system will follow the Web Content Accessibility Guidelines (WCAG)
+- Our website will comply with the General Data Protection Regulation (GDPR), and the California Consumer Privacy Act (CCPA).
+- The system will follow the Web Content Accessibility Guidelines (WCAG).
 - ACM codes of ethics are applied to keep confidentiality of Daters and Cupids.
 ##### Documentation
 * Comprehensive and clear documentation will be available for Daters, Cupids, and Managers via user manuals for each individual user type.
@@ -339,10 +339,10 @@ The user interfaces for Daters, Cupids, and Managers will be intuitive and user-
 
 #### Should-Have
 ##### Security
-- A Two-Factor authentication will allow Users and Cupids to recover their login information
-- Managers will need to use Two-Factor Authentication to login every time. 
+- A Two-Factor authentication will allow Users and Cupids to recover their login information. (**NOT IMPLEMENTED**)
+- Managers will need to use Two-Factor Authentication to login every time. (**NOT IMPLEMENTED**)
 ##### Scalability
-- The system will be built upon itself so the addition of new features will not require significant changes to existing architecture. 
+- The system will be built upon itself so the addition of new features will not require significant changes to existing architecture.
 ##### Availability
 - The system will run on all browsers, with a **webpage mobile version**
 - A high level of uptime is crucial, with a target of 99.9% uptime to minimize disruptions and ensure continuous availability
@@ -354,7 +354,7 @@ The platform will have low latency communication between Daters, Cupids, and the
     - No response time should exceed 1 second while on the website. Ex.switching pages, buying Cupid Cash, submitting a form.
 ##### Maintainability
 - Modularity
-    - The system must be organized into separate modules by function. 
+    - The system must be organized into separate modules by function.
 - Bug Reports
     - Bugs should be fixed within 24 hours of a bug being reported
 
@@ -371,24 +371,24 @@ The platform will have low latency communication between Daters, Cupids, and the
 ##### Performance
 - The server should be able to handle at least 1,000 concurrent orders per second during peak times to meet high demand.
 ##### Availability 
-- The server should have an uptime of 99.99%, with robust failover systems in place to handle any unexpected outages. 
+- The server should have an uptime of 99.99%, with robust failover systems in place to handle any unexpected outages.
 ##### Security 
-- Passwords must be encrypted both in transit and in the database to protect sensitive information. 
-- The server must comply with industry standards when handling payment data. 
+- Passwords must be encrypted both in transit and in the database to protect sensitive information.
+- The server must comply with industry standards when handling payment data.
 - Regular security patches and continuous monitoring should be implemented to detect and mitigate potential threats.
 ##### Compliance
 - The server must comply with data protection regulations, such as GDPR, if the business serves customers in regions with strict data privacy laws.
-- Proper management of user consent should be implemented for data collection and usage, ensuring compliance with legal requirements.
+- Proper management of user consent should be implemented for data collection and usage, ensuring compliance with legal requirements. (**NOT IMPLEMENTED**)
 
 
 #### Should-Have
 ##### Scalability
-- The server’s architecture should support horizontal scaling, meaning it can handle an increasing number of users by adding more resources, such as load balancers.
-- It should be able to dynamically scale up or down based on traffic surges, especially during special events or promotions.
+- The server’s architecture should support horizontal scaling, meaning it can handle an increasing number of users by adding more resources, such as load balancers. (**NOT IMPLEMENTED**)
+- It should be able to dynamically scale up or down based on traffic surges, especially during special events or promotions. (**NOT IMPLEMENTED**)
 ##### Availability 
-- Regular backups and disaster recovery measures should be implemented to prevent data loss in case of a server failure.
+- Regular backups and disaster recovery measures should be implemented to prevent data loss in case of a server failure. (**NOT IMPLEMENTED**)
 ##### Monitoring and Logging
-- Comprehensive logging must be implemented to track user activities, server performance, and order transactions for future analysis and troubleshooting.
+- Comprehensive logging must be implemented to track user activities, server performance, and order transactions for future analysis and troubleshooting. (**NOT IMPLEMENTED**)
 ##### Latency 
 - The system should be designed to ensure low latency for real-time order updates and status tracking, providing users with a seamless experience.
 
@@ -422,27 +422,27 @@ The platform will have low latency communication between Daters, Cupids, and the
 #### Should-have
 - The application should be able to process payment from daters.
 - The application should be able to provide payment to cupids for their services.
-- The application should be able to process payments to third party business in order to purchase food, tickets, or any other items needed for dates.
+- The application should be able to process payments to third party business in order to purchase food, tickets, or any other items needed for dates. (**NOT IMPLEMENTED**)
 - The application should be profitable.
 - The daters' accounts should store information about them and their dating history.
 - The cupids' accounts should store information about previous cupid jobs they've done in the app.
 - Admins should be able to track statistics, such as 
   - number of registered users, broken down into daters and cupids
   - number of current users (both daters and cupids) at any given time
-  - number of dates within a certain time frame
+  - number of dates within a certain time frame (**NOT IMPLEMENTED**)
 - Updates should be to be easily implemented so that users don't need to reinstall the application.
 - The user interface for daters and cupids should be simple and intuitive, such that users can navigate the app quickly and with no confusions.
 - The application should have response times of less than three seconds.
 
 #### Could-have
-- The daters' locations could be tracked by the app in order to connect them with local opportunities for date activities and nearby cupids.
-- The cupids' locations could be tracked by the app in order to connect them with local daters and give estimates as to their arrival times to dates.
-- The cupid's accounts could store their financial information, such as how much money they've earned from each job, total income, and income that has not been transferred to an external money app.
+- The daters' locations could be tracked by the app in order to connect them with local opportunities for date activities and nearby cupids. (**NOT IMPLEMENTED**)
+- The cupids' locations could be tracked by the app in order to connect them with local daters and give estimates as to their arrival times to dates. (**NOT IMPLEMENTED**)
+- The cupid's accounts could store their financial information, such as how much money they've earned from each job, total income, and income that has not been transferred to an external money app. (**Currently tracks money not transferred**)
 - Daters and Cupids could be able to provide feedback to the developers to improve user experience.
 - Admins could have access to ratings and feedback given by users through the application.
-- The application could connect to other dating app APIs in order to assist daters in finding dates.
-- The application could be able to allow up to a billion users in the database.
-- The application could be able to allow potentially thousands of people to use the application concurrently.
+- The application could connect to other dating app APIs in order to assist daters in finding dates. (**NOT IMPLEMENTED**)
+- The application could be able to allow up to a billion users in the database. (**NOT IMPLEMENTED**)
+- The application could be able to allow potentially thousands of people to use the application concurrently. (**NOT TESTED**)
 
 #### Won't-have
 - The application won't have any microtransactions.
@@ -452,8 +452,7 @@ The platform will have low latency communication between Daters, Cupids, and the
 [*Table of Contents*](#table-of-contents)
 
 ####  Must-have
-- Cupid Code shall send push notifications to Daters with reminders about planned dates.
-- All users can create an account on the Cupid Code app.
+- Cupid Code shall send push notifications to Daters with reminders about planned dates. (**NOT IMPLEMENTED**)
 - All Daters and Cupids can create an account on the Cupid Code app.
 - The registration process will be user-friendly and require basic information (email, password, full name, etc.).
 - Daters will be able to create a detailed profile with information about their interests, preferences, and past dating experiences.
@@ -465,19 +464,19 @@ The platform will have low latency communication between Daters, Cupids, and the
 - Managers will have the ability to take appropriate actions based on cupid stats.
 - Daters will be able to provide feedback and ratings Cupids' services.
 - Cupids will be able to provide feedback and ratings Daters' services.
-- Cupids and Daters will be able to see feedback written about them.
-- The app will have a user support system that includes chat, email, or an online help center to assist users with any issues they encounter.
+- Cupids and Daters will be able to see feedback written about them. (**NOT IMPLEMENTED**)
+- The app will have a user support system that includes chat, email, or an online help center to assist users with any issues they encounter. (**NOT IMPLEMENTED**)
 - Daters will be able to customize their preferences for AI advice and Cupid services.
 - Daters can set up when dates are, using an in-app calendar.
 - The app will have a feature to enable the AI to listen in on dates when activated by the Dater.
 - Emergency advice will be provided in real-time during dates to assist Daters in navigating challenging situations.
-- Daters will have the option to receive notifications before, during, and after scheduled dates.
-- Notifications may include reminders, suggestions, and post-date feedback.
-- Cupid Code shall display transaction history within the Dater's account dashboard.
+- Daters will have the option to receive notifications before, during, and after scheduled dates. (**NOT IMPLEMENTED**)
+- Notifications may include reminders, suggestions, and post-date feedback. (**NOT IMPLEMENTED**)
+- Cupid Code shall display transaction history within the Dater's account dashboard. (**NOT IMPLEMENTED**)
 
 
 #### Should-have
-- A panel for managers to access and review complaints and feedback related to Cupids.
+- A panel for managers to access and review complaints and feedback related to Cupids. (**NOT IMPLEMENTED**)
 
 
 
@@ -556,26 +555,26 @@ The platform will have low latency communication between Daters, Cupids, and the
 0.  have accurate and up-to-date information on the current location of the user so that I can know the estimated time it will take to complete the job and be able to complete it as quickly and efficiently as possible.
 
 #### As a Business Leader, I want to 
-0.  view the number of registered Daters so that I can assess the growth of the platform.  
-0.  see the number of Daters currently online so that I can monitor platform activity in real-time.  
-0.  track the number of Daters in active dates so that I can evaluate engagement levels.  
-0.  view the locations of all Daters so that I can analyze geographic trends.  
-0.  access the number of registered Cupids so that I can measure the growth of the workforce.  
-0.  see the number of Cupids currently online so that I can ensure adequate workforce availability.  
-0.  monitor the number of Cupids in active jobs so that I can evaluate workforce engagement.  
-0.  track the number of jobs fulfilled by Cupids so that I can measure service success rates.  
-0.  see the number of jobs expired without Cupid acceptance so that I can identify potential service gaps.  
-0.  analyze trends in Dater activity over time so that I can make informed business decisions.  
-0.  analyze trends in Cupid activity over time so that I can optimize workforce management.  
-0.  compare Dater and Cupid activity metrics so that I can ensure platform balance.  
-0.  view historical data on fulfilled jobs so that I can identify patterns in service demand.  
-0.  view historical data on expired jobs so that I can address recurring issues.  
-0.  access demographic data of Daters so that I can tailor marketing strategies.  
-0.  access demographic data of Cupids so that I can improve recruitment efforts.  
-0.  receive alerts for significant changes in platform metrics so that I can respond proactively.  
-0.  generate reports on platform performance so that I can share insights with stakeholders.  
-0.  identify peak activity times for Daters and Cupids so that I can optimize platform operations.  
-0.  monitor the overall health of the platform so that I can ensure long-term success.  
+0.  view the number of registered Daters so that I can assess the growth of the platform.
+0.  see the number of Daters currently online so that I can monitor platform activity in real-time.
+0.  track the number of Daters in active dates so that I can evaluate engagement levels.
+0.  view the locations of all Daters so that I can analyze geographic trends.
+0.  access the number of registered Cupids so that I can measure the growth of the workforce.
+0.  see the number of Cupids currently online so that I can ensure adequate workforce availability.
+0.  monitor the number of Cupids in active jobs so that I can evaluate workforce engagement.
+0.  track the number of jobs fulfilled by Cupids so that I can measure service success rates.
+0.  see the number of jobs expired without Cupid acceptance so that I can identify potential service gaps.
+0.  analyze trends in Dater activity over time so that I can make informed business decisions.
+0.  analyze trends in Cupid activity over time so that I can optimize workforce management.
+0.  compare Dater and Cupid activity metrics so that I can ensure platform balance.
+0.  view historical data on fulfilled jobs so that I can identify patterns in service demand.
+0.  view historical data on expired jobs so that I can address recurring issues.
+0.  access demographic data of Daters so that I can tailor marketing strategies.
+0.  access demographic data of Cupids so that I can improve recruitment efforts.
+0.  receive alerts for significant changes in platform metrics so that I can respond proactively.
+0.  generate reports on platform performance so that I can share insights with stakeholders.
+0.  identify peak activity times for Daters and Cupids so that I can optimize platform operations.
+0.  monitor the overall health of the platform so that I can ensure long-term success.
 0.  have a survey feature so I can know how the users and Cupids enjoy the software.
 0.  have a monthly subscription so I can have a consistent way to make money.
 
