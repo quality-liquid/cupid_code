@@ -17,6 +17,8 @@
 0. [Requirements](../Requirements/new-requirements-team3.md)
 0. [High Level Design](../HighLevel/new-high-level-team3.md)
 
+Note: This document builds on the previous team's low-level design. For areas not explicitly changed here, see [previous team's low level docs](./low_level_docs.md).
+
 ### Table of Contents
 
 0. [Team Conventions](#0-team-conventions)
@@ -289,96 +291,20 @@ The existing design for the user experience will be maintained, striving to ensu
 
 ## Templates
 
-*See [previous team's Templates](./low_level_docs.md#templates)*
-
-A Django Template is used to connect the Vue frontend to the backend. A second Django Template is used to make the sign-up/login process its own separate app to improve security. The sign-up/login process is only responsible for adding/validating users and then redirecting them to the appropriate homepage depending on what type of user they are.
-
-Django templates take the following form:
-
-``` html
-{% load static %}
-<head>
-  <style>
-    /* Write inline styles here */
-  </style>  
-</head>
-<body>
-  <div>
-    Welcome to Cupid Code landing page here
-  </div>
-  <button> Login </button>
-  <button> Sign up </button>
-</body>  
-```
+*See [previous team's Templates](./low_level_docs.md#templates) for the base Django template setup and the separate auth app template structure. We follow the same pattern for mounting the Vue bundle and for auth redirects.
 
 ## Vue Router
 
-The previous team used Vue Router to switch between pages in the frontend. They used hash routing to control which page the user is on which allows the frontend to switch pages without contacting the server every time. We will continue to use this routing method and take care to keep track of the state of the application to keep the frontend light and responsive.
-
-*See [previous team's Vue Router Design](./low_level_docs.md#vue-router)*
-
-The following is an example of how Vue Router is used in the application:
-```javascript
-import create web history, web hash history from 'vue-router';
-
-import Home from './components/Home.vue';
-import About from './components/Dater.vue';
-import Contact from './components/Cupid.vue';
-
-const routes = [
-  { path: '/', name: 'Home', component: Home },
-  { path: '/dater/:id', name: 'Dater', component: Dater },
-  { path: '/cupid', name: 'Cupid', component: Cupid }
-];
-
-const router = create_web_history({
-  history: web hash history,
-  routes
-});
-
-export default router;
-```
-The ':' in "path: '/dater/:id'" symbolizes a parameter to be passed through the path. This was used to pass the user id when making calls to the backend. We are unsure as to why the previous team passed the id in way as it is possible to accomplish this using state variables. As we work on the routing, if we discover that passing the id through the state instead of the url is more efficient, then we will make the necessary changes.
-
----
-Final Note: 
-
-Due to time constraints we were unable to make changes to use the state variable for the user id instead of passing id through the url.
-
----
+The previous team used Vue Router to switch between pages in the frontend. They used hash routing, which allows page transitions without server calls. We will continue this approach and manage state carefully for responsiveness.
+See [previous team's Vue Router Design](./low_level_docs.md#vue-router) and the [Vue Router documentation](https://router.vuejs.org/) for route configuration and navigation guards (e.g., beforeEach) to protect role-specific pages.
 
 ### Implementing the router
 
 *See [previous team's router design](./low_level_docs.md#implementing-the-router)*
 
-In the **main.js** file we include the router and mount it. Other pages can import the router to use programmatic routing or use the router-link tag in components:
+In main.js, mount the router instance and use router-link for navigation within components. Programmatic navigation (router.push) is used after authentication or role checks.
 
-``` javascript
-import router from './router/router.js'
-
-router.go(1) // Forward 1
-router.forward() // ^
-router.go(-1) // Back 1
-router.back() // ^
-
-// Route the user to this path with the given params.
-router.push({name: "Path Name", params: {param: given param}})
-```
-
-```html
-  <nav>
-    <router-link :to="{name: 'Path name', params: {param: given param}}">
-      Go here!
-    </router-link>
-    <router-link :to="{name: 'Path name', params: {param: given param}}">
-      Or here!
-    </router-link>
-  </nav>
-  <div>
-    Other components from the page get displayed here.
-  </div>  
-<template>
-```
+Refer to [previous team's router setup](./low_level_docs.md#implementing-the-router) for the base router initialization and route guards. We add role guards to protect Dater/Cupid/Manager routes as described above.
 
 ## Vue URLs
 
@@ -411,6 +337,8 @@ The Vue app will live at URL `/app/`. The following pages will be available thro
 
 The :id syntax is using the params syntax from the Vue Router. These are the URLs that are going to need an id of some sort. If the id is not valid for the page that is being accessed (i.e. dater user trying to access a manager page), a 404 page will be served instead.
 
+See [previous team's URL list](./low_level_docs.md#vue-urls) for the original route map and params rationale. Our updates maintain the same structure with role validation.
+
 ## Testing
 
 *See [previous team's preliminary testing designs](./low_level_docs.md#testing)*
@@ -426,6 +354,11 @@ We intend to continue using and building upon the existing testing framework goi
 0. **Mocking**: Mocking is a technique used in testing to isolate a component that may rely on other components. By using mocking you can "mock" what a function should return and thereby control the behavior of external dependencies to focus entirely on the component under test.
 
 The tests will be run in a CICD pipeline to ensure that changes to the app do not break working functionality. If a change to the code alters what a function inputs and outputs, the developer who made the change is in charge of fixing the corresponding test and ensuring that it works.
+
+See [previous team's Testing](./low_level_docs.md#testing) for the test organization and tooling. We keep per-app tests (api/tests.py) and follow their CI pipeline approach.
+
+### Test pseudocode
+Use Django’s test framework for unit and integration tests and Vue Test Utils for component tests. Organize tests per app (e.g., api/tests.py) and cover happy paths, invalid inputs, and edge cases. See [Django Testing Documentation](https://docs.djangoproject.com/en/5.0/topics/testing/) and reuse the existing project’s test structure.
 
 # 2. Middleend Design: Connecting Vue and Django
 
@@ -509,7 +442,7 @@ Final Note: We also ended up using the following dependencies
 
 ### Files to Add
 
-See [previous Files to Add section](./low_level_docs.md#files-to-add)
+See [previous team's Files to Add section](./low_level_docs.md#files-to-add)
 
 This will continue with the same steps.  
 
@@ -582,7 +515,7 @@ Their pseudocode covers the same as what we will implement.
 
 ## Backend Summary (Revisit this after everything else is done)
 
-*See [previous team's Backend Summary](./low_level_docs.md#backend-summary)*
+*See [previous team's Backend Summary](./low_level_docs.md#backend-summary) for the baseline DRF architecture and auth flow we continue to use.
 
     The backend will be built using Django and the Django REST Framework. As a result much of the needed security is already implemented. A majority of the work will be in the models, views, and serializers. The models will be the database, the views will be the API, and the serializers will be the conversion of the models to JSON and vice versa. The frontend will communicate with the backend using HTTP GET and POST requests. The backend will respond with JSON data. This will be made easy by the Django Rest Framework. Mapping what endpoints the frontend needs is helpful for the backend to know what to build. This will be done in the URL Mapping section.
         Additionally, the data will be stored in Azure Cloud to make it more scalable, accessible, and secure.
@@ -590,9 +523,7 @@ Their pseudocode covers the same as what we will implement.
 
 ## Resources for the Backend 
 
-*See [previous team's Backend Resources](./low_level_docs.md#resources-for-the-backend)*
-
-We added additional links to the Azure Cloud Documentation, LM studio documentation and the LangChain Documentation.
+*See [previous team's Backend Resources](./low_level_docs.md#resources-for-the-backend) for core references; we add Azure, LM Studio, and LangChain links.
 
 [Django Rest Framework Quickstart](https://www.django-rest-framework.org/tutorial/quickstart/)  
 [Django Rest Framework API Reference](https://docs.djangoproject.com/en/5.0/ref/)  
@@ -607,7 +538,7 @@ We added additional links to the Azure Cloud Documentation, LM studio documentat
 
 ## Performance:
 
-*See [previous team's backend performance designs](./low_level_docs.md#performance-1)*
+*See [previous team's backend performance designs](./low_level_docs.md#performance-1) for caching, throttling, and ORM guidance retained in our approach.
 
 ### Largest Changes from the Previous Team
 
@@ -658,7 +589,7 @@ The majority of the changes in this section have to do with updating the documen
 
 ## Django Project Structure
 
-*See [previous team's Django Project Structure](./low_level_docs.md#django-project-structure)*
+*See [previous team's Django Project Structure](./low_level_docs.md#django-project-structure) for the app layout; we follow the same structure.
 
 This is what our project structure will look like:
 
@@ -695,7 +626,7 @@ Final Note:
 
 ## Django Admin
 
-*See [previous team's Django Admin design](./low_level_docs.md#django-admin)*
+*See [previous team's Django Admin](./low_level_docs.md#django-admin) for admin usage in non-production and initial Manager account setup.
 
 The Django admin site adds the possibility to have admin accounts with levels of management and control. The main functions this account can provide are the following:
 
@@ -727,7 +658,7 @@ Final Note:
 
 ## Unit Tests
 
-*See [previous team's Unit Tests section](./low_level_docs.md#unit-tests)*
+*See [previous team's Unit Tests](./low_level_docs.md#unit-tests) for test coverage strategy; our additions remain aligned.
 
 Each view will have a corresponding unit test. The unit tests will be used to verify that the views are functioning as expected.
 
@@ -741,85 +672,15 @@ The following tools will be used to create unit tests for the software:
 * Django debug toolbar will be used to monitor the performance of the software and to identify any potential issues.
     * See [Django Debug Toolbar Documentation](https://django-debug-toolbar.readthedocs.io/en/latest/)
 
-Pseudocode can be found at the bottom of the [Test pseudocode](#test-pseudocode) section.
-
 ---
 Final Note:
 * We struggled to implement all of the unit tests we had orignally planned. There are some but not for every single view.
 
 ---
 
-### Test pseudocode  
-
-api/test.api:
-
-    from django.test import TestCase
-    from unittest.mock import MagicMock
-
-    class APITestCase(TestCase):
-
-        def test_sign_in(self):
-            mock_request = MagicMock()
-            mock_request.method = "POST"
-            mock_request.POST.get = MagicMock(return_value="{
-                "status": "success",
-                "message": "User has been signed in"
-                "code": 200
-            }")
-            response = sign_in(mock_request)
-            self.assertEqual(response.status_code, 200)
-            
-            mock_request.POST.get = MagicMock(return_value="{
-                "status": "failure",
-                "message": "Incorrect Password"
-                "code": 400
-            }")
-            response = sign_in(mock_request)
-            self.assertEqual(response.status_code, 400)
-            
-        def test_login(self):
-            mock_request = MagicMock()
-            mock_request.method = "POST"
-            mock_request.POST.get = MagicMock(return_value="{
-                "status": "success",
-                "message": "User has been logged in"
-                "code": 200
-            }")
-            response = login(mock_request)
-            self.assertEqual(response.status_code, 200)
-            
-            mock_request.POST.get = MagicMock(return_value="{
-                "status": "failure",
-                "message": "Incorrect Password"
-                "code": 400
-            }")
-            response = login(mock_request)
-            self.assertEqual(response.status_code, 400)
-            
-        def test_create_user(self):
-            mock_request = MagicMock()
-            mock_request.method = "POST"
-            mock_request.POST.get = MagicMock(return_value="{
-                "status": "success",
-                "message": "User has been created"
-                "code": 200
-            }")
-            response = create_user(mock_request)
-            self.assertEqual(response.status_code, 200)
-            
-            mock_request.POST.get = MagicMock(return_value="{
-                "status": "failure",
-                "message": "User has not been created"
-                "code": 400
-            }")
-            response = create_user(mock_request)
-            self.assertEqual(response.status_code, 400)
-        
-        # etc ...
-
 ## URL Mapping
 
-*See [previous team's URL Mapping](./low_level_docs.md#url-mapping)*
+*See [previous team's URL Mapping](./low_level_docs.md#url-mapping) for endpoint definitions and auth requirements; we preserve the same contract and add role checks.
 
 ### Static endpoints
 
@@ -896,686 +757,20 @@ The dynamic endpoints need user data. Authenication will be required to access a
 
 ## Django Settings
 
-*See [previous team's Django Settings](./low_level_docs.md#django-settings)*
+*See [previous team's Django Settings](./low_level_docs.md#django-settings) for environment-driven configuration, static files, and production flags.
 
-The file `server/settings.py` will apply settings to the Django project. All of the current settings will be kept the same with the note that:
-
-* `DEBUG` will be set to `False` for the version that is deployed.
+The file server/settings.py applies project settings. Use environment variables for secrets and set DEBUG to False in production.
 
 ## Backend Pseudocode
 
-*See [previous team's Backend Pseudocode](./low_level_docs.md#backend-pseudocode)*
+*See [previous team's Backend Pseudocode](./low_level_docs.md#backend-pseudocode) and DRF guides for view/serializer patterns and permission classes.
 
-**cupid_code/urls.py**
-``` python
-path("", include("api.urls")),
-path("api/", include("api.urls")),
-path("admin/", admin.site.urls),
-```
-
-**api/urls.py**
-
-``` python
-
-from django.url import path
-from . import views
-
-urlpatterns = [
-  path = ("/" , views.home, name="home"),
-  path = ("/login/", views.login, name="login"),
-  path = ("/signup/", views.signup, name="signup"),
-  path = ("/app/", views.app, name="app"),
-  path = ("/api/user/create", views.create_user, name="create_user"),
-  path = ("/api/user/<int:id>", views.get_user, name="get_user"),
-  path = ("/api/chat/", views.send_chat_message, name="send_chat_message"),
-  path = ("/api/chat/<int:id>/", views.get_five_messages, name="get_five_messages"),
-  path = ("/api/dater/calendar/<int:id>/", views.calendar, name="calendar"),
-  path = ("/api/dater/rate/", views.rate_dater, name="rate_dater"),
-  path = ("|api/dater/ratings/<int:id>/", views.get_dater_ratings, name="get_dater_ratings"),
-  path = ("/api/dater/ratings/<int:id>/", views.get_dater_avg_rating, name="get_dater_avg_rating"),
-  path = ("/api/dater/money_transfer/", views.dater_transfer, name="dater_transfer")
-  path = ("/api/dater/balance/<int:id>/" views.get_dater_balance, name="get_dater_balance"),
-  path = ("/api/dater/profile/<int:id>/", views.get_dater_profile, name="get_dater_profile"),
-  path = ("/api/dater/profile/", views.set_dater_profile, name="set_dater_profile"),
-  path = ("/api/dater/gigs/<int:id>", views.get_dater_gigs, name="get_dater_gigs"),
-  path = ("/api/dater/planner", views.planner, name="planner"),
-  path = ("/api/cupid/rate/", views.rate_cupid, name="rate_cupid"),
-  path = ("api/cupid/ratings/<int:id>/", views.get_cupid_ratings, name="get_cupid_ratings"),
-  path = ("/api/cupid/ratings/<int:id>/", views.get_cupid_avg_rating, name="get_cupid_avg_rating"),
-  path = ("/api/cupid/money_transfer/", views.cupid_transfer, name="cupid_transfer"),
-  path = ("/api/cupid/balance/<int:id>/", views.get_cupid_balance, name="get_cupid_balance"),
-  path = ("/api/cupid/profile/<int:id>/", get_cupid_profile, name="get_cupid_profile"),
-  path = ("/api/cupid/profile/", views.set_cupid_profile, name="set_cupid_profile"),
-  path = ("/api/cupid/accepting/", views.cupid_accepting, name="cupid_accepting"),
-  path = ("/api/gig/create/", views.create_gig, name="create_gig"),
-  path = ("/api/gig/accept/", views.accept_gig, name="accept_gig"),
-  path = ("/api/gig/complete/", views.complete_gig, name="complete_gig"),
-  path = ("/api/gig/drop/", views.drop_gig, name="drop_gig"),
-  path = ("/api/gig/delete/", views.delete_gig, name="delete_gig"),
-  path = ("/api/gig/<int:dist>", views.get_gigs, name="get_gigs"),
-  path = ("/api/geo/stores/<int:id>/", views.get_stores, name="get_stores"),
-  path = ("/api/geo/activities/<int:id>/", views.get_activities, name="get_activities"),
-  path = ("/api/geo/events/<int:id>/", views.get_events, name="get_events"),
-  path = ("/api/geo/attractions/<int:id>/", views.get_attractions, name="get_attractions"),
-  path = ("/api/geo/user/<int:id>/", views.get_user_location, name="get_user_location"),
-  path = ("/api/manager/daters/", views.get_daters, name="get_daters"),
-  path = ("/api/manager/cupids/", views.get_cupids, name="get_cupids"),
-  path = ("/api/manager/dater_count/", views.get_dater_count, name="get_dater_count"),
-  path = ("/api/manager/cupid_count/", views.get_cupid_count, name="get_cupid_count"),
-  path = ("/api/manager/active_daters/", views.get_active_daters, name="get_active_daters"),
-  path = ("/api/manager/active_cupids/", views.get_active_cupids, name="get_active_cupids"),
-  path = ("/api/manager/gig_rate", views.get_gig_rate, name="get_gig_rate"),
-  path = ("/api/manager/gig_count", views.get_gig_count, name="get_gig_count"),
-  path = ("/api/manager/gig_drop_rate", views.get_gig_drop_rate, name="get_gig_drop_rate"),
-  path = ("/api/manager/gig_complete_rate", views.get_gig_complete_rate, name="gig_complete_rate"),
-  path = ("/api/manager/suspend/", views.suspend, name="suspend"),
-  path = ("/api/manager/unsuspend", views.unsuspend, name="unsuspend"),
-  path = ("/api/manager/delete_user/<string:usertype>/<int:id>", views.delete_user, name="delete_user"),
-  path = ("/api/stt/", views.speech_to_text, name="speech_to_text"),
-  path = ("/api/notify/", views.notify, name="notify"),
-]
-
-```
-
-**api/views.py**
-``` python
-
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-from .models import Dater, Cupid, Message, Manager, Gig, Quest, Date, Feedback
-from .serializers import DaterSerializer, CupidSerializer, MessageSerializer, ManagerSerializer, GigSerializer, QuestSerializer, DateSerializer, FeedbackSerializer, PaymentCardSerializer, BankAccountSerializer
-
-def home(request):
-    return render(request, "home.html")
-    
-def signup(request):
-    if request.method == "POST":
-        validate the form
-        return redirect("/login/")
-    else:
-        return render(request, "signup.html")
-        
-def login(request):
-    if request.method == "POST":
-        username = request.POST.get("email")
-        password = request.POST.get("password")
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect("/app/")
-        else:
-            return render(request, "login.html", {"message": "Incorrect Password"})
-    else:
-        return render(request, "login.html")
-
-def create_user(request):
-  for each profile data for user:
-    create a variable = request.{specific data}
-
-  dater = Dater(
-    model_column = request.POST[matching variable]
-  )
-
-  dater.save()
-  
-  return redirect("/app/")
-
-
-def get_user(request, id):
-  user = {flag that identifies who the user is (Dater/Cupid/Manager)}.objects.get(id=id)
-
-  response = user.json()
-
-  return response
-
-def send_chat_message(request):
-  forward_message = request.{name of message in body}
-  save forward_message to DB as Message
-
-  response = {method call to send to external AI chat API}
-  save response to DB as Message
-
-  return response.json()
-
-def get_five_messages(request, id):
-  dater = Dater.objects.get(id=id)
-
-  list_of_messages = Message.objects.filter(owner=id)
-
-  ordered_most_recent_messages = reorder list_of_messages from newest to oldest
-
-  list_of_messages = first five of ordered_most_recent_messages
-
-  response = list_of_messages.json()
-
-  return response
-
-def calendar(request, id):
-    if request.method == "POST":
-        dater = Dater.objects.get(id=id)
-        date = Date(
-            dater = dater,
-            date_time = request.date_time,
-            location = request.location,
-            description = request.description,
-            status = request.status,
-            budget = request.budget,
-        )
-        date.save()
-        return JsonResponse({'message': 'Date has been created'})
-    else:
-        dater = Dater.objects.get(id=id)
-        calendar = Date.objects.filter(dater=id)
-        response = calendar.json()
-        return response
-
-def rate_dater(request):
-  dater_id = request.dater_id
-  dater = Dater.get(id=dater_id)
-  rating = request.POST["rating"]
-
-  feedback = Feedback(
-    user = rating.user,
-    intervention_request = rating.intervention_request, 
-    message = rating.message,
-    star_rating = request.star_rating,
-    datetime = rating.datetime, 
-  )
-
-  feedback.save()
-
-  new_rating = avg_rating(rating, dater_id)
-  dater.avg_rating = new_rating
-
-  dater.save()
-
-  return JsonResponse({'message': 'Rating has been submitted'})
-
-def get_dater_ratings(request, id):
-  dater = Dater.objects.get(id=id)
-
-  ratings = Feedback.objects.get(user=id)
-  
-  response = ratings.json()
-
-  return response
-
-def get_dater_avg_rating(request, id):
-  dater = Dater.objects.get(id=id)
-
-  avg_rating = dater.avg_rating
-
-  response = avg_rating.json()
-
-  return response
-
-def dater_transfer(request):
-  dater_id = request.user_id
-  money_api = request.api_info
-
-  transfer_amount = request.transfer_amount
-  
-  result = way to transfer money from api(money_api, transfer_amount)
-
-  dater.balance = dater.balance + result
-
-  send result to money_api
-
-  dater.save()
-
-  return JsonResponse({'message': 'Payment successful'})
-
-def get_dater_balance(request, id):
-  dater = Dater.objects.get(id=id)
-
-  response = dater.balance.json()
-
-  return response
-
-def get_dater_profile(request, id):
-  dater = Dater.objects.get(id=id)
-
-  response = dater.json()
-
-  return response
-
-def set_dater_profile(request):
-  dater_id = request.user
-
-  dater = Dater.objects.get(dater_id)
-
-  for each dater profile property sent in request:
-    dater.property = profile property sent    
-
-  dater.save()
-
-  return JsonResponse({'message': 'Profile saved'})
-
-def get_dater_gigs(request, id):
-  dater = Dater.objects.get(id=id)
-
-  gigs = Gig.objects.get(user=id)
-
-  response = gigs.json()
-
-def planner(request):
-  return("planner.html")
-
-def rate_cupid(request):
-  cupid_id = request.cupid_id
-  cupid = Cupid.get(id=cupid_id)
-  rating = request.POST["rating"]
-
-  feedback = Feedback(
-    user = rating.user,
-    intervention_request = rating.intervention_request, 
-    message = rating.message,
-    star_rating = request.star_rating,
-    datetime = rating.datetime, 
-  )
-
-  feedback.save()
-
-  new_rating = avg_rating(rating, cupid_id)
-  cupid.avg_rating = new_rating
-
-  cupid.save()
-
-  return JsonResponse({'message': 'Rating has been submitted'}) 
-  
-def get_cupid_ratings(request, id):
-  cupid = Cupid.objects.get(id=id)
-
-  ratings = Feedback.objects.get(user=id)
-  
-  response = ratings.json()
-
-  return response
-
-def get_cupid_avg_rating(request, id):
-  cupid = Cupid.objects.get(id=id)
-
-  avg_rating = cupid.avg_rating
-
-  response = avg_rating.json()
-
-  return response
-
-def cupid_transfer(request):
-  cupid_id = request.cupid_id
-  money_api = request.api_info
-
-  transfer_amount = request.transfer_amount
-  
-  send transfer_amount to money_api
-  
-  cupid.balance = dater.balance * transfer_amount
-
-  cupid.save()
-
-  return JsonResponse({'message': 'Deposit successful'})
-
-def get_cupid_balance(request, id):
-  cupid = Cupid.objects.get(id=id)
-
-  response = cupid.balance.json()
-
-  return response
-
-def get_cupid_profile(request, id):
-  cupid = Cupid.objects.get(id=id)
-
-  response = cupid.json()
-
-  return response
-
-def set_cupid_profile(request):
-  cupid_id = request.user
-
-  cupid = Cupid.objects.get(cupid_id)
-
-  for each cupid profile property sent in request:
-    cupid.property = profile property sent    
-
-  cupid.save()
-
-  return JsonResponse({'message': 'Profile saved'})
-
-def cupid_accepting(request):
-    cupid_ip_address = request.META.get('REMOTE_ADDR')
-    cupid_id = request.cupid_id
-    cupid = Cupid.get(id=cupid_id)
-    cupid.location = cupid_ip_address  
-
-    cupid.accepting = True
-    cupid.save()
-
-    return JsonResponse({'message': 'Cupid is now active'})
-
-def create_gig(request):
-    
-    dater_id = request.dater_id
-    dater = Dater.get(id=dater_id)
-    quest = request.quest
-    
-    gig = Gig(
-        dater = dater,
-        cupid = None,
-        quest = quest,
-        status = 0,
-        date_time_of_request = request.date_time_of_request,
-        date_time_of_claim = None,
-        date_time_of_completion = None,
-    )
-    
-    gig.save()
-    
-    return JsonResponse({'message': 'Gig has been created'})
-  
-def accept_gig(request):
-
-    cupid_ip_address = request.META.get('REMOTE_ADDR')
-    cupid_id = request.cupid_id
-    cupid = Cupid.get(id=cupid_id)
-    cupid.location = cupid_ip_address
-
-    gig_id = request.gig_id
-    gig = Gig.get(id=gig_id)
-    cupid_id = request.cupid_id
-    cupid = Cupid.get(id=cupid_id)
-    
-    gig.cupid = cupid
-    gig.status = 1
-    gig.date_time_of_claim = request.date_time_of_claim
-    
-    gig.save()
-    
-    return JsonResponse({'message': 'Gig has been accepted'})
-    
-def complete_gig(request):
-
-    cupid_ip_address = request.META.get('REMOTE_ADDR')
-    cupid_id = request.cupid_id
-    cupid = Cupid.get(id=cupid_id)
-    cupid.location = cupid_ip_address
-    
-    gig_id = request.gig_id
-    gig = Gig.get(id=gig_id)
-    
-    gig.status = 2
-    gig.date_time_of_completion = request.date_time_of_completion
-    
-    gig.save()
-    
-    return JsonResponse({'message': 'Gig has been completed'})
-    
-def drop_gig(request):
-
-    cupid_ip_address = request.META.get('REMOTE_ADDR')
-    cupid_id = request.cupid_id
-    cupid = Cupid.get(id=cupid_id)
-    cupid.location = cupid_ip_address
-    
-    gig_id = request.gig_id
-    gig = Gig.get(id=gig_id)
-    
-    gig.status = 1
-    gig.date_time_of_claim = None
-    gig.cupid = None
-    
-    gig.save()
-    
-    return JsonResponse({'message': 'Gig has been dropped'})
-
-def delete_gig(request):
-
-    cupid_ip_address = request.META.get('REMOTE_ADDR')
-    cupid_id = request.cupid_id
-    cupid = Cupid.get(id=cupid_id)
-    cupid.location = cupid_ip_address
-    
-    gig_id = request.gig_id
-    gig = Gig.get(id=gig_id)
-    
-    gig.delete()
-    
-    return JsonResponse({'message': 'Gig has been deleted'})
-    
-def get_gigs(request, count):
-    gigs = Gig.objects.all()[:count]
-    
-    response = gigs.json()
-    
-    return response
-    
-def get_stores(request):
-    
-    dater_ip_address = request.META.get('REMOTE_ADDR')
-    dater_id = request.dater_id
-    dater = Dater.get(id=dater_id)
-    dater.location = dater_ip_address
-    
-    stores = method call to get stores
-    
-    response = stores.json()
-    
-    return response
-    
-def get_activities(request):
-    
-    dater_ip_address = request.META.get('REMOTE_ADDR')
-    dater_id = request.dater_id
-    dater = Dater.get(id=dater_id)
-    dater.location = dater_ip_address
-
-    activities = method call to get activities
-    
-    response = activities.json()
-    
-    return response
-    
-def get_events(request):
-    
-    dater_ip_address = request.META.get('REMOTE_ADDR')
-    dater_id = request.dater_id
-    dater = Dater.get(id=dater_id)
-    dater.location = dater_ip_address
-    
-    events = method call to get events
-    
-    response = events.json()
-    
-    return response
-    
-def get_attractions(request):
-
-    dater_ip_address = request.META.get('REMOTE_ADDR')
-    dater_id = request.dater_id
-    dater = Dater.get(id=dater_id)
-    dater.location = dater_ip_address
-    
-    attractions = method call to get attractions
-    
-    response = attractions.json()
-    
-    return response
-    
-def get_user_location(request, id):
-    user = User.objects.get(id=id)
-    
-    location = user.location
-    
-    response = location.json()
-    
-    return response
-    
-def get_cupids(request):
-    cupids = Cupid.objects.all()
-    
-    response = cupids.json()
-    
-    return response
-    
-def get_daters(request):
-    daters = Dater.objects.all()
-    
-    response = daters.json()
-    
-    return response
-    
-def get_dater_count(request):
-    dater_count = Dater.objects.count()
-    
-    response = dater_count.json()
-    
-    return response
-    
-def get_cupid_count(request):
-    cupid_count = Cupid.objects.count()
-    
-    response = cupid_count.json()
-    
-    return response
-    
-def get_active_cupids(request):
-    active_cupids = Cupid.objects.filter(status=2)
-    
-    response = active_cupids.json()
-    
-    return response
-    
-def get_active_daters(request):
-    active_daters = Dater.objects.filter(status=2)
-    
-    response = active_daters.json()
-    
-    return response
-    
-def get_gig_rate(request):
-    dates = Gig.objects.filter(status=1).count()
-    gig_rate = Gig.objects.filter(status=1).count()
-    
-    rate = gig_rate / dates
-    
-    response = rate.json()
-    
-    return response
-
-def get_gig_count(request):
-    gig_count = Gig.objects.count()
-    
-    response = gig_count.json()
-    
-    return response
-    
-def get_gig_drop_rate(request):
-    dates = Gig.objects.filter(status=3).count()
-    gig_drop_rate = Gig.objects.filter(status=3).count()
-    
-    rate = gig_drop_rate / dates
-    
-    response = rate.json()
-    
-    return response
-    
-def get_gig_complete_rate(request):
-    dates = Gig.objects.filter(status=2).count()
-    gig_complete_rate = Gig.objects.filter(status=2).count()
-    
-    rate = gig_complete_rate / dates
-    
-    response = rate.json()
-    
-    return response
-    
-def suspend(request):
-    user_id = request.user_id
-    user = User.get(id=user_id)
-    user.suspended = True
-    
-def unsuspend(request):
-    user_id = request.user_id
-    user = User.get(id=user_id)
-    user.suspended = False
-
-def delete_user(request, usertype, id):
-  if usertype == "dater":
-    user = Dater.objects.get(id=id)
-  else if usertype == "cupid":
-    user = Cupid.objects.get(id=id)
-  else:
-    return JsonResponse({'message': 'Invalid usertype'})
-  
-  user.delete()
-  return JsonResponse({'message': 'The {usertype} has been deleted'})
-    
-def speech_to_text(request):
-
-    dater_ip_address = request.META.get('REMOTE_ADDR')
-    dater_id = request.dater_id
-    dater = Dater.get(id=dater_id)
-    dater.location = dater_ip_address
-    
-    file = request.file
-    text = api call to convert speech to text
-    
-    message = Message(
-        owner = dater,
-        text = text,
-        from_ai = False,
-    )
-    
-    ai_response = api call to convert text to speech
-    ai_message = Message(
-        owner = dater,
-        text = ai_response,
-        from_ai = True,
-    )
-    
-    message.save()
-    ai_message.save()
-    
-    return ai_message.json()
-    
-def notify(request):
-    user_id = request.user_id
-    user = User.get(id=user_id)
-    message = request.message
-    
-        message = Message(
-        owner = user,
-        text = message,
-        from_ai = True,
-    )
-    
-    communication_preference = user.communication_preference
-    
-    if communication_preference == 1:
-        send message to user's phone
-    elif communication_preference == 2:
-        send message to user's email
-    elif communication_preference == 3:
-        send message to user's phone and email
-        
-    message.save()
-    
-    return message.json()
-
-```
-
-**server/settings.py**
-
-``` python
-DEBUG = False #for production
-```
-
+Use Django REST Framework’s function-based or class-based views and serializers for request handling. Map URLs with django.urls.path and enforce permissions per role (Dater, Cupid, Manager). See the previous team’s files and DRF guides for concrete patterns.
 
 ## Django Models
 
-*See [previous team's Django Models](./low_level_docs.md#django-models)*
+*See [previous team's Django Models](./low_level_docs.md#django-models) for field structures; our role extension of AbstractUser is consistent with their approach.
 
-TODO REMOVE: BEN'S STUFF
 We will use the Django built-in User model, but add roles to it by extending `AbstractUser`. This comes with authentication functionality and the following fields. Details available in 
 [Django docs](https://docs.djangoproject.com/en/5.0/ref/contrib/auth/#django.contrib.auth.models.User).
 
@@ -1682,7 +877,7 @@ relationship as their primary key.
 
 ## Django Migrations
 
-[Previous team's Django Migrations](./low_level_docs.md#django-migrations)
+*See [previous team's Migrations](./low_level_docs.md#django-migrations) for seed data and test fixtures guidance reused here.
 
 * Test Daters
   * username:dater1, email:bob@cupidcode.com, password:password, 200 cupid coin balance, budget of 50
@@ -1708,7 +903,7 @@ relationship as their primary key.
 
 ## External API's
 
-[Previous team's External API's](./low_level_docs.md#external-apis)
+*See [previous team's External APIs](./low_level_docs.md#external-apis) for integration notes; we update AI and payments to Groq and Stripe respectively.
 
 We will be using the following external APIs:
 
@@ -1745,138 +940,8 @@ Final Note:
 
 ## Quick Tutorial on how to use the Django Rest Framework
 
-[Previous team's Django Rest tutorial](./low_level_docs.md#quick-tutorial-on-how-to-use-the-django-rest-framework)
+*See [previous team's DRF tutorial](./low_level_docs.md#quick-tutorial-on-how-to-use-the-django-rest-framework) and official docs for setup and usage.
 
-* Create a new app in the project
-``` 
-$ python manage.py startapp example
-```
-
-* In the project `settings.py` file, add the following to the INSTALLED_APPS list:
-  * 'rest_framework'
-  * 'example'
-``` python
-INSTALLED_APPS = [
-    ...
-    'rest_framework',
-    'example',
-    ...
-]
-```
-
-* In the `example/models.py` file, create the models that will be used by the API
-``` python
-
-from django.db import models
-
-class User(models.Model):
-    username = models.CharField(max_length=100)
-    email = models.EmailField()
-    password = models.CharField(max_length=100)
-    is_suspended = models.BooleanField()
-    is_cupid = models.BooleanField()
-```
-
-* In the `example/serializers.py` file, create the serializers that will be used by the API (serializers are used to convert model instances to JSON and vice versa)
-  * ReaderUserSerializer will be used to convert User instances to JSON
-  * WriterUserSerializer will be used to convert JSON to User instances
-``` python
-from rest_framework import serializers
-from .models import User
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email', 'password']
-    
-    def validate(self, data):
-        if data['password'] == data['confirm_password']:
-            return serializers.ValidationError('Password cannot be "password"')
-        return data
-    
-    def create(self, validated_data):
-        user = User(**validated_data)
-        user.is_suspended = False
-        user.save()
-        return user
-        
-    def update(self, instance, validated_data):
-        instance.username = validated_data.get('username', instance.username)
-        instance.email = validated_data.get('email', instance.email)
-        instance.password = validated_data.get('password', instance.password)
-        instance.save()
-        return instance
-```
-
-* In the `example/views.py` file, create the views that will be used by the API
-``` python
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-from .models import User
-from .serializers import UserSerializer
-
-@api_view(['GET'])
-def user_list(request):
-    users = User.objects.all()
-    serializer = UserSerializer(users, many=True)
-    return Response(serializer.data)
-    
-@api_view(['GET'])
-def user_detail(request, pk):
-    try:
-        user = User.objects.get(pk=pk)
-    except User.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = UserSerializer(user)
-    return Response(serializer.data)
-    
-@api_view(['POST'])
-def user_create(request):
-    serializer = UserSerializer(data=request.data)
-    serializer.is_valid(raise_exception=True):
-    serializer.save()
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
-@api_view(['PUT'])
-def user_update(request, pk):
-    try:
-        user = User.objects.get(pk=pk)
-    except User.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = UserSerializer(user, data=request.data)
-    serializer.is_valid(raise_exception=True):
-    serializer.save()
-    return Response(serializer.data)
-
-@api_view(['DELETE'])
-def user_delete(request, pk):
-    try:
-        user = User.objects.get(pk=pk)
-    except User.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    user.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
-```
-
-* In the `example/urls.py` file, create the URLs that will be used by the API
-``` python
-from django.urls import path
-from . import views
-
-urlpatterns = [
-    path('/user/', views.user_list),
-    path('/user/<int:pk>/', views.user_detail),
-    path('/user/create/', views.user_create),
-]
-```
-
-* In the project's `urls.py` file, include the api's urls
-``` python
-from django.urls import path, include
-
-urlpatterns = [
-    ...
-    path('/api/', include('api.urls')),
-]
-```
+Refer to the official DRF tutorials and API guide for setup, serializers, views, and routing:
+- https://www.django-rest-framework.org/tutorial/quickstart/
+- https://www.django-rest-framework.org/api-guide/
