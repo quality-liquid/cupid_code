@@ -291,9 +291,13 @@ See [previous team's Vue Router Design](./low_level_docs.md#vue-router) and the 
 
 ### Implementing the router
 
+*See [previous team's router design](./low_level_docs.md#implementing-the-router)*
+
 In main.js, mount the router instance and use router-link for navigation within components. Programmatic navigation (router.push) is used after authentication or role checks.
 
 ## Vue URLs
+
+*See [previous team's Vue URLs](./low_level_docs.md#vue-urls)*
 
 The Vue app will live at URL `/app/`. The following pages will be available through the Vue Router. 
 
@@ -701,9 +705,13 @@ The dynamic endpoints need user data. Authenication will be required to access a
 
 ## Django Settings
 
+*See [previous team's Django Settings](./low_level_docs.md#django-settings)*
+
 The file server/settings.py applies project settings. Use environment variables for secrets and set DEBUG to False in production.
 
 ## Backend Pseudocode
+
+*See [previous team's Backend Pseudocode](./low_level_docs.md#backend-pseudocode)*
 
 Use Django REST Framework’s function-based or class-based views and serializers for request handling. Map URLs with django.urls.path and enforce permissions per role (Dater, Cupid, Manager). See the previous team’s files and DRF guides for concrete patterns.
 
