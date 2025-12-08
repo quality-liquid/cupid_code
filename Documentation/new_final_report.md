@@ -269,6 +269,129 @@ At the beginning of the sprint we finished some of the work that had carried ove
 
 ### Sprint 4: Ben Hickenlooper
 
+#### Tasks Performed
+
+##### Tyson
+The following is Tyson's timelog from the sprint: 
+
+###### 2025-11-03
+* 35min
+    * Wrote up Week 10 retrospective
+* 30min
+    * Meeting with Garrett for help on doing the AI plan a date feature
+
+###### 2025-11-04
+* 2hr 10min 
+    * Updated the setup script to match our modified setup process. Put up a PR.
+    * Spending time I should have spent earlier with the codebase to actually understand how things are working. Trying to figure out how to get the AI chat actually working with the Grok AI instead of the broken thing it is now.
+    * Added more discovered bugs to the backlog for future fixing.
+
+###### 2025-11-05
+* 15min
+    * Meeting with Felix to talk about what Garrett showed me
+* Sometime during class
+    * Working on the setup script to make it smarter
+* 1hr 50min 
+    * Learned some more about features of console.log, console.table to have some better debug statements in one of the files.
+    * Made the setup script smarter for env file creations and handling already existing env files.
+    * Went back and fixed some *broken windows*; there were two lines in the setup script that were past the 100 column limit that I refactored to fit the limit.
+
+###### 2025-11-06
+* 10min
+    * Completed ethics pre-quiz
+
+###### 2025-11-09
+* 40min
+    * Discord team meeting, we went over all of the final must haves that we need to get done for the last week of our final development sprint. Went through our kanban board placing tasks where they should go. We came up with our plan for this week and assigned out who would work on what, and/or going to figure out better exactly what we need to do to finish our required features.
+
+###### 2025-11-10
+* 10min
+    * Reviewed and approved a PR
+* 15min
+	* Completed the week 11 retrospective
+* 40min
+    * Reviewing Garrett's PR for AI agentic work, suggested some changes for the toml versioning.
+
+###### 2025-11-12
+* 50min
+    * Making progress on writing the funcitons to make the AI chat work again/work with Groq.
+* 35 min
+	* Trying to figure out an issue with the pyaudio package the Garrett's PR added. My system is missing headers or something to properlly install/build the package.
+	* Updated the setup script to maintain usefulness, it now also checks for the presence of the GROQ API key in the server .env file.
+
+###### 2025-11-13
+* 3hr 20min
+    * Figured out a lot about how to setup a Groq chat. I got code in there and it should now be close to fully working for the backend, which should tie easily into the frontend and our AI chat will be fixed! So made good progress on that branch.
+    * Made another branch trying to fix the issue with the login page (wasn't what I was looking at, Saxton found the bug and resolved it elsewhere). But whilst looking in the `index.html` file I realized another bug we should fix, the way Felix was setting up the production pipeline was not working well, he had references to hardcoded production `npm run build` files. Which is bad cause as soon as we change things those hardcoded are out of date. I fixed it I believe, mainly got rid of those, also got rid of a bunch of duplicate google font links in the `index.html` file. From my journey of exploring and asking Copilot questions, it seems we already have a good pipeline setup for getting the frontend files for production in the codebase from the previous team, we just were not using it correctly, I believe I understand how it works much better now though and I can help Felix integrate it into our team's pipeline tomorrow.
+
+###### 2025-11-14
+* 10 min
+    * Some PR review and such
+
+###### 2025-11-15
+* 30ish min
+    * Team meeting on discord to finalize planning for finishing out the last development phase.
+
+###### 2025-16
+* 40min
+    * Working on fixing the AI, getting closer.
+    * Removed `transformer` package due to no use.
+
+##### Garrett
+The following is Garrett's timelog:
+
+Hour log:
+first week of the sprint:
+Meeting with Tyson in the library on Tuesday?: 30 min
+Talking about and working with AI Agents: 2 hours
+Practicing with email agents - GoogleCloud: 2 hours
+
+second week of the sprint: 
+Researching Twilio: 1 hour
+Using WebPush to send web Notifs: 1.5 hours
+Adding WebPush --> Using the browser notification software: 2 hours
+Looking over the testing document: 30 minutes
+
+Total Time: 9.5 hours
+
+I wish I communicated better with the team and with you this sprint, because with traveling and racing my heart was not super committed to the project at times. However, I think it would have been better if I had communicated and had a better idea of what I wanted to achieve and how to get there. 
+
+##### Reece
+The following is Reece's timelog:
+
+I got the stripe working for the cupids and fixed a bug for the daters stripe
+I also added the relationship status for daters and ensured that you could update it in the profile menu
+I probably spent 6 hours
+
+##### Ben
+
+The following is my own timelog:
+
+I spend time on meetings, blocking out the test design document and writing a large portion of it. I also spent a lot of time trying to integrate some APIs that we have not yet implemented. I wanted to give our agent more access to things like ubereats, but ultimately had very limited time. I was also sick for the first half of the sprint unfortunately, and needed to do some catching up which cut into my development time. I'm still proud of what I was able to accomplish.
+
+Time spent: ~ 8 hours.
+
+##### Felix
+
+The following is Felix's timelog:
+
+I spent like 30 minutes on the testing docs.
+
+##### Saxton
+
+The following is Saxton's timelog:
+
+Over the last two weeks I worked on integrating the vue calendar library into our date planning page, as well as creating the interface for the date planning feature. I made the front-end functional according to the back-end team's requests and followed edits that were asked for. I also looked over our requirements and made sure we had a focus on "must-have" requirements before our feature freeze begins. My contributions to the test design document were to look over the tests written and see what the previous team did and what we could do to improve on them, as well as providing some additional test cases. I would estimate 9 hours on the project this sprint. The first week of the sprint was a bit slow but I think I pulled some good stuff up and made something workable for all of us in addition to learning along the way about the implementation of the calendar and making the date-planning system.
+
+#### Rejected Tasks
+
+This sprint, we needed to reject a few tasks that were lower priority than we had time for. For example, we decided to exclude some work on integrating a weather channel API because we decided that it would be easier to allow the model we're using to retrieve that information on its own. This saved us time to work on more pressing tasks like getting the cupid and dater pages looking nice and getting the date scheduling tool to work according to our must have requirements. We also decided to backlog a couple of small bugs on the login page while we worked on major functionality.
+
+
+#### Disposition of Incomplete Tasks
+
+When we decided to remove certain tasks from the sprint, we moved them into the backlog so that we could keep track of them and perhaps handle them in a future sprint when we have more available developer cycles. This was a good strategy for making sure that we have our most important features implemented by the time the end of the sprint rolls around and we need to present to our customer.
+
 ### Sprint 5: Saxton Calvert
 
 #### Time Spent
@@ -328,21 +451,21 @@ Some small groups were assigned to ensure each document got its final drafts rea
 - User Manual: We felt as a team that in its present condition, having just worked on it and seen it demonstrated, was good.
 
 #### Time Spent
-0. Tyson - 3 hours 35 minutes
-0. Saxton - x
-0. Ben - x
-0. Felix - x
+0. Tyson - 4 hours 55 minutes
+0. Saxton - 5 hours 45 minutes
+0. Ben - 7 hours 0 minutes
+0. Felix - 5 hours 30 minutes
 0. Reece - 2 hours 30 minutes
-0. Garrett - x
+0. Garrett - 2 hours 0 minutes
 
 #### Tasks Worked on
-TODO: Describe the sprint
+The majority of the tasks worked on this sprint were entirely related to the final report. The team was split to get the document final drafts ready for turn-in and I was in charge of final report compilation. Overall it went rather well, we kept it lowkey noting that no-test week was likely going to be full of other projects and other work. The only task that didn't relate to this was Felix attempting to update our server to use HTTPs for the presentation. All other tasks were documentation related.
 
 #### Rejected Tasks
 As noted above, we rejected the task of making any updates to the User Manual. During our product demo, the manual provided served well and having just made edits to it we determined it was fine in its present condition.
 
 #### Disposition of Incomplete Tasks
-TODO
+Felix's attempt to move the server to an HTTPS one wasn't completed. After the demo, the task was scrapped and focus was entirely placed on documentation.
 
 #### People
 
@@ -352,22 +475,19 @@ Over the course of the week I coordinated the last efforts to ensure that even t
 
 ##### Benjamin Hickenlooper
 
-TODO: Ben's tasks He also scrubbed his sprint summary for inclusion in the final report.
-- TODO: Ben's paragraph
+Ben worked to update the low-level design document and did some last minute preparation for the presentation. He assisted Felix in last minute debugging, and he also scrubbed his sprint summary for inclusion in the final report.
 
 ##### Tyson Buxton
 
-Tyson added a "plethora of links" to the design document as a result of feedback we received on it. Tyson noted inconsistencies between design/prototype and final implementation and addressed those, made some formatting adjustments to be consistent with other documents, was a consistent code reviewer, and helped in maintaining communications. He also scrubbed his sprint summary for inclusion in the final report.
+Tyson added a "plethora of links" to the design document as a result of feedback we received on it, and made some other additional changes to the low-level design document that were pertinent to its completion as a final draft. Tyson noted inconsistencies between design/prototype and final implementation and addressed those, made some formatting adjustments to be consistent with other documents, was a consistent code reviewer, and helped in maintaining communications. He also scrubbed his sprint summary for inclusion in the final report.
 
 ##### Felix Jacob
 
-TODO: Felix's tasks He also scrubbed his sprint summary for inclusion in the final report.
-- TODO: Felix's paragraph
+Felix spent a lot of time on Tuesday making efforts to switch our Azure server to be https for our demo, but to no avail. He made edits to the high-levl design document in preparation to turn it in as a final draft, and also scrubbed his sprint summary for inclusion in the final report.
 
 ##### Garrett Woodhouse
 
-TODO: Garrett's tasks He also scrubbed his sprint summary for inclusion in the final report.
-- TODO: Garrett's paragraph
+Garrett did a little bit of last minute preparation for our presentation, and worked on the first half of the final draft for our high-level design document. He also scrubbed his sprint summary for inclusion in the final report.
 
 ##### Reece Nielson
 
